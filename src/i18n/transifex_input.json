@@ -1,0 +1,19 @@
+{
+  "siteheader.links.courses": "Courses",
+  "siteheader.links.programs": "Programs & Degrees",
+  "siteheader.links.schools": "Schools & Partners",
+  "siteheader.user.menu.dashboard": "Dashboard",
+  "siteheader.user.menu.profile": "Profile",
+  "siteheader.user.menu.account.settings": "Account",
+  "siteheader.user.menu.logout": "Logout",
+  "siteheader.user.menu.login": "Login",
+  "siteheader.user.menu.register": "Sign Up",
+  "app.loading.message": "Loading",
+  "error.unexpected.message": "An unexpected error occurred.",
+  "error.notfound.message": "The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again.",
+  "app.page": "Congratulations!  You have a new micro-frontend.",
+  "app.example.link": "Click here to visit a example page that loads data.",
+  "example.page.heading": "Example Page",
+  "example.loading.message": "Loading",
+  "example.loading.error": "Error: {error}"
+}
