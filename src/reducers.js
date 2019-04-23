@@ -5,6 +5,10 @@ import {
   reducer as exampleReducer,
   storeName as exampleStoreName,
 } from './example';
+import {
+  reducer as accountSettingsReducer,
+  storeName as accountSettingsStoreName,
+} from './account-settings';
 
 const identityReducer = (state) => {
   const newState = { ...state };
@@ -19,6 +23,7 @@ const createRootReducer = history =>
     configuration: identityReducer,
     userAccount,
     [exampleStoreName]: exampleReducer,
+    [accountSettingsStoreName]: accountSettingsReducer,
     router: connectRouter(history),
   });
 

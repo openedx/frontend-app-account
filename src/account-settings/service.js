@@ -24,7 +24,7 @@ export function configureApiService(newConfig, newApiClient) {
 
 export async function getData(data) {
   // const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => { // eslint-disable-line no-unused-vars
     setTimeout(() => {
       resolve(data);
     }, 2000);
