@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[edx-platform.frontend-app-account]
+file_filter = src/i18n/messages/<lang>.json
+source_file = src/i18n/transifex_input.json
+source_lang = en
+type = KEYVALUEJSON
