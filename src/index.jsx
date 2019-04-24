@@ -9,7 +9,6 @@ import { configuration } from './environment';
 import { handleRtl } from './i18n/i18n-loader';
 import configureStore from './store';
 import { configureUserAccountApiService } from './common';
-import { configureApiService as configureExampleApiService } from './example';
 import { configureApiService as configureAccountSettingsApiService } from './account-settings';
 
 import './index.scss';
@@ -38,7 +37,6 @@ function createInitialState() {
 function configure() {
   const { store, history } = configureStore(createInitialState(), configuration.ENVIRONMENT);
 
-  configureExampleApiService(configuration, apiClient);
   configureAccountSettingsApiService(configuration, apiClient);
   configureUserAccountApiService(configuration, apiClient);
   initializeSegment(configuration.SEGMENT_KEY);

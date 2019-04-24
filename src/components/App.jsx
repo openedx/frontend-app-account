@@ -10,7 +10,6 @@ import SiteFooter from '@edx/frontend-component-footer';
 import { getLocale, getMessages } from '@edx/frontend-i18n'; // eslint-disable-line
 
 import { PageLoading, fetchUserAccount } from '../common';
-import { ConnectedExamplePage } from '../example';
 import { ConnectedAccountSettingsPage } from '../account-settings';
 
 import FooterLogo from '../assets/edx-footer.png';
@@ -105,7 +104,6 @@ function PageContent({
       />
       <main>
         <Switch>
-          <Route path="/example" component={ConnectedExamplePage} />
           <Route path="/account-settings" component={ConnectedAccountSettingsPage} />
           <Route path="/error" component={ErrorPage} />
           <Route path="/notfound" component={NotFoundPage} />

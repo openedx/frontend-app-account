@@ -22,11 +22,28 @@ export function configureApiService(newConfig, newApiClient) {
   apiClient = newApiClient;
 }
 
-export async function getData(data) {
+export async function getAccount() {
   // const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
   return new Promise((resolve, reject) => { // eslint-disable-line no-unused-vars
     setTimeout(() => {
-      resolve(data);
-    }, 2000);
+      resolve({
+        fullname: 'Adam',
+        email: 'staff@example.com',
+        yearofbirth: 2019,
+      });
+    }, 200);
+  });
+}
+
+export async function patchAccount(commitValues) {
+  return new Promise((resolve, reject) => { // eslint-disable-line no-unused-vars
+    setTimeout(() => {
+      // reject({
+      //   fieldErrors: {
+      //     [Object.keys(commitValues)[0]]: 'This is invalid'
+      //   }
+      // })
+      resolve(commitValues);
+    }, 200);
   });
 }
