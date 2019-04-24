@@ -159,6 +159,7 @@ module.exports = Merge.smart(commonConfig, {
       REDDIT_URL: null,
       APPLE_APP_STORE_URL: null,
       GOOGLE_PLAY_URL: null,
+      ORDER_HISTORY_URL: null,
       NEW_RELIC_ADMIN_KEY: null,
       NEW_RELIC_APP_ID: null,
       NEW_RELIC_LICENSE_KEY: null,

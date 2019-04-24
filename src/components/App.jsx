@@ -67,6 +67,11 @@ function PageContent({
     },
     {
       type: 'item',
+      href: process.env.ORDER_HISTORY_URL,
+      content: intl.formatMessage(messages['siteheader.user.menu.order.history']),
+    },
+    {
+      type: 'item',
       href: process.env.LOGOUT_URL,
       content: intl.formatMessage(messages['siteheader.user.menu.logout']),
     },
