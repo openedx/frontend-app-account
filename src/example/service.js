@@ -6,7 +6,7 @@ let config = {
   LMS_BASE_URL: null,
 };
 
-let apiClient = null;
+let apiClient = null; // eslint-disable-line
 
 function validateConfiguration(newConfig) {
   Object.keys(config).forEach((key) => {
@@ -23,10 +23,10 @@ export function configureApiService(newConfig, newApiClient) {
 }
 
 export async function getData(data) {
-  //const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
-  return new Promise((resolve, reject) => {
+  // const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(data);
     }, 2000);
-  });;
+  });
 }
