@@ -31,6 +31,11 @@ const messages = defineMessages({
     defaultMessage: 'Account',
     description: 'Link to account settings',
   },
+  'siteheader.user.menu.order.history': {
+    id: 'siteheader.user.menu.order.history',
+    defaultMessage: 'Order History',
+    description: 'Link to order history',
+  },
   'siteheader.user.menu.logout': {
     id: 'siteheader.user.menu.logout',
     defaultMessage: 'Logout',
