@@ -1,5 +1,5 @@
 
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import LoggingService from '@edx/frontend-logging';
 
@@ -15,6 +15,7 @@ import {
   saveAccountSuccess,
   saveAccountFailure,
 } from './actions';
+import { getUsername } from './selectors';
 
 // Services
 import * as ApiService from './service';
@@ -23,7 +24,8 @@ export function* handleFetchAccount() {
   try {
     yield put(fetchAccountBegin());
 
-    const values = yield call(ApiService.getAccount);
+    const username = yield select(getUsername);
+    const values = yield call(ApiService.getAccount, username);
     yield put(fetchAccountSuccess(values));
   } catch (e) {
     LoggingService.logAPIErrorResponse(e);
@@ -36,7 +38,9 @@ export function* handleSaveAccount(action) {
   try {
     yield put(saveAccountBegin());
 
-    const savedValues = yield call(ApiService.patchAccount, action.payload.commitValues);
+    const username = yield select(getUsername);
+    const { commitValues } = action.payload;
+    const savedValues = yield call(ApiService.patchAccount, username, commitValues);
 
     yield put(saveAccountSuccess(savedValues));
     yield put(closeForm(action.payload.formId));

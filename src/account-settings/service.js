@@ -22,28 +22,22 @@ export function configureApiService(newConfig, newApiClient) {
   apiClient = newApiClient;
 }
 
-export async function getAccount() {
-  // const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
-  return new Promise((resolve, reject) => { // eslint-disable-line no-unused-vars
-    setTimeout(() => {
-      resolve({
-        fullname: 'Adam',
-        email: 'staff@example.com',
-        yearofbirth: 2019,
-      });
-    }, 200);
-  });
+export async function getAccount(username) {
+  const { data } = await apiClient.get(`${config.ACCOUNTS_API_BASE_URL}/${username}`);
+
+  return data;
 }
 
-export async function patchAccount(commitValues) {
-  return new Promise((resolve, reject) => { // eslint-disable-line no-unused-vars
-    setTimeout(() => {
-      // reject({
-      //   fieldErrors: {
-      //     [Object.keys(commitValues)[0]]: 'This is invalid'
-      //   }
-      // })
-      resolve(commitValues);
-    }, 200);
-  });
+export async function patchAccount(username, commitValues) {
+  const requestConfig = {
+    headers: { 'Content-Type': 'application/merge-patch+json' },
+  };
+
+  const { data } = await apiClient.patch(
+    `${config.ACCOUNTS_API_BASE_URL}/${username}`,
+    commitValues,
+    requestConfig,
+  );
+
+  return data;
 }

@@ -14,7 +14,7 @@ import EditableField from './components/EditableField';
 
 class AccountSettingsPage extends React.Component {
   componentDidMount() {
-    this.props.fetchAccount('Hello example data!');
+    this.props.fetchAccount();
   }
 
   renderSection({
@@ -112,8 +112,8 @@ AccountSettingsPage.defaultProps = {
       sectionDescription: 'These settings include basic information about your account.',
       fields: [
         {
-          name: 'fullname',
-          label: 'Full Name',
+          name: 'name',
+          label: 'Full name',
           type: 'text',
           helpText: 'The name that is used for ID verification and that appears on your certificates.',
         },
@@ -124,7 +124,7 @@ AccountSettingsPage.defaultProps = {
           helpText: 'You receive messages from Your Platform Name Here and course teams at this address.',
         },
         {
-          name: 'yearofbirth',
+          name: 'year_of_birth',
           label: 'Year of birth',
           type: 'select',
           options: (() => {

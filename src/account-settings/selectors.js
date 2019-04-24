@@ -1,5 +1,6 @@
 export const storeName = 'account-settings';
 
+export const getUsername = state => state.authentication.username;
 
 export const pageSelector = state => ({ ...state[storeName] });
 
