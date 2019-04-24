@@ -3,7 +3,7 @@
 frontend-app-account
 =========================
 
-Please tag **@edx/arch-team** on any PRs or issues.  Thanks.
+Please tag **@edx/arch-team** on any PRs or issues.
 
 Introduction
 ------------
