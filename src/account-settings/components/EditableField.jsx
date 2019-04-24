@@ -9,7 +9,6 @@ import ValidationFormGroup from './temp/ValidationFormGroup';
 import SwitchContent from './temp/SwitchContent';
 
 
-// Actions
 import {
   openForm,
   closeForm,

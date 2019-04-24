@@ -98,8 +98,5 @@ Input.defaultProps = {
 };
 
 
-// Using React.forwardRef – more on forwarding refs here:
-// https://reactjs.org/docs/forwarding-refs.html
-
 // eslint-disable-next-line react/no-multi-comp
 export default React.forwardRef((props, ref) => <Input innerRef={ref} {...props} />);
