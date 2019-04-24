@@ -21,16 +21,17 @@ class AccountSettingsPage extends React.Component {
     sectionHeading, sectionDescription, fields,
   }) {
     return (
-      <div key={sectionHeading}>
-        <h2>{sectionHeading}</h2>
-        <p>{sectionDescription}</p>
+      <div key={this.props.intl.formatMessage(sectionHeading)}>
+        <h2>{this.props.intl.formatMessage(sectionHeading)}</h2>
+        <p>{this.props.intl.formatMessage(sectionDescription)}</p>
         {fields.map(field => (
           <EditableField
             {...field}
+            label={this.props.intl.formatMessage(field.label)}
             key={field.name}
             isEditing={this.props.openFormId === field.name}
           />
-        ))}
+        ), this)}
       </div>
     );
   }
@@ -108,24 +109,22 @@ AccountSettingsPage.defaultProps = {
   openFormId: null,
   fieldSections: [
     {
-      sectionHeading: 'Account Information',
-      sectionDescription: 'These settings include basic information about your account.',
+      sectionHeading: messages['account.settings.section.account.information'],
+      sectionDescription: messages['account.settings.section.account.information.description'],
       fields: [
         {
           name: 'name',
-          label: 'Full name',
+          label: messages['account.settings.field.full.name'],
           type: 'text',
-          helpText: 'The name that is used for ID verification and that appears on your certificates.',
         },
         {
           name: 'email',
-          label: 'Email address',
+          label: messages['account.settings.field.email'],
           type: 'email',
-          helpText: 'You receive messages from Your Platform Name Here and course teams at this address.',
         },
         {
           name: 'year_of_birth',
-          label: 'Year of birth',
+          label: messages['account.settings.field.dob'],
           type: 'select',
           options: (() => {
             const currentYear = new Date().getFullYear();
@@ -138,7 +137,6 @@ AccountSettingsPage.defaultProps = {
             return years.reverse();
           })(),
           defaultValue: new Date().getFullYear() - 35,
-          helpText: 'You receive messages from Your Platform Name Here and course teams at this address.',
         },
       ],
     },

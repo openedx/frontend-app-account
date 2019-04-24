@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { Button } from '@edx/paragon';
 
 import Input from './temp/Input';
@@ -77,13 +78,21 @@ function EditableField(props) {
             </ValidationFormGroup>
             <p>
               <Button type="submit" className="btn-primary mr-2">
-                Save
+                <FormattedMessage
+                  id="account.settings.editable.field.action.save"
+                  defaultMessage="Save"
+                  description="The save button an editable field"
+                />
               </Button>
               <Button
                 onClick={handleCancel}
                 className="btn-outline-primary"
               >
-                Cancel
+                <FormattedMessage
+                  id="account.settings.editable.field.action.cancel"
+                  defaultMessage="Cancel"
+                  description="The cancel button an editable field"
+                />
               </Button>
             </p>
           </form>
@@ -92,7 +101,13 @@ function EditableField(props) {
           <div className="form-group">
             <div className="d-flex justify-content-between">
               <h6 className="edit-field-header">{label}</h6>
-              <Button onClick={handleEdit} className="mt-n3 btn-link px-0">Edit</Button>
+              <Button onClick={handleEdit} className="mt-n3 btn-link px-0">
+                <FormattedMessage
+                  id="account.settings.editable.field.action.edit"
+                  defaultMessage="Edit"
+                  description="The edit button an editable field"
+                />
+              </Button>
             </div>
             <p className="m-0">{value}</p>
             <p className="small text-muted">{helpText}</p>
