@@ -18,7 +18,9 @@ export const defaultState = {
   saveState: null,
 };
 
-const example = (state = defaultState, action) => {
+const accountSettingsReducer = (state = defaultState, action) => {
+  let dispatcherIsOpenForm;
+
   switch (action.type) {
     case FETCH_ACCOUNT.BEGIN:
       return {
@@ -56,8 +58,8 @@ const example = (state = defaultState, action) => {
         openFormId: action.payload.formId,
       };
     case CLOSE_FORM:
-      // Only close if the field to close is undefined or matches the field that is currently open
-      if (action.payload.formId === state.openFormId) {
+      dispatcherIsOpenForm = action.payload.formId === state.openFormId;
+      if (dispatcherIsOpenForm) {
         return {
           ...state,
           openFormId: null,
@@ -111,4 +113,4 @@ const example = (state = defaultState, action) => {
   }
 };
 
-export default example;
+export default accountSettingsReducer;

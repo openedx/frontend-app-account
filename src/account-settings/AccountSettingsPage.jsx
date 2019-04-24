@@ -5,16 +5,9 @@ import { injectIntl, intlShape } from 'react-intl';
 
 import messages from './AccountSettingsPage.messages';
 
-// Actions
-import {
-  fetchAccount,
-  openForm,
-  closeForm,
-  saveAccount,
-} from './actions';
+import { fetchAccount, openForm, closeForm, saveAccount } from './actions';
 import { pageSelector } from './selectors';
 
-// Components
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 
