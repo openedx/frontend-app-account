@@ -1,0 +1,12 @@
+.page__account-settings {
+  .edit-field-header {
+    @extend .h6;
+    display: block;
+    font-weight: normal;
+    letter-spacing: 0;
+    margin: 0;
+  }
+  label.edit-field-header {
+    margin-bottom: $spacer * .5;
+  }
+}

@@ -22,11 +22,22 @@ export function configureApiService(newConfig, newApiClient) {
   apiClient = newApiClient;
 }
 
-export async function getData(data) {
-  // const { data } = await apiClient.get(`${config.API_BASE_URL}/example/`, {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(data);
-    }, 2000);
-  });
+export async function getAccount(username) {
+  const { data } = await apiClient.get(`${config.ACCOUNTS_API_BASE_URL}/${username}`);
+
+  return data;
+}
+
+export async function patchAccount(username, commitValues) {
+  const requestConfig = {
+    headers: { 'Content-Type': 'application/merge-patch+json' },
+  };
+
+  const { data } = await apiClient.patch(
+    `${config.ACCOUNTS_API_BASE_URL}/${username}`,
+    commitValues,
+    requestConfig,
+  );
+
+  return data;
 }
