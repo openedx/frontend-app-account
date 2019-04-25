@@ -103,7 +103,7 @@ function EditableField(props) {
             <div className="d-flex justify-content-between">
               <h6 className="edit-field-header">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="mt-n3 btn-link px-0">
+                <Button onClick={handleEdit} className="btn-link">
                   <FormattedMessage
                     id="account.settings.editable.field.action.edit"
                     defaultMessage="Edit"
