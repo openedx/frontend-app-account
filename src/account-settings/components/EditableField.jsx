@@ -59,7 +59,7 @@ function EditableField(props) {
       expression={isEditing ? 'editing' : 'default'}
       cases={{
         editing: (
-          <form onSubmit={handleSubmit} onChange={handleChange}>
+          <form onSubmit={handleSubmit}>
             <ValidationFormGroup
               for={id}
               invalid={error != null}
@@ -72,6 +72,7 @@ function EditableField(props) {
                 id={id}
                 type={type}
                 value={value}
+                onChange={handleChange}
                 {...others}
               />
             </ValidationFormGroup>

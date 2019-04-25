@@ -64,6 +64,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
           ...state,
           openFormId: null,
           errors: {},
+          drafts: {},
         };
       }
       return state;

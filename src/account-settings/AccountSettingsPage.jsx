@@ -91,8 +91,8 @@ AccountSettingsPage.propTypes = {
   loadingError: PropTypes.string,
   openFormId: PropTypes.string,
   fieldSections: PropTypes.arrayOf(PropTypes.shape({
-    sectionHeading: PropTypes.node,
-    sectionDescription: PropTypes.node,
+    sectionHeading: PropTypes.object,
+    sectionDescription: PropTypes.object,
     fields: PropTypes.array,
   })),
 
@@ -112,6 +112,11 @@ AccountSettingsPage.defaultProps = {
       sectionHeading: messages['account.settings.section.account.information'],
       sectionDescription: messages['account.settings.section.account.information.description'],
       fields: [
+        {
+          name: 'username',
+          label: messages['account.settings.field.username'],
+          type: 'text',
+        },
         {
           name: 'name',
           label: messages['account.settings.field.full.name'],

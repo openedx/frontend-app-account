@@ -16,6 +16,20 @@ function validateConfiguration(newConfig) {
   });
 }
 
+function handleRequestError(error) {
+  if (error.response) {
+    const apiError = Object.create(error);
+    apiError.fieldErrors = Object.entries(error.response.data.field_errors)
+      .reduce((acc, [k, v]) => {
+        acc[k] = v.user_message;
+        return acc;
+      }, {});
+
+    throw apiError;
+  }
+  throw Object.create(error, {});
+}
+
 export function configureApiService(newConfig, newApiClient) {
   validateConfiguration(newConfig);
   config = pick(newConfig, Object.keys(config));
@@ -37,7 +51,7 @@ export async function patchAccount(username, commitValues) {
     `${config.ACCOUNTS_API_BASE_URL}/${username}`,
     commitValues,
     requestConfig,
-  );
+  ).catch(handleRequestError);
 
   return data;
 }
