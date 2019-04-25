@@ -114,21 +114,25 @@ AccountSettingsPage.defaultProps = {
       fields: [
         {
           name: 'username',
+          isEditable: false,
           label: messages['account.settings.field.username'],
           type: 'text',
         },
         {
           name: 'name',
+          isEditable: true,
           label: messages['account.settings.field.full.name'],
           type: 'text',
         },
         {
           name: 'email',
+          isEditable: true,
           label: messages['account.settings.field.email'],
           type: 'email',
         },
         {
           name: 'year_of_birth',
+          isEditable: true,
           label: messages['account.settings.field.dob'],
           type: 'select',
           options: (() => {
