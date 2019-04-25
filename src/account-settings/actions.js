@@ -69,9 +69,9 @@ export const saveAccountBegin = () => ({
   type: SAVE_ACCOUNT.BEGIN,
 });
 
-export const saveAccountSuccess = values => ({
+export const saveAccountSuccess = (values, confirmationValues) => ({
   type: SAVE_ACCOUNT.SUCCESS,
-  payload: { values },
+  payload: { values, confirmationValues },
 });
 
 export const saveAccountReset = () => ({

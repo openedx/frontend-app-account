@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Button } from '@edx/paragon';
 
 import Input from './temp/Input';
@@ -25,6 +25,8 @@ function EditableField(props) {
     type,
     value,
     error,
+    confirmationMessageDefinition,
+    confirmationValue,
     helpText,
     onEdit,
     onCancel,
@@ -32,6 +34,7 @@ function EditableField(props) {
     onChange,
     isEditing,
     isEditable,
+    intl,
     ...others
   } = props;
   const id = `field-${name}`;
@@ -53,6 +56,11 @@ function EditableField(props) {
 
   const handleCancel = () => {
     onCancel(name);
+  };
+
+  const renderConfirmationMessage = () => {
+    if (!confirmationMessageDefinition || !confirmationValue) return null;
+    return intl.formatMessage(confirmationMessageDefinition, { value: confirmationValue });
   };
 
   return (
@@ -113,7 +121,7 @@ function EditableField(props) {
               ) : null}
             </div>
             <p className="m-0">{value}</p>
-            <p className="small text-muted">{helpText}</p>
+            <p className="small text-muted">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
       }}
@@ -128,6 +136,12 @@ EditableField.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
+  confirmationMessageDefinition: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    defaultMessage: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }),
+  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
   onEdit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -135,11 +149,14 @@ EditableField.propTypes = {
   onChange: PropTypes.func.isRequired,
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
 EditableField.defaultProps = {
   value: undefined,
   error: undefined,
+  confirmationMessageDefinition: undefined,
+  confirmationValue: undefined,
   helpText: undefined,
   isEditing: false,
   isEditable: true,
@@ -151,4 +168,4 @@ export default connect(formSelector, {
   onCancel: closeForm,
   onChange: updateDraft,
   onSubmit: saveAccount,
-})(EditableField);
+})(injectIntl(EditableField));

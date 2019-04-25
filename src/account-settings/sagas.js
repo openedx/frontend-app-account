@@ -41,8 +41,7 @@ export function* handleSaveAccount(action) {
     const username = yield select(getUsername);
     const { commitValues } = action.payload;
     const savedValues = yield call(ApiService.patchAccount, username, commitValues);
-
-    yield put(saveAccountSuccess(savedValues));
+    yield put(saveAccountSuccess(savedValues, commitValues));
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {

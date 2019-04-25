@@ -31,6 +31,11 @@ const messages = defineMessages({
     defaultMessage: 'Email address (Sign in)',
     description: 'Label for account settings email field.',
   },
+  'account.settings.field.email.confirmation': {
+    id: 'account.settings.field.email.confirmation',
+    defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your email address.',
+    description: 'Confirmation message for saving the account settings email field.',
+  },
   'account.settings.field.dob': {
     id: 'account.settings.field.dob',
     defaultMessage: 'Year of birth',
