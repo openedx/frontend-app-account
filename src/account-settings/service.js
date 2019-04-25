@@ -27,7 +27,7 @@ function handleRequestError(error) {
 
     throw apiError;
   }
-  throw Object.create(error, {});
+  throw error;
 }
 
 export function configureApiService(newConfig, newApiClient) {
