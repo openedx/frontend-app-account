@@ -3,6 +3,7 @@ import {
   OPEN_FORM,
   CLOSE_FORM,
   SAVE_ACCOUNT,
+  RESET_PASSWORD,
   UPDATE_DRAFT,
   RESET_DRAFTS,
 } from './actions';
@@ -17,6 +18,7 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
+  resetPasswordState: null,
 };
 
 const accountSettingsReducer = (state = defaultState, action) => {
@@ -113,6 +115,17 @@ const accountSettingsReducer = (state = defaultState, action) => {
         ...state,
         saveState: null,
         errors: {},
+      };
+
+    case RESET_PASSWORD.BEGIN:
+      return {
+        ...state,
+        resetPasswordState: 'pending',
+      };
+    case RESET_PASSWORD.SUCCESS:
+      return {
+        ...state,
+        resetPasswordState: 'complete',
       };
 
     default:

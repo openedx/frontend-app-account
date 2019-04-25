@@ -4,6 +4,7 @@ let config = {
   ACCOUNTS_API_BASE_URL: null,
   ECOMMERCE_API_BASE_URL: null,
   LMS_BASE_URL: null,
+  PASSWORD_RESET_URL: null,
 };
 
 let apiClient = null; // eslint-disable-line no-unused-vars
@@ -17,7 +18,7 @@ function validateConfiguration(newConfig) {
 }
 
 function handleRequestError(error) {
-  if (error.response) {
+  if (error.response && error.response.data.field_errors) {
     const apiError = Object.create(error);
     apiError.fieldErrors = Object.entries(error.response.data.field_errors)
       .reduce((acc, [k, v]) => {
@@ -52,6 +53,14 @@ export async function patchAccount(username, commitValues) {
     commitValues,
     requestConfig,
   ).catch(handleRequestError);
+
+  return data;
+}
+
+export async function postResetPassword() {
+  const { data } = await apiClient
+    .post(config.PASSWORD_RESET_URL)
+    .catch(handleRequestError);
 
   return data;
 }

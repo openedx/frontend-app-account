@@ -108,7 +108,7 @@ function EditableField(props) {
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-start">
               <h6>{label}</h6>
               {isEditable ? (
                 <Button onClick={handleEdit} className="btn-link">

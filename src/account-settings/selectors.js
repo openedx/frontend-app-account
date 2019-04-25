@@ -16,3 +16,8 @@ export const formSelector = (state, props) => {
     isEditing: state[storeName].openFormId === props.name,
   };
 };
+
+export const resetPasswordSelector = state => ({
+  resetPasswordState: state[storeName].resetPasswordState,
+  email: state[storeName].values.email,
+});

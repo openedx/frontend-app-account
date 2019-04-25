@@ -2,8 +2,9 @@ import { utils } from '../common';
 
 const { AsyncActionType } = utils;
 
-export const FETCH_ACCOUNT = new AsyncActionType('EXAMPLE', 'FETCH_ACCOUNT');
+export const FETCH_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_ACCOUNT');
 export const SAVE_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_ACCOUNT');
+export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
 export const UPDATE_DRAFT = 'UPDATE_DRAFT';
@@ -81,5 +82,24 @@ export const saveAccountReset = () => ({
 export const saveAccountFailure = ({ fieldErrors, message }) => ({
   type: SAVE_ACCOUNT.FAILURE,
   payload: { errors: fieldErrors, message },
+});
+
+
+// SAVE PROFILE ACTIONS
+
+export const resetPassword = () => ({
+  type: RESET_PASSWORD.BASE,
+});
+
+export const resetPasswordBegin = () => ({
+  type: RESET_PASSWORD.BEGIN,
+});
+
+export const resetPasswordSuccess = () => ({
+  type: RESET_PASSWORD.SUCCESS,
+});
+
+export const resetPasswordReset = () => ({
+  type: RESET_PASSWORD.RESET,
 });
 

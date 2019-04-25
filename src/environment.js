@@ -36,6 +36,7 @@ export const configuration = {
   CERTIFICATES_API_BASE_URL: `${process.env.LMS_BASE_URL}/api/certificates/v0/certificates`,
   VIEW_MY_RECORDS_URL: `${process.env.CREDENTIALS_BASE_URL}/records`,
   ECOMMERCE_API_BASE_URL: `${process.env.ECOMMERCE_BASE_URL}/api/v2`,
+  PASSWORD_RESET_URL: `${process.env.LMS_BASE_URL}/password_reset/`,
 };
 
 export const features = {};
