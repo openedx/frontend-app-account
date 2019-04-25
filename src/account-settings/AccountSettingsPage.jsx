@@ -30,31 +30,24 @@ class AccountSettingsPage extends React.Component {
               type="text"
               label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
               isEditable={false}
-              isEditing={this.props.openFormId === 'username'}
             />
             <EditableField
               name="name"
               type="text"
               label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
-              isEditable
-              isEditing={this.props.openFormId === 'name'}
             />
             <EditableField
               name="email"
               type="email"
               label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
-              isEditable
-              isEditing={this.props.openFormId === 'email'}
               confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             />
             <EditableField
               name="year_of_birth"
               type="select"
+              label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
               options={yearOfBirthOptions}
               defaultValue={yearOfBirthDefault}
-              label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
-              isEditable
-              isEditing={this.props.openFormId === 'year_of_birth'}
             />
           </div>
         </div>
@@ -103,7 +96,6 @@ AccountSettingsPage.propTypes = {
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   loadingError: PropTypes.string,
-  openFormId: PropTypes.string,
   fetchAccount: PropTypes.func.isRequired,
 };
 
@@ -111,7 +103,6 @@ AccountSettingsPage.defaultProps = {
   loading: false,
   loaded: false,
   loadingError: null,
-  openFormId: null,
 };
 
 
