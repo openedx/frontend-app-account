@@ -16,6 +16,11 @@ const messages = defineMessages({
     defaultMessage: 'Error: {error}',
     description: 'Message when data failed to load',
   },
+  'account.settings.field.username': {
+    id: 'account.settings.field.username',
+    defaultMessage: 'Username',
+    description: 'Label for account settings username field.',
+  },
   'account.settings.field.full.name': {
     id: 'account.settings.field.full.name',
     defaultMessage: 'Full name',

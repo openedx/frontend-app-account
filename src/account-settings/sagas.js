@@ -46,9 +46,7 @@ export function* handleSaveAccount(action) {
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {
-      yield put(saveAccountFailure({
-        fieldErrors: e.fieldErrors,
-      }));
+      yield put(saveAccountFailure({ fieldErrors: e.fieldErrors }));
     } else {
       LoggingService.logAPIErrorResponse(e);
       yield put(saveAccountFailure(e.message));

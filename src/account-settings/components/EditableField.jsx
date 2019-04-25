@@ -31,6 +31,7 @@ function EditableField(props) {
     onSubmit,
     onChange,
     isEditing,
+    isEditable,
     ...others
   } = props;
   const id = `field-${name}`;
@@ -59,7 +60,7 @@ function EditableField(props) {
       expression={isEditing ? 'editing' : 'default'}
       cases={{
         editing: (
-          <form onSubmit={handleSubmit} onChange={handleChange}>
+          <form onSubmit={handleSubmit}>
             <ValidationFormGroup
               for={id}
               invalid={error != null}
@@ -72,6 +73,7 @@ function EditableField(props) {
                 id={id}
                 type={type}
                 value={value}
+                onChange={handleChange}
                 {...others}
               />
             </ValidationFormGroup>
@@ -100,13 +102,15 @@ function EditableField(props) {
           <div className="form-group">
             <div className="d-flex justify-content-between">
               <h6 className="edit-field-header">{label}</h6>
-              <Button onClick={handleEdit} className="mt-n3 btn-link px-0">
-                <FormattedMessage
-                  id="account.settings.editable.field.action.edit"
-                  defaultMessage="Edit"
-                  description="The edit button an editable field"
-                />
-              </Button>
+              {isEditable ? (
+                <Button onClick={handleEdit} className="btn-link">
+                  <FormattedMessage
+                    id="account.settings.editable.field.action.edit"
+                    defaultMessage="Edit"
+                    description="The edit button an editable field"
+                  />
+                </Button>
+              ) : null}
             </div>
             <p className="m-0">{value}</p>
             <p className="small text-muted">{helpText}</p>
@@ -130,6 +134,7 @@ EditableField.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   isEditing: PropTypes.bool,
+  isEditable: PropTypes.bool,
 };
 
 EditableField.defaultProps = {
@@ -137,6 +142,7 @@ EditableField.defaultProps = {
   error: undefined,
   helpText: undefined,
   isEditing: false,
+  isEditable: true,
 };
 
 
