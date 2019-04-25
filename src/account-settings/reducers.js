@@ -14,6 +14,7 @@ export const defaultState = {
   data: null,
   values: {},
   errors: {},
+  confirmationValues: {},
   drafts: {},
   saveState: null,
 };
@@ -95,6 +96,11 @@ const accountSettingsReducer = (state = defaultState, action) => {
         saveState: 'complete',
         values: Object.assign({}, state.values, action.payload.values),
         errors: {},
+        confirmationValues: Object.assign(
+          {},
+          state.confirmationValues,
+          action.payload.confirmationValues,
+        ),
       };
     case SAVE_ACCOUNT.FAILURE:
       return {
