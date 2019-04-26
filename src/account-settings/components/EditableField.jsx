@@ -24,7 +24,7 @@ function EditableField(props) {
     name,
     label,
     type,
-    value,
+    value: propValue,
     options,
     saveState,
     error,
@@ -38,25 +38,36 @@ function EditableField(props) {
     isEditing,
     isEditable,
     intl,
+    transformValue,
+    reverseTransform,
     ...others
   } = props;
   const id = `field-${name}`;
+  const value = transformValue(propValue);
 
-  const getValue = () => {
-    if (!options) return value;
-    // Use == instead of === to prevent issues when HTML casts numbers as strings
-    return options.find(option => option.value == value).label; // eslint-disable-line eqeqeq
+  const getValue = (rawValue) => {
+    if (options) {
+      if (Array.isArray(rawValue)) {
+        return rawValue.map(getValue).join(', ');
+      }
+      // Use == instead of === to prevent issues when HTML casts numbers as strings
+      // eslint-disable-next-line eqeqeq
+      const selectedOption = options.find(option => option.value == rawValue);
+      if (selectedOption) return selectedOption.label;
+    }
+    return rawValue;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {};
-    new FormData(e.target).forEach((v, k) => { data[k] = v; });
+    const data = {
+      [name]: reverseTransform(new FormData(e.target).get(name)),
+    };
     onSubmit(name, data);
   };
 
   const handleChange = (e) => {
-    onChange(name, e.target.value);
+    onChange(name, reverseTransform(e.target.value));
   };
 
   const handleEdit = () => {
@@ -69,7 +80,9 @@ function EditableField(props) {
 
   const renderConfirmationMessage = () => {
     if (!confirmationMessageDefinition || !confirmationValue) return null;
-    return intl.formatMessage(confirmationMessageDefinition, { value: confirmationValue });
+    return intl.formatMessage(confirmationMessageDefinition, {
+      value: transformValue(confirmationValue),
+    });
   };
 
   return (
@@ -148,7 +161,7 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p className="m-0">{getValue()}</p>
+            <p className="m-0">{getValue(value)}</p>
             <p className="small text-muted">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
@@ -160,11 +173,11 @@ function EditableField(props) {
 
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
@@ -183,18 +196,23 @@ EditableField.propTypes = {
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   intl: intlShape.isRequired,
+  transformValue: PropTypes.func,
+  reverseTransform: PropTypes.func,
 };
 
 EditableField.defaultProps = {
   value: undefined,
   options: undefined,
   saveState: undefined,
+  label: undefined,
   error: undefined,
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,
   helpText: undefined,
   isEditing: false,
   isEditable: true,
+  transformValue: v => v,
+  reverseTransform: v => v,
 };
 
 

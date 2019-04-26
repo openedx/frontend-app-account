@@ -138,6 +138,12 @@ const messages = defineMessages({
     defaultMessage: 'Other',
     description: 'The label for catch-all gender option.',
   },
+
+  'account.settings.field.language.proficiencies': {
+    id: 'account.settings.field.language.proficiencies',
+    defaultMessage: 'Spoken Languages',
+    description: 'Label for account settings spoken languages field.',
+  },
 });
 
 export default messages;
