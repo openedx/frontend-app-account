@@ -13,7 +13,7 @@ const injectIntlWithShim = (WrappedComponent) => {
       super(props);
       this.shimmedIntl = Object.create(this.props.intl, {
         formatMessage: {
-          value: (definition) => {
+          value: (definition, ...args) => {
             if (definition === undefined || definition.id === undefined) {
               const error = new Error('i18n error: An undefined message was supplied to intl.formatMessage.');
               if (process.env.NODE_ENV !== 'production') {
@@ -23,7 +23,7 @@ const injectIntlWithShim = (WrappedComponent) => {
               LoggingService.logError(error);
               return ''; // Fail silent in production
             }
-            return this.props.intl.formatMessage(definition);
+            return this.props.intl.formatMessage(definition, ...args);
           },
         },
       });
