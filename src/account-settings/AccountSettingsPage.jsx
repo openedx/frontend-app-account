@@ -20,6 +20,7 @@ import PasswordReset from './components/PasswordReset';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
+  GENDER_OPTIONS,
 } from './constants';
 
 
@@ -33,6 +34,10 @@ class AccountSettingsPage extends React.Component {
     this.educationLevels = EDUCATION_LEVELS.map(key => ({
       value: key,
       label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key}`]),
+    }));
+    this.genderOptions = GENDER_OPTIONS.map(key => ({
+      value: key,
+      label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
   }
 
@@ -83,6 +88,12 @@ class AccountSettingsPage extends React.Component {
               type="select"
               options={this.educationLevels}
               label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
+            />
+            <EditableField
+              name="gender"
+              type="select"
+              options={this.genderOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.gender'])}
             />
           </div>
         </div>

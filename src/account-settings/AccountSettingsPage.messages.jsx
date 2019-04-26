@@ -62,6 +62,11 @@ const messages = defineMessages({
     defaultMessage: 'Education',
     description: 'Label for account settings education field.',
   },
+  'account.settings.field.education.levels.null': {
+    id: 'account.settings.field.education.levels.null',
+    defaultMessage: 'Select a level of education',
+    description: 'Placeholder for the education levels dropdown.',
+  },
   'account.settings.field.education.levels.p': {
     id: 'account.settings.field.education.levels.p',
     defaultMessage: 'Doctorate',
@@ -106,6 +111,32 @@ const messages = defineMessages({
     id: 'account.settings.field.education.levels.o',
     defaultMessage: 'Other education',
     description: 'Selected by the user if they have a type of education not described by the other choices.',
+  },
+
+  'account.settings.field.gender': {
+    id: 'account.settings.field.gender',
+    defaultMessage: 'Gender',
+    description: 'Label for account settings gender field.',
+  },
+  'account.settings.field.gender.options.null': {
+    id: 'account.settings.field.gender.options.null',
+    defaultMessage: 'Select a gender',
+    description: 'Placeholder for the gender options dropdown.',
+  },
+  'account.settings.field.gender.options.f': {
+    id: 'account.settings.field.gender.options.f',
+    defaultMessage: 'Female',
+    description: 'The label for the female gender option.',
+  },
+  'account.settings.field.gender.options.m': {
+    id: 'account.settings.field.gender.options.m',
+    defaultMessage: 'Male',
+    description: 'The label for the male gender option.',
+  },
+  'account.settings.field.gender.options.o': {
+    id: 'account.settings.field.gender.options.o',
+    defaultMessage: 'Other',
+    description: 'The label for catch-all gender option.',
   },
 });
 

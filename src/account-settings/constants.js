@@ -12,6 +12,7 @@ export const YEAR_OF_BIRTH_OPTIONS = (() => {
 })();
 
 export const EDUCATION_LEVELS = [
+  null,
   'p',
   'm',
   'b',
@@ -20,5 +21,12 @@ export const EDUCATION_LEVELS = [
   'jhs',
   'el',
   'none',
+  'o',
+];
+
+export const GENDER_OPTIONS = [
+  null,
+  'm',
+  'f',
   'o',
 ];
