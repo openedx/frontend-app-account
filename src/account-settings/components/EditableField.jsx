@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Button } from '@edx/paragon';
+import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
+import { Button, StatefulButton } from '@edx/paragon';
 
 import Input from './temp/Input';
 import ValidationFormGroup from './temp/ValidationFormGroup';
@@ -23,7 +24,9 @@ function EditableField(props) {
     name,
     label,
     type,
-    value,
+    value: propValue,
+    options,
+    saveState,
     error,
     confirmationMessageDefinition,
     confirmationValue,
@@ -35,19 +38,36 @@ function EditableField(props) {
     isEditing,
     isEditable,
     intl,
+    transformValue,
+    reverseTransform,
     ...others
   } = props;
   const id = `field-${name}`;
+  const value = transformValue(propValue);
+
+  const getValue = (rawValue) => {
+    if (options) {
+      if (Array.isArray(rawValue)) {
+        return rawValue.map(getValue).join(', ');
+      }
+      // Use == instead of === to prevent issues when HTML casts numbers as strings
+      // eslint-disable-next-line eqeqeq
+      const selectedOption = options.find(option => option.value == rawValue);
+      if (selectedOption) return selectedOption.label;
+    }
+    return rawValue;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {};
-    new FormData(e.target).forEach((v, k) => { data[k] = v; });
+    const data = {
+      [name]: reverseTransform(new FormData(e.target).get(name)),
+    };
     onSubmit(name, data);
   };
 
   const handleChange = (e) => {
-    onChange(name, e.target.value);
+    onChange(name, reverseTransform(e.target.value));
   };
 
   const handleEdit = () => {
@@ -60,7 +80,9 @@ function EditableField(props) {
 
   const renderConfirmationMessage = () => {
     if (!confirmationMessageDefinition || !confirmationValue) return null;
-    return intl.formatMessage(confirmationMessageDefinition, { value: confirmationValue });
+    return intl.formatMessage(confirmationMessageDefinition, {
+      value: transformValue(confirmationValue),
+    });
   };
 
   return (
@@ -82,17 +104,36 @@ function EditableField(props) {
                 type={type}
                 value={value}
                 onChange={handleChange}
+                options={options}
                 {...others}
               />
             </ValidationFormGroup>
             <p>
-              <Button type="submit" className="btn-primary mr-2">
-                <FormattedMessage
-                  id="account.settings.editable.field.action.save"
-                  defaultMessage="Save"
-                  description="The save button an editable field"
-                />
-              </Button>
+              <StatefulButton
+                type="submit"
+                className="btn-primary mr-2"
+                state={saveState}
+                labels={{
+                  default: (
+                    <FormattedMessage
+                      id="account.settings.editable.field.action.save"
+                      defaultMessage="Save"
+                      description="The save button on an editable field"
+                    />
+                  ),
+                }}
+                onClick={(e) => {
+                  // Swallow clicks if the state is pending.
+                  // We do this instead of disabling the button to prevent
+                  // it from losing focus (disabled elements cannot have focus).
+                  // Disabling it would causes upstream issues in focus management.
+                  // Swallowing the onSubmit event on the form would be better, but
+                  // we would have to add that logic for every field given our
+                  // current structure of the application.
+                  if (saveState === 'pending') e.preventDefault();
+                }}
+                disabledStates={[]}
+              />
               <Button
                 onClick={handleCancel}
                 className="btn-outline-primary"
@@ -120,7 +161,7 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p className="m-0">{value}</p>
+            <p className="m-0">{getValue(value)}</p>
             <p className="small text-muted">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
@@ -132,9 +173,14 @@ function EditableField(props) {
 
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
+  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -150,16 +196,23 @@ EditableField.propTypes = {
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   intl: intlShape.isRequired,
+  transformValue: PropTypes.func,
+  reverseTransform: PropTypes.func,
 };
 
 EditableField.defaultProps = {
   value: undefined,
+  options: undefined,
+  saveState: undefined,
+  label: undefined,
   error: undefined,
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,
   helpText: undefined,
   isEditing: false,
   isEditable: true,
+  transformValue: v => v,
+  reverseTransform: v => v,
 };
 
 

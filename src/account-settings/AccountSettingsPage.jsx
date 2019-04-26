@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
+import {
+  injectIntl,
+  intlShape,
+  getLocale,
+  getCountryList,
+  getLanguageList,
+} from '@edx/frontend-i18n'; // eslint-disable-line
 
 import messages from './AccountSettingsPage.messages';
 
@@ -11,10 +17,30 @@ import { pageSelector } from './selectors';
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
-import { yearOfBirthOptions, yearOfBirthDefault } from './constants';
+import {
+  YEAR_OF_BIRTH_OPTIONS,
+  EDUCATION_LEVELS,
+  GENDER_OPTIONS,
+} from './constants';
 
 
 class AccountSettingsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.countryOptions = getCountryList(getLocale())
+      .map(({ code, name }) => ({ value: code, label: name }));
+    this.languageProficiencyOptions = getLanguageList(getLocale())
+      .map(({ code, name }) => ({ value: code, label: name }));
+    this.educationLevels = EDUCATION_LEVELS.map(key => ({
+      value: key,
+      label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key}`]),
+    }));
+    this.genderOptions = GENDER_OPTIONS.map(key => ({
+      value: key,
+      label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
+    }));
+  }
+
   componentDidMount() {
     this.props.fetchAccount();
   }
@@ -48,10 +74,35 @@ class AccountSettingsPage extends React.Component {
               name="year_of_birth"
               type="select"
               label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
-              options={yearOfBirthOptions}
-              defaultValue={yearOfBirthDefault}
+              options={YEAR_OF_BIRTH_OPTIONS}
             />
             <PasswordReset />
+            <EditableField
+              name="country"
+              type="select"
+              options={this.countryOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
+            />
+            <EditableField
+              name="level_of_education"
+              type="select"
+              options={this.educationLevels}
+              label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
+            />
+            <EditableField
+              name="gender"
+              type="select"
+              options={this.genderOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.gender'])}
+            />
+            <EditableField
+              name="language_proficiencies"
+              type="select"
+              options={this.languageProficiencyOptions}
+              transformValue={v => (v.length ? v[0].code : null)}
+              reverseTransform={v => ([{ code: v }])}
+              label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
+            />
           </div>
         </div>
       </div>
