@@ -17,11 +17,15 @@ class Input extends React.Component {
   }
 
   getClassNameForType() {
-    const { type } = this.props;
-    if (type === 'file') return 'form-control-file';
-    if (type === 'checkbox') return 'form-check-input';
-    if (type === 'radio') return 'form-check-input';
-    return 'form-control';
+    switch (this.props.type) {
+      case 'file':
+        return 'form-control-file';
+      case 'checkbox':
+      case 'radio':
+        return 'form-check-input';
+      default:
+        return 'form-control';
+    }
   }
 
   getRef(forwardedRef) {
@@ -78,15 +82,15 @@ class Input extends React.Component {
 
 
 Input.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   className: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     disabled: PropTypes.bool,
     group: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       disabled: PropTypes.bool,
     })),
   })),

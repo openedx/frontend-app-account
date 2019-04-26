@@ -16,6 +16,16 @@ const messages = defineMessages({
     defaultMessage: 'Error: {error}',
     description: 'Message when data failed to load',
   },
+  'account.settings.section.account.information': {
+    id: 'account.settings.section.account.information',
+    defaultMessage: 'Account Information',
+    description: 'The basic account information section heading.',
+  },
+  'account.settings.section.account.information.description': {
+    id: 'account.settings.section.account.information.description',
+    defaultMessage: 'These settings include basic information about your account.',
+    description: 'The basic account information section heading description.',
+  },
   'account.settings.field.username': {
     id: 'account.settings.field.username',
     defaultMessage: 'Username',
@@ -41,15 +51,10 @@ const messages = defineMessages({
     defaultMessage: 'Year of birth',
     description: 'Label for account settings year of birth field.',
   },
-  'account.settings.section.account.information': {
-    id: 'account.settings.section.account.information',
-    defaultMessage: 'Account Information',
-    description: 'The basic account information section heading.',
-  },
-  'account.settings.section.account.information.description': {
-    id: 'account.settings.section.account.information.description',
-    defaultMessage: 'These settings include basic information about your account.',
-    description: 'The basic account information section heading description.',
+  'account.settings.field.country': {
+    id: 'account.settings.field.country',
+    defaultMessage: 'Country',
+    description: 'Label for account settings country field.',
   },
 });
 

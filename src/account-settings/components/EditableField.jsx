@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Button } from '@edx/paragon';
+import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
+import { Button, StatefulButton } from '@edx/paragon';
 
 import Input from './temp/Input';
 import ValidationFormGroup from './temp/ValidationFormGroup';
@@ -24,6 +25,8 @@ function EditableField(props) {
     label,
     type,
     value,
+    options,
+    saveState,
     error,
     confirmationMessageDefinition,
     confirmationValue,
@@ -38,6 +41,12 @@ function EditableField(props) {
     ...others
   } = props;
   const id = `field-${name}`;
+
+  const getValue = () => {
+    if (!options) return value;
+    // Use == instead of === to prevent issues when HTML casts numbers as strings
+    return options.find(option => option.value == value).label; // eslint-disable-line eqeqeq
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,17 +91,36 @@ function EditableField(props) {
                 type={type}
                 value={value}
                 onChange={handleChange}
+                options={options}
                 {...others}
               />
             </ValidationFormGroup>
             <p>
-              <Button type="submit" className="btn-primary mr-2">
-                <FormattedMessage
-                  id="account.settings.editable.field.action.save"
-                  defaultMessage="Save"
-                  description="The save button an editable field"
-                />
-              </Button>
+              <StatefulButton
+                type="submit"
+                className="btn-primary mr-2"
+                state={saveState}
+                labels={{
+                  default: (
+                    <FormattedMessage
+                      id="account.settings.editable.field.action.save"
+                      defaultMessage="Save"
+                      description="The save button on an editable field"
+                    />
+                  ),
+                }}
+                onClick={(e) => {
+                  // Swallow clicks if the state is pending.
+                  // We do this instead of disabling the button to prevent
+                  // it from losing focus (disabled elements cannot have focus).
+                  // Disabling it would causes upstream issues in focus management.
+                  // Swallowing the onSubmit event on the form would be better, but
+                  // we would have to add that logic for every field given our
+                  // current structure of the application.
+                  if (saveState === 'pending') e.preventDefault();
+                }}
+                disabledStates={[]}
+              />
               <Button
                 onClick={handleCancel}
                 className="btn-outline-primary"
@@ -120,7 +148,7 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p className="m-0">{value}</p>
+            <p className="m-0">{getValue()}</p>
             <p className="small text-muted">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
@@ -135,6 +163,11 @@ EditableField.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
+  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -154,6 +187,8 @@ EditableField.propTypes = {
 
 EditableField.defaultProps = {
   value: undefined,
+  options: undefined,
+  saveState: undefined,
   error: undefined,
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,

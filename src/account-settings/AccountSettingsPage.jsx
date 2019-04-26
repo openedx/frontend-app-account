@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
+import {
+  injectIntl,
+  intlShape,
+  getLocale,
+  getCountryList,
+  getCountryMessages,
+} from '@edx/frontend-i18n'; // eslint-disable-line
 
 import messages from './AccountSettingsPage.messages';
 
@@ -11,10 +17,18 @@ import { pageSelector } from './selectors';
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
-import { yearOfBirthOptions, yearOfBirthDefault } from './constants';
+import { yearOfBirthOptions } from './constants';
 
 
 class AccountSettingsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.countryOptions = getCountryList(getLocale())
+      .map(({ code, name }) => ({ value: code, label: name }));
+
+    this.countryMessages = getCountryMessages(getLocale());
+  }
+
   componentDidMount() {
     this.props.fetchAccount();
   }
@@ -49,9 +63,14 @@ class AccountSettingsPage extends React.Component {
               type="select"
               label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
               options={yearOfBirthOptions}
-              defaultValue={yearOfBirthDefault}
             />
             <PasswordReset />
+            <EditableField
+              name="country"
+              type="select"
+              options={this.countryOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
+            />
           </div>
         </div>
       </div>

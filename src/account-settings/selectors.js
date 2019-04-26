@@ -11,6 +11,7 @@ export const formSelector = (state, props) => {
 
   return {
     value,
+    saveState: state[storeName].saveState,
     error: state[storeName].errors[props.name],
     confirmationValue: state[storeName].confirmationValues[props.name],
     isEditing: state[storeName].openFormId === props.name,

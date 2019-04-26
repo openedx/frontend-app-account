@@ -66,6 +66,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
         return {
           ...state,
           openFormId: null,
+          saveState: null,
           errors: {},
           drafts: {},
         };
@@ -77,6 +78,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
         drafts: Object.assign({}, state.drafts, {
           [action.payload.name]: action.payload.value,
         }),
+        saveState: null,
         errors: {},
       };
 
