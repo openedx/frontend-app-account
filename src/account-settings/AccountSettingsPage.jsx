@@ -17,7 +17,10 @@ import { pageSelector } from './selectors';
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
-import { yearOfBirthOptions } from './constants';
+import {
+  YEAR_OF_BIRTH_OPTIONS,
+  EDUCATION_LEVELS,
+} from './constants';
 
 
 class AccountSettingsPage extends React.Component {
@@ -27,6 +30,10 @@ class AccountSettingsPage extends React.Component {
       .map(({ code, name }) => ({ value: code, label: name }));
 
     this.countryMessages = getCountryMessages(getLocale());
+    this.educationLevels = EDUCATION_LEVELS.map(key => ({
+      value: key,
+      label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key}`]),
+    }));
   }
 
   componentDidMount() {
@@ -62,7 +69,7 @@ class AccountSettingsPage extends React.Component {
               name="year_of_birth"
               type="select"
               label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
-              options={yearOfBirthOptions}
+              options={YEAR_OF_BIRTH_OPTIONS}
             />
             <PasswordReset />
             <EditableField
@@ -70,6 +77,12 @@ class AccountSettingsPage extends React.Component {
               type="select"
               options={this.countryOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
+            />
+            <EditableField
+              name="level_of_education"
+              type="select"
+              options={this.educationLevels}
+              label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
             />
           </div>
         </div>

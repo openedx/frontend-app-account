@@ -1,6 +1,5 @@
 
-// eslint-disable-next-line import/prefer-default-export
-export const yearOfBirthOptions = (() => {
+export const YEAR_OF_BIRTH_OPTIONS = (() => {
   const currentYear = new Date().getFullYear();
   const years = [];
   let startYear = currentYear - 120;
@@ -11,3 +10,15 @@ export const yearOfBirthOptions = (() => {
   }
   return years.reverse();
 })();
+
+export const EDUCATION_LEVELS = [
+  'p',
+  'm',
+  'b',
+  'a',
+  'hs',
+  'jhs',
+  'el',
+  'none',
+  'o',
+];

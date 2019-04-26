@@ -56,6 +56,57 @@ const messages = defineMessages({
     defaultMessage: 'Country',
     description: 'Label for account settings country field.',
   },
+
+  'account.settings.field.education': {
+    id: 'account.settings.field.education',
+    defaultMessage: 'Education',
+    description: 'Label for account settings education field.',
+  },
+  'account.settings.field.education.levels.p': {
+    id: 'account.settings.field.education.levels.p',
+    defaultMessage: 'Doctorate',
+    description: 'Selected by the user if their highest level of education is a doctorate degree.',
+  },
+  'account.settings.field.education.levels.m': {
+    id: 'account.settings.field.education.levels.m',
+    defaultMessage: "Master's or professional degree",
+    description: "Selected by the user if their highest level of education is a master's or professional degree from a college or university.",
+  },
+  'account.settings.field.education.levels.b': {
+    id: 'account.settings.field.education.levels.b',
+    defaultMessage: "Bachelor's Degree",
+    description: "Selected by the user if their highest level of education is a four year college or university bachelor's degree.",
+  },
+  'account.settings.field.education.levels.a': {
+    id: 'account.settings.field.education.levels.a',
+    defaultMessage: "Associate's degree",
+    description: "Selected by the user if their highest level of education is an associate's degree. 1-2 years of college or university.",
+  },
+  'account.settings.field.education.levels.hs': {
+    id: 'account.settings.field.education.levels.hs',
+    defaultMessage: 'Secondary/high school',
+    description: 'Selected by the user if their highest level of education is secondary or high school.  9-12 years of education.',
+  },
+  'account.settings.field.education.levels.jhs': {
+    id: 'account.settings.field.education.levels.jhs',
+    defaultMessage: 'Junior secondary/junior high/middle school',
+    description: 'Selected by the user if their highest level of education is junior or middle school. 6-8 years of education.',
+  },
+  'account.settings.field.education.levels.el': {
+    id: 'account.settings.field.education.levels.el',
+    defaultMessage: 'Elementary/primary school',
+    description: 'Selected by the user if their highest level of education is elementary or primary school.  1-5 years of education.',
+  },
+  'account.settings.field.education.levels.none': {
+    id: 'account.settings.field.education.levels.none',
+    defaultMessage: 'No formal education',
+    description: 'Selected by the user to describe their education.',
+  },
+  'account.settings.field.education.levels.o': {
+    id: 'account.settings.field.education.levels.o',
+    defaultMessage: 'Other education',
+    description: 'Selected by the user if they have a type of education not described by the other choices.',
+  },
 });
 
 export default messages;
