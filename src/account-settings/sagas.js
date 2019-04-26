@@ -14,6 +14,9 @@ import {
   saveAccountBegin,
   saveAccountSuccess,
   saveAccountFailure,
+  RESET_PASSWORD,
+  resetPasswordBegin,
+  resetPasswordSuccess,
 } from './actions';
 import { getUsername } from './selectors';
 
@@ -54,7 +57,19 @@ export function* handleSaveAccount(action) {
   }
 }
 
+export function* handleResetPassword() {
+  try {
+    yield put(resetPasswordBegin());
+    const response = yield call(ApiService.postResetPassword);
+    yield put(resetPasswordSuccess(response));
+  } catch (e) {
+    LoggingService.logAPIErrorResponse(e);
+    yield put(push('/error'));
+  }
+}
+
 export default function* saga() {
   yield takeEvery(FETCH_ACCOUNT.BASE, handleFetchAccount);
   yield takeEvery(SAVE_ACCOUNT.BASE, handleSaveAccount);
+  yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
 }

@@ -75,7 +75,7 @@ function EditableField(props) {
               invalidMessage={error}
               helpText={helpText}
             >
-              <label className="edit-field-header" htmlFor={id}>{label}</label>
+              <label className="h6 d-block" htmlFor={id}>{label}</label>
               <Input
                 name={name}
                 id={id}
@@ -108,8 +108,8 @@ function EditableField(props) {
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex justify-content-between">
-              <h6 className="edit-field-header">{label}</h6>
+            <div className="d-flex justify-content-between align-items-start">
+              <h6>{label}</h6>
               {isEditable ? (
                 <Button onClick={handleEdit} className="btn-link">
                   <FormattedMessage

@@ -10,7 +10,9 @@ import { pageSelector } from './selectors';
 
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
+import PasswordReset from './components/PasswordReset';
 import { yearOfBirthOptions, yearOfBirthDefault } from './constants';
+
 
 class AccountSettingsPage extends React.Component {
   componentDidMount() {
@@ -49,6 +51,7 @@ class AccountSettingsPage extends React.Component {
               options={yearOfBirthOptions}
               defaultValue={yearOfBirthDefault}
             />
+            <PasswordReset />
           </div>
         </div>
       </div>
