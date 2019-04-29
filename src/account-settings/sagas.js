@@ -17,6 +17,10 @@ import {
   RESET_PASSWORD,
   resetPasswordBegin,
   resetPasswordSuccess,
+  FETCH_THIRD_PARTY_AUTH_PROVIDERS,
+  fetchThirdPartyAuthProvidersBegin,
+  fetchThirdPartyAuthProvidersSuccess,
+  fetchThirdPartyAuthProvidersFailure,
 } from './actions';
 import { usernameSelector } from './selectors';
 
@@ -68,8 +72,21 @@ export function* handleResetPassword() {
   }
 }
 
+export function* handleFetchThirdPartyAuthProviders() {
+  try {
+    yield put(fetchThirdPartyAuthProvidersBegin());
+    const authProviders = yield call(ApiService.getThirdPartyAuthProviders);
+    yield put(fetchThirdPartyAuthProvidersSuccess(authProviders));
+  } catch (e) {
+    LoggingService.logAPIErrorResponse(e);
+    yield put(fetchThirdPartyAuthProvidersFailure(e.message));
+    yield put(push('/error'));
+  }
+}
+
 export default function* saga() {
   yield takeEvery(FETCH_ACCOUNT.BASE, handleFetchAccount);
   yield takeEvery(SAVE_ACCOUNT.BASE, handleSaveAccount);
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
+  yield takeEvery(FETCH_THIRD_PARTY_AUTH_PROVIDERS.BASE, handleFetchThirdPartyAuthProviders);
 }

@@ -6,6 +6,7 @@ import {
   RESET_PASSWORD,
   UPDATE_DRAFT,
   RESET_DRAFTS,
+  FETCH_THIRD_PARTY_AUTH_PROVIDERS,
 } from './actions';
 
 export const defaultState = {
@@ -128,6 +129,36 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         resetPasswordState: 'complete',
+      };
+
+    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.BEGIN:
+      return {
+        ...state,
+        thirdPartyAuthLoading: true,
+        thirdPartyAuthLoaded: false,
+        thirdPartyAuthLoadingError: null,
+      };
+    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.SUCCESS:
+      return {
+        ...state,
+        authProviders: action.payload.providers,
+        thirdPartyAuthLoading: false,
+        thirdPartyAuthLoaded: true,
+        thirdPartyAuthLoadingError: null,
+      };
+    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.FAILURE:
+      return {
+        ...state,
+        thirdPartyAuthLoading: false,
+        thirdPartyAuthLoaded: false,
+        thirdPartyAuthLoadingError: action.payload.error,
+      };
+    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.RESET:
+      return {
+        ...state,
+        thirdPartyAuthLoading: false,
+        thirdPartyAuthLoaded: false,
+        thirdPartyAuthLoadingError: null,
       };
 
     default:
