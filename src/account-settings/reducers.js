@@ -60,6 +60,9 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         openFormId: action.payload.formId,
+        saveState: null,
+        errors: {},
+        drafts: {},
       };
     case CLOSE_FORM:
       dispatcherIsOpenForm = action.payload.formId === state.openFormId;
