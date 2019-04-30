@@ -63,3 +63,13 @@ export const resetPasswordSelector = createSelector(
     email: accountSettings.values.email,
   }),
 );
+
+export const thirdPartyAuthSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => ({
+    providers: accountSettings.authProviders,
+    loading: accountSettings.thirdPartyAuthLoading,
+    loaded: accountSettings.thirdPartyAuthLoaded,
+    loadingError: accountSettings.thirdPartyAuthLoadingError,
+  }),
+);

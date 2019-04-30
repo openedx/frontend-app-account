@@ -64,3 +64,15 @@ export async function postResetPassword() {
 
   return data;
 }
+
+
+export async function getThirdPartyAuthProviders() {
+  const { data } = await apiClient.get(`${config.LMS_BASE_URL}/api/third_party_auth/v0/providers/user_status`)
+    .catch(handleRequestError);
+
+  return data.map(({ connect_url: connectUrl, disconnect_url: disconnectUrl, ...provider }) => ({
+    ...provider,
+    connectUrl: `${config.LMS_BASE_URL}${connectUrl}`,
+    disconnectUrl: `${config.LMS_BASE_URL}${disconnectUrl}`,
+  }));
+}

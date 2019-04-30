@@ -11,12 +11,13 @@ import {
 
 import messages from './AccountSettingsPage.messages';
 
-import { fetchAccount } from './actions';
+import { fetchAccount, fetchThirdPartyAuthProviders } from './actions';
 import { accountSettingsSelector } from './selectors';
 
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
+import ThirdPartyAuth from './components/ThirdPartyAuth';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
@@ -43,6 +44,7 @@ class AccountSettingsPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchAccount();
+    this.props.fetchThirdPartyAuthProviders();
   }
 
   renderContent() {
@@ -103,6 +105,7 @@ class AccountSettingsPage extends React.Component {
               reverseTransform={v => ([{ code: v }])}
               label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
             />
+            <ThirdPartyAuth />
           </div>
         </div>
       </div>
@@ -151,6 +154,7 @@ AccountSettingsPage.propTypes = {
   loaded: PropTypes.bool,
   loadingError: PropTypes.string,
   fetchAccount: PropTypes.func.isRequired,
+  fetchThirdPartyAuthProviders: PropTypes.func.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -162,4 +166,5 @@ AccountSettingsPage.defaultProps = {
 
 export default connect(accountSettingsSelector, {
   fetchAccount,
+  fetchThirdPartyAuthProviders,
 })(injectIntl(AccountSettingsPage));

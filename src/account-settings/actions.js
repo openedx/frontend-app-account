@@ -4,6 +4,7 @@ const { AsyncActionType } = utils;
 
 export const FETCH_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_ACCOUNT');
 export const SAVE_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_ACCOUNT');
+export const FETCH_THIRD_PARTY_AUTH_PROVIDERS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_THIRD_PARTY_AUTH_PROVIDERS');
 export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
@@ -101,5 +102,21 @@ export const resetPasswordSuccess = () => ({
 
 export const resetPasswordReset = () => ({
   type: RESET_PASSWORD.RESET,
+});
+
+
+// fetch third party auth providers
+
+export const fetchThirdPartyAuthProviders = () => ({
+  type: FETCH_THIRD_PARTY_AUTH_PROVIDERS.BASE,
+});
+export const fetchThirdPartyAuthProvidersBegin = () => ({
+  type: FETCH_THIRD_PARTY_AUTH_PROVIDERS.BEGIN,
+});
+export const fetchThirdPartyAuthProvidersSuccess = providers => ({
+  type: FETCH_THIRD_PARTY_AUTH_PROVIDERS.SUCCESS, payload: { providers },
+});
+export const fetchThirdPartyAuthProvidersFailure = error => ({
+  type: FETCH_THIRD_PARTY_AUTH_PROVIDERS.FAILURE, payload: { error },
 });
 
