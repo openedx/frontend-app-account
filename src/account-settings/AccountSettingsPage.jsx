@@ -12,7 +12,7 @@ import {
 import messages from './AccountSettingsPage.messages';
 
 import { fetchAccount } from './actions';
-import { pageSelector } from './selectors';
+import { accountSettingsSelector } from './selectors';
 
 import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
@@ -160,6 +160,6 @@ AccountSettingsPage.defaultProps = {
 };
 
 
-export default connect(pageSelector, {
+export default connect(accountSettingsSelector, {
   fetchAccount,
 })(injectIntl(AccountSettingsPage));

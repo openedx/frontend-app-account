@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { StatefulButton, Hyperlink } from '@edx/paragon';
 
 import { resetPassword } from '../actions';
 import { resetPasswordSelector } from '../selectors';
+import messages from './EditableField.messages';
 
-function ResetPassword({ email, ...props }) {
+function PasswordReset({ email, intl, ...props }) {
   const renderConfirmationMessage = () => (
     <FormattedMessage
       id="account.settings.editable.field.password.reset.button"
@@ -45,13 +46,7 @@ function ResetPassword({ email, ...props }) {
         onClick={props.resetPassword}
         disabledStates={[]}
         labels={{
-          default: (
-            <FormattedMessage
-              id="account.settings.editable.field.password.reset.button"
-              defaultMessage="Reset Password"
-              description="The password reset button in account settings"
-            />
-          ),
+          default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
         }}
       />
       <p className="small text-muted">
@@ -61,14 +56,14 @@ function ResetPassword({ email, ...props }) {
   );
 }
 
-
-ResetPassword.propTypes = {
+PasswordReset.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   email: PropTypes.string,
   resetPasswordState: PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
-ResetPassword.defaultProps = {
+PasswordReset.defaultProps = {
   email: '',
   resetPasswordState: undefined,
 };
@@ -76,4 +71,4 @@ ResetPassword.defaultProps = {
 
 export default connect(resetPasswordSelector, {
   resetPassword,
-})(ResetPassword);
+})(injectIntl(PasswordReset));

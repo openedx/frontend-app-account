@@ -8,7 +8,7 @@ import { Button, StatefulButton } from '@edx/paragon';
 import Input from './temp/Input';
 import ValidationFormGroup from './temp/ValidationFormGroup';
 import SwitchContent from './temp/SwitchContent';
-
+import messages from './EditableField.messages';
 
 import {
   openForm,
@@ -16,7 +16,7 @@ import {
   updateDraft,
   saveAccount,
 } from '../actions';
-import { formSelector } from '../selectors';
+import { editableFieldSelector } from '../selectors';
 
 
 function EditableField(props) {
@@ -114,13 +114,7 @@ function EditableField(props) {
                 className="btn-primary mr-2"
                 state={saveState}
                 labels={{
-                  default: (
-                    <FormattedMessage
-                      id="account.settings.editable.field.action.save"
-                      defaultMessage="Save"
-                      description="The save button on an editable field"
-                    />
-                  ),
+                  default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
                 }}
                 onClick={(e) => {
                   // Swallow clicks if the state is pending.
@@ -216,7 +210,7 @@ EditableField.defaultProps = {
 };
 
 
-export default connect(formSelector, {
+export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
   onChange: updateDraft,

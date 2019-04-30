@@ -1,24 +1,65 @@
+import { createSelector, createStructuredSelector } from 'reselect';
+
 export const storeName = 'account-settings';
 
-export const getUsername = state => state.authentication.username;
+export const usernameSelector = state => state.authentication.username;
 
-export const pageSelector = state => ({ ...state[storeName] });
+export const accountSettingsSelector = state => ({ ...state[storeName] });
 
-export const formSelector = (state, props) => {
-  const value = state[storeName].drafts[props.name] !== undefined ?
-    state[storeName].drafts[props.name] :
-    state[storeName].values[props.name];
+const editableFieldNameSelector = (state, props) => props.name;
 
-  return {
-    value,
-    saveState: state[storeName].saveState,
-    error: state[storeName].errors[props.name],
-    confirmationValue: state[storeName].confirmationValues[props.name],
-    isEditing: state[storeName].openFormId === props.name,
-  };
-};
+const valuesSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.values,
+);
 
-export const resetPasswordSelector = state => ({
-  resetPasswordState: state[storeName].resetPasswordState,
-  email: state[storeName].values.email,
+const draftsSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.drafts,
+);
+
+const editableFieldValueSelector = createSelector(
+  editableFieldNameSelector,
+  valuesSelector,
+  draftsSelector,
+  (name, values, drafts) => (drafts[name] !== undefined ? drafts[name] : values[name]),
+);
+
+const editableFieldErrorSelector = createSelector(
+  editableFieldNameSelector,
+  accountSettingsSelector,
+  (name, accountSettings) => accountSettings.errors[name],
+);
+
+const editableFieldConfirmationValuesSelector = createSelector(
+  editableFieldNameSelector,
+  accountSettingsSelector,
+  (name, accountSettings) => accountSettings.confirmationValues[name],
+);
+
+const isEditingSelector = createSelector(
+  editableFieldNameSelector,
+  accountSettingsSelector,
+  (name, accountSettings) => accountSettings.openFormId === name,
+);
+
+const saveStateSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.saveState,
+);
+
+export const editableFieldSelector = createStructuredSelector({
+  value: editableFieldValueSelector,
+  error: editableFieldErrorSelector,
+  confirmationValue: editableFieldConfirmationValuesSelector,
+  saveState: saveStateSelector,
+  isEditing: isEditingSelector,
 });
+
+export const resetPasswordSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => ({
+    resetPasswordState: accountSettings.resetPasswordState,
+    email: accountSettings.values.email,
+  }),
+);

@@ -18,7 +18,7 @@ import {
   resetPasswordBegin,
   resetPasswordSuccess,
 } from './actions';
-import { getUsername } from './selectors';
+import { usernameSelector } from './selectors';
 
 // Services
 import * as ApiService from './service';
@@ -27,7 +27,7 @@ export function* handleFetchAccount() {
   try {
     yield put(fetchAccountBegin());
 
-    const username = yield select(getUsername);
+    const username = yield select(usernameSelector);
     const values = yield call(ApiService.getAccount, username);
     yield put(fetchAccountSuccess(values));
   } catch (e) {
@@ -41,7 +41,7 @@ export function* handleSaveAccount(action) {
   try {
     yield put(saveAccountBegin());
 
-    const username = yield select(getUsername);
+    const username = yield select(usernameSelector);
     const { commitValues } = action.payload;
     const savedValues = yield call(ApiService.patchAccount, username, commitValues);
     yield put(saveAccountSuccess(savedValues, commitValues));
