@@ -20,7 +20,7 @@ class ThirdPartyAuth extends React.Component {
           <FormattedMessage
             id="account.settings.sso.link.account"
             defaultMessage="Sign in with {name}"
-            description="An action link to link a connected third party account"
+            description="An action link to link a connected third party account.m {name} will be Google, Facebook, etc."
             values={{ name }}
           />
         </Hyperlink>
