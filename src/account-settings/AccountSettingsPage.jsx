@@ -18,6 +18,7 @@ import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
+
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
@@ -101,11 +102,27 @@ class AccountSettingsPage extends React.Component {
               name="language_proficiencies"
               type="select"
               options={this.languageProficiencyOptions}
-              transformValue={v => (v.length ? v[0].code : null)}
-              reverseTransform={v => ([{ code: v }])}
               label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
             />
             <ThirdPartyAuth />
+
+            <h2>{this.props.intl.formatMessage(messages['account.settings.section.social.media'])}</h2>
+            <p>{this.props.intl.formatMessage(messages['account.settings.section.social.media.description'])}</p>
+            <EditableField
+              name="social_link_linkedIn"
+              type="text"
+              label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
+            />
+            <EditableField
+              name="social_link_facebook"
+              type="text"
+              label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
+            />
+            <EditableField
+              name="social_link_twitter"
+              type="text"
+              label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
+            />
           </div>
         </div>
       </div>

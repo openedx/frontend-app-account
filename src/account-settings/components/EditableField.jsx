@@ -24,7 +24,7 @@ function EditableField(props) {
     name,
     label,
     type,
-    value: propValue,
+    value,
     options,
     saveState,
     error,
@@ -38,18 +38,12 @@ function EditableField(props) {
     isEditing,
     isEditable,
     intl,
-    transformValue,
-    reverseTransform,
     ...others
   } = props;
   const id = `field-${name}`;
-  const value = transformValue(propValue);
 
   const getValue = (rawValue) => {
     if (options) {
-      if (Array.isArray(rawValue)) {
-        return rawValue.map(getValue).join(', ');
-      }
       // Use == instead of === to prevent issues when HTML casts numbers as strings
       // eslint-disable-next-line eqeqeq
       const selectedOption = options.find(option => option.value == rawValue);
@@ -60,14 +54,11 @@ function EditableField(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      [name]: reverseTransform(new FormData(e.target).get(name)),
-    };
-    onSubmit(name, data);
+    onSubmit(name, new FormData(e.target).get(name));
   };
 
   const handleChange = (e) => {
-    onChange(name, reverseTransform(e.target.value));
+    onChange(name, e.target.value);
   };
 
   const handleEdit = () => {
@@ -81,7 +72,7 @@ function EditableField(props) {
   const renderConfirmationMessage = () => {
     if (!confirmationMessageDefinition || !confirmationValue) return null;
     return intl.formatMessage(confirmationMessageDefinition, {
-      value: transformValue(confirmationValue),
+      value: confirmationValue,
     });
   };
 
@@ -190,8 +181,6 @@ EditableField.propTypes = {
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   intl: intlShape.isRequired,
-  transformValue: PropTypes.func,
-  reverseTransform: PropTypes.func,
 };
 
 EditableField.defaultProps = {
@@ -205,8 +194,6 @@ EditableField.defaultProps = {
   helpText: undefined,
   isEditing: false,
   isEditable: true,
-  transformValue: v => v,
-  reverseTransform: v => v,
 };
 
 

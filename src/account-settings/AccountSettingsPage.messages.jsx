@@ -144,6 +144,32 @@ const messages = defineMessages({
     defaultMessage: 'Spoken Languages',
     description: 'Label for account settings spoken languages field.',
   },
+
+  'account.settings.section.social.media': {
+    id: 'account.settings.section.social.media',
+    defaultMessage: 'Social Media Links',
+    description: 'Section header for social media links settings',
+  },
+  'account.settings.section.social.media.description': {
+    id: 'account.settings.section.social.media.description',
+    defaultMessage: 'Optionally, link your personal accounts to the social media icons on your edX profile.',
+    description: 'Section subheader for social media links settings',
+  },
+  'account.settings.field.social.platform.name.linkedin': {
+    id: 'account.settings.field.social.platform.name.linkedin',
+    defaultMessage: 'LinkedIn',
+    description: 'Label for LinkedIn',
+  },
+  'account.settings.field.social.platform.name.twitter': {
+    id: 'account.settings.field.social.platform.name.twitter',
+    defaultMessage: 'Twitter',
+    description: 'Label for Twitter',
+  },
+  'account.settings.field.social.platform.name.facebook': {
+    id: 'account.settings.field.social.platform.name.facebook',
+    defaultMessage: 'Facebook',
+    description: 'Label for Facebook',
+  },
 });
 
 export default messages;
