@@ -46,6 +46,11 @@ const messages = defineMessages({
     defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your email address.',
     description: 'Confirmation message for saving the account settings email field.',
   },
+  'account.settings.email.field.confirmation.header': {
+    id: 'account.settings.email.field.confirmation.header',
+    defaultMessage: 'One more step!',
+    description: 'The header of the confirmation alert saying we\'ve sent a confirmation email',
+  },
   'account.settings.field.dob': {
     id: 'account.settings.field.dob',
     defaultMessage: 'Year of birth',
@@ -169,6 +174,27 @@ const messages = defineMessages({
     id: 'account.settings.field.social.platform.name.facebook',
     defaultMessage: 'Facebook',
     description: 'Label for Facebook',
+  },
+
+  'account.settings.editable.field.password.reset.button': {
+    id: 'account.settings.editable.field.password.reset.button',
+    defaultMessage: 'Reset Password',
+    description: 'The password reset button in account settings',
+  },
+  'account.settings.editable.field.action.save': {
+    id: 'account.settings.editable.field.action.save',
+    defaultMessage: 'Save',
+    description: 'The save button on an editable field',
+  },
+  'account.settings.editable.field.action.cancel': {
+    id: 'account.settings.editable.field.action.cancel',
+    defaultMessage: 'Cancel',
+    description: 'The cancel button on an editable field',
+  },
+  'account.settings.editable.field.action.edit': {
+    id: 'account.settings.editable.field.action.edit',
+    defaultMessage: 'Edit',
+    description: 'The edit button on an editable field',
   },
 });
 

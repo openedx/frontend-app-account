@@ -18,6 +18,7 @@ import { PageLoading } from '../common';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
+import EmailField from './components/EmailField';
 
 import {
   YEAR_OF_BIRTH_OPTIONS,
@@ -67,9 +68,8 @@ class AccountSettingsPage extends React.Component {
               type="text"
               label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
             />
-            <EditableField
+            <EmailField
               name="email"
-              type="email"
               label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
               confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             />

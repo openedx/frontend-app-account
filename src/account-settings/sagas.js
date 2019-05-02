@@ -1,5 +1,5 @@
 
-import { call, put, takeEvery, select } from 'redux-saga/effects';
+import { call, put, delay, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import LoggingService from '@edx/frontend-logging';
 
@@ -47,8 +47,10 @@ export function* handleSaveAccount(action) {
 
     const username = yield select(usernameSelector);
     const { commitValues, formId } = action.payload;
-    const savedValues = yield call(ApiService.patchAccount, username, { [formId]: commitValues });
-    yield put(saveAccountSuccess(savedValues, commitValues));
+    const commitData = { [formId]: commitValues };
+    const savedValues = yield call(ApiService.patchAccount, username, commitData);
+    yield put(saveAccountSuccess(savedValues, commitData));
+    yield delay(1000);
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {
