@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
 import { Button, StatefulButton } from '@edx/paragon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 import Input from './temp/Input';
 import ValidationFormGroup from './temp/ValidationFormGroup';
 import SwitchContent from './temp/SwitchContent';
+import Alert from './Alert';
 import messages from '../AccountSettingsPage.messages';
 
 import {
@@ -18,13 +22,11 @@ import {
 import { editableFieldSelector } from '../selectors';
 
 
-function EditableField(props) {
+function EmailField(props) {
   const {
     name,
     label,
-    type,
     value,
-    options,
     saveState,
     error,
     confirmationMessageDefinition,
@@ -37,19 +39,8 @@ function EditableField(props) {
     isEditing,
     isEditable,
     intl,
-    ...others
   } = props;
   const id = `field-${name}`;
-
-  const getValue = (rawValue) => {
-    if (options) {
-      // Use == instead of === to prevent issues when HTML casts numbers as strings
-      // eslint-disable-next-line eqeqeq
-      const selectedOption = options.find(option => option.value == rawValue);
-      if (selectedOption) return selectedOption.label;
-    }
-    return rawValue;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,10 +61,31 @@ function EditableField(props) {
 
   const renderConfirmationMessage = () => {
     if (!confirmationMessageDefinition || !confirmationValue) return null;
-    return intl.formatMessage(confirmationMessageDefinition, {
-      value: confirmationValue,
-    });
+    return (
+      <Alert
+        className="alert-warning mt-n2"
+        icon={<FontAwesomeIcon className="mr-2 h6" icon={faExclamationTriangle} />}
+      >
+        <h6>
+          {intl.formatMessage(messages['account.settings.email.field.confirmation.header'])}
+        </h6>
+        {intl.formatMessage(confirmationMessageDefinition, { value: confirmationValue })}
+      </Alert>
+    );
   };
+
+  const renderConfirmationValue = () => (
+    <span>
+      {confirmationValue}
+      <span className="ml-3 text-muted small">
+        <FormattedMessage
+          id="account.settings.email.field.confirmation.header"
+          defaultMessage="Pending confirmation"
+          description="The label next to a new pending email address"
+        />
+      </span>
+    </span>
+  );
 
   return (
     <SwitchContent
@@ -91,11 +103,9 @@ function EditableField(props) {
               <Input
                 name={name}
                 id={id}
-                type={type}
+                type="email"
                 value={value}
                 onChange={handleChange}
-                options={options}
-                {...others}
               />
             </ValidationFormGroup>
             <p>
@@ -137,8 +147,8 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p>{getValue(value)}</p>
-            <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+            <p>{confirmationValue ? renderConfirmationValue() : value}</p>
+            {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
           </div>
         ),
       }}
@@ -147,15 +157,10 @@ function EditableField(props) {
 }
 
 
-EditableField.propTypes = {
+EmailField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
@@ -174,9 +179,8 @@ EditableField.propTypes = {
   intl: intlShape.isRequired,
 };
 
-EditableField.defaultProps = {
+EmailField.defaultProps = {
   value: undefined,
-  options: undefined,
   saveState: undefined,
   label: undefined,
   error: undefined,
@@ -193,4 +197,4 @@ export default connect(editableFieldSelector, {
   onCancel: closeForm,
   onChange: updateDraft,
   onSubmit: saveAccount,
-})(injectIntl(EditableField));
+})(injectIntl(EmailField));
