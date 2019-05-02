@@ -1,7 +1,7 @@
 
 import { call, put, delay, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import LoggingService from '@edx/frontend-logging';
+import { logAPIErrorResponse } from '@edx/frontend-logging';
 
 // Actions
 import {
@@ -35,7 +35,7 @@ export function* handleFetchAccount() {
     const values = yield call(ApiService.getAccount, username);
     yield put(fetchAccountSuccess(values));
   } catch (e) {
-    LoggingService.logAPIErrorResponse(e);
+    logAPIErrorResponse(e);
     yield put(fetchAccountFailure(e.message));
     yield put(push('/error'));
   }
@@ -56,7 +56,7 @@ export function* handleSaveAccount(action) {
     if (e.fieldErrors) {
       yield put(saveAccountFailure({ fieldErrors: e.fieldErrors }));
     } else {
-      LoggingService.logAPIErrorResponse(e);
+      logAPIErrorResponse(e);
       yield put(saveAccountFailure(e.message));
       yield put(push('/error'));
     }
@@ -69,7 +69,7 @@ export function* handleResetPassword() {
     const response = yield call(ApiService.postResetPassword);
     yield put(resetPasswordSuccess(response));
   } catch (e) {
-    LoggingService.logAPIErrorResponse(e);
+    logAPIErrorResponse(e);
     yield put(push('/error'));
   }
 }
@@ -80,7 +80,7 @@ export function* handleFetchThirdPartyAuthProviders() {
     const authProviders = yield call(ApiService.getThirdPartyAuthProviders);
     yield put(fetchThirdPartyAuthProvidersSuccess(authProviders));
   } catch (e) {
-    LoggingService.logAPIErrorResponse(e);
+    logAPIErrorResponse(e);
     yield put(fetchThirdPartyAuthProvidersFailure(e.message));
     yield put(push('/error'));
   }
