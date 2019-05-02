@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { identifyAuthenticatedUser, sendPageEvent, configureAnalytics, initializeSegment } from '@edx/frontend-analytics';
-import LoggingService from '@edx/frontend-logging';
+import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-logging';
 import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
 
 import { configuration } from './environment';
@@ -24,6 +24,7 @@ const apiClient = getAuthenticatedAPIClient({
   accessTokenCookieName: configuration.ACCESS_TOKEN_COOKIE_NAME,
   userInfoCookieName: configuration.USER_INFO_COOKIE_NAME,
   csrfCookieName: configuration.CSRF_COOKIE_NAME,
+  loggingService: NewRelicLoggingService,
 });
 
 /**
@@ -37,11 +38,12 @@ function createInitialState() {
 function configure() {
   const { store, history } = configureStore(createInitialState(), configuration.ENVIRONMENT);
 
+  configureLoggingService(NewRelicLoggingService);
   configureAccountSettingsApiService(configuration, apiClient);
   configureUserAccountApiService(configuration, apiClient);
   initializeSegment(configuration.SEGMENT_KEY);
   configureAnalytics({
-    loggingService: LoggingService,
+    loggingService: NewRelicLoggingService,
     authApiClient: apiClient,
     analyticsApiBaseUrl: configuration.LMS_BASE_URL,
   });
