@@ -109,7 +109,7 @@ class ThirdPartyAuth extends React.Component {
         </h2>
         <p>
           <FormattedMessage
-            id="account.settings.sso.section.subheader"
+            id="account.settings.sso.section.header"
             defaultMessage="You can link your identity accounts to simplify signing in to edX."
             description="Section subheader for the third party auth settings"
           />
