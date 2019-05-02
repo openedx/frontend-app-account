@@ -5,6 +5,8 @@ const { AsyncActionType } = utils;
 export const FETCH_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_SETTINGS');
 export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTINGS');
 export const FETCH_TIME_ZONES = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_TIME_ZONES');
+export const DELETE_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'DELETE_ACCOUNT');
+DELETE_ACCOUNT.CONFIRMATION = 'ACCOUNT_SETTINGS__DELETE_ACCOUNT__CONFIRMATION';
 export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const SAVE_PREVIOUS_SITE_LANGUAGE = 'SAVE_PREVIOUS_SITE_LANGUAGE';
 export const OPEN_FORM = 'OPEN_FORM';
@@ -102,6 +104,33 @@ export const saveSettingsFailure = ({ fieldErrors, message }) => ({
 export const savePreviousSiteLanguage = previousSiteLanguage => ({
   type: SAVE_PREVIOUS_SITE_LANGUAGE,
   payload: { previousSiteLanguage },
+});
+
+// DELETE ACCOUNT ACTIONS
+
+export const deleteAccount = password => ({
+  type: DELETE_ACCOUNT.BASE,
+  payload: { password },
+});
+
+export const deleteAccountConfirmation = () => ({
+  type: DELETE_ACCOUNT.CONFIRMATION,
+});
+
+export const deleteAccountBegin = () => ({
+  type: DELETE_ACCOUNT.BEGIN,
+});
+
+export const deleteAccountSuccess = () => ({
+  type: DELETE_ACCOUNT.SUCCESS,
+});
+
+export const deleteAccountFailure = () => ({
+  type: DELETE_ACCOUNT.FAILURE,
+});
+
+export const deleteAccountReset = () => ({
+  type: DELETE_ACCOUNT.RESET,
 });
 
 // RESET PASSWORD ACTIONS

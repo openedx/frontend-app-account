@@ -18,6 +18,7 @@ import { accountSettingsPageSelector } from './selectors';
 import { PageLoading } from '../common';
 import JumpNav from './components/JumpNav';
 import Alert from './components/Alert';
+import DeleteMyAccount from './components/DeleteMyAccount';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
@@ -68,11 +69,11 @@ class AccountSettingsPage extends React.Component {
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
-  }
+  };
 
   handleSubmit = (formId, values) => {
     this.props.saveSettings(formId, values);
-  }
+  };
 
   renderDuplicateTpaProviderMessage() {
     if (!this.props.duplicateTpaProvider) {
@@ -151,6 +152,8 @@ class AccountSettingsPage extends React.Component {
       this.props.timeZoneOptions,
       this.props.countryTimeZoneOptions,
     );
+
+    const hasLinkedSocial = this.props.providers && this.props.providers.length > 0;
 
     return (
       <React.Fragment>
@@ -304,6 +307,14 @@ class AccountSettingsPage extends React.Component {
           <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
           <ThirdPartyAuth />
         </section>
+
+        <section id="delete-account">
+          <DeleteMyAccount
+            isVerifiedAccount={this.props.is_active}
+            hasLinkedSocial={hasLinkedSocial}
+          />
+        </section>
+
       </React.Fragment>
     );
   }
@@ -394,8 +405,10 @@ AccountSettingsPage.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
   profileDataManager: PropTypes.string,
+  providers: PropTypes.arrayOf(PropTypes.object),
   staticFields: PropTypes.arrayOf(PropTypes.string),
   hiddenFields: PropTypes.arrayOf(PropTypes.string),
+  is_active: PropTypes.bool,
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -423,9 +436,11 @@ AccountSettingsPage.defaultProps = {
   countryTimeZoneOptions: [],
   languageProficiencyOptions: [],
   profileDataManager: null,
+  providers: [],
   staticFields: [],
   hiddenFields: ['secondary_email'],
   duplicateTpaProvider: null,
+  is_active: true,
 };
 
 
