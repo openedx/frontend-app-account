@@ -1,5 +1,5 @@
 
-import { call, put, delay, takeEvery, select } from 'redux-saga/effects';
+import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { logAPIErrorResponse } from '@edx/frontend-logging';
 
@@ -26,6 +26,8 @@ import { usernameSelector } from './selectors';
 
 // Services
 import * as ApiService from './service';
+import { ApiService as SiteLanguageApiService } from '../site-language';
+import { setLocale, handleRtl } from '@edx/frontend-i18n'; // eslint-disable-line
 
 export function* handleFetchAccount() {
   try {
@@ -48,7 +50,18 @@ export function* handleSaveAccount(action) {
     const username = yield select(usernameSelector);
     const { commitValues, formId } = action.payload;
     const commitData = { [formId]: commitValues };
-    const savedValues = yield call(ApiService.patchAccount, username, commitData);
+    let savedValues = null;
+    if (formId === 'siteLanguage') {
+      yield all([
+        call(SiteLanguageApiService.patchPreferences, username, { prefLang: commitValues }),
+        call(SiteLanguageApiService.postSetLang, commitValues),
+      ]);
+      yield put(setLocale(commitValues));
+      handleRtl();
+      savedValues = commitValues;
+    } else {
+      savedValues = yield call(ApiService.patchAccount, username, commitData);
+    }
     yield put(saveAccountSuccess(savedValues, commitData));
     yield delay(1000);
     yield put(closeForm(action.payload.formId));

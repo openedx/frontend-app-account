@@ -6,10 +6,11 @@ import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-l
 import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
 
 import { configuration } from './environment';
-import { handleRtl } from './i18n/i18n-loader';
+import { handleRtl } from '@edx/frontend-i18n'; // eslint-disable-line
 import configureStore from './store';
 import { configureUserAccountApiService } from './common';
 import { configureApiService as configureAccountSettingsApiService } from './account-settings';
+import { configureApiService as configureSiteLanguageApiService } from './site-language';
 
 import './index.scss';
 import App from './components/App';
@@ -40,6 +41,7 @@ function configure() {
 
   configureLoggingService(NewRelicLoggingService);
   configureAccountSettingsApiService(configuration, apiClient);
+  configureSiteLanguageApiService(configuration, apiClient);
   configureUserAccountApiService(configuration, apiClient);
   initializeSegment(configuration.SEGMENT_KEY);
   configureAnalytics({
@@ -48,9 +50,7 @@ function configure() {
     analyticsApiBaseUrl: configuration.LMS_BASE_URL,
   });
 
-  if (configuration.ENVIRONMENT === 'production') {
-    handleRtl();
-  }
+  handleRtl();
 
   return {
     store,

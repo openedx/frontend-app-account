@@ -100,7 +100,8 @@ LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/pt.json'));
 // LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/th.json'));
 // LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/uk.json'));
 
-const messages = { // current fallback strategy is to use the first two letters of the locale code
+const messages = {
+  // current fallback strategy is to use the first two letters of the locale code
   ar: arMessages,
   es: es419Messages,
   fr: frMessages,
@@ -115,6 +116,33 @@ const messages = { // current fallback strategy is to use the first two letters 
   th: thMessages,
   uk: ukMessages,
 };
+
+const serverCodeLookup = {
+  ar: 'ar',
+  en: 'en',
+  es: 'es-419',
+  fr: 'fr',
+  zh: 'zh-cn',
+  ca: 'ca',
+  he: 'he',
+  id: 'id',
+  ko: 'ko-kr',
+  pl: 'pl',
+  pt: 'pt-br',
+  ru: 'ru',
+  th: 'th',
+  uk: 'uk',
+};
+
+/**
+ * TODO: This function is a hack.  Because the client is using two-letter codes and the server
+ * is using fully qualified codes with a locale, if we want the server to understand what code
+ * we're using, we need to convert back to whatever it was originally using.  This will
+ * immediately break down if we have another version of Spanish (es), Chinese (zh), or
+ * Portugese (pt), for instance. That's why this is "assumed".
+ */
+const getAssumedServerLanguageCode = lang => (serverCodeLookup[lang] !== undefined ?
+  serverCodeLookup[lang] : lang);
 
 const cookies = new Cookies();
 
@@ -141,11 +169,16 @@ const rtlLocales = ['ar', 'he', 'fa', 'ur'];
 const isRtl = locale => rtlLocales.includes(locale);
 
 const handleRtl = () => {
-  if (isRtl(getLocale())) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-    document.styleSheets[0].disabled = true;
-  } else {
-    document.styleSheets[1].disabled = true;
+  if (process.env.ENVIRONMENT === 'production') {
+    if (isRtl(getLocale())) {
+      document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      document.styleSheets[0].disabled = true;
+      document.styleSheets[1].disabled = false;
+    } else {
+      document.getElementsByTagName('html')[0].removeAttribute('dir');
+      document.styleSheets[0].disabled = false;
+      document.styleSheets[1].disabled = true;
+    }
   }
 };
 
@@ -153,7 +186,8 @@ const handleRtl = () => {
  * Provides a lookup table of country IDs to country names for the current locale.
  */
 const getCountryMessages = (locale) => {
-  const finalLocale = countryLangs().includes(locale) ? locale : 'en';
+  const twoLetterLocale = getTwoLetterLanguageCode(locale);
+  const finalLocale = countryLangs().includes(twoLetterLocale) ? twoLetterLocale : 'en';
 
   return COUNTRIES.getNames(finalLocale);
 };
@@ -162,7 +196,8 @@ const getCountryMessages = (locale) => {
  * Provides a lookup table of language IDs to language names for the current locale.
  */
 const getLanguageMessages = (locale) => {
-  const finalLocale = languageLangs().includes(locale) ? locale : 'en';
+  const twoLetterLocale = getTwoLetterLanguageCode(locale);
+  const finalLocale = languageLangs().includes(twoLetterLocale) ? twoLetterLocale : 'en';
 
   return LANGUAGES.getNames(finalLocale);
 };
@@ -221,6 +256,7 @@ export {
   getLanguageList,
   getLanguageMessages,
   getLocale,
+  getAssumedServerLanguageCode,
   getMessages,
   handleRtl,
   isRtl,

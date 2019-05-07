@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
-import { Button, StatefulButton } from '@edx/paragon';
+import { Button, StatefulButton, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import Input from './temp/Input';
-import ValidationFormGroup from './temp/ValidationFormGroup';
 import SwitchContent from './temp/SwitchContent';
 import Alert from './Alert';
 import messages from '../AccountSettingsPage.messages';
@@ -16,8 +14,6 @@ import messages from '../AccountSettingsPage.messages';
 import {
   openForm,
   closeForm,
-  updateDraft,
-  saveAccount,
 } from '../actions';
 import { editableFieldSelector } from '../selectors';
 
@@ -195,6 +191,4 @@ EmailField.defaultProps = {
 export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
-  onChange: updateDraft,
-  onSubmit: saveAccount,
 })(injectIntl(EmailField));

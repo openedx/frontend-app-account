@@ -61,7 +61,16 @@ const messages = defineMessages({
     defaultMessage: 'Country',
     description: 'Label for account settings country field.',
   },
-
+  'account.settings.field.site.language': {
+    id: 'account.settings.field.site.language',
+    defaultMessage: 'Site Language',
+    description: 'Label for account settings site language field.',
+  },
+  'account.settings.field.site.language.help.text': {
+    id: 'account.settings.field.site.language.help.text',
+    defaultMessage: 'The language used throughout this site. This site is currently available in a limited number of languages.',
+    description: 'Help text for the site language field.',
+  },
   'account.settings.field.education': {
     id: 'account.settings.field.education',
     defaultMessage: 'Education',
@@ -143,7 +152,6 @@ const messages = defineMessages({
     defaultMessage: 'Other',
     description: 'The label for catch-all gender option.',
   },
-
   'account.settings.field.language.proficiencies': {
     id: 'account.settings.field.language.proficiencies',
     defaultMessage: 'Spoken Languages',
