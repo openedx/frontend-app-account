@@ -1,12 +1,11 @@
 import {
-  FETCH_ACCOUNT,
+  FETCH_SETTINGS,
   OPEN_FORM,
   CLOSE_FORM,
-  SAVE_ACCOUNT,
+  SAVE_SETTINGS,
   RESET_PASSWORD,
   UPDATE_DRAFT,
   RESET_DRAFTS,
-  FETCH_THIRD_PARTY_AUTH_PROVIDERS,
 } from './actions';
 
 export const defaultState = {
@@ -26,29 +25,30 @@ const accountSettingsReducer = (state = defaultState, action) => {
   let dispatcherIsOpenForm;
 
   switch (action.type) {
-    case FETCH_ACCOUNT.BEGIN:
+    case FETCH_SETTINGS.BEGIN:
       return {
         ...state,
         loading: true,
         loaded: false,
         loadingError: null,
       };
-    case FETCH_ACCOUNT.SUCCESS:
+    case FETCH_SETTINGS.SUCCESS:
       return {
         ...state,
         values: Object.assign({}, state.values, action.payload.values),
+        authProviders: action.payload.thirdPartyAuthProviders,
         loading: false,
         loaded: true,
         loadingError: null,
       };
-    case FETCH_ACCOUNT.FAILURE:
+    case FETCH_SETTINGS.FAILURE:
       return {
         ...state,
         loading: false,
         loaded: false,
         loadingError: action.payload.error,
       };
-    case FETCH_ACCOUNT.RESET:
+    case FETCH_SETTINGS.RESET:
       return {
         ...state,
         loading: false,
@@ -92,13 +92,13 @@ const accountSettingsReducer = (state = defaultState, action) => {
         drafts: {},
       };
 
-    case SAVE_ACCOUNT.BEGIN:
+    case SAVE_SETTINGS.BEGIN:
       return {
         ...state,
         saveState: 'pending',
         errors: {},
       };
-    case SAVE_ACCOUNT.SUCCESS:
+    case SAVE_SETTINGS.SUCCESS:
       return {
         ...state,
         saveState: 'complete',
@@ -110,13 +110,13 @@ const accountSettingsReducer = (state = defaultState, action) => {
           action.payload.confirmationValues,
         ),
       };
-    case SAVE_ACCOUNT.FAILURE:
+    case SAVE_SETTINGS.FAILURE:
       return {
         ...state,
         saveState: 'error',
         errors: Object.assign({}, state.errors, action.payload.errors),
       };
-    case SAVE_ACCOUNT.RESET:
+    case SAVE_SETTINGS.RESET:
       return {
         ...state,
         saveState: null,
@@ -132,36 +132,6 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         resetPasswordState: 'complete',
-      };
-
-    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.BEGIN:
-      return {
-        ...state,
-        thirdPartyAuthLoading: true,
-        thirdPartyAuthLoaded: false,
-        thirdPartyAuthLoadingError: null,
-      };
-    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.SUCCESS:
-      return {
-        ...state,
-        authProviders: action.payload.providers,
-        thirdPartyAuthLoading: false,
-        thirdPartyAuthLoaded: true,
-        thirdPartyAuthLoadingError: null,
-      };
-    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.FAILURE:
-      return {
-        ...state,
-        thirdPartyAuthLoading: false,
-        thirdPartyAuthLoaded: false,
-        thirdPartyAuthLoadingError: action.payload.error,
-      };
-    case FETCH_THIRD_PARTY_AUTH_PROVIDERS.RESET:
-      return {
-        ...state,
-        thirdPartyAuthLoading: false,
-        thirdPartyAuthLoaded: false,
-        thirdPartyAuthLoadingError: null,
       };
 
     default:

@@ -5,22 +5,18 @@ import { logAPIErrorResponse } from '@edx/frontend-logging';
 
 // Actions
 import {
-  FETCH_ACCOUNT,
-  fetchAccountBegin,
-  fetchAccountSuccess,
-  fetchAccountFailure,
+  FETCH_SETTINGS,
+  fetchSettingsBegin,
+  fetchSettingsSuccess,
+  fetchSettingsFailure,
   closeForm,
-  SAVE_ACCOUNT,
-  saveAccountBegin,
-  saveAccountSuccess,
-  saveAccountFailure,
+  SAVE_SETTINGS,
+  saveSettingsBegin,
+  saveSettingsSuccess,
+  saveSettingsFailure,
   RESET_PASSWORD,
   resetPasswordBegin,
   resetPasswordSuccess,
-  FETCH_THIRD_PARTY_AUTH_PROVIDERS,
-  fetchThirdPartyAuthProvidersBegin,
-  fetchThirdPartyAuthProvidersSuccess,
-  fetchThirdPartyAuthProvidersFailure,
 } from './actions';
 import { usernameSelector } from './selectors';
 
@@ -29,23 +25,24 @@ import * as ApiService from './service';
 import { ApiService as SiteLanguageApiService } from '../site-language';
 import { setLocale, handleRtl } from '@edx/frontend-i18n'; // eslint-disable-line
 
-export function* handleFetchAccount() {
+export function* handleFetchSettings() {
   try {
-    yield put(fetchAccountBegin());
-
+    yield put(fetchSettingsBegin());
     const username = yield select(usernameSelector);
-    const values = yield call(ApiService.getAccount, username);
-    yield put(fetchAccountSuccess(values));
+
+    const { thirdPartyAuthProviders, ...values } = yield call(ApiService.getSettings, username);
+
+    yield put(fetchSettingsSuccess({ values, thirdPartyAuthProviders }));
   } catch (e) {
     logAPIErrorResponse(e);
-    yield put(fetchAccountFailure(e.message));
+    yield put(fetchSettingsFailure(e.message));
     yield put(push('/error'));
   }
 }
 
-export function* handleSaveAccount(action) {
+export function* handleSaveSettings(action) {
   try {
-    yield put(saveAccountBegin());
+    yield put(saveSettingsBegin());
 
     const username = yield select(usernameSelector);
     const { commitValues, formId } = action.payload;
@@ -60,17 +57,17 @@ export function* handleSaveAccount(action) {
       handleRtl();
       savedValues = commitValues;
     } else {
-      savedValues = yield call(ApiService.patchAccount, username, commitData);
+      savedValues = yield call(ApiService.patchSettings, username, commitData);
     }
-    yield put(saveAccountSuccess(savedValues, commitData));
+    yield put(saveSettingsSuccess(savedValues, commitData));
     yield delay(1000);
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {
-      yield put(saveAccountFailure({ fieldErrors: e.fieldErrors }));
+      yield put(saveSettingsFailure({ fieldErrors: e.fieldErrors }));
     } else {
       logAPIErrorResponse(e);
-      yield put(saveAccountFailure(e.message));
+      yield put(saveSettingsFailure(e.message));
       yield put(push('/error'));
     }
   }
@@ -87,21 +84,8 @@ export function* handleResetPassword() {
   }
 }
 
-export function* handleFetchThirdPartyAuthProviders() {
-  try {
-    yield put(fetchThirdPartyAuthProvidersBegin());
-    const authProviders = yield call(ApiService.getThirdPartyAuthProviders);
-    yield put(fetchThirdPartyAuthProvidersSuccess(authProviders));
-  } catch (e) {
-    logAPIErrorResponse(e);
-    yield put(fetchThirdPartyAuthProvidersFailure(e.message));
-    yield put(push('/error'));
-  }
-}
-
 export default function* saga() {
-  yield takeEvery(FETCH_ACCOUNT.BASE, handleFetchAccount);
-  yield takeEvery(SAVE_ACCOUNT.BASE, handleSaveAccount);
+  yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
+  yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
-  yield takeEvery(FETCH_THIRD_PARTY_AUTH_PROVIDERS.BASE, handleFetchThirdPartyAuthProviders);
 }

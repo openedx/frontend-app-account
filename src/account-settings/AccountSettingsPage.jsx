@@ -8,7 +8,7 @@ import {
 
 import messages from './AccountSettingsPage.messages';
 
-import { fetchAccount, fetchThirdPartyAuthProviders, updateDraft, saveAccount } from './actions';
+import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
 
 import { PageLoading } from '../common';
@@ -20,7 +20,8 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-} from './constants';
+  TIME_ZONES,
+} from './constants/';
 import { fetchSiteLanguages } from '../site-language';
 
 class AccountSettingsPage extends React.Component {
@@ -34,11 +35,18 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
+    this.timeZoneOptions = Array.concat(
+      [{
+        value: '',
+        label: props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
+      }],
+      // eslint-disable-next-line no-unused-vars
+      TIME_ZONES.map(([value, label]) => ({ value, label })),
+    );
   }
 
   componentDidMount() {
-    this.props.fetchAccount();
-    this.props.fetchThirdPartyAuthProviders();
+    this.props.fetchSettings();
     this.props.fetchSiteLanguages();
   }
 
@@ -47,7 +55,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   handleSubmit = (formId, values) => {
-    this.props.saveAccount(formId, values);
+    this.props.saveSettings(formId, values);
   }
 
   renderContent() {
@@ -160,7 +168,19 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
               {...editableFieldProps}
             />
-
+            <EditableField
+              name="time_zone"
+              type="select"
+              value={this.props.formValues.time_zone || ''}
+              options={this.timeZoneOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
+              {...editableFieldProps}
+              onSubmit={(formId, value) => {
+                // the endpoint will not accept an empty string. it must be null
+                this.handleSubmit(formId, value || null);
+              }}
+            />
           </div>
         </div>
       </div>
@@ -222,6 +242,7 @@ AccountSettingsPage.propTypes = {
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
+    time_zone: PropTypes.string,
   }).isRequired,
   siteLanguage: PropTypes.string,
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -237,11 +258,10 @@ AccountSettingsPage.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
 
-  fetchAccount: PropTypes.func.isRequired,
-  fetchThirdPartyAuthProviders: PropTypes.func.isRequired,
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
-  saveAccount: PropTypes.func.isRequired,
+  saveSettings: PropTypes.func.isRequired,
+  fetchSettings: PropTypes.func.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -256,9 +276,8 @@ AccountSettingsPage.defaultProps = {
 
 
 export default connect(accountSettingsPageSelector, {
-  fetchAccount,
+  fetchSettings,
+  saveSettings,
   updateDraft,
-  saveAccount,
   fetchSiteLanguages,
-  fetchThirdPartyAuthProviders,
 })(injectIntl(AccountSettingsPage));

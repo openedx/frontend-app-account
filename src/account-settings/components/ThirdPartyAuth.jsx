@@ -4,14 +4,9 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Hyperlink } from '@edx/paragon';
 
-import { fetchThirdPartyAuthProviders } from '../actions';
 import { thirdPartyAuthSelector } from '../selectors';
 
 class ThirdPartyAuth extends React.Component {
-  componentDidMount() {
-    this.props.fetchThirdPartyAuthProviders();
-  }
-
   renderConnectedProvider(url, name) {
     return (
       <React.Fragment>
@@ -77,24 +72,14 @@ class ThirdPartyAuth extends React.Component {
     );
   }
 
-  renderLoading() {
-    return (
-      <FormattedMessage
-        id="account.settings.sso.loading"
-        defaultMessage="Loading..."
-        description="Waiting for data to load in the third party auth provider list"
-      />
-    );
-  }
+  renderProviders() {
+    if (this.props.providers === undefined) return null;
 
-  renderLoadingError() {
-    return (
-      <FormattedMessage
-        id="account.settings.sso.loading.error"
-        defaultMessage="There was a problem loading linked accounts."
-        description="Error message for failing to load the third party auth provider list"
-      />
-    );
+    if (this.props.providers.length === 0) {
+      return this.renderNoProviders();
+    }
+
+    return this.props.providers.map(this.renderProvider, this);
   }
 
   render() {
@@ -114,10 +99,7 @@ class ThirdPartyAuth extends React.Component {
             description="Section subheader for the third party auth settings"
           />
         </p>
-        {this.props.providers.map(this.renderProvider, this)}
-        {this.props.loaded && this.props.providers.length === 0 ? this.renderNoProviders() : null}
-        {this.props.loading ? this.renderLoading() : null}
-        {this.props.loadingError ? this.renderLoadingError() : null}
+        {this.renderProviders()}
       </div>
     );
   }
@@ -125,7 +107,6 @@ class ThirdPartyAuth extends React.Component {
 
 
 ThirdPartyAuth.propTypes = {
-  fetchThirdPartyAuthProviders: PropTypes.func.isRequired,
   providers: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     disconnectUrl: PropTypes.string,
@@ -133,19 +114,11 @@ ThirdPartyAuth.propTypes = {
     connected: PropTypes.bool,
     id: PropTypes.string,
   })),
-  loading: PropTypes.bool,
-  loaded: PropTypes.bool,
-  loadingError: PropTypes.string,
 };
 
 ThirdPartyAuth.defaultProps = {
-  providers: [],
-  loading: false,
-  loaded: false,
-  loadingError: undefined,
+  providers: undefined,
 };
 
 
-export default connect(thirdPartyAuthSelector, {
-  fetchThirdPartyAuthProviders,
-})(ThirdPartyAuth);
+export default connect(thirdPartyAuthSelector)(ThirdPartyAuth);
