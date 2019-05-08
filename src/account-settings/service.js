@@ -1,7 +1,11 @@
+import pick from 'lodash.pick';
+import omit from 'lodash.omit';
+import isEmpty from 'lodash.isempty';
 import applyConfiguration from '../common/serviceUtils';
 
 let config = {
   ACCOUNTS_API_BASE_URL: null,
+  PREFERENCES_API_BASE_URL: null,
   ECOMMERCE_API_BASE_URL: null,
   LMS_BASE_URL: null,
   PASSWORD_RESET_URL: null,
@@ -78,7 +82,6 @@ function handleRequestError(error) {
   throw error;
 }
 
-
 export async function getAccount(username) {
   const { data } = await apiClient.get(`${config.ACCOUNTS_API_BASE_URL}/${username}`);
   return unpackAccountResponseData(data);
@@ -98,12 +101,20 @@ export async function patchAccount(username, commitValues) {
   return unpackAccountResponseData(data);
 }
 
-export async function postResetPassword() {
-  const { data } = await apiClient
-    .post(config.PASSWORD_RESET_URL)
+export async function getPreferences(username) {
+  const { data } = await apiClient.get(`${config.PREFERENCES_API_BASE_URL}/${username}`);
+  return data;
+}
+
+export async function patchPreferences(username, commitValues) {
+  const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
+  const requestUrl = `${config.PREFERENCES_API_BASE_URL}/${username}`;
+
+  // Ignore the success response, the API does not currently return any data.
+  await apiClient.patch(requestUrl, commitValues, requestConfig)
     .catch(handleRequestError);
 
-  return data;
+  return commitValues;
 }
 
 export async function getThirdPartyAuthProviders() {
@@ -115,4 +126,54 @@ export async function getThirdPartyAuthProviders() {
     connectUrl: `${config.LMS_BASE_URL}${connectUrl}`,
     disconnectUrl: `${config.LMS_BASE_URL}${disconnectUrl}`,
   }));
+}
+
+/**
+ * A single function to GET everything considered a setting.
+ * Currently encapsulates Account, Preferences, and ThirdPartyAuth
+ */
+export async function getSettings(username) {
+  const results = await Promise.all([
+    getAccount(username),
+    getPreferences(username),
+    getThirdPartyAuthProviders(),
+  ]);
+
+  return {
+    ...results[0],
+    ...results[1],
+    thirdPartyAuthProviders: results[2],
+  };
+}
+
+/**
+ * A single function to PATCH everything considered a setting.
+ * Currently encapsulates Account, Preferences, and ThirdPartyAuth
+ */
+export async function patchSettings(username, commitValues) {
+  const preferenceKeys = ['time_zone'];
+  const accountCommitValues = omit(commitValues, preferenceKeys);
+  const preferenceCommitValues = pick(commitValues, preferenceKeys);
+  const patchRequests = [];
+
+  if (!isEmpty(accountCommitValues)) {
+    patchRequests.push(patchAccount(username, accountCommitValues));
+  }
+  if (!isEmpty(preferenceCommitValues)) {
+    patchRequests.push(patchPreferences(username, preferenceCommitValues));
+  }
+
+  const results = await Promise.all(patchRequests);
+  // Assigns in order of requests. Preference keys
+  // will override account keys. Notably time_zone.
+  const combinedResults = Object.assign({}, ...results);
+  return combinedResults;
+}
+
+export async function postResetPassword() {
+  const { data } = await apiClient
+    .post(config.PASSWORD_RESET_URL)
+    .catch(handleRequestError);
+
+  return data;
 }

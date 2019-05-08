@@ -8,7 +8,7 @@ import {
 
 import messages from './AccountSettingsPage.messages';
 
-import { fetchAccount, fetchThirdPartyAuthProviders, updateDraft, saveAccount } from './actions';
+import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
 
 import { PageLoading } from '../common';
@@ -38,13 +38,12 @@ class AccountSettingsPage extends React.Component {
     this.timeZoneOptions = Array.concat(
       [{ value: '', label: Intl.DateTimeFormat().resolvedOptions().timeZone }],
       // eslint-disable-next-line no-unused-vars
-      TIME_ZONES.map(([label, value]) => ({ value, label: value })),
+      TIME_ZONES.map(([value, label]) => ({ value, label })),
     );
   }
 
   componentDidMount() {
-    this.props.fetchAccount();
-    this.props.fetchThirdPartyAuthProviders();
+    this.props.fetchSettings();
     this.props.fetchSiteLanguages();
   }
 
@@ -53,7 +52,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   handleSubmit = (formId, values) => {
-    this.props.saveAccount(formId, values);
+    this.props.saveSettings(formId, values);
   }
 
   renderContent() {
@@ -174,7 +173,6 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
               {...editableFieldProps}
             />
-
           </div>
         </div>
       </div>
@@ -252,11 +250,10 @@ AccountSettingsPage.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
 
-  fetchAccount: PropTypes.func.isRequired,
-  fetchThirdPartyAuthProviders: PropTypes.func.isRequired,
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
-  saveAccount: PropTypes.func.isRequired,
+  saveSettings: PropTypes.func.isRequired,
+  fetchSettings: PropTypes.func.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -271,9 +268,8 @@ AccountSettingsPage.defaultProps = {
 
 
 export default connect(accountSettingsPageSelector, {
-  fetchAccount,
+  fetchSettings,
+  saveSettings,
   updateDraft,
-  saveAccount,
   fetchSiteLanguages,
-  fetchThirdPartyAuthProviders,
 })(injectIntl(AccountSettingsPage));
