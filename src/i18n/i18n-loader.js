@@ -20,17 +20,50 @@ import enLocale from 'react-intl/locale-data/en';
 import es419Locale from 'react-intl/locale-data/es';
 import frLocale from 'react-intl/locale-data/fr';
 import zhcnLocale from 'react-intl/locale-data/zh';
+import caLocale from 'react-intl/locale-data/ca';
+import heLocale from 'react-intl/locale-data/he';
+import idLocale from 'react-intl/locale-data/id';
+import kokrLocale from 'react-intl/locale-data/ko';
+import plLocale from 'react-intl/locale-data/pl';
+import ptbrLocale from 'react-intl/locale-data/pt';
+import ruLocale from 'react-intl/locale-data/ru';
+import thLocale from 'react-intl/locale-data/th';
+import ukLocale from 'react-intl/locale-data/uk';
 
 import COUNTRIES, { langs as countryLangs } from 'i18n-iso-countries';
 import LANGUAGES, { langs as languageLangs } from '@cospired/i18n-iso-languages';
 
 import arMessages from './messages/ar.json';
+import caMessages from './messages/ca.json';
 // no need to import en messages-- they are in the defaultMessage field
 import es419Messages from './messages/es_419.json';
 import frMessages from './messages/fr.json';
 import zhcnMessages from './messages/zh_CN.json';
+import heMessages from './messages/he.json';
+import idMessages from './messages/id.json';
+import kokrMessages from './messages/ko_kr.json';
+import plMessages from './messages/pl.json';
+import ptbrMessages from './messages/pt_br.json';
+import ruMessages from './messages/ru.json';
+import thMessages from './messages/th.json';
+import ukMessages from './messages/uk.json';
 
-addLocaleData([...arLocale, ...enLocale, ...es419Locale, ...frLocale, ...zhcnLocale]);
+addLocaleData([
+  ...arLocale,
+  ...enLocale,
+  ...es419Locale,
+  ...frLocale,
+  ...zhcnLocale,
+  ...caLocale,
+  ...heLocale,
+  ...idLocale,
+  ...kokrLocale,
+  ...plLocale,
+  ...ptbrLocale,
+  ...ruLocale,
+  ...thLocale,
+  ...ukLocale,
+]);
 
 // TODO: When we start dynamically loading translations only for the current locale, change this.
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/ar.json'));
@@ -38,21 +71,78 @@ COUNTRIES.registerLocale(require('i18n-iso-countries/langs/en.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/es.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/fr.json'));
 COUNTRIES.registerLocale(require('i18n-iso-countries/langs/zh.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/ca.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/he.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/id.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/ko.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/pl.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/pt.json'));
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/ru.json'));
+// COUNTRIES.registerLocale(require('i18n-iso-countries/langs/th.json')); // Doesn't exist in lib.
+COUNTRIES.registerLocale(require('i18n-iso-countries/langs/uk.json'));
 
 // TODO: When we start dynamically loading translations only for the current locale, change this.
-// TODO: Also note that Arabic (ar) and Chinese (zh) are missing here.  That's because they're
-// not implemented in this library.  If you read this and it's been a while, go check and see
-// if that's changed!
+// TODO: Also note that a bunch of languages are missing here. They're present but commented out
+// for reference. That's because they're not implemented in this library.  If you read this and it's
+// been a while, go check and see if that's changed!
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/ar.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/en.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/es.json'));
 LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/fr.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/zh.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/ca.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/he.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/id.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/ko.json'));
+LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/pl.json'));
+LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/pt.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/ru.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/th.json'));
+// LANGUAGES.registerLocale(require('@cospired/i18n-iso-languages/langs/uk.json'));
 
-const messages = { // current fallback strategy is to use the first two letters of the locale code
+const messages = {
+  // current fallback strategy is to use the first two letters of the locale code
   ar: arMessages,
   es: es419Messages,
   fr: frMessages,
   zh: zhcnMessages,
+  ca: caMessages,
+  he: heMessages,
+  id: idMessages,
+  ko: kokrMessages,
+  pl: plMessages,
+  pt: ptbrMessages,
+  ru: ruMessages,
+  th: thMessages,
+  uk: ukMessages,
 };
+
+const serverCodeLookup = {
+  ar: 'ar',
+  en: 'en',
+  es: 'es-419',
+  fr: 'fr',
+  zh: 'zh-cn',
+  ca: 'ca',
+  he: 'he',
+  id: 'id',
+  ko: 'ko-kr',
+  pl: 'pl',
+  pt: 'pt-br',
+  ru: 'ru',
+  th: 'th',
+  uk: 'uk',
+};
+
+/**
+ * TODO: This function is a hack.  Because the client is using two-letter codes and the server
+ * is using fully qualified codes with a locale, if we want the server to understand what code
+ * we're using, we need to convert back to whatever it was originally using.  This will
+ * immediately break down if we have another version of Spanish (es), Chinese (zh), or
+ * Portugese (pt), for instance. That's why this is "assumed".
+ */
+const getAssumedServerLanguageCode = lang => (serverCodeLookup[lang] !== undefined ?
+  serverCodeLookup[lang] : lang);
 
 const cookies = new Cookies();
 
@@ -79,11 +169,16 @@ const rtlLocales = ['ar', 'he', 'fa', 'ur'];
 const isRtl = locale => rtlLocales.includes(locale);
 
 const handleRtl = () => {
-  if (isRtl(getLocale())) {
-    document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-    document.styleSheets[0].disabled = true;
-  } else {
-    document.styleSheets[1].disabled = true;
+  if (process.env.ENVIRONMENT === 'production') {
+    if (isRtl(getLocale())) {
+      document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+      document.styleSheets[0].disabled = true;
+      document.styleSheets[1].disabled = false;
+    } else {
+      document.getElementsByTagName('html')[0].removeAttribute('dir');
+      document.styleSheets[0].disabled = false;
+      document.styleSheets[1].disabled = true;
+    }
   }
 };
 
@@ -91,7 +186,8 @@ const handleRtl = () => {
  * Provides a lookup table of country IDs to country names for the current locale.
  */
 const getCountryMessages = (locale) => {
-  const finalLocale = countryLangs().includes(locale) ? locale : 'en';
+  const twoLetterLocale = getTwoLetterLanguageCode(locale);
+  const finalLocale = countryLangs().includes(twoLetterLocale) ? twoLetterLocale : 'en';
 
   return COUNTRIES.getNames(finalLocale);
 };
@@ -100,7 +196,8 @@ const getCountryMessages = (locale) => {
  * Provides a lookup table of language IDs to language names for the current locale.
  */
 const getLanguageMessages = (locale) => {
-  const finalLocale = languageLangs().includes(locale) ? locale : 'en';
+  const twoLetterLocale = getTwoLetterLanguageCode(locale);
+  const finalLocale = languageLangs().includes(twoLetterLocale) ? twoLetterLocale : 'en';
 
   return LANGUAGES.getNames(finalLocale);
 };
@@ -159,6 +256,7 @@ export {
   getLanguageList,
   getLanguageMessages,
   getLocale,
+  getAssumedServerLanguageCode,
   getMessages,
   handleRtl,
   isRtl,

@@ -11,6 +11,8 @@
   "account.settings.email.field.confirmation.header": "Pending confirmation",
   "account.settings.field.dob": "Year of birth",
   "account.settings.field.country": "Country",
+  "account.settings.field.site.language": "Site Language",
+  "account.settings.field.site.language.help.text": "The language used throughout this site. This site is currently available in a limited number of languages.",
   "account.settings.field.education": "Education",
   "account.settings.field.education.levels.null": "Select a level of education",
   "account.settings.field.education.levels.p": "Doctorate",
@@ -60,5 +62,11 @@
   "app.loading.message": "Loading",
   "error.unexpected.message": "An unexpected error occurred.",
   "error.notfound.message": "The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again.",
-  "app.page": "Congratulations!  You have a new micro-frontend."
+  "app.page": "Congratulations!  You have a new micro-frontend.",
+  "example.page.heading": "Example Page",
+  "example.loading.message": "Loading",
+  "example.loading.error": "Error: {error}",
+  "feature.page.heading": "Feature Page",
+  "feature.loading.message": "Loading",
+  "feature.loading.error": "Error: {error}"
 }

@@ -1,4 +1,4 @@
-import pick from 'lodash.pick';
+import applyConfiguration from '../common/serviceUtils';
 
 let config = {
   ACCOUNTS_API_BASE_URL: null,
@@ -15,20 +15,10 @@ const SOCIAL_PLATFORMS = [
 
 let apiClient = null;
 
-function validateConfiguration(newConfig) {
-  Object.keys(config).forEach((key) => {
-    if (newConfig[key] === undefined) {
-      throw new Error(`Service configuration error: ${key} is required.`);
-    }
-  });
-}
-
 export function configureApiService(newConfig, newApiClient) {
-  validateConfiguration(newConfig);
-  config = pick(newConfig, Object.keys(config));
+  config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
 }
-
 
 function unpackFieldErrors(fieldErrors) {
   const unpackedFieldErrors = fieldErrors;

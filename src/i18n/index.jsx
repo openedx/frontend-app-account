@@ -6,10 +6,14 @@ import {
   getLanguageList,
   getLanguageMessages,
   getLocale,
+  getAssumedServerLanguageCode,
   getMessages,
   handleRtl,
   isRtl,
 } from './i18n-loader';
+import { setLocale } from './actions';
+import reducer from './reducers';
+import { localeSelector } from './selectors';
 
 export {
   injectIntlWithShim as injectIntl,
@@ -18,8 +22,12 @@ export {
   getLanguageList,
   getLanguageMessages,
   getLocale,
+  getAssumedServerLanguageCode,
   getMessages,
   handleRtl,
   isRtl,
   intlShape,
+  setLocale,
+  reducer,
+  localeSelector,
 };

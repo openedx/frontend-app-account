@@ -18,8 +18,6 @@ import ErrorPage from './ErrorPage';
 import NotFoundPage from './NotFoundPage';
 
 import messages from './App.messages';
-import WelcomePage from './WelcomePage';
-
 
 function PageContent({
   ready,
@@ -107,7 +105,6 @@ function PageContent({
           <Route path="/account-settings" component={ConnectedAccountSettingsPage} />
           <Route path="/error" component={ErrorPage} />
           <Route path="/notfound" component={NotFoundPage} />
-          <Route path="/" component={WelcomePage} />
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </main>
@@ -173,7 +170,7 @@ class App extends Component {
 
   render() {
     return (
-      <IntlProvider locale={getLocale()} messages={getMessages()}>
+      <IntlProvider locale={this.props.locale} messages={getMessages()}>
         <Provider store={this.props.store}>
           <ConnectedRouter history={this.props.history}>
             <IntlPageContent
@@ -196,6 +193,7 @@ App.propTypes = {
   store: PropTypes.object.isRequired, // eslint-disable-line
   history: PropTypes.object.isRequired, // eslint-disable-line
   ready: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
   configuration: PropTypes.shape({
     SITE_NAME: PropTypes.string.isRequired,
     MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
@@ -226,6 +224,7 @@ const mapStateToProps = state => ({
   // which also means we're ready to display something.
   ready: state.userAccount.loaded || state.userAccount.error != null,
   configuration: state.configuration,
+  locale: state.i18n.locale,
   avatar: state.userAccount.profileImage.hasImage
     ? state.userAccount.profileImage.imageUrlMedium
     : null,
