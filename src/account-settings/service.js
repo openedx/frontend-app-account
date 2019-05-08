@@ -151,6 +151,9 @@ export async function getSettings(username) {
  * Currently encapsulates Account, Preferences, and ThirdPartyAuth
  */
 export async function patchSettings(username, commitValues) {
+  // Note: time_zone exists in the return value from user/v1/accounts
+  // but it is always null and won't update. It also exists in
+  // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
   const accountCommitValues = omit(commitValues, preferenceKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
