@@ -75,7 +75,7 @@ class AccountSettingsPage extends React.Component {
 
   renderManagedProfileMessage() {
     if (!this.props.profileDataManager) {
-      return (null);
+      return null;
     }
 
     return (
@@ -100,6 +100,22 @@ class AccountSettingsPage extends React.Component {
           />
         </Alert>
       </div>
+    );
+  }
+
+  renderSecondaryEmailField(editableFieldProps) {
+    if (this.props.hiddenFields.includes('secondary_email')) {
+      return null;
+    }
+
+    return (
+      <EmailField
+        name="secondary_email"
+        label={this.props.intl.formatMessage(messages['account.settings.field.secondary.email'])}
+        value={this.props.formValues.secondary_email}
+        confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
+        {...editableFieldProps}
+      />
     );
   }
 
@@ -151,6 +167,7 @@ class AccountSettingsPage extends React.Component {
               isEditable={!this.props.staticFields.includes('email')}
               {...editableFieldProps}
             />
+            {this.renderSecondaryEmailField(editableFieldProps)}
             <PasswordReset />
             <EditableField
               name="year_of_birth"
@@ -314,6 +331,7 @@ AccountSettingsPage.propTypes = {
     username: PropTypes.string,
     name: PropTypes.string,
     email: PropTypes.string,
+    secondary_email: PropTypes.string,
     year_of_birth: PropTypes.number,
     country: PropTypes.string,
     level_of_education: PropTypes.string,
@@ -343,6 +361,7 @@ AccountSettingsPage.propTypes = {
   })),
   profileDataManager: PropTypes.string,
   staticFields: PropTypes.arrayOf(PropTypes.string),
+  hiddenFields: PropTypes.arrayOf(PropTypes.string),
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -370,6 +389,7 @@ AccountSettingsPage.defaultProps = {
   languageProficiencyOptions: [],
   profileDataManager: null,
   staticFields: [],
+  hiddenFields: ['secondary_email'],
 };
 
 

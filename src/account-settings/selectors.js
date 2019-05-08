@@ -91,6 +91,11 @@ export const staticFieldsSelector = createSelector(
   accountSettings => (accountSettings.profileDataManager ? ['name', 'email', 'country'] : []),
 );
 
+export const hiddenFieldsSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => (accountSettings.profileDataManager ? [] : ['secondary_email']),
+);
+
 /**
  * If there's no draft present at all (undefined), use the original committed value.
  */
@@ -177,6 +182,7 @@ export const accountSettingsPageSelector = createSelector(
   formValuesSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
+  hiddenFieldsSelector,
   timeZonesSelector,
   countryTimeZonesSelector,
   (
@@ -188,6 +194,7 @@ export const accountSettingsPageSelector = createSelector(
     formValues,
     profileDataManager,
     staticFields,
+    hiddenFields,
     timeZoneOptions,
     countryTimeZoneOptions,
   ) => ({
@@ -203,5 +210,6 @@ export const accountSettingsPageSelector = createSelector(
     formValues,
     profileDataManager,
     staticFields,
+    hiddenFields,
   }),
 );

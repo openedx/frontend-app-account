@@ -96,6 +96,16 @@ const messages = defineMessages({
     defaultMessage: 'You receive messages from edX and course teams at this address.',
     description: 'Help text for the account settings email field.',
   },
+  'account.settings.field.secondary.email': {
+    id: 'account.settings.field.secondary.email',
+    defaultMessage: 'Recovery email address',
+    description: 'Label for account settings recovery email field.',
+  },
+  'account.settings.field.secondary.email.confirmation': {
+    id: 'account.settings.field.secondary.email.confirmation',
+    defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your recovery email address.',
+    description: 'Confirmation message for saving the account settings recovery email field.',
+  },
   'account.settings.email.field.confirmation.header': {
     id: 'account.settings.email.field.confirmation.header',
     defaultMessage: 'One more step!',
