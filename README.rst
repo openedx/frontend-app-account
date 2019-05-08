@@ -10,6 +10,16 @@ Introduction
 
 React app for account settings.
 
+Get Started
+-----------
+
+1. Start up your local devstack
+2. If you don't have node installed. Install Node
+3. In the project directory: npm install
+4. Then run npm start
+5. Open your browser to http://localhost:1997/account-settings
+
+
 .. |Build Status| image:: https://api.travis-ci.org/edx/frontend-app-account.svg?branch=master
    :target: https://travis-ci.org/edx/frontend-app-account
 .. |Coveralls| image:: https://img.shields.io/coveralls/edx/frontend-app-account.svg?branch=master
