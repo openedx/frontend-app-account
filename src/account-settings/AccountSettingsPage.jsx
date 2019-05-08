@@ -20,7 +20,8 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-} from './constants';
+  TIME_ZONES,
+} from './constants/';
 import { fetchSiteLanguages } from '../site-language';
 
 class AccountSettingsPage extends React.Component {
@@ -34,6 +35,11 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
+    this.timeZoneOptions = Array.concat(
+      [{ value: '', label: Intl.DateTimeFormat().resolvedOptions().timeZone }],
+      // eslint-disable-next-line no-unused-vars
+      TIME_ZONES.map(([label, value]) => ({ value, label: value })),
+    );
   }
 
   componentDidMount() {
@@ -160,6 +166,14 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
               {...editableFieldProps}
             />
+            <EditableField
+              name="time_zone"
+              type="select"
+              value={this.props.formValues.time_zone || ''}
+              options={this.timeZoneOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
+              {...editableFieldProps}
+            />
 
           </div>
         </div>
@@ -222,6 +236,7 @@ AccountSettingsPage.propTypes = {
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
+    time_zone: PropTypes.string,
   }).isRequired,
   siteLanguage: PropTypes.string,
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({

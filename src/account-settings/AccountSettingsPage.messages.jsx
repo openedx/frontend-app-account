@@ -157,6 +157,11 @@ const messages = defineMessages({
     defaultMessage: 'Spoken Languages',
     description: 'Label for account settings spoken languages field.',
   },
+  'account.settings.field.time.zone': {
+    id: 'account.settings.field.time.zone',
+    defaultMessage: 'Time Zone',
+    description: 'Label for time zone settings field.',
+  },
 
   'account.settings.section.social.media': {
     id: 'account.settings.section.social.media',
