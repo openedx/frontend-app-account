@@ -171,6 +171,7 @@ class AccountSettingsPage extends React.Component {
               value={this.props.formValues.time_zone || ''}
               options={this.timeZoneOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
               {...editableFieldProps}
             />
           </div>

@@ -162,6 +162,11 @@ const messages = defineMessages({
     defaultMessage: 'Time Zone',
     description: 'Label for time zone settings field.',
   },
+  'account.settings.field.time.zone.description': {
+    id: 'account.settings.field.time.zone.description',
+    defaultMessage: 'Select the time zone for displaying course dates. If you do not specify a time zone, course dates, including assignment deadlines, will be displayed in your browser’s local time zone.',
+    description: 'Description for time zone settings field.',
+  },
 
   'account.settings.section.social.media': {
     id: 'account.settings.section.social.media',
