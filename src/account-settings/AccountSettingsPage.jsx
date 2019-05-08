@@ -36,7 +36,10 @@ class AccountSettingsPage extends React.Component {
       label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
     this.timeZoneOptions = Array.concat(
-      [{ value: '', label: Intl.DateTimeFormat().resolvedOptions().timeZone }],
+      [{
+        value: '',
+        label: props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
+      }],
       // eslint-disable-next-line no-unused-vars
       TIME_ZONES.map(([value, label]) => ({ value, label })),
     );
@@ -173,6 +176,10 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
               {...editableFieldProps}
+              onSubmit={(formId, value) => {
+                // the endpoint will not accept an empty string. it must be null
+                this.handleSubmit(formId, value || null);
+              }}
             />
           </div>
         </div>
