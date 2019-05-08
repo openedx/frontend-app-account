@@ -169,7 +169,7 @@ const rtlLocales = ['ar', 'he', 'fa', 'ur'];
 const isRtl = locale => rtlLocales.includes(locale);
 
 const handleRtl = () => {
-  if (process.env.ENVIRONMENT === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     if (isRtl(getLocale())) {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
       document.styleSheets[0].disabled = true;
