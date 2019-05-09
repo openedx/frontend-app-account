@@ -18,7 +18,7 @@ import {
   resetPasswordBegin,
   resetPasswordSuccess,
 } from './actions';
-import { usernameSelector } from './selectors';
+import { usernameSelector, userRolesSelector } from './selectors';
 
 // Services
 import * as ApiService from './service';
@@ -29,10 +29,15 @@ export function* handleFetchSettings() {
   try {
     yield put(fetchSettingsBegin());
     const username = yield select(usernameSelector);
+    const userRoles = yield select(userRolesSelector);
 
-    const { thirdPartyAuthProviders, ...values } = yield call(ApiService.getSettings, username);
+    const {
+      thirdPartyAuthProviders,
+      profileDataManager,
+      ...values
+    } = yield call(ApiService.getSettings, username, userRoles);
 
-    yield put(fetchSettingsSuccess({ values, thirdPartyAuthProviders }));
+    yield put(fetchSettingsSuccess({ values, thirdPartyAuthProviders, profileDataManager }));
   } catch (e) {
     logAPIErrorResponse(e);
     yield put(fetchSettingsFailure(e.message));
