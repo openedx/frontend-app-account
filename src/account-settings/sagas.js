@@ -20,6 +20,11 @@ import {
   FETCH_TIME_ZONES,
   fetchTimeZones,
   fetchTimeZonesSuccess,
+  DISCONNECT_AUTH,
+  disconnectAuthBegin,
+  disconnectAuthSuccess,
+  disconnectAuthFailure,
+  disconnectAuthReset,
 } from './actions';
 import { usernameSelector, userRolesSelector } from './selectors';
 
@@ -111,9 +116,23 @@ export function* handleFetchTimeZones(action) {
   }
 }
 
+export function* handleDisconnectAuth(action) {
+
+  try {
+    yield put(disconnectAuthBegin());
+    const response = yield call(ApiService.postDisconnectAuth, action.payload.url);
+    yield put(disconnectAuthSuccess(response));
+  } catch (e) {
+    logAPIErrorResponse(e);
+    yield put(push('/error'));
+  }
+}
+
+
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
+  yield takeEvery(DISCONNECT_AUTH.BASE, handleFetchTimeZones);
 }

@@ -4,9 +4,16 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Hyperlink } from '@edx/paragon';
 
+import { disconnectAuth } from '../actions';
 import { thirdPartyAuthSelector } from '../selectors';
 
 class ThirdPartyAuth extends React.Component {
+
+  onClickDisconnect = (e) => {
+    e.preventDefault();
+    this.props.disconnectAuth(e.target.href);
+  }
+
   renderConnectedProvider(url, name) {
     return (
       <React.Fragment>
@@ -36,7 +43,10 @@ class ThirdPartyAuth extends React.Component {
             />
           </span>
         </h6>
-        <Hyperlink destination={url}>
+        <Hyperlink
+          destination={url}
+          onClick={onClickDisconnect}
+        >
           <FormattedMessage
             id="account.settings.sso.unlink.account"
             defaultMessage="Unlink {name} account"
@@ -99,4 +109,6 @@ ThirdPartyAuth.defaultProps = {
 };
 
 
-export default connect(thirdPartyAuthSelector)(ThirdPartyAuth);
+export default connect(thirdPartyAuthSelector, {
+  disconnectAuth,
+})(ThirdPartyAuth);

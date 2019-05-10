@@ -10,6 +10,7 @@ export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
 export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 export const RESET_DRAFTS = 'RESET_DRAFTS';
+export const DISCONNECT_AUTH = new AsyncActionType('ACCOUNT_SETTINGS', 'DISCONNECT_AUTH');
 
 
 // FETCH SETTINGS ACTIONS
@@ -130,3 +131,21 @@ export const fetchTimeZonesSuccess = timeZones => ({
   payload: { timeZones },
 });
 
+
+// DISCONNECT AUTH ACTIONS
+
+export const disconnectAuth = url => ({
+  type: DISCONNECT_AUTH.BASE, payload: { url },
+});
+export const disconnectAuthBegin = () => ({
+  type: DISCONNECT_AUTH.BEGIN,
+});
+export const disconnectAuthSuccess = () => ({
+  type: DISCONNECT_AUTH.SUCCESS,
+});
+export const disconnectAuthFailure = ({ message }) => ({
+  type: SAVE_SETTINGS.FAILURE, payload: { error: message },
+});
+export const disconnectAuthReset = () => ({
+  type: DISCONNECT_AUTH.RESET,
+});
