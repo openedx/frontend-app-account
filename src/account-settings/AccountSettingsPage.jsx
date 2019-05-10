@@ -25,7 +25,6 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-  TIME_ZONES,
 } from './constants/';
 import { fetchSiteLanguages } from '../site-language';
 
@@ -40,14 +39,6 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
-    this.timeZoneOptions = Array.concat(
-      [{
-        value: '',
-        label: props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
-      }],
-      // eslint-disable-next-line no-unused-vars
-      TIME_ZONES.map(([value, label]) => ({ value, label })),
-    );
   }
 
   componentDidMount() {
