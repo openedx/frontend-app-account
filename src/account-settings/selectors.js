@@ -6,7 +6,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-i18n'; // eslint-disable-line
 
-import { siteLanguageOptionsSelector } from '../site-language';
+import { siteLanguageOptionsSelector, siteLanguageListSelector } from '../site-language';
 
 export const storeName = 'accountSettings';
 
@@ -26,6 +26,11 @@ const valuesSelector = createSelector(
 const draftsSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.drafts,
+);
+
+const previousSiteLanguageSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.previousSiteLanguage,
 );
 
 const editableFieldErrorSelector = createSelector(
@@ -136,20 +141,28 @@ const countryTimeZonesSelector = createSelector(
  * with one of the options in the site language dropdown.  The drafts version will already be the
  * server version, but if it's from localeSelector, it will be our client (two character) version.
  */
-const siteLanguageSelector = createSelector(
+export const siteLanguageSelector = createSelector(
+  previousSiteLanguageSelector,
   draftsSelector,
   localeSelector,
-  (drafts, locale) => (drafts.siteLanguage !== undefined ?
-    drafts.siteLanguage : getAssumedServerLanguageCode(locale)),
+  (previousValue, drafts, locale) => {
+    const savedValue = getAssumedServerLanguageCode(locale);
+    return {
+      previousValue,
+      draftValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : savedValue),
+      savedValue,
+    };
+  },
 );
 
 export const accountSettingsPageSelector = createSelector(
   accountSettingsSelector,
   siteLanguageOptionsSelector,
+  siteLanguageListSelector,
+  siteLanguageSelector,
   countryOptionsSelector,
   languageProficiencyOptionsSelector,
   formValuesSelector,
-  siteLanguageSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
   timeZonesSelector,
@@ -157,19 +170,21 @@ export const accountSettingsPageSelector = createSelector(
   (
     accountSettings,
     siteLanguageOptions,
+    siteLanguageList,
+    siteLanguage,
     countryOptions,
     languageProficiencyOptions,
     formValues,
-    siteLanguage,
     profileDataManager,
     staticFields,
     timeZoneOptions,
     countryTimeZoneOptions,
   ) => ({
     siteLanguageOptions,
+    siteLanguageList,
+    siteLanguage,
     countryOptions,
     languageProficiencyOptions,
-    siteLanguage,
     loading: accountSettings.loading,
     loaded: accountSettings.loaded,
     loadingError: accountSettings.loadingError,

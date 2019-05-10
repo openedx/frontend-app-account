@@ -14,6 +14,7 @@ import {
   saveSettingsBegin,
   saveSettingsSuccess,
   saveSettingsFailure,
+  savePreviousSiteLanguage,
   RESET_PASSWORD,
   resetPasswordBegin,
   resetPasswordSuccess,
@@ -21,7 +22,7 @@ import {
   fetchTimeZones,
   fetchTimeZonesSuccess,
 } from './actions';
-import { usernameSelector, userRolesSelector } from './selectors';
+import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
 
 // Services
 import * as ApiService from './service';
@@ -65,13 +66,15 @@ export function* handleSaveSettings(action) {
     const commitData = { [formId]: commitValues };
     let savedValues = null;
     if (formId === 'siteLanguage') {
+      const previousSiteLanguage = yield select(siteLanguageSelector);
       yield all([
         call(SiteLanguageApiService.patchPreferences, username, { prefLang: commitValues }),
         call(SiteLanguageApiService.postSetLang, commitValues),
       ]);
       yield put(setLocale(commitValues));
+      yield put(savePreviousSiteLanguage(previousSiteLanguage.savedValue));
       handleRtl();
-      savedValues = commitValues;
+      savedValues = commitData;
     } else {
       savedValues = yield call(ApiService.patchSettings, username, commitData);
     }

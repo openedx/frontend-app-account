@@ -1,6 +1,6 @@
 import { getAssumedServerLanguageCode } from '@edx/frontend-i18n'; // eslint-disable-line
 
-import languages from './constants';
+import siteLanguageList from './constants';
 import { snakeCaseObject, convertKeyNames } from '../common/utils';
 import applyConfiguration from '../common/serviceUtils';
 
@@ -17,8 +17,8 @@ export function configureApiService(newConfig, newApiClient) {
   apiClient = newApiClient;
 }
 
-async function getSiteLanguages() {
-  return languages;
+async function getSiteLanguageList() {
+  return siteLanguageList;
 }
 
 async function patchPreferences(username, params) {
@@ -45,7 +45,7 @@ async function postSetLang(code) {
 }
 
 export const ApiService = {
-  getSiteLanguages,
+  getSiteLanguageList,
   patchPreferences,
   postSetLang,
 };

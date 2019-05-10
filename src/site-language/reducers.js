@@ -4,7 +4,7 @@ export const defaultState = {
   loading: false,
   loaded: false,
   loadingError: null,
-  languages: [],
+  siteLanguageList: [],
 };
 
 const reducer = (state = defaultState, action) => {
@@ -19,7 +19,7 @@ const reducer = (state = defaultState, action) => {
     case FETCH_SITE_LANGUAGES.SUCCESS:
       return {
         ...state,
-        languages: action.payload.languages,
+        siteLanguageList: action.payload.siteLanguageList,
         loading: false,
         loaded: true,
         loadingError: null,

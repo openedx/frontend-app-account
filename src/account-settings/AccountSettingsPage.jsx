@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage } from 'react-intl';
 import memoize from 'memoize-one';
 import {
   injectIntl,
   intlShape,
 } from '@edx/frontend-i18n'; // eslint-disable-line
+import { Button, Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
 
@@ -25,6 +25,7 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
+  TRANSIFEX_LANGUAGE_BASE_URL,
 } from './constants/';
 import { fetchSiteLanguages } from '../site-language';
 
@@ -64,8 +65,43 @@ class AccountSettingsPage extends React.Component {
     return concatTimeZoneOptions;
   });
 
+  getSiteLanguageEntry(languageCode) {
+    return this.props.siteLanguageList.filter(l => l.code === languageCode)[0];
+  }
+
+  /**
+   * Returns a link to the Transifex URL where contributors can provide translations.
+   * This code is tightly coupled to how Transifex chooses to design its URLs.
+   */
+  getTransifexLink(languageCode) {
+    return TRANSIFEX_LANGUAGE_BASE_URL + this.getTransifexURLPath(languageCode);
+  }
+
+  /**
+   * Returns the URL path that Transifex chooses to use for its language sub-pages.
+   *
+   * For extended language codes, it returns the 2nd half capitalized, replacing
+   * hyphen (-) with underscore (_).
+   *     example: pt-br -> pt_BR
+   *
+   * For short language codes, it returns the code as is.
+   *     example: fr -> fr
+   */
+  getTransifexURLPath(languageCode) {
+    const tokenizedCode = languageCode.split('-');
+    if (tokenizedCode.length > 1) {
+      return `${tokenizedCode[0]}_${tokenizedCode[1].toUpperCase()}`;
+    }
+    return tokenizedCode[0];
+  }
+
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
+  }
+
+  handleRevertLanguage = () => {
+    const previousSiteLanguage = this.props.siteLanguage.previousValue;
+    this.props.saveSettings('siteLanguage', previousSiteLanguage);
   }
 
   handleSubmit = (formId, values) => {
@@ -87,7 +123,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink href={configuration.SUPPORT_URL} target="_blank">
+                <Hyperlink destination={configuration.SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -115,6 +151,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div>
+        {this.renderBanner()}
         <div className="row">
           <div className="col-md-8 col-lg-6">
 
@@ -230,7 +267,7 @@ class AccountSettingsPage extends React.Component {
               name="siteLanguage"
               type="select"
               options={this.props.siteLanguageOptions}
-              value={this.props.siteLanguage}
+              value={this.props.siteLanguage.draftValue}
               label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
               {...editableFieldProps}
@@ -256,6 +293,46 @@ class AccountSettingsPage extends React.Component {
             <ThirdPartyAuth />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  renderBanner() {
+    const savedLanguage = this.getSiteLanguageEntry(this.props.siteLanguage.savedValue);
+    const isSavedLanguageReleased = (savedLanguage.released === true);
+    const noPreviousLanguageSet = (this.props.siteLanguage.previousValue === null);
+    if (isSavedLanguageReleased || noPreviousLanguageSet) {
+      return (null);
+    }
+
+    const previousLanguage = this.getSiteLanguageEntry(this.props.siteLanguage.previousValue);
+    return (
+      <div>
+        <Alert className="beta_language_alert alert alert-warning" role="alert">
+          <p>
+            {this.props.intl.formatMessage(messages['account.settings.banner.beta.language'], {
+              beta_language: savedLanguage.name,
+            })}
+          </p>
+          <div>
+            <Button onClick={this.handleRevertLanguage} className="btn btn-primary mr-2">
+              {this.props.intl.formatMessage(
+                messages['account.settings.banner.beta.language.action.switch.back'],
+                { previous_language: previousLanguage.name },
+              )}
+            </Button>
+            <Hyperlink
+              destination={this.getTransifexLink(savedLanguage.code)}
+              className="btn btn-outline-secondary"
+              target="_blank"
+            >
+              {this.props.intl.formatMessage(
+                messages['account.settings.banner.beta.language.action.help.translate'],
+                { beta_language: savedLanguage.name },
+              )}
+            </Hyperlink>
+          </div>
+        </Alert>
       </div>
     );
   }
@@ -317,7 +394,16 @@ AccountSettingsPage.propTypes = {
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
   }).isRequired,
-  siteLanguage: PropTypes.string,
+  siteLanguage: PropTypes.shape({
+    previousValue: PropTypes.string,
+    draftValue: PropTypes.string,
+    savedValue: PropTypes.string,
+  }),
+  siteLanguageList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    code: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    released: PropTypes.bool,
+  })).isRequired,
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

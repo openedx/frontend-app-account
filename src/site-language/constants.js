@@ -1,4 +1,4 @@
-const languages = [
+const siteLanguageList = [
   {
     code: 'en',
     name: 'English',
@@ -71,4 +71,4 @@ const languages = [
   },
 ];
 
-export default languages;
+export default siteLanguageList;
