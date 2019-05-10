@@ -43,7 +43,12 @@ export function* handleFetchSettings() {
 
     if (values.country) yield put(fetchTimeZones(values.country));
 
-    yield put(fetchSettingsSuccess({ values, thirdPartyAuthProviders, profileDataManager, timeZones }));
+    yield put(fetchSettingsSuccess({
+      values,
+      thirdPartyAuthProviders,
+      profileDataManager,
+      timeZones,
+    }));
   } catch (e) {
     logAPIErrorResponse(e);
     yield put(fetchSettingsFailure(e.message));

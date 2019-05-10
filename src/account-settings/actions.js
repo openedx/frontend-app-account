@@ -22,14 +22,19 @@ export const fetchSettingsBegin = () => ({
   type: FETCH_SETTINGS.BEGIN,
 });
 
-export const fetchSettingsSuccess = ({ 
+export const fetchSettingsSuccess = ({
   values,
   thirdPartyAuthProviders,
   profileDataManager,
   timeZones,
 }) => ({
   type: FETCH_SETTINGS.SUCCESS,
-  payload: { values, thirdPartyAuthProviders, profileDataManager, timeZones },
+  payload: {
+    values,
+    thirdPartyAuthProviders,
+    profileDataManager,
+    timeZones,
+  },
 });
 
 export const fetchSettingsFailure = error => ({
