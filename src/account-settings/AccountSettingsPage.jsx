@@ -78,6 +78,7 @@ class AccountSettingsPage extends React.Component {
               type="text"
               value={this.props.formValues.username}
               label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.username.help.text'])}
               isEditable={false}
               {...editableFieldProps}
             />
@@ -86,6 +87,7 @@ class AccountSettingsPage extends React.Component {
               type="text"
               value={this.props.formValues.name}
               label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
               {...editableFieldProps}
             />
             <EmailField
@@ -93,6 +95,7 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
               value={this.props.formValues.email}
               confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
               {...editableFieldProps}
             />
             <PasswordReset />
