@@ -73,10 +73,10 @@ export function* handleSaveSettings(action) {
   }
 }
 
-export function* handleResetPassword() {
+export function* handleResetPassword(action) {
   try {
     yield put(resetPasswordBegin());
-    const response = yield call(ApiService.postResetPassword);
+    const response = yield call(ApiService.postResetPassword, action.payload.email);
     yield put(resetPasswordSuccess(response));
   } catch (e) {
     logAPIErrorResponse(e);
