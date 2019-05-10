@@ -1,7 +1,13 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { identifyAuthenticatedUser, sendPageEvent, configureAnalytics, initializeSegment } from '@edx/frontend-analytics';
+import {
+  configureAnalytics,
+  identifyAuthenticatedUser,
+  initializeSegment,
+  sendPageEvent,
+  sendTrackingLogEvent,
+} from '@edx/frontend-analytics';
 import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-logging';
 import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
 
@@ -62,11 +68,18 @@ apiClient.ensurePublicOrAuthenticationAndCookies(
   window.location.pathname,
   () => {
     const { store, history } = configure();
+    const authState = apiClient.getAuthenticationState();
 
     ReactDOM.render(<App store={store} history={history} />, document.getElementById('root'));
 
     identifyAuthenticatedUser();
     sendPageEvent();
+
+    sendTrackingLogEvent('edx.user.settings.viewed', {
+      page: 'account',
+      visibility: null,
+      user_id: authState.authentication && authState.authentication.userId,
+    });
   },
 );
 
