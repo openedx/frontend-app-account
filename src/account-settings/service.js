@@ -173,9 +173,9 @@ export async function patchSettings(username, commitValues) {
   return combinedResults;
 }
 
-export async function postResetPassword() {
+export async function postResetPassword(email) {
   const { data } = await apiClient
-    .post(config.PASSWORD_RESET_URL)
+    .post(config.PASSWORD_RESET_URL, { email })
     .catch(handleRequestError);
 
   return data;

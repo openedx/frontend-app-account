@@ -68,7 +68,9 @@ class AccountSettingsPage extends React.Component {
       <div>
         <div className="row">
           <div className="col-md-8 col-lg-6">
-            <h2>{this.props.intl.formatMessage(messages['account.settings.section.account.information'])}</h2>
+
+
+            <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.account.information'])}</h2>
             <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
 
             <EditableField
@@ -76,6 +78,7 @@ class AccountSettingsPage extends React.Component {
               type="text"
               value={this.props.formValues.username}
               label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.username.help.text'])}
               isEditable={false}
               {...editableFieldProps}
             />
@@ -84,6 +87,7 @@ class AccountSettingsPage extends React.Component {
               type="text"
               value={this.props.formValues.name}
               label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
               {...editableFieldProps}
             />
             <EmailField
@@ -91,24 +95,16 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
               value={this.props.formValues.email}
               confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
               {...editableFieldProps}
             />
+            <PasswordReset />
             <EditableField
               name="year_of_birth"
               type="select"
               label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
               value={this.props.formValues.year_of_birth}
               options={YEAR_OF_BIRTH_OPTIONS}
-              {...editableFieldProps}
-            />
-            <PasswordReset />
-            <EditableField
-              name="siteLanguage"
-              type="select"
-              options={this.props.siteLanguageOptions}
-              value={this.props.siteLanguage}
-              label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
-              helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
               {...editableFieldProps}
             />
             <EditableField
@@ -119,6 +115,10 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
               {...editableFieldProps}
             />
+
+
+            <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}</h2>
+
             <EditableField
               name="level_of_education"
               type="select"
@@ -143,10 +143,11 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
               {...editableFieldProps}
             />
-            <ThirdPartyAuth />
 
-            <h2>{this.props.intl.formatMessage(messages['account.settings.section.social.media'])}</h2>
+
+            <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.social.media'])}</h2>
             <p>{this.props.intl.formatMessage(messages['account.settings.section.social.media.description'])}</p>
+
             <EditableField
               name="social_link_linkedin"
               type="text"
@@ -168,6 +169,19 @@ class AccountSettingsPage extends React.Component {
               label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
               {...editableFieldProps}
             />
+
+
+            <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}</h2>
+
+            <EditableField
+              name="siteLanguage"
+              type="select"
+              options={this.props.siteLanguageOptions}
+              value={this.props.siteLanguage}
+              label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
+              helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
+              {...editableFieldProps}
+            />
             <EditableField
               name="time_zone"
               type="select"
@@ -181,6 +195,12 @@ class AccountSettingsPage extends React.Component {
                 this.handleSubmit(formId, value || null);
               }}
             />
+
+
+            <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
+            <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
+
+            <ThirdPartyAuth />
           </div>
         </div>
       </div>

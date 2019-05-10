@@ -72,7 +72,7 @@ class ThirdPartyAuth extends React.Component {
     );
   }
 
-  renderProviders() {
+  render() {
     if (this.props.providers === undefined) return null;
 
     if (this.props.providers.length === 0) {
@@ -80,28 +80,6 @@ class ThirdPartyAuth extends React.Component {
     }
 
     return this.props.providers.map(this.renderProvider, this);
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>
-          <FormattedMessage
-            id="account.settings.sso.section.header"
-            defaultMessage="Linked Accounts"
-            description="Section header for the third party auth settings"
-          />
-        </h2>
-        <p>
-          <FormattedMessage
-            id="account.settings.sso.section.subheader"
-            defaultMessage="You can link your identity accounts to simplify signing in to edX."
-            description="Section subheader for the third party auth settings"
-          />
-        </p>
-        {this.renderProviders()}
-      </div>
-    );
   }
 }
 

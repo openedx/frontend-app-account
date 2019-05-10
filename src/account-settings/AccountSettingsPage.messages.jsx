@@ -26,15 +26,45 @@ const messages = defineMessages({
     defaultMessage: 'These settings include basic information about your account.',
     description: 'The basic account information section heading description.',
   },
+  'account.settings.section.profile.information': {
+    id: 'account.settings.section.profile.information',
+    defaultMessage: 'Profile Information',
+    description: 'The profile information section heading.',
+  },
+  'account.settings.section.site.preferences': {
+    id: 'account.settings.section.site.preferences',
+    defaultMessage: 'Site Preferences',
+    description: 'The site preferences section heading.',
+  },
+  'account.settings.section.linked.accounts': {
+    id: 'account.settings.section.linked.accounts',
+    defaultMessage: 'Linked Accounts',
+    description: 'The linked accounts section heading.',
+  },
+  'account.settings.section.linked.accounts.description': {
+    id: 'account.settings.section.linked.accounts.description',
+    defaultMessage: 'You can link your identity accounts to simplify signing in to edX.',
+    description: 'The linked accounts section heading description.',
+  },
   'account.settings.field.username': {
     id: 'account.settings.field.username',
     defaultMessage: 'Username',
     description: 'Label for account settings username field.',
   },
+  'account.settings.field.username.help.text': {
+    id: 'account.settings.field.username.help.text',
+    defaultMessage: 'The name that identifies you on edX. You cannot change your username.',
+    description: 'Help text for the account settings username field.',
+  },
   'account.settings.field.full.name': {
     id: 'account.settings.field.full.name',
     defaultMessage: 'Full name',
     description: 'Label for account settings name field.',
+  },
+  'account.settings.field.full.name.help.text': {
+    id: 'account.settings.field.full.name.help.text',
+    defaultMessage: 'The name that is used for ID verification and that appears on your certificates.',
+    description: 'Help text for the account settings name field.',
   },
   'account.settings.field.email': {
     id: 'account.settings.field.email',
@@ -45,6 +75,11 @@ const messages = defineMessages({
     id: 'account.settings.field.email.confirmation',
     defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your email address.',
     description: 'Confirmation message for saving the account settings email field.',
+  },
+  'account.settings.field.email.help.text': {
+    id: 'account.settings.field.email.help.text',
+    defaultMessage: 'You receive messages from edX and course teams at this address.',
+    description: 'Help text for the account settings email field.',
   },
   'account.settings.email.field.confirmation.header': {
     id: 'account.settings.email.field.confirmation.header',

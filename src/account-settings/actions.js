@@ -89,8 +89,9 @@ export const saveSettingsFailure = ({ fieldErrors, message }) => ({
 
 // RESET PASSWORD ACTIONS
 
-export const resetPassword = () => ({
+export const resetPassword = email => ({
   type: RESET_PASSWORD.BASE,
+  payload: { email },
 });
 
 export const resetPasswordBegin = () => ({
