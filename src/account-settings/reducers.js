@@ -3,6 +3,7 @@ import {
   OPEN_FORM,
   CLOSE_FORM,
   SAVE_SETTINGS,
+  FETCH_TIME_ZONES,
   RESET_PASSWORD,
   UPDATE_DRAFT,
   RESET_DRAFTS,
@@ -19,6 +20,8 @@ export const defaultState = {
   drafts: {},
   saveState: null,
   resetPasswordState: null,
+  timeZones: [],
+  countryTimeZones: [],
 };
 
 const accountSettingsReducer = (state = defaultState, action) => {
@@ -38,6 +41,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
         values: Object.assign({}, state.values, action.payload.values),
         authProviders: action.payload.thirdPartyAuthProviders,
         profileDataManager: action.payload.profileDataManager,
+        timeZones: action.payload.timeZones,
         loading: false,
         loaded: true,
         loadingError: null,
@@ -133,6 +137,12 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         resetPasswordState: 'complete',
+      };
+
+    case FETCH_TIME_ZONES.SUCCESS:
+      return {
+        ...state,
+        countryTimeZones: action.payload.timeZones,
       };
 
     default:

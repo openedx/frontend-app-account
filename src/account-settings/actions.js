@@ -4,6 +4,7 @@ const { AsyncActionType } = utils;
 
 export const FETCH_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_SETTINGS');
 export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTINGS');
+export const FETCH_TIME_ZONES = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_TIME_ZONES');
 export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
@@ -21,9 +22,19 @@ export const fetchSettingsBegin = () => ({
   type: FETCH_SETTINGS.BEGIN,
 });
 
-export const fetchSettingsSuccess = ({ values, thirdPartyAuthProviders, profileDataManager }) => ({
+export const fetchSettingsSuccess = ({
+  values,
+  thirdPartyAuthProviders,
+  profileDataManager,
+  timeZones,
+}) => ({
   type: FETCH_SETTINGS.SUCCESS,
-  payload: { values, thirdPartyAuthProviders, profileDataManager },
+  payload: {
+    values,
+    thirdPartyAuthProviders,
+    profileDataManager,
+    timeZones,
+  },
 });
 
 export const fetchSettingsFailure = error => ({
@@ -105,3 +116,17 @@ export const resetPasswordSuccess = () => ({
 export const resetPasswordReset = () => ({
   type: RESET_PASSWORD.RESET,
 });
+
+
+// FETCH TIME_ZONE ACTIONS
+
+export const fetchTimeZones = country => ({
+  type: FETCH_TIME_ZONES.BASE,
+  payload: { country },
+});
+
+export const fetchTimeZonesSuccess = timeZones => ({
+  type: FETCH_TIME_ZONES.SUCCESS,
+  payload: { timeZones },
+});
+

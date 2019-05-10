@@ -116,6 +116,21 @@ const languageProficiencyOptionsSelector = createSelector(
 );
 
 
+const transformTimeZonesToOptions = timeZoneArr => timeZoneArr
+  .map(({ time_zone, description }) => ({ // eslint-disable-line camelcase
+    value: time_zone, label: description,
+  }));
+
+const timeZonesSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => transformTimeZonesToOptions(accountSettings.timeZones),
+);
+const countryTimeZonesSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => transformTimeZonesToOptions(accountSettings.countryTimeZones),
+);
+
+
 /**
  * This selector converts the site language code back to the server version so that it can match up
  * with one of the options in the site language dropdown.  The drafts version will already be the
@@ -137,6 +152,8 @@ export const accountSettingsPageSelector = createSelector(
   siteLanguageSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
+  timeZonesSelector,
+  countryTimeZonesSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -146,6 +163,8 @@ export const accountSettingsPageSelector = createSelector(
     siteLanguage,
     profileDataManager,
     staticFields,
+    timeZoneOptions,
+    countryTimeZoneOptions,
   ) => ({
     siteLanguageOptions,
     countryOptions,
@@ -154,6 +173,8 @@ export const accountSettingsPageSelector = createSelector(
     loading: accountSettings.loading,
     loaded: accountSettings.loaded,
     loadingError: accountSettings.loadingError,
+    timeZoneOptions,
+    countryTimeZoneOptions,
     formValues,
     profileDataManager,
     staticFields,

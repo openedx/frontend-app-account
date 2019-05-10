@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage } from 'react-intl';
+import memoize from 'memoize-one';
 import {
   injectIntl,
   intlShape,
@@ -24,7 +25,6 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-  TIME_ZONES,
 } from './constants/';
 import { fetchSiteLanguages } from '../site-language';
 
@@ -39,20 +39,30 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
     }));
-    this.timeZoneOptions = Array.concat(
-      [{
-        value: '',
-        label: props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
-      }],
-      // eslint-disable-next-line no-unused-vars
-      TIME_ZONES.map(([value, label]) => ({ value, label })),
-    );
   }
 
   componentDidMount() {
     this.props.fetchSettings();
     this.props.fetchSiteLanguages();
   }
+
+  getTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions) => {
+    const concatTimeZoneOptions = [{
+      label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
+      value: '',
+    }];
+    if (countryTimeZoneOptions.length) {
+      concatTimeZoneOptions.push({
+        label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.country']),
+        group: countryTimeZoneOptions,
+      });
+    }
+    concatTimeZoneOptions.push({
+      label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.all']),
+      group: timeZoneOptions,
+    });
+    return concatTimeZoneOptions;
+  });
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
@@ -97,6 +107,11 @@ class AccountSettingsPage extends React.Component {
       onChange: this.handleEditableFieldChange,
       onSubmit: this.handleSubmit,
     };
+
+    const timeZoneOptions = this.getTimeZoneOptions(
+      this.props.timeZoneOptions,
+      this.props.countryTimeZoneOptions,
+    );
 
     return (
       <div>
@@ -224,7 +239,7 @@ class AccountSettingsPage extends React.Component {
               name="time_zone"
               type="select"
               value={this.props.formValues.time_zone || ''}
-              options={this.timeZoneOptions}
+              options={timeZoneOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
               {...editableFieldProps}
@@ -318,6 +333,14 @@ AccountSettingsPage.propTypes = {
   profileDataManager: PropTypes.string,
   staticFields: PropTypes.arrayOf(PropTypes.string),
 
+  timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
+  countryTimeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
@@ -331,6 +354,8 @@ AccountSettingsPage.defaultProps = {
   siteLanguage: null,
   siteLanguageOptions: [],
   countryOptions: [],
+  timeZoneOptions: [],
+  countryTimeZoneOptions: [],
   languageProficiencyOptions: [],
   profileDataManager: null,
   staticFields: [],

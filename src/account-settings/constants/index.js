@@ -30,5 +30,3 @@ export const GENDER_OPTIONS = [
   'm',
   'o',
 ];
-
-export { TIME_ZONES } from './TIME_ZONES';
