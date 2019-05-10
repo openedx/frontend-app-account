@@ -128,6 +128,15 @@ export async function getThirdPartyAuthProviders() {
   }));
 }
 
+export async function getTimeZones(forCountry) {
+  const { data } = await apiClient.get(
+    `${config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`,
+    { params: { country_code: forCountry } },
+  ).catch(handleRequestError);
+
+  return data;
+}
+
 /**
  * Determine if the user's profile data is managed by a third-party identity provider.
  */
@@ -161,6 +170,7 @@ export async function getSettings(username, userRoles) {
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
+    getTimeZones(),
   ]);
 
   return {
@@ -168,6 +178,7 @@ export async function getSettings(username, userRoles) {
     ...results[1],
     thirdPartyAuthProviders: results[2],
     profileDataManager: results[3],
+    timeZones: results[4],
   };
 }
 

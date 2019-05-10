@@ -207,6 +207,16 @@ const messages = defineMessages({
     defaultMessage: 'Default (Local Time Zone)',
     description: 'The default option for a time zone.',
   },
+  'account.settings.field.time.zone.all': {
+    id: 'account.settings.field.time.zone.all',
+    defaultMessage: 'All time zones',
+    description: 'The label for the group of options for all time zones.',
+  },
+  'account.settings.field.time.zone.country': {
+    id: 'account.settings.field.time.zone.country',
+    defaultMessage: 'Country time zones',
+    description: 'The group of time zone options for a country.',
+  },
 
   'account.settings.section.social.media': {
     id: 'account.settings.section.social.media',
