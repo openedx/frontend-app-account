@@ -37,6 +37,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
         ...state,
         values: Object.assign({}, state.values, action.payload.values),
         authProviders: action.payload.thirdPartyAuthProviders,
+        profileDataManager: action.payload.profileDataManager,
         loading: false,
         loaded: true,
         loadingError: null,

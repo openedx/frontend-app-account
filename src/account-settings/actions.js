@@ -21,9 +21,9 @@ export const fetchSettingsBegin = () => ({
   type: FETCH_SETTINGS.BEGIN,
 });
 
-export const fetchSettingsSuccess = ({ values, thirdPartyAuthProviders }) => ({
+export const fetchSettingsSuccess = ({ values, thirdPartyAuthProviders, profileDataManager }) => ({
   type: FETCH_SETTINGS.SUCCESS,
-  payload: { values, thirdPartyAuthProviders },
+  payload: { values, thirdPartyAuthProviders, profileDataManager },
 });
 
 export const fetchSettingsFailure = error => ({

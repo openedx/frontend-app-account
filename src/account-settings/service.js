@@ -129,20 +129,45 @@ export async function getThirdPartyAuthProviders() {
 }
 
 /**
+ * Determine if the user's profile data is managed by a third-party identity provider.
+ */
+export async function getProfileDataManager(username, userRoles) {
+  const userRoleNames = userRoles.map(role => role.split(':')[0]);
+
+  if (userRoleNames.includes('enterprise_learner')) {
+    const url = `${config.LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
+    const { data } = await apiClient.get(url).catch(handleRequestError);
+
+    if ('results' in data) {
+      for (let i = 0; i < data.results.length; i += 1) {
+        const enterprise = data.results[i].enterprise_customer;
+        if (enterprise.sync_learner_profile_data) {
+          return enterprise.name;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
  * A single function to GET everything considered a setting.
  * Currently encapsulates Account, Preferences, and ThirdPartyAuth
  */
-export async function getSettings(username) {
+export async function getSettings(username, userRoles) {
   const results = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
+    getProfileDataManager(username, userRoles),
   ]);
 
   return {
     ...results[0],
     ...results[1],
     thirdPartyAuthProviders: results[2],
+    profileDataManager: results[3],
   };
 }
 

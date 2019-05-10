@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Hyperlink } from '@edx/paragon';
+import { FormattedMessage } from 'react-intl';
 import {
   injectIntl,
   intlShape,
@@ -8,10 +10,12 @@ import {
 
 import messages from './AccountSettingsPage.messages';
 
+import { configuration } from '../environment';
 import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
 
 import { PageLoading } from '../common';
+import Alert from './components/Alert';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
@@ -58,6 +62,36 @@ class AccountSettingsPage extends React.Component {
     this.props.saveSettings(formId, values);
   }
 
+  renderManagedProfileMessage() {
+    if (!this.props.profileDataManager) {
+      return (null);
+    }
+
+    return (
+      <div>
+        <Alert className="alert alert-primary" role="alert">
+          <FormattedMessage
+            id="account.settings.message.managed.settings"
+            defaultMessage="Your profile settings are managed by {managerTitle}. Contact your administrator or {support} for help."
+            description="alert message informing the user their account data is managed by a third party"
+            values={{
+              managerTitle: <b>{this.props.profileDataManager}</b>,
+              support: (
+                <Hyperlink href={configuration.SUPPORT_URL} target="_blank">
+                  <FormattedMessage
+                    id="account.settings.message.managed.settings.support"
+                    defaultMessage="support"
+                    description="website support"
+                  />
+                </Hyperlink>
+              ),
+            }}
+          />
+        </Alert>
+      </div>
+    );
+  }
+
   renderContent() {
     const editableFieldProps = {
       onChange: this.handleEditableFieldChange,
@@ -72,6 +106,7 @@ class AccountSettingsPage extends React.Component {
 
             <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.account.information'])}</h2>
             <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
+            {this.renderManagedProfileMessage()}
 
             <EditableField
               name="username"
@@ -88,6 +123,7 @@ class AccountSettingsPage extends React.Component {
               value={this.props.formValues.name}
               label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
+              isEditable={!this.props.staticFields.includes('name')}
               {...editableFieldProps}
             />
             <EmailField
@@ -96,6 +132,7 @@ class AccountSettingsPage extends React.Component {
               value={this.props.formValues.email}
               confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
+              isEditable={!this.props.staticFields.includes('email')}
               {...editableFieldProps}
             />
             <PasswordReset />
@@ -113,6 +150,7 @@ class AccountSettingsPage extends React.Component {
               value={this.props.formValues.country}
               options={this.props.countryOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
+              isEditable={!this.props.staticFields.includes('country')}
               {...editableFieldProps}
             />
 
@@ -277,6 +315,8 @@ AccountSettingsPage.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
+  profileDataManager: PropTypes.string,
+  staticFields: PropTypes.arrayOf(PropTypes.string),
 
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
@@ -292,6 +332,8 @@ AccountSettingsPage.defaultProps = {
   siteLanguageOptions: [],
   countryOptions: [],
   languageProficiencyOptions: [],
+  profileDataManager: null,
+  staticFields: [],
 };
 
 

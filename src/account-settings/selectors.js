@@ -12,6 +12,8 @@ export const storeName = 'accountSettings';
 
 export const usernameSelector = state => state.authentication.username;
 
+export const userRolesSelector = state => state.authentication.roles || [];
+
 export const accountSettingsSelector = state => ({ ...state[storeName] });
 
 const editableFieldNameSelector = (state, props) => props.name;
@@ -74,6 +76,16 @@ export const thirdPartyAuthSelector = createSelector(
   }),
 );
 
+export const profileDataManagerSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.profileDataManager,
+);
+
+export const staticFieldsSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => (accountSettings.profileDataManager ? ['name', 'email', 'country'] : []),
+);
+
 /**
  * If there's no draft present at all (undefined), use the original committed value.
  */
@@ -123,6 +135,8 @@ export const accountSettingsPageSelector = createSelector(
   languageProficiencyOptionsSelector,
   formValuesSelector,
   siteLanguageSelector,
+  profileDataManagerSelector,
+  staticFieldsSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -130,6 +144,8 @@ export const accountSettingsPageSelector = createSelector(
     languageProficiencyOptions,
     formValues,
     siteLanguage,
+    profileDataManager,
+    staticFields,
   ) => ({
     siteLanguageOptions,
     countryOptions,
@@ -139,5 +155,7 @@ export const accountSettingsPageSelector = createSelector(
     loaded: accountSettings.loaded,
     loadingError: accountSettings.loadingError,
     formValues,
+    profileDataManager,
+    staticFields,
   }),
 );
