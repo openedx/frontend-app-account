@@ -155,10 +155,22 @@ export const siteLanguageSelector = createSelector(
   },
 );
 
+export const betaLanguageBannerSelector = createSelector(
+  siteLanguageListSelector,
+  siteLanguageSelector,
+  (
+    siteLanguageList,
+    siteLanguage,
+  ) => ({
+    siteLanguageList,
+    siteLanguage,
+  }),
+);
+
+
 export const accountSettingsPageSelector = createSelector(
   accountSettingsSelector,
   siteLanguageOptionsSelector,
-  siteLanguageListSelector,
   siteLanguageSelector,
   countryOptionsSelector,
   languageProficiencyOptionsSelector,
@@ -170,7 +182,6 @@ export const accountSettingsPageSelector = createSelector(
   (
     accountSettings,
     siteLanguageOptions,
-    siteLanguageList,
     siteLanguage,
     countryOptions,
     languageProficiencyOptions,
@@ -181,7 +192,6 @@ export const accountSettingsPageSelector = createSelector(
     countryTimeZoneOptions,
   ) => ({
     siteLanguageOptions,
-    siteLanguageList,
     siteLanguage,
     countryOptions,
     languageProficiencyOptions,
