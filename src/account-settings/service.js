@@ -219,3 +219,8 @@ export async function postResetPassword(email) {
 
   return data;
 }
+
+export async function postDisconnectAuth(url) {
+  const { data } = await apiClient.post(url).catch(handleRequestError);
+  return data;
+}

@@ -2,12 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Hyperlink } from '@edx/paragon';
+import { Hyperlink, StatefulButton } from '@edx/paragon';
+import Alert from './Alert';
 
+import { disconnectAuth } from '../actions';
 import { thirdPartyAuthSelector } from '../selectors';
 
 class ThirdPartyAuth extends React.Component {
-  renderConnectedProvider(url, name) {
+  onClickDisconnect = (e) => {
+    e.preventDefault();
+    if (this.props.disconnectingState === 'pending') return;
+    const providerId = e.currentTarget.getAttribute('data-provider-id');
+    const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
+    this.props.disconnectAuth(disconnectUrl, providerId);
+  }
+
+  renderUnconnectedProvider(url, name) {
     return (
       <React.Fragment>
         <h6>{name}</h6>
@@ -23,7 +33,9 @@ class ThirdPartyAuth extends React.Component {
     );
   }
 
-  renderUnconnectedProvider(url, name) {
+  renderConnectedProvider(url, name, id) {
+    const hasError = this.props.disconnectErrors[id];
+
     return (
       <React.Fragment>
         <h6>
@@ -36,14 +48,34 @@ class ThirdPartyAuth extends React.Component {
             />
           </span>
         </h6>
-        <Hyperlink destination={url}>
-          <FormattedMessage
-            id="account.settings.sso.unlink.account"
-            defaultMessage="Unlink {name} account"
-            description="An action link to unlink a connected third party account"
-            values={{ name }}
-          />
-        </Hyperlink>
+        {hasError ? (
+          <Alert className="alert-danger">
+            <FormattedMessage
+              id="account.settings.sso.account.disconnect.error"
+              defaultMessage="There was a problem disconnecting this account. Contact support if the problem persists."
+              description="A message displayed when an error occurred while disconnecting a third party account"
+            />
+          </Alert>
+        ) : null}
+
+        <StatefulButton
+          className="btn-link"
+          state={this.props.disconnectingState}
+          labels={{
+            default: (
+              <FormattedMessage
+                id="account.settings.sso.unlink.account"
+                defaultMessage="Unlink {name} account"
+                description="An action link to unlink a connected third party account"
+                values={{ name }}
+              />
+            ),
+          }}
+          onClick={this.onClickDisconnect}
+          disabledStates={[]}
+          data-disconnect-url={url}
+          data-provider-id={id}
+        />
       </React.Fragment>
     );
   }
@@ -55,8 +87,8 @@ class ThirdPartyAuth extends React.Component {
       <div className="form-group" key={id}>
         {
           connected ?
-          this.renderUnconnectedProvider(disconnectUrl, name) :
-          this.renderConnectedProvider(connectUrl, name)
+          this.renderConnectedProvider(disconnectUrl, name, id) :
+          this.renderUnconnectedProvider(connectUrl, name)
         }
       </div>
     );
@@ -92,11 +124,18 @@ ThirdPartyAuth.propTypes = {
     connected: PropTypes.bool,
     id: PropTypes.string,
   })),
+  disconnectingState: PropTypes.oneOf([null, 'pending', 'complete', 'error']),
+  disconnectErrors: PropTypes.objectOf(PropTypes.bool),
+  disconnectAuth: PropTypes.func.isRequired,
 };
 
 ThirdPartyAuth.defaultProps = {
   providers: undefined,
+  disconnectingState: null,
+  disconnectErrors: {},
 };
 
 
-export default connect(thirdPartyAuthSelector)(ThirdPartyAuth);
+export default connect(thirdPartyAuthSelector, {
+  disconnectAuth,
+})(ThirdPartyAuth);
