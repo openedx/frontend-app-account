@@ -116,7 +116,6 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div>
-        {this.renderBanner()}
         <div className="row">
           <div className="col-md-8 col-lg-6">
 
@@ -227,11 +226,12 @@ class AccountSettingsPage extends React.Component {
 
             <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}</h2>
 
+            <BetaLanguageBanner />
             <EditableField
               name="siteLanguage"
               type="select"
               options={this.props.siteLanguageOptions}
-              value={this.props.siteLanguage.draftValue}
+              value={this.props.siteLanguage.draftOrSavedValue}
               label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
               {...editableFieldProps}
@@ -258,12 +258,6 @@ class AccountSettingsPage extends React.Component {
           </div>
         </div>
       </div>
-    );
-  }
-
-  renderBanner() {
-    return (
-      <BetaLanguageBanner />
     );
   }
 
@@ -326,7 +320,7 @@ AccountSettingsPage.propTypes = {
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
-    draftValue: PropTypes.string,
+    draftOrSavedValue: PropTypes.string,
     savedValue: PropTypes.string,
   }),
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({

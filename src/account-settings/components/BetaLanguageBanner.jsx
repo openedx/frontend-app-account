@@ -96,7 +96,7 @@ BetaLanguageBanner.propTypes = {
   intl: intlShape.isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
-    draftValue: PropTypes.string,
+    draftOrSavedValue: PropTypes.string,
     savedValue: PropTypes.string,
   }),
   siteLanguageList: PropTypes.arrayOf(PropTypes.shape({
