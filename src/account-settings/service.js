@@ -63,9 +63,10 @@ function packAccountCommitData(commitData) {
   const packedData = commitData;
 
   SOCIAL_PLATFORMS.forEach(({ id, key }) => {
-    if (commitData[key] !== undefined) {
-      packedData.social_links = [{ platform: id, social_link: commitData[key] }];
-    }
+    // Skip missing values. Empty strings are valid values and should be preserved.
+    if (commitData[key] === undefined) return;
+
+    packedData.social_links = [{ platform: id, social_link: commitData[key] }];
     delete packedData[key];
   });
 
