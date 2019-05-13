@@ -14,8 +14,8 @@ function* handleFetchSiteLanguages() {
   try {
     yield put(fetchSiteLanguagesBegin());
 
-    const languages = yield call(ApiService.getSiteLanguages);
-    yield put(fetchSiteLanguagesSuccess(languages));
+    const siteLanguageList = yield call(ApiService.getSiteLanguageList);
+    yield put(fetchSiteLanguagesSuccess(siteLanguageList));
   } catch (e) {
     yield call(handleFailure, e, fetchSiteLanguagesFailure);
   }

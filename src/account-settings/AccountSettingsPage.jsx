@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Hyperlink } from '@edx/paragon';
 import { FormattedMessage } from 'react-intl';
 import memoize from 'memoize-one';
 import {
   injectIntl,
   intlShape,
 } from '@edx/frontend-i18n'; // eslint-disable-line
+import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
 
@@ -20,6 +20,7 @@ import Alert from './components/Alert';
 import EditableField from './components/EditableField';
 import PasswordReset from './components/PasswordReset';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
+import BetaLanguageBanner from './components/BetaLanguageBanner';
 import EmailField from './components/EmailField';
 import {
   YEAR_OF_BIRTH_OPTIONS,
@@ -74,7 +75,7 @@ class AccountSettingsPage extends React.Component {
 
   renderManagedProfileMessage() {
     if (!this.props.profileDataManager) {
-      return (null);
+      return null;
     }
 
     return (
@@ -87,7 +88,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink href={configuration.SUPPORT_URL} target="_blank">
+                <Hyperlink destination={configuration.SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -99,6 +100,22 @@ class AccountSettingsPage extends React.Component {
           />
         </Alert>
       </div>
+    );
+  }
+
+  renderSecondaryEmailField(editableFieldProps) {
+    if (this.props.hiddenFields.includes('secondary_email')) {
+      return null;
+    }
+
+    return (
+      <EmailField
+        name="secondary_email"
+        label={this.props.intl.formatMessage(messages['account.settings.field.secondary.email'])}
+        value={this.props.formValues.secondary_email}
+        confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
+        {...editableFieldProps}
+      />
     );
   }
 
@@ -115,9 +132,9 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div>
+        {this.renderBanner()}
         <div className="row">
           <div className="col-md-8 col-lg-6">
-
 
             <h2 className="h4">{this.props.intl.formatMessage(messages['account.settings.section.account.information'])}</h2>
             <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
@@ -150,6 +167,7 @@ class AccountSettingsPage extends React.Component {
               isEditable={!this.props.staticFields.includes('email')}
               {...editableFieldProps}
             />
+            {this.renderSecondaryEmailField(editableFieldProps)}
             <PasswordReset />
             <EditableField
               name="year_of_birth"
@@ -230,7 +248,7 @@ class AccountSettingsPage extends React.Component {
               name="siteLanguage"
               type="select"
               options={this.props.siteLanguageOptions}
-              value={this.props.siteLanguage}
+              value={this.props.siteLanguage.draftValue}
               label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
               helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
               {...editableFieldProps}
@@ -257,6 +275,12 @@ class AccountSettingsPage extends React.Component {
           </div>
         </div>
       </div>
+    );
+  }
+
+  renderBanner() {
+    return (
+      <BetaLanguageBanner />
     );
   }
 
@@ -307,6 +331,7 @@ AccountSettingsPage.propTypes = {
     username: PropTypes.string,
     name: PropTypes.string,
     email: PropTypes.string,
+    secondary_email: PropTypes.string,
     year_of_birth: PropTypes.number,
     country: PropTypes.string,
     level_of_education: PropTypes.string,
@@ -317,7 +342,11 @@ AccountSettingsPage.propTypes = {
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
   }).isRequired,
-  siteLanguage: PropTypes.string,
+  siteLanguage: PropTypes.shape({
+    previousValue: PropTypes.string,
+    draftValue: PropTypes.string,
+    savedValue: PropTypes.string,
+  }),
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -332,6 +361,7 @@ AccountSettingsPage.propTypes = {
   })),
   profileDataManager: PropTypes.string,
   staticFields: PropTypes.arrayOf(PropTypes.string),
+  hiddenFields: PropTypes.arrayOf(PropTypes.string),
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -359,6 +389,7 @@ AccountSettingsPage.defaultProps = {
   languageProficiencyOptions: [],
   profileDataManager: null,
   staticFields: [],
+  hiddenFields: ['secondary_email'],
 };
 
 

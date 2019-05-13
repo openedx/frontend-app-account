@@ -16,6 +16,21 @@ const messages = defineMessages({
     defaultMessage: 'Error: {error}',
     description: 'Message when data failed to load',
   },
+  'account.settings.banner.beta.language': {
+    id: 'account.settings.banner.beta.language',
+    defaultMessage: 'You have set your language to {beta_language}, which is currently not fully translated. You can help us translate this language fully by joining the Transifex community and adding translations from English for learners that speak {beta_language}.',
+    description: 'Message when the user selects a beta language this is not yet fully translated.',
+  },
+  'account.settings.banner.beta.language.action.switch.back': {
+    id: 'account.settings.banner.beta.language.action.switch.back',
+    defaultMessage: 'Switch Back to {previous_language}',
+    description: 'Button on the beta language message to switch back to the previous language.',
+  },
+  'account.settings.banner.beta.language.action.help.translate': {
+    id: 'account.settings.banner.beta.language.action.help.translate',
+    defaultMessage: 'Help Translate into {beta_language}',
+    description: 'Button on the beta language message to help translate the beta language.',
+  },
   'account.settings.section.account.information': {
     id: 'account.settings.section.account.information',
     defaultMessage: 'Account Information',
@@ -80,6 +95,16 @@ const messages = defineMessages({
     id: 'account.settings.field.email.help.text',
     defaultMessage: 'You receive messages from edX and course teams at this address.',
     description: 'Help text for the account settings email field.',
+  },
+  'account.settings.field.secondary.email': {
+    id: 'account.settings.field.secondary.email',
+    defaultMessage: 'Recovery email address',
+    description: 'Label for account settings recovery email field.',
+  },
+  'account.settings.field.secondary.email.confirmation': {
+    id: 'account.settings.field.secondary.email.confirmation',
+    defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your recovery email address.',
+    description: 'Confirmation message for saving the account settings recovery email field.',
   },
   'account.settings.email.field.confirmation.header': {
     id: 'account.settings.email.field.confirmation.header',

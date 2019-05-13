@@ -10,9 +10,9 @@ export const fetchSiteLanguagesBegin = () => ({
   type: FETCH_SITE_LANGUAGES.BEGIN,
 });
 
-export const fetchSiteLanguagesSuccess = languages => ({
+export const fetchSiteLanguagesSuccess = siteLanguageList => ({
   type: FETCH_SITE_LANGUAGES.SUCCESS,
-  payload: { languages },
+  payload: { siteLanguageList },
 });
 
 export const fetchSiteLanguagesFailure = error => ({

@@ -4,6 +4,7 @@ import {
   CLOSE_FORM,
   SAVE_SETTINGS,
   FETCH_TIME_ZONES,
+  SAVE_PREVIOUS_SITE_LANGUAGE,
   RESET_PASSWORD,
   DISCONNECT_AUTH,
   UPDATE_DRAFT,
@@ -25,6 +26,7 @@ export const defaultState = {
   countryTimeZones: [],
   disconnectingState: null,
   disconnectErrors: {},
+  previousSiteLanguage: null,
 };
 
 const accountSettingsReducer = (state = defaultState, action) => {
@@ -130,7 +132,11 @@ const accountSettingsReducer = (state = defaultState, action) => {
         saveState: null,
         errors: {},
       };
-
+    case SAVE_PREVIOUS_SITE_LANGUAGE:
+      return {
+        ...state,
+        previousSiteLanguage: action.payload.previousSiteLanguage,
+      };
     case RESET_PASSWORD.BEGIN:
       return {
         ...state,

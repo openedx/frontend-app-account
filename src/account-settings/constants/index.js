@@ -30,3 +30,5 @@ export const GENDER_OPTIONS = [
   'm',
   'o',
 ];
+
+export const TRANSIFEX_LANGUAGE_BASE_URL = 'https://www.transifex.com/open-edx/edx-platform/language/';
