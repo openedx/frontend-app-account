@@ -41,6 +41,9 @@ function unpackFieldErrors(fieldErrors) {
 function unpackAccountResponseData(data) {
   const unpackedData = data;
 
+  // This is handled by preferences
+  delete unpackedData.time_zone;
+
   SOCIAL_PLATFORMS.forEach(({ id, key }) => {
     const platformData = data.social_links.find(({ platform }) => platform === id);
     unpackedData[key] = typeof platformData === 'object' ? platformData.social_link : '';
