@@ -63,7 +63,7 @@ function packAccountCommitData(commitData) {
   const packedData = commitData;
 
   SOCIAL_PLATFORMS.forEach(({ id, key }) => {
-    if (commitData[key]) {
+    if (commitData[key] !== undefined) {
       packedData.social_links = [{ platform: id, social_link: commitData[key] }];
     }
     delete packedData[key];
