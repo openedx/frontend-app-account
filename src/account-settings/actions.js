@@ -145,8 +145,9 @@ export const disconnectAuth = (url, providerId) => ({
 export const disconnectAuthBegin = () => ({
   type: DISCONNECT_AUTH.BEGIN,
 });
-export const disconnectAuthSuccess = () => ({
+export const disconnectAuthSuccess = thirdPartyAuthProviders => ({
   type: DISCONNECT_AUTH.SUCCESS,
+  payload: { thirdPartyAuthProviders },
 });
 export const disconnectAuthFailure = providerId => ({
   type: DISCONNECT_AUTH.FAILURE, payload: { providerId },

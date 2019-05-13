@@ -164,6 +164,7 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         disconnectingState: 'complete',
+        authProviders: action.payload.thirdPartyAuthProviders,
       };
     case DISCONNECT_AUTH.FAILURE:
       return {
