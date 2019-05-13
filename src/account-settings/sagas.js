@@ -123,8 +123,9 @@ export function* handleDisconnectAuth(action) {
   try {
     yield put(disconnectAuthReset());
     yield put(disconnectAuthBegin());
-    const response = yield call(ApiService.postDisconnectAuth, action.payload.url);
-    yield put(disconnectAuthSuccess(response));
+    yield call(ApiService.postDisconnectAuth, action.payload.url);
+    const { data } = yield call(ApiService.getThirdPartyAuthProviders);
+    yield put(disconnectAuthSuccess({ thirdPartyAuthProviders: data }));
   } catch (e) {
     logAPIErrorResponse(e);
     yield put(disconnectAuthFailure(action.payload.providerId));
