@@ -134,8 +134,8 @@ export const fetchTimeZonesSuccess = timeZones => ({
 
 // DISCONNECT AUTH ACTIONS
 
-export const disconnectAuth = url => ({
-  type: DISCONNECT_AUTH.BASE, payload: { url },
+export const disconnectAuth = (url, providerId) => ({
+  type: DISCONNECT_AUTH.BASE, payload: { url, providerId },
 });
 export const disconnectAuthBegin = () => ({
   type: DISCONNECT_AUTH.BEGIN,
@@ -143,8 +143,8 @@ export const disconnectAuthBegin = () => ({
 export const disconnectAuthSuccess = () => ({
   type: DISCONNECT_AUTH.SUCCESS,
 });
-export const disconnectAuthFailure = ({ message }) => ({
-  type: SAVE_SETTINGS.FAILURE, payload: { error: message },
+export const disconnectAuthFailure = providerId => ({
+  type: DISCONNECT_AUTH.FAILURE, payload: { providerId },
 });
 export const disconnectAuthReset = () => ({
   type: DISCONNECT_AUTH.RESET,

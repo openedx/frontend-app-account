@@ -70,9 +70,8 @@ export const thirdPartyAuthSelector = createSelector(
   accountSettingsSelector,
   accountSettings => ({
     providers: accountSettings.authProviders,
-    loading: accountSettings.thirdPartyAuthLoading,
-    loaded: accountSettings.thirdPartyAuthLoaded,
-    loadingError: accountSettings.thirdPartyAuthLoadingError,
+    disconnectErrors: accountSettings.disconnectErrors,
+    disconnectingState: accountSettings.disconnectingState,
   }),
 );
 

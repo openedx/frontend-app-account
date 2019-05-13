@@ -5,6 +5,7 @@ import {
   SAVE_SETTINGS,
   FETCH_TIME_ZONES,
   RESET_PASSWORD,
+  DISCONNECT_AUTH,
   UPDATE_DRAFT,
   RESET_DRAFTS,
 } from './actions';
@@ -22,6 +23,8 @@ export const defaultState = {
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
+  disconnectingState: null,
+  disconnectErrors: {},
 };
 
 const accountSettingsReducer = (state = defaultState, action) => {
@@ -143,6 +146,32 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         countryTimeZones: action.payload.timeZones,
+      };
+
+
+    case DISCONNECT_AUTH.BEGIN:
+      return {
+        ...state,
+        disconnectingState: 'pending',
+      };
+    case DISCONNECT_AUTH.SUCCESS:
+      return {
+        ...state,
+        disconnectingState: 'complete',
+      };
+    case DISCONNECT_AUTH.FAILURE:
+      return {
+        ...state,
+        disconnectingState: 'error',
+        disconnectErrors: {
+          [action.payload.providerId]: true,
+        },
+      };
+    case DISCONNECT_AUTH.RESET:
+      return {
+        ...state,
+        disconnectingState: null,
+        disconnectErrors: {},
       };
 
     default:

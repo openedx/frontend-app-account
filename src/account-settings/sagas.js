@@ -117,14 +117,14 @@ export function* handleFetchTimeZones(action) {
 }
 
 export function* handleDisconnectAuth(action) {
-
   try {
+    yield put(disconnectAuthReset());
     yield put(disconnectAuthBegin());
     const response = yield call(ApiService.postDisconnectAuth, action.payload.url);
     yield put(disconnectAuthSuccess(response));
   } catch (e) {
     logAPIErrorResponse(e);
-    yield put(push('/error'));
+    yield put(disconnectAuthFailure(action.payload.providerId));
   }
 }
 
@@ -134,5 +134,5 @@ export default function* saga() {
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
-  yield takeEvery(DISCONNECT_AUTH.BASE, handleFetchTimeZones);
+  yield takeEvery(DISCONNECT_AUTH.BASE, handleDisconnectAuth);
 }
