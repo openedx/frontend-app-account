@@ -42,7 +42,7 @@ function unpackAccountResponseData(data) {
   const unpackedData = data;
 
   // This is handled by preferences
-  if (unpackedData.time_zone !== undefined) delete unpackedData.time_zone;
+  delete unpackedData.time_zone;
 
   SOCIAL_PLATFORMS.forEach(({ id, key }) => {
     const platformData = data.social_links.find(({ platform }) => platform === id);
