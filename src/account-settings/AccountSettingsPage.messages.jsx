@@ -16,6 +16,21 @@ const messages = defineMessages({
     defaultMessage: 'Error: {error}',
     description: 'Message when data failed to load',
   },
+  'account.settings.banner.beta.language': {
+    id: 'account.settings.banner.beta.language',
+    defaultMessage: 'You have set your language to {beta_language}, which is currently not fully translated. You can help us translate this language fully by joining the Transifex community and adding translations from English for learners that speak {beta_language}.',
+    description: 'Message when the user selects a beta language this is not yet fully translated.',
+  },
+  'account.settings.banner.beta.language.action.switch.back': {
+    id: 'account.settings.banner.beta.language.action.switch.back',
+    defaultMessage: 'Switch Back to {previous_language}',
+    description: 'Button on the beta language message to switch back to the previous language.',
+  },
+  'account.settings.banner.beta.language.action.help.translate': {
+    id: 'account.settings.banner.beta.language.action.help.translate',
+    defaultMessage: 'Help Translate into {beta_language}',
+    description: 'Button on the beta language message to help translate the beta language.',
+  },
   'account.settings.section.account.information': {
     id: 'account.settings.section.account.information',
     defaultMessage: 'Account Information',

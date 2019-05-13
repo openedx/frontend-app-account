@@ -1,17 +1,17 @@
 import { createSelector } from 'reselect';
 
-export const storeName = 'siteLanguage';
+export const storeName = 'siteLanguageList';
 
-const siteLanguageSelector = state => state[storeName];
+const storeSelector = state => state[storeName];
 
-const languagesSelector = createSelector(
-  siteLanguageSelector,
-  siteLanguage => siteLanguage.languages,
+export const siteLanguageListSelector = createSelector(
+  storeSelector,
+  siteLanguageListStore => siteLanguageListStore.siteLanguageList,
 );
 
 export const siteLanguageOptionsSelector = createSelector(
-  languagesSelector,
-  languages => languages.map(({ code, name }) => ({
+  siteLanguageListSelector,
+  siteLanguageList => siteLanguageList.map(({ code, name }) => ({
     value: code,
     label: name,
   })),
