@@ -25,6 +25,7 @@ const createRootReducer = history =>
     // creating the store in data/store.js.
     authentication: identityReducer,
     configuration: identityReducer,
+    errors: identityReducer,
     i18n: i18nReducer,
     userAccount,
     [accountSettingsStoreName]: accountSettingsReducer,
