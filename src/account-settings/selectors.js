@@ -153,7 +153,7 @@ export const siteLanguageSelector = createSelector(
     const savedValue = getAssumedServerLanguageCode(locale);
     return {
       previousValue,
-      draftValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : savedValue),
+      draftOrSavedValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : savedValue),
       savedValue,
     };
   },
