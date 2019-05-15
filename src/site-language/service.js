@@ -37,10 +37,9 @@ async function patchPreferences(username, params) {
 async function postSetLang(code) {
   const formData = new FormData();
   formData.append('language', getAssumedServerLanguageCode(code));
-  formData.append('next', `${config.BASE_URL}/account-settings`);
 
   await apiClient.post(`${config.LMS_BASE_URL}/i18n/setlang/`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: { 'X-Requested-With': 'XMLHttpRequest' },
   });
 }
 
