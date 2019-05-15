@@ -11,4 +11,24 @@
     padding: 0;
     display: inline-block;
   }
+
+  .jump-nav {
+    @media (min-width: map-get($grid-breakpoints, "sm")) {
+      padding-top: 1rem;
+      position: sticky;
+      top: 1rem;
+    }
+    li {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .section-heading {
+    @extend .h4;
+    margin-bottom: map-get($spacers, 3);
+  }
+  section {
+    // These properties together will shift the hashlink position
+    padding-top: 1rem;
+  }
 }
