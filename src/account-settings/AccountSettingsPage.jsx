@@ -73,6 +73,27 @@ class AccountSettingsPage extends React.Component {
     this.props.saveSettings(formId, values);
   }
 
+  renderDuplicateTpaProviderMessage() {
+    if (!this.props.duplicateTpaProvider) {
+      return null;
+    }
+
+    return (
+      <div>
+        <Alert className="alert alert-danger" role="alert">
+          <FormattedMessage
+            id="account.settings.message.duplicate.tpa.provider"
+            defaultMessage="The {provider} account you selected is already linked to another edX account."
+            description="alert message informing the user that the third-party account they attempted to link is already linked to another edX account"
+            values={{
+              provider: <b>{this.props.duplicateTpaProvider}</b>,
+            }}
+          />
+        </Alert>
+      </div>
+    );
+  }
+
   renderManagedProfileMessage() {
     if (!this.props.profileDataManager) {
       return null;
@@ -303,6 +324,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div className="page__account-settings container-fluid py-5">
+        {this.renderDuplicateTpaProviderMessage()}
         <h1>
           {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
         </h1>
@@ -369,6 +391,7 @@ AccountSettingsPage.propTypes = {
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
+  duplicateTpaProvider: PropTypes.string,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -384,6 +407,7 @@ AccountSettingsPage.defaultProps = {
   profileDataManager: null,
   staticFields: [],
   hiddenFields: ['secondary_email'],
+  duplicateTpaProvider: null,
 };
 
 

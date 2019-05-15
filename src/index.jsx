@@ -39,7 +39,17 @@ const apiClient = getAuthenticatedAPIClient({
  * so that we can hand it all to the redux store's initializer.
  */
 function createInitialState() {
-  return Object.assign({}, { configuration }, apiClient.getAuthenticationState());
+  const errors = {};
+  const url = new URL(window.location.href);
+
+  // Extract duplicate third-party auth provider message from query string
+  errors.duplicateTpaProvider = url.searchParams.get('duplicate_provider');
+  if (errors.duplicateTpaProvider) {
+    // Remove the duplicate_provider query param to avoid bookmarking.
+    window.history.replaceState(null, '', `${url.protocol}//${url.host}${url.pathname}`);
+  }
+
+  return Object.assign({}, { configuration }, apiClient.getAuthenticationState(), { errors });
 }
 
 function configure() {

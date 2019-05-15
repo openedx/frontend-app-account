@@ -16,6 +16,8 @@ export const userRolesSelector = state => state.authentication.roles || [];
 
 export const accountSettingsSelector = state => ({ ...state[storeName] });
 
+const duplicateTpaProviderSelector = state => state.errors.duplicateTpaProvider;
+
 const editableFieldNameSelector = (state, props) => props.name;
 
 const valuesSelector = createSelector(
@@ -184,6 +186,7 @@ export const accountSettingsPageSelector = createSelector(
   hiddenFieldsSelector,
   timeZonesSelector,
   countryTimeZonesSelector,
+  duplicateTpaProviderSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -196,6 +199,7 @@ export const accountSettingsPageSelector = createSelector(
     hiddenFields,
     timeZoneOptions,
     countryTimeZoneOptions,
+    duplicateTpaProvider,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
@@ -210,5 +214,6 @@ export const accountSettingsPageSelector = createSelector(
     profileDataManager,
     staticFields,
     hiddenFields,
+    duplicateTpaProvider,
   }),
 );
