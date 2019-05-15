@@ -8,6 +8,15 @@ import { sendTrackEvent } from '@edx/frontend-analytics';
 import SiteHeader from '@edx/frontend-component-site-header';
 import SiteFooter from '@edx/frontend-component-footer';
 import { getLocale, getMessages } from '@edx/frontend-i18n'; // eslint-disable-line
+import {
+  faFacebookSquare,
+  faTwitterSquare,
+  faYoutubeSquare,
+  faLinkedin,
+  faGooglePlusSquare,
+  faRedditSquare,
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { PageLoading, fetchUserAccount } from '../common';
 import { ConnectedAccountSettingsPage } from '../account-settings';
@@ -86,6 +95,44 @@ function PageContent({
       content: intl.formatMessage(messages['siteheader.user.menu.register']),
     },
   ];
+  const socialLinks = [
+    {
+      title: 'Facebook',
+      url: configuration.FACEBOOK_URL,
+      icon: <FontAwesomeIcon icon={faFacebookSquare} className="social-icon" size="2x" />,
+      screenReaderText: 'Like edX on Facebook',
+    },
+    {
+      title: 'Twitter',
+      url: configuration.TWITTER_URL,
+      icon: <FontAwesomeIcon icon={faTwitterSquare} className="social-icon" size="2x" />,
+      screenReaderText: 'Follow edX on Twitter',
+    },
+    {
+      title: 'Youtube',
+      url: configuration.YOU_TUBE_URL,
+      icon: <FontAwesomeIcon icon={faYoutubeSquare} className="social-icon" size="2x" />,
+      screenReaderText: 'Subscribe to the edX YouTube channel',
+    },
+    {
+      title: 'LinkedIn',
+      url: configuration.LINKED_IN_URL,
+      icon: <FontAwesomeIcon icon={faLinkedin} className="social-icon" size="2x" />,
+      screenReaderText: 'Follow edX on LinkedIn',
+    },
+    {
+      title: 'Google+',
+      url: configuration.GOOGLE_PLUS_URL,
+      icon: <FontAwesomeIcon icon={faGooglePlusSquare} className="social-icon" size="2x" />,
+      screenReaderText: 'Follow edX on Google+',
+    },
+    {
+      title: 'Reddit',
+      url: configuration.REDDIT_URL,
+      icon: <FontAwesomeIcon icon={faRedditSquare} className="social-icon" size="2x" />,
+      screenReaderText: 'Subscribe to the edX subreddit',
+    },
+  ];
 
   return (
     <div id="app">
@@ -117,12 +164,7 @@ function PageContent({
         openSourceUrl={configuration.OPEN_SOURCE_URL}
         termsOfServiceUrl={configuration.TERMS_OF_SERVICE_URL}
         privacyPolicyUrl={configuration.PRIVACY_POLICY_URL}
-        facebookUrl={configuration.FACEBOOK_URL}
-        twitterUrl={configuration.TWITTER_URL}
-        youTubeUrl={configuration.YOU_TUBE_URL}
-        linkedInUrl={configuration.LINKED_IN_URL}
-        googlePlusUrl={configuration.GOOGLE_PLUS_URL}
-        redditUrl={configuration.REDDIT_URL}
+        socialLinks={socialLinks}
         appleAppStoreUrl={configuration.APPLE_APP_STORE_URL}
         googlePlayUrl={configuration.GOOGLE_PLAY_URL}
         handleAllTrackEvents={sendTrackEvent}
