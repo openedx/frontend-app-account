@@ -23,7 +23,6 @@ export const configuration = {
   TWITTER_URL: process.env.TWITTER_URL,
   YOU_TUBE_URL: process.env.YOU_TUBE_URL,
   LINKED_IN_URL: process.env.LINKED_IN_URL,
-  GOOGLE_PLUS_URL: process.env.GOOGLE_PLUS_URL,
   REDDIT_URL: process.env.REDDIT_URL,
   APPLE_APP_STORE_URL: process.env.APPLE_APP_STORE_URL,
   GOOGLE_PLAY_URL: process.env.GOOGLE_PLAY_URL,
@@ -38,6 +37,10 @@ export const configuration = {
   ECOMMERCE_API_BASE_URL: `${process.env.ECOMMERCE_BASE_URL}/api/v2`,
   DELETE_ACCOUNT_URL: `${process.env.LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
   PASSWORD_RESET_URL: `${process.env.LMS_BASE_URL}/password_reset/`,
+  ENTERPRISE_MARKETING_URL: process.env.ENTERPRISE_MARKETING_URL,
+  ENTERPRISE_MARKETING_UTM_SOURCE: process.env.ENTERPRISE_MARKETING_UTM_SOURCE,
+  ENTERPRISE_MARKETING_UTM_CAMPAIGN: process.env.ENTERPRISE_MARKETING_UTM_CAMPAIGN,
+  ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM: process.env.ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM,
 };
 
 export const features = {};

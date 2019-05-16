@@ -8,12 +8,12 @@ import { sendTrackEvent } from '@edx/frontend-analytics';
 import SiteHeader from '@edx/frontend-component-site-header';
 import SiteFooter from '@edx/frontend-component-footer';
 import { getLocale, getMessages } from '@edx/frontend-i18n'; // eslint-disable-line
+
 import {
   faFacebookSquare,
   faTwitterSquare,
   faYoutubeSquare,
   faLinkedin,
-  faGooglePlusSquare,
   faRedditSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,56 +42,56 @@ function PageContent({
   const mainMenu = [
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/course`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/course`,
       content: intl.formatMessage(messages['siteheader.links.courses']),
     },
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/course?program=all`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/course?program=all`,
       content: intl.formatMessage(messages['siteheader.links.programs']),
     },
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/schools-partners`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/schools-partners`,
       content: intl.formatMessage(messages['siteheader.links.schools']),
     },
   ];
   const userMenu = [
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}`,
+      href: `${configuration.LMS_BASE_URL}`,
       content: intl.formatMessage(messages['siteheader.user.menu.dashboard']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/u/${username}`,
+      href: `${configuration.LMS_BASE_URL}/u/${username}`,
       content: intl.formatMessage(messages['siteheader.user.menu.profile']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/account/settings`,
+      href: `${configuration.LMS_BASE_URL}/account/settings`,
       content: intl.formatMessage(messages['siteheader.user.menu.account.settings']),
     },
     {
       type: 'item',
-      href: process.env.ORDER_HISTORY_URL,
+      href: configuration.ORDER_HISTORY_URL,
       content: intl.formatMessage(messages['siteheader.user.menu.order.history']),
     },
     {
       type: 'item',
-      href: process.env.LOGOUT_URL,
+      href: configuration.LOGOUT_URL,
       content: intl.formatMessage(messages['siteheader.user.menu.logout']),
     },
   ];
   const loggedOutItems = [
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/login`,
+      href: `${configuration.LMS_BASE_URL}/login`,
       content: intl.formatMessage(messages['siteheader.user.menu.login']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/register`,
+      href: `${configuration.LMS_BASE_URL}/register`,
       content: intl.formatMessage(messages['siteheader.user.menu.register']),
     },
   ];
@@ -119,12 +119,6 @@ function PageContent({
       url: configuration.LINKED_IN_URL,
       icon: <FontAwesomeIcon icon={faLinkedin} className="social-icon" size="2x" />,
       screenReaderText: 'Follow edX on LinkedIn',
-    },
-    {
-      title: 'Google+',
-      url: configuration.GOOGLE_PLUS_URL,
-      icon: <FontAwesomeIcon icon={faGooglePlusSquare} className="social-icon" size="2x" />,
-      screenReaderText: 'Follow edX on Google+',
     },
     {
       title: 'Reddit',
@@ -164,43 +158,22 @@ function PageContent({
         openSourceUrl={configuration.OPEN_SOURCE_URL}
         termsOfServiceUrl={configuration.TERMS_OF_SERVICE_URL}
         privacyPolicyUrl={configuration.PRIVACY_POLICY_URL}
-        socialLinks={socialLinks}
         appleAppStoreUrl={configuration.APPLE_APP_STORE_URL}
         googlePlayUrl={configuration.GOOGLE_PLAY_URL}
+        socialLinks={socialLinks}
+        enterpriseMarketingLink={{
+          url: configuration.ENTERPRISE_MARKETING_URL,
+          queryParams: {
+            utm_source: configuration.ENTERPRISE_MARKETING_UTM_SOURCE,
+            utm_campaign: configuration.ENTERPRISE_MARKETING_UTM_CAMPAIGN,
+            utm_medium: configuration.ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM,
+          },
+        }}
         handleAllTrackEvents={sendTrackEvent}
       />
     </div>
   );
 }
-
-PageContent.propTypes = {
-  username: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
-  ready: PropTypes.bool,
-  configuration: PropTypes.shape({
-    SITE_NAME: PropTypes.string.isRequired,
-    MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
-    SUPPORT_URL: PropTypes.string.isRequired,
-    CONTACT_URL: PropTypes.string.isRequired,
-    OPEN_SOURCE_URL: PropTypes.string.isRequired,
-    TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
-    PRIVACY_POLICY_URL: PropTypes.string.isRequired,
-    FACEBOOK_URL: PropTypes.string.isRequired,
-    TWITTER_URL: PropTypes.string.isRequired,
-    YOU_TUBE_URL: PropTypes.string.isRequired,
-    LINKED_IN_URL: PropTypes.string.isRequired,
-    GOOGLE_PLUS_URL: PropTypes.string.isRequired,
-    REDDIT_URL: PropTypes.string.isRequired,
-    APPLE_APP_STORE_URL: PropTypes.string.isRequired,
-    GOOGLE_PLAY_URL: PropTypes.string.isRequired,
-  }).isRequired,
-  intl: intlShape.isRequired,
-};
-
-PageContent.defaultProps = {
-  ready: false,
-  avatar: null,
-};
 
 const IntlPageContent = injectIntl(PageContent);
 
@@ -228,6 +201,43 @@ class App extends Component {
   }
 }
 
+const configurationPropTypes = {
+  SITE_NAME: PropTypes.string.isRequired,
+  LMS_BASE_URL: PropTypes.string.isRequired,
+  LOGOUT_URL: PropTypes.string.isRequired,
+  MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
+  SUPPORT_URL: PropTypes.string.isRequired,
+  CONTACT_URL: PropTypes.string.isRequired,
+  OPEN_SOURCE_URL: PropTypes.string.isRequired,
+  TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
+  PRIVACY_POLICY_URL: PropTypes.string.isRequired,
+  FACEBOOK_URL: PropTypes.string.isRequired,
+  TWITTER_URL: PropTypes.string.isRequired,
+  YOU_TUBE_URL: PropTypes.string.isRequired,
+  LINKED_IN_URL: PropTypes.string.isRequired,
+  REDDIT_URL: PropTypes.string.isRequired,
+  APPLE_APP_STORE_URL: PropTypes.string.isRequired,
+  GOOGLE_PLAY_URL: PropTypes.string.isRequired,
+  ORDER_HISTORY_URL: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_URL: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_UTM_SOURCE: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_UTM_CAMPAIGN: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM: PropTypes.string.isRequired,
+};
+
+PageContent.propTypes = {
+  username: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
+  ready: PropTypes.bool,
+  configuration: PropTypes.shape(configurationPropTypes).isRequired,
+  intl: intlShape.isRequired,
+};
+
+PageContent.defaultProps = {
+  ready: false,
+  avatar: null,
+};
+
 App.propTypes = {
   fetchUserAccount: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
@@ -236,23 +246,7 @@ App.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line
   ready: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  configuration: PropTypes.shape({
-    SITE_NAME: PropTypes.string.isRequired,
-    MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
-    SUPPORT_URL: PropTypes.string.isRequired,
-    CONTACT_URL: PropTypes.string.isRequired,
-    OPEN_SOURCE_URL: PropTypes.string.isRequired,
-    TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
-    PRIVACY_POLICY_URL: PropTypes.string.isRequired,
-    FACEBOOK_URL: PropTypes.string.isRequired,
-    TWITTER_URL: PropTypes.string.isRequired,
-    YOU_TUBE_URL: PropTypes.string.isRequired,
-    LINKED_IN_URL: PropTypes.string.isRequired,
-    GOOGLE_PLUS_URL: PropTypes.string.isRequired,
-    REDDIT_URL: PropTypes.string.isRequired,
-    APPLE_APP_STORE_URL: PropTypes.string.isRequired,
-    GOOGLE_PLAY_URL: PropTypes.string.isRequired,
-  }).isRequired,
+  configuration: PropTypes.shape(configurationPropTypes).isRequired,
 };
 
 App.defaultProps = {
