@@ -1,6 +1,8 @@
+import formurlencoded from 'form-urlencoded';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
+
 import applyConfiguration from '../common/serviceUtils';
 
 let config = {
@@ -223,7 +225,15 @@ export async function patchSettings(username, commitValues) {
 
 export async function postResetPassword(email) {
   const { data } = await apiClient
-    .post(config.PASSWORD_RESET_URL, { email })
+    .post(
+      config.PASSWORD_RESET_URL,
+      formurlencoded({ email }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      },
+    )
     .catch(handleRequestError);
 
   return data;
