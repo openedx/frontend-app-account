@@ -141,6 +141,10 @@ const countryTimeZonesSelector = createSelector(
   accountSettings => transformTimeZonesToOptions(accountSettings.countryTimeZones),
 );
 
+const verifiedAccountSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.values.is_active,
+);
 
 /**
  * This selector converts the site language code back to the server version so that it can match up
@@ -186,6 +190,7 @@ export const accountSettingsPageSelector = createSelector(
   hiddenFieldsSelector,
   timeZonesSelector,
   countryTimeZonesSelector,
+  verifiedAccountSelector,
   duplicateTpaProviderSelector,
   (
     accountSettings,
@@ -199,6 +204,7 @@ export const accountSettingsPageSelector = createSelector(
     hiddenFields,
     timeZoneOptions,
     countryTimeZoneOptions,
+    isActive,
     duplicateTpaProvider,
   ) => ({
     siteLanguageOptions,
@@ -210,6 +216,7 @@ export const accountSettingsPageSelector = createSelector(
     loadingError: accountSettings.loadingError,
     timeZoneOptions,
     countryTimeZoneOptions,
+    isActive,
     formValues,
     profileDataManager,
     staticFields,

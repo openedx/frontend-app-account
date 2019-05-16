@@ -132,7 +132,7 @@ class DeleteMyAccount extends React.Component {
         }
 
         <Modal
-          open={this.props.deletionStatus === 'confirming'}
+          open={this.props.accountDeletionState === 'confirming'}
           title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
           body={(
             <div>
@@ -199,7 +199,7 @@ class DeleteMyAccount extends React.Component {
         />
 
         <Modal
-          open={this.props.deletionStatus === 'deleted'}
+          open={this.props.accountDeletionState === 'deleted'}
           title={intl.formatMessage(messages['account.settings.delete.account.modal.after.header'])}
           body={(
             <div>
@@ -221,7 +221,7 @@ DeleteMyAccount.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   deleteAccountReset: PropTypes.func.isRequired,
   deleteAccountConfirmation: PropTypes.func.isRequired,
-  deletionStatus: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
+  accountDeletionState: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
   deletionError: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedSocial: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
@@ -231,14 +231,14 @@ DeleteMyAccount.propTypes = {
 DeleteMyAccount.defaultProps = {
   hasLinkedSocial: false,
   isVerifiedAccount: true,
-  deletionStatus: null,
+  accountDeletionState: null,
   deletionError: null,
 };
 
 export default connect(
   state => ({
     deletionError: state.accountSettings.deletionError,
-    deletionStatus: state.accountSettings.deletionStatus,
+    accountDeletionState: state.accountSettings.accountDeletionState,
   }),
   {
     deleteAccount,

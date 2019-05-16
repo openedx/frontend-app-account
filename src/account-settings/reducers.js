@@ -22,7 +22,7 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
-  deletionStatus: null,
+  accountDeletionState: null,
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
@@ -143,32 +143,32 @@ const accountSettingsReducer = (state = defaultState, action) => {
     case DELETE_ACCOUNT.CONFIRMATION:
       return {
         ...state,
-        deletionStatus: 'confirming',
+        accountDeletionState: 'confirming',
       };
 
     case DELETE_ACCOUNT.BEGIN:
       return {
         ...state,
-        deletionStatus: 'pending',
+        accountDeletionState: 'pending',
       };
 
     case DELETE_ACCOUNT.SUCCESS:
       return {
         ...state,
-        deletionStatus: 'deleted',
+        accountDeletionState: 'deleted',
       };
 
     case DELETE_ACCOUNT.FAILURE:
       return {
         ...state,
-        deletionStatus: 'failed',
+        accountDeletionState: 'failed',
         deletionError: 'server',
       };
 
     case DELETE_ACCOUNT.RESET:
       return {
         ...state,
-        deletionStatus: null,
+        accountDeletionState: null,
         deletionError: null,
       };
 
