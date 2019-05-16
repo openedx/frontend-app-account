@@ -42,87 +42,87 @@ function PageContent({
   const mainMenu = [
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/course`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/course`,
       content: intl.formatMessage(messages['siteheader.links.courses']),
     },
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/course?program=all`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/course?program=all`,
       content: intl.formatMessage(messages['siteheader.links.programs']),
     },
     {
       type: 'item',
-      href: `${process.env.MARKETING_SITE_BASE_URL}/schools-partners`,
+      href: `${configuration.MARKETING_SITE_BASE_URL}/schools-partners`,
       content: intl.formatMessage(messages['siteheader.links.schools']),
     },
   ];
   const userMenu = [
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}`,
+      href: `${configuration.LMS_BASE_URL}`,
       content: intl.formatMessage(messages['siteheader.user.menu.dashboard']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/u/${username}`,
+      href: `${configuration.LMS_BASE_URL}/u/${username}`,
       content: intl.formatMessage(messages['siteheader.user.menu.profile']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/account/settings`,
+      href: `${configuration.LMS_BASE_URL}/account/settings`,
       content: intl.formatMessage(messages['siteheader.user.menu.account.settings']),
     },
     {
       type: 'item',
-      href: process.env.ORDER_HISTORY_URL,
+      href: configuration.ORDER_HISTORY_URL,
       content: intl.formatMessage(messages['siteheader.user.menu.order.history']),
     },
     {
       type: 'item',
-      href: process.env.LOGOUT_URL,
+      href: configuration.LOGOUT_URL,
       content: intl.formatMessage(messages['siteheader.user.menu.logout']),
     },
   ];
   const loggedOutItems = [
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/login`,
+      href: `${configuration.LMS_BASE_URL}/login`,
       content: intl.formatMessage(messages['siteheader.user.menu.login']),
     },
     {
       type: 'item',
-      href: `${process.env.LMS_BASE_URL}/register`,
+      href: `${configuration.LMS_BASE_URL}/register`,
       content: intl.formatMessage(messages['siteheader.user.menu.register']),
     },
   ];
   const socialLinks = [
     {
       title: 'Facebook',
-      url: process.env.FACEBOOK_URL,
+      url: configuration.FACEBOOK_URL,
       icon: <FontAwesomeIcon icon={faFacebookSquare} className="social-icon" size="2x" />,
       screenReaderText: 'Like edX on Facebook',
     },
     {
       title: 'Twitter',
-      url: process.env.TWITTER_URL,
+      url: configuration.TWITTER_URL,
       icon: <FontAwesomeIcon icon={faTwitterSquare} className="social-icon" size="2x" />,
       screenReaderText: 'Follow edX on Twitter',
     },
     {
       title: 'Youtube',
-      url: process.env.YOU_TUBE_URL,
+      url: configuration.YOU_TUBE_URL,
       icon: <FontAwesomeIcon icon={faYoutubeSquare} className="social-icon" size="2x" />,
       screenReaderText: 'Subscribe to the edX YouTube channel',
     },
     {
       title: 'LinkedIn',
-      url: process.env.LINKED_IN_URL,
+      url: configuration.LINKED_IN_URL,
       icon: <FontAwesomeIcon icon={faLinkedin} className="social-icon" size="2x" />,
       screenReaderText: 'Follow edX on LinkedIn',
     },
     {
       title: 'Reddit',
-      url: process.env.REDDIT_URL,
+      url: configuration.REDDIT_URL,
       icon: <FontAwesomeIcon icon={faRedditSquare} className="social-icon" size="2x" />,
       screenReaderText: 'Subscribe to the edX subreddit',
     },
@@ -162,11 +162,11 @@ function PageContent({
         googlePlayUrl={configuration.GOOGLE_PLAY_URL}
         socialLinks={socialLinks}
         enterpriseMarketingLink={{
-          url: process.env.ENTERPRISE_MARKETING_URL,
+          url: configuration.ENTERPRISE_MARKETING_URL,
           queryParams: {
-            utm_source: process.env.ENTERPRISE_MARKETING_UTM_SOURCE,
-            utm_campaign: process.env.ENTERPRISE_MARKETING_UTM_CAMPAIGN,
-            utm_medium: process.env.ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM,
+            utm_source: configuration.ENTERPRISE_MARKETING_UTM_SOURCE,
+            utm_campaign: configuration.ENTERPRISE_MARKETING_UTM_CAMPAIGN,
+            utm_medium: configuration.ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM,
           },
         }}
         handleAllTrackEvents={sendTrackEvent}
