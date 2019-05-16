@@ -310,7 +310,7 @@ class AccountSettingsPage extends React.Component {
 
         <section id="delete-account">
           <DeleteMyAccount
-            isVerifiedAccount={this.props.is_active}
+            isVerifiedAccount={this.props.isActive}
             hasLinkedSocial={hasLinkedSocial}
           />
         </section>
@@ -408,7 +408,7 @@ AccountSettingsPage.propTypes = {
   providers: PropTypes.arrayOf(PropTypes.object),
   staticFields: PropTypes.arrayOf(PropTypes.string),
   hiddenFields: PropTypes.arrayOf(PropTypes.string),
-  is_active: PropTypes.bool,
+  isActive: PropTypes.bool,
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -440,7 +440,7 @@ AccountSettingsPage.defaultProps = {
   staticFields: [],
   hiddenFields: ['secondary_email'],
   duplicateTpaProvider: null,
-  is_active: true,
+  isActive: true,
 };
 
 
