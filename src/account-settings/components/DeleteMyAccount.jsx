@@ -132,7 +132,7 @@ class DeleteMyAccount extends React.Component {
         }
 
         <Modal
-          open={this.props.accountDeletionState === 'confirming'}
+          open={['confirming', 'pending', 'failed'].includes(this.props.accountDeletionState)}
           title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
           body={(
             <div>
@@ -219,8 +219,8 @@ class DeleteMyAccount extends React.Component {
 
 DeleteMyAccount.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
-  deleteAccountReset: PropTypes.func.isRequired,
   deleteAccountConfirmation: PropTypes.func.isRequired,
+  deleteAccountReset: PropTypes.func.isRequired,
   accountDeletionState: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
   deletionError: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedSocial: PropTypes.bool,
