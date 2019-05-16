@@ -53,7 +53,7 @@ const messages = defineMessages({
   },
   'app.loading.message': {
     id: 'app.loading.message',
-    defaultMessage: 'Loading',
+    defaultMessage: 'Loading...',
     description: 'Message shown when page content is loading.',
   },
 });

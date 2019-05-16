@@ -8,6 +8,7 @@ let config = {
   PREFERENCES_API_BASE_URL: null,
   ECOMMERCE_API_BASE_URL: null,
   LMS_BASE_URL: null,
+  DELETE_ACCOUNT_URL: null,
   PASSWORD_RESET_URL: null,
 };
 
@@ -59,6 +60,7 @@ function unpackAccountResponseData(data) {
 
   return unpackedData;
 }
+
 function packAccountCommitData(commitData) {
   const packedData = commitData;
 
@@ -75,7 +77,6 @@ function packAccountCommitData(commitData) {
   }
   return packedData;
 }
-
 
 function handleRequestError(error) {
   if (error.response && error.response.data.field_errors) {
@@ -119,6 +120,13 @@ export async function patchPreferences(username, commitValues) {
     .catch(handleRequestError);
 
   return commitValues;
+}
+
+export async function postDeleteAccount(password) {
+  const { data } = await apiClient
+    .post(config.DELETE_ACCOUNT_URL, { password })
+    .catch(handleRequestError);
+  return data;
 }
 
 export async function getThirdPartyAuthProviders() {

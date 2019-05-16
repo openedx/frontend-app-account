@@ -9,6 +9,7 @@ import {
   DISCONNECT_AUTH,
   UPDATE_DRAFT,
   RESET_DRAFTS,
+  DELETE_ACCOUNT,
 } from './actions';
 
 export const defaultState = {
@@ -21,6 +22,7 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
+  deletionStatus: null,
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
@@ -137,6 +139,39 @@ const accountSettingsReducer = (state = defaultState, action) => {
         ...state,
         previousSiteLanguage: action.payload.previousSiteLanguage,
       };
+
+    case DELETE_ACCOUNT.CONFIRMATION:
+      return {
+        ...state,
+        deletionStatus: 'confirming',
+      };
+
+    case DELETE_ACCOUNT.BEGIN:
+      return {
+        ...state,
+        deletionStatus: 'pending',
+      };
+
+    case DELETE_ACCOUNT.SUCCESS:
+      return {
+        ...state,
+        deletionStatus: 'deleted',
+      };
+
+    case DELETE_ACCOUNT.FAILURE:
+      return {
+        ...state,
+        deletionStatus: 'failed',
+        deletionError: 'server',
+      };
+
+    case DELETE_ACCOUNT.RESET:
+      return {
+        ...state,
+        deletionStatus: null,
+        deletionError: null,
+      };
+
     case RESET_PASSWORD.BEGIN:
       return {
         ...state,

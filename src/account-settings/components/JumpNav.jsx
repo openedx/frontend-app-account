@@ -34,6 +34,11 @@ function JumpNav({ intl }) {
             {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
           </NavHashLink>
         </li>
+        <li>
+          <NavHashLink to="#delete-account">
+            {intl.formatMessage(messages['account.settings.delete.account.header'])}
+          </NavHashLink>
+        </li>
       </ul>
     </div>
   );
