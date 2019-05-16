@@ -1,7 +1,7 @@
 
 import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
-import { LoggingService, logAPIErrorResponse } from '@edx/frontend-logging';
+import { logAPIErrorResponse } from '@edx/frontend-logging';
 
 // Actions
 import {
@@ -111,7 +111,7 @@ export function* handleDeleteAccount(action) {
     if (typeof e.response.data === 'string') {
       yield put(deleteAccountFailure());
     } else {
-      LoggingService.logAPIErrorResponse(e);
+      logAPIErrorResponse(e);
       yield put(push('/error'));
     }
   }
