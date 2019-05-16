@@ -130,11 +130,14 @@ module.exports = Merge.smart(commonConfig, {
       TWITTER_URL: 'https://twitter.com',
       YOU_TUBE_URL: 'https://www.youtube.com',
       LINKED_IN_URL: 'https://www.linkedin.com',
-      GOOGLE_PLUS_URL: 'https://plus.google.com',
       REDDIT_URL: 'https://www.reddit.com',
       APPLE_APP_STORE_URL: 'https://www.apple.com/ios/app-store/',
       GOOGLE_PLAY_URL: 'https://play.google.com/store',
       ORDER_HISTORY_URL: 'localhost:1996/orders',
+      ENTERPRISE_MARKETING_URL: 'http://example.com',
+      ENTERPRISE_MARKETING_UTM_SOURCE: 'example.com',
+      ENTERPRISE_MARKETING_UTM_CAMPAIGN: 'example.com Referral',
+      ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM: 'Footer',
     }),
     // when the --hot option is not passed in as part of the command
     // the HotModuleReplacementPlugin has to be specified in the Webpack configuration

@@ -160,7 +160,6 @@ module.exports = Merge.smart(commonConfig, {
       TWITTER_URL: null,
       YOU_TUBE_URL: null,
       LINKED_IN_URL: null,
-      GOOGLE_PLUS_URL: null,
       REDDIT_URL: null,
       APPLE_APP_STORE_URL: null,
       GOOGLE_PLAY_URL: null,
@@ -168,6 +167,10 @@ module.exports = Merge.smart(commonConfig, {
       NEW_RELIC_ADMIN_KEY: null,
       NEW_RELIC_APP_ID: null,
       NEW_RELIC_LICENSE_KEY: null,
+      ENTERPRISE_MARKETING_URL: null,
+      ENTERPRISE_MARKETING_UTM_SOURCE: null,
+      ENTERPRISE_MARKETING_UTM_CAMPAIGN: null,
+      ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM: null,
     }),
     new HtmlWebpackNewRelicPlugin({
       // This plugin fixes an issue where the newrelic script will break if

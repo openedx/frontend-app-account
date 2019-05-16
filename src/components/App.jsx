@@ -175,35 +175,6 @@ function PageContent({
   );
 }
 
-PageContent.propTypes = {
-  username: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
-  ready: PropTypes.bool,
-  configuration: PropTypes.shape({
-    SITE_NAME: PropTypes.string.isRequired,
-    MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
-    SUPPORT_URL: PropTypes.string.isRequired,
-    CONTACT_URL: PropTypes.string.isRequired,
-    OPEN_SOURCE_URL: PropTypes.string.isRequired,
-    TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
-    PRIVACY_POLICY_URL: PropTypes.string.isRequired,
-    FACEBOOK_URL: PropTypes.string.isRequired,
-    TWITTER_URL: PropTypes.string.isRequired,
-    YOU_TUBE_URL: PropTypes.string.isRequired,
-    LINKED_IN_URL: PropTypes.string.isRequired,
-    GOOGLE_PLUS_URL: PropTypes.string.isRequired,
-    REDDIT_URL: PropTypes.string.isRequired,
-    APPLE_APP_STORE_URL: PropTypes.string.isRequired,
-    GOOGLE_PLAY_URL: PropTypes.string.isRequired,
-  }).isRequired,
-  intl: intlShape.isRequired,
-};
-
-PageContent.defaultProps = {
-  ready: false,
-  avatar: null,
-};
-
 const IntlPageContent = injectIntl(PageContent);
 
 class App extends Component {
@@ -230,6 +201,40 @@ class App extends Component {
   }
 }
 
+const configurationPropTypes = {
+  SITE_NAME: PropTypes.string.isRequired,
+  MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
+  SUPPORT_URL: PropTypes.string.isRequired,
+  CONTACT_URL: PropTypes.string.isRequired,
+  OPEN_SOURCE_URL: PropTypes.string.isRequired,
+  TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
+  PRIVACY_POLICY_URL: PropTypes.string.isRequired,
+  FACEBOOK_URL: PropTypes.string.isRequired,
+  TWITTER_URL: PropTypes.string.isRequired,
+  YOU_TUBE_URL: PropTypes.string.isRequired,
+  LINKED_IN_URL: PropTypes.string.isRequired,
+  REDDIT_URL: PropTypes.string.isRequired,
+  APPLE_APP_STORE_URL: PropTypes.string.isRequired,
+  GOOGLE_PLAY_URL: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_URL: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_UTM_SOURCE: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_UTM_CAMPAIGN: PropTypes.string.isRequired,
+  ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM: PropTypes.string.isRequired,
+};
+
+PageContent.propTypes = {
+  username: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
+  ready: PropTypes.bool,
+  configuration: PropTypes.shape(configurationPropTypes).isRequired,
+  intl: intlShape.isRequired,
+};
+
+PageContent.defaultProps = {
+  ready: false,
+  avatar: null,
+};
+
 App.propTypes = {
   fetchUserAccount: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
@@ -238,23 +243,7 @@ App.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line
   ready: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  configuration: PropTypes.shape({
-    SITE_NAME: PropTypes.string.isRequired,
-    MARKETING_SITE_BASE_URL: PropTypes.string.isRequired,
-    SUPPORT_URL: PropTypes.string.isRequired,
-    CONTACT_URL: PropTypes.string.isRequired,
-    OPEN_SOURCE_URL: PropTypes.string.isRequired,
-    TERMS_OF_SERVICE_URL: PropTypes.string.isRequired,
-    PRIVACY_POLICY_URL: PropTypes.string.isRequired,
-    FACEBOOK_URL: PropTypes.string.isRequired,
-    TWITTER_URL: PropTypes.string.isRequired,
-    YOU_TUBE_URL: PropTypes.string.isRequired,
-    LINKED_IN_URL: PropTypes.string.isRequired,
-    GOOGLE_PLUS_URL: PropTypes.string.isRequired,
-    REDDIT_URL: PropTypes.string.isRequired,
-    APPLE_APP_STORE_URL: PropTypes.string.isRequired,
-    GOOGLE_PLAY_URL: PropTypes.string.isRequired,
-  }).isRequired,
+  configuration: PropTypes.shape(configurationPropTypes).isRequired,
 };
 
 App.defaultProps = {
