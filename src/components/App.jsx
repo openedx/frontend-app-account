@@ -143,7 +143,7 @@ function PageContent({
       />
       <main>
         <Switch>
-          <Route path="/" component={ConnectedAccountSettingsPage} />
+          <Route exact path="/" component={ConnectedAccountSettingsPage} />
           <Route path="/error" component={ErrorPage} />
           <Route path="/notfound" component={NotFoundPage} />
           <Route path="*" component={NotFoundPage} />
