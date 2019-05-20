@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from '@edx/frontend-i18n';
 import { Hyperlink, StatefulButton } from '@edx/paragon';
 import Alert from './Alert';
 

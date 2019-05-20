@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import memoize from 'memoize-one';
 import {
   injectIntl,
   intlShape,
-} from '@edx/frontend-i18n'; // eslint-disable-line
+  FormattedMessage,
+} from '@edx/frontend-i18n';
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';

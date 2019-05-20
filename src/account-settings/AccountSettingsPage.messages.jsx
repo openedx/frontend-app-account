@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from '@edx/frontend-i18n';
 
 const messages = defineMessages({
   'account.settings.page.heading': {

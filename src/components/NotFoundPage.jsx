@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from '@edx/frontend-i18n';
 
 export default function NotFoundPage() {
   return (

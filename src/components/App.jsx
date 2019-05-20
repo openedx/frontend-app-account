@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
 import PropTypes from 'prop-types';
-import { IntlProvider, injectIntl, intlShape } from 'react-intl';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { sendTrackEvent } from '@edx/frontend-analytics';
+import { IntlProvider, injectIntl, intlShape, getMessages } from '@edx/frontend-i18n';
 import SiteHeader from '@edx/frontend-component-site-header';
 import SiteFooter from '@edx/frontend-component-footer';
-import { getLocale, getMessages } from '@edx/frontend-i18n'; // eslint-disable-line
 
 import {
   faFacebookSquare,

@@ -1,7 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import {
   localeSelector,
-  getAssumedServerLanguageCode,
   getCountryList,
   getLanguageList,
 } from '@edx/frontend-i18n'; // eslint-disable-line
@@ -155,14 +154,11 @@ export const siteLanguageSelector = createSelector(
   previousSiteLanguageSelector,
   draftsSelector,
   localeSelector,
-  (previousValue, drafts, locale) => {
-    const savedValue = getAssumedServerLanguageCode(locale);
-    return {
-      previousValue,
-      draftOrSavedValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : savedValue),
-      savedValue,
-    };
-  },
+  (previousValue, drafts, locale) => ({
+    previousValue,
+    draftOrSavedValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : locale),
+    savedValue: locale,
+  }),
 );
 
 export const betaLanguageBannerSelector = createSelector(
@@ -176,7 +172,6 @@ export const betaLanguageBannerSelector = createSelector(
     siteLanguage,
   }),
 );
-
 
 export const accountSettingsPageSelector = createSelector(
   accountSettingsSelector,
