@@ -124,13 +124,6 @@ export async function patchPreferences(username, commitValues) {
   return commitValues;
 }
 
-export async function postDeleteAccount(password) {
-  const { data } = await apiClient
-    .post(config.DELETE_ACCOUNT_URL, { password })
-    .catch(handleRequestError);
-  return data;
-}
-
 export async function getThirdPartyAuthProviders() {
   const { data } = await apiClient.get(`${config.LMS_BASE_URL}/api/third_party_auth/v0/providers/user_status`)
     .catch(handleRequestError);
@@ -241,5 +234,23 @@ export async function postResetPassword(email) {
 
 export async function postDisconnectAuth(url) {
   const { data } = await apiClient.post(url).catch(handleRequestError);
+  return data;
+}
+
+/**
+ * Request deletion of the user's account.
+ */
+export async function postDeleteAccount(password) {
+  const { data } = await apiClient
+    .post(
+      config.DELETE_ACCOUNT_URL,
+      formurlencoded({ password }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      },
+    )
+    .catch(handleRequestError);
   return data;
 }
