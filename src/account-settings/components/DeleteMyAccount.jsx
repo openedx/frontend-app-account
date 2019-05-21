@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Hyperlink, Input, Modal, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { FormattedMessage } from 'react-intl';
+
 import { configuration } from '../../environment';
 import Alert from './Alert';
 import { deleteAccount, deleteAccountConfirmation, deleteAccountReset } from '../actions';

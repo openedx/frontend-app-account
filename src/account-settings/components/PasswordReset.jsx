@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-i18n';
 import { StatefulButton, Hyperlink } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';

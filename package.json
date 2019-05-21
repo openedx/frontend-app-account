@@ -30,6 +30,7 @@
     "@edx/frontend-auth": "^5.3.0",
     "@edx/frontend-component-footer": "^4.1.4",
     "@edx/frontend-component-site-header": "^2.1.6",
+    "@edx/frontend-i18n": "^1.0.0",
     "@edx/frontend-logging": "^2.0.2",
     "@edx/paragon": "^4.2.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.18",
@@ -58,7 +59,6 @@
     "prop-types": "^15.5.10",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-intl": "^2.8.0",
     "react-redux": "^5.1.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -129,8 +129,7 @@
     "moduleNameMapper": {
       "\\.svg": "<rootDir>/__mocks__/svgrMock.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "identity-obj-proxy",
-      "@edx/frontend-i18n(.*)$": "<rootDir>/src/i18n$1"
+      "\\.(css|scss)$": "identity-obj-proxy"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

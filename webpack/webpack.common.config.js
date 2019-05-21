@@ -12,8 +12,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
-    alias: {
-      '@edx/frontend-i18n': path.resolve(__dirname, '../src/i18n/'),
-    },
   },
 };
