@@ -83,8 +83,8 @@ class DeleteMyAccount extends React.Component {
   }
 
   render() {
-    const { hasLinkedSocial, isVerifiedAccount, intl } = this.props;
-    const canDelete = isVerifiedAccount && !hasLinkedSocial;
+    const { hasLinkedTPA, isVerifiedAccount, intl } = this.props;
+    const canDelete = isVerifiedAccount && !hasLinkedTPA;
 
     return (
       <div>
@@ -126,7 +126,7 @@ class DeleteMyAccount extends React.Component {
           this.renderBeforeProceedingBanner('account.settings.delete.account.please.activate', 'https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-')
         }
 
-        {hasLinkedSocial ?
+        {hasLinkedTPA ?
           this.renderBeforeProceedingBanner('account.settings.delete.account.please.unlink', 'https://support.edx.org/hc/en-us/articles/207206067')
           : null
         }
@@ -223,13 +223,13 @@ DeleteMyAccount.propTypes = {
   deleteAccountReset: PropTypes.func.isRequired,
   accountDeletionState: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
   deletionError: PropTypes.oneOf(['empty-password', 'server']),
-  hasLinkedSocial: PropTypes.bool,
+  hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   intl: intlShape.isRequired,
 };
 
 DeleteMyAccount.defaultProps = {
-  hasLinkedSocial: false,
+  hasLinkedTPA: false,
   isVerifiedAccount: true,
   accountDeletionState: null,
   deletionError: null,

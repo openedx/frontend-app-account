@@ -153,7 +153,7 @@ class AccountSettingsPage extends React.Component {
       this.props.countryTimeZoneOptions,
     );
 
-    const hasLinkedSocial = this.props.providers && this.props.providers.length > 0;
+    const hasLinkedTPA = this.props.tpaProviders && this.props.tpaProviders.length > 0;
 
     return (
       <React.Fragment>
@@ -311,7 +311,7 @@ class AccountSettingsPage extends React.Component {
         <section id="delete-account">
           <DeleteMyAccount
             isVerifiedAccount={this.props.isActive}
-            hasLinkedSocial={hasLinkedSocial}
+            hasLinkedTPA={hasLinkedTPA}
           />
         </section>
 
@@ -405,7 +405,6 @@ AccountSettingsPage.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
   profileDataManager: PropTypes.string,
-  providers: PropTypes.arrayOf(PropTypes.object),
   staticFields: PropTypes.arrayOf(PropTypes.string),
   hiddenFields: PropTypes.arrayOf(PropTypes.string),
   isActive: PropTypes.bool,
@@ -423,6 +422,7 @@ AccountSettingsPage.propTypes = {
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   duplicateTpaProvider: PropTypes.string,
+  tpaProviders: PropTypes.arrayOf(PropTypes.object),
 };
 
 AccountSettingsPage.defaultProps = {
@@ -436,10 +436,10 @@ AccountSettingsPage.defaultProps = {
   countryTimeZoneOptions: [],
   languageProficiencyOptions: [],
   profileDataManager: null,
-  providers: [],
   staticFields: [],
   hiddenFields: ['secondary_email'],
   duplicateTpaProvider: null,
+  tpaProviders: [],
   isActive: true,
 };
 
