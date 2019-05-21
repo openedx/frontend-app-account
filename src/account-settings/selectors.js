@@ -217,5 +217,6 @@ export const accountSettingsPageSelector = createSelector(
     staticFields,
     hiddenFields,
     duplicateTpaProvider,
+    tpaProviders: accountSettings.authProviders,
   }),
 );
