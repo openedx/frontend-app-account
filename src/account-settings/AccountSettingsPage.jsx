@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
+import findIndex from 'lodash.findindex';
 import {
   injectIntl,
   intlShape,
@@ -153,7 +154,7 @@ class AccountSettingsPage extends React.Component {
       this.props.countryTimeZoneOptions,
     );
 
-    const hasLinkedTPA = this.props.tpaProviders && this.props.tpaProviders.length > 0;
+    const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
 
     return (
       <React.Fragment>
