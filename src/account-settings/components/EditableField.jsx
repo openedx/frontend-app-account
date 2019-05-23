@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Input, StatefulButton, ValidationFormGroup } from '@edx/paragon';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SwitchContent from './temp/SwitchContent';
 import messages from '../AccountSettingsPage.messages';
@@ -125,11 +127,11 @@ function EditableField(props) {
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex justify-content-between align-items-start">
-              <h6>{label}</h6>
+            <div className="d-flex align-items-start">
+              <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="btn-link">
-                  {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
+                <Button onClick={handleEdit} className="ml-3 btn-link">
+                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}
             </div>

@@ -42,7 +42,7 @@ function PasswordReset({ email, intl, ...props }) {
 
   return (
     <div className="form-group">
-      <h6>
+      <h6 aria-level="3">
         <FormattedMessage
           id="account.settings.editable.field.password.reset.label"
           defaultMessage="Password"

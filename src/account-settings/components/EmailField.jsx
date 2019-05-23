@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-i18n';
 import { Button, StatefulButton, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 import SwitchContent from './temp/SwitchContent';
 import Alert from './Alert';
@@ -61,7 +61,7 @@ function EmailField(props) {
         className="alert-warning mt-n2"
         icon={<FontAwesomeIcon className="mr-2 h6" icon={faExclamationTriangle} />}
       >
-        <h6>
+        <h6 aria-level="3">
           {intl.formatMessage(messages['account.settings.email.field.confirmation.header'])}
         </h6>
         {intl.formatMessage(confirmationMessageDefinition, { value: confirmationValue })}
@@ -134,10 +134,11 @@ function EmailField(props) {
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex justify-content-between align-items-start">
-              <h6>{label}</h6>
+            <div className="d-flex align-items-start">
+              <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="btn-link">
+                <Button onClick={handleEdit} className="ml-3 btn-link">
+                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
                   {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}
