@@ -17,6 +17,8 @@ export const accountSettingsSelector = state => ({ ...state[storeName] });
 
 const duplicateTpaProviderSelector = state => state.errors.duplicateTpaProvider;
 
+const configurationSelector = state => state.configuration;
+
 const editableFieldNameSelector = (state, props) => props.name;
 
 const valuesSelector = createSelector(
@@ -135,12 +137,13 @@ const timeZonesSelector = createSelector(
   accountSettingsSelector,
   accountSettings => transformTimeZonesToOptions(accountSettings.timeZones),
 );
+
 const countryTimeZonesSelector = createSelector(
   accountSettingsSelector,
   accountSettings => transformTimeZonesToOptions(accountSettings.countryTimeZones),
 );
 
-const verifiedAccountSelector = createSelector(
+const activeAccountSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.values.is_active,
 );
@@ -185,8 +188,9 @@ export const accountSettingsPageSelector = createSelector(
   hiddenFieldsSelector,
   timeZonesSelector,
   countryTimeZonesSelector,
-  verifiedAccountSelector,
+  activeAccountSelector,
   duplicateTpaProviderSelector,
+  configurationSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -199,8 +203,9 @@ export const accountSettingsPageSelector = createSelector(
     hiddenFields,
     timeZoneOptions,
     countryTimeZoneOptions,
-    isActive,
+    activeAccount,
     duplicateTpaProvider,
+    configuration,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
@@ -211,12 +216,14 @@ export const accountSettingsPageSelector = createSelector(
     loadingError: accountSettings.loadingError,
     timeZoneOptions,
     countryTimeZoneOptions,
-    isActive,
+    isActive: activeAccount,
     formValues,
     profileDataManager,
     staticFields,
     hiddenFields,
     duplicateTpaProvider,
     tpaProviders: accountSettings.authProviders,
+    supportUrl: configuration.SUPPORT_URL,
+    logoutUrl: configuration.LOGOUT_URL,
   }),
 );

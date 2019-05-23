@@ -6,7 +6,6 @@ import { Button, Hyperlink, Input, Modal, ValidationFormGroup } from '@edx/parag
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import { configuration } from '../../environment';
 import Alert from './Alert';
 import { deleteAccount, deleteAccountConfirmation, deleteAccountReset } from '../actions';
 import messages from '../AccountSettingsPage.messages';
@@ -39,7 +38,7 @@ class DeleteMyAccount extends React.Component {
   }
 
   handleFinalClose() {
-    global.location = configuration.LOGOUT_URL;
+    global.location = this.props.logoutUrl;
   }
 
   renderPrintingInstructions() {
@@ -225,6 +224,7 @@ DeleteMyAccount.propTypes = {
   deletionError: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
+  logoutUrl: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
 };
 
