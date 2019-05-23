@@ -12,7 +12,6 @@ import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
 
-import { configuration } from '../environment';
 import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
 
@@ -112,7 +111,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink destination={configuration.SUPPORT_URL} target="_blank">
+                <Hyperlink destination={this.props.supportUrl} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -313,6 +312,7 @@ class AccountSettingsPage extends React.Component {
           <DeleteMyAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
+            logoutUrl={this.props.logoutUrl}
           />
         </section>
 
@@ -424,6 +424,8 @@ AccountSettingsPage.propTypes = {
   fetchSettings: PropTypes.func.isRequired,
   duplicateTpaProvider: PropTypes.string,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
+  supportUrl: PropTypes.string.isRequired,
+  logoutUrl: PropTypes.string.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
