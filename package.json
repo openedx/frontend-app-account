@@ -93,7 +93,7 @@
     "css-loader": "^0.28.9",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "es-check": "^2.0.2",
+    "es-check": "^5.0.0",
     "eslint-config-edx": "^4.0.3",
     "fetch-mock": "^6.3.0",
     "file-loader": "^1.1.9",
