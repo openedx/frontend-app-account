@@ -20,7 +20,7 @@ class ThirdPartyAuth extends React.Component {
   renderUnconnectedProvider(url, name) {
     return (
       <React.Fragment>
-        <h6>{name}</h6>
+        <h6 aria-level="3">{name}</h6>
         <Hyperlink destination={url} className="btn btn-outline-primary">
           <FormattedMessage
             id="account.settings.sso.link.account"
@@ -38,7 +38,7 @@ class ThirdPartyAuth extends React.Component {
 
     return (
       <React.Fragment>
-        <h6>
+        <h6 aria-level="3">
           {name}
           <span className="small font-weight-normal text-muted ml-2">
             <FormattedMessage

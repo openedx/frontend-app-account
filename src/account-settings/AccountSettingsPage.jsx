@@ -157,7 +157,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <React.Fragment>
-        <section id="basic-information">
+        <section className="mb-5" id="basic-information">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
@@ -212,7 +212,7 @@ class AccountSettingsPage extends React.Component {
           />
         </section>
 
-        <section id="profile-information">
+        <section className="mb-5" id="profile-information">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
@@ -243,7 +243,7 @@ class AccountSettingsPage extends React.Component {
           />
         </section>
 
-        <section id="social-media">
+        <section className="mb-5" id="social-media">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
@@ -272,7 +272,7 @@ class AccountSettingsPage extends React.Component {
           />
         </section>
 
-        <section id="site-preferences">
+        <section className="mb-5" id="site-preferences">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
@@ -302,13 +302,13 @@ class AccountSettingsPage extends React.Component {
           />
         </section>
 
-        <section id="linked-accounts">
+        <section className="mb-5" id="linked-accounts">
           <h2 className="section-heading">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
           <ThirdPartyAuth />
         </section>
 
-        <section id="delete-account">
+        <section className="mb-5" id="delete-account">
           <DeleteMyAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
