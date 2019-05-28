@@ -111,7 +111,7 @@ const formValuesSelector = createSelector(
   (values, drafts) => {
     const formValues = {};
     Object.entries(values).forEach(([name, value]) => {
-      formValues[name] = chooseFormValue(drafts[name], value);
+      formValues[name] = chooseFormValue(drafts[name], value) || '';
     });
     return formValues;
   },
