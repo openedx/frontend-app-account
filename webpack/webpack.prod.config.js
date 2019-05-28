@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NewRelicSourceMapPlugin = require('new-relic-source-map-webpack-plugin');
 const WebpackRTLPlugin = require('webpack-rtl-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // eslint-disable-line prefer-destructuring
 
 module.exports = Merge.smart(commonConfig, {
   mode: 'production',
@@ -184,6 +185,10 @@ module.exports = Merge.smart(commonConfig, {
       nrAdminKey: process.env.NEW_RELIC_ADMIN_KEY,
       staticAssetUrl: process.env.BASE_URL,
       noop: typeof process.env.NEW_RELIC_ADMIN_KEY === 'undefined', // upload source maps in prod builds only
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
     }),
   ],
 });
