@@ -84,6 +84,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-react-intl": "^3.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-imports": "^1.5.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -118,6 +119,7 @@
     "travis-deploy-once": "^5.0.9",
     "url-loader": "^1.1.2",
     "webpack": "^4.25.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.0",
     "webpack-merge": "^4.1.1"
