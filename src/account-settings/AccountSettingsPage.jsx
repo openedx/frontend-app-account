@@ -79,7 +79,7 @@ class AccountSettingsPage extends React.Component {
     return concatTimeZoneOptions;
   });
 
-  getIsEditable(fieldName) {
+  isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
   }
 
@@ -205,26 +205,26 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.name}
             label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
-              this.getIsEditable('name') ?
+              this.isEditable('name') ?
                 this.props.intl.formatMessage(messages['account.settings.field.full.name.empty']) :
                 this.renderEmptyStaticFieldMessage()
             }
             helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
-            isEditable={this.getIsEditable('name')}
+            isEditable={this.isEditable('name')}
             {...editableFieldProps}
           />
           <EmailField
             name="email"
             label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
             emptyLabel={
-              this.getIsEditable('email') ?
+              this.isEditable('email') ?
                 this.props.intl.formatMessage(messages['account.settings.field.email.empty']) :
                 this.renderEmptyStaticFieldMessage()
             }
             value={this.props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
-            isEditable={this.getIsEditable('email')}
+            isEditable={this.isEditable('email')}
             {...editableFieldProps}
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
@@ -245,11 +245,11 @@ class AccountSettingsPage extends React.Component {
             options={this.countryOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
-              this.getIsEditable('country') ?
+              this.isEditable('country') ?
                 this.props.intl.formatMessage(messages['account.settings.field.country.empty']) :
                 this.renderEmptyStaticFieldMessage()
             }
-            isEditable={this.getIsEditable('country')}
+            isEditable={this.isEditable('country')}
             {...editableFieldProps}
           />
         </section>
