@@ -83,6 +83,12 @@ class AccountSettingsPage extends React.Component {
     return !this.props.staticFields.includes(fieldName);
   }
 
+  isManagedProfile() {
+    // Enterprise customer profiles are managed by their organizations. We determine whether
+    // a profile is managed or not by the presence of the profileDataManager prop.
+    return Boolean(this.props.profileDataManager);
+  }
+
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
   };
@@ -113,7 +119,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderManagedProfileMessage() {
-    if (!this.props.profileDataManager) {
+    if (!this.isManagedProfile()) {
       return null;
     }
 
@@ -143,12 +149,12 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderEmptyStaticFieldMessage() {
-    if (!this.props.profileDataManager) {
-      return this.props.intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
+    if (this.isManagedProfile()) {
+      return this.props.intl.formatMessage(messages['account.settings.static.field.empty'], {
+        enterprise: this.props.profileDataManager,
+      });
     }
-    return this.props.intl.formatMessage(messages['account.settings.static.field.empty'], {
-      enterprise: this.props.profileDataManager,
-    });
+    return this.props.intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
   }
 
   renderSecondaryEmailField(editableFieldProps) {
