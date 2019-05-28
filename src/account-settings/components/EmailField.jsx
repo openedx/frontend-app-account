@@ -84,10 +84,10 @@ function EmailField(props) {
   );
 
   const renderEmptyLabel = () => {
-    if (!isEditable) {
-      return <span className="text-muted">{emptyLabel}</span>;
+    if (isEditable) {
+      return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
     }
-    return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
+    return <span className="text-muted">{emptyLabel}</span>;
   };
 
   const renderValue = () => {
