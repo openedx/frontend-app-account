@@ -76,6 +76,11 @@ const messages = defineMessages({
     defaultMessage: 'Full name',
     description: 'Label for account settings name field.',
   },
+  'account.settings.field.full.name.empty': {
+    id: 'account.settings.field.full.name.empty',
+    defaultMessage: 'Add name',
+    description: 'Placeholder for empty account settings name field.',
+  },
   'account.settings.field.full.name.help.text': {
     id: 'account.settings.field.full.name.help.text',
     defaultMessage: 'The name that is used for ID verification and that appears on your certificates.',
@@ -85,6 +90,11 @@ const messages = defineMessages({
     id: 'account.settings.field.email',
     defaultMessage: 'Email address (Sign in)',
     description: 'Label for account settings email field.',
+  },
+  'account.settings.field.email.empty': {
+    id: 'account.settings.field.email.empty',
+    defaultMessage: 'Add email address',
+    description: 'Placeholder for empty account settings email field.',
   },
   'account.settings.field.email.confirmation': {
     id: 'account.settings.field.email.confirmation',
@@ -101,6 +111,11 @@ const messages = defineMessages({
     defaultMessage: 'Recovery email address',
     description: 'Label for account settings recovery email field.',
   },
+  'account.settings.field.secondary.email.empty': {
+    id: 'account.settings.field.secondary.email.empty',
+    defaultMessage: 'Add a recovery email address',
+    description: 'Placeholder for empty account settings recovery email field.',
+  },
   'account.settings.field.secondary.email.confirmation': {
     id: 'account.settings.field.secondary.email.confirmation',
     defaultMessage: 'We’ve sent a confirmation message to {value}. Click the link in the message to update your recovery email address.',
@@ -116,14 +131,34 @@ const messages = defineMessages({
     defaultMessage: 'Year of birth',
     description: 'Label for account settings year of birth field.',
   },
+  'account.settings.field.dob.empty': {
+    id: 'account.settings.field.dob.empty',
+    defaultMessage: 'Add year of birth',
+    description: 'Placeholder for empty account settings year of birth field.',
+  },
+  'account.settings.field.year_of_birth.options.empty': {
+    id: 'account.settings.field.year_of_birth.options.empty',
+    defaultMessage: 'Select a year of birth',
+    description: 'Option for empty value on account settings year of birth field.',
+  },
   'account.settings.field.country': {
     id: 'account.settings.field.country',
     defaultMessage: 'Country',
     description: 'Label for account settings country field.',
   },
+  'account.settings.field.country.empty': {
+    id: 'account.settings.field.country.empty',
+    defaultMessage: 'Add country',
+    description: 'Placeholder for empty account settings country field.',
+  },
+  'account.settings.field.country.options.empty': {
+    id: 'account.settings.field.country.options.empty',
+    defaultMessage: 'Select a Country',
+    description: 'Option for empty value on account settings country field.',
+  },
   'account.settings.field.site.language': {
     id: 'account.settings.field.site.language',
-    defaultMessage: 'Site Language',
+    defaultMessage: 'Site language',
     description: 'Label for account settings site language field.',
   },
   'account.settings.field.site.language.help.text': {
@@ -136,8 +171,13 @@ const messages = defineMessages({
     defaultMessage: 'Education',
     description: 'Label for account settings education field.',
   },
-  'account.settings.field.education.levels.null': {
-    id: 'account.settings.field.education.levels.null',
+  'account.settings.field.education.empty': {
+    id: 'account.settings.field.education.empty',
+    defaultMessage: 'Add level of education',
+    description: 'Placeholder for empty account settings education field.',
+  },
+  'account.settings.field.education.levels.empty': {
+    id: 'account.settings.field.education.levels.empty',
     defaultMessage: 'Select a level of education',
     description: 'Placeholder for the education levels dropdown.',
   },
@@ -192,8 +232,13 @@ const messages = defineMessages({
     defaultMessage: 'Gender',
     description: 'Label for account settings gender field.',
   },
-  'account.settings.field.gender.options.null': {
-    id: 'account.settings.field.gender.options.null',
+  'account.settings.field.gender.empty': {
+    id: 'account.settings.field.gender.empty',
+    defaultMessage: 'Add gender',
+    description: 'Placeholder for empty account settings gender field.',
+  },
+  'account.settings.field.gender.options.empty': {
+    id: 'account.settings.field.gender.options.empty',
     defaultMessage: 'Select a gender',
     description: 'Placeholder for the gender options dropdown.',
   },
@@ -214,13 +259,28 @@ const messages = defineMessages({
   },
   'account.settings.field.language.proficiencies': {
     id: 'account.settings.field.language.proficiencies',
-    defaultMessage: 'Spoken Languages',
+    defaultMessage: 'Spoken languages',
     description: 'Label for account settings spoken languages field.',
+  },
+  'account.settings.field.language.proficiencies.empty': {
+    id: 'account.settings.field.language.proficiencies.empty',
+    defaultMessage: 'Add a spoken language',
+    description: 'Placeholder for empty account settings spoken languages field.',
+  },
+  'account.settings.field.language_proficiencies.options.empty': {
+    id: 'account.settings.field.language_proficiencies.options.empty',
+    defaultMessage: 'Select a Language',
+    description: 'Option for an empty value on account settings spoken languages field.',
   },
   'account.settings.field.time.zone': {
     id: 'account.settings.field.time.zone',
-    defaultMessage: 'Time Zone',
+    defaultMessage: 'Time zone',
     description: 'Label for time zone settings field.',
+  },
+  'account.settings.field.time.zone.empty': {
+    id: 'account.settings.field.time.zone.empty',
+    defaultMessage: 'Set time zone',
+    description: 'Placeholder for empty for time zone settings field.',
   },
   'account.settings.field.time.zone.description': {
     id: 'account.settings.field.time.zone.description',
@@ -258,16 +318,34 @@ const messages = defineMessages({
     defaultMessage: 'LinkedIn',
     description: 'Label for LinkedIn',
   },
+  'account.settings.field.social.platform.name.linkedin.empty': {
+    id: 'account.settings.field.social.platform.name.linkedin.empty',
+    defaultMessage: 'Add LinkedIn profile',
+    description: 'Placeholder for an empty LinkedIn field',
+  },
+
   'account.settings.field.social.platform.name.twitter': {
     id: 'account.settings.field.social.platform.name.twitter',
     defaultMessage: 'Twitter',
     description: 'Label for Twitter',
   },
+  'account.settings.field.social.platform.name.twitter.empty': {
+    id: 'account.settings.field.social.platform.name.twitter.empty',
+    defaultMessage: 'Add Twitter profile',
+    description: 'Placeholder for an empty Twitter field',
+  },
+
   'account.settings.field.social.platform.name.facebook': {
     id: 'account.settings.field.social.platform.name.facebook',
     defaultMessage: 'Facebook',
     description: 'Label for Facebook',
   },
+  'account.settings.field.social.platform.name.facebook.empty': {
+    id: 'account.settings.field.social.platform.name.facebook.empty',
+    defaultMessage: 'Add Facebook profile',
+    description: 'Placeholder for an empty Facebook field',
+  },
+
 
   'account.settings.delete.account.header': {
     id: 'account.settings.delete.account.header',
@@ -395,6 +473,16 @@ const messages = defineMessages({
     id: 'account.settings.editable.field.action.edit',
     defaultMessage: 'Edit',
     description: 'The edit button on an editable field',
+  },
+  'account.settings.static.field.empty': {
+    id: 'account.settings.static.field.empty',
+    defaultMessage: 'No value set. Contact your {enterprise} administrator to make changes.',
+    description: 'The placeholder for an empty but uneditable field',
+  },
+  'account.settings.static.field.empty.no.admin': {
+    id: 'account.settings.static.field.empty.no.admin',
+    defaultMessage: 'No value set.',
+    description: 'The placeholder for an empty but uneditable field when there is no administrator',
   },
 });
 

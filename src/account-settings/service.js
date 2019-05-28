@@ -74,8 +74,22 @@ function packAccountCommitData(commitData) {
     delete packedData[key];
   });
 
-  if (commitData.language_proficiencies) {
-    packedData.language_proficiencies = [{ code: commitData.language_proficiencies }];
+  if (commitData.language_proficiencies !== undefined) {
+    if (commitData.language_proficiencies) {
+      packedData.language_proficiencies = [{ code: commitData.language_proficiencies }];
+    } else {
+      // An empty string should be sent as an array.
+      packedData.language_proficiencies = [];
+    }
+  }
+
+  if (commitData.year_of_birth !== undefined) {
+    if (commitData.year_of_birth) {
+      packedData.year_of_birth = commitData.year_of_birth;
+    } else {
+      // An empty string should be sent as null.
+      packedData.year_of_birth = null;
+    }
   }
   return packedData;
 }

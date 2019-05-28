@@ -20,6 +20,7 @@ function EditableField(props) {
   const {
     name,
     label,
+    emptyLabel,
     type,
     value,
     options,
@@ -39,16 +40,6 @@ function EditableField(props) {
   } = props;
   const id = `field-${name}`;
 
-  const getValue = (rawValue) => {
-    if (options) {
-      // Use == instead of === to prevent issues when HTML casts numbers as strings
-      // eslint-disable-next-line eqeqeq
-      const selectedOption = options.find(option => option.value == rawValue);
-      if (selectedOption) return selectedOption.label;
-    }
-    return rawValue;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(name, new FormData(e.target).get(name));
@@ -64,6 +55,26 @@ function EditableField(props) {
 
   const handleCancel = () => {
     onCancel(name);
+  };
+
+  const renderEmptyLabel = () => {
+    if (!isEditable) {
+      return <span className="text-muted">{emptyLabel}</span>;
+    }
+    return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
+  };
+
+  const renderValue = (rawValue) => {
+    if (!rawValue) return renderEmptyLabel();
+
+    if (options) {
+      // Use == instead of === to prevent issues when HTML casts numbers as strings
+      // eslint-disable-next-line eqeqeq
+      const selectedOption = options.find(option => option.value == rawValue);
+      if (selectedOption) return selectedOption.label;
+    }
+
+    return rawValue;
   };
 
   const renderConfirmationMessage = () => {
@@ -135,7 +146,7 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p>{getValue(value)}</p>
+            <p>{renderValue(value)}</p>
             <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
@@ -148,6 +159,7 @@ function EditableField(props) {
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  emptyLabel: PropTypes.node,
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -177,6 +189,7 @@ EditableField.defaultProps = {
   options: undefined,
   saveState: undefined,
   label: undefined,
+  emptyLabel: undefined,
   error: undefined,
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,

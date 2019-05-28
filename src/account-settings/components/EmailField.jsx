@@ -21,6 +21,7 @@ function EmailField(props) {
   const {
     name,
     label,
+    emptyLabel,
     value,
     saveState,
     error,
@@ -81,6 +82,18 @@ function EmailField(props) {
       </span>
     </span>
   );
+
+  const renderEmptyLabel = () => {
+    if (!isEditable) {
+      return <span className="text-muted">{emptyLabel}</span>;
+    }
+    return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
+  };
+
+  const renderValue = () => {
+    if (confirmationValue) return renderConfirmationValue();
+    return value || renderEmptyLabel();
+  };
 
   return (
     <SwitchContent
@@ -143,7 +156,7 @@ function EmailField(props) {
                 </Button>
               ) : null}
             </div>
-            <p>{confirmationValue ? renderConfirmationValue() : value}</p>
+            <p>{renderValue()}</p>
             {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
           </div>
         ),
@@ -156,6 +169,7 @@ function EmailField(props) {
 EmailField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  emptyLabel: PropTypes.node,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
@@ -179,6 +193,7 @@ EmailField.defaultProps = {
   value: undefined,
   saveState: undefined,
   label: undefined,
+  emptyLabel: undefined,
   error: undefined,
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,

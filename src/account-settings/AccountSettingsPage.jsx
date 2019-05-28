@@ -36,12 +36,24 @@ class AccountSettingsPage extends React.Component {
     super(props);
     this.educationLevels = EDUCATION_LEVELS.map(key => ({
       value: key,
-      label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key}`]),
+      label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
     }));
     this.genderOptions = GENDER_OPTIONS.map(key => ({
       value: key,
-      label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key}`]),
+      label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
     }));
+    this.languageProficiencyOptions = [{
+      value: '',
+      label: props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
+    }].concat(props.languageProficiencyOptions);
+    this.yearOfBirthOptions = [{
+      value: '',
+      label: props.intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
+    }].concat(YEAR_OF_BIRTH_OPTIONS);
+    this.countryOptions = [{
+      value: '',
+      label: props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
+    }].concat(props.countryOptions);
   }
 
   componentDidMount() {
@@ -66,6 +78,10 @@ class AccountSettingsPage extends React.Component {
     });
     return concatTimeZoneOptions;
   });
+
+  getIsEditable(fieldName) {
+    return !this.props.staticFields.includes(fieldName);
+  }
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
@@ -126,6 +142,15 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
+  renderEmptyStaticFieldMessage() {
+    if (!this.props.profileDataManager) {
+      return this.props.intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
+    }
+    return this.props.intl.formatMessage(messages['account.settings.static.field.empty'], {
+      enterprise: this.props.profileDataManager,
+    });
+  }
+
   renderSecondaryEmailField(editableFieldProps) {
     if (this.props.hiddenFields.includes('secondary_email')) {
       return null;
@@ -135,6 +160,7 @@ class AccountSettingsPage extends React.Component {
       <EmailField
         name="secondary_email"
         label={this.props.intl.formatMessage(messages['account.settings.field.secondary.email'])}
+        emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
         value={this.props.formValues.secondary_email}
         confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
         {...editableFieldProps}
@@ -178,17 +204,27 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={this.props.formValues.name}
             label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+            emptyLabel={
+              this.getIsEditable('name') ?
+                this.props.intl.formatMessage(messages['account.settings.field.full.name.empty']) :
+                this.renderEmptyStaticFieldMessage()
+            }
             helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
-            isEditable={!this.props.staticFields.includes('name')}
+            isEditable={this.getIsEditable('name')}
             {...editableFieldProps}
           />
           <EmailField
             name="email"
             label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
+            emptyLabel={
+              this.getIsEditable('email') ?
+                this.props.intl.formatMessage(messages['account.settings.field.email.empty']) :
+                this.renderEmptyStaticFieldMessage()
+            }
             value={this.props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
-            isEditable={!this.props.staticFields.includes('email')}
+            isEditable={this.getIsEditable('email')}
             {...editableFieldProps}
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
@@ -197,17 +233,23 @@ class AccountSettingsPage extends React.Component {
             name="year_of_birth"
             type="select"
             label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.dob.empty'])}
             value={this.props.formValues.year_of_birth}
-            options={YEAR_OF_BIRTH_OPTIONS}
+            options={this.yearOfBirthOptions}
             {...editableFieldProps}
           />
           <EditableField
             name="country"
             type="select"
             value={this.props.formValues.country}
-            options={this.props.countryOptions}
+            options={this.countryOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
-            isEditable={!this.props.staticFields.includes('country')}
+            emptyLabel={
+              this.getIsEditable('country') ?
+                this.props.intl.formatMessage(messages['account.settings.field.country.empty']) :
+                this.renderEmptyStaticFieldMessage()
+            }
+            isEditable={this.getIsEditable('country')}
             {...editableFieldProps}
           />
         </section>
@@ -223,6 +265,7 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.level_of_education}
             options={this.educationLevels}
             label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.education.empty'])}
             {...editableFieldProps}
           />
           <EditableField
@@ -231,14 +274,16 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.gender}
             options={this.genderOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.gender'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.gender.empty'])}
             {...editableFieldProps}
           />
           <EditableField
             name="language_proficiencies"
             type="select"
             value={this.props.formValues.language_proficiencies}
-            options={this.props.languageProficiencyOptions}
+            options={this.languageProficiencyOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
         </section>
@@ -254,6 +299,7 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={this.props.formValues.social_link_linkedin}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
             {...editableFieldProps}
           />
           <EditableField
@@ -261,6 +307,7 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={this.props.formValues.social_link_facebook}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
             {...editableFieldProps}
           />
           <EditableField
@@ -268,6 +315,7 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={this.props.formValues.social_link_twitter}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
             {...editableFieldProps}
           />
         </section>
@@ -293,6 +341,7 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.time_zone || ''}
             options={timeZoneOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
             helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
             {...editableFieldProps}
             onSubmit={(formId, value) => {
@@ -378,7 +427,7 @@ AccountSettingsPage.propTypes = {
     name: PropTypes.string,
     email: PropTypes.string,
     secondary_email: PropTypes.string,
-    year_of_birth: PropTypes.number,
+    year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     country: PropTypes.string,
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
