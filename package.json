@@ -29,7 +29,7 @@
     "@edx/frontend-analytics": "^1.0.0",
     "@edx/frontend-auth": "^5.3.1",
     "@edx/frontend-component-footer": "^6.0.0",
-    "@edx/frontend-component-site-header": "^2.1.7",
+    "@edx/frontend-component-site-header": "^2.1.9",
     "@edx/frontend-i18n": "^1.0.2",
     "@edx/frontend-logging": "^2.0.2",
     "@edx/paragon": "^4.2.6",

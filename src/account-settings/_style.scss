@@ -27,8 +27,9 @@
     @extend .h4;
     margin-bottom: map-get($spacers, 3);
   }
-  section {
+  .account-section {
     // These properties together will shift the hashlink position
+    margin-bottom: map-get($spacers, 5); 
     padding-top: 1rem;
   }
 }
