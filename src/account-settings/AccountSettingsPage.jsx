@@ -189,7 +189,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <React.Fragment>
-        <section className="mb-5" id="basic-information">
+        <div className="account-section" id="basic-information">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
@@ -258,9 +258,9 @@ class AccountSettingsPage extends React.Component {
             isEditable={this.isEditable('country')}
             {...editableFieldProps}
           />
-        </section>
+        </div>
 
-        <section className="mb-5" id="profile-information">
+        <div className="account-section" id="profile-information">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
@@ -292,9 +292,9 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-        </section>
+        </div>
 
-        <section className="mb-5" id="social-media">
+        <div className="account-section" id="social-media">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
@@ -324,9 +324,9 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
             {...editableFieldProps}
           />
-        </section>
+        </div>
 
-        <section className="mb-5" id="site-preferences">
+        <div className="account-section" id="site-preferences">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
@@ -355,21 +355,21 @@ class AccountSettingsPage extends React.Component {
               this.handleSubmit(formId, value || null);
             }}
           />
-        </section>
+        </div>
 
-        <section className="mb-5" id="linked-accounts">
+        <div className="account-section" id="linked-accounts">
           <h2 className="section-heading">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
           <ThirdPartyAuth />
-        </section>
+        </div>
 
-        <section className="mb-5" id="delete-account">
+        <div className="account-section" id="delete-account">
           <DeleteMyAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
             logoutUrl={this.props.logoutUrl}
           />
-        </section>
+        </div>
 
       </React.Fragment>
     );
