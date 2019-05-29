@@ -5,9 +5,10 @@ import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Hyperlink, Input, Modal, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import trim from 'lodash.trim';
 
 import Alert from './Alert';
-import { deleteAccount, deleteAccountConfirmation, deleteAccountReset } from '../actions';
+import { deleteAccount, deleteAccountConfirmation, deleteAccountFailure, deleteAccountReset, deleteAccountCancel } from '../actions';
 import messages from '../AccountSettingsPage.messages';
 
 const passwordFieldId = 'passwordFieldId';
@@ -24,17 +25,34 @@ class DeleteMyAccount extends React.Component {
     this.handleFinalClose = this.handleFinalClose.bind(this);
   }
 
+  /**
+   * @returns String The message id for a short description of the error, suitable for a header or as the error message under an input field.
+   */
+  getShortErrorMessageId(reason) {
+    switch (reason) {
+      case 'empty-password':
+        return 'account.settings.delete.error.no.password';
+      default:
+        return 'account.settings.delete.error.unable.to.delete';
+    }
+  }
+
   handleSubmit() {
-    this.props.deleteAccount(this.state.password);
+    if (this.state.password === '') {
+      this.props.deleteAccountFailure('empty-password');
+    } else {
+      this.props.deleteAccount(this.state.password);
+    }
   }
 
   handleCancel() {
     this.setState({ password: '' });
-    this.props.deleteAccountReset();
+    this.props.deleteAccountCancel();
   }
 
   handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
+    this.setState({ password: trim(e.target.value) });
+    this.props.deleteAccountReset();
   }
 
   handleFinalClose() {
@@ -81,8 +99,31 @@ class DeleteMyAccount extends React.Component {
       </Alert>);
   }
 
+  renderError(reason) {
+    const headerMessageId = this.getShortErrorMessageId(this.props.deletionError);
+    const detailsMessageId = reason === 'empty-password' ? null : 'account.settings.delete.error.unable.to.delete.details';
+
+    return (
+      <Alert
+        className="alert-danger mt-n2"
+        icon={<FontAwesomeIcon className="mr-2" icon={faExclamationCircle} />}
+      >
+        <h6>
+          {this.props.intl.formatMessage(messages[headerMessageId])}
+        </h6>
+        {detailsMessageId ?
+          <p className="text-danger">
+            {this.props.intl.formatMessage(messages[detailsMessageId])}
+          </p>
+          : null
+        }
+      </Alert>);
+  }
+
   render() {
-    const { hasLinkedTPA, isVerifiedAccount, intl } = this.props;
+    const {
+      hasLinkedTPA, isVerifiedAccount, accountDeletionState, deletionError, intl,
+    } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
 
     return (
@@ -131,23 +172,13 @@ class DeleteMyAccount extends React.Component {
         }
 
         <Modal
-          open={['confirming', 'pending', 'failed'].includes(this.props.accountDeletionState)}
+          open={['confirming', 'pending', 'failed'].includes(accountDeletionState)}
           title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
           body={(
             <div>
 
-              {this.props.deletionError ?
-                <Alert
-                  className="alert-danger mt-n2"
-                  icon={<FontAwesomeIcon className="mr-2" icon={faExclamationCircle} />}
-                >
-                  <p className="h6">
-                    {intl.formatMessage(messages['account.settings.delete.error.unable.to.delete'])}
-                  </p>
-                  <p className="text-danger">
-                    {intl.formatMessage(messages['account.settings.delete.error.unable.to.delete.details'])}
-                  </p>
-                </Alert>
+              {deletionError ?
+                this.renderError(this.props.deletionError)
                 : null
               }
 
@@ -155,9 +186,9 @@ class DeleteMyAccount extends React.Component {
                 className="alert-warning mt-n2"
                 icon={<FontAwesomeIcon className="mr-2" icon={faExclamationTriangle} />}
               >
-                <p className="h6">
+                <h6>
                   {intl.formatMessage(messages['account.settings.delete.account.modal.text.1'])}
-                </p>
+                </h6>
                 <p>
                   {intl.formatMessage(messages['account.settings.delete.account.modal.text.2'])}
                 </p>
@@ -165,18 +196,15 @@ class DeleteMyAccount extends React.Component {
                   {this.renderPrintingInstructions()}
                 </p>
               </Alert>
-              <p className="h6">
-                {intl.formatMessage(messages['account.settings.delete.account.modal.enter.password'])}
-              </p>
               <ValidationFormGroup
                 for={passwordFieldId}
-                invalid={this.props.deletionError != null}
-                invalidMessage={intl.formatMessage(messages['account.settings.delete.error.unable.to.delete'])}
+                invalid={deletionError != null}
+                invalidMessage={intl.formatMessage(messages[this.getShortErrorMessageId(this.props.deletionError)])}
               >
                 <label
                   className="d-block"
                   htmlFor={passwordFieldId}
-                >{intl.formatMessage(messages['account.settings.delete.account.modal.password'])}
+                >{intl.formatMessage(messages['account.settings.delete.account.modal.enter.password'])}
                 </label>
                 <Input
                   name="password"
@@ -189,7 +217,7 @@ class DeleteMyAccount extends React.Component {
             </div>
           )}
           buttons={[
-            <Button className="btn-danger" onClick={this.handleSubmit} disabled={this.state.password.length === 0}>
+            <Button className="btn-danger" onClick={this.handleSubmit}>
               {intl.formatMessage(messages['account.settings.delete.account.modal.confirm.delete'])}
             </Button>]}
           closeText={intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
@@ -198,7 +226,7 @@ class DeleteMyAccount extends React.Component {
         />
 
         <Modal
-          open={this.props.accountDeletionState === 'deleted'}
+          open={accountDeletionState === 'deleted'}
           title={intl.formatMessage(messages['account.settings.delete.account.modal.after.header'])}
           body={(
             <div>
@@ -219,7 +247,9 @@ class DeleteMyAccount extends React.Component {
 DeleteMyAccount.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
   deleteAccountConfirmation: PropTypes.func.isRequired,
+  deleteAccountFailure: PropTypes.func.isRequired,
   deleteAccountReset: PropTypes.func.isRequired,
+  deleteAccountCancel: PropTypes.func.isRequired,
   accountDeletionState: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
   deletionError: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
@@ -243,6 +273,8 @@ export default connect(
   {
     deleteAccount,
     deleteAccountConfirmation,
+    deleteAccountFailure,
     deleteAccountReset,
+    deleteAccountCancel,
   },
 )(injectIntl(DeleteMyAccount));

@@ -417,11 +417,6 @@ const messages = defineMessages({
     defaultMessage: 'If you still wish to continue and delete your account, please enter your account password:',
     description: 'Asking for the user\'s account password',
   },
-  'account.settings.delete.account.modal.password': {
-    id: 'account.settings.delete.account.modal.password',
-    defaultMessage: 'Password',
-    description: 'Label for the input box asking for the user\'s account password',
-  },
   'account.settings.delete.account.modal.confirm.delete': {
     id: 'account.settings.delete.account.modal.confirm.delete',
     defaultMessage: 'Yes, Delete',
@@ -431,6 +426,11 @@ const messages = defineMessages({
     id: 'account.settings.delete.error.unable.to.delete',
     defaultMessage: 'Unable to delete account',
     description: 'Error message when account deletion failed',
+  },
+  'account.settings.delete.error.no.password': {
+    id: 'account.settings.delete.error.no.password',
+    defaultMessage: 'A password is required',
+    description: 'Error message when user hasn not entered their password',
   },
   'account.settings.delete.error.unable.to.delete.details': {
     id: 'account.settings.delete.error.unable.to.delete.details',

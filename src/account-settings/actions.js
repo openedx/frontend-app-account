@@ -7,6 +7,7 @@ export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTI
 export const FETCH_TIME_ZONES = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_TIME_ZONES');
 export const DELETE_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'DELETE_ACCOUNT');
 DELETE_ACCOUNT.CONFIRMATION = 'ACCOUNT_SETTINGS__DELETE_ACCOUNT__CONFIRMATION';
+DELETE_ACCOUNT.CANCEL = 'ACCOUNT_SETTINGS__DELETE_ACCOUNT__CANCEL';
 export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const SAVE_PREVIOUS_SITE_LANGUAGE = 'SAVE_PREVIOUS_SITE_LANGUAGE';
 export const OPEN_FORM = 'OPEN_FORM';
@@ -125,12 +126,19 @@ export const deleteAccountSuccess = () => ({
   type: DELETE_ACCOUNT.SUCCESS,
 });
 
-export const deleteAccountFailure = () => ({
+export const deleteAccountFailure = reason => ({
   type: DELETE_ACCOUNT.FAILURE,
+  payload: { reason },
 });
 
+// to clear errors from the confirmation modal
 export const deleteAccountReset = () => ({
   type: DELETE_ACCOUNT.RESET,
+});
+
+// to close the modal
+export const deleteAccountCancel = () => ({
+  type: DELETE_ACCOUNT.CANCEL,
 });
 
 // RESET PASSWORD ACTIONS

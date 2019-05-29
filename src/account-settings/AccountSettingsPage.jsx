@@ -501,7 +501,6 @@ AccountSettingsPage.defaultProps = {
   isActive: true,
 };
 
-
 export default connect(accountSettingsPageSelector, {
   fetchSettings,
   saveSettings,

@@ -162,10 +162,17 @@ const accountSettingsReducer = (state = defaultState, action) => {
       return {
         ...state,
         accountDeletionState: 'failed',
-        deletionError: 'server',
+        deletionError: action.payload.reason || 'server',
       };
 
     case DELETE_ACCOUNT.RESET:
+      return {
+        ...state,
+        accountDeletionState: 'confirming',
+        deletionError: null,
+      };
+
+    case DELETE_ACCOUNT.CANCEL:
       return {
         ...state,
         accountDeletionState: null,
