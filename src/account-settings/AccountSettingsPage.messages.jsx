@@ -430,7 +430,7 @@ const messages = defineMessages({
   'account.settings.delete.error.no.password': {
     id: 'account.settings.delete.error.no.password',
     defaultMessage: 'A password is required',
-    description: 'Error message when user hasn not entered their password',
+    description: 'Error message when user has not entered their password',
   },
   'account.settings.delete.error.unable.to.delete.details': {
     id: 'account.settings.delete.error.unable.to.delete.details',
