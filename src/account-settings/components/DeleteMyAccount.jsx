@@ -25,7 +25,8 @@ class DeleteMyAccount extends React.Component {
   }
 
   /**
-   * @returns String The message id for a short description of the error, suitable for a header or as the error message under an input field.
+   * @returns String The message id for a short description of the error, suitable for a header or
+   * as the error message under an input field.
    */
   getShortErrorMessageId(reason) {
     switch (reason) {
@@ -177,7 +178,7 @@ class DeleteMyAccount extends React.Component {
             <div>
 
               {deletionErrorType ?
-                this.renderError(this.props.deletionErrorType)
+                this.renderError(deletionErrorType)
                 : null
               }
 
@@ -198,7 +199,9 @@ class DeleteMyAccount extends React.Component {
               <ValidationFormGroup
                 for={passwordFieldId}
                 invalid={deletionErrorType != null}
-                invalidMessage={intl.formatMessage(messages[this.getShortErrorMessageId(this.props.deletionErrorType)])}
+                invalidMessage={
+                  intl.formatMessage(messages[this.getShortErrorMessageId(deletionErrorType)])
+                }
               >
                 <label
                   className="d-block"
