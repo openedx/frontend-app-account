@@ -5,7 +5,6 @@ import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Hyperlink, Input, Modal, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import trim from 'lodash.trim';
 
 import Alert from './Alert';
 import { deleteAccount, deleteAccountConfirmation, deleteAccountFailure, deleteAccountReset, deleteAccountCancel } from '../actions';
@@ -51,7 +50,7 @@ class DeleteMyAccount extends React.Component {
   }
 
   handlePasswordChange(e) {
-    this.setState({ password: trim(e.target.value) });
+    this.setState({ password: e.target.value.trim() });
     this.props.deleteAccountReset();
   }
 
@@ -100,7 +99,7 @@ class DeleteMyAccount extends React.Component {
   }
 
   renderError(reason) {
-    const headerMessageId = this.getShortErrorMessageId(this.props.deletionError);
+    const headerMessageId = this.getShortErrorMessageId(this.props.deletionErrorType);
     const detailsMessageId = reason === 'empty-password' ? null : 'account.settings.delete.error.unable.to.delete.details';
 
     return (
@@ -122,7 +121,7 @@ class DeleteMyAccount extends React.Component {
 
   render() {
     const {
-      hasLinkedTPA, isVerifiedAccount, accountDeletionState, deletionError, intl,
+      hasLinkedTPA, isVerifiedAccount, accountDeletionState, deletionErrorType, intl,
     } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
 
@@ -177,8 +176,8 @@ class DeleteMyAccount extends React.Component {
           body={(
             <div>
 
-              {deletionError ?
-                this.renderError(this.props.deletionError)
+              {deletionErrorType ?
+                this.renderError(this.props.deletionErrorType)
                 : null
               }
 
@@ -198,8 +197,8 @@ class DeleteMyAccount extends React.Component {
               </Alert>
               <ValidationFormGroup
                 for={passwordFieldId}
-                invalid={deletionError != null}
-                invalidMessage={intl.formatMessage(messages[this.getShortErrorMessageId(this.props.deletionError)])}
+                invalid={deletionErrorType != null}
+                invalidMessage={intl.formatMessage(messages[this.getShortErrorMessageId(this.props.deletionErrorType)])}
               >
                 <label
                   className="d-block"
@@ -251,7 +250,7 @@ DeleteMyAccount.propTypes = {
   deleteAccountReset: PropTypes.func.isRequired,
   deleteAccountCancel: PropTypes.func.isRequired,
   accountDeletionState: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
-  deletionError: PropTypes.oneOf(['empty-password', 'server']),
+  deletionErrorType: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   logoutUrl: PropTypes.string.isRequired,
@@ -262,12 +261,12 @@ DeleteMyAccount.defaultProps = {
   hasLinkedTPA: false,
   isVerifiedAccount: true,
   accountDeletionState: null,
-  deletionError: null,
+  deletionErrorType: null,
 };
 
 export default connect(
   state => ({
-    deletionError: state.accountSettings.deletionError,
+    deletionErrorType: state.accountSettings.deletionErrorType,
     accountDeletionState: state.accountSettings.accountDeletionState,
   }),
   {
