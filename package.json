@@ -72,6 +72,7 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^4.0.0",
     "universal-cookie": "^3.1.0",
+    "url-polyfill": "^1.1.5",
     "webpack-rtl-plugin": "^2.0.0"
   },
   "devDependencies": {
