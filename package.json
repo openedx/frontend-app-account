@@ -44,6 +44,7 @@
     "email-prop-type": "^1.1.5",
     "font-awesome": "^4.7.0",
     "form-urlencoded": "^3.0.0",
+    "formdata-polyfill": "^3.0.18",
     "glob": "^7.1.3",
     "history": "^4.7.2",
     "i18n-iso-countries": "^3.7.8",
