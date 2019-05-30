@@ -111,6 +111,7 @@
     "new-relic-source-map-webpack-plugin": "1.1.0",
     "node-sass": "^4.7.2",
     "postcss-loader": "^3.0.0",
+    "purgecss-webpack-plugin": "^1.5.0",
     "react-dev-utils": "^5.0.0",
     "react-test-renderer": "^16.8.6",
     "reactifex": "1.1.1",
