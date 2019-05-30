@@ -32,7 +32,8 @@
     "i18n": {
       "plugins": [
         ["react-intl", {
-          "messagesDir": "./temp"
+          "messagesDir": "./temp",
+          "moduleSourceName": "@edx/frontend-i18n"
         }]
       ]
     }
