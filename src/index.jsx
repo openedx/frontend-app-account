@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import 'url-polyfill';
+import 'formdata-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
