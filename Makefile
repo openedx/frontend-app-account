@@ -13,10 +13,10 @@ temp = ./babel-plugin-react-intl-temp
 
 requirements:
 	npm install
-	rm -rf $(temp)
 
 i18n.extract:
     # Pulling display strings from .jsx files into .json files...
+	rm -rf $(temp)
 	npm run-script i18n_extract
 
 i18n.concat:
