@@ -1,4 +1,12 @@
-import { AsyncActionType, modifyObjectKeys, camelCaseObject, snakeCaseObject, convertKeyNames, keepKeys } from './utils';
+import {
+  AsyncActionType,
+  modifyObjectKeys,
+  camelCaseObject,
+  snakeCaseObject,
+  convertKeyNames,
+  keepKeys,
+  getModuleState,
+} from './utils';
 
 describe('modifyObjectKeys', () => {
   it('should use the provided modify function to change all keys in and object and its children', () => {
@@ -86,15 +94,22 @@ describe('convertKeyNames', () => {
 
 describe('keepKeys', () => {
   it('should keep the specified keys only', () => {
-    const result = keepKeys({
-      one: 123,
-      two: { three: 'skip me' },
-      four: 'five',
-      six: null,
-      8: 'sneaky',
-    }, [
-      'one', 'three', 'six', 'seven', '8', // yup, the 8 integer will be converted to a string.
-    ]);
+    const result = keepKeys(
+      {
+        one: 123,
+        two: { three: 'skip me' },
+        four: 'five',
+        six: null,
+        8: 'sneaky',
+      },
+      [
+        'one',
+        'three',
+        'six',
+        'seven',
+        '8', // yup, the 8 integer will be converted to a string.
+      ],
+    );
 
     expect(result).toEqual({
       one: 123,
@@ -102,7 +117,6 @@ describe('keepKeys', () => {
       8: 'sneaky',
     });
   });
-
 
   describe('AsyncActionType', () => {
     it('should return well formatted action strings', () => {
@@ -113,6 +127,41 @@ describe('keepKeys', () => {
       expect(actionType.SUCCESS).toBe('HOUSE_CATS__START_THE_RACE__SUCCESS');
       expect(actionType.FAILURE).toBe('HOUSE_CATS__START_THE_RACE__FAILURE');
       expect(actionType.RESET).toBe('HOUSE_CATS__START_THE_RACE__RESET');
+    });
+  });
+
+  describe('getModuleState', () => {
+    const state = {
+      first: { red: { awesome: 'sauce' }, blue: { weak: 'sauce' } },
+      second: { other: 'data' },
+    };
+
+    it('should return everything if given an empty path', () => {
+      expect(getModuleState(state, [])).toEqual(state);
+    });
+
+    it('should resolve paths correctly', () => {
+      expect(getModuleState(
+        state,
+        ['first'],
+      )).toEqual({ red: { awesome: 'sauce' }, blue: { weak: 'sauce' } });
+
+      expect(getModuleState(
+        state,
+        ['first', 'red'],
+      )).toEqual({ awesome: 'sauce' });
+
+      expect(getModuleState(state, ['second'])).toEqual({ other: 'data' });
+    });
+
+    it('should throw an exception on a bad path', () => {
+      expect(() => {
+        getModuleState(state, ['uhoh']);
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should return non-objects correctly', () => {
+      expect(getModuleState(state, ['first', 'red', 'awesome'])).toEqual('sauce');
     });
   });
 });

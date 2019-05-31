@@ -48,6 +48,37 @@ export function keepKeys(data, whitelist) {
 }
 
 /**
+ * Given a state tree and an array representing a set of keys to traverse in that tree, returns
+ * the portion of the tree at that key path.
+ *
+ * Example:
+ *
+ * const result = getModuleState(
+ *   {
+ *     first: { red: { awesome: 'sauce' }, blue: { weak: 'sauce' } },
+ *     second: { other: 'data', }
+ *   },
+ *   ['first', 'red']
+ * );
+ *
+ * result will be:
+ *
+ * {
+ *   awesome: 'sauce'
+ * }
+ */
+export function getModuleState(state, path) {
+  if (path.length < 1) {
+    return state;
+  }
+  const key = path.shift();
+  if (state[key] === undefined) {
+    throw new Error(`Unexpected state key ${key} given to getModuleState. Is your state path set up correctly?`);
+  }
+  return getModuleState(state[key], path);
+}
+
+/**
  * Helper class to save time when writing out action types for asynchronous methods.  Also helps
  * ensure that actions are namespaced.
  *
