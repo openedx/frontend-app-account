@@ -12,7 +12,7 @@ import {
 } from '@edx/frontend-analytics';
 import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-logging';
 import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
-import { handleRtl, configure as configureI18n } from '@edx/frontend-i18n';
+import { configure as configureI18n } from '@edx/frontend-i18n';
 
 import { configuration } from './environment';
 import configureStore from './store';
@@ -70,8 +70,6 @@ function configure() {
     authApiClient: apiClient,
     analyticsApiBaseUrl: configuration.LMS_BASE_URL,
   });
-
-  handleRtl();
 
   return {
     store,
