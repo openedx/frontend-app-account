@@ -6,14 +6,14 @@ import { Button, Input, StatefulButton, ValidationFormGroup } from '@edx/paragon
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SwitchContent from './temp/SwitchContent';
-import messages from '../AccountSettingsPage.messages';
+import { SwitchContent } from '../common';
+import messages from './AccountSettingsPage.messages';
 
 import {
   openForm,
   closeForm,
-} from '../actions';
-import { editableFieldSelector } from '../selectors';
+} from './actions';
+import { editableFieldSelector } from './selectors';
 
 
 function EditableField(props) {

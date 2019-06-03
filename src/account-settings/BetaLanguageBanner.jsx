@@ -7,11 +7,11 @@ import {
 import { connect } from 'react-redux';
 import { Button, Hyperlink } from '@edx/paragon';
 
-import { betaLanguageBannerSelector } from '../selectors';
-import messages from '../AccountSettingsPage.messages';
-import { saveSettings } from '../actions';
-import { TRANSIFEX_LANGUAGE_BASE_URL } from '../constants/';
-import Alert from './Alert';
+import { betaLanguageBannerSelector } from './selectors';
+import messages from './AccountSettingsPage.messages';
+import { saveSettings } from './actions';
+import { TRANSIFEX_LANGUAGE_BASE_URL } from './constants/';
+import { Alert } from '../common';
 
 
 class BetaLanguageBanner extends React.Component {

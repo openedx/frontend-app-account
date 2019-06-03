@@ -6,10 +6,10 @@ import { StatefulButton, Hyperlink } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import { resetPassword } from '../actions';
-import { resetPasswordSelector } from '../selectors';
-import messages from '../AccountSettingsPage.messages';
-import Alert from './Alert';
+import { resetPassword } from './actions';
+import { resetPasswordSelector } from './selectors';
+import messages from './AccountSettingsPage.messages';
+import { Alert } from '../common';
 
 function PasswordReset({ email, intl, ...props }) {
   const renderConfirmationMessage = () => (
