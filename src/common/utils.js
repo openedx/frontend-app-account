@@ -67,7 +67,8 @@ export function keepKeys(data, whitelist) {
  *   awesome: 'sauce'
  * }
  */
-export function getModuleState(state, path) {
+export function getModuleState(state, originalPath) {
+  const path = [...originalPath]; // don't modify your argument
   if (path.length < 1) {
     return state;
   }

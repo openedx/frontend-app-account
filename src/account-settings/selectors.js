@@ -5,7 +5,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-i18n'; // eslint-disable-line
 
-import { siteLanguageOptionsSelector, siteLanguageListSelector } from '../site-language';
+import { siteLanguageOptionsSelector, siteLanguageListSelector } from './site-language';
 
 export const storeName = 'accountSettings';
 

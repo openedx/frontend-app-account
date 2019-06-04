@@ -7,7 +7,7 @@ let config = {
 
 let apiClient = null;
 
-export function configure(newConfig, newApiClient) {
+export function configureService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
 }

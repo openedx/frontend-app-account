@@ -107,40 +107,6 @@ export const savePreviousSiteLanguage = previousSiteLanguage => ({
   payload: { previousSiteLanguage },
 });
 
-// DELETE ACCOUNT ACTIONS
-
-export const deleteAccount = password => ({
-  type: DELETE_ACCOUNT.BASE,
-  payload: { password },
-});
-
-export const deleteAccountConfirmation = () => ({
-  type: DELETE_ACCOUNT.CONFIRMATION,
-});
-
-export const deleteAccountBegin = () => ({
-  type: DELETE_ACCOUNT.BEGIN,
-});
-
-export const deleteAccountSuccess = () => ({
-  type: DELETE_ACCOUNT.SUCCESS,
-});
-
-export const deleteAccountFailure = reason => ({
-  type: DELETE_ACCOUNT.FAILURE,
-  payload: { reason },
-});
-
-// to clear errors from the confirmation modal
-export const deleteAccountReset = () => ({
-  type: DELETE_ACCOUNT.RESET,
-});
-
-// to close the modal
-export const deleteAccountCancel = () => ({
-  type: DELETE_ACCOUNT.CANCEL,
-});
-
 // RESET PASSWORD ACTIONS
 
 export const resetPassword = email => ({

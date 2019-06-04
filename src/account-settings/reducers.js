@@ -13,6 +13,7 @@ import {
 } from './actions';
 
 import { reducer as deleteAccountReducer } from './delete-account';
+import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from './site-language';
 
 export const defaultState = {
   loading: false,
@@ -24,7 +25,6 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
-
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
@@ -32,9 +32,10 @@ export const defaultState = {
   disconnectErrors: {},
   previousSiteLanguage: null,
   deleteAccount: deleteAccountReducer(),
+  siteLanguage: siteLanguageReducer(),
 };
 
-const accountSettingsReducer = (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
   let dispatcherIsOpenForm;
 
   switch (action.type) {
@@ -160,7 +161,6 @@ const accountSettingsReducer = (state = defaultState, action) => {
         countryTimeZones: action.payload.timeZones,
       };
 
-
     case DISCONNECT_AUTH.BEGIN:
       return {
         ...state,
@@ -215,9 +215,18 @@ const accountSettingsReducer = (state = defaultState, action) => {
         deleteAccount: deleteAccountReducer(state.deleteAccount, action),
       };
 
+    case FETCH_SITE_LANGUAGES.BEGIN:
+    case FETCH_SITE_LANGUAGES.SUCCESS:
+    case FETCH_SITE_LANGUAGES.FAILURE:
+    case FETCH_SITE_LANGUAGES.RESET:
+      return {
+        ...state,
+        siteLanguage: siteLanguageReducer(state.siteLanguage, action),
+      };
+
     default:
       return state;
   }
 };
 
-export default accountSettingsReducer;
+export default reducer;
