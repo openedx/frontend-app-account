@@ -1,6 +1,7 @@
 import React from 'react';
 import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
 import { NavHashLink } from 'react-router-hash-link';
+import Scrollspy from 'react-scrollspy';
 
 import messages from './AccountSettingsPage.messages';
 
@@ -8,7 +9,18 @@ import messages from './AccountSettingsPage.messages';
 function JumpNav({ intl }) {
   return (
     <div className="jump-nav">
-      <ul className="list-unstyled">
+      <Scrollspy
+        items={[
+          'basic-information',
+          'profile-information',
+          'social-media',
+          'site-preferences',
+          'linked-accounts',
+          'delete-account',
+        ]}
+        className="list-unstyled"
+        currentClassName="font-weight-bold"
+      >
         <li>
           <NavHashLink to="#basic-information">
             {intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -39,7 +51,7 @@ function JumpNav({ intl }) {
             {intl.formatMessage(messages['account.settings.delete.account.header'])}
           </NavHashLink>
         </li>
-      </ul>
+      </Scrollspy>
     </div>
   );
 }
