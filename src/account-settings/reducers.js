@@ -26,7 +26,7 @@ export const defaultState = {
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
-  disconnectingState: null,
+  disconnectingState: {},
   disconnectErrors: {},
   previousSiteLanguage: null,
 };
@@ -203,27 +203,43 @@ const accountSettingsReducer = (state = defaultState, action) => {
     case DISCONNECT_AUTH.BEGIN:
       return {
         ...state,
-        disconnectingState: 'pending',
+        disconnectingState: {
+          ...state.disconnectingState,
+          [action.payload.providerId]: 'pending',
+        },
       };
     case DISCONNECT_AUTH.SUCCESS:
       return {
         ...state,
-        disconnectingState: 'complete',
+        disconnectingState: {
+          ...state.disconnectingState,
+          [action.payload.providerId]: 'complete',
+        },
         authProviders: action.payload.thirdPartyAuthProviders,
       };
     case DISCONNECT_AUTH.FAILURE:
       return {
         ...state,
-        disconnectingState: 'error',
+        disconnectingState: {
+          ...state.disconnectingState,
+          [action.payload.providerId]: 'error',
+        },
         disconnectErrors: {
+          ...state.disconnectErrors,
           [action.payload.providerId]: true,
         },
       };
     case DISCONNECT_AUTH.RESET:
       return {
         ...state,
-        disconnectingState: null,
-        disconnectErrors: {},
+        disconnectingState: {
+          ...state.disconnectingState,
+          [action.payload.providerId]: null,
+        },
+        disconnectErrors: {
+          ...state.disconnectErrors,
+          [action.payload.providerId]: null,
+        },
       };
 
     default:

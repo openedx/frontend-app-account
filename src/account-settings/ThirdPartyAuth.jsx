@@ -11,8 +11,8 @@ import { thirdPartyAuthSelector } from './selectors';
 class ThirdPartyAuth extends React.Component {
   onClickDisconnect = (e) => {
     e.preventDefault();
-    if (this.props.disconnectingState === 'pending') return;
     const providerId = e.currentTarget.getAttribute('data-provider-id');
+    if (this.props.disconnectingState[providerId] === 'pending') return;
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
     this.props.disconnectAuth(disconnectUrl, providerId);
   }
@@ -60,7 +60,7 @@ class ThirdPartyAuth extends React.Component {
 
         <StatefulButton
           className="btn-link"
-          state={this.props.disconnectingState}
+          state={this.props.disconnectingState[id]}
           labels={{
             default: (
               <FormattedMessage
@@ -124,14 +124,14 @@ ThirdPartyAuth.propTypes = {
     connected: PropTypes.bool,
     id: PropTypes.string,
   })),
-  disconnectingState: PropTypes.oneOf([null, 'pending', 'complete', 'error']),
+  disconnectingState: PropTypes.objectOf(PropTypes.oneOf([null, 'pending', 'complete', 'error'])),
   disconnectErrors: PropTypes.objectOf(PropTypes.bool),
   disconnectAuth: PropTypes.func.isRequired,
 };
 
 ThirdPartyAuth.defaultProps = {
   providers: undefined,
-  disconnectingState: null,
+  disconnectingState: {},
   disconnectErrors: {},
 };
 

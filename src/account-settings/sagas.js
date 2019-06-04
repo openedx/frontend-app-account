@@ -139,15 +139,16 @@ export function* handleFetchTimeZones(action) {
 }
 
 export function* handleDisconnectAuth(action) {
+  const { providerId } = action.payload;
   try {
-    yield put(disconnectAuthReset());
-    yield put(disconnectAuthBegin());
+    yield put(disconnectAuthReset(providerId));
+    yield put(disconnectAuthBegin(providerId));
     yield call(ApiService.postDisconnectAuth, action.payload.url);
     const thirdPartyAuthProviders = yield call(ApiService.getThirdPartyAuthProviders);
-    yield put(disconnectAuthSuccess(thirdPartyAuthProviders));
+    yield put(disconnectAuthSuccess(providerId, thirdPartyAuthProviders));
   } catch (e) {
     logAPIErrorResponse(e);
-    yield put(disconnectAuthFailure(action.payload.providerId));
+    yield put(disconnectAuthFailure(providerId));
   }
 }
 

@@ -179,16 +179,16 @@ export const fetchTimeZonesSuccess = timeZones => ({
 export const disconnectAuth = (url, providerId) => ({
   type: DISCONNECT_AUTH.BASE, payload: { url, providerId },
 });
-export const disconnectAuthBegin = () => ({
-  type: DISCONNECT_AUTH.BEGIN,
+export const disconnectAuthBegin = providerId => ({
+  type: DISCONNECT_AUTH.BEGIN, payload: { providerId },
 });
-export const disconnectAuthSuccess = thirdPartyAuthProviders => ({
+export const disconnectAuthSuccess = (providerId, thirdPartyAuthProviders) => ({
   type: DISCONNECT_AUTH.SUCCESS,
-  payload: { thirdPartyAuthProviders },
+  payload: { providerId, thirdPartyAuthProviders },
 });
 export const disconnectAuthFailure = providerId => ({
   type: DISCONNECT_AUTH.FAILURE, payload: { providerId },
 });
-export const disconnectAuthReset = () => ({
-  type: DISCONNECT_AUTH.RESET,
+export const disconnectAuthReset = providerId => ({
+  type: DISCONNECT_AUTH.RESET, payload: { providerId },
 });
