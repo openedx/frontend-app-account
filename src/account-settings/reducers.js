@@ -12,6 +12,8 @@ import {
   DELETE_ACCOUNT,
 } from './actions';
 
+import { reducer as deleteAccountReducer } from './delete-account';
+
 export const defaultState = {
   loading: false,
   loaded: false,
@@ -22,13 +24,14 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
-  accountDeletionState: null,
+
   resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
   disconnectingState: null,
   disconnectErrors: {},
   previousSiteLanguage: null,
+  deleteAccount: deleteAccountReducer(),
 };
 
 const accountSettingsReducer = (state = defaultState, action) => {
@@ -140,48 +143,6 @@ const accountSettingsReducer = (state = defaultState, action) => {
         previousSiteLanguage: action.payload.previousSiteLanguage,
       };
 
-    case DELETE_ACCOUNT.CONFIRMATION:
-      return {
-        ...state,
-        accountDeletionState: 'confirming',
-      };
-
-    case DELETE_ACCOUNT.BEGIN:
-      return {
-        ...state,
-        accountDeletionState: 'pending',
-      };
-
-    case DELETE_ACCOUNT.SUCCESS:
-      return {
-        ...state,
-        accountDeletionState: 'deleted',
-      };
-
-    case DELETE_ACCOUNT.FAILURE:
-      return {
-        ...state,
-        accountDeletionState: 'failed',
-        deletionErrorType: action.payload.reason || 'server',
-      };
-
-    case DELETE_ACCOUNT.RESET: {
-      const oldDeletionState = state.accountDeletionState;
-
-      return {
-        ...state,
-        accountDeletionState: oldDeletionState === 'failed' ? 'confirming' : oldDeletionState,
-        deletionErrorType: null,
-      };
-    }
-
-    case DELETE_ACCOUNT.CANCEL:
-      return {
-        ...state,
-        accountDeletionState: null,
-        deletionErrorType: null,
-      };
-
     case RESET_PASSWORD.BEGIN:
       return {
         ...state,
@@ -224,6 +185,18 @@ const accountSettingsReducer = (state = defaultState, action) => {
         ...state,
         disconnectingState: null,
         disconnectErrors: {},
+      };
+
+    // Delete My Account
+    case DELETE_ACCOUNT.CONFIRMATION:
+    case DELETE_ACCOUNT.BEGIN:
+    case DELETE_ACCOUNT.SUCCESS:
+    case DELETE_ACCOUNT.FAILURE:
+    case DELETE_ACCOUNT.RESET:
+    case DELETE_ACCOUNT.CANCEL:
+      return {
+        ...state,
+        deleteAccount: deleteAccountReducer(state.deleteAccount, action),
       };
 
     default:

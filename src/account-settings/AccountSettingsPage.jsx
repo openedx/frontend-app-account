@@ -17,7 +17,7 @@ import { accountSettingsPageSelector } from './selectors';
 
 import { Alert, PageLoading } from '../common';
 import JumpNav from './JumpNav';
-import DeleteMyAccount from './DeleteMyAccount';
+import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
 import PasswordReset from './PasswordReset';
 import ThirdPartyAuth from './ThirdPartyAuth';
@@ -363,7 +363,7 @@ class AccountSettingsPage extends React.Component {
         </div>
 
         <div className="account-section" id="delete-account">
-          <DeleteMyAccount
+          <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
             logoutUrl={this.props.logoutUrl}

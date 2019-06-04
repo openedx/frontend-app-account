@@ -1,4 +1,3 @@
-
 import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { logAPIErrorResponse } from '@edx/frontend-logging';
@@ -26,12 +25,11 @@ import {
   disconnectAuthSuccess,
   disconnectAuthFailure,
   disconnectAuthReset,
-  DELETE_ACCOUNT,
-  deleteAccountBegin,
-  deleteAccountSuccess,
-  deleteAccountFailure,
 } from './actions';
 import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
+
+// Sub-modules
+import { saga as deleteAccountSaga } from './delete-account';
 
 // Services
 import * as ApiService from './service';
@@ -45,11 +43,12 @@ export function* handleFetchSettings() {
     const userRoles = yield select(userRolesSelector);
 
     const {
-      thirdPartyAuthProviders,
-      profileDataManager,
-      timeZones,
-      ...values
-    } = yield call(ApiService.getSettings, username, userRoles);
+      thirdPartyAuthProviders, profileDataManager, timeZones, ...values
+    } = yield call(
+      ApiService.getSettings,
+      username,
+      userRoles,
+    );
 
     if (values.country) yield put(fetchTimeZones(values.country));
 
@@ -102,21 +101,6 @@ export function* handleSaveSettings(action) {
   }
 }
 
-export function* handleDeleteAccount(action) {
-  try {
-    yield put(deleteAccountBegin());
-    const response = yield call(ApiService.postDeleteAccount, action.payload.password);
-    yield put(deleteAccountSuccess(response));
-  } catch (e) {
-    if (typeof e.response.data === 'string') {
-      yield put(deleteAccountFailure());
-    } else {
-      logAPIErrorResponse(e);
-      yield put(push('/error'));
-    }
-  }
-}
-
 export function* handleResetPassword(action) {
   try {
     yield put(resetPasswordBegin());
@@ -151,12 +135,11 @@ export function* handleDisconnectAuth(action) {
   }
 }
 
-
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
-  yield takeEvery(DELETE_ACCOUNT.BASE, handleDeleteAccount);
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield takeEvery(DISCONNECT_AUTH.BASE, handleDisconnectAuth);
+  yield all([deleteAccountSaga()]);
 }

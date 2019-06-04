@@ -36,7 +36,7 @@ function JumpNav({ intl }) {
         </li>
         <li>
           <NavHashLink to="#delete-account">
-            {intl.formatMessage(messages['account.settings.delete.account.header'])}
+            {intl.formatMessage(messages['account.settings.jump.nav.delete.account'])}
           </NavHashLink>
         </li>
       </ul>
