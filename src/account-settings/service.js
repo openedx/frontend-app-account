@@ -3,7 +3,8 @@ import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
-import applyConfiguration from '../common/serviceUtils';
+import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
+import { configure as configureDeleteAccountApiService } from './delete-account';
 
 let config = {
   ACCOUNTS_API_BASE_URL: null,
@@ -25,20 +26,7 @@ let apiClient = null;
 export function configureApiService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
-}
-
-function unpackFieldErrors(fieldErrors) {
-  const unpackedFieldErrors = fieldErrors;
-  if (fieldErrors.social_links) {
-    SOCIAL_PLATFORMS.forEach(({ key }) => {
-      unpackedFieldErrors[key] = fieldErrors.social_links;
-    });
-  }
-  return Object.entries(unpackedFieldErrors)
-    .reduce((acc, [k, v]) => {
-      acc[k] = v.user_message;
-      return acc;
-    }, {});
+  configureDeleteAccountApiService(config, apiClient);
 }
 
 function unpackAccountResponseData(data) {
@@ -94,15 +82,6 @@ function packAccountCommitData(commitData) {
   return packedData;
 }
 
-function handleRequestError(error) {
-  if (error.response && error.response.data.field_errors) {
-    const apiError = Object.create(error);
-    apiError.fieldErrors = unpackFieldErrors(error.response.data.field_errors);
-    throw apiError;
-  }
-  throw error;
-}
-
 export async function getAccount(username) {
   const { data } = await apiClient.get(`${config.ACCOUNTS_API_BASE_URL}/${username}`);
   return unpackAccountResponseData(data);
@@ -113,11 +92,24 @@ export async function patchAccount(username, commitValues) {
     headers: { 'Content-Type': 'application/merge-patch+json' },
   };
 
-  const { data } = await apiClient.patch(
-    `${config.ACCOUNTS_API_BASE_URL}/${username}`,
-    packAccountCommitData(commitValues),
-    requestConfig,
-  ).catch(handleRequestError);
+  const { data } = await apiClient
+    .patch(
+      `${config.ACCOUNTS_API_BASE_URL}/${username}`,
+      packAccountCommitData(commitValues),
+      requestConfig,
+    )
+    .catch((error) => {
+      const unpackFunction = (fieldErrors) => {
+        const unpackedFieldErrors = fieldErrors;
+        if (fieldErrors.social_links) {
+          SOCIAL_PLATFORMS.forEach(({ key }) => {
+            unpackedFieldErrors[key] = fieldErrors.social_links;
+          });
+        }
+        return unpackFieldErrors(unpackedFieldErrors);
+      };
+      handleRequestError(error, unpackFunction);
+    });
 
   return unpackAccountResponseData(data);
 }
@@ -132,14 +124,14 @@ export async function patchPreferences(username, commitValues) {
   const requestUrl = `${config.PREFERENCES_API_BASE_URL}/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
-  await apiClient.patch(requestUrl, commitValues, requestConfig)
-    .catch(handleRequestError);
+  await apiClient.patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
 
   return commitValues;
 }
 
 export async function getThirdPartyAuthProviders() {
-  const { data } = await apiClient.get(`${config.LMS_BASE_URL}/api/third_party_auth/v0/providers/user_status`)
+  const { data } = await apiClient
+    .get(`${config.LMS_BASE_URL}/api/third_party_auth/v0/providers/user_status`)
     .catch(handleRequestError);
 
   return data.map(({ connect_url: connectUrl, disconnect_url: disconnectUrl, ...provider }) => ({
@@ -150,10 +142,11 @@ export async function getThirdPartyAuthProviders() {
 }
 
 export async function getTimeZones(forCountry) {
-  const { data } = await apiClient.get(
-    `${config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`,
-    { params: { country_code: forCountry } },
-  ).catch(handleRequestError);
+  const { data } = await apiClient
+    .get(`${config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
+      params: { country_code: forCountry },
+    })
+    .catch(handleRequestError);
 
   return data;
 }
@@ -232,15 +225,11 @@ export async function patchSettings(username, commitValues) {
 
 export async function postResetPassword(email) {
   const { data } = await apiClient
-    .post(
-      config.PASSWORD_RESET_URL,
-      formurlencoded({ email }),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+    .post(config.PASSWORD_RESET_URL, formurlencoded({ email }), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-    )
+    })
     .catch(handleRequestError);
 
   return data;
@@ -248,23 +237,5 @@ export async function postResetPassword(email) {
 
 export async function postDisconnectAuth(url) {
   const { data } = await apiClient.post(url).catch(handleRequestError);
-  return data;
-}
-
-/**
- * Request deletion of the user's account.
- */
-export async function postDeleteAccount(password) {
-  const { data } = await apiClient
-    .post(
-      config.DELETE_ACCOUNT_URL,
-      formurlencoded({ password }),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      },
-    )
-    .catch(handleRequestError);
   return data;
 }

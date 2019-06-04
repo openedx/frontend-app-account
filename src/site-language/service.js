@@ -1,6 +1,6 @@
 import siteLanguageList from './constants';
 import { snakeCaseObject, convertKeyNames } from '../common/utils';
-import applyConfiguration from '../common/serviceUtils';
+import { applyConfiguration } from '../common/serviceUtils';
 
 let config = {
   BASE_URL: null,
