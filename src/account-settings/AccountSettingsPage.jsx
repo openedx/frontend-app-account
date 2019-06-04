@@ -15,15 +15,14 @@ import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
 
-import { PageLoading } from '../common';
-import JumpNav from './components/JumpNav';
-import Alert from './components/Alert';
-import DeleteMyAccount from './components/DeleteMyAccount';
-import EditableField from './components/EditableField';
-import PasswordReset from './components/PasswordReset';
-import ThirdPartyAuth from './components/ThirdPartyAuth';
-import BetaLanguageBanner from './components/BetaLanguageBanner';
-import EmailField from './components/EmailField';
+import { Alert, PageLoading } from '../common';
+import JumpNav from './JumpNav';
+import DeleteMyAccount from './DeleteMyAccount';
+import EditableField from './EditableField';
+import PasswordReset from './PasswordReset';
+import ThirdPartyAuth from './ThirdPartyAuth';
+import BetaLanguageBanner from './BetaLanguageBanner';
+import EmailField from './EmailField';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,

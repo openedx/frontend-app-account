@@ -2,7 +2,7 @@ import React from 'react';
 import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
 import { NavHashLink } from 'react-router-hash-link';
 
-import messages from '../AccountSettingsPage.messages';
+import messages from './AccountSettingsPage.messages';
 
 
 function JumpNav({ intl }) {

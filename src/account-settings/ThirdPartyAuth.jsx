@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from '@edx/frontend-i18n';
 import { Hyperlink, StatefulButton } from '@edx/paragon';
-import Alert from './Alert';
 
-import { disconnectAuth } from '../actions';
-import { thirdPartyAuthSelector } from '../selectors';
+import { Alert } from '../common';
+import { disconnectAuth } from './actions';
+import { thirdPartyAuthSelector } from './selectors';
 
 class ThirdPartyAuth extends React.Component {
   onClickDisconnect = (e) => {

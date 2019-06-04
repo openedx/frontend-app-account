@@ -6,9 +6,9 @@ import { Button, Hyperlink, Input, Modal, ValidationFormGroup } from '@edx/parag
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import Alert from './Alert';
-import { deleteAccount, deleteAccountConfirmation, deleteAccountFailure, deleteAccountReset, deleteAccountCancel } from '../actions';
-import messages from '../AccountSettingsPage.messages';
+import { Alert } from '../common';
+import { deleteAccount, deleteAccountConfirmation, deleteAccountFailure, deleteAccountReset, deleteAccountCancel } from './actions';
+import messages from './AccountSettingsPage.messages';
 
 const passwordFieldId = 'passwordFieldId';
 
