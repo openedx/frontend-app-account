@@ -1,6 +1,6 @@
 import siteLanguageList from './constants';
-import { snakeCaseObject, convertKeyNames } from '../common/utils';
-import { applyConfiguration } from '../common/serviceUtils';
+import { snakeCaseObject, convertKeyNames } from '../../common/utils';
+import { applyConfiguration } from '../../common/serviceUtils';
 
 let config = {
   BASE_URL: null,
@@ -10,7 +10,7 @@ let config = {
 
 let apiClient = null;
 
-export function configureApiService(newConfig, newApiClient) {
+export function configureService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
 }

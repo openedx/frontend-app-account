@@ -9,11 +9,6 @@ import {
   storeName as accountSettingsStoreName,
 } from './account-settings';
 
-import {
-  reducer as siteLanguageReducer,
-  storeName as siteLanguageStoreName,
-} from './site-language';
-
 const identityReducer = (state) => {
   const newState = { ...state };
   return newState;
@@ -29,7 +24,6 @@ const createRootReducer = history =>
     i18n: i18nReducer,
     userAccount,
     [accountSettingsStoreName]: accountSettingsReducer,
-    [siteLanguageStoreName]: siteLanguageReducer,
     router: connectRouter(history),
   });
 

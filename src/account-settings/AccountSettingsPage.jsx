@@ -27,8 +27,8 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-} from './constants/';
-import { fetchSiteLanguages } from '../site-language';
+} from './constants';
+import { fetchSiteLanguages } from './site-language';
 
 class AccountSettingsPage extends React.Component {
   constructor(props) {

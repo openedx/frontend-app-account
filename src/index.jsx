@@ -17,8 +17,7 @@ import { configure as configureI18n } from '@edx/frontend-i18n';
 import { configuration } from './environment';
 import configureStore from './store';
 import { configureUserAccountApiService } from './common';
-import { configureApiService as configureAccountSettingsApiService } from './account-settings';
-import { configureApiService as configureSiteLanguageApiService } from './site-language';
+import { configureService as configureAccountSettingsApiService } from './account-settings';
 import messages from './i18n';
 
 import './index.scss';
@@ -62,7 +61,6 @@ function configure() {
 
   configureLoggingService(NewRelicLoggingService);
   configureAccountSettingsApiService(configuration, apiClient);
-  configureSiteLanguageApiService(configuration, apiClient);
   configureUserAccountApiService(configuration, apiClient);
   initializeSegment(configuration.SEGMENT_KEY);
   configureAnalytics({
@@ -95,4 +93,3 @@ apiClient.ensurePublicOrAuthenticationAndCookies(
     });
   },
 );
-

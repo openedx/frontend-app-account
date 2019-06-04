@@ -8,12 +8,11 @@ import {
 } from './actions';
 
 import { ApiService } from './service';
-import handleFailure from '../common/sagaUtils';
+import handleFailure from '../../common/sagaUtils';
 
 function* handleFetchSiteLanguages() {
   try {
     yield put(fetchSiteLanguagesBegin());
-
     const siteLanguageList = yield call(ApiService.getSiteLanguageList);
     yield put(fetchSiteLanguagesSuccess(siteLanguageList));
   } catch (e) {

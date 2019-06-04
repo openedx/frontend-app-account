@@ -30,10 +30,11 @@ import { usernameSelector, userRolesSelector, siteLanguageSelector } from './sel
 
 // Sub-modules
 import { saga as deleteAccountSaga } from './delete-account';
+import { saga as siteLanguageSaga, ApiService as SiteLanguageApiService } from './site-language';
 
 // Services
 import * as ApiService from './service';
-import { ApiService as SiteLanguageApiService } from '../site-language';
+
 import { setLocale, handleRtl } from '@edx/frontend-i18n'; // eslint-disable-line
 
 export function* handleFetchSettings() {
@@ -142,5 +143,8 @@ export default function* saga() {
   yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield takeEvery(DISCONNECT_AUTH.BASE, handleDisconnectAuth);
-  yield all([deleteAccountSaga()]);
+  yield all([
+    deleteAccountSaga(),
+    siteLanguageSaga(),
+  ]);
 }

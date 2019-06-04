@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  injectIntl,
-  intlShape,
-} from '@edx/frontend-i18n'; // eslint-disable-line
+import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { connect } from 'react-redux';
 import { Button, Hyperlink } from '@edx/paragon';
 
 import { betaLanguageBannerSelector } from './selectors';
 import messages from './AccountSettingsPage.messages';
 import { saveSettings } from './actions';
-import { TRANSIFEX_LANGUAGE_BASE_URL } from './constants/';
+import { TRANSIFEX_LANGUAGE_BASE_URL } from './constants';
 import { Alert } from '../common';
-
 
 class BetaLanguageBanner extends React.Component {
   getSiteLanguageEntry(languageCode) {
@@ -48,14 +44,14 @@ class BetaLanguageBanner extends React.Component {
   handleRevertLanguage = () => {
     const previousSiteLanguage = this.props.siteLanguage.previousValue;
     this.props.saveSettings('siteLanguage', previousSiteLanguage);
-  }
+  };
 
   render() {
     const savedLanguage = this.getSiteLanguageEntry(this.props.siteLanguage.savedValue);
-    const isSavedLanguageReleased = (savedLanguage.released === true);
-    const noPreviousLanguageSet = (this.props.siteLanguage.previousValue === null);
+    const isSavedLanguageReleased = savedLanguage.released === true;
+    const noPreviousLanguageSet = this.props.siteLanguage.previousValue === null;
     if (isSavedLanguageReleased || noPreviousLanguageSet) {
-      return (null);
+      return null;
     }
 
     const previousLanguage = this.getSiteLanguageEntry(this.props.siteLanguage.previousValue);
@@ -91,7 +87,6 @@ class BetaLanguageBanner extends React.Component {
   }
 }
 
-
 BetaLanguageBanner.propTypes = {
   intl: intlShape.isRequired,
   siteLanguage: PropTypes.shape({
@@ -107,12 +102,13 @@ BetaLanguageBanner.propTypes = {
   saveSettings: PropTypes.func.isRequired,
 };
 
-
 BetaLanguageBanner.defaultProps = {
   siteLanguage: null,
 };
 
-
-export default connect(betaLanguageBannerSelector, {
-  saveSettings,
-})(injectIntl(BetaLanguageBanner));
+export default connect(
+  betaLanguageBannerSelector,
+  {
+    saveSettings,
+  },
+)(injectIntl(BetaLanguageBanner));

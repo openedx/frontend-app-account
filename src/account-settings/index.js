@@ -1,13 +1,13 @@
 import ConnectedAccountSettingsPage from './AccountSettingsPage';
 import reducer from './reducers';
 import saga from './sagas';
-import { configureApiService } from './service';
+import { configureService } from './service';
 import { storeName } from './selectors';
 
 export {
+  configureService,
   ConnectedAccountSettingsPage,
   reducer,
   saga,
-  configureApiService,
   storeName,
 };

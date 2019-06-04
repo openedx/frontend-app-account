@@ -4,9 +4,11 @@ import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
-import { configure as configureDeleteAccountApiService } from './delete-account';
+import { configureService as configureDeleteAccountApiService } from './delete-account';
+import { configureService as configureSiteLanguageApiService } from './site-language';
 
 let config = {
+  BASE_URL: null,
   ACCOUNTS_API_BASE_URL: null,
   PREFERENCES_API_BASE_URL: null,
   ECOMMERCE_API_BASE_URL: null,
@@ -23,10 +25,11 @@ const SOCIAL_PLATFORMS = [
 
 let apiClient = null;
 
-export function configureApiService(newConfig, newApiClient) {
+export function configureService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
   configureDeleteAccountApiService(config, apiClient);
+  configureSiteLanguageApiService(config, apiClient);
 }
 
 function unpackAccountResponseData(data) {
