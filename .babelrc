@@ -32,7 +32,7 @@
     "i18n": {
       "plugins": [
         ["react-intl", {
-          "messagesDir": "./temp",
+          "messagesDir": "./babel-plugin-react-intl-temp",
           "moduleSourceName": "@edx/frontend-i18n"
         }]
       ]
