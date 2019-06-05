@@ -9,10 +9,9 @@ import {
   DISCONNECT_AUTH,
   UPDATE_DRAFT,
   RESET_DRAFTS,
-  DELETE_ACCOUNT,
 } from './actions';
 
-import { reducer as deleteAccountReducer } from './delete-account';
+import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from './delete-account';
 import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from './site-language';
 
 export const defaultState = {
