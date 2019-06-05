@@ -205,7 +205,7 @@ export const accountSettingsPageSelector = createSelector(
     staticFields,
     hiddenFields,
     duplicateTpaProvider,
-    tpaProviders: accountSettings.authProviders,
+    tpaProviders: accountSettings.thirdPartyAuth.providers,
     supportUrl: configuration.SUPPORT_URL,
     logoutUrl: configuration.LOGOUT_URL,
   }),
