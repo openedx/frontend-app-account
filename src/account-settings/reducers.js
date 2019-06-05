@@ -5,7 +5,6 @@ import {
   SAVE_SETTINGS,
   FETCH_TIME_ZONES,
   SAVE_PREVIOUS_SITE_LANGUAGE,
-  DISCONNECT_AUTH,
   UPDATE_DRAFT,
   RESET_DRAFTS,
 } from './actions';
@@ -13,6 +12,7 @@ import {
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from './delete-account';
 import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from './site-language';
 import { reducer as resetPasswordReducer, RESET_PASSWORD } from './reset-password';
+import { reducer as thirdPartyAuthReducer, DISCONNECT_AUTH } from './third-party-auth';
 
 export const defaultState = {
   loading: false,
@@ -26,12 +26,11 @@ export const defaultState = {
   saveState: null,
   timeZones: [],
   countryTimeZones: [],
-  disconnectingState: {},
-  disconnectErrors: {},
   previousSiteLanguage: null,
   deleteAccount: deleteAccountReducer(),
   siteLanguage: siteLanguageReducer(),
   resetPassword: resetPasswordReducer(),
+  thirdPartyAuth: thirdPartyAuthReducer(),
 };
 
 const reducer = (state = defaultState, action) => {
@@ -149,48 +148,6 @@ const reducer = (state = defaultState, action) => {
         countryTimeZones: action.payload.timeZones,
       };
 
-    case DISCONNECT_AUTH.BEGIN:
-      return {
-        ...state,
-        disconnectingState: {
-          ...state.disconnectingState,
-          [action.payload.providerId]: 'pending',
-        },
-      };
-    case DISCONNECT_AUTH.SUCCESS:
-      return {
-        ...state,
-        disconnectingState: {
-          ...state.disconnectingState,
-          [action.payload.providerId]: 'complete',
-        },
-        authProviders: action.payload.thirdPartyAuthProviders,
-      };
-    case DISCONNECT_AUTH.FAILURE:
-      return {
-        ...state,
-        disconnectingState: {
-          ...state.disconnectingState,
-          [action.payload.providerId]: 'error',
-        },
-        disconnectErrors: {
-          ...state.disconnectErrors,
-          [action.payload.providerId]: true,
-        },
-      };
-    case DISCONNECT_AUTH.RESET:
-      return {
-        ...state,
-        disconnectingState: {
-          ...state.disconnectingState,
-          [action.payload.providerId]: null,
-        },
-        disconnectErrors: {
-          ...state.disconnectErrors,
-          [action.payload.providerId]: null,
-        },
-      };
-
     // TODO: Once all the above cases have been converted into sub-reducers, we can use
     // combineReducers in this file to greatly simplify it.
 
@@ -220,6 +177,15 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         resetPassword: resetPasswordReducer(state.resetPassword, action),
+      };
+
+    case DISCONNECT_AUTH.BEGIN:
+    case DISCONNECT_AUTH.SUCCESS:
+    case DISCONNECT_AUTH.FAILURE:
+    case DISCONNECT_AUTH.RESET:
+      return {
+        ...state,
+        thirdPartyAuth: thirdPartyAuthReducer(state.thirdPartyAuth, action),
       };
 
     default:

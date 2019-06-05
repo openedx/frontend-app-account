@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from '@edx/frontend-i18n';
 import { Hyperlink, StatefulButton } from '@edx/paragon';
 
-import { Alert } from '../common';
-import { disconnectAuth } from './actions';
-import { thirdPartyAuthSelector } from './selectors';
+import { Alert } from '../../common';
+import { disconnectAuth } from './data/actions';
 
-class ThirdPartyAuth extends React.Component {
+class ThirdPartyAuth extends Component {
   onClickDisconnect = (e) => {
     e.preventDefault();
     const providerId = e.currentTarget.getAttribute('data-provider-id');
-    if (this.props.disconnectingState[providerId] === 'pending') return;
+    if (this.props.disconnectionStatuses[providerId] === 'pending') return;
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
     this.props.disconnectAuth(disconnectUrl, providerId);
   }
@@ -34,7 +33,7 @@ class ThirdPartyAuth extends React.Component {
   }
 
   renderConnectedProvider(url, name, id) {
-    const hasError = this.props.disconnectErrors[id];
+    const hasError = this.props.errors[id];
 
     return (
       <React.Fragment>
@@ -60,7 +59,7 @@ class ThirdPartyAuth extends React.Component {
 
         <StatefulButton
           className="btn-link"
-          state={this.props.disconnectingState[id]}
+          state={this.props.disconnectionStatuses[id]}
           labels={{
             default: (
               <FormattedMessage
@@ -124,18 +123,22 @@ ThirdPartyAuth.propTypes = {
     connected: PropTypes.bool,
     id: PropTypes.string,
   })),
-  disconnectingState: PropTypes.objectOf(PropTypes.oneOf([null, 'pending', 'complete', 'error'])),
-  disconnectErrors: PropTypes.objectOf(PropTypes.bool),
+  disconnectionStatuses: PropTypes.objectOf(PropTypes.oneOf([null, 'pending', 'complete', 'error'])),
+  errors: PropTypes.objectOf(PropTypes.bool),
   disconnectAuth: PropTypes.func.isRequired,
 };
 
 ThirdPartyAuth.defaultProps = {
   providers: undefined,
-  disconnectingState: {},
-  disconnectErrors: {},
+  disconnectionStatuses: {},
+  errors: {},
 };
 
+const mapStateToProps = state => state.accountSettings.thirdPartyAuth;
 
-export default connect(thirdPartyAuthSelector, {
-  disconnectAuth,
-})(ThirdPartyAuth);
+export default connect(
+  mapStateToProps,
+  {
+    disconnectAuth,
+  },
+)(ThirdPartyAuth);

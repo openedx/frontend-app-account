@@ -17,11 +17,6 @@ import {
   FETCH_TIME_ZONES,
   fetchTimeZones,
   fetchTimeZonesSuccess,
-  DISCONNECT_AUTH,
-  disconnectAuthBegin,
-  disconnectAuthSuccess,
-  disconnectAuthFailure,
-  disconnectAuthReset,
 } from './actions';
 import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
 
@@ -29,6 +24,7 @@ import { usernameSelector, userRolesSelector, siteLanguageSelector } from './sel
 import { saga as deleteAccountSaga } from './delete-account';
 import { saga as resetPasswordSaga } from './reset-password';
 import { saga as siteLanguageSaga, ApiService as SiteLanguageApiService } from './site-language';
+import { saga as thirdPartyAuthSaga } from './third-party-auth';
 
 // Services
 import * as ApiService from './service';
@@ -110,28 +106,15 @@ export function* handleFetchTimeZones(action) {
   }
 }
 
-export function* handleDisconnectAuth(action) {
-  const { providerId } = action.payload;
-  try {
-    yield put(disconnectAuthReset(providerId));
-    yield put(disconnectAuthBegin(providerId));
-    yield call(ApiService.postDisconnectAuth, action.payload.url);
-    const thirdPartyAuthProviders = yield call(ApiService.getThirdPartyAuthProviders);
-    yield put(disconnectAuthSuccess(providerId, thirdPartyAuthProviders));
-  } catch (e) {
-    logAPIErrorResponse(e);
-    yield put(disconnectAuthFailure(providerId));
-  }
-}
 
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
-  yield takeEvery(DISCONNECT_AUTH.BASE, handleDisconnectAuth);
   yield all([
     deleteAccountSaga(),
     siteLanguageSaga(),
     resetPasswordSaga(),
+    thirdPartyAuthSaga(),
   ]);
 }

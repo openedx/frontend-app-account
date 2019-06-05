@@ -66,15 +66,6 @@ export const editableFieldSelector = createStructuredSelector({
   isEditing: isEditingSelector,
 });
 
-export const thirdPartyAuthSelector = createSelector(
-  accountSettingsSelector,
-  accountSettings => ({
-    providers: accountSettings.authProviders,
-    disconnectErrors: accountSettings.disconnectErrors,
-    disconnectingState: accountSettings.disconnectingState,
-  }),
-);
-
 export const profileDataManagerSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.profileDataManager,

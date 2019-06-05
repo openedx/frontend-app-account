@@ -20,7 +20,7 @@ import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
 import ResetPassword from './reset-password';
-import ThirdPartyAuth from './ThirdPartyAuth';
+import ThirdPartyAuth from './third-party-auth';
 import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
 import {
