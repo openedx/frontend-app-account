@@ -1,7 +1,7 @@
 import { DISCONNECT_AUTH } from './actions';
 
 export const defaultState = {
-  authProviders: [],
+  providers: [],
   disconnectionStatuses: {},
   errors: {},
 };
@@ -24,7 +24,7 @@ const reducer = (state = defaultState, action = null) => {
             ...state.disconnectionStatuses,
             [action.payload.providerId]: 'complete',
           },
-          authProviders: action.payload.thirdPartyAuthProviders,
+          providers: action.payload.thirdPartyAuthProviders,
         };
       case DISCONNECT_AUTH.FAILURE:
         return {
