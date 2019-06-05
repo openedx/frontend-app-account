@@ -10,7 +10,7 @@ import messages from './messages';
 import { Alert } from '../../common';
 import PrintingInstructions from './PrintingInstructions';
 
-class ConfirmationModal extends Component {
+export class ConfirmationModal extends Component {
   /**
    * @returns String The message id for a short description of the error, suitable for a header or
    * as the error message under an input field.

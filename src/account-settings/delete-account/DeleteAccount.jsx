@@ -17,12 +17,12 @@ import {
 import messages from './messages';
 
 // Components
-import ConfirmationModal from './ConfirmationModal';
+import ConnectedConfirmationModal from './ConfirmationModal';
 import PrintingInstructions from './PrintingInstructions';
-import SuccessModal from './SuccessModal';
+import ConnectedSuccessModal from './SuccessModal';
 import BeforeProceedingBanner from './BeforeProceedingBanner';
 
-class DeleteAccount extends React.Component {
+export class DeleteAccount extends React.Component {
   state = {
     password: '',
   };
@@ -98,7 +98,7 @@ class DeleteAccount extends React.Component {
           />
         ) : null}
 
-        <ConfirmationModal
+        <ConnectedConfirmationModal
           status={status}
           errorType={errorType}
           onSubmit={this.handleSubmit}
@@ -107,7 +107,7 @@ class DeleteAccount extends React.Component {
           password={this.state.password}
         />
 
-        <SuccessModal status={status} onClose={this.handleFinalClose} />
+        <ConnectedSuccessModal status={status} onClose={this.handleFinalClose} />
       </div>
     );
   }
