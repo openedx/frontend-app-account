@@ -5,7 +5,6 @@ import {
   SAVE_SETTINGS,
   FETCH_TIME_ZONES,
   SAVE_PREVIOUS_SITE_LANGUAGE,
-  RESET_PASSWORD,
   DISCONNECT_AUTH,
   UPDATE_DRAFT,
   RESET_DRAFTS,
@@ -13,6 +12,7 @@ import {
 
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from './delete-account';
 import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from './site-language';
+import { reducer as resetPasswordReducer, RESET_PASSWORD } from './reset-password';
 
 export const defaultState = {
   loading: false,
@@ -24,7 +24,6 @@ export const defaultState = {
   confirmationValues: {},
   drafts: {},
   saveState: null,
-  resetPasswordState: null,
   timeZones: [],
   countryTimeZones: [],
   disconnectingState: {},
@@ -32,6 +31,7 @@ export const defaultState = {
   previousSiteLanguage: null,
   deleteAccount: deleteAccountReducer(),
   siteLanguage: siteLanguageReducer(),
+  resetPassword: resetPasswordReducer(),
 };
 
 const reducer = (state = defaultState, action) => {
@@ -143,17 +143,6 @@ const reducer = (state = defaultState, action) => {
         previousSiteLanguage: action.payload.previousSiteLanguage,
       };
 
-    case RESET_PASSWORD.BEGIN:
-      return {
-        ...state,
-        resetPasswordState: 'pending',
-      };
-    case RESET_PASSWORD.SUCCESS:
-      return {
-        ...state,
-        resetPasswordState: 'complete',
-      };
-
     case FETCH_TIME_ZONES.SUCCESS:
       return {
         ...state,
@@ -202,6 +191,9 @@ const reducer = (state = defaultState, action) => {
         },
       };
 
+    // TODO: Once all the above cases have been converted into sub-reducers, we can use
+    // combineReducers in this file to greatly simplify it.
+
     // Delete My Account
     case DELETE_ACCOUNT.CONFIRMATION:
     case DELETE_ACCOUNT.BEGIN:
@@ -221,6 +213,13 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         siteLanguage: siteLanguageReducer(state.siteLanguage, action),
+      };
+
+    case RESET_PASSWORD.BEGIN:
+    case RESET_PASSWORD.SUCCESS:
+      return {
+        ...state,
+        resetPassword: resetPasswordReducer(state.resetPassword, action),
       };
 
     default:

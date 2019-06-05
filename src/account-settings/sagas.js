@@ -14,9 +14,6 @@ import {
   saveSettingsSuccess,
   saveSettingsFailure,
   savePreviousSiteLanguage,
-  RESET_PASSWORD,
-  resetPasswordBegin,
-  resetPasswordSuccess,
   FETCH_TIME_ZONES,
   fetchTimeZones,
   fetchTimeZonesSuccess,
@@ -30,6 +27,7 @@ import { usernameSelector, userRolesSelector, siteLanguageSelector } from './sel
 
 // Sub-modules
 import { saga as deleteAccountSaga } from './delete-account';
+import { saga as resetPasswordSaga } from './reset-password';
 import { saga as siteLanguageSaga, ApiService as SiteLanguageApiService } from './site-language';
 
 // Services
@@ -102,17 +100,6 @@ export function* handleSaveSettings(action) {
   }
 }
 
-export function* handleResetPassword(action) {
-  try {
-    yield put(resetPasswordBegin());
-    const response = yield call(ApiService.postResetPassword, action.payload.email);
-    yield put(resetPasswordSuccess(response));
-  } catch (e) {
-    logAPIErrorResponse(e);
-    yield put(push('/error'));
-  }
-}
-
 export function* handleFetchTimeZones(action) {
   try {
     const response = yield call(ApiService.getTimeZones, action.payload.country);
@@ -140,11 +127,11 @@ export function* handleDisconnectAuth(action) {
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
-  yield takeEvery(RESET_PASSWORD.BASE, handleResetPassword);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield takeEvery(DISCONNECT_AUTH.BASE, handleDisconnectAuth);
   yield all([
     deleteAccountSaga(),
     siteLanguageSaga(),
+    resetPasswordSaga(),
   ]);
 }

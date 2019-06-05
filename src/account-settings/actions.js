@@ -5,7 +5,6 @@ const { AsyncActionType } = utils;
 export const FETCH_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_SETTINGS');
 export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTINGS');
 export const FETCH_TIME_ZONES = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_TIME_ZONES');
-export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 export const SAVE_PREVIOUS_SITE_LANGUAGE = 'SAVE_PREVIOUS_SITE_LANGUAGE';
 export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
@@ -103,26 +102,6 @@ export const savePreviousSiteLanguage = previousSiteLanguage => ({
   type: SAVE_PREVIOUS_SITE_LANGUAGE,
   payload: { previousSiteLanguage },
 });
-
-// RESET PASSWORD ACTIONS
-
-export const resetPassword = email => ({
-  type: RESET_PASSWORD.BASE,
-  payload: { email },
-});
-
-export const resetPasswordBegin = () => ({
-  type: RESET_PASSWORD.BEGIN,
-});
-
-export const resetPasswordSuccess = () => ({
-  type: RESET_PASSWORD.SUCCESS,
-});
-
-export const resetPasswordReset = () => ({
-  type: RESET_PASSWORD.RESET,
-});
-
 
 // FETCH TIME_ZONE ACTIONS
 

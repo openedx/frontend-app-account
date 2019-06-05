@@ -1,10 +1,10 @@
-import formurlencoded from 'form-urlencoded';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
 import { configureService as configureDeleteAccountApiService } from './delete-account';
+import { configureService as configureResetPasswordApiService } from './reset-password';
 import { configureService as configureSiteLanguageApiService } from './site-language';
 
 let config = {
@@ -28,7 +28,9 @@ let apiClient = null;
 export function configureService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
+
   configureDeleteAccountApiService(config, apiClient);
+  configureResetPasswordApiService(config, apiClient);
   configureSiteLanguageApiService(config, apiClient);
 }
 
@@ -224,18 +226,6 @@ export async function patchSettings(username, commitValues) {
   // will override account keys. Notably time_zone.
   const combinedResults = Object.assign({}, ...results);
   return combinedResults;
-}
-
-export async function postResetPassword(email) {
-  const { data } = await apiClient
-    .post(config.PASSWORD_RESET_URL, formurlencoded({ email }), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    })
-    .catch(handleRequestError);
-
-  return data;
 }
 
 export async function postDisconnectAuth(url) {
