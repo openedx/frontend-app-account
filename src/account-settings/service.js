@@ -6,6 +6,7 @@ import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../co
 import { configureService as configureDeleteAccountApiService } from './delete-account';
 import { configureService as configureResetPasswordApiService } from './reset-password';
 import { configureService as configureSiteLanguageApiService } from './site-language';
+import { configureService as configureThirdPartyAuthApiService, getThirdPartyAuthProviders } from './third-party-auth';
 
 let config = {
   BASE_URL: null,
@@ -32,6 +33,7 @@ export function configureService(newConfig, newApiClient) {
   configureDeleteAccountApiService(config, apiClient);
   configureResetPasswordApiService(config, apiClient);
   configureSiteLanguageApiService(config, apiClient);
+  configureThirdPartyAuthApiService(config, apiClient);
 }
 
 function unpackAccountResponseData(data) {
@@ -134,18 +136,6 @@ export async function patchPreferences(username, commitValues) {
   return commitValues;
 }
 
-export async function getThirdPartyAuthProviders() {
-  const { data } = await apiClient
-    .get(`${config.LMS_BASE_URL}/api/third_party_auth/v0/providers/user_status`)
-    .catch(handleRequestError);
-
-  return data.map(({ connect_url: connectUrl, disconnect_url: disconnectUrl, ...provider }) => ({
-    ...provider,
-    connectUrl: `${config.LMS_BASE_URL}${connectUrl}`,
-    disconnectUrl: `${config.LMS_BASE_URL}${disconnectUrl}`,
-  }));
-}
-
 export async function getTimeZones(forCountry) {
   const { data } = await apiClient
     .get(`${config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
@@ -228,7 +218,3 @@ export async function patchSettings(username, commitValues) {
   return combinedResults;
 }
 
-export async function postDisconnectAuth(url) {
-  const { data } = await apiClient.post(url).catch(handleRequestError);
-  return data;
-}
