@@ -66,14 +66,6 @@ export const editableFieldSelector = createStructuredSelector({
   isEditing: isEditingSelector,
 });
 
-export const resetPasswordSelector = createSelector(
-  accountSettingsSelector,
-  accountSettings => ({
-    resetPasswordState: accountSettings.resetPasswordState,
-    email: accountSettings.values.email,
-  }),
-);
-
 export const thirdPartyAuthSelector = createSelector(
   accountSettingsSelector,
   accountSettings => ({

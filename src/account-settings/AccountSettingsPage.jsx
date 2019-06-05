@@ -19,7 +19,7 @@ import { Alert, PageLoading } from '../common';
 import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
-import PasswordReset from './PasswordReset';
+import ResetPassword from './reset-password';
 import ThirdPartyAuth from './ThirdPartyAuth';
 import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
@@ -233,7 +233,7 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
-          <PasswordReset />
+          <ResetPassword email={this.props.formValues.email} />
           <EditableField
             name="year_of_birth"
             type="select"

@@ -349,11 +349,6 @@ const messages = defineMessages({
     defaultMessage: 'Add Facebook profile',
     description: 'Placeholder for an empty Facebook field',
   },
-  'account.settings.editable.field.password.reset.button': {
-    id: 'account.settings.editable.field.password.reset.button',
-    defaultMessage: 'Reset Password',
-    description: 'The password reset button in account settings',
-  },
   'account.settings.editable.field.action.save': {
     id: 'account.settings.editable.field.action.save',
     defaultMessage: 'Save',
