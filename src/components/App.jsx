@@ -17,12 +17,11 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ReloadOnError, fetchUserAccount } from '../common';
+import { ErrorBoundary, fetchUserAccount } from '../common';
 import { ConnectedAccountSettingsPage } from '../account-settings';
 
 import FooterLogo from '../assets/edx-footer.png';
 import HeaderLogo from '../assets/logo.svg';
-import ErrorPage from './ErrorPage';
 import NotFoundPage from './NotFoundPage';
 
 import messages from './App.messages';
@@ -138,7 +137,6 @@ function PageContent({
       <main>
         <Switch>
           <Route exact path="/" component={ConnectedAccountSettingsPage} />
-          <Route path="/error" component={ErrorPage} />
           <Route path="/notfound" component={NotFoundPage} />
           <Route path="*" component={NotFoundPage} />
         </Switch>
@@ -179,7 +177,7 @@ class App extends Component {
 
   render() {
     return (
-      <ReloadOnError>
+      <ErrorBoundary>
         <IntlProvider locale={this.props.locale} messages={getMessages()}>
           <Provider store={this.props.store}>
             <ConnectedRouter history={this.props.history}>
@@ -191,7 +189,7 @@ class App extends Component {
             </ConnectedRouter>
           </Provider>
         </IntlProvider>
-      </ReloadOnError>
+      </ErrorBoundary>
     );
   }
 }
