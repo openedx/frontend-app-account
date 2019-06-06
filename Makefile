@@ -1,27 +1,24 @@
-# For more details about the translation jobs, see https://github.com/edx/frontend-i18n/blob/master/docs/how_tos/i18n.rst
-
 transifex_resource = frontend-app-account
-langs = "ar,fr,es_419,zh_CN"
-
-transifex_utils = ./src/i18n/i18n-concat.js
+transifex_langs = "ar,fr,es_419,zh_CN"
+transifex_utils = ./node_modules/.bin/transifex-utils.js
 transifex_input = ./src/i18n/transifex_input.json
 tx_url1 = https://www.transifex.com/api/2/project/edx-platform/resource/$(transifex_resource)/translation/en/strings/
 tx_url2 = https://www.transifex.com/api/2/project/edx-platform/resource/$(transifex_resource)/source/
 
 # this directory must match .babelrc
-temp = ./babel-plugin-react-intl-temp
+transifex_temp = ./temp/babel-plugin-react-intl
 
 requirements:
 	npm install
 
 i18n.extract:
 	# Pulling display strings from .jsx files into .json files...
-	rm -rf $(temp)
+	rm -rf $(transifex_temp)
 	npm run-script i18n_extract
 
 i18n.concat:
 	# Gathering JSON messages into one file...
-	$(transifex_utils) $(temp) $(transifex_input)
+	$(transifex_utils) $(transifex_temp) $(transifex_input)
 
 extract_translations: | requirements i18n.extract i18n.concat
 
@@ -40,10 +37,10 @@ push_translations:
 	# Fetching hashes from Transifex...
 	./node_modules/reactifex/bash_scripts/get_hashed_strings.sh $(tx_url1)
 	# Writing out comments to file...
-	$(transifex_utils) $(temp) --comments
+	$(transifex_utils) $(transifex_temp) --comments
 	# Pushing comments to Transifex...
 	./node_modules/reactifex/bash_scripts/put_comments.sh $(tx_url2)
 
 # Pull translations from Transifex
 pull_translations:
-	tx pull -f --mode reviewed --language=$(langs)
+	tx pull -f --mode reviewed --language=$(transifex_langs)
