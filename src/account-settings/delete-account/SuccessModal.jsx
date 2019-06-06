@@ -5,7 +5,7 @@ import { Modal } from '@edx/paragon';
 
 import messages from './messages';
 
-const SuccessModal = (props) => {
+export const SuccessModal = (props) => {
   const { status, intl, onClose } = props;
   return (
     <Modal

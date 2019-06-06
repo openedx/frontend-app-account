@@ -38,6 +38,7 @@ const reducer = (state = defaultState, action = null) => {
 
         return {
           ...state,
+          // clear the error state if applicable, otherwise don't change state
           status: oldStatus === 'failed' ? 'confirming' : oldStatus,
           errorType: null,
         };
