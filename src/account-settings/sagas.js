@@ -1,6 +1,4 @@
 import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
-import { logAPIErrorResponse } from '@edx/frontend-logging';
 
 // Actions
 import {
@@ -54,9 +52,8 @@ export function* handleFetchSettings() {
       timeZones,
     }));
   } catch (e) {
-    logAPIErrorResponse(e);
     yield put(fetchSettingsFailure(e.message));
-    yield put(push('/error'));
+    throw e;
   }
 }
 
@@ -89,21 +86,15 @@ export function* handleSaveSettings(action) {
     if (e.fieldErrors) {
       yield put(saveSettingsFailure({ fieldErrors: e.fieldErrors }));
     } else {
-      logAPIErrorResponse(e);
       yield put(saveSettingsFailure(e.message));
-      yield put(push('/error'));
+      throw e;
     }
   }
 }
 
 export function* handleFetchTimeZones(action) {
-  try {
-    const response = yield call(ApiService.getTimeZones, action.payload.country);
-    yield put(fetchTimeZonesSuccess(response, action.payload.country));
-  } catch (e) {
-    logAPIErrorResponse(e);
-    yield put(push('/error'));
-  }
+  const response = yield call(ApiService.getTimeZones, action.payload.country);
+  yield put(fetchTimeZonesSuccess(response, action.payload.country));
 }
 
 

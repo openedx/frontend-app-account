@@ -1,5 +1,4 @@
-import { put, push, call, takeEvery } from 'redux-saga/effects';
-import { logAPIErrorResponse } from '@edx/frontend-logging';
+import { put, call, takeEvery } from 'redux-saga/effects';
 
 import {
   DELETE_ACCOUNT,
@@ -19,8 +18,7 @@ export function* handleDeleteAccount(action) {
     if (typeof e.response.data === 'string') {
       yield put(deleteAccountFailure());
     } else {
-      logAPIErrorResponse(e);
-      yield put(push('/error'));
+      throw e;
     }
   }
 }
