@@ -24,6 +24,7 @@ i18n.concat:
 
 extract_translations: | requirements i18n.extract i18n.concat
 
+# Despite the name, we actually need this target to detect changes in the incoming translated message files as well.
 detect_changed_source_translations:
 	# Checking for changed translations...
 	git diff --exit-code $(i18n)
