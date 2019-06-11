@@ -1,11 +1,13 @@
 transifex_resource = frontend-app-account
 transifex_langs = "ar,fr,es_419,zh_CN"
+
 transifex_utils = ./node_modules/.bin/transifex-utils.js
-transifex_input = ./src/i18n/transifex_input.json
+i18n = ./src/i18n
+transifex_input = $(i18n)/transifex_input.json
 tx_url1 = https://www.transifex.com/api/2/project/edx-platform/resource/$(transifex_resource)/translation/en/strings/
 tx_url2 = https://www.transifex.com/api/2/project/edx-platform/resource/$(transifex_resource)/source/
 
-# this directory must match .babelrc
+# This directory must match .babelrc .
 transifex_temp = ./temp/babel-plugin-react-intl
 
 requirements:
@@ -22,15 +24,12 @@ i18n.concat:
 
 extract_translations: | requirements i18n.extract i18n.concat
 
+# Despite the name, we actually need this target to detect changes in the incoming translated message files as well.
 detect_changed_source_translations:
 	# Checking for changed translations...
-	git diff --exit-code $(transifex_input)
+	git diff --exit-code $(i18n)
 
-validate-no-uncommitted-package-lock-changes:
-	# Checking for package-lock.json changes...
-	git diff --exit-code package-lock.json
-
-# Push translations to Transifex.  Run make extract_translations first.
+# Pushes translations to Transifex.  You must run make extract_translations first.
 push_translations:
 	# Pushing strings to Transifex...
 	tx push -s
@@ -41,6 +40,11 @@ push_translations:
 	# Pushing comments to Transifex...
 	./node_modules/reactifex/bash_scripts/put_comments.sh $(tx_url2)
 
-# Pull translations from Transifex
+# Pulls translations from Transifex.
 pull_translations:
 	tx pull -f --mode reviewed --language=$(transifex_langs)
+
+# This target is used by Travis.
+validate-no-uncommitted-package-lock-changes:
+	# Checking for package-lock.json changes...
+	git diff --exit-code package-lock.json
