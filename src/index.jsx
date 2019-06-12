@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   configureAnalytics,
+  identifyAnonymousUser,
   identifyAuthenticatedUser,
   initializeSegment,
   sendPageEvent,
@@ -77,19 +78,22 @@ function configure() {
 
 apiClient.ensurePublicOrAuthenticationAndCookies(
   window.location.pathname,
-  () => {
+  (accessToken) => {
     const { store, history } = configure();
-    const authState = apiClient.getAuthenticationState();
 
     ReactDOM.render(<App store={store} history={history} />, document.getElementById('root'));
 
-    identifyAuthenticatedUser();
+    if (accessToken) {
+      identifyAuthenticatedUser(accessToken.userId);
+    } else {
+      identifyAnonymousUser();
+    }
     sendPageEvent();
 
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
-      user_id: authState.authentication && authState.authentication.userId,
+      user_id: accessToken ? accessToken.userId : null,
     });
   },
 );
