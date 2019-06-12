@@ -35,18 +35,18 @@ function PageContent({
   const mainMenu = [
     {
       type: 'item',
-      href: `${configuration.MARKETING_SITE_BASE_URL}/course`,
+      href: `${configuration.LMS_BASE_URL}/dashboard`,
       content: intl.formatMessage(messages['siteheader.links.courses']),
     },
     {
       type: 'item',
-      href: `${configuration.MARKETING_SITE_BASE_URL}/course?program=all`,
+      href: `${configuration.LMS_BASE_URL}/dashboard/programs`,
       content: intl.formatMessage(messages['siteheader.links.programs']),
     },
     {
       type: 'item',
-      href: `${configuration.MARKETING_SITE_BASE_URL}/schools-partners`,
-      content: intl.formatMessage(messages['siteheader.links.schools']),
+      href: `${configuration.MARKETING_SITE_BASE_URL}/course`,
+      content: intl.formatMessage(messages['siteheader.links.content.search']),
     },
   ];
   const userMenu = [
@@ -129,7 +129,7 @@ function PageContent({
         username={username}
         avatar={avatar}
         logoAltText={configuration.SITE_NAME}
-        logoDestination={configuration.MARKETING_SITE_BASE_URL}
+        logoDestination={`${configuration.LMS_BASE_URL}/dashboard`}
         mainMenu={mainMenu}
         userMenu={userMenu}
         loggedOutItems={loggedOutItems}
