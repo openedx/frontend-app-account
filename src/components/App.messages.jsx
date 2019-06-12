@@ -4,17 +4,17 @@ const messages = defineMessages({
   'siteheader.links.courses': {
     id: 'siteheader.links.courses',
     defaultMessage: 'Courses',
-    description: 'Link to the course catalog',
+    description: 'Link to the learner course dashboard',
   },
   'siteheader.links.programs': {
     id: 'siteheader.links.programs',
-    defaultMessage: 'Programs & Degrees',
-    description: 'Link to the programs catalog',
+    defaultMessage: 'Programs',
+    description: 'Link to the learner program dashboard',
   },
-  'siteheader.links.schools': {
-    id: 'siteheader.links.schools',
-    defaultMessage: 'Schools & Partners',
-    description: 'Link to the schools and partners landing page',
+  'siteheader.links.content.search': {
+    id: 'siteheader.links.content.search',
+    defaultMessage: 'Discover New',
+    description: 'Link to the content search page',
   },
   'siteheader.user.menu.dashboard': {
     id: 'siteheader.user.menu.dashboard',
