@@ -1,17 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Hyperlink } from '@edx/paragon';
-
-// Actions
-import {
-  deleteAccount,
-  deleteAccountConfirmation,
-  deleteAccountFailure,
-  deleteAccountReset,
-  deleteAccountCancel,
-} from './data/actions';
 
 // Messages
 import messages from './messages';
@@ -21,106 +11,116 @@ import ConnectedConfirmationModal from './ConfirmationModal';
 import PrintingInstructions from './PrintingInstructions';
 import ConnectedSuccessModal from './SuccessModal';
 import BeforeProceedingBanner from './BeforeProceedingBanner';
+import { postDeleteAccount } from './data/service';
+import useAction from '../../common/hooks';
 
-export class DeleteAccount extends React.Component {
-  state = {
-    password: '',
-  };
+function DeleteAccount(props) {
+  const {
+    logoutUrl, hasLinkedTPA, isVerifiedAccount, intl,
+  } = props;
 
-  handleSubmit = () => {
-    if (this.state.password === '') {
-      this.props.deleteAccountFailure('empty-password');
-    } else {
-      this.props.deleteAccount(this.state.password);
+  const [password, setPassword] = useState('');
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+
+  const [validationError, setValidationError] = useState(null);
+  const [
+    deleteAccountState,
+    performDeleteAccount,
+    resetDeleteAccount,
+  ] = useAction(postDeleteAccount);
+
+  const canDelete = isVerifiedAccount && !hasLinkedTPA;
+  const successDialogOpen = deleteAccountState.loaded;
+  const error = deleteAccountState.error !== null ? 'server' : validationError;
+
+  // Event handlers
+  const handleDeleteAccountClick = useCallback(() => {
+    if (canDelete) {
+      setConfirmationDialogOpen(true);
     }
-  };
+  });
 
-  handleCancel = () => {
-    this.setState({ password: '' });
-    this.props.deleteAccountCancel();
-  };
+  const handleSubmit = useCallback(() => {
+    if (password === '') {
+      setValidationError('empty-password');
+    } else {
+      performDeleteAccount(password);
+    }
+  });
 
-  handlePasswordChange = (e) => {
-    this.setState({ password: e.target.value.trim() });
-    this.props.deleteAccountReset();
-  };
+  const handleCancel = useCallback(() => {
+    setPassword('');
+    setConfirmationDialogOpen(false);
+    resetDeleteAccount();
+  });
 
-  handleFinalClose = () => {
-    global.location = this.props.logoutUrl;
-  };
+  const handlePasswordChange = useCallback((e) => {
+    setPassword(e.target.value.trim());
+    setValidationError(null);
+  });
 
-  render() {
-    const {
-      hasLinkedTPA, isVerifiedAccount, status, errorType, intl,
-    } = this.props;
-    const canDelete = isVerifiedAccount && !hasLinkedTPA;
+  const handleFinalClose = useCallback(() => {
+    global.location = logoutUrl;
+  });
 
-    return (
-      <div>
-        <h2 className="section-heading">
-          {intl.formatMessage(messages['account.settings.delete.account.header'])}
-        </h2>
-        <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
-        <p>{intl.formatMessage(messages['account.settings.delete.account.text.1'])}</p>
-        <p>{intl.formatMessage(messages['account.settings.delete.account.text.2'])}</p>
-        <p>
-          <PrintingInstructions />
-        </p>
-        <p className="text-danger h6">
-          {intl.formatMessage(messages['account.settings.delete.account.text.warning'])}
-        </p>
-        <p>
-          <Hyperlink destination="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings">
-            {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
-          </Hyperlink>
-        </p>
-        <p>
-          <Button
-            className="btn-outline-danger"
-            onClick={canDelete ? this.props.deleteAccountConfirmation : null}
-            disabled={!canDelete}
-          >
-            {intl.formatMessage(messages['account.settings.delete.account.button'])}
-          </Button>
-        </p>
+  return (
+    <div>
+      <h2 className="section-heading">
+        {intl.formatMessage(messages['account.settings.delete.account.header'])}
+      </h2>
+      <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
+      <p>{intl.formatMessage(messages['account.settings.delete.account.text.1'])}</p>
+      <p>{intl.formatMessage(messages['account.settings.delete.account.text.2'])}</p>
+      <p>
+        <PrintingInstructions />
+      </p>
+      <p className="text-danger h6">
+        {intl.formatMessage(messages['account.settings.delete.account.text.warning'])}
+      </p>
+      <p>
+        <Hyperlink destination="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings">
+          {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
+        </Hyperlink>
+      </p>
+      <p>
+        <Button
+          className="btn-outline-danger"
+          onClick={handleDeleteAccountClick}
+          disabled={!canDelete}
+        >
+          {intl.formatMessage(messages['account.settings.delete.account.button'])}
+        </Button>
+      </p>
 
-        {isVerifiedAccount ? null : (
-          <BeforeProceedingBanner
-            instructionMessageId="account.settings.delete.account.please.activate"
-            supportUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
-          />
-        )}
-
-        {hasLinkedTPA ? (
-          <BeforeProceedingBanner
-            instructionMessageId="account.settings.delete.account.please.unlink"
-            supportUrl="https://support.edx.org/hc/en-us/articles/207206067"
-          />
-        ) : null}
-
-        <ConnectedConfirmationModal
-          status={status}
-          errorType={errorType}
-          onSubmit={this.handleSubmit}
-          onCancel={this.handleCancel}
-          onChange={this.handlePasswordChange}
-          password={this.state.password}
+      {isVerifiedAccount ? null : (
+        <BeforeProceedingBanner
+          instructionMessageId="account.settings.delete.account.please.activate"
+          supportUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
         />
+      )}
 
-        <ConnectedSuccessModal status={status} onClose={this.handleFinalClose} />
-      </div>
-    );
-  }
+      {hasLinkedTPA ? (
+        <BeforeProceedingBanner
+          instructionMessageId="account.settings.delete.account.please.unlink"
+          supportUrl="https://support.edx.org/hc/en-us/articles/207206067"
+        />
+      ) : null}
+
+      <ConnectedConfirmationModal
+        open={confirmationDialogOpen}
+        errorType={error}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        onChange={handlePasswordChange}
+        password={password}
+      />
+
+      <ConnectedSuccessModal open={successDialogOpen} onClose={handleFinalClose} />
+    </div>
+  );
 }
 
 DeleteAccount.propTypes = {
-  deleteAccount: PropTypes.func.isRequired,
-  deleteAccountConfirmation: PropTypes.func.isRequired,
-  deleteAccountFailure: PropTypes.func.isRequired,
-  deleteAccountReset: PropTypes.func.isRequired,
-  deleteAccountCancel: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
-  errorType: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   logoutUrl: PropTypes.string.isRequired,
@@ -130,20 +130,6 @@ DeleteAccount.propTypes = {
 DeleteAccount.defaultProps = {
   hasLinkedTPA: false,
   isVerifiedAccount: true,
-  status: null,
-  errorType: null,
 };
 
-// Assume we're part of the accountSettings state.
-const mapStateToProps = state => state.accountSettings.deleteAccount;
-
-export default connect(
-  mapStateToProps,
-  {
-    deleteAccount,
-    deleteAccountConfirmation,
-    deleteAccountFailure,
-    deleteAccountReset,
-    deleteAccountCancel,
-  },
-)(injectIntl(DeleteAccount));
+export default injectIntl(DeleteAccount);

@@ -1,27 +1,18 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl } from '@edx/frontend-i18n';
+import { IntlProvider } from '@edx/frontend-i18n';
 
 // Testing the modals separately, they just clutter up the snapshots if included here.
 jest.mock('./ConfirmationModal');
 jest.mock('./SuccessModal');
 
-import { DeleteAccount } from './DeleteAccount'; // eslint-disable-line import/first
-
-const IntlDeleteAccount = injectIntl(DeleteAccount);
+import DeleteAccount from './DeleteAccount'; // eslint-disable-line import/first
 
 describe('DeleteAccount', () => {
   let props = {};
 
   beforeEach(() => {
     props = {
-      deleteAccount: jest.fn(),
-      deleteAccountConfirmation: jest.fn(),
-      deleteAccountFailure: jest.fn(),
-      deleteAccountReset: jest.fn(),
-      deleteAccountCancel: jest.fn(),
-      status: null,
-      errorType: null,
       hasLinkedTPA: false,
       isVerifiedAccount: true,
       logoutUrl: 'http://localhost/logout',
@@ -32,7 +23,7 @@ describe('DeleteAccount', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlDeleteAccount
+          <DeleteAccount
             {...props}
           />
         </IntlProvider>
@@ -45,7 +36,7 @@ describe('DeleteAccount', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlDeleteAccount
+          <DeleteAccount
             {...props}
             isVerifiedAccount={false}
           />
@@ -59,7 +50,7 @@ describe('DeleteAccount', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlDeleteAccount
+          <DeleteAccount
             {...props}
             hasLinkedTPA
           />

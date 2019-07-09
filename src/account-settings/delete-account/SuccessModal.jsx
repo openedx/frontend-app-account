@@ -6,10 +6,10 @@ import { Modal } from '@edx/paragon';
 import messages from './messages';
 
 export const SuccessModal = (props) => {
-  const { status, intl, onClose } = props;
+  const { open, intl, onClose } = props;
   return (
     <Modal
-      open={status === 'deleted'}
+      open={open}
       title={intl.formatMessage(messages['account.settings.delete.account.modal.after.header'])}
       body={
         <div>
@@ -26,13 +26,13 @@ export const SuccessModal = (props) => {
 };
 
 SuccessModal.propTypes = {
-  status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
+  open: PropTypes.bool,
   intl: intlShape.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
 SuccessModal.defaultProps = {
-  status: null,
+  open: false,
 };
 
 export default injectIntl(SuccessModal);

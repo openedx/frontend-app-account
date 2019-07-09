@@ -61,189 +61,6 @@ exports[`SuccessModal should match default closed success modal snapshot 1`] = `
 </div>
 `;
 
-exports[`SuccessModal should match default closed success modal snapshot 2`] = `
-<div>
-  <div
-    className="fade"
-    role="presentation"
-  />
-  <div
-    className="modal js-close-modal-on-click fade"
-    onClick={[Function]}
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id4"
-      aria-modal={true}
-      className=""
-      role="dialog"
-      tabIndex="-1"
-    >
-      <div
-        className="modal-content"
-      >
-        <div
-          className="modal-header"
-        >
-          <h2
-            className="modal-title"
-            id="id4"
-          >
-            We're sorry to see you go!  Your account will be deleted shortly.
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <p
-              className="h6"
-            >
-              Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-            </p>
-          </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`SuccessModal should match default closed success modal snapshot 3`] = `
-<div>
-  <div
-    className="fade"
-    role="presentation"
-  />
-  <div
-    className="modal js-close-modal-on-click fade"
-    onClick={[Function]}
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id5"
-      aria-modal={true}
-      className=""
-      role="dialog"
-      tabIndex="-1"
-    >
-      <div
-        className="modal-content"
-      >
-        <div
-          className="modal-header"
-        >
-          <h2
-            className="modal-title"
-            id="id5"
-          >
-            We're sorry to see you go!  Your account will be deleted shortly.
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <p
-              className="h6"
-            >
-              Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-            </p>
-          </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`SuccessModal should match default closed success modal snapshot 4`] = `
-<div>
-  <div
-    className="fade"
-    role="presentation"
-  />
-  <div
-    className="modal js-close-modal-on-click fade"
-    onClick={[Function]}
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id6"
-      aria-modal={true}
-      className=""
-      role="dialog"
-      tabIndex="-1"
-    >
-      <div
-        className="modal-content"
-      >
-        <div
-          className="modal-header"
-        >
-          <h2
-            className="modal-title"
-            id="id6"
-          >
-            We're sorry to see you go!  Your account will be deleted shortly.
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <p
-              className="h6"
-            >
-              Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-            </p>
-          </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`SuccessModal should match open success modal snapshot 1`] = `
 <div>
   <div
@@ -256,7 +73,7 @@ exports[`SuccessModal should match open success modal snapshot 1`] = `
     role="presentation"
   >
     <div
-      aria-labelledby="id7"
+      aria-labelledby="id4"
       aria-modal={true}
       className="modal-dialog"
       role="dialog"
@@ -270,7 +87,7 @@ exports[`SuccessModal should match open success modal snapshot 1`] = `
         >
           <h2
             className="modal-title"
-            id="id7"
+            id="id4"
           >
             We're sorry to see you go!  Your account will be deleted shortly.
           </h2>

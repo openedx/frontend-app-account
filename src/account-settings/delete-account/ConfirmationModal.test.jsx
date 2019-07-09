@@ -18,7 +18,7 @@ describe('ConfirmationModal', () => {
       onCancel: jest.fn(),
       onChange: jest.fn(),
       onSubmit: jest.fn(),
-      status: null,
+      open: false,
       errorType: null,
       password: 'fluffy bunnies',
       logoutUrl: 'http://localhost/logout',
@@ -44,7 +44,8 @@ describe('ConfirmationModal', () => {
         <IntlProvider locale="en">
           <IntlConfirmationModal
             {...props}
-            status="pending" // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            open
           />
         </IntlProvider>
       ))
@@ -59,7 +60,8 @@ describe('ConfirmationModal', () => {
           <IntlConfirmationModal
             {...props}
             errorType="empty-password"
-            status="pending" // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            open
           />
         </IntlProvider>
       ))

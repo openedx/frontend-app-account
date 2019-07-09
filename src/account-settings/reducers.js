@@ -9,7 +9,6 @@ import {
   RESET_DRAFTS,
 } from './actions';
 
-import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from './delete-account';
 import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from './site-language';
 import { reducer as resetPasswordReducer, RESET_PASSWORD } from './reset-password';
 import { reducer as thirdPartyAuthReducer, DISCONNECT_AUTH } from './third-party-auth';
@@ -27,7 +26,6 @@ export const defaultState = {
   timeZones: [],
   countryTimeZones: [],
   previousSiteLanguage: null,
-  deleteAccount: deleteAccountReducer(),
   siteLanguage: siteLanguageReducer(),
   resetPassword: resetPasswordReducer(),
   thirdPartyAuth: thirdPartyAuthReducer(),
@@ -153,18 +151,6 @@ const reducer = (state = defaultState, action) => {
 
     // TODO: Once all the above cases have been converted into sub-reducers, we can use
     // combineReducers in this file to greatly simplify it.
-
-    // Delete My Account
-    case DELETE_ACCOUNT.CONFIRMATION:
-    case DELETE_ACCOUNT.BEGIN:
-    case DELETE_ACCOUNT.SUCCESS:
-    case DELETE_ACCOUNT.FAILURE:
-    case DELETE_ACCOUNT.RESET:
-    case DELETE_ACCOUNT.CANCEL:
-      return {
-        ...state,
-        deleteAccount: deleteAccountReducer(state.deleteAccount, action),
-      };
 
     case FETCH_SITE_LANGUAGES.BEGIN:
     case FETCH_SITE_LANGUAGES.SUCCESS:

@@ -16,28 +16,13 @@ describe('SuccessModal', () => {
   beforeEach(() => {
     props = {
       onClose: jest.fn(),
-      status: null,
+      open: false,
     };
   });
 
   it('should match default closed success modal snapshot', () => {
-    let tree = renderer.create((
+    const tree = renderer.create((
       <IntlProvider locale="en"><IntlSuccessModal {...props} /></IntlProvider>))
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-
-    tree = renderer.create((
-      <IntlProvider locale="en"><IntlSuccessModal {...props} status="confirming" /></IntlProvider>))
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-
-    tree = renderer.create((
-      <IntlProvider locale="en"><IntlSuccessModal {...props} status="pending" /></IntlProvider>))
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-
-    tree = renderer.create((
-      <IntlProvider locale="en"><IntlSuccessModal {...props} status="failed" /></IntlProvider>))
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -48,7 +33,8 @@ describe('SuccessModal', () => {
         <IntlProvider locale="en">
           <IntlSuccessModal
             {...props}
-            status="deleted" // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
+            open
           />
         </IntlProvider>
       ))

@@ -51,7 +51,7 @@ export class ConfirmationModal extends Component {
 
   render() {
     const {
-      status,
+      open,
       errorType,
       intl,
       onCancel,
@@ -59,7 +59,6 @@ export class ConfirmationModal extends Component {
       onSubmit,
       password,
     } = this.props;
-    const open = ['confirming', 'pending', 'failed'].includes(status);
     const passwordFieldId = 'passwordFieldId';
     const invalidMessage = messages[this.getShortErrorMessageId(errorType)];
     return (
@@ -113,7 +112,7 @@ export class ConfirmationModal extends Component {
 }
 
 ConfirmationModal.propTypes = {
-  status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
+  open: PropTypes.bool,
   errorType: PropTypes.oneOf(['empty-password', 'server']),
   intl: intlShape.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -123,7 +122,7 @@ ConfirmationModal.propTypes = {
 };
 
 ConfirmationModal.defaultProps = {
-  status: null,
+  open: false,
   errorType: null,
 };
 
