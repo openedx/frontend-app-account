@@ -27,7 +27,7 @@
     "@cospired/i18n-iso-languages": "^2.0.2",
     "@edx/edx-bootstrap": "^2.2.1",
     "@edx/frontend-analytics": "^2.0.0",
-    "@edx/frontend-auth": "^5.3.4",
+    "@edx/frontend-auth": "^5.3.5",
     "@edx/frontend-component-footer": "^6.0.2",
     "@edx/frontend-component-site-header": "^2.4.0",
     "@edx/frontend-i18n": "^2.1.0",
