@@ -8,14 +8,12 @@
   },
   "scripts": {
     "build": "NODE_ENV=production BABEL_ENV=production webpack --config=webpack/webpack.prod.config.js",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "i18n_extract": "BABEL_ENV=i18n babel src --quiet > /dev/null",
     "is-es5": "es-check es5 ./dist/*.js",
     "lint": "eslint --ext .js --ext .jsx .",
     "precommit": "npm run lint",
     "start": "NODE_ENV=development BABEL_ENV=development webpack-dev-server --config=webpack/webpack.dev.config.js --progress",
-    "test": "jest --coverage --passWithNoTests",
-    "travis-deploy-once": "travis-deploy-once"
+    "test": "jest --coverage --passWithNoTests"
   },
   "author": "edX",
   "license": "AGPL-3.0",
@@ -109,7 +107,7 @@
     "jest": "^22.4.0",
     "mini-css-extract-plugin": "^0.4.0",
     "new-relic-source-map-webpack-plugin": "1.1.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "postcss-rtl": "^1.3.3",
     "purgecss-webpack-plugin": "^1.5.0",
@@ -120,7 +118,6 @@
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.20.2",
-    "travis-deploy-once": "^5.0.9",
     "url-loader": "^1.1.2",
     "webpack": "^4.25.1",
     "webpack-bundle-analyzer": "^3.3.2",
