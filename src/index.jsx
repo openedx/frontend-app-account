@@ -23,6 +23,7 @@ import messages from './i18n';
 
 import './index.scss';
 import App from './components/App';
+import './assets/favicon.ico';
 
 const apiClient = getAuthenticatedAPIClient({
   appBaseUrl: configuration.BASE_URL,
