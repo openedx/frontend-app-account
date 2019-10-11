@@ -173,7 +173,6 @@ module.exports = Merge.smart(commonConfig, {
       SEGMENT_KEY: null,
       ACCESS_TOKEN_COOKIE_NAME: null,
       USER_INFO_COOKIE_NAME: null,
-      CSRF_COOKIE_NAME: 'csrftoken',
       LANGUAGE_PREFERENCE_COOKIE_NAME: null,
       SITE_NAME: null,
       MARKETING_SITE_BASE_URL: null,
