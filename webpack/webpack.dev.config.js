@@ -81,7 +81,11 @@ module.exports = Merge.smart(commonConfig, {
         loader: 'file-loader',
       },
       {
-        test: /\.(jpe?g|png|gif|ico)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /favicon.ico$/,
+        loader: 'file-loader?name=[name].[ext]', // <-- retain original file name
+      },
+      {
+        test: /\.(jpe?g|png|gif)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           'file-loader',
           {
@@ -124,7 +128,6 @@ module.exports = Merge.smart(commonConfig, {
       SEGMENT_KEY: null,
       ACCESS_TOKEN_COOKIE_NAME: 'edx-jwt-cookie-header-payload',
       USER_INFO_COOKIE_NAME: 'edx-user-info',
-      CSRF_COOKIE_NAME: 'csrftoken',
       LANGUAGE_PREFERENCE_COOKIE_NAME: 'openedx-language-preference',
       SITE_NAME: 'edX',
       MARKETING_SITE_BASE_URL: 'http://localhost:18000',
