@@ -1,23 +1,15 @@
 language: node_js
-node_js:
-  - lts/*
-cache:
-  directories:
-    - "~/.npm"
+node_js: 12
 before_install:
-  - npm install -g npm@latest
-  - npm install -g greenkeeper-lockfile@1.14.0
+- npm install -g npm@6
 install:
-  - npm ci
-before_script: greenkeeper-lockfile-update
-after_script: greenkeeper-lockfile-upload
+- npm ci
 script:
-  - make validate-no-uncommitted-package-lock-changes
-  - npm run i18n_extract
-  - npm run lint
-  - npm run test
-  - npm run build
-  - npm run is-es5
+- make validate-no-uncommitted-package-lock-changes
+- npm run i18n_extract
+- npm run lint
+- npm run test
+- npm run build
+- npm run is-es5
 after_success:
-  - npm run coveralls
-  - codecov
+- codecov
