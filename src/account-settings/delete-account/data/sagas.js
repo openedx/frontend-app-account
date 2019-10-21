@@ -7,7 +7,7 @@ import {
   deleteAccountFailure,
 } from './actions';
 
-import { postDeleteAccount } from './service';
+import postDeleteAccount from './service';
 
 export function* handleDeleteAccount(action) {
   try {

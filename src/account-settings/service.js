@@ -4,7 +4,6 @@ import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
-import { configureService as configureDeleteAccountApiService } from './delete-account';
 import { configureService as configureResetPasswordApiService } from './reset-password';
 import { configureService as configureSiteLanguageApiService } from './site-language';
 import { configureService as configureThirdPartyAuthApiService, getThirdPartyAuthProviders } from './third-party-auth';
@@ -26,7 +25,6 @@ export function configureService(newConfig, newApiClient) {
   config = applyConfiguration(config, newConfig);
   apiClient = newApiClient;
 
-  configureDeleteAccountApiService(config, apiClient);
   configureResetPasswordApiService(config, apiClient);
   configureSiteLanguageApiService(config, apiClient);
   configureThirdPartyAuthApiService(config, apiClient);
