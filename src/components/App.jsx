@@ -5,8 +5,8 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { sendTrackEvent } from '@edx/frontend-analytics';
 import { IntlProvider, injectIntl, intlShape, getMessages } from '@edx/frontend-i18n';
-import SiteHeader from '@edx/frontend-component-site-header';
-import SiteFooter from '@edx/frontend-component-footer';
+import Header from '@edx/frontend-component-header';
+import Footer from '@edx/frontend-component-footer';
 
 import {
   faFacebookSquare,
@@ -25,114 +25,10 @@ import NotFoundPage from './NotFoundPage';
 
 import messages from './App.messages';
 
-function PageContent({
-  configuration,
-  username,
-  avatar,
-  intl,
-}) {
-  const mainMenu = [
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/dashboard`,
-      content: intl.formatMessage(messages['siteheader.links.courses']),
-    },
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/dashboard/programs`,
-      content: intl.formatMessage(messages['siteheader.links.programs']),
-    },
-    {
-      type: 'item',
-      href: `${configuration.MARKETING_SITE_BASE_URL}/course`,
-      content: intl.formatMessage(messages['siteheader.links.content.search']),
-      onClick: () => {
-        sendTrackEvent(
-          'edx.bi.dashboard.find_courses_button.clicked',
-          { category: 'account', label: 'header' },
-        );
-      },
-    },
-  ];
-  const userMenu = [
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}`,
-      content: intl.formatMessage(messages['siteheader.user.menu.dashboard']),
-    },
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/u/${username}`,
-      content: intl.formatMessage(messages['siteheader.user.menu.profile']),
-    },
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/account/settings`,
-      content: intl.formatMessage(messages['siteheader.user.menu.account.settings']),
-    },
-    {
-      type: 'item',
-      href: configuration.ORDER_HISTORY_URL,
-      content: intl.formatMessage(messages['siteheader.user.menu.order.history']),
-    },
-    {
-      type: 'item',
-      href: configuration.LOGOUT_URL,
-      content: intl.formatMessage(messages['siteheader.user.menu.logout']),
-    },
-  ];
-  const loggedOutItems = [
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/login`,
-      content: intl.formatMessage(messages['siteheader.user.menu.login']),
-    },
-    {
-      type: 'item',
-      href: `${configuration.LMS_BASE_URL}/register`,
-      content: intl.formatMessage(messages['siteheader.user.menu.register']),
-    },
-  ];
-  const socialLinks = [
-    {
-      title: 'Facebook',
-      url: configuration.FACEBOOK_URL,
-      icon: <FontAwesomeIcon icon={faFacebookSquare} className="social-icon" size="2x" />,
-      screenReaderText: 'Like edX on Facebook',
-    },
-    {
-      title: 'Twitter',
-      url: configuration.TWITTER_URL,
-      icon: <FontAwesomeIcon icon={faTwitterSquare} className="social-icon" size="2x" />,
-      screenReaderText: 'Follow edX on Twitter',
-    },
-    {
-      title: 'LinkedIn',
-      url: configuration.LINKED_IN_URL,
-      icon: <FontAwesomeIcon icon={faLinkedin} className="social-icon" size="2x" />,
-      screenReaderText: 'Follow edX on LinkedIn',
-    },
-    {
-      title: 'Reddit',
-      url: configuration.REDDIT_URL,
-      icon: <FontAwesomeIcon icon={faRedditSquare} className="social-icon" size="2x" />,
-      screenReaderText: 'Subscribe to the edX subreddit',
-    },
-  ];
-
+function PageContent() {
   return (
     <div id="app">
-      <SiteHeader
-        logo={HeaderLogo}
-        loggedIn
-        username={username}
-        avatar={avatar}
-        logoAltText={configuration.SITE_NAME}
-        logoDestination={`${configuration.LMS_BASE_URL}/dashboard`}
-        mainMenu={mainMenu}
-        userMenu={userMenu}
-        loggedOutItems={loggedOutItems}
-      />
+      <Header />
       <main>
         <Switch>
           <Route exact path="/" component={ConnectedAccountSettingsPage} />
@@ -140,28 +36,7 @@ function PageContent({
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </main>
-      <SiteFooter
-        siteName={configuration.SITE_NAME}
-        siteLogo={FooterLogo}
-        marketingSiteBaseUrl={configuration.MARKETING_SITE_BASE_URL}
-        supportUrl={configuration.SUPPORT_URL}
-        contactUrl={configuration.CONTACT_URL}
-        openSourceUrl={configuration.OPEN_SOURCE_URL}
-        termsOfServiceUrl={configuration.TERMS_OF_SERVICE_URL}
-        privacyPolicyUrl={configuration.PRIVACY_POLICY_URL}
-        appleAppStoreUrl={configuration.APPLE_APP_STORE_URL}
-        googlePlayUrl={configuration.GOOGLE_PLAY_URL}
-        socialLinks={socialLinks}
-        enterpriseMarketingLink={{
-          url: configuration.ENTERPRISE_MARKETING_URL,
-          queryParams: {
-            utm_source: configuration.ENTERPRISE_MARKETING_UTM_SOURCE,
-            utm_campaign: configuration.ENTERPRISE_MARKETING_UTM_CAMPAIGN,
-            utm_medium: configuration.ENTERPRISE_MARKETING_FOOTER_UTM_MEDIUM,
-          },
-        }}
-        handleAllTrackEvents={sendTrackEvent}
-      />
+      <Footer />
     </div>
   );
 }

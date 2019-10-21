@@ -14,12 +14,15 @@ import {
 import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-logging';
 import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
 import { configure as configureI18n } from '@edx/frontend-i18n';
+import { messages as headerMessages } from '@edx/frontend-component-header';
+import { messages as footerMessages } from '@edx/frontend-component-footer';
+import merge from 'lodash.merge';
 
 import { configuration } from './environment';
 import configureStore from './store';
 import { configureUserAccountApiService } from './common';
 import { configureService as configureAccountSettingsApiService } from './account-settings';
-import messages from './i18n';
+import appMessages from './i18n';
 import App from './components/App';
 
 import './index.scss';
@@ -41,7 +44,7 @@ const apiClient = getAuthenticatedAPIClient({
  * We need to merge the application configuration with the authentication state
  * so that we can hand it all to the redux store's initializer.
  */
-function createInitialState() {
+function createInitialState(authenticatedUser) {
   const errors = {};
   const url = new URL(window.location.href);
 
@@ -52,13 +55,18 @@ function createInitialState() {
     window.history.replaceState(null, '', `${url.protocol}//${url.host}${url.pathname}`);
   }
 
-  return Object.assign({}, { configuration }, apiClient.getAuthenticationState(), { errors });
+  return Object.assign({}, { configuration }, {
+    authentication: authenticatedUser,
+  }, { errors });
 }
 
-function configure() {
-  configureI18n(configuration, messages);
+function configure(authenticatedUser) {
+  configureI18n(configuration, merge({}, appMessages, headerMessages, footerMessages));
 
-  const { store, history } = configureStore(createInitialState(), configuration.ENVIRONMENT);
+  const { store, history } = configureStore(
+    createInitialState(authenticatedUser),
+    configuration.ENVIRONMENT,
+  );
 
   configureLoggingService(NewRelicLoggingService);
   configureAccountSettingsApiService(configuration, apiClient);
@@ -76,15 +84,14 @@ function configure() {
   };
 }
 
-apiClient.ensurePublicOrAuthenticationAndCookies(
-  window.location.pathname,
-  (accessToken) => {
-    const { store, history } = configure();
+apiClient.ensureAuthenticatedUser(window.location.pathname)
+  .then(({ authenticatedUser, decodedAccessToken }) => {
+    const { store, history } = configure(authenticatedUser);
 
     ReactDOM.render(<App store={store} history={history} />, document.getElementById('root'));
 
-    if (accessToken) {
-      identifyAuthenticatedUser(accessToken.userId);
+    if (decodedAccessToken) {
+      identifyAuthenticatedUser(authenticatedUser.userId);
     } else {
       identifyAnonymousUser();
     }
@@ -93,7 +100,6 @@ apiClient.ensurePublicOrAuthenticationAndCookies(
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
-      user_id: accessToken ? accessToken.userId : null,
+      user_id: decodedAccessToken ? authenticatedUser.userId : null,
     });
-  },
-);
+  });
