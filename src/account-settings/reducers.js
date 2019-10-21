@@ -151,8 +151,8 @@ const reducer = (state = defaultState, action) => {
         countryTimeZones: action.payload.timeZones,
       };
 
-    // TODO: Once all the above cases have been converted into sub-reducers, we can use
-    // combineReducers in this file to greatly simplify it.
+      // TODO: Once all the above cases have been converted into sub-reducers, we can use
+      // combineReducers in this file to greatly simplify it.
 
     // Delete My Account
     case DELETE_ACCOUNT.CONFIRMATION:
