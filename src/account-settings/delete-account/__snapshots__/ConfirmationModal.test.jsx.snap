@@ -8,11 +8,11 @@ exports[`ConfirmationModal should match default closed confirmation modal snapsh
   />
   <div
     className="modal js-close-modal-on-click fade"
-    onClick={[Function]}
+    onMouseDown={[Function]}
     role="presentation"
   >
     <div
-      aria-labelledby="id3"
+      aria-labelledby="id2"
       aria-modal={true}
       className=""
       role="dialog"
@@ -26,7 +26,7 @@ exports[`ConfirmationModal should match default closed confirmation modal snapsh
         >
           <h2
             className="modal-title"
-            id="id3"
+            id="id2"
           >
             Are you sure?
           </h2>
@@ -120,6 +120,7 @@ exports[`ConfirmationModal should match default closed confirmation modal snapsh
           </button>
           <button
             className="btn js-close-modal-on-click btn-secondary"
+            id="paragonCloseModalButton1"
             onBlur={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -142,11 +143,11 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
   />
   <div
     className="modal js-close-modal-on-click show d-block"
-    onClick={[Function]}
+    onMouseDown={[Function]}
     role="presentation"
   >
     <div
-      aria-labelledby="id5"
+      aria-labelledby="id6"
       aria-modal={true}
       className="modal-dialog"
       role="dialog"
@@ -160,7 +161,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
         >
           <h2
             className="modal-title"
-            id="id5"
+            id="id6"
           >
             Are you sure?
           </h2>
@@ -287,6 +288,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
           </button>
           <button
             className="btn js-close-modal-on-click btn-secondary"
+            id="paragonCloseModalButton5"
             onBlur={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -309,7 +311,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
   />
   <div
     className="modal js-close-modal-on-click show d-block"
-    onClick={[Function]}
+    onMouseDown={[Function]}
     role="presentation"
   >
     <div
@@ -421,6 +423,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
           </button>
           <button
             className="btn js-close-modal-on-click btn-secondary"
+            id="paragonCloseModalButton3"
             onBlur={[Function]}
             onClick={[Function]}
             onKeyDown={[Function]}
