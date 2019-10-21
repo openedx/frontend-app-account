@@ -1,9 +1,8 @@
+import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
 import { applyConfiguration, handleRequestError } from '../../../common/serviceUtils';
 
-let config = {
-  PASSWORD_RESET_URL: null,
-};
+let config = {};
 
 let apiClient = null;
 
@@ -15,7 +14,7 @@ export function configureService(newConfig, newApiClient) {
 export async function postResetPassword(email) {
   const { data } = await apiClient
     .post(
-      config.PASSWORD_RESET_URL,
+      `${App.config.LMS_BASE_URL}/password_reset/`,
       formurlencoded({ email }),
       {
         headers: {

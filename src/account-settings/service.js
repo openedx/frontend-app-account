@@ -1,3 +1,4 @@
+import { App } from '@edx/frontend-base';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
@@ -10,12 +11,7 @@ import { configureService as configureThirdPartyAuthApiService, getThirdPartyAut
 
 let config = {
   BASE_URL: null,
-  ACCOUNTS_API_BASE_URL: null,
-  PREFERENCES_API_BASE_URL: null,
-  ECOMMERCE_API_BASE_URL: null,
   LMS_BASE_URL: null,
-  DELETE_ACCOUNT_URL: null,
-  PASSWORD_RESET_URL: null,
 };
 
 const SOCIAL_PLATFORMS = [
@@ -90,7 +86,7 @@ function packAccountCommitData(commitData) {
 }
 
 export async function getAccount(username) {
-  const { data } = await apiClient.get(`${config.ACCOUNTS_API_BASE_URL}/${username}`);
+  const { data } = await apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`);
   return unpackAccountResponseData(data);
 }
 
@@ -101,7 +97,7 @@ export async function patchAccount(username, commitValues) {
 
   const { data } = await apiClient
     .patch(
-      `${config.ACCOUNTS_API_BASE_URL}/${username}`,
+      `${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`,
       packAccountCommitData(commitValues),
       requestConfig,
     )
@@ -122,13 +118,13 @@ export async function patchAccount(username, commitValues) {
 }
 
 export async function getPreferences(username) {
-  const { data } = await apiClient.get(`${config.PREFERENCES_API_BASE_URL}/${username}`);
+  const { data } = await apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`);
   return data;
 }
 
 export async function patchPreferences(username, commitValues) {
   const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
-  const requestUrl = `${config.PREFERENCES_API_BASE_URL}/${username}`;
+  const requestUrl = `${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
   await apiClient.patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
@@ -217,4 +213,3 @@ export async function patchSettings(username, commitValues) {
   const combinedResults = Object.assign({}, ...results);
   return combinedResults;
 }
-

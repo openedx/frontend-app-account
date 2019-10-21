@@ -24,7 +24,6 @@ describe('DeleteAccount', () => {
       errorType: null,
       hasLinkedTPA: false,
       isVerifiedAccount: true,
-      logoutUrl: 'http://localhost/logout',
     };
   });
 

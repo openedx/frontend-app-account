@@ -21,7 +21,6 @@ describe('ConfirmationModal', () => {
       status: null,
       errorType: null,
       password: 'fluffy bunnies',
-      logoutUrl: 'http://localhost/logout',
     };
   });
 

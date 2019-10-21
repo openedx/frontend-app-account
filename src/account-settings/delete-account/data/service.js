@@ -1,9 +1,8 @@
+import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
 import { applyConfiguration, handleRequestError } from '../../../common/serviceUtils';
 
-let config = {
-  DELETE_ACCOUNT_URL: null,
-};
+let config = {};
 
 let apiClient = null;
 
@@ -18,7 +17,7 @@ export function configureService(newConfig, newApiClient) {
 export async function postDeleteAccount(password) {
   const { data } = await apiClient
     .post(
-      config.DELETE_ACCOUNT_URL,
+      `${App.config.LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
       formurlencoded({ password }),
       {
         headers: {

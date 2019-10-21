@@ -1,50 +1,27 @@
 import 'babel-polyfill';
 import 'url-polyfill';
 import 'formdata-polyfill';
+import { App, AppProvider, APP_ERROR, APP_READY, ErrorPage, APP_AUTHENTICATED } from '@edx/frontend-base';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  configureAnalytics,
-  identifyAnonymousUser,
-  identifyAuthenticatedUser,
-  initializeSegment,
-  sendPageEvent,
-  sendTrackingLogEvent,
-} from '@edx/frontend-analytics';
-import { configureLoggingService, NewRelicLoggingService } from '@edx/frontend-logging';
-import { getAuthenticatedAPIClient } from '@edx/frontend-auth';
-import { configure as configureI18n } from '@edx/frontend-i18n';
-import { messages as headerMessages } from '@edx/frontend-component-header';
-import { messages as footerMessages } from '@edx/frontend-component-footer';
-import merge from 'lodash.merge';
+import { Route, Switch } from 'react-router-dom';
 
-import { configuration } from './environment';
+import Header, { messages as headerMessages } from '@edx/frontend-component-header';
+import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
+
 import configureStore from './store';
-import { configureUserAccountApiService } from './common';
-import { configureService as configureAccountSettingsApiService } from './account-settings';
+
+import AccountSettingsPage, { NotFoundPage, configureService as configureAccountSettingsApiService } from './account-settings';
 import appMessages from './i18n';
-import App from './components/App';
 
 import './index.scss';
 import './assets/favicon.ico';
-
-const apiClient = getAuthenticatedAPIClient({
-  appBaseUrl: configuration.BASE_URL,
-  authBaseUrl: configuration.LMS_BASE_URL,
-  loginUrl: configuration.LOGIN_URL,
-  logoutUrl: configuration.LOGOUT_URL,
-  csrfTokenApiPath: configuration.CSRF_TOKEN_API_PATH,
-  refreshAccessTokenEndpoint: configuration.REFRESH_ACCESS_TOKEN_ENDPOINT,
-  accessTokenCookieName: configuration.ACCESS_TOKEN_COOKIE_NAME,
-  userInfoCookieName: configuration.USER_INFO_COOKIE_NAME,
-  loggingService: NewRelicLoggingService,
-});
 
 /**
  * We need to merge the application configuration with the authentication state
  * so that we can hand it all to the redux store's initializer.
  */
-function createInitialState(authenticatedUser) {
+function createInitialState() {
   const errors = {};
   const url = new URL(window.location.href);
 
@@ -55,51 +32,48 @@ function createInitialState(authenticatedUser) {
     window.history.replaceState(null, '', `${url.protocol}//${url.host}${url.pathname}`);
   }
 
-  return Object.assign({}, { configuration }, {
-    authentication: authenticatedUser,
+  return Object.assign({}, { configuration: App.config }, {
+    authentication: App.authenticatedUser,
   }, { errors });
 }
 
-function configure(authenticatedUser) {
-  configureI18n(configuration, merge({}, appMessages, headerMessages, footerMessages));
-
-  const { store, history } = configureStore(
-    createInitialState(authenticatedUser),
-    configuration.ENVIRONMENT,
+App.subscribe(APP_READY, () => {
+  const { store } = configureStore(createInitialState(), App.config.ENVIRONMENT);
+  ReactDOM.render(
+    <AppProvider store={store}>
+      <Header />
+      <main>
+        <Switch>
+          <Route exact path="/" component={AccountSettingsPage} />
+          <Route path="/notfound" component={NotFoundPage} />
+          <Route path="*" component={NotFoundPage} />
+        </Switch>
+      </main>
+      <Footer />
+    </AppProvider>,
+    document.getElementById('root'),
   );
+});
 
-  configureLoggingService(NewRelicLoggingService);
-  configureAccountSettingsApiService(configuration, apiClient);
-  configureUserAccountApiService(configuration, apiClient);
-  initializeSegment(configuration.SEGMENT_KEY);
-  configureAnalytics({
-    loggingService: NewRelicLoggingService,
-    authApiClient: apiClient,
-    analyticsApiBaseUrl: configuration.LMS_BASE_URL,
-  });
+App.subscribe(APP_AUTHENTICATED, () => {
+  configureAccountSettingsApiService(App.config, App.apiClient);
+});
 
-  return {
-    store,
-    history,
-  };
-}
+App.subscribe(APP_ERROR, (error) => {
+  ReactDOM.render(<ErrorPage message={error.message} />, document.getElementById('root'));
+});
 
-apiClient.ensureAuthenticatedUser(window.location.pathname)
-  .then(({ authenticatedUser, decodedAccessToken }) => {
-    const { store, history } = configure(authenticatedUser);
-
-    ReactDOM.render(<App store={store} history={history} />, document.getElementById('root'));
-
-    if (decodedAccessToken) {
-      identifyAuthenticatedUser(authenticatedUser.userId);
-    } else {
-      identifyAnonymousUser();
-    }
-    sendPageEvent();
-
-    sendTrackingLogEvent('edx.user.settings.viewed', {
-      page: 'account',
-      visibility: null,
-      user_id: decodedAccessToken ? authenticatedUser.userId : null,
-    });
-  });
+App.initialize({
+  messages: [
+    appMessages,
+    headerMessages,
+    footerMessages,
+  ],
+  overrideHandlers: {
+    loadConfig: () => {
+      App.mergeConfig({
+        SUPPORT_URL: process.env.SUPPORT_URL,
+      }, 'App loadConfig override handler');
+    },
+  },
+});

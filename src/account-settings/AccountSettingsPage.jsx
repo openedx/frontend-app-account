@@ -1,8 +1,10 @@
+import { AppContext, fetchUserAccount, App } from '@edx/frontend-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
+import { sendTrackingLogEvent } from '@edx/frontend-analytics';
 import {
   injectIntl,
   intlShape,
@@ -11,10 +13,8 @@ import {
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
-
 import { fetchSettings, saveSettings, updateDraft } from './actions';
 import { accountSettingsPageSelector } from './selectors';
-
 import { Alert, PageLoading } from '../common';
 import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
@@ -56,8 +56,14 @@ class AccountSettingsPage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.fetchUserAccount(this.context.authenticatedUser.username);
     this.props.fetchSettings();
     this.props.fetchSiteLanguages();
+    sendTrackingLogEvent('edx.user.settings.viewed', {
+      page: 'account',
+      visibility: null,
+      user_id: this.context.authenticatedUser.userId,
+    });
   }
 
   getTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions) => {
@@ -132,7 +138,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink destination={this.props.supportUrl} target="_blank">
+                <Hyperlink destination={App.config.SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -366,7 +372,6 @@ class AccountSettingsPage extends React.Component {
           <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
-            logoutUrl={this.props.logoutUrl}
           />
         </div>
 
@@ -420,6 +425,8 @@ class AccountSettingsPage extends React.Component {
   }
 }
 
+AccountSettingsPage.contextType = AppContext;
+
 AccountSettingsPage.propTypes = {
   intl: intlShape.isRequired,
   loading: PropTypes.bool,
@@ -472,14 +479,13 @@ AccountSettingsPage.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
+  fetchUserAccount: PropTypes.func.isRequired,
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   duplicateTpaProvider: PropTypes.string,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
-  supportUrl: PropTypes.string.isRequired,
-  logoutUrl: PropTypes.string.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -501,6 +507,7 @@ AccountSettingsPage.defaultProps = {
 };
 
 export default connect(accountSettingsPageSelector, {
+  fetchUserAccount,
   fetchSettings,
   saveSettings,
   updateDraft,

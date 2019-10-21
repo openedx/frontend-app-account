@@ -1,10 +1,11 @@
+import { App } from '@edx/frontend-base';
 import siteLanguageList from './constants';
 import { snakeCaseObject, convertKeyNames } from '../../common/utils';
 import { applyConfiguration } from '../../common/serviceUtils';
 
 let config = {
   BASE_URL: null,
-  PREFERENCES_API_BASE_URL: null,
+
   LMS_BASE_URL: null,
 };
 
@@ -25,7 +26,7 @@ async function patchPreferences(username, params) {
     pref_lang: 'pref-lang',
   });
 
-  await apiClient.patch(`${config.PREFERENCES_API_BASE_URL}/${username}`, processedParams, {
+  await apiClient.patch(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
     headers: { 'Content-Type': 'application/merge-patch+json' },
   });
 

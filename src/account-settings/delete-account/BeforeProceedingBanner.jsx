@@ -12,7 +12,7 @@ import messages from './messages';
 import { Alert } from '../../common';
 
 const BeforeProceedingBanner = (props) => {
-  const { instructionMessageId, intl, supportUrl } = props;
+  const { instructionMessageId, intl, supportArticleUrl } = props;
 
   return (
     <Alert
@@ -25,7 +25,7 @@ const BeforeProceedingBanner = (props) => {
         description="Error that appears if you are trying to delete your edX account, but something about your account needs attention first.  The actionLink will be instructions, such as 'unlink your Facebook account'."
         values={{
           actionLink: (
-            <Hyperlink destination={supportUrl}>
+            <Hyperlink destination={supportArticleUrl}>
               {intl.formatMessage(messages[instructionMessageId])}
             </Hyperlink>
           ),
@@ -38,7 +38,7 @@ const BeforeProceedingBanner = (props) => {
 BeforeProceedingBanner.propTypes = {
   instructionMessageId: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  supportUrl: PropTypes.string.isRequired,
+  supportArticleUrl: PropTypes.string.isRequired,
 };
 
 export default injectIntl(BeforeProceedingBanner);
