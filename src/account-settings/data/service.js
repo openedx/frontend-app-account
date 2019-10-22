@@ -4,7 +4,7 @@ import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { handleRequestError, unpackFieldErrors } from './utils';
-import { getThirdPartyAuthProviders } from './third-party-auth';
+import { getThirdPartyAuthProviders } from '../third-party-auth';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },

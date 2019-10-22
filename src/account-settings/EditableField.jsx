@@ -12,8 +12,8 @@ import messages from './AccountSettingsPage.messages';
 import {
   openForm,
   closeForm,
-} from './actions';
-import { editableFieldSelector } from './selectors';
+} from './data/actions';
+import { editableFieldSelector } from './data/selectors';
 
 
 function EditableField(props) {

@@ -1,6 +1,6 @@
 import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { handleRequestError } from '../../utils';
+import { handleRequestError } from '../../data/utils';
 
 /**
  * Request deletion of the user's account.

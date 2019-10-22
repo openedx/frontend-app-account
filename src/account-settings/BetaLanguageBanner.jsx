@@ -4,10 +4,10 @@ import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { connect } from 'react-redux';
 import { Button, Hyperlink } from '@edx/paragon';
 
-import { betaLanguageBannerSelector } from './selectors';
+import { betaLanguageBannerSelector } from './data/selectors';
 import messages from './AccountSettingsPage.messages';
-import { saveSettings } from './actions';
-import { TRANSIFEX_LANGUAGE_BASE_URL } from './constants';
+import { saveSettings } from './data/actions';
+import { TRANSIFEX_LANGUAGE_BASE_URL } from './data/constants';
 import Alert from './Alert';
 
 class BetaLanguageBanner extends React.Component {

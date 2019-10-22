@@ -20,14 +20,14 @@ import {
 import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
 
 // Sub-modules
-import { saga as deleteAccountSaga } from './delete-account';
-import { saga as resetPasswordSaga } from './reset-password';
+import { saga as deleteAccountSaga } from '../delete-account';
+import { saga as resetPasswordSaga } from '../reset-password';
 import {
   saga as siteLanguageSaga,
   patchPreferences,
   postSetLang,
-} from './site-language';
-import { saga as thirdPartyAuthSaga } from './third-party-auth';
+} from '../site-language';
+import { saga as thirdPartyAuthSaga } from '../third-party-auth';
 
 // Services
 import { getSettings, patchSettings, getTimeZones } from './service';

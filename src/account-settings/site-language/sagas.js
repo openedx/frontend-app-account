@@ -8,7 +8,7 @@ import {
 } from './actions';
 
 import { getSiteLanguageList } from './service';
-import handleFailure from '../utils';
+import handleFailure from '../data/utils';
 
 function* handleFetchSiteLanguages() {
   try {

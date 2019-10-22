@@ -1,6 +1,6 @@
 import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { handleRequestError } from '../../utils';
+import { handleRequestError } from '../../data/utils';
 
 export default async function postResetPassword(email) {
   const { data } = await App.apiClient

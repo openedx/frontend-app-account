@@ -13,8 +13,8 @@ import {
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
-import { fetchSettings, saveSettings, updateDraft } from './actions';
-import { accountSettingsPageSelector } from './selectors';
+import { fetchSettings, saveSettings, updateDraft } from './data/actions';
+import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
 import Alert from './Alert';
 import JumpNav from './JumpNav';
@@ -28,7 +28,7 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-} from './constants';
+} from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 
 class AccountSettingsPage extends React.Component {
