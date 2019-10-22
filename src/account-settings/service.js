@@ -3,32 +3,14 @@ import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
-import { applyConfiguration, handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
-import { configureService as configureResetPasswordApiService } from './reset-password';
-import { configureService as configureSiteLanguageApiService } from './site-language';
-import { configureService as configureThirdPartyAuthApiService, getThirdPartyAuthProviders } from './third-party-auth';
-
-let config = {
-  BASE_URL: null,
-  LMS_BASE_URL: null,
-};
+import { handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
+import { getThirdPartyAuthProviders } from './third-party-auth';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
   { id: 'facebook', key: 'social_link_facebook' },
   { id: 'linkedin', key: 'social_link_linkedin' },
 ];
-
-let apiClient = null;
-
-export function configureService(newConfig, newApiClient) {
-  config = applyConfiguration(config, newConfig);
-  apiClient = newApiClient;
-
-  configureResetPasswordApiService(config, apiClient);
-  configureSiteLanguageApiService(config, apiClient);
-  configureThirdPartyAuthApiService(config, apiClient);
-}
 
 function unpackAccountResponseData(data) {
   const unpackedData = data;
@@ -84,7 +66,7 @@ function packAccountCommitData(commitData) {
 }
 
 export async function getAccount(username) {
-  const { data } = await apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`);
+  const { data } = await App.apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`);
   return unpackAccountResponseData(data);
 }
 
@@ -93,7 +75,7 @@ export async function patchAccount(username, commitValues) {
     headers: { 'Content-Type': 'application/merge-patch+json' },
   };
 
-  const { data } = await apiClient
+  const { data } = await App.apiClient
     .patch(
       `${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`,
       packAccountCommitData(commitValues),
@@ -116,7 +98,7 @@ export async function patchAccount(username, commitValues) {
 }
 
 export async function getPreferences(username) {
-  const { data } = await apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`);
+  const { data } = await App.apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`);
   return data;
 }
 
@@ -125,14 +107,14 @@ export async function patchPreferences(username, commitValues) {
   const requestUrl = `${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
-  await apiClient.patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
+  await App.apiClient.patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
 
   return commitValues;
 }
 
 export async function getTimeZones(forCountry) {
-  const { data } = await apiClient
-    .get(`${config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
+  const { data } = await App.apiClient
+    .get(`${App.config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
       params: { country_code: forCountry },
     })
     .catch(handleRequestError);
@@ -147,8 +129,8 @@ export async function getProfileDataManager(username, userRoles) {
   const userRoleNames = userRoles.map(role => role.split(':')[0]);
 
   if (userRoleNames.includes('enterprise_learner')) {
-    const url = `${config.LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
-    const { data } = await apiClient.get(url).catch(handleRequestError);
+    const url = `${App.config.LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
+    const { data } = await App.apiClient.get(url).catch(handleRequestError);
 
     if ('results' in data) {
       for (let i = 0; i < data.results.length; i += 1) {

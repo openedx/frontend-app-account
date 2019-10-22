@@ -1,7 +1,7 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 
 import { resetPasswordBegin, resetPasswordSuccess, RESET_PASSWORD } from './actions';
-import { postResetPassword } from './service';
+import postResetPassword from './service';
 
 function* handleResetPassword(action) {
   yield put(resetPasswordBegin());

@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import 'url-polyfill';
 import 'formdata-polyfill';
-import { App, AppProvider, APP_ERROR, APP_READY, ErrorPage, APP_AUTHENTICATED } from '@edx/frontend-base';
+import { App, AppProvider, APP_ERROR, APP_READY, ErrorPage } from '@edx/frontend-base';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 
 import configureStore from './store';
 
-import AccountSettingsPage, { NotFoundPage, configureService as configureAccountSettingsApiService } from './account-settings';
+import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import appMessages from './i18n';
 
 import './index.scss';
@@ -53,10 +53,6 @@ App.subscribe(APP_READY, () => {
     </AppProvider>,
     document.getElementById('root'),
   );
-});
-
-App.subscribe(APP_AUTHENTICATED, () => {
-  configureAccountSettingsApiService(App.config, App.apiClient);
 });
 
 App.subscribe(APP_ERROR, (error) => {

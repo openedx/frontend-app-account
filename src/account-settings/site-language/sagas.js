@@ -7,13 +7,13 @@ import {
   FETCH_SITE_LANGUAGES,
 } from './actions';
 
-import { ApiService } from './service';
+import { getSiteLanguageList } from './service';
 import handleFailure from '../../common/sagaUtils';
 
 function* handleFetchSiteLanguages() {
   try {
     yield put(fetchSiteLanguagesBegin());
-    const siteLanguageList = yield call(ApiService.getSiteLanguageList);
+    const siteLanguageList = yield call(getSiteLanguageList);
     yield put(fetchSiteLanguagesSuccess(siteLanguageList));
   } catch (e) {
     yield call(handleFailure, e, fetchSiteLanguagesFailure);
