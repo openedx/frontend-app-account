@@ -73,8 +73,7 @@
     "redux-saga": "^1.1.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "universal-cookie": "^4.0.2",
-    "url-polyfill": "^1.1.7"
+    "universal-cookie": "^4.0.2"
   },
   "devDependencies": {
     "@edx/frontend-build": "^1.2.2",

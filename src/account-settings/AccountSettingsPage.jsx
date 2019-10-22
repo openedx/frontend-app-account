@@ -54,6 +54,18 @@ class AccountSettingsPage extends React.Component {
       value: '',
       label: props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
     }].concat(props.countryOptions);
+
+    // If there is a "duplicate_provider" query parameter, that's the backend's
+    // way of telling us that the provider account the user tried to link is already linked
+    // to another Open edX account. We use this to display a message to that effect, and remove the
+    // parameter from the URL.
+    const duplicateTpaProvider = App.queryParams.duplicate_provider;
+    if (duplicateTpaProvider !== undefined) {
+      App.history.replace(App.history.location.pathname);
+    }
+    this.state = {
+      duplicateTpaProvider,
+    };
   }
 
   componentDidMount() {
@@ -104,7 +116,7 @@ class AccountSettingsPage extends React.Component {
   };
 
   renderDuplicateTpaProviderMessage() {
-    if (!this.props.duplicateTpaProvider) {
+    if (!this.state.duplicateTpaProvider) {
       return null;
     }
 
@@ -116,7 +128,7 @@ class AccountSettingsPage extends React.Component {
             defaultMessage="The {provider} account you selected is already linked to another edX account."
             description="alert message informing the user that the third-party account they attempted to link is already linked to another edX account"
             values={{
-              provider: <b>{this.props.duplicateTpaProvider}</b>,
+              provider: <b>{this.state.duplicateTpaProvider}</b>,
             }}
           />
         </Alert>
@@ -485,7 +497,6 @@ AccountSettingsPage.propTypes = {
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
-  duplicateTpaProvider: PropTypes.string,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -502,7 +513,6 @@ AccountSettingsPage.defaultProps = {
   profileDataManager: null,
   staticFields: [],
   hiddenFields: ['secondary_email'],
-  duplicateTpaProvider: null,
   tpaProviders: [],
   isActive: true,
 };

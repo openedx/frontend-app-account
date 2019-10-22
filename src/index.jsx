@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-import 'url-polyfill';
 import 'formdata-polyfill';
 import { App, AppProvider, APP_ERROR, APP_READY, ErrorPage } from '@edx/frontend-base';
 import React from 'react';
@@ -10,33 +9,14 @@ import Header, { messages as headerMessages } from '@edx/frontend-component-head
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import configureStore from './data/configureStore';
-
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import appMessages from './i18n';
 
 import './index.scss';
 import './assets/favicon.ico';
 
-/**
- * We need to merge the application configuration with some initial state
- * so that we can hand it all to the redux store's initializer.
- */
-function createInitialState() {
-  const errors = {};
-  const url = new URL(window.location.href);
-
-  // Extract duplicate third-party auth provider message from query string
-  errors.duplicateTpaProvider = url.searchParams.get('duplicate_provider');
-  if (errors.duplicateTpaProvider) {
-    // Remove the duplicate_provider query param to avoid bookmarking.
-    window.history.replaceState(null, '', `${url.protocol}//${url.host}${url.pathname}`);
-  }
-
-  return { errors };
-}
-
 App.subscribe(APP_READY, () => {
-  const store = configureStore(createInitialState());
+  const store = configureStore();
   ReactDOM.render(
     <AppProvider store={store}>
       <Header />
