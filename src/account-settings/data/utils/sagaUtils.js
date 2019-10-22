@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
 import { logAPIErrorResponse } from '@edx/frontend-logging';
+import { App } from '@edx/frontend-base';
 
 export default function* handleFailure(error, failureAction = null, failureRedirectPath = null) {
   if (error.fieldErrors && failureAction !== null) {
@@ -11,6 +11,6 @@ export default function* handleFailure(error, failureAction = null, failureRedir
     yield put(failureAction(error.message));
   }
   if (failureRedirectPath !== null) {
-    yield put(push(failureRedirectPath));
+    App.history.push(failureRedirectPath);
   }
 }

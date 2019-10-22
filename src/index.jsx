@@ -38,7 +38,7 @@ function createInitialState() {
 }
 
 App.subscribe(APP_READY, () => {
-  const { store } = configureStore(createInitialState(), App.config.ENVIRONMENT);
+  const store = configureStore(createInitialState(), App.config.ENVIRONMENT);
   ReactDOM.render(
     <AppProvider store={store}>
       <Header />

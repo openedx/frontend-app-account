@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
 import { userAccount } from '@edx/frontend-auth';
-import { connectRouter } from 'connected-react-router';
-
-import { reducer as i18nReducer } from '@edx/frontend-i18n'; // eslint-disable-line
+import { reducer as i18nReducer } from '@edx/frontend-i18n';
 
 import {
   reducer as accountSettingsReducer,
@@ -14,7 +12,7 @@ const identityReducer = (state) => {
   return newState;
 };
 
-const createRootReducer = history =>
+const createRootReducer = () =>
   combineReducers({
     // The authentication state is added as initialState when
     // creating the store in data/store.js.
@@ -24,7 +22,6 @@ const createRootReducer = history =>
     i18n: i18nReducer,
     userAccount,
     [accountSettingsStoreName]: accountSettingsReducer,
-    router: connectRouter(history),
   });
 
 export default createRootReducer;
