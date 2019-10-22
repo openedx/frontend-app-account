@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router-dom';
 import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
-import configureStore from './store';
+import configureStore from './data/configureStore';
 
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import appMessages from './i18n';
@@ -36,7 +36,7 @@ function createInitialState() {
 }
 
 App.subscribe(APP_READY, () => {
-  const store = configureStore(createInitialState(), App.config.ENVIRONMENT);
+  const store = configureStore(createInitialState());
   ReactDOM.render(
     <AppProvider store={store}>
       <Header />
