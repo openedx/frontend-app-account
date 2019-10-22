@@ -7,7 +7,7 @@ import { reducer as i18nReducer } from '@edx/frontend-i18n'; // eslint-disable-l
 import {
   reducer as accountSettingsReducer,
   storeName as accountSettingsStoreName,
-} from './account-settings';
+} from '../account-settings';
 
 const identityReducer = (state) => {
   const newState = { ...state };

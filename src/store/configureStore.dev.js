@@ -6,8 +6,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { createLogger } from 'redux-logger';
 
-import createRootReducer from '../reducers';
-import rootSaga from '../sagas';
+import createRootReducer from '../data/reducers';
+import rootSaga from '../data/sagas';
 
 export default function configureStore(initialState = {}) {
   const history = createBrowserHistory();

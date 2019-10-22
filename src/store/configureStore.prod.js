@@ -4,8 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 
-import createRootReducer from '../reducers';
-import rootSaga from '../sagas';
+import createRootReducer from '../data/reducers';
+import rootSaga from '../data/sagas';
 
 export default function configureStore(initialState = {}) {
   const history = createBrowserHistory();
