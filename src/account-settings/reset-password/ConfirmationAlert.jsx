@@ -5,7 +5,7 @@ import { Hyperlink } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import { Alert } from '../../common';
+import Alert from '../Alert';
 
 const ConfirmationAlert = (props) => {
   const { email } = props;

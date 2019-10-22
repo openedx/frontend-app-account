@@ -9,7 +9,7 @@ import { Hyperlink } from '@edx/paragon';
 import messages from './messages';
 
 // Components
-import { Alert } from '../../common';
+import Alert from '../Alert';
 
 const BeforeProceedingBanner = (props) => {
   const { instructionMessageId, intl, supportArticleUrl } = props;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from '@edx/frontend-i18n';
 import { Hyperlink, StatefulButton } from '@edx/paragon';
 
-import { Alert } from '../../common';
+import Alert from '../Alert';
 import { disconnectAuth } from './data/actions';
 
 class ThirdPartyAuth extends Component {

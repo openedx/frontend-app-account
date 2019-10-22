@@ -6,7 +6,7 @@ import { Button, Input, StatefulButton, ValidationFormGroup } from '@edx/paragon
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { SwitchContent } from '../common';
+import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
 import {

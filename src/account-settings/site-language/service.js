@@ -1,6 +1,6 @@
 import { App } from '@edx/frontend-base';
 import siteLanguageList from './constants';
-import { snakeCaseObject, convertKeyNames } from '../../common/utils';
+import { snakeCaseObject, convertKeyNames } from '../utils';
 
 export async function getSiteLanguageList() {
   return siteLanguageList;

@@ -1,6 +1,4 @@
-import { utils } from '../../../common';
-
-const { AsyncActionType } = utils;
+import { AsyncActionType } from '../../utils';
 
 export const DELETE_ACCOUNT = new AsyncActionType('ACCOUNT_SETTINGS', 'DELETE_ACCOUNT');
 DELETE_ACCOUNT.CONFIRMATION = 'ACCOUNT_SETTINGS__DELETE_ACCOUNT__CONFIRMATION';

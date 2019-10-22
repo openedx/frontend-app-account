@@ -8,7 +8,7 @@ import { betaLanguageBannerSelector } from './selectors';
 import messages from './AccountSettingsPage.messages';
 import { saveSettings } from './actions';
 import { TRANSIFEX_LANGUAGE_BASE_URL } from './constants';
-import { Alert } from '../common';
+import Alert from './Alert';
 
 class BetaLanguageBanner extends React.Component {
   getSiteLanguageEntry(languageCode) {

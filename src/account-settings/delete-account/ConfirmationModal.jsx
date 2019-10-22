@@ -7,7 +7,7 @@ import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-so
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import messages from './messages';
-import { Alert } from '../../common';
+import Alert from '../Alert';
 import PrintingInstructions from './PrintingInstructions';
 
 export class ConfirmationModal extends Component {

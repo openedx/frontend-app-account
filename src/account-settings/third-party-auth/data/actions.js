@@ -1,6 +1,4 @@
-import { utils } from '../../../common';
-
-const { AsyncActionType } = utils;
+import { AsyncActionType } from '../../utils';
 
 export const DISCONNECT_AUTH = new AsyncActionType('ACCOUNT_SETTINGS', 'DISCONNECT_AUTH');
 

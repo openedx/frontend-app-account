@@ -1,6 +1,6 @@
 import { App } from '@edx/frontend-base';
 
-import { handleRequestError } from '../../../common/serviceUtils';
+import { handleRequestError } from '../../utils';
 
 export async function getThirdPartyAuthProviders() {
   const { data } = await App.apiClient

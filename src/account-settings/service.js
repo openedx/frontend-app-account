@@ -3,7 +3,7 @@ import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
-import { handleRequestError, unpackFieldErrors } from '../common/serviceUtils';
+import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from './third-party-auth';
 
 const SOCIAL_PLATFORMS = [
