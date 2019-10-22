@@ -14,10 +14,6 @@ const identityReducer = (state) => {
 
 const createRootReducer = () =>
   combineReducers({
-    // The authentication state is added as initialState when
-    // creating the store in data/store.js.
-    authentication: identityReducer,
-    configuration: identityReducer,
     errors: identityReducer,
     i18n: i18nReducer,
     userAccount,

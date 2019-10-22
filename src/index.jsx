@@ -18,7 +18,7 @@ import './index.scss';
 import './assets/favicon.ico';
 
 /**
- * We need to merge the application configuration with the authentication state
+ * We need to merge the application configuration with some initial state
  * so that we can hand it all to the redux store's initializer.
  */
 function createInitialState() {
@@ -32,9 +32,7 @@ function createInitialState() {
     window.history.replaceState(null, '', `${url.protocol}//${url.host}${url.pathname}`);
   }
 
-  return Object.assign({}, { configuration: App.config }, {
-    authentication: App.authenticatedUser,
-  }, { errors });
+  return { errors };
 }
 
 App.subscribe(APP_READY, () => {

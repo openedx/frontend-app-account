@@ -1,4 +1,6 @@
 import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
+
+import { App } from '@edx/frontend-base';
 import { setLocale, handleRtl } from '@edx/frontend-i18n';
 
 // Actions
@@ -17,7 +19,7 @@ import {
   fetchTimeZones,
   fetchTimeZonesSuccess,
 } from './actions';
-import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
+import { siteLanguageSelector } from './selectors';
 
 // Sub-modules
 import { saga as deleteAccountSaga } from '../delete-account';
@@ -35,8 +37,7 @@ import { getSettings, patchSettings, getTimeZones } from './service';
 export function* handleFetchSettings() {
   try {
     yield put(fetchSettingsBegin());
-    const username = yield select(usernameSelector);
-    const userRoles = yield select(userRolesSelector);
+    const { username, roles: userRoles } = App.authenticatedUser;
 
     const {
       thirdPartyAuthProviders, profileDataManager, timeZones, ...values
@@ -64,7 +65,7 @@ export function* handleSaveSettings(action) {
   try {
     yield put(saveSettingsBegin());
 
-    const username = yield select(usernameSelector);
+    const { username } = App.authenticatedUser;
     const { commitValues, formId } = action.payload;
     const commitData = { [formId]: commitValues };
     let savedValues = null;

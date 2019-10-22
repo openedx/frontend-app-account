@@ -9,15 +9,9 @@ import { siteLanguageOptionsSelector, siteLanguageListSelector } from '../site-l
 
 export const storeName = 'accountSettings';
 
-export const usernameSelector = state => state.authentication.username;
-
-export const userRolesSelector = state => state.authentication.roles || [];
-
 export const accountSettingsSelector = state => ({ ...state[storeName] });
 
 const duplicateTpaProviderSelector = state => state.errors.duplicateTpaProvider;
-
-const configurationSelector = state => state.configuration;
 
 const editableFieldNameSelector = (state, props) => props.name;
 
@@ -173,7 +167,6 @@ export const accountSettingsPageSelector = createSelector(
   countryTimeZonesSelector,
   activeAccountSelector,
   duplicateTpaProviderSelector,
-  configurationSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -188,7 +181,6 @@ export const accountSettingsPageSelector = createSelector(
     countryTimeZoneOptions,
     activeAccount,
     duplicateTpaProvider,
-    configuration,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
