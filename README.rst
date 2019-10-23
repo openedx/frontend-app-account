@@ -5,8 +5,6 @@ frontend-app-account
 
 This is a micro-frontend application responsible for the display and updating of a user's account information.  Please tag **@edx/arch-team** on any PRs or issues.
 
-----------
-
 Development
 -----------
 
@@ -17,6 +15,7 @@ To use this application `devstack <https://github.com/edx/devstack>`__ must be r
 
 -  Start devstack
 -  Log in (http://localhost:18000/login)
+
 Start the development server
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -28,8 +27,6 @@ In this project, install requirements and start the development server by runnin
    npm start # The server will run on port 1997
 
 Once the dev server is up visit http://localhost:1997.
-
-----------
 
 Configuration and Deployment
 ----------------------------
@@ -43,8 +40,6 @@ This MFE is configured via node environment variables supplied at build time. Se
 
 For more information see the document: `Micro-frontend applications in Open
 edX <https://github.com/edx/edx-developer-docs/blob/5191e800bf16cf42f25c58c58f983bdaf7f9305d/docs/micro-frontends-in-open-edx.rst>`__.
-
-----------
 
 Notes
 -----
