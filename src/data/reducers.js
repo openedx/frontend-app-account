@@ -7,14 +7,8 @@ import {
   storeName as accountSettingsStoreName,
 } from '../account-settings';
 
-const identityReducer = (state) => {
-  const newState = { ...state };
-  return newState;
-};
-
 const createRootReducer = () =>
   combineReducers({
-    errors: identityReducer,
     i18n: i18nReducer,
     userAccount,
     [accountSettingsStoreName]: accountSettingsReducer,

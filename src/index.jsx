@@ -16,9 +16,8 @@ import './index.scss';
 import './assets/favicon.ico';
 
 App.subscribe(APP_READY, () => {
-  const store = configureStore();
   ReactDOM.render(
-    <AppProvider store={store}>
+    <AppProvider store={configureStore()}>
       <Header />
       <main>
         <Switch>
