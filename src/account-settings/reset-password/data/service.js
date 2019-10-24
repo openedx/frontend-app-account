@@ -2,7 +2,8 @@ import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
 import { handleRequestError } from '../../data/utils';
 
-export default async function postResetPassword(email) {
+// eslint-disable-next-line import/prefer-default-export
+export async function postResetPassword(email) {
   const { data } = await App.apiClient
     .post(
       `${App.config.LMS_BASE_URL}/password_reset/`,

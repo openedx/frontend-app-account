@@ -5,7 +5,8 @@ import { handleRequestError } from '../../data/utils';
 /**
  * Request deletion of the user's account.
  */
-export default async function postDeleteAccount(password) {
+// eslint-disable-next-line import/prefer-default-export
+export async function postDeleteAccount(password) {
   const { data } = await App.apiClient
     .post(
       `${App.config.LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
