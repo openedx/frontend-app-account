@@ -1,21 +1,12 @@
+import { App } from '@edx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { applyConfiguration, handleRequestError } from '../../../common/serviceUtils';
+import { handleRequestError } from '../../data/utils';
 
-let config = {
-  PASSWORD_RESET_URL: null,
-};
-
-let apiClient = null;
-
-export function configureService(newConfig, newApiClient) {
-  config = applyConfiguration(config, newConfig);
-  apiClient = newApiClient;
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export async function postResetPassword(email) {
-  const { data } = await apiClient
+  const { data } = await App.apiClient
     .post(
-      config.PASSWORD_RESET_URL,
+      `${App.config.LMS_BASE_URL}/password_reset/`,
       formurlencoded({ email }),
       {
         headers: {

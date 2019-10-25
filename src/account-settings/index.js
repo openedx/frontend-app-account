@@ -1,13 +1,5 @@
-import ConnectedAccountSettingsPage from './AccountSettingsPage';
-import reducer from './reducers';
-import saga from './sagas';
-import { configureService } from './service';
-import { storeName } from './selectors';
-
-export {
-  configureService,
-  ConnectedAccountSettingsPage,
-  reducer,
-  saga,
-  storeName,
-};
+export { default } from './AccountSettingsPage';
+export { default as reducer } from './data/reducers';
+export { default as saga } from './data/sagas';
+export { storeName } from './data/selectors';
+export { default as NotFoundPage } from './NotFoundPage';

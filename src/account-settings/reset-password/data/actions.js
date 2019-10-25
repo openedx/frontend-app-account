@@ -1,6 +1,4 @@
-import { utils } from '../../../common';
-
-const { AsyncActionType } = utils;
+import { AsyncActionType } from '../../data/utils';
 
 export const RESET_PASSWORD = new AsyncActionType('ACCOUNT_SETTINGS', 'RESET_PASSWORD');
 

@@ -1,5 +1,8 @@
 import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
 
+import { App } from '@edx/frontend-base';
+import { setLocale, handleRtl } from '@edx/frontend-i18n';
+
 // Actions
 import {
   FETCH_SETTINGS,
@@ -16,29 +19,30 @@ import {
   fetchTimeZones,
   fetchTimeZonesSuccess,
 } from './actions';
-import { usernameSelector, userRolesSelector, siteLanguageSelector } from './selectors';
+import { siteLanguageSelector } from './selectors';
 
 // Sub-modules
-import { saga as deleteAccountSaga } from './delete-account';
-import { saga as resetPasswordSaga } from './reset-password';
-import { saga as siteLanguageSaga, ApiService as SiteLanguageApiService } from './site-language';
-import { saga as thirdPartyAuthSaga } from './third-party-auth';
+import { saga as deleteAccountSaga } from '../delete-account';
+import { saga as resetPasswordSaga } from '../reset-password';
+import {
+  saga as siteLanguageSaga,
+  patchPreferences,
+  postSetLang,
+} from '../site-language';
+import { saga as thirdPartyAuthSaga } from '../third-party-auth';
 
 // Services
-import * as ApiService from './service';
-
-import { setLocale, handleRtl } from '@edx/frontend-i18n'; // eslint-disable-line
+import { getSettings, patchSettings, getTimeZones } from './service';
 
 export function* handleFetchSettings() {
   try {
     yield put(fetchSettingsBegin());
-    const username = yield select(usernameSelector);
-    const userRoles = yield select(userRolesSelector);
+    const { username, roles: userRoles } = App.authenticatedUser;
 
     const {
       thirdPartyAuthProviders, profileDataManager, timeZones, ...values
     } = yield call(
-      ApiService.getSettings,
+      getSettings,
       username,
       userRoles,
     );
@@ -61,22 +65,22 @@ export function* handleSaveSettings(action) {
   try {
     yield put(saveSettingsBegin());
 
-    const username = yield select(usernameSelector);
+    const { username } = App.authenticatedUser;
     const { commitValues, formId } = action.payload;
     const commitData = { [formId]: commitValues };
     let savedValues = null;
     if (formId === 'siteLanguage') {
       const previousSiteLanguage = yield select(siteLanguageSelector);
       yield all([
-        call(SiteLanguageApiService.patchPreferences, username, { prefLang: commitValues }),
-        call(SiteLanguageApiService.postSetLang, commitValues),
+        call(patchPreferences, username, { prefLang: commitValues }),
+        call(postSetLang, commitValues),
       ]);
       yield put(setLocale(commitValues));
       yield put(savePreviousSiteLanguage(previousSiteLanguage.savedValue));
       handleRtl();
       savedValues = commitData;
     } else {
-      savedValues = yield call(ApiService.patchSettings, username, commitData);
+      savedValues = yield call(patchSettings, username, commitData);
     }
     yield put(saveSettingsSuccess(savedValues, commitData));
     if (savedValues.country) yield put(fetchTimeZones(savedValues.country));
@@ -93,7 +97,7 @@ export function* handleSaveSettings(action) {
 }
 
 export function* handleFetchTimeZones(action) {
-  const response = yield call(ApiService.getTimeZones, action.payload.country);
+  const response = yield call(getTimeZones, action.payload.country);
   yield put(fetchTimeZonesSuccess(response, action.payload.country));
 }
 

@@ -6,14 +6,15 @@ import { Button, StatefulButton, Input, ValidationFormGroup } from '@edx/paragon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { Alert, SwitchContent } from '../common';
+import Alert from './Alert';
+import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
 import {
   openForm,
   closeForm,
-} from './actions';
-import { editableFieldSelector } from './selectors';
+} from './data/actions';
+import { editableFieldSelector } from './data/selectors';
 
 
 function EmailField(props) {

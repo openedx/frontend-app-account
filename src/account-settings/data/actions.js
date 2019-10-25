@@ -1,6 +1,4 @@
-import { utils } from '../common';
-
-const { AsyncActionType } = utils;
+import { AsyncActionType } from './utils';
 
 export const FETCH_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_SETTINGS');
 export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTINGS');

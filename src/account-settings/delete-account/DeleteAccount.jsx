@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { App } from '@edx/frontend-base';
 import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { Button, Hyperlink } from '@edx/paragon';
 
@@ -46,7 +47,7 @@ export class DeleteAccount extends React.Component {
   };
 
   handleFinalClose = () => {
-    global.location = this.props.logoutUrl;
+    global.location = App.config.LOGOUT_URL;
   };
 
   render() {
@@ -87,14 +88,14 @@ export class DeleteAccount extends React.Component {
         {isVerifiedAccount ? null : (
           <BeforeProceedingBanner
             instructionMessageId="account.settings.delete.account.please.activate"
-            supportUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
+            supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
           />
         )}
 
         {hasLinkedTPA ? (
           <BeforeProceedingBanner
             instructionMessageId="account.settings.delete.account.please.unlink"
-            supportUrl="https://support.edx.org/hc/en-us/articles/207206067"
+            supportArticleUrl="https://support.edx.org/hc/en-us/articles/207206067"
           />
         ) : null}
 
@@ -123,7 +124,6 @@ DeleteAccount.propTypes = {
   errorType: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
-  logoutUrl: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
 };
 

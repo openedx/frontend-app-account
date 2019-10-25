@@ -1,4 +1,4 @@
-import { AsyncActionType } from '../../common/utils';
+import { AsyncActionType } from '../data/utils';
 
 export const FETCH_SITE_LANGUAGES = new AsyncActionType('SITE_LANGUAGE', 'FETCH_SITE_LANGUAGES');
 

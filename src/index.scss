@@ -4,8 +4,8 @@
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
-@import "~@edx/frontend-component-site-header/src/index";
-@import "~@edx/frontend-component-footer/src/lib/scss/site-footer";
+@import "~@edx/frontend-component-header/dist/index";
+@import "~@edx/frontend-component-footer/dist/footer";
 
 @import "./account-settings/style";
 

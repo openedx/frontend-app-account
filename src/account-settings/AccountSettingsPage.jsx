@@ -1,8 +1,10 @@
+import { AppContext, fetchUserAccount, App } from '@edx/frontend-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
+import { sendTrackingLogEvent } from '@edx/frontend-analytics';
 import {
   injectIntl,
   intlShape,
@@ -11,11 +13,10 @@ import {
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
-
-import { fetchSettings, saveSettings, updateDraft } from './actions';
-import { accountSettingsPageSelector } from './selectors';
-
-import { Alert, PageLoading } from '../common';
+import { fetchSettings, saveSettings, updateDraft } from './data/actions';
+import { accountSettingsPageSelector } from './data/selectors';
+import PageLoading from './PageLoading';
+import Alert from './Alert';
 import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
@@ -27,7 +28,7 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-} from './constants';
+} from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 
 class AccountSettingsPage extends React.Component {
@@ -53,11 +54,29 @@ class AccountSettingsPage extends React.Component {
       value: '',
       label: props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
     }].concat(props.countryOptions);
+
+    // If there is a "duplicate_provider" query parameter, that's the backend's
+    // way of telling us that the provider account the user tried to link is already linked
+    // to another Open edX account. We use this to display a message to that effect, and remove the
+    // parameter from the URL.
+    const duplicateTpaProvider = App.queryParams.duplicate_provider;
+    if (duplicateTpaProvider !== undefined) {
+      App.history.replace(App.history.location.pathname);
+    }
+    this.state = {
+      duplicateTpaProvider,
+    };
   }
 
   componentDidMount() {
+    this.props.fetchUserAccount(this.context.authenticatedUser.username);
     this.props.fetchSettings();
     this.props.fetchSiteLanguages();
+    sendTrackingLogEvent('edx.user.settings.viewed', {
+      page: 'account',
+      visibility: null,
+      user_id: this.context.authenticatedUser.userId,
+    });
   }
 
   getTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions) => {
@@ -97,7 +116,7 @@ class AccountSettingsPage extends React.Component {
   };
 
   renderDuplicateTpaProviderMessage() {
-    if (!this.props.duplicateTpaProvider) {
+    if (!this.state.duplicateTpaProvider) {
       return null;
     }
 
@@ -109,7 +128,7 @@ class AccountSettingsPage extends React.Component {
             defaultMessage="The {provider} account you selected is already linked to another edX account."
             description="alert message informing the user that the third-party account they attempted to link is already linked to another edX account"
             values={{
-              provider: <b>{this.props.duplicateTpaProvider}</b>,
+              provider: <b>{this.state.duplicateTpaProvider}</b>,
             }}
           />
         </Alert>
@@ -132,7 +151,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink destination={this.props.supportUrl} target="_blank">
+                <Hyperlink destination={App.config.SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -366,7 +385,6 @@ class AccountSettingsPage extends React.Component {
           <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
-            logoutUrl={this.props.logoutUrl}
           />
         </div>
 
@@ -420,6 +438,8 @@ class AccountSettingsPage extends React.Component {
   }
 }
 
+AccountSettingsPage.contextType = AppContext;
+
 AccountSettingsPage.propTypes = {
   intl: intlShape.isRequired,
   loading: PropTypes.bool,
@@ -472,14 +492,12 @@ AccountSettingsPage.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
+  fetchUserAccount: PropTypes.func.isRequired,
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
-  duplicateTpaProvider: PropTypes.string,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
-  supportUrl: PropTypes.string.isRequired,
-  logoutUrl: PropTypes.string.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -495,12 +513,12 @@ AccountSettingsPage.defaultProps = {
   profileDataManager: null,
   staticFields: [],
   hiddenFields: ['secondary_email'],
-  duplicateTpaProvider: null,
   tpaProviders: [],
   isActive: true,
 };
 
 export default connect(accountSettingsPageSelector, {
+  fetchUserAccount,
   fetchSettings,
   saveSettings,
   updateDraft,

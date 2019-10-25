@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getModuleState } from '../../common/utils';
+import { getModuleState } from '../data/utils';
 
 export const storePath = ['accountSettings', 'siteLanguage'];
 
