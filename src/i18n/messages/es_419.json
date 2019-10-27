@@ -100,6 +100,7 @@
   "account.settings.delete.account.modal.after.text": "La eliminación de cuenta, incluyendo la eliminación de las listas de correo electrónico, puede tardar unas semanas en procesarse totalmente en nuestro sistema. Si quieres renunciar a recibir correos antes de que la eliminación se haya completado, por favor date de baja mediante el enlace que aparece al final de los correos.",
   "account.settings.delete.account.modal.after.button": "Cerrar",
   "account.settings.delete.account.text.3": "Puede que también pierdas el acceso a los certificados verificados y otros certificados de programas como los de los MicroMasters. Si quieres hacer una copia de dichos certificados para tus archivos antes de proceder a la eliminación, {actionLink}.",
+  "error.notfound.message": "La página que estas buscando no está disponible o hay un error en la URL. Por favor, comprueba la URL y vuelve a intentarlo.",
   "account.settings.editable.field.password.reset.button.confirmation.support.link": "soporte técnico",
   "account.settings.editable.field.password.reset.button.confirmation": "Hemos mandado un mensaje a {email}. Haz clic en el enlace en el mensaje para restablecer tu contraseña. ¿No recibiste el mensaje? Contáctate con {technicalSupportLink}.",
   "account.settings.editable.field.password.reset.button": "Restablecer contraseña",
@@ -108,19 +109,5 @@
   "account.settings.sso.account.connected": "Vinculado",
   "account.settings.sso.account.disconnect.error": "There was a problem disconnecting this account. Contact support if the problem persists.",
   "account.settings.sso.unlink.account": "Desvincular la cuenta de {accountName} ",
-  "account.settings.sso.no.providers": "No accounts can be linked at this time.",
-  "unexpected.error.message.text": "Un error inesperado a ocurrido. Por favor haga clic en el botón debajo para refrescar la página. ",
-  "unexpected.error.button.text": "Intente de nuevo",
-  "siteheader.links.courses": "Cursos",
-  "siteheader.links.programs": "Programas",
-  "siteheader.links.content.search": "Encontrar curso",
-  "siteheader.user.menu.dashboard": "Panel de Control",
-  "siteheader.user.menu.profile": "Perfil",
-  "siteheader.user.menu.account.settings": "Cuenta",
-  "siteheader.user.menu.order.history": "Historial de órdenes",
-  "siteheader.user.menu.logout": "Salir",
-  "siteheader.user.menu.login": "Iniciar Sesión",
-  "siteheader.user.menu.register": "Registrarse",
-  "app.loading.message": "Cargando...",
-  "error.notfound.message": "La página que estas buscando no está disponible o hay un error en la URL. Por favor, comprueba la URL y vuelve a intentarlo."
+  "account.settings.sso.no.providers": "No accounts can be linked at this time."
 }
