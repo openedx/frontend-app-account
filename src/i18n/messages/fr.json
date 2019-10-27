@@ -100,6 +100,7 @@
   "account.settings.delete.account.modal.after.text": "La suppression d'un compte, comprenant le retrait des listes d'e-mail, peu prendre quelques semaines afin de traiter entièrement notre système. Si vous souhaitez renoncer aux e-mails ultérieurement, veuillez vous désinscrire en consultant le pied de page de n'importe quel e-mail.",
   "account.settings.delete.account.modal.after.button": "Fermer",
   "account.settings.delete.account.text.3": "You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, {actionLink}.",
+  "error.notfound.message": "La page que vous recherchez n'est pas disponible ou il y a une erreur dans l'URL. Veuillez vérifier l'URL et réessayer.",
   "account.settings.editable.field.password.reset.button.confirmation.support.link": "technical support",
   "account.settings.editable.field.password.reset.button.confirmation": "We've sent a message to {email}. Click the link in the message to reset your password. Didn't receive the message? Contact {technicalSupportLink}.",
   "account.settings.editable.field.password.reset.button": "Réinitialiser le mot de passe",
@@ -108,19 +109,5 @@
   "account.settings.sso.account.connected": "Lié",
   "account.settings.sso.account.disconnect.error": "There was a problem disconnecting this account. Contact support if the problem persists.",
   "account.settings.sso.unlink.account": "Unlink {name} account",
-  "account.settings.sso.no.providers": "No accounts can be linked at this time.",
-  "unexpected.error.message.text": "Une erreur inattendue s'est produite. Veuillez cliquer sur le bouton ci-dessous pour rafraîchir la page.",
-  "unexpected.error.button.text": "Essayer encore",
-  "siteheader.links.courses": "Cours",
-  "siteheader.links.programs": "Programmes",
-  "siteheader.links.content.search": "Explorer les cours",
-  "siteheader.user.menu.dashboard": "Tableau de bord",
-  "siteheader.user.menu.profile": "Profil",
-  "siteheader.user.menu.account.settings": "Compte",
-  "siteheader.user.menu.order.history": "Historique des commandes",
-  "siteheader.user.menu.logout": "Déconnexion",
-  "siteheader.user.menu.login": "Connexion",
-  "siteheader.user.menu.register": "S'inscrire",
-  "app.loading.message": "Chargement...",
-  "error.notfound.message": "La page que vous recherchez n'est pas disponible ou il y a une erreur dans l'URL. Veuillez vérifier l'URL et réessayer."
+  "account.settings.sso.no.providers": "No accounts can be linked at this time."
 }

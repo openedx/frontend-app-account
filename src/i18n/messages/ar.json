@@ -100,6 +100,7 @@
   "account.settings.delete.account.modal.after.text": "Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.",
   "account.settings.delete.account.modal.after.button": "Close",
   "account.settings.delete.account.text.3": "You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, {actionLink}.",
+  "error.notfound.message": "The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again.",
   "account.settings.editable.field.password.reset.button.confirmation.support.link": "technical support",
   "account.settings.editable.field.password.reset.button.confirmation": "We've sent a message to {email}. Click the link in the message to reset your password. Didn't receive the message? Contact {technicalSupportLink}.",
   "account.settings.editable.field.password.reset.button": "Reset Password",
@@ -108,19 +109,5 @@
   "account.settings.sso.account.connected": "Linked",
   "account.settings.sso.account.disconnect.error": "There was a problem disconnecting this account. Contact support if the problem persists.",
   "account.settings.sso.unlink.account": "Unlink {name} account",
-  "account.settings.sso.no.providers": "No accounts can be linked at this time.",
-  "unexpected.error.message.text": "An unexpected error occurred. Please click the button below to return to refresh the page.",
-  "unexpected.error.button.text": "Try Again",
-  "siteheader.links.courses": "Courses",
-  "siteheader.links.programs": "Programs",
-  "siteheader.links.content.search": "Discover New",
-  "siteheader.user.menu.dashboard": "Dashboard",
-  "siteheader.user.menu.profile": "Profile",
-  "siteheader.user.menu.account.settings": "Account",
-  "siteheader.user.menu.order.history": "Order History",
-  "siteheader.user.menu.logout": "Logout",
-  "siteheader.user.menu.login": "Login",
-  "siteheader.user.menu.register": "Sign Up",
-  "app.loading.message": "Loading...",
-  "error.notfound.message": "The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again."
+  "account.settings.sso.no.providers": "No accounts can be linked at this time."
 }
