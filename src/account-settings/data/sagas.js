@@ -71,10 +71,13 @@ export function* handleSaveSettings(action) {
     let savedValues = null;
     if (formId === 'siteLanguage') {
       const previousSiteLanguage = yield select(siteLanguageSelector);
-      yield all([
-        call(patchPreferences, username, { prefLang: commitValues }),
-        call(postSetLang, commitValues),
-      ]);
+
+      // The following two requests need to be done sequentially, with patching preferences before
+      // the post to setlang.  They used to be done in parallel, but this might create ambiguous
+      // behavior.
+      yield call(patchPreferences, username, { prefLang: commitValues });
+      yield call(postSetLang, commitValues);
+
       yield put(setLocale(commitValues));
       yield put(savePreviousSiteLanguage(previousSiteLanguage.savedValue));
       handleRtl();
