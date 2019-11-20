@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, intlShape } from '@edx/frontend-i18n'; // eslint-disable-line
+import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 

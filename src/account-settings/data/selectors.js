@@ -1,9 +1,4 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import {
-  localeSelector,
-  getCountryList,
-  getLanguageList,
-} from '@edx/frontend-i18n'; // eslint-disable-line
 
 import { siteLanguageOptionsSelector, siteLanguageListSelector } from '../site-language';
 
@@ -92,17 +87,6 @@ const formValuesSelector = createSelector(
   },
 );
 
-const countryOptionsSelector = createSelector(
-  localeSelector,
-  locale => getCountryList(locale).map(({ code, name }) => ({ value: code, label: name })),
-);
-
-const languageProficiencyOptionsSelector = createSelector(
-  localeSelector,
-  locale => getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name })),
-);
-
-
 const transformTimeZonesToOptions = timeZoneArr => timeZoneArr
   .map(({ time_zone, description }) => ({ // eslint-disable-line camelcase
     value: time_zone, label: description,
@@ -123,40 +107,24 @@ const activeAccountSelector = createSelector(
   accountSettings => accountSettings.values.is_active,
 );
 
-/**
- * This selector converts the site language code back to the server version so that it can match up
- * with one of the options in the site language dropdown.  The drafts version will already be the
- * server version, but if it's from localeSelector, it will be our client (two character) version.
- */
 export const siteLanguageSelector = createSelector(
   previousSiteLanguageSelector,
   draftsSelector,
-  localeSelector,
-  (previousValue, drafts, locale) => ({
+  (previousValue, drafts) => ({
     previousValue,
-    draftOrSavedValue: (drafts.siteLanguage !== undefined ? drafts.siteLanguage : locale),
-    savedValue: locale,
+    draft: drafts.siteLanguage,
   }),
 );
 
-export const betaLanguageBannerSelector = createSelector(
-  siteLanguageListSelector,
-  siteLanguageSelector,
-  (
-    siteLanguageList,
-    siteLanguage,
-  ) => ({
-    siteLanguageList,
-    siteLanguage,
-  }),
-);
+export const betaLanguageBannerSelector = createStructuredSelector({
+  siteLanguageList: siteLanguageListSelector,
+  siteLanguage: siteLanguageSelector,
+});
 
 export const accountSettingsPageSelector = createSelector(
   accountSettingsSelector,
   siteLanguageOptionsSelector,
   siteLanguageSelector,
-  countryOptionsSelector,
-  languageProficiencyOptionsSelector,
   formValuesSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
@@ -168,8 +136,6 @@ export const accountSettingsPageSelector = createSelector(
     accountSettings,
     siteLanguageOptions,
     siteLanguage,
-    countryOptions,
-    languageProficiencyOptions,
     formValues,
     profileDataManager,
     staticFields,
@@ -180,8 +146,6 @@ export const accountSettingsPageSelector = createSelector(
   ) => ({
     siteLanguageOptions,
     siteLanguage,
-    countryOptions,
-    languageProficiencyOptions,
     loading: accountSettings.loading,
     loaded: accountSettings.loaded,
     loadingError: accountSettings.loadingError,
