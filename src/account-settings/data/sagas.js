@@ -1,7 +1,7 @@
-import { call, put, delay, takeEvery, select, all } from 'redux-saga/effects';
+import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
 
-import { App } from '@edx/frontend-base';
-import { setLocale, handleRtl } from '@edx/frontend-i18n';
+import { App, LOCALE_CHANGED } from '@edx/frontend-base';
+import { getLocale, handleRtl } from '@edx/frontend-i18n';
 
 // Actions
 import {
@@ -19,7 +19,6 @@ import {
   fetchTimeZones,
   fetchTimeZonesSuccess,
 } from './actions';
-import { siteLanguageSelector } from './selectors';
 
 // Sub-modules
 import { saga as deleteAccountSaga } from '../delete-account';
@@ -70,16 +69,16 @@ export function* handleSaveSettings(action) {
     const commitData = { [formId]: commitValues };
     let savedValues = null;
     if (formId === 'siteLanguage') {
-      const previousSiteLanguage = yield select(siteLanguageSelector);
-
+      const previousSiteLanguage = getLocale();
       // The following two requests need to be done sequentially, with patching preferences before
       // the post to setlang.  They used to be done in parallel, but this might create ambiguous
       // behavior.
       yield call(patchPreferences, username, { prefLang: commitValues });
       yield call(postSetLang, commitValues);
 
-      yield put(setLocale(commitValues));
-      yield put(savePreviousSiteLanguage(previousSiteLanguage.savedValue));
+      yield put(savePreviousSiteLanguage(previousSiteLanguage));
+
+      App.publish(LOCALE_CHANGED, getLocale());
       handleRtl();
       savedValues = commitData;
     } else {

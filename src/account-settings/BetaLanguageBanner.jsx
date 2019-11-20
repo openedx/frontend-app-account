@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AppContext } from '@edx/frontend-base';
 import { injectIntl, intlShape } from '@edx/frontend-i18n';
 import { connect } from 'react-redux';
 import { Button, Hyperlink } from '@edx/paragon';
@@ -47,7 +48,7 @@ class BetaLanguageBanner extends React.Component {
   };
 
   render() {
-    const savedLanguage = this.getSiteLanguageEntry(this.props.siteLanguage.savedValue);
+    const savedLanguage = this.getSiteLanguageEntry(this.context.locale);
     const isSavedLanguageReleased = savedLanguage.released === true;
     const noPreviousLanguageSet = this.props.siteLanguage.previousValue === null;
     if (isSavedLanguageReleased || noPreviousLanguageSet) {
@@ -87,12 +88,13 @@ class BetaLanguageBanner extends React.Component {
   }
 }
 
+BetaLanguageBanner.contextType = AppContext;
+
 BetaLanguageBanner.propTypes = {
   intl: intlShape.isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
-    draftOrSavedValue: PropTypes.string,
-    savedValue: PropTypes.string,
+    draft: PropTypes.string,
   }),
   siteLanguageList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

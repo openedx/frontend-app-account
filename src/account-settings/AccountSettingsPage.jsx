@@ -1,4 +1,4 @@
-import { AppContext, fetchUserAccount, App } from '@edx/frontend-base';
+import { AppContext, App } from '@edx/frontend-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,6 +9,8 @@ import {
   injectIntl,
   intlShape,
   FormattedMessage,
+  getCountryList,
+  getLanguageList,
 } from '@edx/frontend-i18n';
 import { Hyperlink } from '@edx/paragon';
 
@@ -32,28 +34,8 @@ import {
 import { fetchSiteLanguages } from './site-language';
 
 class AccountSettingsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.educationLevels = EDUCATION_LEVELS.map(key => ({
-      value: key,
-      label: props.intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
-    }));
-    this.genderOptions = GENDER_OPTIONS.map(key => ({
-      value: key,
-      label: props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
-    }));
-    this.languageProficiencyOptions = [{
-      value: '',
-      label: props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
-    }].concat(props.languageProficiencyOptions);
-    this.yearOfBirthOptions = [{
-      value: '',
-      label: props.intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
-    }].concat(YEAR_OF_BIRTH_OPTIONS);
-    this.countryOptions = [{
-      value: '',
-      label: props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
-    }].concat(props.countryOptions);
+  constructor(props, context) {
+    super(props, context);
 
     // If there is a "duplicate_provider" query parameter, that's the backend's
     // way of telling us that the provider account the user tried to link is already linked
@@ -69,7 +51,6 @@ class AccountSettingsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchUserAccount(this.context.authenticatedUser.username);
     this.props.fetchSettings();
     this.props.fetchSiteLanguages();
     sendTrackingLogEvent('edx.user.settings.viewed', {
@@ -79,7 +60,9 @@ class AccountSettingsPage extends React.Component {
     });
   }
 
-  getTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions) => {
+  // NOTE: We need 'locale' for the memoization in getLocalizedTimeZoneOptions.  Don't remove it!
+  // eslint-disable-next-line no-unused-vars
+  getLocalizedTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions, locale) => {
     const concatTimeZoneOptions = [{
       label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
       value: '',
@@ -96,6 +79,29 @@ class AccountSettingsPage extends React.Component {
     });
     return concatTimeZoneOptions;
   });
+
+  getLocalizedOptions = memoize(locale => ({
+    countryOptions: [{
+      value: '',
+      label: this.props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
+    }].concat(getCountryList(locale).map(({ code, name }) => ({ value: code, label: name }))),
+    languageProficiencyOptions: [{
+      value: '',
+      label: this.props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
+    }].concat(getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name }))),
+    yearOfBirthOptions: [{
+      value: '',
+      label: this.props.intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
+    }].concat(YEAR_OF_BIRTH_OPTIONS),
+    educationLevelOptions: EDUCATION_LEVELS.map(key => ({
+      value: key,
+      label: this.props.intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
+    })),
+    genderOptions: GENDER_OPTIONS.map(key => ({
+      value: key,
+      label: this.props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
+    })),
+  }));
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
@@ -198,9 +204,19 @@ class AccountSettingsPage extends React.Component {
       onSubmit: this.handleSubmit,
     };
 
-    const timeZoneOptions = this.getTimeZoneOptions(
+    // Memoized options lists
+    const {
+      countryOptions,
+      languageProficiencyOptions,
+      yearOfBirthOptions,
+      educationLevelOptions,
+      genderOptions,
+    } = this.getLocalizedOptions(this.context.locale);
+
+    const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
       this.props.countryTimeZoneOptions,
+      this.context.locale,
     );
 
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
@@ -259,14 +275,14 @@ class AccountSettingsPage extends React.Component {
             label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.dob.empty'])}
             value={this.props.formValues.year_of_birth}
-            options={this.yearOfBirthOptions}
+            options={yearOfBirthOptions}
             {...editableFieldProps}
           />
           <EditableField
             name="country"
             type="select"
             value={this.props.formValues.country}
-            options={this.countryOptions}
+            options={countryOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
               this.isEditable('country') ?
@@ -287,7 +303,7 @@ class AccountSettingsPage extends React.Component {
             name="level_of_education"
             type="select"
             value={this.props.formValues.level_of_education}
-            options={this.educationLevels}
+            options={educationLevelOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.education.empty'])}
             {...editableFieldProps}
@@ -296,7 +312,7 @@ class AccountSettingsPage extends React.Component {
             name="gender"
             type="select"
             value={this.props.formValues.gender}
-            options={this.genderOptions}
+            options={genderOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.gender'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.gender.empty'])}
             {...editableFieldProps}
@@ -305,7 +321,7 @@ class AccountSettingsPage extends React.Component {
             name="language_proficiencies"
             type="select"
             value={this.props.formValues.language_proficiencies}
-            options={this.languageProficiencyOptions}
+            options={languageProficiencyOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
@@ -354,7 +370,7 @@ class AccountSettingsPage extends React.Component {
             name="siteLanguage"
             type="select"
             options={this.props.siteLanguageOptions}
-            value={this.props.siteLanguage.draftOrSavedValue}
+            value={this.props.siteLanguage.draft !== undefined ? this.props.siteLanguage.draft : this.context.locale}
             label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
             helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
             {...editableFieldProps}
@@ -464,18 +480,9 @@ AccountSettingsPage.propTypes = {
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
-    draftOrSavedValue: PropTypes.string,
-    savedValue: PropTypes.string,
+    draft: PropTypes.string,
   }),
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
-  countryOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
-  languageProficiencyOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
@@ -492,7 +499,6 @@ AccountSettingsPage.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
-  fetchUserAccount: PropTypes.func.isRequired,
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
@@ -506,10 +512,8 @@ AccountSettingsPage.defaultProps = {
   loadingError: null,
   siteLanguage: null,
   siteLanguageOptions: [],
-  countryOptions: [],
   timeZoneOptions: [],
   countryTimeZoneOptions: [],
-  languageProficiencyOptions: [],
   profileDataManager: null,
   staticFields: [],
   hiddenFields: ['secondary_email'],
@@ -518,7 +522,6 @@ AccountSettingsPage.defaultProps = {
 };
 
 export default connect(accountSettingsPageSelector, {
-  fetchUserAccount,
   fetchSettings,
   saveSettings,
   updateDraft,
