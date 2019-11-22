@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl } from '@edx/frontend-i18n';
+import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 // Modal creates a portal.  Overriding ReactDOM.createPortal allows portals to be tested in jest.
 ReactDOM.createPortal = node => node;

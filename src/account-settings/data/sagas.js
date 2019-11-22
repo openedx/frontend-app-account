@@ -1,7 +1,8 @@
 import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
 
-import { App, LOCALE_CHANGED } from '@edx/frontend-base';
-import { getLocale, handleRtl } from '@edx/frontend-i18n';
+import { publish } from '@edx/frontend-platform/pubSub';
+import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
+import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 
 // Actions
 import {
@@ -36,7 +37,7 @@ import { getSettings, patchSettings, getTimeZones } from './service';
 export function* handleFetchSettings() {
   try {
     yield put(fetchSettingsBegin());
-    const { username, roles: userRoles } = App.authenticatedUser;
+    const { username, roles: userRoles } = getAuthenticatedUser();
 
     const {
       thirdPartyAuthProviders, profileDataManager, timeZones, ...values
@@ -64,7 +65,7 @@ export function* handleSaveSettings(action) {
   try {
     yield put(saveSettingsBegin());
 
-    const { username } = App.authenticatedUser;
+    const { username } = getAuthenticatedUser();
     const { commitValues, formId } = action.payload;
     const commitData = { [formId]: commitValues };
     let savedValues = null;
@@ -78,7 +79,7 @@ export function* handleSaveSettings(action) {
 
       yield put(savePreviousSiteLanguage(previousSiteLanguage));
 
-      App.publish(LOCALE_CHANGED, getLocale());
+      publish(LOCALE_CHANGED, getLocale());
       handleRtl();
       savedValues = commitData;
     } else {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal } from '@edx/paragon';
 
 import messages from './messages';

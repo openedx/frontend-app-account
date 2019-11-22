@@ -1,17 +1,19 @@
-import { AppContext, App } from '@edx/frontend-base';
+import { AppContext } from '@edx/frontend-platform/react';
+import { getConfig } from '@edx/frontend-platform/config';
+import { history } from '@edx/frontend-platform/init';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
-import { sendTrackingLogEvent } from '@edx/frontend-analytics';
+import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import {
   injectIntl,
   intlShape,
   FormattedMessage,
   getCountryList,
   getLanguageList,
-} from '@edx/frontend-i18n';
+} from '@edx/frontend-platform/i18n';
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
@@ -41,9 +43,10 @@ class AccountSettingsPage extends React.Component {
     // way of telling us that the provider account the user tried to link is already linked
     // to another Open edX account. We use this to display a message to that effect, and remove the
     // parameter from the URL.
-    const duplicateTpaProvider = App.queryParams.duplicate_provider;
+    // const duplicateTpaProvider = App.queryParams.duplicate_provider;
+    const duplicateTpaProvider = undefined;
     if (duplicateTpaProvider !== undefined) {
-      App.history.replace(App.history.location.pathname);
+      history.replace(history.location.pathname);
     }
     this.state = {
       duplicateTpaProvider,
@@ -157,7 +160,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink destination={App.config.SUPPORT_URL} target="_blank">
+                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"

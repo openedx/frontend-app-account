@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { App } from '@edx/frontend-base';
-import { injectIntl, intlShape } from '@edx/frontend-i18n';
+import { getConfig } from '@edx/frontend-platform/config';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Button, Hyperlink } from '@edx/paragon';
 
 // Actions
@@ -47,7 +47,7 @@ export class DeleteAccount extends React.Component {
   };
 
   handleFinalClose = () => {
-    global.location = App.config.LOGOUT_URL;
+    global.location = getConfig().LOGOUT_URL;
   };
 
   render() {

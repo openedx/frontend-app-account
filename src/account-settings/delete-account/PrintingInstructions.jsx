@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-i18n';
+import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Hyperlink } from '@edx/paragon';
 
 import messages from './messages';

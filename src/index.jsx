@@ -1,6 +1,9 @@
 import 'babel-polyfill';
 import 'formdata-polyfill';
-import { App, AppProvider, APP_ERROR, APP_READY, ErrorPage } from '@edx/frontend-base';
+import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { subscribe } from '@edx/frontend-platform/pubSub';
+import { initialize, APP_INIT_ERROR, APP_READY } from '@edx/frontend-platform/init';
+import { mergeConfig } from '@edx/frontend-platform/config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -15,7 +18,7 @@ import appMessages from './i18n';
 import './index.scss';
 import './assets/favicon.ico';
 
-App.subscribe(APP_READY, () => {
+subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Header />
@@ -32,11 +35,11 @@ App.subscribe(APP_READY, () => {
   );
 });
 
-App.subscribe(APP_ERROR, (error) => {
+subscribe(APP_INIT_ERROR, (error) => {
   ReactDOM.render(<ErrorPage message={error.message} />, document.getElementById('root'));
 });
 
-App.initialize({
+initialize({
   messages: [
     appMessages,
     headerMessages,
@@ -46,7 +49,7 @@ App.initialize({
   hydrateAuthenticatedUser: true,
   overrideHandlers: {
     loadConfig: () => {
-      App.mergeConfig({
+      mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
       }, 'App loadConfig override handler');
     },
