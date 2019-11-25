@@ -1,4 +1,4 @@
-import { getConfig } from '@edx/frontend-platform/config';
+import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 
 import { handleRequestError } from '../../data/utils';

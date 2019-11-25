@@ -1,6 +1,5 @@
 import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig } from '@edx/frontend-platform/config';
-import { history } from '@edx/frontend-platform/init';
+import { getConfig, history } from '@edx/frontend-platform';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

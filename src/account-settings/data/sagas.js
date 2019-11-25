@@ -1,6 +1,6 @@
 import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
 
-import { publish } from '@edx/frontend-platform/pubSub';
+import { publish } from '@edx/frontend-platform';
 import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 

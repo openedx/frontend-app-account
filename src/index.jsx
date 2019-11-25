@@ -1,9 +1,7 @@
 import 'babel-polyfill';
 import 'formdata-polyfill';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
-import { subscribe } from '@edx/frontend-platform/pubSub';
-import { initialize, APP_INIT_ERROR, APP_READY } from '@edx/frontend-platform/init';
-import { mergeConfig } from '@edx/frontend-platform/config';
+import { subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
