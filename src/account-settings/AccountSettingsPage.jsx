@@ -1,5 +1,5 @@
 import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig, history } from '@edx/frontend-platform';
+import { getConfig, history, getQueryParameters } from '@edx/frontend-platform';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -42,8 +42,7 @@ class AccountSettingsPage extends React.Component {
     // way of telling us that the provider account the user tried to link is already linked
     // to another Open edX account. We use this to display a message to that effect, and remove the
     // parameter from the URL.
-    // const duplicateTpaProvider = App.queryParams.duplicate_provider;
-    const duplicateTpaProvider = undefined;
+    const duplicateTpaProvider = getQueryParameters().duplicate_provider;
     if (duplicateTpaProvider !== undefined) {
       history.replace(history.location.pathname);
     }
