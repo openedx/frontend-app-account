@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { logAPIErrorResponse } from '@edx/frontend-logging';
+import { logError } from '@edx/frontend-platform/logging';
 
 import {
   disconnectAuthReset,
@@ -23,7 +23,7 @@ function* handleDisconnectAuth(action) {
     const thirdPartyAuthProviders = yield call(getThirdPartyAuthProviders);
     yield put(disconnectAuthSuccess(providerId, thirdPartyAuthProviders));
   } catch (e) {
-    logAPIErrorResponse(e);
+    logError(e);
     yield put(disconnectAuthFailure(providerId));
   }
 }

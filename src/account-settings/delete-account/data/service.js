@@ -1,4 +1,5 @@
-import { App } from '@edx/frontend-base';
+import { getConfig } from '@edx/frontend-platform';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import formurlencoded from 'form-urlencoded';
 import { handleRequestError } from '../../data/utils';
 
@@ -7,9 +8,9 @@ import { handleRequestError } from '../../data/utils';
  */
 // eslint-disable-next-line import/prefer-default-export
 export async function postDeleteAccount(password) {
-  const { data } = await App.apiClient
+  const { data } = await getAuthenticatedHttpClient()
     .post(
-      `${App.config.LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
+      `${getConfig().LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
       formurlencoded({ password }),
       {
         headers: {

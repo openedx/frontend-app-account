@@ -1,4 +1,5 @@
-import { App } from '@edx/frontend-base';
+import { getConfig } from '@edx/frontend-platform';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
@@ -66,7 +67,8 @@ function packAccountCommitData(commitData) {
 }
 
 export async function getAccount(username) {
-  const { data } = await App.apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`);
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`);
   return unpackAccountResponseData(data);
 }
 
@@ -75,9 +77,9 @@ export async function patchAccount(username, commitValues) {
     headers: { 'Content-Type': 'application/merge-patch+json' },
   };
 
-  const { data } = await App.apiClient
+  const { data } = await getAuthenticatedHttpClient()
     .patch(
-      `${App.config.LMS_BASE_URL}/api/user/v1/accounts/${username}`,
+      `${getConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`,
       packAccountCommitData(commitValues),
       requestConfig,
     )
@@ -98,23 +100,25 @@ export async function patchAccount(username, commitValues) {
 }
 
 export async function getPreferences(username) {
-  const { data } = await App.apiClient.get(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`);
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`);
   return data;
 }
 
 export async function patchPreferences(username, commitValues) {
   const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
-  const requestUrl = `${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`;
+  const requestUrl = `${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
-  await App.apiClient.patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
+  await getAuthenticatedHttpClient()
+    .patch(requestUrl, commitValues, requestConfig).catch(handleRequestError);
 
   return commitValues;
 }
 
 export async function getTimeZones(forCountry) {
-  const { data } = await App.apiClient
-    .get(`${App.config.LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
       params: { country_code: forCountry },
     })
     .catch(handleRequestError);
@@ -129,8 +133,8 @@ export async function getProfileDataManager(username, userRoles) {
   const userRoleNames = userRoles.map(role => role.split(':')[0]);
 
   if (userRoleNames.includes('enterprise_learner')) {
-    const url = `${App.config.LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
-    const { data } = await App.apiClient.get(url).catch(handleRequestError);
+    const url = `${getConfig().LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
+    const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
     if ('results' in data) {
       for (let i = 0; i < data.results.length; i += 1) {

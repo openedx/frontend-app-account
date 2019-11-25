@@ -1,4 +1,5 @@
-import { App } from '@edx/frontend-base';
+import { getConfig } from '@edx/frontend-platform';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import siteLanguageList from './constants';
 import { snakeCaseObject, convertKeyNames } from '../data/utils';
 
@@ -12,9 +13,10 @@ export async function patchPreferences(username, params) {
     pref_lang: 'pref-lang',
   });
 
-  await App.apiClient.patch(`${App.config.LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
-    headers: { 'Content-Type': 'application/merge-patch+json' },
-  });
+  await getAuthenticatedHttpClient()
+    .patch(`${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
+      headers: { 'Content-Type': 'application/merge-patch+json' },
+    });
 
   return params; // TODO: Once the server returns the updated preferences object, return that.
 }
@@ -23,7 +25,8 @@ export async function postSetLang(code) {
   const formData = new FormData();
   formData.append('language', code);
 
-  await App.apiClient.post(`${App.config.LMS_BASE_URL}/i18n/setlang/`, formData, {
-    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-  });
+  await getAuthenticatedHttpClient()
+    .post(`${getConfig().LMS_BASE_URL}/i18n/setlang/`, formData, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
 }

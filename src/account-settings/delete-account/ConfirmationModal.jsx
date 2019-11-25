@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Input, Modal, ValidationFormGroup } from '@edx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
