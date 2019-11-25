@@ -45,8 +45,8 @@ initialize({
   ],
   requireAuthenticatedUser: true,
   hydrateAuthenticatedUser: true,
-  overrideHandlers: {
-    loadConfig: () => {
+  handlers: {
+    config: () => {
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
       }, 'App loadConfig override handler');
