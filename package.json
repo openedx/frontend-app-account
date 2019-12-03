@@ -29,7 +29,7 @@
     "ie 11"
   ],
   "dependencies": {
-    "@edx/frontend-component-footer": "10.0.0",
+    "@edx/frontend-component-footer": "10.0.1",
     "@edx/frontend-component-header": "2.0.0",
     "@edx/frontend-platform": "1.1.4",
     "@edx/paragon": "7.1.5",
