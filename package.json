@@ -75,7 +75,7 @@
     "@edx/frontend-build": "2.0.5",
     "codecov": "3.6.1",
     "enzyme": "3.10.0",
-    "enzyme-adapter-react-16": "1.15.1",
+    "enzyme-adapter-react-16": "1.15.2",
     "es-check": "5.0.0",
     "glob": "7.1.6",
     "husky": "3.0.9",
