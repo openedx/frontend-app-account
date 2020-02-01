@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@edx/frontend-build": "2.0.6",
-    "codecov": "3.6.3",
+    "codecov": "3.6.4",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
     "es-check": "5.0.0",
