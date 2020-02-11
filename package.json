@@ -31,7 +31,7 @@
   "dependencies": {
     "@edx/frontend-component-footer": "10.0.11",
     "@edx/frontend-component-header": "2.0.5",
-    "@edx/frontend-platform": "1.1.14",
+    "@edx/frontend-platform": "1.2.0",
     "@edx/paragon": "9.1.1",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-brands-svg-icons": "5.8.2",
@@ -60,6 +60,7 @@
     "newrelic": "5.13.1",
     "prop-types": "15.7.2",
     "qs": "6.9.4",
+    "querystring": "0.2.0",
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-redux": "7.1.3",
