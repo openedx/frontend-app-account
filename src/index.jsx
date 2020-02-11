@@ -11,6 +11,7 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
+import LoginPage from './login';
 import appMessages from './i18n';
 
 import './index.scss';
@@ -25,6 +26,7 @@ subscribe(APP_READY, () => {
           <Route exact path="/" component={AccountSettingsPage} />
           <Route path="/notfound" component={NotFoundPage} />
           <Route path="*" component={NotFoundPage} />
+          <Route path="/login" component={LoginPage} />
         </Switch>
       </main>
       <Footer />
@@ -43,7 +45,7 @@ initialize({
     headerMessages,
     footerMessages,
   ],
-  requireAuthenticatedUser: true,
+  requireAuthenticatedUser: false,
   hydrateAuthenticatedUser: true,
   handlers: {
     config: () => {
