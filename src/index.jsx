@@ -12,6 +12,7 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import LoginPage from './login';
+import RegistrationPage from './registration';
 import appMessages from './i18n';
 
 import './index.scss';
@@ -24,9 +25,10 @@ subscribe(APP_READY, () => {
       <main>
         <Switch>
           <Route exact path="/" component={AccountSettingsPage} />
-          <Route path="/notfound" component={NotFoundPage} />
-          <Route path="*" component={NotFoundPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/notfound" component={NotFoundPage} />
+          <Route path="/registration" component={RegistrationPage} />
+          <Route path="*" component={NotFoundPage} />
         </Switch>
       </main>
       <Footer />
