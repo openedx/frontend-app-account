@@ -10,9 +10,25 @@ import EmailField from '../account-settings/EmailField';
 // export default () => <EmailField />;
 
 class RegistrationPage extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    email: '',
+    name: '',
+    username: '',
+    password: '',
+    country: '',
   }
+
+  handleOnChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleSelectCountry = (e) => {
+    this.setState({
+      country: e.target.value,
+    });
+  };
 
   renderCountryList() {
     const items = [{ value: ' Country or Region of Residence (required)', label: ' Country or Region of Residence (required)' }];
@@ -36,23 +52,59 @@ class RegistrationPage extends React.Component {
             <h5 className="d-block mx-auto text-center">Start learning now!</h5>
           </div>
           <div className="row text-center d-block mb-4">
-            <span className="d-block mx-auto text-center">Create an account using</span>
+            <span className="d-block mx-auto pb-2 text-center">Create an account using</span>
             <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
             <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
             <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
-            <span className="d-block mx-auto text-center">or create a new one here</span>
+            <span className="d-block mx-auto text-center pt-2">or create a new one here</span>
           </div>
+
           <form className="col-6 mb-4 mx-auto form-group">
-            <Input type="text" defaultValue="Email (required)" />
-            <Input type="text" defaultValue="Full Name (required)" />
-            <Input type="text" defaultValue="Public Username (required)" />
-            <Input type="text" defaultValue="Password (required)" />
+            <label htmlFor="registrationEmail" className="h6 pt-3">Email (required)</label>
+            <Input
+              name="email"
+              id="registrationEmail"
+              type="email"
+              placeholder="email@domain.com"
+              value={this.state.email}
+              onChange={e => this.handleOnChange(e)}
+            />
+            <label htmlFor="registrationName" className="h6 pt-3">Full Name (required)</label>
+            <Input
+              name="name"
+              id="registrationName"
+              type="text"
+              placeholder="Name"
+              value={this.state.name}
+              onChange={e => this.handleOnChange(e)}
+            />
+            <label htmlFor="registrationUsername" className="h6 pt-3">Public Username (required)</label>
+            <Input
+              name="username"
+              id="registrationUsername"
+              type="text"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={e => this.handleOnChange(e)}
+            />
+            <label htmlFor="registrationPassword" className="h6 pt-3">Password (required)</label>
+            <Input
+              name="password"
+              id="registrationPassword"
+              type="text"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={e => this.handleOnChange(e)}
+            />
+            <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
             <Input
               type="select"
-              defaultValue="Country or Region of Residence"
+              placeholder="Country or Region of Residence"
+              value={this.state.country}
               options={this.renderCountryList()}
+              onChange={this.handleSelectCountry}
             />
-            <Button className="btn-primary">Create Account</Button>
+            <Button className="btn-primary mt-4">Create Account</Button>
           </form>
           <div className="text-center mb-2">
             <span>Already have an edX account?</span>
