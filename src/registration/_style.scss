@@ -36,3 +36,28 @@
 form:nth-child(n) {
   margin: 1rem;
 }
+
+.section-heading-line{
+  position: relative;
+  text-align: center;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20%;
+    background-color: gray;
+    height: 1px;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20%;
+    background-color: gray;
+    height: 1px;
+  }
+}
