@@ -1,5 +1,6 @@
 .registration-container {
   margin: 5rem;
+  line-height: 1.5;
 }
 .registration-header {
   border-bottom: 1px solid #e7e7e7;
@@ -14,4 +15,24 @@
   display: block;
   position: relative;
   box-sizing: content-box;
+}
+.btn-social {
+  padding: 0.5rem 1rem;
+  color: white;
+  margin-right: 1rem;
+}
+.facebook {
+  border-color: #4267b2;
+  background-color: #4267b2;
+}
+.google {
+  border-color: #4285f4;
+  background-color: #4285f4;
+}
+.microsoft {
+  border-color: #2f2f2f;
+  background-color: #2f2f2f;
+}
+form:nth-child(n) {
+  margin: 1rem;
 }
