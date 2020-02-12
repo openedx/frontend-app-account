@@ -3,7 +3,8 @@ import { Button, Input } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import logo from '../assets/headerlogo.svg'
+import logo from '../assets/headerlogo.svg';
+import countryList from './countryList';
 import EmailField from '../account-settings/EmailField';
 
 // export default () => <EmailField />;
@@ -13,7 +14,12 @@ class RegistrationPage extends React.Component {
     super(props);
   }
 
+  renderCountryList() {
+
+  }
+
   render() {
+    console.log(countryList.length)
     return (
       <React.Fragment>
         <div className="registration-header">
@@ -39,15 +45,10 @@ class RegistrationPage extends React.Component {
             <Input type="text" defaultValue="Password (required)" />
             <Input
               type="select"
-              defaultValue="Country or Region of Residency"
-              options={[
-                { value: 'Foo Bar', label: 'Foo Bar' },
-                { value: 'Foos Bar', label: 'Bar foo' },
-                { value: 'Foo sBar', label: 'FoBaro' },
-                { value: 'Foo ssBar', label: 'Farboo' },
-              ]}
+              defaultValue="Country or Region of Residence"
+              options={this.renderCountryList()}
             />
-            <Button className="btn-primary float-right">Create Account</Button>
+            <Button className="btn-primary">Create Account</Button>
           </form>
           <div className="text-center mb-2">
             <span>Already have an edX account?</span>
