@@ -11,7 +11,8 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
-import { LoginPage, RegistrationPage } from './registration';
+import LoginPage from './registration/LoginPage';
+import RegistrationPage from './registration/RegistrationPage';
 import appMessages from './i18n';
 
 import './index.scss';
