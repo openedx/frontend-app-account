@@ -15,15 +15,19 @@ class RegistrationPage extends React.Component {
   }
 
   renderCountryList() {
-
+    const items = [{ value: ' Country or Region of Residence (required)', label: ' Country or Region of Residence (required)' }];
+    const countries = Object.values(countryList);
+    for (let i = 0; i < countries.length; i += 1) {
+      items.push({ value: countries[i], label: countries[i] });
+    }
+    return items;
   }
 
   render() {
-    console.log(countryList.length)
     return (
       <React.Fragment>
         <div className="registration-header">
-          <img src={logo} alt="edX" class="logo"/>
+          <img src={logo} alt="edX" className="logo" />
         </div>
 
         <div className="row registration-container d-block">
@@ -33,12 +37,12 @@ class RegistrationPage extends React.Component {
           </div>
           <div className="row text-center d-block mb-4">
             <span className="d-block mx-auto text-center">Create an account using</span>
-              <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
-              <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
-              <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
+            <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
+            <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
+            <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
             <span className="d-block mx-auto text-center">or create a new one here</span>
           </div>
-          <form className="col-6 mb-4 mx-auto">
+          <form className="col-6 mb-4 mx-auto form-group">
             <Input type="text" defaultValue="Email (required)" />
             <Input type="text" defaultValue="Full Name (required)" />
             <Input type="text" defaultValue="Public Username (required)" />
@@ -56,7 +60,7 @@ class RegistrationPage extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    )
+    );
   }
 }
 
