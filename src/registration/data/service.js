@@ -28,8 +28,8 @@ export async function login(creds) {
 
   const { data } = await getHttpClient()
     .post(
-      `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`,
-      creds,
+      `${getConfig().LMS_BASE_URL}/login_ajax/`,
+      querystring.stringify(creds),
       requestConfig,
     )
     .catch((e) => {
