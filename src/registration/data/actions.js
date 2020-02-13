@@ -1,6 +1,7 @@
 import { AsyncActionType } from './utils';
 
 export const REGISTER_NEW_USER = new AsyncActionType('REGISTRATION', 'REGISTER_NEW_USER');
+export const LOGIN_REQUEST = new AsyncActionType('LOGIN', 'REQUEST');
 
 // Register
 
@@ -22,3 +23,19 @@ export const registerNewUserFailure = () => ({
 });
 
 // Login
+export const loginRequest = registrationInfo => ({
+  type: LOGIN_REQUEST.BASE,
+  payload: { registrationInfo },
+});
+
+export const loginRequestBegin = () => ({
+  type: LOGIN_REQUEST.BEGIN,
+});
+
+export const loginRequestSuccess = () => ({
+  type: LOGIN_REQUEST.SUCCESS,
+});
+
+export const loginRequestFailure = () => ({
+  type: LOGIN_REQUEST.FAILURE,
+});

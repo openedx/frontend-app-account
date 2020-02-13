@@ -6,6 +6,10 @@ import {
   registerNewUserBegin,
   registerNewUserFailure,
   registerNewUserSuccess,
+  LOGIN_REQUEST,
+  loginRequestBegin,
+  loginRequestFailure,
+  loginRequestSuccess,
 } from './actions';
 
 
@@ -25,6 +29,20 @@ export function* handleNewUserRegistration(action) {
   }
 }
 
+export function* handleLoginRequest(action) {
+  try {
+    yield put(loginRequestBegin());
+
+    yield call(postNewUser, action.payload.registrationInfo);
+
+    yield put(loginRequestSuccess());
+  } catch (e) {
+    yield put(loginRequestFailure());
+    throw e;
+  }
+}
+
 export default function* saga() {
   yield takeEvery(REGISTER_NEW_USER.BASE, handleNewUserRegistration);
+  yield takeEvery(LOGIN_REQUEST.BASE, handleLoginRequest);
 }

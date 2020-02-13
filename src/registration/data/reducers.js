@@ -1,5 +1,6 @@
 import {
   REGISTER_NEW_USER,
+  LOGIN_REQUEST,
 } from './actions';
 
 export const defaultState = {
@@ -17,6 +18,18 @@ const reducer = (state = defaultState, action) => {
         ...state,
       };
     case REGISTER_NEW_USER.FAILURE:
+      return {
+        ...state,
+      };
+    case LOGIN_REQUEST.BEGIN:
+      return {
+        ...state,
+      };
+    case LOGIN_REQUEST.SUCCESS:
+      return {
+        ...state,
+      };
+    case LOGIN_REQUEST.FAILURE:
       return {
         ...state,
       };
