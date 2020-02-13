@@ -37,3 +37,28 @@
   display: inherit;
   margin: 0 auto;
 }
+
+.section-heading-line{
+  position: relative;
+  text-align: center;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20%;
+    background-color: gray;
+    height: 1px;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20%;
+    background-color: gray;
+    height: 1px;
+  }
+}
