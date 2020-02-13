@@ -10,7 +10,7 @@ import {
 
 
 // Services
-import { postNewUser } from './service';
+import postNewUser from './service';
 
 export function* handleNewUserRegistration(action) {
   try {

@@ -1,5 +1,5 @@
 import React from 'react';
-import connect from 'react-redux';
+import { connect } from 'react-redux';
 import { Button, Input, ValidationFormGroup, StatusAlert } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
@@ -7,7 +7,7 @@ import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/headerlogo.svg';
 import countryList from './countryList';
 
-import registerNewUser from './data/actions';
+import { registerNewUser } from './data/actions';
 
 class RegistrationPage extends React.Component {
   state = {
@@ -42,11 +42,6 @@ class RegistrationPage extends React.Component {
     console.log('submit', e);
     e.preventDefault();
     this.setState({ open: true });
-  }
-
-  resetStatusAlertWrapperState() {
-    this.setState({ open: false });
-    this.button.focus();
 
     const payload = {
       email: this.state.email,
@@ -58,6 +53,11 @@ class RegistrationPage extends React.Component {
     };
 
     this.props.registerNewUser(payload);
+  }
+
+  resetStatusAlertWrapperState() {
+    this.setState({ open: false });
+    this.button.focus();
   }
 
   handleOnChange(e) {
@@ -254,8 +254,7 @@ class RegistrationPage extends React.Component {
 }
 
 export default connect(
-  state => ({ ...state[] }),
-  null,
+  () => ({}),
   {
     registerNewUser,
   },
