@@ -31,17 +31,18 @@ export function* handleNewUserRegistration(action) {
 
 export function* handleLoginRequest(action) {
   try {
-    yield put(registerNewUserBegin());
+    yield put(loginRequestBegin());
 
     yield call(postNewUser, action.payload.registrationInfo);
 
-    yield put(registerNewUserSuccess());
+    yield put(loginRequestSuccess());
   } catch (e) {
-    yield put(registerNewUserFailure());
+    yield put(loginRequestFailure());
     throw e;
   }
 }
 
 export default function* saga() {
   yield takeEvery(REGISTER_NEW_USER.BASE, handleNewUserRegistration);
+  yield takeEvery(LOGIN_REQUEST.BASE, handleLoginRequest);
 }

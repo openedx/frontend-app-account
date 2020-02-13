@@ -1,6 +1,6 @@
 import { getConfig } from '@edx/frontend-platform';
 import { getHttpClient } from '@edx/frontend-platform/auth';
-import querystring from "querystring";
+import querystring from 'querystring';
 
 export async function postNewUser(registrationInformation) {
   const requestConfig = {
