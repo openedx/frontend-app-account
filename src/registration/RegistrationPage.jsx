@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input } from '@edx/paragon';
+import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
@@ -60,53 +60,84 @@ class RegistrationPage extends React.Component {
           </div>
 
           <form className="col-6 mb-4 mx-auto form-group">
-            <label htmlFor="registrationEmail" className="h6 pt-3">Email (required)</label>
-            <Input
-              name="email"
-              id="registrationEmail"
-              type="email"
-              placeholder="email@domain.com"
-              value={this.state.email}
-              onChange={e => this.handleOnChange(e)}
-            />
-            <label htmlFor="registrationName" className="h6 pt-3">Full Name (required)</label>
-            <Input
-              name="name"
-              id="registrationName"
-              type="text"
-              placeholder="Name"
-              value={this.state.name}
-              onChange={e => this.handleOnChange(e)}
-            />
-            <label htmlFor="registrationUsername" className="h6 pt-3">Public Username (required)</label>
-            <Input
-              name="username"
-              id="registrationUsername"
-              type="text"
-              placeholder="Username"
-              value={this.state.username}
-              onChange={e => this.handleOnChange(e)}
-            />
-            <label htmlFor="registrationPassword" className="h6 pt-3">Password (required)</label>
-            <Input
-              name="password"
-              id="registrationPassword"
-              type="text"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={e => this.handleOnChange(e)}
-            />
-            <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
-            <Input
-              type="select"
-              placeholder="Country or Region of Residence"
-              value={this.state.country}
-              options={this.renderCountryList()}
-              onChange={this.handleSelectCountry}
-            />
-            <Button className="btn-primary mt-4">Create Account</Button>
+            <ValidationFormGroup
+              for="email"
+              invalid
+              invalidMessage="Enter a valid email address that contains at least 3 characters."
+            >
+              <label htmlFor="registrationEmail" className="h6 pt-3">Email (required)</label>
+              <Input
+                name="email"
+                id="registrationEmail"
+                type="email"
+                placeholder="email@domain.com"
+                value={this.state.email}
+                onChange={e => this.handleOnChange(e)}
+              />
+            </ValidationFormGroup>
+            <ValidationFormGroup
+              for="name"
+              invalid
+              invalidMessage="Enter your full name."
+            >
+              <label htmlFor="registrationName" className="h6 pt-3">Full Name (required)</label>
+              <Input
+                name="name"
+                id="registrationName"
+                type="text"
+                placeholder="Name"
+                value={this.state.name}
+                onChange={e => this.handleOnChange(e)}
+              />
+            </ValidationFormGroup>
+            <ValidationFormGroup
+              for="username"
+              invalid
+              invalidMessage="Username must be between 2 and 30 characters long."
+            >
+              <label htmlFor="registrationUsername" className="h6 pt-3">Public Username (required)</label>
+              <Input
+                name="username"
+                id="registrationUsername"
+                type="text"
+                placeholder="Username"
+                value={this.state.username}
+                onChange={e => this.handleOnChange(e)}
+              />
+            </ValidationFormGroup>
+            <ValidationFormGroup
+              for="password"
+              invalid
+              invalidMessage="This password is too short. It must contain at least 8 characters. This password must contain at least 1 number."
+            >
+              <label htmlFor="registrationPassword" className="h6 pt-3">Password (required)</label>
+              <Input
+                name="password"
+                id="registrationPassword"
+                type="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={e => this.handleOnChange(e)}
+              />
+            </ValidationFormGroup>
+            <ValidationFormGroup
+              for="country"
+              invalid
+              invalidMessage="Select your country or region of residence."
+            >
+              <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
+              <Input
+                type="select"
+                placeholder="Country or Region of Residence"
+                value={this.state.country}
+                options={this.renderCountryList()}
+                onChange={this.handleSelectCountry}
+              />
+            </ValidationFormGroup>
+            <span>By creating an account, you agree to the <a href="https://www.edx.org/edx-terms-service">Terms of Service and Honor Code</a> and you acknowledge that edX and each Member process your personal data in accordance with the <a href="https://www.edx.org/edx-privacy-policy">Privacy Policy</a>.</span>
+            <Button className="btn-primary mt-4 submit">Create Account</Button>
           </form>
-          <div className="text-center mb-2">
+          <div className="text-center mb-2 pt-2">
             <span>Already have an edX account?</span>
             <a href="https://courses.edx.org/register?next=/dashboard#login"> Sign in.</a>
           </div>

@@ -33,6 +33,7 @@
   border-color: #2f2f2f;
   background-color: #2f2f2f;
 }
-form:nth-child(n) {
-  margin: 1rem;
+.submit {
+  display: inherit;
+  margin: 0 auto;
 }
