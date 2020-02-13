@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import 'formdata-polyfill';
 import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
-import { subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig } from '@edx/frontend-platform';
+import { subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig, getConfig } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -27,7 +27,8 @@ subscribe(APP_READY, () => {
           <AuthenticatedPageRoute exact path="/" component={AccountSettingsPage} />
           <Route path="/notfound" component={NotFoundPage} />
           {
-            getConfig().ENABLE_LOGIN_AND_REGISTRATION && <>
+            getConfig().ENABLE_LOGIN_AND_REGISTRATION &&
+            <>
               <Route path="/login" component={LoginPage} />
               <Route path="/registration" component={RegistrationPage} />
             </>
