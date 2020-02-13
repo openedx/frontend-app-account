@@ -60,12 +60,13 @@ export default class LoginPage extends React.Component {
         <div className="d-flex justify-content-center registration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
             <div className="d-flex flex-row">
-              <p>First time here?</p>
-              <a className="ml-2" href="/registration">Create an account!</a>
+              <p>We <span>&#x2764;&#xFE0F;</span>our learners.</p>
+              <p> First time here?</p>
+              <a className="ml-2" href="/registration">Join our community!</a>
             </div>
             <form className="m-0">
               <div className="form-group">
-                <h3>Sign In</h3>
+                <h3 className="text-center mt-3">Sign In</h3>
                 <div className="d-flex flex-column align-items-start">
                   <ValidationFormGroup
                     for="email"
@@ -96,7 +97,7 @@ export default class LoginPage extends React.Component {
                   />
                 </div>
               </div>
-              <Button className="btn-primary">Sign in</Button>
+              <Button className="btn-primary submit">Sign in</Button>
             </form>
             <div className="section-heading-line mb-4">
               <h4>or sign in with</h4>

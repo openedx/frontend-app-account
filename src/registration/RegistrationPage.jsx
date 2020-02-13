@@ -232,9 +232,9 @@ class RegistrationPage extends React.Component {
               Create Account
             </Button>
             <StatusAlert
-              alertType="info"
+              alertType="danger"
               open={this.state.open}
-              dialog="Your account was not actually created, but for demo purposes this *would* redirect to the Dashboard! Yay!"
+              dialog="❤️❤️❤️ Your account was not actually created BUT for demo purposes this *would* redirect to the Dashboard! Yay! ❤️❤️❤️"
               onClose={this.resetStatusAlertWrapperState}
             />
           </form>
