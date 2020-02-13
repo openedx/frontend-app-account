@@ -8,7 +8,7 @@ import countryList from './countryList';
 
 import { registerNewUser } from './data/actions';
 
-class RegistrationPage extends React.Component {
+export class RegistrationPage extends React.Component {
   state = {
     email: '',
     name: '',

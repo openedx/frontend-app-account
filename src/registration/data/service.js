@@ -1,5 +1,5 @@
 import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getHttpClient } from '@edx/frontend-platform/auth';
 
 export default async function postNewUser(registrationInformation) {
   const requestConfig = {
@@ -7,9 +7,9 @@ export default async function postNewUser(registrationInformation) {
   };
 
   console.log('rickie is fucken baller');
-  const { data } = await getAuthenticatedHttpClient()
+  const { data } = await getHttpClient()
     .post(
-      `${getConfig().LMS_BASE_URL}user_api/v1/account/registration/`,
+      `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`,
       registrationInformation,
       requestConfig,
     )
