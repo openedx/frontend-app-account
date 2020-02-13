@@ -2,7 +2,7 @@ import { AsyncActionType } from './utils';
 
 export const REGISTER_NEW_USER = new AsyncActionType('REGISTRATION', 'REGISTER_NEW_USER');
 
-// SAVE SETTINGS ACTIONS
+// Register
 
 export const registerNewUser = registrationInfo => ({
   type: REGISTER_NEW_USER.BASE,
@@ -20,3 +20,5 @@ export const registerNewUserSuccess = () => ({
 export const registerNewUserFailure = () => ({
   type: REGISTER_NEW_USER.FAILURE,
 });
+
+// Login
