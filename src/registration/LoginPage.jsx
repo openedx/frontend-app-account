@@ -40,18 +40,18 @@ export default class LoginPage extends React.Component {
                   type="email"
                   placeholder="username@domain.com"
                   value={this.state.username}
-                  onChange={this.handleUsernameChange}
+                  onChange={e => this.handleUsernameChange(e)}
                 />
               </div>
               <p className="mb-4">The email address you used to register with edX.</p>
               <div className="d-flex flex-column align-items-start">
-                <label htmlFor="loginUsername" className="h6 mr-1">Password</label>
+                <label htmlFor="loginPassword" className="h6 mr-1">Password</label>
                 <Input
-                  name="Password"
+                  name="password"
                   id="loginPassword"
-                  type="Password"
+                  type="password"
                   value={this.state.password}
-                  onChange={this.handlePasswordChange}
+                  onChange={e => this.handlePasswordChange(e)}
                 />
               </div>
             </div>
