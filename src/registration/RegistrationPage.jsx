@@ -36,7 +36,7 @@ class RegistrationPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log('submit', e);
+    console.log('clicked submit', e);
     e.preventDefault();
     this.setState({ open: true });
   }
@@ -54,12 +54,12 @@ class RegistrationPage extends React.Component {
   }
 
   validateInput(inputName, value) {
-    const inputErrors = this.state.errors;
-    let { emailValid } = this.state;
-    let { nameValid } = this.state;
-    let { usernameValid } = this.state;
-    let { passwordValid } = this.state;
-    let { countryValid } = this.state;
+    let inputErrors = this.state.errors;
+    let emailValid = this.state.emailValid;
+    let nameValid = this.state.nameValid;
+    let usernameValid = this.state.usernameValid;
+    let passwordValid = this.state.passwordValid;
+    let countryValid = this.state.countryValid;
 
     switch (inputName) {
       case 'email':
@@ -118,21 +118,20 @@ class RegistrationPage extends React.Component {
         <div className="registration-header">
           <img src={logo} alt="edX" className="logo" />
         </div>
-
-        <div className="row registration-container d-block">
+        <div className="row registration-container d-flex justify-content-center">
           <div className="mb-4">
             <FontAwesomeIcon className="d-block mx-auto fa-2x" icon={faGraduationCap} />
-            <h5 className="d-block mx-auto text-center">Start learning now!</h5>
+            <h4 className="d-block mx-auto">Start learning now!</h4>
           </div>
-          <div className="row text-center d-block mb-4">
-            <span className="d-block mx-auto mb-4 text-center section-heading-line col-6">Create an account using</span>
+          <div className="d-block mb-4">
+            <span className="d-block mx-auto mb-4 section-heading-line">Create an account using</span>
             <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
             <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
             <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
-            <span className="d-block mx-auto text-center mt-4 section-heading-line col-6">or create a new one here</span>
+            <span className="d-block mx-auto text-center mt-4 section-heading-line">or create a new one here</span>
           </div>
 
-          <form className="col-6 mb-4 mx-auto form-group">
+          <form className="mb-4 mx-auto form-group" style={{ width: '30rem' }}>
             <ValidationFormGroup
               for="email"
               invalid={this.state.errors.email !== ''}
@@ -231,7 +230,7 @@ class RegistrationPage extends React.Component {
           </form>
           <div className="text-center mb-2 pt-2">
             <span>Already have an edX account?</span>
-            <a href="https://courses.edx.org/register?next=/dashboard#login"> Sign in.</a>
+            <a href="/login"> Sign in.</a>
           </div>
         </div>
       </React.Fragment>

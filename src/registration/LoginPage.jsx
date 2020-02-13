@@ -1,72 +1,118 @@
 import React from 'react';
-import { Button, Input } from '@edx/paragon';
+import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import logo from '../assets/headerlogo.svg';
 
 export default class LoginPage extends React.Component {
   state = {
     password: '',
-    username: '',
+    email: '',
+    errors: {
+      email: '',
+      password: '',
+    },
+    emailValid: false,
+    passwordValid: false,
+    formValid: false,
   }
 
-  handlePasswordChange(e) {
+  handleOnChange(e) {
     this.setState({
-      password: e.target.value,
+      [e.target.name]: e.target.value,
     });
+    this.validateInput(e.target.name, e.target.value);
   }
 
-  handleUsernameChange(e) {
+  validateInput(inputName, value) {
+    let inputErrors = this.state.errors;
+    let emailValid = this.state.emailValid;
+    let passwordValid = this.state.passwordValid;
+
+    switch (inputName) {
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        inputErrors.email = emailValid ? '' : null;
+        break;
+      case 'password':
+        passwordValid = value.length >= 8 && value.match(/\d+/g);
+        inputErrors.password = passwordValid ? '' : null;
+        break;
+      default:
+        break;
+    }
+
     this.setState({
-      username: e.target.value,
+      errors: inputErrors,
+      emailValid,
+      passwordValid,
+    }, this.validateForm);
+  }
+
+  validateForm() {
+    this.setState({
+      formValid: this.state.emailValid && this.state.passwordValid,
     });
   }
 
   render() {
     return (
-      <div className="d-flex justify-content-center">
-        <div className="d-flex flex-column" style={{ width: '400px' }}>
-          <div className="d-flex flex-row">
-            <p>First time here?</p>
-            <a className="ml-2" href="/registration">Create an account!</a>
-          </div>
-          <form className="m-0">
-            <div className="form-group">
-              <h2>Sign In</h2>
-              <div className="d-flex flex-column align-items-start">
-                <label htmlFor="loginUsername" className="h6 mr-1">Username</label>
-                <Input
-                  name="Username"
-                  id="loginUsername"
-                  type="email"
-                  placeholder="username@domain.com"
-                  value={this.state.username}
-                  onChange={e => this.handleUsernameChange(e)}
-                />
-              </div>
-              <p className="mb-4">The email address you used to register with edX.</p>
-              <div className="d-flex flex-column align-items-start">
-                <label htmlFor="loginPassword" className="h6 mr-1">Password</label>
-                <Input
-                  name="password"
-                  id="loginPassword"
-                  type="password"
-                  value={this.state.password}
-                  onChange={e => this.handlePasswordChange(e)}
-                />
-              </div>
+      <React.Fragment>
+        <div className="registration-header">
+          <img src={logo} alt="edX" className="logo" />
+        </div>
+        <div className="d-flex justify-content-center registration-container">
+          <div className="d-flex flex-column" style={{ width: '400px' }}>
+            <div className="d-flex flex-row">
+              <p>First time here?</p>
+              <a className="ml-2" href="/registration">Create an account!</a>
             </div>
-            <Button className="btn-primary">Sign in</Button>
-          </form>
-          <div className="section-heading-line mb-4">
-            <h3>or sign in with</h3>
-          </div>
-          <div className="row text-center d-block mb-4">
-            <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
-            <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
-            <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
+            <form className="m-0">
+              <div className="form-group">
+                <h3>Sign In</h3>
+                <div className="d-flex flex-column align-items-start">
+                  <ValidationFormGroup
+                    for="email"
+                    invalid={this.state.errors.email !== ''}
+                    invalidMessage="The email address you've provided isn't formatted correctly."
+                  >
+                    <label htmlFor="loginEmail" className="h6 mr-1">Email</label>
+                    <Input
+                      name="email"
+                      id="loginEmail"
+                      type="email"
+                      placeholder="email@domain.com"
+                      value={this.state.email}
+                      onChange={e => this.handleOnChange(e)}
+                      style={{ width: '400px' }}
+                    />
+                  </ValidationFormGroup>
+                </div>
+                <p className="mb-4">The email address you used to register with edX.</p>
+                <div className="d-flex flex-column align-items-start">
+                  <label htmlFor="loginPassword" className="h6 mr-1">Password</label>
+                  <Input
+                    name="password"
+                    id="loginPassword"
+                    type="password"
+                    value={this.state.password}
+                    onChange={e => this.handleOnChange(e)}
+                  />
+                </div>
+              </div>
+              <Button className="btn-primary">Sign in</Button>
+            </form>
+            <div className="section-heading-line mb-4">
+              <h4>or sign in with</h4>
+            </div>
+            <div className="row text-center d-block mb-4">
+              <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
+              <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
+              <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
