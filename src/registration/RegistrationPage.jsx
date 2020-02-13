@@ -4,7 +4,6 @@ import { Button, Input, ValidationFormGroup, StatusAlert } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import logo from '../assets/headerlogo.svg';
 import countryList from './countryList';
 
 import { registerNewUser } from './data/actions';
@@ -129,10 +128,7 @@ class RegistrationPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="registration-header">
-          <img src={logo} alt="edX" className="logo" />
-        </div>
-        <div className="row registration-container d-flex justify-content-center">
+        <div className="registration-container d-flex flex-column align-items-center mx-auto" style={{ width: '30rem' }}>
           <div className="mb-4">
             <FontAwesomeIcon className="d-block mx-auto fa-2x" icon={faGraduationCap} />
             <h4 className="d-block mx-auto">Start learning now!</h4>
@@ -145,7 +141,7 @@ class RegistrationPage extends React.Component {
             <span className="d-block mx-auto text-center mt-4 section-heading-line">or create a new one here</span>
           </div>
 
-          <form className="mb-4 mx-auto form-group" style={{ width: '30rem' }}>
+          <form className="mb-4 mx-auto form-group">
             <ValidationFormGroup
               for="email"
               invalid={this.state.errors.email !== ''}

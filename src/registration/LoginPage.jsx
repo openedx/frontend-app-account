@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
-import logo from '../assets/headerlogo.svg';
 
 export default class LoginPage extends React.Component {
   state = {
@@ -58,9 +57,6 @@ export default class LoginPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="registration-header">
-          <img src={logo} alt="edX" className="logo" />
-        </div>
         <div className="d-flex justify-content-center registration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
             <div className="d-flex flex-row">

@@ -17,25 +17,52 @@ import appMessages from './i18n';
 
 import './index.scss';
 import './assets/favicon.ico';
+import logo from './assets/headerlogo.svg';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
-      <Header />
-      <main>
-        <Switch>
-          <AuthenticatedPageRoute exact path="/" component={AccountSettingsPage} />
-          <Route path="/notfound" component={NotFoundPage} />
-          {
-            getConfig().ENABLE_LOGIN_AND_REGISTRATION &&
-            <>
-              <Route path="/login" component={LoginPage} />
-              <Route path="/registration" component={RegistrationPage} />
-            </>
-          }
-          <Route path="*" component={NotFoundPage} />
-        </Switch>
-      </main>
+      <Switch>
+        <AuthenticatedPageRoute exact path="/">
+          <Header />
+          <main>
+            <AccountSettingsPage />
+          </main>
+        </AuthenticatedPageRoute>
+        <Route path="/notfound">
+          <Header />
+          <main>
+            <NotFoundPage />
+          </main>
+        </Route>
+        {
+          getConfig().ENABLE_LOGIN_AND_REGISTRATION &&
+          <>
+            <Route path="/login" >
+              <div className="registration-header">
+                <img src={logo} alt="edX" className="logo" />
+              </div>
+              <main>
+                <LoginPage />
+              </main>
+            </Route>
+            <Route path="/registration">
+              <div className="registration-header">
+                <img src={logo} alt="edX" className="logo" />
+              </div>
+              <main>
+                <RegistrationPage />
+              </main>
+            </Route>
+          </>
+        }
+        <Route path="*">
+          <Header />
+          <main>
+            <NotFoundPage />
+          </main>
+        </Route>
+      </Switch>
       <Footer />
     </AppProvider>,
     document.getElementById('root'),
