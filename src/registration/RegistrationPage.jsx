@@ -35,7 +35,7 @@ class RegistrationPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log('clicked submit', e);
+    console.log('submit', e);
     e.preventDefault();
   }
 
@@ -47,12 +47,12 @@ class RegistrationPage extends React.Component {
   }
 
   validateInput(inputName, value) {
-    let inputErrors = this.state.errors;
-    let emailValid = this.state.emailValid;
-    let nameValid = this.state.nameValid;
-    let usernameValid = this.state.usernameValid;
-    let passwordValid = this.state.passwordValid;
-    let countryValid = this.state.countryValid;
+    const inputErrors = this.state.errors;
+    let { emailValid } = this.state;
+    let { nameValid } = this.state;
+    let { usernameValid } = this.state;
+    let { passwordValid } = this.state;
+    let { countryValid } = this.state;
 
     switch (inputName) {
       case 'email':
@@ -218,4 +218,4 @@ class RegistrationPage extends React.Component {
   }
 }
 
-export default RegistrationPage;
+export default connect(RegistrationPage);

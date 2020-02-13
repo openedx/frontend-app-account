@@ -2,11 +2,6 @@ import {
   REGISTER_NEW_USER,
 } from './actions';
 
-import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
-import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from '../site-language';
-import { reducer as resetPasswordReducer, RESET_PASSWORD } from '../reset-password';
-import { reducer as thirdPartyAuthReducer, DISCONNECT_AUTH } from '../third-party-auth';
-
 export const defaultState = {
   registrationResult: {},
 };
