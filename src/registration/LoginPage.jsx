@@ -4,7 +4,7 @@ import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 
-import { login } from './data/actions';
+import { loginRequest } from './data/actions';
 
 class LoginPage extends React.Component {
   state = {
@@ -56,11 +56,11 @@ class LoginPage extends React.Component {
     e.preventDefault();
 
     const payload = {
-      username: this.state.username,
+      email: this.state.email,
       password: this.state.password,
     };
 
-    this.props.login(payload);
+    this.props.loginRequest(payload);
   }
 
   validateForm() {
@@ -137,6 +137,6 @@ class LoginPage extends React.Component {
 export default connect(
   () => ({}),
   {
-    login,
+    loginRequest,
   },
 )(LoginPage);
