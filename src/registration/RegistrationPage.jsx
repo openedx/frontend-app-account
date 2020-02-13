@@ -5,9 +5,6 @@ import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/headerlogo.svg';
 import countryList from './countryList';
-import EmailField from '../account-settings/EmailField';
-
-// export default () => <EmailField />;
 
 class RegistrationPage extends React.Component {
   state = {
@@ -16,13 +13,20 @@ class RegistrationPage extends React.Component {
     username: '',
     password: '',
     country: '',
+    errors: {
+      email: '',
+      name: '',
+      username: '',
+      password: '',
+      country: '',
+    },
+    emailValid: false,
+    nameValid: false,
+    usernameValid: false,
+    passwordValid: false,
+    countryValid: false,
+    formValid: false,
   }
-
-  handleOnChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
 
   handleSelectCountry = (e) => {
     this.setState({
@@ -31,12 +35,69 @@ class RegistrationPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log("submit", e);
+    console.log('clicked submit', e);
     e.preventDefault();
   }
 
+  handleOnChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+    this.validateInput(e.target.name, e.target.value);
+  }
+
+  validateInput(inputName, value) {
+    let inputErrors = this.state.errors;
+    let emailValid = this.state.emailValid;
+    let nameValid = this.state.nameValid;
+    let usernameValid = this.state.usernameValid;
+    let passwordValid = this.state.passwordValid;
+    let countryValid = this.state.countryValid;
+
+    switch (inputName) {
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        inputErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'name':
+        nameValid = value.length >= 1;
+        inputErrors.name = nameValid ? '' : ' is too short';
+        break;
+      case 'username':
+        usernameValid = value.length >= 2 && value.length <= 30;
+        inputErrors.username = usernameValid ? '' : ' is too short';
+        break;
+      case 'password':
+        passwordValid = value.length >= 8;
+        inputErrors.password = passwordValid ? '' : ' is too short';
+        break;
+      case 'country':
+        countryValid = value !== 'Country or Region of Residence (required)';
+        inputErrors.country = countryValid ? '' : ' select a country';
+        break;
+      default:
+        break;
+    }
+
+    this.setState({
+      errors: inputErrors,
+      emailValid,
+      nameValid,
+      usernameValid,
+      passwordValid,
+      countryValid,
+    }, this.validateForm);
+  }
+
+  validateForm() {
+    this.setState({
+      formValid: this.state.emailValid && this.state.nameValid &&
+      this.state.usernameValid && this.state.passwordValid && this.state.countryValid,
+    });
+  }
+
   renderCountryList() {
-    const items = [{ value: ' Country or Region of Residence (required)', label: ' Country or Region of Residence (required)' }];
+    const items = [{ value: 'Country or Region of Residence (required)', label: 'Country or Region of Residence (required)' }];
     const countries = Object.values(countryList);
     for (let i = 0; i < countries.length; i += 1) {
       items.push({ value: countries[i], label: countries[i] });
@@ -45,7 +106,6 @@ class RegistrationPage extends React.Component {
   }
 
   render() {
-    const isValid = 'true';
     return (
       <React.Fragment>
         <div className="registration-header">
@@ -68,7 +128,7 @@ class RegistrationPage extends React.Component {
           <form className="col-6 mb-4 mx-auto form-group">
             <ValidationFormGroup
               for="email"
-              invalid={!isValid}
+              invalid={this.state.errors.email !== ''}
               invalidMessage="Enter a valid email address that contains at least 3 characters."
             >
               <label htmlFor="registrationEmail" className="h6 pt-3">Email (required)</label>
@@ -84,7 +144,7 @@ class RegistrationPage extends React.Component {
             </ValidationFormGroup>
             <ValidationFormGroup
               for="name"
-              invalid={!isValid}
+              invalid={this.state.errors.name !== ''}
               invalidMessage="Enter your full name."
             >
               <label htmlFor="registrationName" className="h6 pt-3">Full Name (required)</label>
@@ -100,7 +160,7 @@ class RegistrationPage extends React.Component {
             </ValidationFormGroup>
             <ValidationFormGroup
               for="username"
-              invalid={!isValid}
+              invalid={this.state.errors.username !== ''}
               invalidMessage="Username must be between 2 and 30 characters long."
             >
               <label htmlFor="registrationUsername" className="h6 pt-3">Public Username (required)</label>
@@ -116,7 +176,7 @@ class RegistrationPage extends React.Component {
             </ValidationFormGroup>
             <ValidationFormGroup
               for="password"
-              invalid={!isValid}
+              invalid={this.state.errors.password !== ''}
               invalidMessage="This password is too short. It must contain at least 8 characters. This password must contain at least 1 number."
             >
               <label htmlFor="registrationPassword" className="h6 pt-3">Password (required)</label>
@@ -132,7 +192,7 @@ class RegistrationPage extends React.Component {
             </ValidationFormGroup>
             <ValidationFormGroup
               for="country"
-              invalid={!isValid}
+              invalid={this.state.errors.country !== ''}
               invalidMessage="Select your country or region of residence."
             >
               <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
@@ -146,7 +206,7 @@ class RegistrationPage extends React.Component {
               />
             </ValidationFormGroup>
             <span>By creating an account, you agree to the <a href="https://www.edx.org/edx-terms-service">Terms of Service and Honor Code</a> and you acknowledge that edX and each Member process your personal data in accordance with the <a href="https://www.edx.org/edx-privacy-policy">Privacy Policy</a>.</span>
-            <Button className="btn-primary mt-4 submit" onClick={this.handleSubmit}>Create Account</Button>
+            <Button className="btn-primary mt-4 submit" onClick={this.handleSubmit} disabled={!this.state.formValid}>Create Account</Button>
           </form>
           <div className="text-center mb-2 pt-2">
             <span>Already have an edX account?</span>
