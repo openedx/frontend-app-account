@@ -6,6 +6,10 @@ import {
   registerNewUserBegin,
   registerNewUserFailure,
   registerNewUserSuccess,
+  LOGIN_REQUEST,
+  loginRequestBegin,
+  loginRequestFailure,
+  loginRequestSuccess,
 } from './actions';
 
 
@@ -13,6 +17,19 @@ import {
 import postNewUser from './service';
 
 export function* handleNewUserRegistration(action) {
+  try {
+    yield put(registerNewUserBegin());
+
+    yield call(postNewUser, action.payload.registrationInfo);
+
+    yield put(registerNewUserSuccess());
+  } catch (e) {
+    yield put(registerNewUserFailure());
+    throw e;
+  }
+}
+
+export function* handleLoginRequest(action) {
   try {
     yield put(registerNewUserBegin());
 
