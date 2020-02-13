@@ -218,4 +218,4 @@ class RegistrationPage extends React.Component {
   }
 }
 
-export default connect(RegistrationPage);
+export default RegistrationPage;
