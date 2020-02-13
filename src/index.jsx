@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import 'formdata-polyfill';
-import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
 import { subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,10 +24,14 @@ subscribe(APP_READY, () => {
       <Header />
       <main>
         <Switch>
-          <Route exact path="/" component={AccountSettingsPage} />
-          <Route path="/login" component={LoginPage} />
+          <AuthenticatedPageRoute exact path="/" component={AccountSettingsPage} />
           <Route path="/notfound" component={NotFoundPage} />
-          <Route path="/registration" component={RegistrationPage} />
+          {
+            getConfig().ENABLE_LOGIN_AND_REGISTRATION && <>
+              <Route path="/login" component={LoginPage} />
+              <Route path="/registration" component={RegistrationPage} />
+            </>
+          }
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </main>
@@ -53,6 +57,7 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
+        ENABLE_LOGIN_AND_REGISTRATION: process.env.ENABLE_LOGIN_AND_REGISTRATION,
       }, 'App loadConfig override handler');
     },
   },
