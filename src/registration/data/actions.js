@@ -4,21 +4,19 @@ export const REGISTER_NEW_USER = new AsyncActionType('REGISTRATION', 'REGISTER_N
 
 // SAVE SETTINGS ACTIONS
 
-export const registerNewUser = (formId, commitValues) => ({
+export const registerNewUser = registrationInfo => ({
   type: REGISTER_NEW_USER.BASE,
-  payload: { formId, commitValues },
+  payload: { registrationInfo },
 });
 
 export const registerNewUserBegin = () => ({
   type: REGISTER_NEW_USER.BEGIN,
 });
 
-export const registerNewUserSuccess = (values, confirmationValues) => ({
+export const registerNewUserSuccess = () => ({
   type: REGISTER_NEW_USER.SUCCESS,
-  payload: { values, confirmationValues },
 });
 
-export const registerNewUserFailure = ({ fieldErrors, message }) => ({
+export const registerNewUserFailure = () => ({
   type: REGISTER_NEW_USER.FAILURE,
-  payload: { errors: fieldErrors, message },
 });
