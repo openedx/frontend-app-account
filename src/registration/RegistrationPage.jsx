@@ -234,7 +234,7 @@ export class RegistrationPage extends React.Component {
             <StatusAlert
               alertType="danger"
               open={this.state.open}
-              dialog="❤️❤️❤️ Your account was not actually created BUT for demo purposes this *would* redirect to the Dashboard! Yay! ❤️❤️❤️"
+              dialog="❤️❤️❤️ Your account was has been created! Welcome to our learning community! ❤️❤️❤️"
               onClose={this.resetStatusAlertWrapperState}
             />
           </form>
