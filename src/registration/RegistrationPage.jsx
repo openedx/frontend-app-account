@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, ValidationFormGroup } from '@edx/paragon';
+import { Button, Input, ValidationFormGroup, StatusAlert } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +26,7 @@ class RegistrationPage extends React.Component {
     passwordValid: false,
     countryValid: false,
     formValid: false,
+    open: false,
   }
 
   handleSelectCountry = (e) => {
@@ -37,6 +38,12 @@ class RegistrationPage extends React.Component {
   handleSubmit = (e) => {
     console.log('clicked submit', e);
     e.preventDefault();
+    this.setState({ open: true });
+  }
+
+  resetStatusAlertWrapperState() {
+    this.setState({ open: false });
+    this.button.focus();
   }
 
   handleOnChange(e) {
@@ -57,23 +64,23 @@ class RegistrationPage extends React.Component {
     switch (inputName) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        inputErrors.email = emailValid ? '' : ' is invalid';
+        inputErrors.email = emailValid ? '' : null;
         break;
       case 'name':
         nameValid = value.length >= 1;
-        inputErrors.name = nameValid ? '' : ' is too short';
+        inputErrors.name = nameValid ? '' : null;
         break;
       case 'username':
         usernameValid = value.length >= 2 && value.length <= 30;
-        inputErrors.username = usernameValid ? '' : ' is too short';
+        inputErrors.username = usernameValid ? '' : null;
         break;
       case 'password':
-        passwordValid = value.length >= 8;
-        inputErrors.password = passwordValid ? '' : ' is too short';
+        passwordValid = value.length >= 8 && value.match(/\d+/g);
+        inputErrors.password = passwordValid ? '' : null;
         break;
       case 'country':
         countryValid = value !== 'Country or Region of Residence (required)';
-        inputErrors.country = countryValid ? '' : ' select a country';
+        inputErrors.country = countryValid ? '' : null;
         break;
       default:
         break;
@@ -206,7 +213,21 @@ class RegistrationPage extends React.Component {
               />
             </ValidationFormGroup>
             <span>By creating an account, you agree to the <a href="https://www.edx.org/edx-terms-service">Terms of Service and Honor Code</a> and you acknowledge that edX and each Member process your personal data in accordance with the <a href="https://www.edx.org/edx-privacy-policy">Privacy Policy</a>.</span>
-            <Button className="btn-primary mt-4 submit" onClick={this.handleSubmit} disabled={!this.state.formValid}>Create Account</Button>
+            <Button
+              className="btn-primary mt-4 submit"
+              onClick={this.handleSubmit}
+              inputRef={(input) => {
+                this.button = input;
+              }}
+            >
+              Create Account
+            </Button>
+            <StatusAlert
+              alertType="info"
+              open={this.state.open}
+              dialog="Your account was not actually created, but for demo purposes this *would* redirect to the Dashboard! Yay!"
+              onClose={this.resetStatusAlertWrapperState}
+            />
           </form>
           <div className="text-center mb-2 pt-2">
             <span>Already have an edX account?</span>
