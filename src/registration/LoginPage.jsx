@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 
-export default class LoginPage extends React.Component {
+import { login } from './data/actions';
+
+class LoginPage extends React.Component {
   state = {
     password: '',
     email: '',
@@ -24,9 +27,9 @@ export default class LoginPage extends React.Component {
   }
 
   validateInput(inputName, value) {
-    let inputErrors = this.state.errors;
-    let emailValid = this.state.emailValid;
-    let passwordValid = this.state.passwordValid;
+    const inputErrors = this.state.errors;
+    let { emailValid } = this.state;
+    let { passwordValid } = this.state;
 
     switch (inputName) {
       case 'email':
@@ -46,6 +49,18 @@ export default class LoginPage extends React.Component {
       emailValid,
       passwordValid,
     }, this.validateForm);
+  }
+
+  handleSubmit = (e) => {
+    console.log('clicked submit', e);
+    e.preventDefault();
+
+    const payload = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+
+    this.props.login(payload);
   }
 
   validateForm() {
@@ -97,7 +112,12 @@ export default class LoginPage extends React.Component {
                   />
                 </div>
               </div>
-              <Button className="btn-primary submit">Sign in</Button>
+              <Button
+                className="btn-primary submit"
+                onClick={this.handleSubmit}
+              >
+                Sign in
+              </Button>
             </form>
             <div className="section-heading-line mb-4">
               <h4>or sign in with</h4>
@@ -113,3 +133,10 @@ export default class LoginPage extends React.Component {
     );
   }
 }
+
+export default connect(
+  () => ({}),
+  {
+    login,
+  },
+)(LoginPage);
