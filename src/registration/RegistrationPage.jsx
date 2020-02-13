@@ -28,7 +28,12 @@ class RegistrationPage extends React.Component {
     this.setState({
       country: e.target.value,
     });
-  };
+  }
+
+  handleSubmit = (e) => {
+    console.log("submit", e);
+    e.preventDefault();
+  }
 
   renderCountryList() {
     const items = [{ value: ' Country or Region of Residence (required)', label: ' Country or Region of Residence (required)' }];
@@ -40,6 +45,7 @@ class RegistrationPage extends React.Component {
   }
 
   render() {
+    const isValid = 'true';
     return (
       <React.Fragment>
         <div className="registration-header">
@@ -52,17 +58,17 @@ class RegistrationPage extends React.Component {
             <h5 className="d-block mx-auto text-center">Start learning now!</h5>
           </div>
           <div className="row text-center d-block mb-4">
-            <span className="d-block mx-auto pb-2 text-center">Create an account using</span>
+            <span className="d-block mx-auto mb-4 text-center section-heading-line col-6">Create an account using</span>
             <button className="btn-social facebook"><FontAwesomeIcon className="mr-2" icon={faFacebookF} />Facebook</button>
             <button className="btn-social google"><FontAwesomeIcon className="mr-2" icon={faGoogle} />Google</button>
             <button className="btn-social microsoft"><FontAwesomeIcon className="mr-2" icon={faMicrosoft} />Microsoft</button>
-            <span className="d-block mx-auto text-center pt-2">or create a new one here</span>
+            <span className="d-block mx-auto text-center mt-4 section-heading-line col-6">or create a new one here</span>
           </div>
 
           <form className="col-6 mb-4 mx-auto form-group">
             <ValidationFormGroup
               for="email"
-              invalid
+              invalid={!isValid}
               invalidMessage="Enter a valid email address that contains at least 3 characters."
             >
               <label htmlFor="registrationEmail" className="h6 pt-3">Email (required)</label>
@@ -73,11 +79,12 @@ class RegistrationPage extends React.Component {
                 placeholder="email@domain.com"
                 value={this.state.email}
                 onChange={e => this.handleOnChange(e)}
+                required
               />
             </ValidationFormGroup>
             <ValidationFormGroup
               for="name"
-              invalid
+              invalid={!isValid}
               invalidMessage="Enter your full name."
             >
               <label htmlFor="registrationName" className="h6 pt-3">Full Name (required)</label>
@@ -88,11 +95,12 @@ class RegistrationPage extends React.Component {
                 placeholder="Name"
                 value={this.state.name}
                 onChange={e => this.handleOnChange(e)}
+                required
               />
             </ValidationFormGroup>
             <ValidationFormGroup
               for="username"
-              invalid
+              invalid={!isValid}
               invalidMessage="Username must be between 2 and 30 characters long."
             >
               <label htmlFor="registrationUsername" className="h6 pt-3">Public Username (required)</label>
@@ -103,11 +111,12 @@ class RegistrationPage extends React.Component {
                 placeholder="Username"
                 value={this.state.username}
                 onChange={e => this.handleOnChange(e)}
+                required
               />
             </ValidationFormGroup>
             <ValidationFormGroup
               for="password"
-              invalid
+              invalid={!isValid}
               invalidMessage="This password is too short. It must contain at least 8 characters. This password must contain at least 1 number."
             >
               <label htmlFor="registrationPassword" className="h6 pt-3">Password (required)</label>
@@ -118,11 +127,12 @@ class RegistrationPage extends React.Component {
                 placeholder="Password"
                 value={this.state.password}
                 onChange={e => this.handleOnChange(e)}
+                required
               />
             </ValidationFormGroup>
             <ValidationFormGroup
               for="country"
-              invalid
+              invalid={!isValid}
               invalidMessage="Select your country or region of residence."
             >
               <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
@@ -132,10 +142,11 @@ class RegistrationPage extends React.Component {
                 value={this.state.country}
                 options={this.renderCountryList()}
                 onChange={this.handleSelectCountry}
+                required
               />
             </ValidationFormGroup>
             <span>By creating an account, you agree to the <a href="https://www.edx.org/edx-terms-service">Terms of Service and Honor Code</a> and you acknowledge that edX and each Member process your personal data in accordance with the <a href="https://www.edx.org/edx-privacy-policy">Privacy Policy</a>.</span>
-            <Button className="btn-primary mt-4 submit">Create Account</Button>
+            <Button className="btn-primary mt-4 submit" onClick={this.handleSubmit}>Create Account</Button>
           </form>
           <div className="text-center mb-2 pt-2">
             <span>Already have an edX account?</span>
