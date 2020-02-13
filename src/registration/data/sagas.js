@@ -14,7 +14,7 @@ import {
 
 
 // Services
-import postNewUser from './service';
+import { postNewUser, login } from './service';
 
 export function* handleNewUserRegistration(action) {
   try {
@@ -33,7 +33,7 @@ export function* handleLoginRequest(action) {
   try {
     yield put(loginRequestBegin());
 
-    yield call(postNewUser, action.payload.registrationInfo);
+    yield call(login, action.payload.creds);
 
     yield put(loginRequestSuccess());
   } catch (e) {

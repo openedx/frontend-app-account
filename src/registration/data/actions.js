@@ -23,9 +23,9 @@ export const registerNewUserFailure = () => ({
 });
 
 // Login
-export const loginRequest = registrationInfo => ({
+export const loginRequest = creds => ({
   type: LOGIN_REQUEST.BASE,
-  payload: { registrationInfo },
+  payload: { creds },
 });
 
 export const loginRequestBegin = () => ({
