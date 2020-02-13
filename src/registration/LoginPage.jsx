@@ -75,9 +75,9 @@ class LoginPage extends React.Component {
         <div className="d-flex justify-content-center registration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
             <div className="d-flex flex-row">
-              <p>We <span>&#x2764;&#xFE0F;</span>our learners.</p>
+              <p>We <span>&#x2764;&#xFE0F;</span> our learners. </p>
               <p> First time here?</p>
-              <a className="ml-2" href="/registration">Join our community!</a>
+              <a className="ml-2" href="/registration"> Join our community!</a>
             </div>
             <form className="m-0">
               <div className="form-group">
