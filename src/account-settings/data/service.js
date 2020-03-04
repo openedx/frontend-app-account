@@ -150,16 +150,45 @@ export async function getProfileDataManager(username, userRoles) {
 }
 
 /**
- * A single function to GET everything considered a setting.
- * Currently encapsulates Account, Preferences, and ThirdPartyAuth
+ * get all settings related to the coaching plugin. Settings used
+ * by Microbachelors students.
+ * @param {Number} userId users are identified in the api by LMS id
  */
-export async function getSettings(username, userRoles) {
+export async function getCoachingPreferences(userId) {
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`);
+  return data.coaching_consent;
+}
+
+/**
+ * patch all of the settings related to coaching.
+ * @param {Number} userId users are identified in the api by LMS id
+ * @param {Object} commitValues { coaching_consent }
+ */
+export async function patchCoachingPreferences(userId, commitValues) {
+  const requestUrl = `${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`;
+  const body = {
+    ...commitValues,
+    user: userId,
+  };
+  const options = { headers: { 'Content-Type': 'application/json' } };
+  getAuthenticatedHttpClient()
+    .patch(requestUrl, body, options);
+
+  return commitValues;
+}
+/**
+ * A single function to GET everything considered a setting.
+ * Currently encapsulates Account, Preferences, Coaching, and ThirdPartyAuth
+ */
+export async function getSettings(username, userRoles, userId) {
   const results = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
+    getCoachingPreferences(userId),
   ]);
 
   return {
@@ -168,20 +197,23 @@ export async function getSettings(username, userRoles) {
     thirdPartyAuthProviders: results[2],
     profileDataManager: results[3],
     timeZones: results[4],
+    coaching_consent: results[5],
   };
 }
 
 /**
  * A single function to PATCH everything considered a setting.
- * Currently encapsulates Account, Preferences, and ThirdPartyAuth
+ * Currently encapsulates Account, Preferences, coaching and ThirdPartyAuth
  */
-export async function patchSettings(username, commitValues) {
+export async function patchSettings(username, commitValues, userId) {
   // Note: time_zone exists in the return value from user/v1/accounts
   // but it is always null and won't update. It also exists in
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
+  const coachingKeys = ['coaching_consent'];
   const accountCommitValues = omit(commitValues, preferenceKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
+  const coachingCommitValues = pick(commitValues, coachingKeys);
   const patchRequests = [];
 
   if (!isEmpty(accountCommitValues)) {
@@ -189,6 +221,9 @@ export async function patchSettings(username, commitValues) {
   }
   if (!isEmpty(preferenceCommitValues)) {
     patchRequests.push(patchPreferences(username, preferenceCommitValues));
+  }
+  if (!isEmpty(coachingCommitValues)) {
+    patchRequests.push(patchCoachingPreferences(userId, coachingCommitValues));
   }
 
   const results = await Promise.all(patchRequests);

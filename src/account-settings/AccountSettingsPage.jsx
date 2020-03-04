@@ -13,7 +13,7 @@ import {
   getCountryList,
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
-import { Hyperlink } from '@edx/paragon';
+import { Hyperlink, Input, ValidationFormGroup } from '@edx/paragon';
 
 import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './data/actions';
@@ -327,6 +327,45 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+          {process.env.TEMP_COACHING_FEATURE_FLAG &&
+            <>
+              <EditableField
+                name="phone_number"
+                type="text"
+                value={this.props.formValues.phone_number}
+                label={this.props.intl.formatMessage(messages['account.settings.field.phone_number'])}
+                emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.phone_number.empty'])}
+                {...editableFieldProps}
+              />
+              <ValidationFormGroup
+                for="coachingConsent"
+                helpText={this.props.intl.formatMessage(messages['account.settings.field.coaching_consent.tooltip'])}
+                invalid={
+                  !this.props.formValues.phone_number && this.props.formValues.coaching_consent
+                }
+                invalidMessage={this.props.intl.formatMessage(messages['account.settings.field.coaching_consent.error'])}
+                className="custom-control custom-switch"
+              >
+                <Input
+                  name="coaching_consent"
+                  className="custom-control-input"
+                  type="checkbox"
+                  id="coachingConsent"
+                  checked={this.props.formValues.coaching_consent}
+                  value={this.props.formValues.coaching_consent}
+                  onChange={(e) => {
+                    this.handleEditableFieldChange(e.target.name, e.target.checked);
+                    if (this.props.formValues.phone_number) {
+                      this.handleSubmit(e.target.name, e.target.checked);
+                    } else {
+                      this.handleSubmit(e.target.name, false);
+                    }
+                  }}
+                />
+                <label className="custom-control-label" htmlFor="coachingConsent">{this.props.intl.formatMessage(messages['account.settings.field.coaching_consent'])}</label>
+              </ValidationFormGroup>
+            </>
+          }
         </div>
 
         <div className="account-section" id="social-media">
@@ -474,6 +513,8 @@ AccountSettingsPage.propTypes = {
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
     language_proficiencies: PropTypes.string,
+    phone_number: PropTypes.string,
+    coaching_consent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
