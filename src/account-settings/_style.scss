@@ -35,4 +35,13 @@
     margin-bottom: map-get($spacers, 5);
     padding-top: 1rem;
   }
+  
+  .custom-switch {
+    padding: 0;
+    max-width: 500px;
+    .custom-control-label {
+      left: 2.25rem;
+      line-height: 1.6rem;
+    }
+  }
 }

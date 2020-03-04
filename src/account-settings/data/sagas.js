@@ -1,4 +1,4 @@
-import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
+import { call, put, delay, takeEvery, all, debounce } from 'redux-saga/effects';
 
 import { publish } from '@edx/frontend-platform';
 import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
@@ -37,7 +37,7 @@ import { getSettings, patchSettings, getTimeZones } from './service';
 export function* handleFetchSettings() {
   try {
     yield put(fetchSettingsBegin());
-    const { username, roles: userRoles } = getAuthenticatedUser();
+    const { username, userId, roles: userRoles } = getAuthenticatedUser();
 
     const {
       thirdPartyAuthProviders, profileDataManager, timeZones, ...values
@@ -45,6 +45,7 @@ export function* handleFetchSettings() {
       getSettings,
       username,
       userRoles,
+      userId,
     );
 
     if (values.country) yield put(fetchTimeZones(values.country));
@@ -65,7 +66,7 @@ export function* handleSaveSettings(action) {
   try {
     yield put(saveSettingsBegin());
 
-    const { username } = getAuthenticatedUser();
+    const { username, userId } = getAuthenticatedUser();
     const { commitValues, formId } = action.payload;
     const commitData = { [formId]: commitValues };
     let savedValues = null;
@@ -83,7 +84,7 @@ export function* handleSaveSettings(action) {
       handleRtl();
       savedValues = commitData;
     } else {
-      savedValues = yield call(patchSettings, username, commitData);
+      savedValues = yield call(patchSettings, username, commitData, userId);
     }
     yield put(saveSettingsSuccess(savedValues, commitData));
     if (savedValues.country) yield put(fetchTimeZones(savedValues.country));
@@ -107,7 +108,7 @@ export function* handleFetchTimeZones(action) {
 
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
-  yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
+  yield debounce(500, SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield all([
     deleteAccountSaga(),
