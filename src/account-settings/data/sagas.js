@@ -1,4 +1,4 @@
-import { call, put, delay, takeEvery, all, debounce } from 'redux-saga/effects';
+import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
 
 import { publish } from '@edx/frontend-platform';
 import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
@@ -108,7 +108,7 @@ export function* handleFetchTimeZones(action) {
 
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
-  yield debounce(500, SAVE_SETTINGS.BASE, handleSaveSettings);
+  yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield all([
     deleteAccountSaga(),
