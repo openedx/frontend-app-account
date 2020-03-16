@@ -45,6 +45,7 @@
     "formdata-polyfill": "3.0.19",
     "history": "4.10.1",
     "lodash.camelcase": "4.3.0",
+    "lodash.debounce": "4.0.8",
     "lodash.findindex": "4.6.0",
     "lodash.get": "4.4.2",
     "lodash.isempty": "4.4.0",

@@ -49,6 +49,7 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
+        COACHING_ENABLED: process.env.COACHING_ENABLED,
       }, 'App loadConfig override handler');
     },
   },
