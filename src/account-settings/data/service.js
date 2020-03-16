@@ -161,7 +161,7 @@ export async function getSettings(username, userRoles, userId) {
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
-    getCoachingPreferences(userId),
+    getConfig().COACHING_ENABLED && getCoachingPreferences(userId),
   ]);
 
   return {
