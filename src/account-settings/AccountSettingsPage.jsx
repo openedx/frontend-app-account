@@ -33,7 +33,6 @@ import {
   GENDER_OPTIONS,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
-import CoachingToggle from './coaching/CoachingToggle';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -328,14 +327,6 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-          {getConfig().COACHING_ENABLED &&
-            this.props.formValues.coaching.eligible_for_coaching &&
-            <CoachingToggle
-              name="coaching"
-              phone_number={this.props.formValues.phone_number}
-              coaching={this.props.formValues.coaching}
-            />
-          }
         </div>
 
         <div className="account-section" id="social-media">
@@ -483,16 +474,10 @@ AccountSettingsPage.propTypes = {
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
     language_proficiencies: PropTypes.string,
-    phone_number: PropTypes.string,
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
-    coaching: PropTypes.objectOf(PropTypes.shape({
-      coaching_consent: PropTypes.string.isRequired,
-      user: PropTypes.number.isRequired,
-      eligible_for_coaching: PropTypes.bool.isRequired,
-    })),
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,

@@ -6,7 +6,6 @@ import isEmpty from 'lodash.isempty';
 
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
-import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
@@ -152,16 +151,15 @@ export async function getProfileDataManager(username, userRoles) {
 
 /**
  * A single function to GET everything considered a setting.
- * Currently encapsulates Account, Preferences, Coaching, and ThirdPartyAuth
+ * Currently encapsulates Account, Preferences, and ThirdPartyAuth
  */
-export async function getSettings(username, userRoles, userId) {
+export async function getSettings(username, userRoles) {
   const results = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
-    getCoachingPreferences(userId),
   ]);
 
   return {
@@ -170,23 +168,20 @@ export async function getSettings(username, userRoles, userId) {
     thirdPartyAuthProviders: results[2],
     profileDataManager: results[3],
     timeZones: results[4],
-    coaching: results[5],
   };
 }
 
 /**
  * A single function to PATCH everything considered a setting.
- * Currently encapsulates Account, Preferences, coaching and ThirdPartyAuth
+ * Currently encapsulates Account, Preferences, and ThirdPartyAuth
  */
-export async function patchSettings(username, commitValues, userId) {
+export async function patchSettings(username, commitValues) {
   // Note: time_zone exists in the return value from user/v1/accounts
   // but it is always null and won't update. It also exists in
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
-  const coachingKeys = ['coaching'];
   const accountCommitValues = omit(commitValues, preferenceKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
-  const coachingCommitValues = pick(commitValues, coachingKeys);
   const patchRequests = [];
 
   if (!isEmpty(accountCommitValues)) {
@@ -194,9 +189,6 @@ export async function patchSettings(username, commitValues, userId) {
   }
   if (!isEmpty(preferenceCommitValues)) {
     patchRequests.push(patchPreferences(username, preferenceCommitValues));
-  }
-  if (!isEmpty(coachingCommitValues)) {
-    patchRequests.push(patchCoachingPreferences(userId, coachingCommitValues));
   }
 
   const results = await Promise.all(patchRequests);
