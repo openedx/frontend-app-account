@@ -484,7 +484,6 @@ AccountSettingsPage.propTypes = {
     gender: PropTypes.string,
     language_proficiencies: PropTypes.string,
     phone_number: PropTypes.string,
-    coaching_consent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
@@ -493,7 +492,7 @@ AccountSettingsPage.propTypes = {
       coaching_consent: PropTypes.string.isRequired,
       user: PropTypes.number.isRequired,
       eligible_for_coaching: PropTypes.bool.isRequired,
-    })).isRequired,
+    })),
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
