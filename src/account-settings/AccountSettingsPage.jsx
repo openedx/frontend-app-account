@@ -388,7 +388,7 @@ class AccountSettingsPage extends React.Component {
           <EditableField
             name="time_zone"
             type="select"
-            value={this.props.formValues.time_zone || ''}
+            value={this.props.formValues.time_zone}
             options={timeZoneOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
