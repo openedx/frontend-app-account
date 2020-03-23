@@ -11,7 +11,7 @@ const onChildExit = (htmlNode) => {
     const enteringChild = htmlNode.previousSibling || htmlNode.nextSibling;
 
     // There's no replacement, do nothing.
-    if (!enteringChild) return;
+    if (!enteringChild) { return; }
 
     // Get all the focusable elements in the entering child and focus the first one
     const focusableElements = enteringChild.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -29,7 +29,7 @@ function SwitchContent({ expression, cases, className }) {
         return getContent(cases[caseKey]);
       }
       return React.cloneElement(cases[caseKey], { key: caseKey });
-    } else if (cases.default) {
+    } if (cases.default) {
       if (typeof cases.default === 'string') {
         return getContent(cases.default);
       }

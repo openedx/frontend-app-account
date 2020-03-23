@@ -105,16 +105,6 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
-  isEditable(fieldName) {
-    return !this.props.staticFields.includes(fieldName);
-  }
-
-  isManagedProfile() {
-    // Enterprise customer profiles are managed by their organizations. We determine whether
-    // a profile is managed or not by the presence of the profileDataManager prop.
-    return Boolean(this.props.profileDataManager);
-  }
-
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
   };
@@ -122,6 +112,17 @@ class AccountSettingsPage extends React.Component {
   handleSubmit = (formId, values) => {
     this.props.saveSettings(formId, values);
   };
+
+  isManagedProfile() {
+    // Enterprise customer profiles are managed by their organizations. We determine whether
+    // a profile is managed or not by the presence of the profileDataManager prop.
+    return Boolean(this.props.profileDataManager);
+  }
+
+
+  isEditable(fieldName) {
+    return !this.props.staticFields.includes(fieldName);
+  }
 
   renderDuplicateTpaProviderMessage() {
     if (!this.state.duplicateTpaProvider) {
@@ -224,7 +225,7 @@ class AccountSettingsPage extends React.Component {
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
 
     return (
-      <React.Fragment>
+      <>
         <div className="account-section" id="basic-information">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -247,9 +248,9 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.name}
             label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
-              this.isEditable('name') ?
-                this.props.intl.formatMessage(messages['account.settings.field.full.name.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('name')
+                ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
             isEditable={this.isEditable('name')}
@@ -259,9 +260,9 @@ class AccountSettingsPage extends React.Component {
             name="email"
             label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
             emptyLabel={
-              this.isEditable('email') ?
-                this.props.intl.formatMessage(messages['account.settings.field.email.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('email')
+                ? this.props.intl.formatMessage(messages['account.settings.field.email.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             value={this.props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
@@ -287,9 +288,9 @@ class AccountSettingsPage extends React.Component {
             options={countryOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
-              this.isEditable('country') ?
-                this.props.intl.formatMessage(messages['account.settings.field.country.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('country')
+                ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             isEditable={this.isEditable('country')}
             {...editableFieldProps}
@@ -328,14 +329,15 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-          {getConfig().COACHING_ENABLED &&
-            this.props.formValues.coaching.eligible_for_coaching &&
+          {getConfig().COACHING_ENABLED
+            && this.props.formValues.coaching.eligible_for_coaching
+            && (
             <CoachingToggle
               name="coaching"
               phone_number={this.props.formValues.phone_number}
               coaching={this.props.formValues.coaching}
             />
-          }
+            )}
         </div>
 
         <div className="account-section" id="social-media">
@@ -414,7 +416,7 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-      </React.Fragment>
+      </>
     );
   }
 

@@ -4,9 +4,9 @@ import snakeCase from 'lodash.snakecase';
 export function modifyObjectKeys(object, modify) {
   // If the passed in object is not an object, return it.
   if (
-    object === undefined ||
-    object === null ||
-    (typeof object !== 'object' && !Array.isArray(object))
+    object === undefined
+    || object === null
+    || (typeof object !== 'object' && !Array.isArray(object))
   ) {
     return object;
   }

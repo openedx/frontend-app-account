@@ -12,7 +12,7 @@
     "build": "fedx-scripts webpack",
     "i18n_extract": "BABEL_ENV=i18n fedx-scripts babel src --quiet > /dev/null",
     "is-es5": "es-check es5 ./dist/*.js",
-    "lint": "fedx-scripts eslint",
+    "lint": "fedx-scripts eslint . --ext .js,.jsx",
     "snapshot": "fedx-scripts jest --updateSnapshot",
     "start": "fedx-scripts webpack-dev-server --progress",
     "test": "fedx-scripts jest --coverage --passWithNoTests"
@@ -73,7 +73,7 @@
     "universal-cookie": "4.0.3"
   },
   "devDependencies": {
-    "@edx/frontend-build": "2.0.6",
+    "@edx/frontend-build": "3.1.14",
     "codecov": "3.6.5",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",

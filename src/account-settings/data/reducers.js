@@ -47,11 +47,12 @@ const reducer = (state = defaultState, action) => {
     case FETCH_SETTINGS.SUCCESS:
       return {
         ...state,
-        values: Object.assign({}, state.values, action.payload.values),
+        values: { ...state.values, ...action.payload.values },
         // Dump the providers into thirdPartyAuth.
-        thirdPartyAuth: Object.assign({}, state.thirdPartyAuth, {
+        thirdPartyAuth: {
+          ...state.thirdPartyAuth,
           providers: action.payload.thirdPartyAuthProviders,
-        }),
+        },
         profileDataManager: action.payload.profileDataManager,
         timeZones: action.payload.timeZones,
         loading: false,
@@ -96,9 +97,10 @@ const reducer = (state = defaultState, action) => {
     case UPDATE_DRAFT:
       return {
         ...state,
-        drafts: Object.assign({}, state.drafts, {
+        drafts: {
+          ...state.drafts,
           [action.payload.name]: action.payload.value,
-        }),
+        },
         saveState: null,
         errors: {},
       };
@@ -119,19 +121,18 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         saveState: 'complete',
-        values: Object.assign({}, state.values, action.payload.values),
+        values: { ...state.values, ...action.payload.values },
         errors: {},
-        confirmationValues: Object.assign(
-          {},
-          state.confirmationValues,
-          action.payload.confirmationValues,
-        ),
+        confirmationValues: {
+          ...state.confirmationValues,
+          ...action.payload.confirmationValues,
+        },
       };
     case SAVE_SETTINGS.FAILURE:
       return {
         ...state,
         saveState: 'error',
-        errors: Object.assign({}, state.errors, action.payload.errors),
+        errors: { ...state.errors, ...action.payload.errors },
       };
     case SAVE_SETTINGS.RESET:
       return {

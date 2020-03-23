@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
-import { Button, StatefulButton, Input, ValidationFormGroup } from '@edx/paragon';
+import {
+  Button, StatefulButton, Input, ValidationFormGroup,
+} from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -56,7 +58,7 @@ function EmailField(props) {
   };
 
   const renderConfirmationMessage = () => {
-    if (!confirmationMessageDefinition || !confirmationValue) return null;
+    if (!confirmationMessageDefinition || !confirmationValue) { return null; }
     return (
       <Alert
         className="alert-warning mt-n2"
@@ -91,7 +93,7 @@ function EmailField(props) {
   };
 
   const renderValue = () => {
-    if (confirmationValue) return renderConfirmationValue();
+    if (confirmationValue) { return renderConfirmationValue(); }
     return value || renderEmptyLabel();
   };
 
@@ -132,7 +134,7 @@ function EmailField(props) {
                   // Swallowing the onSubmit event on the form would be better, but
                   // we would have to add that logic for every field given our
                   // current structure of the application.
-                  if (saveState === 'pending') e.preventDefault();
+                  if (saveState === 'pending') { e.preventDefault(); }
                 }}
                 disabledStates={[]}
               />
