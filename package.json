@@ -73,7 +73,7 @@
     "universal-cookie": "4.0.3"
   },
   "devDependencies": {
-    "@edx/frontend-build": "2.0.6",
+    "@edx/frontend-build": "3.1.20",
     "codecov": "3.6.5",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
