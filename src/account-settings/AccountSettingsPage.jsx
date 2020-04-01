@@ -184,7 +184,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderSecondaryEmailField(editableFieldProps) {
-    if (this.props.hiddenFields.includes('secondary_email')) {
+    if (!Boolean(this.props.formValues.secondary_email_enabled)) {
       return null;
     }
 
@@ -504,8 +504,8 @@ AccountSettingsPage.propTypes = {
   })),
   profileDataManager: PropTypes.string,
   staticFields: PropTypes.arrayOf(PropTypes.string),
-  hiddenFields: PropTypes.arrayOf(PropTypes.string),
   isActive: PropTypes.bool,
+  secondary_email_enabled: PropTypes.bool,
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -532,9 +532,9 @@ AccountSettingsPage.defaultProps = {
   countryTimeZoneOptions: [],
   profileDataManager: null,
   staticFields: [],
-  hiddenFields: ['secondary_email'],
   tpaProviders: [],
   isActive: true,
+  secondary_email_enabled: false,
 };
 
 export default connect(accountSettingsPageSelector, {
