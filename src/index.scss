@@ -35,3 +35,18 @@ $fa-font-path: "~font-awesome/fonts";
     flex-grow: 1;
   }
 }
+
+.coaching-header {
+  .logo {
+    display: block;
+    box-sizing: content-box;
+    height: 1.75rem;
+    padding: .75rem 0;
+  }
+}
+
+.coaching-consent {
+  .disclaimer {
+    font-size: 	0.75rem;
+  }
+}

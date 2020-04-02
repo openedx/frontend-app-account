@@ -7,8 +7,21 @@ import { getConfig } from '@edx/frontend-platform';
  * @param {Number} userId users are identified in the api by LMS id
  */
 export async function getCoachingPreferences(userId) {
-  const { data } = await getAuthenticatedHttpClient()
-    .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`);
+  let data = null;
+  try {
+    ({ data } = await getAuthenticatedHttpClient()
+      .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`));
+  } catch (error) {
+    // Default values so the client doesn't fail if the user doesn't have an entry in the
+    // UserCoaching model yet, with the assumption that they'll be eligible for coaching
+    // when they hit this form.
+    data = {
+      coaching_consent: false,
+      user: userId,
+      eligible_for_coaching: true,
+      consent_form_seen: false,
+    };
+  }
   return data;
 }
 

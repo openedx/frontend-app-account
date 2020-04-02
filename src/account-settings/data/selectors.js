@@ -41,6 +41,16 @@ const isEditingSelector = createSelector(
   (name, accountSettings) => accountSettings.openFormId === name,
 );
 
+const confirmationValuesSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.confirmationValues,
+);
+
+const errorSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.errors,
+);
+
 const saveStateSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.saveState,
@@ -157,5 +167,34 @@ export const accountSettingsPageSelector = createSelector(
     staticFields,
     hiddenFields,
     tpaProviders: accountSettings.thirdPartyAuth.providers,
+  }),
+);
+
+export const coachingConsentPageSelector = createSelector(
+  accountSettingsSelector,
+  formValuesSelector,
+  hiddenFieldsSelector,
+  activeAccountSelector,
+  saveStateSelector,
+  confirmationValuesSelector,
+  errorSelector,
+  (
+    accountSettings,
+    formValues,
+    hiddenFields,
+    activeAccount,
+    saveState,
+    confirmationValues,
+    errors,
+  ) => ({
+    loading: accountSettings.loading,
+    loaded: accountSettings.loaded,
+    loadingError: accountSettings.loadingError,
+    isActive: activeAccount,
+    formValues,
+    hiddenFields,
+    saveState,
+    confirmationValues,
+    formErrors: errors,
   }),
 );

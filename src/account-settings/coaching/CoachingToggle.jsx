@@ -9,7 +9,7 @@ import { saveSettings, updateDraft } from '../data/actions';
 import EditableField from '../EditableField';
 
 
-const CoatchingToggle = props => (
+const CoachingToggle = props => (
   <>
     <EditableField
       name="phone_number"
@@ -50,12 +50,12 @@ const CoatchingToggle = props => (
   </>
 );
 
-CoatchingToggle.defaultProps = {
+CoachingToggle.defaultProps = {
   phone_number: '',
   error: '',
 };
 
-CoatchingToggle.propTypes = {
+CoachingToggle.propTypes = {
   name: PropTypes.string.isRequired,
   error: PropTypes.string,
   coaching: PropTypes.objectOf(PropTypes.shape({
@@ -73,4 +73,4 @@ CoatchingToggle.propTypes = {
 export default connect(editableFieldSelector, {
   saveSettings,
   updateDraft,
-})(injectIntl(CoatchingToggle));
+})(injectIntl(CoachingToggle));
