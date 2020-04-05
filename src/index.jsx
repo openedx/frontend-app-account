@@ -31,10 +31,10 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Switch>
-        <Route path="/coaching_consent" component={CoachingConsent} />
+        <Route path="coaching_consent" component={CoachingConsent} />
         <HeaderFooterLayout>
-          <Route exact path="/" component={AccountSettingsPage} />
-          <Route path="/notfound" component={NotFoundPage} />
+          <Route exact path="" component={AccountSettingsPage} />
+          <Route path="notfound" component={NotFoundPage} />
           <Route path="*" component={NotFoundPage} />
         </HeaderFooterLayout>
       </Switch>
