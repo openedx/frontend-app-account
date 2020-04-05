@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "fedx-scripts webpack",
+    "dev-build": "fedx-scripts webpack-dev",
     "i18n_extract": "BABEL_ENV=i18n fedx-scripts babel src --quiet > /dev/null",
     "is-es5": "es-check es5 ./dist/*.js",
     "lint": "fedx-scripts eslint",
@@ -73,7 +74,7 @@
     "universal-cookie": "4.0.3"
   },
   "devDependencies": {
-    "@edx/frontend-build": "kdmccormick/frontend-build#kdmccormick/devstack",
+    "@edx/frontend-build": "github:kdmccormick/frontend-build#kdmccormick/devstack",
     "codecov": "3.6.5",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
