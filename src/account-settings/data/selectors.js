@@ -166,7 +166,6 @@ export const accountSettingsPageSelector = createSelector(
 export const coachingConsentPageSelector = createSelector(
   accountSettingsSelector,
   formValuesSelector,
-  hiddenFieldsSelector,
   activeAccountSelector,
   saveStateSelector,
   confirmationValuesSelector,
@@ -174,7 +173,6 @@ export const coachingConsentPageSelector = createSelector(
   (
     accountSettings,
     formValues,
-    hiddenFields,
     activeAccount,
     saveState,
     confirmationValues,
@@ -185,7 +183,6 @@ export const coachingConsentPageSelector = createSelector(
     loadingError: accountSettings.loadingError,
     isActive: activeAccount,
     formValues,
-    hiddenFields,
     saveState,
     confirmationValues,
     formErrors: errors,
