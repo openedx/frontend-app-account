@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import 'formdata-polyfill';
-import { AppProvider, ErrorPage, AuthenticatedPageRoute } from '@edx/frontend-platform/react';
+import { AppProvider, AuthenticatedPageRoute, ErrorPage } from '@edx/frontend-platform/react';
 import { subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig, getConfig } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,7 +18,6 @@ import appMessages from './i18n';
 
 import './index.scss';
 import './assets/favicon.ico';
-import logo from './assets/headerlogo.svg';
 
 const HeaderFooterLayout = ({ children }) => (
   <div>
@@ -30,34 +29,34 @@ const HeaderFooterLayout = ({ children }) => (
   </div>
 );
 
+const FeatureFlaggedRoute = ({ flagName, ...props }) => (
+  getConfig()[flagName] ? (<Route {...props} />) : null
+);
+
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Switch>
-        <Route path="/coaching_consent" component={CoachingConsent} />
-        {
-          getConfig().ENABLE_LOGIN_AND_REGISTRATION &&
-          <>
-            <Route path="/login" >
-              <div className="registration-header">
-                <img src={logo} alt="edX" className="logo" />
-              </div>
-              <main>
-                <LoginPage />
-              </main>
-            </Route>
-            <Route path="/registration">
-              <div className="registration-header">
-                <img src={logo} alt="edX" className="logo" />
-              </div>
-              <main>
-                <RegistrationPage />
-              </main>
-            </Route>
-          </>
-        }
+        <AuthenticatedPageRoute
+          path="/coaching_consent"
+          component={CoachingConsent}
+        />
         <HeaderFooterLayout>
-          <Route exact path="/" component={AccountSettingsPage} />
+          <AuthenticatedPageRoute
+            exact
+            path="/"
+            component={AccountSettingsPage}
+          />
+          <FeatureFlaggedRoute
+            flagName="LOGISTRATION_ENABLED"
+            path="/login"
+            component={LoginPage}
+          />
+          <FeatureFlaggedRoute
+            flagName="LOGISTRATION_ENABLED"
+            path="/register"
+            component={RegistrationPage}
+          />
           <Route path="/notfound" component={NotFoundPage} />
           <Route path="*" component={NotFoundPage} />
         </HeaderFooterLayout>
@@ -84,7 +83,7 @@ initialize({
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
         COACHING_ENABLED: (process.env.COACHING_ENABLED || false),
-        ENABLE_LOGIN_AND_REGISTRATION: process.env.ENABLE_LOGIN_AND_REGISTRATION,
+        LOGISTRATION_ENABLED: process.env.LOGISTRATION_ENABLED,
       }, 'App loadConfig override handler');
     },
   },
