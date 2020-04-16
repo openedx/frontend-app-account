@@ -11,6 +11,7 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
+import IdVerificationPage from './id-verification';
 import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import appMessages from './i18n';
 
@@ -18,11 +19,11 @@ import './index.scss';
 import './assets/favicon.ico';
 
 const HeaderFooterLayout = ({ children }) => (
-  <div>
+  <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
     <Header />
-      <main>
-        {children}
-      </main>
+    <main className="flex-grow-1">
+      {children}
+    </main>
     <Footer />
   </div>
 );
@@ -33,9 +34,12 @@ subscribe(APP_READY, () => {
       <Switch>
         <Route path="/coaching_consent" component={CoachingConsent} />
         <HeaderFooterLayout>
-          <Route exact path="/" component={AccountSettingsPage} />
-          <Route path="/notfound" component={NotFoundPage} />
-          <Route path="*" component={NotFoundPage} />
+          <Switch>
+            <Route path="/id-verification" component={IdVerificationPage} />
+            <Route exact path="/" component={AccountSettingsPage} />
+            <Route path="/notfound" component={NotFoundPage} />
+            <Route path="*" component={NotFoundPage} />
+          </Switch>
         </HeaderFooterLayout>
       </Switch>
     </AppProvider>,
