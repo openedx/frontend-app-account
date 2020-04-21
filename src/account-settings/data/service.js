@@ -138,11 +138,10 @@ export async function getProfileDataManager(username, userRoles) {
     const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
     if ('results' in data) {
-      for (let i = 0; i < data.results.length; i += 1) {
-        const enterprise = data.results[i].enterprise_customer;
-        if (enterprise.sync_learner_profile_data) {
-          return enterprise.name;
-        }
+      const enterprise = data.results[0].enterprise_customer;
+      // To ensure that enterprise returned is current enterprise & it manages profile settings
+      if (enterprise.sync_learner_profile_data) {
+        return enterprise.name;
       }
     }
   }
