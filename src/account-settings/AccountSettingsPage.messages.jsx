@@ -156,6 +156,21 @@ const messages = defineMessages({
     defaultMessage: 'Select a Country',
     description: 'Option for empty value on account settings country field.',
   },
+  'account.settings.field.state': {
+    id: 'account.settings.field.state',
+    defaultMessage: 'State',
+    description: 'Label for account settings state field.',
+  },
+  'account.settings.field.state.empty': {
+    id: 'account.settings.field.state.empty',
+    defaultMessage: 'Add state',
+    description: 'Placeholder for empty account settings state field.',
+  },
+  'account.settings.field.state.options.empty': {
+    id: 'account.settings.field.state.options.empty',
+    defaultMessage: 'Select a State',
+    description: 'Option for empty value on account settings state field.',
+  },
   'account.settings.field.site.language': {
     id: 'account.settings.field.site.language',
     defaultMessage: 'Site language',

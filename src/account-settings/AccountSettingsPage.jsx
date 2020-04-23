@@ -31,6 +31,8 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
+  COUNTRY_WITH_STATES,
+  getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
@@ -82,11 +84,15 @@ class AccountSettingsPage extends React.Component {
     return concatTimeZoneOptions;
   });
 
-  getLocalizedOptions = memoize(locale => ({
+  getLocalizedOptions = memoize((locale, country) => ({
     countryOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
     }].concat(getCountryList(locale).map(({ code, name }) => ({ value: code, label: name }))),
+    stateOptions: [{
+      value: '',
+      label: this.props.intl.formatMessage(messages['account.settings.field.state.options.empty']),
+    }].concat(getStatesList(country)),
     languageProficiencyOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
@@ -209,11 +215,15 @@ class AccountSettingsPage extends React.Component {
     // Memoized options lists
     const {
       countryOptions,
+      stateOptions,
       languageProficiencyOptions,
       yearOfBirthOptions,
       educationLevelOptions,
       genderOptions,
-    } = this.getLocalizedOptions(this.context.locale);
+    } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
+
+    // Show State field only if the country is US (could include Canada later)
+    const showState = this.props.formValues.country == COUNTRY_WITH_STATES;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -294,6 +304,22 @@ class AccountSettingsPage extends React.Component {
             isEditable={this.isEditable('country')}
             {...editableFieldProps}
           />
+          {showState &&
+            <EditableField
+              name="state"
+              type="select"
+              value={this.props.formValues.state}
+              options={stateOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+              emptyLabel={
+                this.isEditable('state') ?
+                  this.props.intl.formatMessage(messages['account.settings.field.state.empty']) :
+                  this.renderEmptyStaticFieldMessage()
+              }
+              isEditable={this.isEditable('state')}
+              {...editableFieldProps}
+            />
+          }
         </div>
 
         <div className="account-section" id="profile-information">
