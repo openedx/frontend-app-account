@@ -13,12 +13,11 @@ export async function getCoachingPreferences(userId) {
       .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`));
   } catch (error) {
     // Default values so the client doesn't fail if the user doesn't have an entry in the
-    // UserCoaching model yet, with the assumption that they'll be eligible for coaching
-    // when they hit this form.
+    // UserCoaching model yet.
     data = {
       coaching_consent: false,
       user: userId,
-      eligible_for_coaching: true,
+      eligible_for_coaching: false,
       consent_form_seen: false,
     };
   }
