@@ -184,7 +184,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderSecondaryEmailField(editableFieldProps) {
-    if (!Boolean(this.props.formValues.secondary_email_enabled)) {
+    if (Boolean(this.isManagedProfile())) {
       return null;
     }
 
@@ -505,7 +505,6 @@ AccountSettingsPage.propTypes = {
   profileDataManager: PropTypes.string,
   staticFields: PropTypes.arrayOf(PropTypes.string),
   isActive: PropTypes.bool,
-  secondary_email_enabled: PropTypes.bool,
 
   timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -534,7 +533,6 @@ AccountSettingsPage.defaultProps = {
   staticFields: [],
   tpaProviders: [],
   isActive: true,
-  secondary_email_enabled: false,
 };
 
 export default connect(accountSettingsPageSelector, {
