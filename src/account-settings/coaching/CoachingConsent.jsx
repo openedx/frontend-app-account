@@ -132,14 +132,14 @@ class CoachingConsent extends React.Component {
     const coachingValues = this.props.formValues.coaching;
 
     // These will overwrite each other's redux states (see componentDidUpdate note)
-    this.props.saveSettings('name', fullName);
-    this.props.saveSettings('phone_number', phoneNumber);
-    this.props.saveSettings('coaching', {
+    await this.props.saveSettings('coaching', {
       ...coachingValues,
       phone_number: phoneNumber,
       coaching_consent: true,
       consent_form_seen: true,
     });
+    await this.props.saveSettings('name', fullName);
+    await this.props.saveSettings('phone_number', phoneNumber);
   }
 
   async declineCoaching(e) {
