@@ -1,5 +1,6 @@
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
+import get from 'lodash.get';
 
 /**
  * get all settings related to the coaching plugin. Settings used
@@ -39,9 +40,11 @@ export async function patchCoachingPreferences(userId, commitValues) {
     .catch((error) => {
       const apiError = Object.create(error);
       apiError.fieldErrors = JSON.parse(error.customAttributes.httpErrorResponseData);
-      // eslint-disable-next-line prefer-destructuring
-      apiError.fieldErrors.coaching = apiError.fieldErrors.phone_number[0];
-      delete apiError.fieldErrors.phone_number;
+      if (get(apiError, 'fieldErrors.phone_number')) {
+        // eslint-disable-next-line prefer-destructuring
+        apiError.fieldErrors.coaching = apiError.fieldErrors.phone_number[0];
+        delete apiError.fieldErrors.phone_number;
+      }
       throw apiError;
     });
   return commitValues;
