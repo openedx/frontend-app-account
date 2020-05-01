@@ -8,20 +8,8 @@ import get from 'lodash.get';
  * @param {Number} userId users are identified in the api by LMS id
  */
 export async function getCoachingPreferences(userId) {
-  let data = null;
-  try {
-    ({ data } = await getAuthenticatedHttpClient()
-      .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`));
-  } catch (error) {
-    // Default values so the client doesn't fail if the user doesn't have an entry in the
-    // UserCoaching model yet.
-    data = {
-      coaching_consent: false,
-      user: userId,
-      eligible_for_coaching: false,
-      consent_form_seen: false,
-    };
-  }
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`);
   return data;
 }
 
