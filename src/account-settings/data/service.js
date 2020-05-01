@@ -137,10 +137,10 @@ export async function getProfileDataManager(username, userRoles) {
     const url = `${getConfig().LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
     const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
-    if ('results' in data) {
-      const enterprise = data.results[0].enterprise_customer;
+    if (data.results.length > 0) {
+      const enterprise = data.results[0] && data.results[0].enterprise_customer;
       // To ensure that enterprise returned is current enterprise & it manages profile settings
-      if (enterprise.sync_learner_profile_data) {
+      if (enterprise && enterprise.sync_learner_profile_data) {
         return enterprise.name;
       }
     }
