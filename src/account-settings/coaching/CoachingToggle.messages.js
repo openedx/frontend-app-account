@@ -18,7 +18,7 @@ const messages = defineMessages({
   },
   'account.settings.field.coaching_consent.tooltip': {
     id: 'account.settings.field.coaching_consent.tooltip',
-    defaultMessage: 'MicroBachelors programs include text message based coaching that helps you pair educational experiences with your career goals through one-on-one advice. Coaching services are included at no additional cost, and are available in English and Spanish languages. Standard messaging rates apply. Text ‘STOP’ at anytime to opt-out of messages.',
+    defaultMessage: 'MicroBachelors programs include text message based coaching that helps you pair educational experiences with your career goals through one-on-one advice. Coaching services are included at no additional cost, and are available to learners with U.S. mobile phone numbers. Standard messaging rates apply. Text ‘STOP’ at anytime to opt-out of messages.',
     description: 'A tooltip explaining what coaching is and who it is for',
   },
   'account.settings.field.coaching_consent.error': {
