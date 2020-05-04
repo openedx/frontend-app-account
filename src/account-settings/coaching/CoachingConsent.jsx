@@ -125,6 +125,7 @@ class CoachingConsent extends React.Component {
     this.setState({
       formErrors: {},
       formSubmitted: true,
+      declineSubmitted: false,
     });
     // Must store target values or they disappear before the async function can use them.
     const fullName = e.target.fullName.value;
@@ -147,6 +148,7 @@ class CoachingConsent extends React.Component {
     this.setState({
       formErrors: {},
       declineSubmitted: true,
+      formSubmitted: false,
     });
     // Must store target values or they disappear before the async function can use them.
     const coachingValues = this.props.formValues.coaching;
