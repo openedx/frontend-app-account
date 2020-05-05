@@ -10,8 +10,8 @@ import get from 'lodash.get';
 export async function getCoachingPreferences(userId) {
   let data = {};
   try {
-    data = await getAuthenticatedHttpClient()
-      .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`);
+    ({ data } = await getAuthenticatedHttpClient()
+      .get(`${getConfig().LMS_BASE_URL}/api/coaching/v1/users/${userId}/`));
   } catch (error) {
     // If a user isn't active the API call will fail with a lack of credentials.
     data = {
