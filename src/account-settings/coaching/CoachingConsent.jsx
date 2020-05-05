@@ -12,7 +12,7 @@ import PageLoading from '../PageLoading';
 import CoachingConsentForm from './CoachingConsentForm';
 import messages from './CoachingConsent.messages';
 import LogoSVG from '../../logo.svg';
-import { fetchSettings, saveSettings } from '../data/actions';
+import { fetchSettings, saveSettings, saveMultipleSettings } from '../data/actions';
 import { coachingConsentPageSelector } from '../data/selectors';
 
 const Logo = ({ src, alt, ...attributes }) => (
@@ -96,9 +96,7 @@ class CoachingConsent extends React.Component {
     // Check if all values from the form have confirmation values
     if (
       this.state.formSubmitted &&
-      this.props.confirmationValues.coaching &&
-      this.props.confirmationValues.name &&
-      this.props.confirmationValues.phone_number
+      this.props.saveState === 'success'
     ) {
       allSubmissionsComplete = true;
     }
@@ -132,15 +130,28 @@ class CoachingConsent extends React.Component {
     const phoneNumber = e.target.phoneNumber.value;
     const coachingValues = this.props.formValues.coaching;
 
-    // These will overwrite each other's redux states (see componentDidUpdate note)
-    await this.props.saveSettings('coaching', {
-      ...coachingValues,
-      phone_number: phoneNumber,
-      coaching_consent: true,
-      consent_form_seen: true,
-    });
-    await this.props.saveSettings('name', fullName);
-    await this.props.saveSettings('phone_number', phoneNumber);
+    // !important: The order of this data matters!
+    // The order that this data is in, is the order that the saveSettings() function
+    // is called.
+    this.props.saveMultipleSettings([
+      {
+        formId: 'name',
+        commitValues: fullName,
+      },
+      {
+        formId: 'coaching',
+        commitValues: {
+          ...coachingValues,
+          phone_number: phoneNumber,
+          coaching_consent: true,
+          consent_form_seen: true,
+        },
+      },
+      {
+        formId: 'phone_number',
+        commitValues: phoneNumber,
+      },
+    ]);
   }
 
   async declineCoaching(e) {
@@ -193,7 +204,6 @@ class CoachingConsent extends React.Component {
     const { loaded } = this.props;
     const formHasErrors = Object.keys(this.state.formErrors).length > 0;
     let currentView = null;
-
     // This amount of logic was making the template very hard to read, so I broke it out into views.
     if (!loaded) {
       currentView = VIEWS.NOT_LOADED;
@@ -262,6 +272,7 @@ AutoRedirect.propTypes = {
 
 CoachingConsent.defaultProps = {
   loaded: false,
+  saveState: undefined,
 };
 
 CoachingConsent.propTypes = {
@@ -287,9 +298,11 @@ CoachingConsent.propTypes = {
   }).isRequired,
   fetchSettings: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
+  saveState: PropTypes.string,
 };
 
 export default connect(coachingConsentPageSelector, {
   fetchSettings,
   saveSettings,
+  saveMultipleSettings,
 })(injectIntl(CoachingConsent));

@@ -7,6 +7,7 @@ import {
   SAVE_PREVIOUS_SITE_LANGUAGE,
   UPDATE_DRAFT,
   RESET_DRAFTS,
+  SAVE_MULTIPLE_SETTINGS,
 } from './actions';
 
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
@@ -143,6 +144,24 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         previousSiteLanguage: action.payload.previousSiteLanguage,
+      };
+    case SAVE_MULTIPLE_SETTINGS.BEGIN:
+      return {
+        ...state,
+        saveState: 'pending',
+      };
+
+    case SAVE_MULTIPLE_SETTINGS.SUCCESS:
+      return {
+        ...state,
+        saveState: 'success',
+      };
+
+    case SAVE_MULTIPLE_SETTINGS.FAILURE:
+      return {
+        ...state,
+        saveState: 'error',
+        errors: Object.assign({}, state.errors, action.payload.errors),
       };
 
     case FETCH_TIME_ZONES.SUCCESS:

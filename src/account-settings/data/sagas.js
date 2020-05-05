@@ -12,6 +12,7 @@ import {
   fetchSettingsFailure,
   closeForm,
   SAVE_SETTINGS,
+  SAVE_MULTIPLE_SETTINGS,
   saveSettingsBegin,
   saveSettingsSuccess,
   saveSettingsFailure,
@@ -19,6 +20,9 @@ import {
   FETCH_TIME_ZONES,
   fetchTimeZones,
   fetchTimeZonesSuccess,
+  saveMultipleSettingsBegin,
+  saveMultipleSettingsSuccess,
+  saveMultipleSettingsFailure,
 } from './actions';
 
 // Sub-modules
@@ -100,6 +104,28 @@ export function* handleSaveSettings(action) {
   }
 }
 
+
+// handles mutiple settings saved at once, in order, and stops executing on first failure.
+export function* handleSaveMultipleSettings(settings) {
+  try {
+    yield put(saveMultipleSettingsBegin());
+    const { username, userId } = getAuthenticatedUser();
+    const { settingsArray } = settings.payload;
+    for (let i = 0; i < settingsArray.length; i += 1) {
+      const { formId, commitValues } = settingsArray[i];
+      yield call(patchSettings, username, { [formId]: commitValues }, userId);
+    }
+    yield put(saveMultipleSettingsSuccess(settings));
+  } catch (e) {
+    if (e.fieldErrors) {
+      yield put(saveMultipleSettingsFailure({ fieldErrors: e.fieldErrors }));
+    } else {
+      yield put(saveMultipleSettingsFailure(e.message));
+      throw e;
+    }
+  }
+}
+
 export function* handleFetchTimeZones(action) {
   const response = yield call(getTimeZones, action.payload.country);
   yield put(fetchTimeZonesSuccess(response, action.payload.country));
@@ -109,6 +135,7 @@ export function* handleFetchTimeZones(action) {
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
+  yield takeEvery(SAVE_MULTIPLE_SETTINGS.BASE, handleSaveMultipleSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield all([
     deleteAccountSaga(),
