@@ -37,9 +37,11 @@ const CoachingToggle = props => (
         value={props.coaching.coaching_consent}
         onChange={async (e) => {
           const { name } = e.target;
+          // eslint-disable-next-line camelcase
+          const { user, eligible_for_coaching } = props.coaching;
           const value = {
-            ...props.coaching,
-            phone_number: props.phone_number,
+            user,
+            eligible_for_coaching,
             coaching_consent: e.target.checked,
           };
           props.saveSettings(name, value);
