@@ -2,6 +2,7 @@ import { AsyncActionType } from './utils';
 
 export const FETCH_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_SETTINGS');
 export const SAVE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_SETTINGS');
+export const SAVE_MULTIPLE_SETTINGS = new AsyncActionType('ACCOUNT_SETTINGS', 'SAVE_MULTIPLE_SETTINGS');
 export const FETCH_TIME_ZONES = new AsyncActionType('ACCOUNT_SETTINGS', 'FETCH_TIME_ZONES');
 export const SAVE_PREVIOUS_SITE_LANGUAGE = 'SAVE_PREVIOUS_SITE_LANGUAGE';
 export const OPEN_FORM = 'OPEN_FORM';
@@ -97,6 +98,25 @@ export const saveSettingsFailure = ({ fieldErrors, message }) => ({
 export const savePreviousSiteLanguage = previousSiteLanguage => ({
   type: SAVE_PREVIOUS_SITE_LANGUAGE,
   payload: { previousSiteLanguage },
+});
+
+export const saveMultipleSettings = settingsArray => ({
+  type: SAVE_MULTIPLE_SETTINGS.BASE,
+  payload: { settingsArray },
+});
+
+export const saveMultipleSettingsBegin = () => ({
+  type: SAVE_MULTIPLE_SETTINGS.BEGIN,
+});
+
+export const saveMultipleSettingsSuccess = settingsArray => ({
+  type: SAVE_MULTIPLE_SETTINGS.SUCCESS,
+  payload: { settingsArray },
+});
+
+export const saveMultipleSettingsFailure = ({ fieldErrors, message }) => ({
+  type: SAVE_MULTIPLE_SETTINGS.FAILURE,
+  payload: { errors: fieldErrors, message },
 });
 
 // FETCH TIME_ZONE ACTIONS
