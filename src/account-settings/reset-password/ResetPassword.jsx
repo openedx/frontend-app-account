@@ -7,6 +7,7 @@ import { StatefulButton } from '@edx/paragon';
 import { resetPassword } from './data/actions';
 import messages from './messages';
 import ConfirmationAlert from './ConfirmationAlert';
+import RequestInProgressAlert from './RequestInProgressAlert';
 
 const ResetPassword = (props) => {
   const { email, intl, status } = props;
@@ -43,6 +44,7 @@ const ResetPassword = (props) => {
         />
       </p>
       {status === 'complete' ? <ConfirmationAlert email={email} /> : null}
+      {status === 'forbidden' ? <RequestInProgressAlert /> : null}
     </div>
   );
 };

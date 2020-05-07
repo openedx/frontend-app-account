@@ -17,6 +17,11 @@ const reducer = (state = defaultState, action = null) => {
           ...state,
           status: 'complete',
         };
+      case RESET_PASSWORD.FORBIDDEN:
+        return {
+          ...state,
+          status: 'forbidden',
+        };
 
       default:
     }

@@ -1,12 +1,20 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 
-import { resetPasswordBegin, resetPasswordSuccess, RESET_PASSWORD } from './actions';
+import { resetPasswordBegin, resetPasswordForbidden, resetPasswordSuccess, RESET_PASSWORD } from './actions';
 import { postResetPassword } from './service';
 
 function* handleResetPassword(action) {
   yield put(resetPasswordBegin());
-  const response = yield call(postResetPassword, action.payload.email);
-  yield put(resetPasswordSuccess(response));
+  try {
+    const response = yield call(postResetPassword, action.payload.email);
+    yield put(resetPasswordSuccess(response));
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      yield put(resetPasswordForbidden(error));
+    } else {
+      throw error;
+    }
+  }
 }
 
 export default function* saga() {
