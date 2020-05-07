@@ -18,3 +18,7 @@ export const resetPasswordSuccess = () => ({
 export const resetPasswordReset = () => ({
   type: RESET_PASSWORD.RESET,
 });
+
+export const resetPasswordForbidden = () => ({
+  type: RESET_PASSWORD.FORBIDDEN,
+});

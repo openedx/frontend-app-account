@@ -27,6 +27,10 @@ export class AsyncActionType {
   get RESET() {
     return `${this.topic}__${this.name}__RESET`;
   }
+
+  get FORBIDDEN() {
+    return `${this.topic}__${this.name}__FORBIDDEN`;
+  }
 }
 
 /**

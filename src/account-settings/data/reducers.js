@@ -196,6 +196,7 @@ const reducer = (state = defaultState, action) => {
 
     case RESET_PASSWORD.BEGIN:
     case RESET_PASSWORD.SUCCESS:
+    case RESET_PASSWORD.FORBIDDEN:
       return {
         ...state,
         resetPassword: resetPasswordReducer(state.resetPassword, action),
