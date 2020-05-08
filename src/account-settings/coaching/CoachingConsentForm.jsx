@@ -1,15 +1,30 @@
 import React from 'react';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { getConfig } from '@edx/frontend-platform';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Input, Button, Hyperlink } from '@edx/paragon';
+
 import PropTypes from 'prop-types';
 
+import Alert from '../Alert';
 import messages from './CoachingConsent.messages';
 
 const ErrorMessage = props => (
   <div className="alert-warning mb-2">{props.message}</div>
 );
 
+const ManagedProfileAlert = ({ profileDataManager }) => (
+  <Alert className="alert alert-primary" role="alert">
+    <FormattedMessage
+      id="account.settings.coaching.managed.alert"
+      defaultMessage="Your name is managed by {managerTitle}. Contact your administrator for help."
+      description="alert message informing the user their account data is managed by a third party"
+      values={{
+        managerTitle: <b>{profileDataManager}</b>,
+      }}
+    />
+  </Alert>
+);
 const CoachingForm = props => (
   <div className="col-12 col-md-6 col-xl-5 mx-auto mt-4 p-5 shadow-lg">
     <h2 className="h2">
@@ -19,12 +34,17 @@ const CoachingForm = props => (
     <div>
       <form onSubmit={props.onSubmit}>
         <div className="py-3">
+          {
+            !!props.profileDataManager &&
+            <ManagedProfileAlert profileDataManager={props.profileDataManager} />
+          }
           <ErrorMessage message={props.formErrors.name} />
           <label className="h6" htmlFor="fullName">{props.intl.formatMessage(messages['account.settings.coaching.consent.label.name'])}</label>
           <Input
             type="text"
             name="full-name"
             id="fullName"
+            disabled={!!props.profileDataManager}
             defaultValue={props.formValues.name}
           />
         </div>
@@ -91,6 +111,7 @@ CoachingForm.propTypes = {
     phone_number: PropTypes.string,
   }),
   redirectUrl: PropTypes.string.isRequired,
+  profileDataManager: PropTypes.string.isRequired,
 };
 
 ErrorMessage.defaultProps = {
@@ -99,6 +120,11 @@ ErrorMessage.defaultProps = {
 
 ErrorMessage.propTypes = {
   message: PropTypes.string,
+};
+
+ManagedProfileAlert.propTypes = {
+  profileDataManager: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default injectIntl(CoachingForm);
