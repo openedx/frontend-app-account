@@ -133,11 +133,14 @@ class CoachingConsent extends React.Component {
     // !important: The order of this data matters!
     // The order that this data is in, is the order that the saveSettings() function
     // is called.
-    this.props.saveMultipleSettings([
-      {
+    const settingsSubmissions = [];
+    if (!this.props.profileDataManager) {
+      settingsSubmissions.push({
         formId: 'name',
         commitValues: fullName,
-      },
+      });
+    }
+    Array.prototype.push.apply(settingsSubmissions, [
       {
         formId: 'coaching',
         commitValues: {
@@ -152,6 +155,7 @@ class CoachingConsent extends React.Component {
         commitValues: phoneNumber,
       },
     ]);
+    this.props.saveMultipleSettings(settingsSubmissions);
   }
 
   async declineCoaching(e) {
@@ -181,6 +185,7 @@ class CoachingConsent extends React.Component {
           formErrors={this.state.formErrors}
           formValues={this.props.formValues}
           redirectUrl={this.state.redirectUrl}
+          profileDataManager={this.props.profileDataManager}
         />);
       case VIEWS.SUCCESS_PENDING:
         return <PageLoading srMessage="Submitting..." />;
@@ -273,6 +278,7 @@ AutoRedirect.propTypes = {
 CoachingConsent.defaultProps = {
   loaded: false,
   saveState: undefined,
+  profileDataManager: null,
 };
 
 CoachingConsent.propTypes = {
@@ -298,7 +304,9 @@ CoachingConsent.propTypes = {
   }).isRequired,
   fetchSettings: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
+  saveMultipleSettings: PropTypes.func.isRequired,
   saveState: PropTypes.string,
+  profileDataManager: PropTypes.string,
 };
 
 export default connect(coachingConsentPageSelector, {

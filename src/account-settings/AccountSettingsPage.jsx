@@ -488,11 +488,11 @@ AccountSettingsPage.propTypes = {
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
-    coaching: PropTypes.objectOf(PropTypes.shape({
-      coaching_consent: PropTypes.string.isRequired,
+    coaching: PropTypes.shape({
+      coaching_consent: PropTypes.bool.isRequired,
       user: PropTypes.number.isRequired,
       eligible_for_coaching: PropTypes.bool.isRequired,
-    })),
+    }),
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,

@@ -56,6 +56,11 @@ const messages = defineMessages({
     defaultMessage: 'Start my course',
     description: 'Text that the user will be sent back to the courseware',
   },
+  'account.settings.coaching.managed.support': {
+    id: 'account.settings.coaching.managed.support',
+    defaultMessage: 'support',
+    description: 'website support',
+  },
 });
 
 export default messages;

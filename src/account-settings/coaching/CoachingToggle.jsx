@@ -55,17 +55,18 @@ const CoachingToggle = props => (
 CoachingToggle.defaultProps = {
   phone_number: '',
   error: '',
+  saveState: undefined,
 };
 
 CoachingToggle.propTypes = {
   name: PropTypes.string.isRequired,
   error: PropTypes.string,
-  coaching: PropTypes.objectOf(PropTypes.shape({
-    coaching_consent: PropTypes.string.isRequired,
+  coaching: PropTypes.shape({
+    coaching_consent: PropTypes.bool.isRequired,
     user: PropTypes.number.isRequired,
     eligible_for_coaching: PropTypes.bool.isRequired,
-  })).isRequired,
-  saveState: PropTypes.func.isRequired,
+  }).isRequired,
+  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   saveSettings: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
