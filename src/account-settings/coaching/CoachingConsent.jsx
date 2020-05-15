@@ -96,7 +96,7 @@ class CoachingConsent extends React.Component {
     // Check if all values from the form have confirmation values
     if (
       this.state.formSubmitted &&
-      this.props.saveState === 'success'
+      this.props.saveState === 'complete'
     ) {
       allSubmissionsComplete = true;
     }
