@@ -115,8 +115,7 @@ export function* handleSaveMultipleSettings(settings) {
       const { formId, commitValues } = settingsArray[i];
       yield put(saveSettingsBegin());
       const commitData = { [formId]: commitValues };
-      let savedSettings = commitData;
-      savedSettings = yield call(patchSettings, username, commitData, userId);
+      const savedSettings = yield call(patchSettings, username, commitData, userId);
       yield put(saveSettingsSuccess(savedSettings, commitData));
     }
     yield put(saveMultipleSettingsSuccess(settings));
