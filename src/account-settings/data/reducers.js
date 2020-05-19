@@ -154,7 +154,7 @@ const reducer = (state = defaultState, action) => {
     case SAVE_MULTIPLE_SETTINGS.SUCCESS:
       return {
         ...state,
-        saveState: 'success',
+        saveState: 'complete',
       };
 
     case SAVE_MULTIPLE_SETTINGS.FAILURE:

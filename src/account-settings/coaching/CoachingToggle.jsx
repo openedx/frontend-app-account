@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { ValidationFormGroup, Input } from '@edx/paragon';
 import messages from './CoachingToggle.messages';
 import { editableFieldSelector } from '../data/selectors';
-import { saveSettings, updateDraft } from '../data/actions';
+import { saveSettings, updateDraft, saveMultipleSettings } from '../data/actions';
 import EditableField from '../EditableField';
 
 
@@ -18,7 +18,25 @@ const CoachingToggle = props => (
       label={props.intl.formatMessage(messages['account.settings.field.phone_number'])}
       emptyLabel={props.intl.formatMessage(messages['account.settings.field.phone_number.empty'])}
       onChange={props.updateDraft}
-      onSubmit={props.saveSettings}
+      onSubmit={() => {
+        const { coaching } = props;
+        if (coaching.coaching_consent === true) {
+          return props.saveMultipleSettings([
+            {
+              formId: 'coaching',
+              commitValues: {
+                ...coaching,
+                phone_number: props.phone_number,
+              },
+            },
+            {
+              formId: 'phone_number',
+              commitValues: props.phone_number,
+            },
+        ]);
+      }
+        return props.saveSettings('phone_number', props.phone_number);
+    }}
     />
     <ValidationFormGroup
       for="coachingConsent"
@@ -68,6 +86,7 @@ CoachingToggle.propTypes = {
   }).isRequired,
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   saveSettings: PropTypes.func.isRequired,
+  saveMultipleSettings: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   phone_number: PropTypes.string,
@@ -76,4 +95,5 @@ CoachingToggle.propTypes = {
 export default connect(editableFieldSelector, {
   saveSettings,
   updateDraft,
+  saveMultipleSettings,
 })(injectIntl(CoachingToggle));

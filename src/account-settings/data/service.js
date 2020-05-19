@@ -183,7 +183,7 @@ export async function patchSettings(username, commitValues, userId) {
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
   const coachingKeys = ['coaching'];
-  const accountCommitValues = omit(commitValues, preferenceKeys);
+  const accountCommitValues = omit(commitValues, preferenceKeys, coachingKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
   const coachingCommitValues = pick(commitValues, coachingKeys);
   const patchRequests = [];
