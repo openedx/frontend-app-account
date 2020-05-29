@@ -19,6 +19,8 @@ export class ConfirmationModal extends Component {
     switch (reason) {
       case 'empty-password':
         return 'account.settings.delete.account.error.no.password';
+      case 'invalid-password':
+        return 'account.settings.delete.account.error.invalid.password';
       default:
         return 'account.settings.delete.account.error.unable.to.delete';
     }

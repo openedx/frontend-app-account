@@ -91,6 +91,11 @@ const messages = defineMessages({
     defaultMessage: 'A password is required',
     description: 'Error message when user has not entered their password',
   },
+  'account.settings.delete.account.error.invalid.password': {
+    id: 'account.settings.delete.account.error.invalid.password',
+    defaultMessage: 'Password is incorrect',
+    description: 'Error message when user has entered incorrect password',
+  },
   'account.settings.delete.account.error.unable.to.delete.details': {
     id: 'account.settings.delete.account.error.unable.to.delete.details',
     defaultMessage: 'Sorry, there was an error trying to process your request. Please try again later.',

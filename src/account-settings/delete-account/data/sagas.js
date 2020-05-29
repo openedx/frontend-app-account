@@ -15,7 +15,9 @@ export function* handleDeleteAccount(action) {
     const response = yield call(postDeleteAccount, action.payload.password);
     yield put(deleteAccountSuccess(response));
   } catch (e) {
-    if (typeof e.response.data === 'string') {
+    if (e.response.status === 403) {
+      yield put(deleteAccountFailure('invalid-password'));
+    } else if (typeof e.response.data === 'string') {
       yield put(deleteAccountFailure());
     } else {
       throw e;
