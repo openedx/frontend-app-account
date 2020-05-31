@@ -116,6 +116,7 @@
   "account.settings.delete.account.modal.confirm.cancel": "Cancel",
   "account.settings.delete.account.error.unable.to.delete": "Unable to delete account",
   "account.settings.delete.account.error.no.password": "A password is required",
+  "account.settings.delete.account.error.invalid.password": "Password is incorrect",
   "account.settings.delete.account.error.unable.to.delete.details": "Sorry, there was an error trying to process your request. Please try again later.",
   "account.settings.delete.account.modal.after.header": "We're sorry to see you go!  Your account will be deleted shortly.",
   "account.settings.delete.account.modal.after.text": "Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.",

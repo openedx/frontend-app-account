@@ -116,6 +116,7 @@
   "account.settings.delete.account.modal.confirm.cancel": "Cancelar",
   "account.settings.delete.account.error.unable.to.delete": "No es posible eliminar esta cuenta",
   "account.settings.delete.account.error.no.password": "Se requiere una contraseña",
+  "account.settings.delete.account.error.invalid.password": "Password is incorrect",
   "account.settings.delete.account.error.unable.to.delete.details": "Ocurrió un error al procesar tu solicitud. Por favor, intente nuevamente más tarde.",
   "account.settings.delete.account.modal.after.header": "¡Sentimos que te vayas! Tu cuenta será eliminada en breve.",
   "account.settings.delete.account.modal.after.text": "La eliminación de cuenta, incluyendo la eliminación de las listas de correo electrónico, puede tardar unas semanas en procesarse totalmente en nuestro sistema. Si quieres renunciar a recibir correos antes de que la eliminación se haya completado, por favor date de baja mediante el enlace que aparece al final de los correos.",
