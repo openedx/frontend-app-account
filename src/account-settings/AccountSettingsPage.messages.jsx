@@ -46,6 +46,11 @@ const messages = defineMessages({
     defaultMessage: 'Profile Information',
     description: 'The profile information section heading.',
   },
+  'account.settings.section.demographics.information': {
+    id: 'account.settings.section.demographics.information',
+    defaultMessage: 'Optional Information',
+    description: 'The optional information section heading.',
+  },
   'account.settings.section.site.preferences': {
     id: 'account.settings.section.site.preferences',
     defaultMessage: 'Site Preferences',
@@ -287,6 +292,7 @@ const messages = defineMessages({
     defaultMessage: 'Select a Language',
     description: 'Option for an empty value on account settings spoken languages field.',
   },
+
   'account.settings.field.time.zone': {
     id: 'account.settings.field.time.zone',
     defaultMessage: 'Time zone',
