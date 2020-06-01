@@ -112,3 +112,90 @@ const COUNTRY_STATES_MAP = {
 export function getStatesList(country) {
   return country && COUNTRY_STATES_MAP[country.toUpperCase()];
 }
+
+// TODO: Need the real values from Justin’s work
+export const DEMOGRAPHICS_GENDER_OPTIONS = [
+  '',
+  'w',
+  'm',
+  'nb',
+  'sd',
+];
+
+export const DEMOGRAPHICS_ETHNICITY_OPTIONS = [
+  '',
+  'american-indian-or-alaska-native',
+  'asian',
+  'black-or-african-american',
+  'hispanic-latin-spanish',
+  'middle-eastern-or-north-african',
+  'native-hawaiian-or-pacific-islander',
+  'white',
+  'other',
+];
+
+export const DEMOGRAPHICS_INCOME_OPTIONS = [
+  '',
+  'less-than-10k',
+  '10k-25k',
+  '25k-50k',
+  '50k-75k',
+  'over-100k',
+  'unsure',
+]
+
+export const DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS = [
+  '',
+  'never-served',
+  'training',
+  'active',
+  'previously-active',
+]
+
+export const DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS = [
+  '',
+  'no-high-school',
+  'some-high-school',
+  'high-school-ged-equivalent',
+  'some-college',
+  'associates',
+  'bachelors',
+  'masters',
+  'professional',
+  'doctorate',
+]
+
+export const DEMOGRAPHICS_WORK_STATUS_OPTIONS = [
+  '',
+  'full-time',
+  'part-time',
+  'not-employed-looking',
+  'not-employed-not-looking',
+  'unable',
+  'retired',
+  'other',
+]
+
+export const DEMOGRAPHICS_WORK_SECTOR_OPTIONS = [
+  '',
+  'accommodation-food',
+  'administrative-support-waste-remediation',
+  'agriculture-forestry-fishing-hunting',
+  'arts-entertainment-recreation',
+  'construction',
+  'educational',
+  'finance-insurance',
+  'healthcare-social',
+  'information',
+  'management',
+  'manufacturing',
+  'mining-quarry-oil-gas',
+  'professional-scientific-technical',
+  'public-admin',
+  'real-estate',
+  'retail',
+  'transport-warehousing',
+  'utilities',
+  'trade',
+  'other',
+]

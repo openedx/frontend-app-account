@@ -13,6 +13,7 @@ function JumpNav({ intl }) {
         items={[
           'basic-information',
           'profile-information',
+          'demographics-information',
           'social-media',
           'site-preferences',
           'linked-accounts',
@@ -29,6 +30,11 @@ function JumpNav({ intl }) {
         <li>
           <NavHashLink to="#profile-information">
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
+          </NavHashLink>
+        </li>
+        <li>
+          <NavHashLink to="#demographics-information">
+            {intl.formatMessage(messages['account.settings.section.demographics.information'])}
           </NavHashLink>
         </li>
         <li>
