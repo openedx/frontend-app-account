@@ -713,6 +713,11 @@ const messages = defineMessages({
     defaultMessage: 'Other',
     description: 'The label for the Other work sector option.',
   },
+  'account.settings.field.demographics.options.declined': {
+    id: 'account.settings.field.demographics.options.declined',
+    defaultMessage: 'Prefer not to respond',
+    description: 'The label for the declined option.',
+  },
 
   'account.settings.field.time.zone': {
     id: 'account.settings.field.time.zone',

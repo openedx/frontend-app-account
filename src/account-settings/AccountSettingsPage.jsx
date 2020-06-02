@@ -119,32 +119,39 @@ class AccountSettingsPage extends React.Component {
     demographicsGenderOptions: DEMOGRAPHICS_GENDER_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.gender.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsEthnicityOptions: DEMOGRAPHICS_ETHNICITY_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsIncomeOptions: DEMOGRAPHICS_INCOME_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.income.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsMilitaryHistoryOptions: DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.military_history.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsEducationLevelOptions: DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.education_level.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsWorkStatusOptions: DEMOGRAPHICS_WORK_STATUS_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_status.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
     demographicsWorkSectorOptions: DEMOGRAPHICS_WORK_SECTOR_OPTIONS.map(key => ({
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_sector.options.${key || 'empty'}`]),
-    })),
+    })).concat(this.getDeclinedOption()),
   }));
+
+  getDeclinedOption() {
+    return [{
+      value: 'declined',
+      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`])
+    }]
+  }
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
