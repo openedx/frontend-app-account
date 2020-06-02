@@ -31,18 +31,12 @@ import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
-  DEMOGRAPHICS_GENDER_OPTIONS,
-  DEMOGRAPHICS_ETHNICITY_OPTIONS,
-  DEMOGRAPHICS_INCOME_OPTIONS,
-  DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS,
-  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
-  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
-  DEMOGRAPHICS_WORK_SECTOR_OPTIONS,
   COUNTRY_WITH_STATES,
   getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
+import DemographicsSection from './demographics/DemographicsSection';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -116,42 +110,7 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
     })),
-    demographicsGenderOptions: DEMOGRAPHICS_GENDER_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.gender.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsEthnicityOptions: DEMOGRAPHICS_ETHNICITY_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsIncomeOptions: DEMOGRAPHICS_INCOME_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.income.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsMilitaryHistoryOptions: DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.military_history.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsEducationLevelOptions: DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.education_level.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsWorkStatusOptions: DEMOGRAPHICS_WORK_STATUS_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_status.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsWorkSectorOptions: DEMOGRAPHICS_WORK_SECTOR_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_sector.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
   }));
-
-  getDeclinedOption() {
-    return [{
-      value: 'declined',
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`])
-    }]
-  }
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
@@ -262,13 +221,6 @@ class AccountSettingsPage extends React.Component {
       yearOfBirthOptions,
       educationLevelOptions,
       genderOptions,
-      demographicsGenderOptions,
-      demographicsEthnicityOptions,
-      demographicsIncomeOptions,
-      demographicsMilitaryHistoryOptions,
-      demographicsEducationLevelOptions,
-      demographicsWorkStatusOptions,
-      demographicsWorkSectorOptions,
     } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
@@ -413,93 +365,7 @@ class AccountSettingsPage extends React.Component {
           }
         </div>
 
-        <div className="account-section" id="demographics-information">
-          <h2 className="section-heading">
-            {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
-          </h2>
-
-          <EditableField
-            name="demographics_gender"
-            type="select"
-            value={this.props.formValues.demographics_gender}
-            options={demographicsGenderOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_ethnicity"
-            type="select"
-            value={this.props.formValues.demographics_ethnicity}
-            options={demographicsEthnicityOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_income"
-            type="select"
-            value={this.props.formValues.demographics_income}
-            options={demographicsIncomeOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.income'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.income.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_military_history"
-            type="select"
-            value={this.props.formValues.demographics_military_history}
-            options={demographicsMilitaryHistoryOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_learner_education_level"
-            type="select"
-            value={this.props.formValues.demographics_learner_education_level}
-            options={demographicsEducationLevelOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_parent_education_level"
-            type="select"
-            value={this.props.formValues.demographics_parent_education_level}
-            options={demographicsEducationLevelOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_work_status"
-            type="select"
-            value={this.props.formValues.demographics_work_status}
-            options={demographicsWorkStatusOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_current_work_sector"
-            type="select"
-            value={this.props.formValues.demographics_current_work_sector}
-            options={demographicsWorkSectorOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="demographics_future_work_sector"
-            type="select"
-            value={this.props.formValues.demographics_future_work_sector}
-            options={demographicsWorkSectorOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector.empty'])}
-            {...editableFieldProps}
-          />
-        </div>
+        <DemographicsSection />
 
         <div className="account-section" id="social-media">
           <h2 className="section-heading">
@@ -647,15 +513,6 @@ AccountSettingsPage.propTypes = {
     gender: PropTypes.string,
     language_proficiencies: PropTypes.string,
     phone_number: PropTypes.string,
-    demographics_gender: PropTypes.string,
-    demographics_ethnicity: PropTypes.string,
-    demographics_income: PropTypes.string,
-    demographics_military_history: PropTypes.string,
-    demographics_learner_education_level: PropTypes.string,
-    demographics_parent_education_level: PropTypes.string,
-    demographics_work_status: PropTypes.string,
-    demographics_current_work_sector: PropTypes.string,
-    demographics_future_work_sector: PropTypes.string,
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,

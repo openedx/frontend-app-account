@@ -191,3 +191,12 @@ export const coachingConsentPageSelector = createSelector(
     formErrors: errors,
   }),
 );
+
+export const demographicsSectionSelector = createSelector(
+  formValuesSelector,
+  (
+    formValues,
+  ) => ({
+    formValues,
+  }),
+)
