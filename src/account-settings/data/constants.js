@@ -116,10 +116,10 @@ export function getStatesList(country) {
 // TODO: Need the real values from Justin’s work
 export const DEMOGRAPHICS_GENDER_OPTIONS = [
   '',
-  'w',
-  'm',
-  'nb',
-  'sd',
+  'woman',
+  'man',
+  'non-binary',
+  'self-describe',
 ];
 
 export const DEMOGRAPHICS_ETHNICITY_OPTIONS = [

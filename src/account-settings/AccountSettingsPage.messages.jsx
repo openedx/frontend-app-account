@@ -308,23 +308,23 @@ const messages = defineMessages({
     defaultMessage: 'Select a gender identity',
     description: 'Placeholder for the gender options dropdown.',
   },
-  'account.settings.field.demographics.gender.options.w': {
-    id: 'account.settings.field.demographics.gender.options.w',
+  'account.settings.field.demographics.gender.options.woman': {
+    id: 'account.settings.field.demographics.gender.options.woman',
     defaultMessage: 'Woman',
     description: 'The label for the woman gender option.',
   },
-  'account.settings.field.demographics.gender.options.m': {
-    id: 'account.settings.field.demographics.gender.options.m',
+  'account.settings.field.demographics.gender.options.man': {
+    id: 'account.settings.field.demographics.gender.options.man',
     defaultMessage: 'Man',
     description: 'The label for the man gender option.',
   },
-  'account.settings.field.demographics.gender.options.nb': {
-    id: 'account.settings.field.demographics.gender.options.nb',
+  'account.settings.field.demographics.gender.options.non-binary': {
+    id: 'account.settings.field.demographics.gender.options.non-binary',
     defaultMessage: 'Non-binary',
     description: 'The label for the non-binary gender option.',
   },
-  'account.settings.field.demographics.gender.options.sd': {
-    id: 'account.settings.field.demographics.gender.options.sd',
+  'account.settings.field.demographics.gender.options.self-describe': {
+    id: 'account.settings.field.demographics.gender.options.self-describe',
     defaultMessage: 'Prefer to self-describe',
     description: 'The label for self-describe gender option.',
   },
