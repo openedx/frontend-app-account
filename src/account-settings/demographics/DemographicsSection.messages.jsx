@@ -9,37 +9,47 @@ const messages = defineMessages({
   'account.settings.field.demographics.gender': {
     id: 'account.settings.field.demographics.gender',
     defaultMessage: 'Gender identity',
-    description: 'Label for account settings gender field.',
+    description: 'Label for account settings gender identity field.',
   },
   'account.settings.field.demographics.gender.empty': {
     id: 'account.settings.field.demographics.gender.empty',
     defaultMessage: 'Add gender identity',
-    description: 'Placeholder for empty account settings gender field.',
+    description: 'Placeholder for empty account settings gender identity field.',
   },
   'account.settings.field.demographics.gender.options.empty': {
     id: 'account.settings.field.demographics.gender.options.empty',
     defaultMessage: 'Select a gender identity',
-    description: 'Placeholder for the gender options dropdown.',
+    description: 'Placeholder for the gender identity options dropdown.',
   },
   'account.settings.field.demographics.gender.options.woman': {
     id: 'account.settings.field.demographics.gender.options.woman',
     defaultMessage: 'Woman',
-    description: 'The label for the woman gender option.',
+    description: 'The label for the woman gender identity option.',
   },
   'account.settings.field.demographics.gender.options.man': {
     id: 'account.settings.field.demographics.gender.options.man',
     defaultMessage: 'Man',
-    description: 'The label for the man gender option.',
+    description: 'The label for the man gender identity option.',
   },
   'account.settings.field.demographics.gender.options.non-binary': {
     id: 'account.settings.field.demographics.gender.options.non-binary',
     defaultMessage: 'Non-binary',
-    description: 'The label for the non-binary gender option.',
+    description: 'The label for the non-binary gender identity option.',
   },
   'account.settings.field.demographics.gender.options.self-describe': {
     id: 'account.settings.field.demographics.gender.options.self-describe',
     defaultMessage: 'Prefer to self-describe',
-    description: 'The label for self-describe gender option.',
+    description: 'The label for self-describe gender identity option.',
+  },
+  'account.settings.field.demographics.gender_description': {
+    id: 'account.settings.field.demographics.gender_description',
+    defaultMessage: 'Gender identity description',
+    description: 'Label for account settings gender identity description field.',
+  },
+  'account.settings.field.demographics.gender_description.empty': {
+    id: 'account.settings.field.demographics.gender_description.empty',
+    defaultMessage: 'Add gender identity description',
+    description: 'Placeholder for empty account settings gender identity field.',
   },
   'account.settings.field.demographics.ethnicity': {
     id: 'account.settings.field.demographics.ethnicity',

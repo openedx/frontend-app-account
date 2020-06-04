@@ -9,6 +9,7 @@ import { saveSettings, updateDraft } from '../data/actions';
 import EditableField from '../EditableField';
 import messages from './DemographicsSection.messages';
 import {
+  SELF_DESCRIBE,
   DEMOGRAPHICS_GENDER_OPTIONS,
   DEMOGRAPHICS_ETHNICITY_OPTIONS,
   DEMOGRAPHICS_INCOME_OPTIONS,
@@ -16,12 +17,16 @@ import {
   DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
   DEMOGRAPHICS_WORK_STATUS_OPTIONS,
   DEMOGRAPHICS_WORK_SECTOR_OPTIONS,
+  DECLINED,
 } from '../data/constants';
 
 class DemographicsSection extends React.Component {
   constructor(props, context) {
     super(props, context)
 
+    this.state = {
+      showSelfDescribe: false
+    }
   }
 
   getLocalizedOptions = memoize((locale) => ({
@@ -57,12 +62,18 @@ class DemographicsSection extends React.Component {
 
   getDeclinedOption() {
     return [{
-      value: 'declined',
+      value: DECLINED,
       label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`])
     }]
   }
 
   handleEditableFieldChange = (name, value) => {
+    // Temporary hack until backend hooked up
+    if (name == 'demographics_gender') {
+      let showSelfDescribe = value == SELF_DESCRIBE;
+      this.setState({ showSelfDescribe })
+    }
+
     this.props.updateDraft(name, value);
   };
 
@@ -87,6 +98,8 @@ class DemographicsSection extends React.Component {
       demographicsWorkSectorOptions,
     } = this.getLocalizedOptions(this.context.locale);
 
+    // // TODO: This is what it will be when we have things coming back from the server. Hack for now.
+    // const showSelfDescribe = this.props.formValues.demographics_gender == 'self-describe'
 
     return (
       <div className="account-section" id="demographics-information">
@@ -103,6 +116,16 @@ class DemographicsSection extends React.Component {
           emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
           {...editableFieldProps}
         />
+        {this.state.showSelfDescribe &&
+          <EditableField
+            name="demographics_gender_description"
+            type="text"
+            value={this.props.formValues.demographics_gender_description}
+            label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description.empty'])}
+            {...editableFieldProps}
+          />
+        }
         <EditableField
           name="demographics_ethnicity"
           type="select"

@@ -113,13 +113,13 @@ export function getStatesList(country) {
   return country && COUNTRY_STATES_MAP[country.toUpperCase()];
 }
 
-// TODO: Need the real values from Justin’s work
+export const SELF_DESCRIBE = 'self-describe'
 export const DEMOGRAPHICS_GENDER_OPTIONS = [
   '',
   'woman',
   'man',
   'non-binary',
-  'self-describe',
+  SELF_DESCRIBE,
 ];
 
 export const DEMOGRAPHICS_ETHNICITY_OPTIONS = [
@@ -199,3 +199,5 @@ export const DEMOGRAPHICS_WORK_SECTOR_OPTIONS = [
   'trade',
   'other',
 ]
+
+export const DECLINED = 'declined'
