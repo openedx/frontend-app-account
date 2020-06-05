@@ -39,7 +39,6 @@ function EditableField(props) {
     ...others
   } = props;
   const id = `field-${name}`;
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(name, new FormData(e.target).get(name));
@@ -106,6 +105,7 @@ function EditableField(props) {
                 options={options}
                 {...others}
               />
+              {!!others.children && <>{others.children}</>}
             </ValidationFormGroup>
             <p>
               <StatefulButton

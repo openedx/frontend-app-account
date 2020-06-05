@@ -115,8 +115,12 @@ class DemographicsSection extends React.Component {
           label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender'])}
           emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
           {...editableFieldProps}
-        />
-        {this.state.showSelfDescribe &&
+        >
+          <>
+            {this.state.showSelfDescribe && <input />}
+          </>
+        </EditableField>
+        {/* {this.state.showSelfDescribe &&
           <EditableField
             name="demographics_gender_description"
             type="text"
@@ -125,7 +129,7 @@ class DemographicsSection extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description.empty'])}
             {...editableFieldProps}
           />
-        }
+        } */}
         <EditableField
           name="demographics_ethnicity"
           type="select"
