@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Input, Button } from '@edx/paragon';
 import { Link } from 'react-router-dom';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import { IdVerificationContext } from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
 
-export default function GetNameIdPanel() {
+import messages from '../IdVerification.messages';
+
+function GetNameIdPanel(props) {
   const panelSlug = 'get-name-id';
   const [isEditing, setIsEditing] = useState(false);
   const nameInputRef = useRef();
@@ -26,14 +29,26 @@ export default function GetNameIdPanel() {
       name={panelSlug}
       title="Account Name Check"
     >
-      <p>Please check the Account Name below to ensure it matches the name on your ID. If not, click "Edit".</p>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
+      </p>
 
       <div className="alert alert-warning">
-        <strong>Please Note:</strong> any edit to your name will be saved to your account and can be reviewed on <Link to="/">Account Settings</Link>.
+        <FormattedMessage
+          id="id.verification.account.name.warning"
+          defaultMessage="{prefix} Any edit to your name will be saved to your account and can be reviewed on {accountSettings}."
+          description="Warning that any edit to the user's name will be saved to the account."
+          values={{
+            prefix: <strong>{props.intl.formatMessage(messages['id.verification.account.name.warning.prefix'])}</strong>,
+            accountSettings: <Link to="/">{props.intl.formatMessage(messages['id.verification.account.name.settings'])}</Link>,
+          }}
+        />
       </div>
 
       <div className="form-group">
-        <label htmlFor="photo-id-name">Name</label>
+        <label htmlFor="photo-id-name">
+          {props.intl.formatMessage(messages['id.verification.account.name.label'])}
+        </label>
         <div className="d-flex">
           <Input
             id="photo-id-name"
@@ -49,7 +64,7 @@ export default function GetNameIdPanel() {
               className="btn-link px-0 ml-3"
               onClick={() => setIsEditing(true)}
             >
-              Edit
+              {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
             </Button>
           )}
         </div>
@@ -57,14 +72,20 @@ export default function GetNameIdPanel() {
       <ImagePreview
         id="photo-of-id"
         src={idPhotoFile}
-        alt="Photo of your ID to be submitted."
+        alt={props.intl.formatMessage(messages['id.verification.account.name.photo.alt'])}
       />
 
       <div className="action-row">
         <Link to={nextPanelSlug} className="btn btn-primary">
-          {isEditing ? 'Save' : 'Next'}
+          {isEditing ? props.intl.formatMessage(messages['id.verification.account.name.save']) : props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 }
+
+GetNameIdPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(GetNameIdPanel);

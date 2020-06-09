@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -9,7 +10,9 @@ import Camera from '../Camera';
 import CameraHelp from '../CameraHelp';
 import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
 
-export default function TakePortraitPhotoPanel() {
+import messages from '../IdVerification.messages';
+
+function TakePortraitPhotoPanel(props) {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { setFacePhotoFile, facePhotoFile, mediaAccess } = useContext(IdVerificationContext);
@@ -18,29 +21,39 @@ export default function TakePortraitPhotoPanel() {
   return (
     <BasePanel
       name={panelSlug}
-      title={shouldUseCamera ? 'Take Your Photo' : 'Upload Your Portrait Photo'}
+      title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.portrait.photo.title.camera']) : props.intl.formatMessage(messages['id.verification.portrait.photo.title.upload'])}
     >
       <div>
-        {facePhotoFile && !shouldUseCamera && <ImagePreview src={facePhotoFile} alt="Preview of photo of user's face." />}
+        {facePhotoFile && !shouldUseCamera && <ImagePreview src={facePhotoFile} alt={props.intl.formatMessage(messages['id.verification.portrait.photo.preview.alt'])} />}
 
         {shouldUseCamera ? (
           <div>
-            <p>When your face is in position, use the Take Photo button below to take your photo.</p>
+            <p>
+              {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
+            </p>
             <Camera onImageCapture={setFacePhotoFile} />
           </div>
         ) : (
           <div>
-            <p>Please upload a portrait photo. Ensure your entire face fits inside the frame and is well-lit. (Supported formats: .jpg, .jpeg, .png)</p>
+            <p>
+              {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.upload'])}
+            </p>
             <ImageFileUpload onFileChange={setFacePhotoFile} />
           </div>
         )}
       </div>
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary">
-          Next
+          {props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
-      {shouldUseCamera && <CameraHelp/>}
+      {shouldUseCamera && <CameraHelp />}
     </BasePanel>
   );
 }
+
+TakePortraitPhotoPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(TakePortraitPhotoPanel);

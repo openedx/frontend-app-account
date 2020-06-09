@@ -40,12 +40,13 @@ export async function getExistingIdVerification() {
  *
  * Returns { success: Boolean, message: String|null }
  */
-export async function submitIdVerfication(verificationData) {
+export async function submitIdVerification(verificationData) {
   const keyMap = {
     facePhotoFile: 'face_image',
     idPhotoFile: 'photo_id_image',
     idPhotoName: 'full_name',
     courseRunKey: 'course_id',
+    // Currently does not support a redirect back to the original course. See MST-282: https://openedx.atlassian.net/browse/MST-282
   };
   const postData = {};
   // Don't include blank/null/undefined values.

@@ -30,10 +30,6 @@ export const useNextPanelSlug = (originSlug) => {
 // check if the user is too far into the flow and if so, return the slug of the
 // furthest panel they are allow to be.
 export const useVerificationRedirectSlug = (slug) => {
-  // TODO: remove this short-circuit after development is done
-  return null;
-
-  // eslint-disable-next-line no-unreachable
   const { facePhotoFile, idPhotoFile } = useContext(IdVerificationContext);
   const indexOfCurrentPanel = panelSteps.indexOf(slug);
 

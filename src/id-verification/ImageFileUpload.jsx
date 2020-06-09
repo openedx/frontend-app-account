@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default function ImageFileUpload({ onFileChange }) {
   const handleChange = useCallback((e) => {
     if (e.target.files.length === 0) {
-      // do something else
       return;
     }
 

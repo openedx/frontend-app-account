@@ -1,18 +1,30 @@
 import React from 'react';
 import { getConfig } from '@edx/frontend-platform';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 
-export default function SubmittedPanel() {
+import messages from '../IdVerification.messages';
+
+function SubmittedPanel(props) {
   const panelSlug = 'submitted';
   return (
     <BasePanel
       name={panelSlug}
-      title="Identity Verification in Progress"
+      title={props.intl.formatMessage(messages['id.verification.submitted.title'])}
     >
-      <p>We have received you information and are verifiying your identity. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days). In the meantime, you can still access all available course content.</p>
-      <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/dashboard`}>Return to Your Dashboard</a>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.submitted.text'])}
+      </p>
+      <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/dashboard`}>
+        {props.intl.formatMessage(messages['id.verification.return'])}
+      </a>
     </BasePanel>
   );
 }
+
+SubmittedPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(SubmittedPanel);

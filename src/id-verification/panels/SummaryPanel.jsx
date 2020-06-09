@@ -2,14 +2,16 @@ import React, { useContext } from 'react';
 import { history } from '@edx/frontend-platform';
 import { Input, Button } from '@edx/paragon';
 import { Link } from 'react-router-dom';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
-import { submitIdVerfication } from '../data/service';
 import BasePanel from './BasePanel';
 import { IdVerificationContext } from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
 
-export default function SummaryPanel() {
+import messages from '../IdVerification.messages';
+
+function SummaryPanel(props) {
   const panelSlug = 'summary';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
@@ -19,22 +21,15 @@ export default function SummaryPanel() {
     idPhotoName,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
-  const courseRunKey = null; // TODO: Implement course run key
+  // TODO: Implement course run key
 
   function SubmitButton() {
-    function handleClick(e) {
-      const verificationData = {
-        facePhotoFile,
-        idPhotoFile,
-        idPhotoName,
-        courseRunKey,
-      };
-      const { success, message } = submitIdVerfication(verificationData);
+    function handleClick() {
       history.push(nextPanelSlug);
     }
     return (
-      <Button className="btn btn-primary" onClick={handleClick}>
-        Confirm
+      <Button className="btn btn-primary" title="Confirmation" onClick={handleClick}>
+        {props.intl.formatMessage(messages['id.verification.review.confirm'])}
       </Button>
     );
   }
@@ -42,16 +37,20 @@ export default function SummaryPanel() {
   return (
     <BasePanel
       name={panelSlug}
-      title="Review Your Photos"
+      title={props.intl.formatMessage(messages['id.verification.review.title'])}
     >
-      <p>Make sure we can verify your identity with the photos and information you have provided.</p>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.review.description'])}
+      </p>
       <div className="row mb-4">
         <div className="col-6">
-          <label htmlFor="photo-of-face">Your Portrait</label>
+          <label htmlFor="photo-of-face">
+            {props.intl.formatMessage(messages['id.verification.review.portrait.label'])}
+          </label>
           <ImagePreview
             id="photo-of-face"
             src={facePhotoFile}
-            alt="Photo of your face to be submitted."
+            alt={props.intl.formatMessage(messages['id.verification.review.portrait.alt'])}
           />
           <Link
             className="btn btn-inverse-primary shadow"
@@ -60,15 +59,17 @@ export default function SummaryPanel() {
               state: { fromSummary: true },
             }}
           >
-            Retake Portrait Photo
+            {props.intl.formatMessage(messages['id.verification.review.portrait.retake'])}
           </Link>
         </div>
         <div className="col-6">
-          <label htmlFor="photo-of-id/edit">Your Photo ID</label>
+          <label htmlFor="photo-of-id/edit">
+            {props.intl.formatMessage(messages['id.verification.review.id.label'])}
+          </label>
           <ImagePreview
             id="photo-of-id"
             src={idPhotoFile}
-            alt="Photo of your ID to be submitted."
+            alt={props.intl.formatMessage(messages['id.verification.review.id.alt'])}
           />
           <Link
             className="btn btn-inverse-primary shadow"
@@ -77,12 +78,14 @@ export default function SummaryPanel() {
               state: { fromSummary: true },
             }}
           >
-            Retake ID Photo
+            {props.intl.formatMessage(messages['id.verification.review.id.retake'])}
           </Link>
         </div>
       </div>
       <div className="form-group">
-        <label htmlFor="name-to-be-used">Name on ID</label>
+        <label htmlFor="name-to-be-used">
+          {props.intl.formatMessage(messages['id.verification.account.name.label'])}
+        </label>
         <div className="d-flex">
           <Input
             id="name-to-be-used"
@@ -99,7 +102,7 @@ export default function SummaryPanel() {
                 state: { fromSummary: true },
               }}
           >
-            Edit
+            {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
           </Link>
         </div>
       </div>
@@ -107,3 +110,9 @@ export default function SummaryPanel() {
     </BasePanel>
   );
 }
+
+SummaryPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(SummaryPanel);

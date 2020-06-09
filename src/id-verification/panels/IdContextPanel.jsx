@@ -1,33 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 
-export default function IdContextPanel() {
+import messages from '../IdVerification.messages';
+
+function IdContextPanel(props) {
   const panelSlug = 'id-context';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   return (
     <BasePanel
       name={panelSlug}
-      title="Helpful ID Tips"
+      title={props.intl.formatMessage(messages['id.verification.id.tips.title'])}
     >
-      <p>Next you'll need an eligible photo, make sure that:</p>
+      <p>{props.intl.formatMessage(messages['id.verification.id.tips.description'])}</p>
       <div className="card mb-4 shadow">
         <div className="card-body">
-          <h6>Photo Tips</h6>
-          <p>To take a successful photo, make sure that:</p>
+          <h6>
+            {props.intl.formatMessage(messages['id.verification.photo.tips.list.title'])}
+          </h6>
+          <p>
+            {props.intl.formatMessage(messages['id.verification.photo.tips.list.description'])}
+          </p>
           <ul className="mb-0">
-            <li>Your ID is well-lit.</li>
-            <li>Ensure that you can see your photo and clearly read your name.</li>
+            <li>
+              {props.intl.formatMessage(messages['id.verification.id.tips.list.well.lit'])}
+            </li>
+            <li>
+              {props.intl.formatMessage(messages['id.verification.id.tips.list.clear'])}
+            </li>
           </ul>
         </div>
       </div>
       <div className="action-row">
         <Link to={nextPanelSlug} className="btn btn-primary">
-          Next
+          {props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 }
+
+IdContextPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(IdContextPanel);

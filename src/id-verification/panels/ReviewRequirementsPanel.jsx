@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 
-export default function ReviewRequirementsPanel() {
+import messages from '../IdVerification.messages';
+
+function ReviewRequirementsPanel(props) {
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   return (
@@ -14,31 +17,62 @@ export default function ReviewRequirementsPanel() {
       focusOnMount={false}
     >
       <p>
-        In order to complete Photo Verification online, you will need the following
+        {props.intl.formatMessage(messages['id.verification.requirements.description'])}
       </p>
       <div className="card mb-4 shadow">
         <div className="card-body">
-          <h6>Device with Camera</h6>
-          <p className="mb-0">You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click <strong>Allow</strong>.</p>
+          <h6>
+            {props.intl.formatMessage(messages['id.verification.requirements.card.device.title'])}
+          </h6>
+          <p className="mb-0">
+            <FormattedMessage
+              id="id.verification.requirements.card.device.text"
+              defaultMessage="You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click {allow}."
+              description="Text explaining that the user needs access to a camera."
+              values={{
+                allow: <strong>{props.intl.formatMessage(messages['id.verification.requirements.card.device.allow'])}</strong>,
+              }}
+            />
+          </p>
         </div>
       </div>
       <div className="card mb-4 shadow">
         <div className="card-body">
-          <h6>Photo Identification</h6>
-          <p className="mb-0">You need a valid ID that contains your full name and photo.</p>
+          <h6>
+            {props.intl.formatMessage(messages['id.verification.requirements.card.id.title'])}
+          </h6>
+          <p className="mb-0">
+            {props.intl.formatMessage(messages['id.verification.requirements.card.id.text'])}
+          </p>
         </div>
       </div>
-      <h4 className="mb-3">Privacy Information</h4>
-      <h6>Why does edX need my photo?</h6>
-      <p>We use your verification photos to confirm your identity and ensure the validity of your certificate.</p>
-      <h6>What does edX do with this photo?</h6>
-      <p>We securely encrypt your photo and send it our authorization service for review. Your photo and information are not saved or visible anywhere on edX after the verification process is complete.</p>
+      <h4 className="mb-3">
+        {props.intl.formatMessage(messages['id.verification.privacy.title'])}
+      </h4>
+      <h6>
+        {props.intl.formatMessage(messages['id.verification.privacy.need.photo.question'])}
+      </h6>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}
+      </p>
+      <h6>
+        {props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.question'])}
+      </h6>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.answer'])}
+      </p>
 
       <div className="action-row">
         <Link to={nextPanelSlug} className="btn btn-primary">
-          Next
+          {props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 }
+
+ReviewRequirementsPanel.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(ReviewRequirementsPanel);
