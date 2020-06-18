@@ -4,6 +4,7 @@ import { Input, Button } from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
+import { submitIdVerification } from '../data/service';
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import { IdVerificationContext } from '../IdVerificationContext';
@@ -21,11 +22,18 @@ function SummaryPanel(props) {
     idPhotoName,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
-  // TODO: Implement course run key
 
   function SubmitButton() {
-    function handleClick() {
-      history.push(nextPanelSlug);
+    async function handleClick() {
+      const verificationData = {
+        facePhotoFile,
+        idPhotoFile,
+        idPhotoName: nameToBeUsed,
+      };
+      const result = await submitIdVerification(verificationData);
+      if (result.success) {
+        history.push(nextPanelSlug);
+      }
     }
     return (
       <Button className="btn btn-primary" title="Confirmation" onClick={handleClick}>
