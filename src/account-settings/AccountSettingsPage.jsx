@@ -36,6 +36,7 @@ import {
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
+import DemographicsSection from './demographics/DemographicsSection';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -363,7 +364,9 @@ class AccountSettingsPage extends React.Component {
             />
           }
         </div>
-
+        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION &&
+          <DemographicsSection />
+        }
         <div className="account-section" id="social-media">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}

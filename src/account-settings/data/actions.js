@@ -100,9 +100,9 @@ export const savePreviousSiteLanguage = previousSiteLanguage => ({
   payload: { previousSiteLanguage },
 });
 
-export const saveMultipleSettings = settingsArray => ({
+export const saveMultipleSettings = (settingsArray, form = null) => ({
   type: SAVE_MULTIPLE_SETTINGS.BASE,
-  payload: { settingsArray },
+  payload: { settingsArray, form },
 });
 
 export const saveMultipleSettingsBegin = () => ({

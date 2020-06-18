@@ -51,3 +51,13 @@ $fa-font-path: "~font-awesome/fonts";
     font-size: 	0.75rem;
   }
 }
+
+.checkboxOption {
+  input:focus {
+    outline: -webkit-focus-ring-color auto 5px;
+  }
+
+  label {
+    font-weight: normal;
+  }
+}

@@ -106,11 +106,11 @@ export function* handleSaveSettings(action) {
 
 
 // handles mutiple settings saved at once, in order, and stops executing on first failure.
-export function* handleSaveMultipleSettings(settings) {
+export function* handleSaveMultipleSettings(action) {
   try {
     yield put(saveMultipleSettingsBegin());
     const { username, userId } = getAuthenticatedUser();
-    const { settingsArray } = settings.payload;
+    const { settingsArray, form } = action.payload;
     for (let i = 0; i < settingsArray.length; i += 1) {
       const { formId, commitValues } = settingsArray[i];
       yield put(saveSettingsBegin());
@@ -118,7 +118,11 @@ export function* handleSaveMultipleSettings(settings) {
       const savedSettings = yield call(patchSettings, username, commitData, userId);
       yield put(saveSettingsSuccess(savedSettings, commitData));
     }
-    yield put(saveMultipleSettingsSuccess(settings));
+    yield put(saveMultipleSettingsSuccess(action));
+    if (form) {
+      yield delay(1000);
+      yield put(closeForm(form));
+    }
   } catch (e) {
     if (e.fieldErrors) {
       yield put(saveMultipleSettingsFailure({ fieldErrors: e.fieldErrors }));

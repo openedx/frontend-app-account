@@ -1,12 +1,14 @@
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import pick from 'lodash.pick';
+import pickBy from 'lodash.pickby';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
+import { getDemographics, patchDemographics } from '../demographics/data/service';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
@@ -161,6 +163,7 @@ export async function getSettings(username, userRoles, userId) {
     getProfileDataManager(username, userRoles),
     getTimeZones(),
     getConfig().COACHING_ENABLED && getCoachingPreferences(userId),
+    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
   ]);
 
   return {
@@ -170,6 +173,7 @@ export async function getSettings(username, userRoles, userId) {
     profileDataManager: results[3],
     timeZones: results[4],
     coaching: results[5],
+    ...results[6], // demographics
   };
 }
 
@@ -183,9 +187,11 @@ export async function patchSettings(username, commitValues, userId) {
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
   const coachingKeys = ['coaching'];
+  const isDemographicsKey = (value, key) => key.includes('demographics');
   const accountCommitValues = omit(commitValues, preferenceKeys, coachingKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
   const coachingCommitValues = pick(commitValues, coachingKeys);
+  const demographicsCommitValues = pickBy(commitValues, isDemographicsKey);
   const patchRequests = [];
 
   if (!isEmpty(accountCommitValues)) {
@@ -196,6 +202,9 @@ export async function patchSettings(username, commitValues, userId) {
   }
   if (!isEmpty(coachingCommitValues)) {
     patchRequests.push(patchCoachingPreferences(userId, coachingCommitValues));
+  }
+  if (!isEmpty(demographicsCommitValues)) {
+    patchRequests.push(patchDemographics(userId, demographicsCommitValues));
   }
 
   const results = await Promise.all(patchRequests);

@@ -23,6 +23,7 @@ function EditableField(props) {
     emptyLabel,
     type,
     value,
+    userSuppliedValue,
     options,
     saveState,
     error,
@@ -66,15 +67,22 @@ function EditableField(props) {
 
   const renderValue = (rawValue) => {
     if (!rawValue) return renderEmptyLabel();
+    let value = rawValue;
 
     if (options) {
       // Use == instead of === to prevent issues when HTML casts numbers as strings
       // eslint-disable-next-line eqeqeq
       const selectedOption = options.find(option => option.value == rawValue);
-      if (selectedOption) return selectedOption.label;
+      if (selectedOption) {
+        value = selectedOption.label;
+      };
     }
 
-    return rawValue;
+    if (userSuppliedValue) {
+      value += `: ${userSuppliedValue}`;
+    }
+
+    return value;
   };
 
   const renderConfirmationMessage = () => {
@@ -106,6 +114,7 @@ function EditableField(props) {
                 options={options}
                 {...others}
               />
+              <>{others.children}</>
             </ValidationFormGroup>
             <p>
               <StatefulButton
@@ -162,6 +171,7 @@ EditableField.propTypes = {
   emptyLabel: PropTypes.node,
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userSuppliedValue: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

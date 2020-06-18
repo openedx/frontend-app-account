@@ -64,6 +64,8 @@ initialize({
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
         COACHING_ENABLED: (process.env.COACHING_ENABLED || false),
+        ENABLE_DEMOGRAPHICS_COLLECTION: (process.env.ENABLE_DEMOGRAPHICS_COLLECTION || false),
+        DEMOGRAPHICS_BASE_URL: process.env.DEMOGRAPHICS_BASE_URL,
       }, 'App loadConfig override handler');
     },
   },
