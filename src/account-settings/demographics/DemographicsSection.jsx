@@ -25,7 +25,7 @@ import {
 
 class DemographicsSection extends React.Component {
   constructor(props, context) {
-    super(props, context)
+    super(props, context);
   }
 
   getLocalizedOptions = memoize((locale) => ({
@@ -67,13 +67,15 @@ class DemographicsSection extends React.Component {
   }
 
   ethnicityFieldDisplay = () => {
-    const ethnicities = this.props.formValues.demographics_user_ethnicity;
-    return ethnicities.map((e) => {
-      if (e == DECLINED) {
-        return this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`]);
-      }
-      return this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${e}`])
-    }).join(", ")
+    if (this.props.formValues.demographics_user_ethnicity) {
+      const ethnicities = this.props.formValues.demographics_user_ethnicity;
+      return ethnicities.map((e) => {
+        if (e == DECLINED) {
+          return this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`]);
+        }
+        return this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${e}`]);
+      }).join(", ")
+    }
   }
 
   handleEditableFieldChange = (name, value) => {
@@ -239,7 +241,7 @@ class DemographicsSection extends React.Component {
       </div>
     )
   }
-}
+};
 
 DemographicsSection.propTypes = {
   intl: intlShape.isRequired,
@@ -260,4 +262,4 @@ DemographicsSection.propTypes = {
 export default connect(demographicsSectionSelector, {
   saveMultipleSettings,
   updateDraft,
-})(injectIntl(DemographicsSection))
+})(injectIntl(DemographicsSection));

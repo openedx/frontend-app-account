@@ -29,14 +29,20 @@ export async function postDemographics(userId) {
 export async function getDemographics(userId) {
   const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/${userId}/`;
   let data = {};
-
+  // getDemographics() will run on Account page load. If the API call results in a '404' then follow up with a
+  // POST call to the Demographics IDA to create an entity in the Demographics IDA for this user. After the 
+  // entity is created all subsequent calls can be PATCH to begin answering the questions
   try {
     ({ data } = await getAuthenticatedHttpClient()
       .get(requestUrl));
 
     data = convertData(data, FROM);
   } catch (error) {
-    data = await postDemographics(userId);
+    if (error.response) {
+      if (error.response.status == 404) {
+        data = await postDemographics(userId);
+      }
+    }
   }
 
   return data;
