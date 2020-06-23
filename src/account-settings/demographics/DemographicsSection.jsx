@@ -1,27 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Input } from '@edx/paragon';
-import memoize from 'memoize-one';
-
-import { demographicsSectionSelector } from '../data/selectors';
-import { saveMultipleSettings, updateDraft } from '../data/actions';
-import EditableField from '../EditableField';
-import Checkboxes from './Checkboxes';
-import messages from './DemographicsSection.messages';
 import {
-  SELF_DESCRIBE,
-  DEMOGRAPHICS_GENDER_OPTIONS,
+  DECLINED,
+  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
   DEMOGRAPHICS_ETHNICITY_OPTIONS,
+  DEMOGRAPHICS_GENDER_OPTIONS,
   DEMOGRAPHICS_INCOME_OPTIONS,
   DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS,
-  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
-  OTHER,
-  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
   DEMOGRAPHICS_WORK_SECTOR_OPTIONS,
-  DECLINED,
+  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
+  OTHER,
+  SELF_DESCRIBE,
 } from '../data/constants';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from '@edx/frontend-platform/i18n';
+import { saveMultipleSettings, updateDraft } from '../data/actions';
+
+import Alert from '../Alert';
+import Checkboxes from './Checkboxes';
+import EditableField from '../EditableField';
+import { Input } from '@edx/paragon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { demographicsSectionSelector } from '../data/selectors';
+import memoize from 'memoize-one';
+import messages from './DemographicsSection.messages';
 
 class DemographicsSection extends React.Component {
   constructor(props, context) {
@@ -97,6 +102,24 @@ class DemographicsSection extends React.Component {
     this.props.saveMultipleSettings(settingsArray, formId);
   };
 
+  renderDemographicsServiceIssueWarningMessage() {
+    if (true == true) {
+      return null;
+    }
+    
+    return (
+      <div>
+        <Alert className="alert alert-danger" role="alert">
+          <FormattedMessage
+            id="account.settings.message.demographics.service.issue"
+            defaultMessage="An error occurred attempting to retrieve optional account information. Please try again later."
+            description="alert message informing the user that the there is a problem retrieving information from the Demographics service"
+          />
+        </Alert>
+      </div>
+    );
+  }
+
   render() {
     const editableFieldProps = {
       onChange: this.handleEditableFieldChange,
@@ -121,6 +144,7 @@ class DemographicsSection extends React.Component {
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
+        {this.renderDemographicsServiceIssueWarningMessage()}
 
         <EditableField
           name="demographics_gender"

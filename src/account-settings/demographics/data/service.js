@@ -1,6 +1,7 @@
+import { FROM, TO, convertData } from './utils';
+
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
-import { convertData, TO, FROM } from './utils';
 
 /**
  * post all of the data related to demographics.
@@ -38,6 +39,8 @@ export async function getDemographics(userId) {
 
     data = convertData(data, FROM);
   } catch (error) {
+    Object.create(error);
+    console.log({error});
     if (error.response) {
       if (error.response.status == 404) {
         data = await postDemographics(userId);
