@@ -7,12 +7,14 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import get from 'lodash.get';
+import { getAuthenticatedHttpClient, getAuthenticatedUser } from '@edx/frontend-platform/auth';
 
 import PageLoading from '../PageLoading';
 import CoachingConsentForm from './CoachingConsentForm';
 import messages from './CoachingConsent.messages';
 import LogoSVG from '../../logo.svg';
-import { fetchSettings, saveSettings, saveMultipleSettings } from '../data/actions';
+import { fetchSettings } from '../data/actions';
 import { coachingConsentPageSelector } from '../data/selectors';
 
 const Logo = ({ src, alt, ...attributes }) => (
@@ -57,60 +59,16 @@ class CoachingConsent extends React.Component {
       formErrors: {},
       formSubmitted: false,
       declineSubmitted: false,
-      allSubmissionsComplete: false,
+      submissionSuccess: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.declineCoaching = this.declineCoaching.bind(this);
+    this.patchUsingCoachingConsentForm = this.patchUsingCoachingConsentForm.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchSettings();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    /*
-      When we are submitting the form, we're calling saveSettings 3 times, which causes
-      multiple parallel redux flows. Because of this we can't rely on just the redux states
-      being sent in through props. For instance if the coaching submission and name
-      submission happen in near parallel, the coaching flow could return errors in
-      formErrors and the name flow could overwrite the formErrors with an empty object.
-
-      To minimize disruption to the rest of the app, we're going to manage flow state from
-      within this component.
-    */
-
-    // If a new error comes in, store it before the next redux call overwrites it.
-    let allFormErrors = {};
-    let allSubmissionsComplete = false;
-
-    // Collect new errors and add to state (will be cleared on new submission)
-    const newErrorsFound = (
-      this.props.formErrors !== prevProps.formErrors
-      && Object.keys(this.props.formErrors).length > 0
-    );
-    if (newErrorsFound) {
-      allFormErrors = Object.assign({}, this.state.formErrors, this.props.formErrors);
-    }
-
-    // Check if all values from the form have confirmation values
-    if (
-      this.state.formSubmitted &&
-      this.props.saveState === 'complete'
-    ) {
-      allSubmissionsComplete = true;
-    }
-
-    // Check if all values from the decline link have confirmation values
-    if (this.props.confirmationValues.coaching && this.state.declineSubmitted) {
-      allSubmissionsComplete = true;
-    }
-    if (newErrorsFound || (allSubmissionsComplete !== prevState.allSubmissionsComplete)) {
-      this.setState({
-        formErrors: allFormErrors,
-        allSubmissionsComplete,
-      });
-    }
   }
 
   sanitizeForwardingUrl(url) {
@@ -118,60 +76,58 @@ class CoachingConsent extends React.Component {
     return url && url.startsWith(getConfig().LMS_BASE_URL) ? url : `${getConfig().LMS_BASE_URL}/dashboard/`;
   }
 
-  async handleSubmit(e) {
+  async patchUsingCoachingConsentForm(body) {
+    const { userId } = getAuthenticatedUser();
+    const requestUrl = `${getConfig().LMS_BASE_URL}/api/coaching/v1/coaching_consent/${userId}/`;
+    let formErrors = {};
+    const data = await getAuthenticatedHttpClient()
+      .patch(requestUrl, body)
+      .catch((error) => {
+        if (get(error, 'customAttributes.httpErrorResponseData')) {
+          formErrors = JSON.parse(error.customAttributes.httpErrorResponseData);
+        } else {
+          formErrors = { full_name: 'Something went wrong. Please try again.' };
+        }
+        this.setState({
+          submissionSuccess: false,
+          formErrors,
+          formSubmitted: false,
+        });
+      });
+    if (get(data, 'status') === 200) {
+      this.setState({ submissionSuccess: true });
+    }
+    
+  }
+
+  handleSubmit(e) {
     e.preventDefault();
+    const fullName = e.target.fullName.value;
+    const phoneNumber = e.target.phoneNumber.value;
+    const body = {
+      coaching_consent: true,
+      consent_form_seen: true,
+      phone_number: phoneNumber,
+      full_name: fullName,
+    };
     this.setState({
       formErrors: {},
       formSubmitted: true,
       declineSubmitted: false,
-    });
-    // Must store target values or they disappear before the async function can use them.
-    const fullName = e.target.fullName.value;
-    const phoneNumber = e.target.phoneNumber.value;
-    const coachingValues = this.props.formValues.coaching;
-
-    // !important: The order of this data matters!
-    // The order that this data is in, is the order that the saveSettings() function
-    // is called.
-    const settingsSubmissions = [];
-    if (!this.props.profileDataManager) {
-      settingsSubmissions.push({
-        formId: 'name',
-        commitValues: fullName,
-      });
-    }
-    Array.prototype.push.apply(settingsSubmissions, [
-      {
-        formId: 'coaching',
-        commitValues: {
-          ...coachingValues,
-          phone_number: phoneNumber,
-          coaching_consent: true,
-          consent_form_seen: true,
-        },
-      },
-      {
-        formId: 'phone_number',
-        commitValues: phoneNumber,
-      },
-    ]);
-    this.props.saveMultipleSettings(settingsSubmissions);
+    }, () => this.patchUsingCoachingConsentForm(body));
   }
 
-  async declineCoaching(e) {
+  declineCoaching(e) {
     e.preventDefault();
-    this.setState({
-      formErrors: {},
-      declineSubmitted: true,
-      formSubmitted: false,
-    });
-    // Must store target values or they disappear before the async function can use them.
-    const coachingValues = this.props.formValues.coaching;
-    this.props.saveSettings('coaching', {
-      ...coachingValues,
+    const body = {
       coaching_consent: false,
       consent_form_seen: true,
-    });
+    };
+    this.setState({
+      formErrors: {},
+      formSubmitted: false,
+      declineSubmitted: true,
+    }, () => this.patchUsingCoachingConsentForm(body));
   }
 
   renderView(currentView) {
@@ -213,13 +169,13 @@ class CoachingConsent extends React.Component {
     if (!loaded) {
       currentView = VIEWS.NOT_LOADED;
     } else if (this.state.formSubmitted && !formHasErrors) {
-      if (this.state.allSubmissionsComplete) {
+      if (this.state.submissionSuccess) {
         currentView = VIEWS.SUCCESS;
       } else {
         currentView = VIEWS.SUCCESS_PENDING;
       }
     } else if (this.state.declineSubmitted && !formHasErrors) {
-      if (this.state.allSubmissionsComplete) {
+      if (this.state.submissionSuccess) {
         currentView = VIEWS.DECLINED;
       } else {
         currentView = VIEWS.DECLINE_PENDING;
@@ -303,14 +259,10 @@ CoachingConsent.propTypes = {
     phone_number: PropTypes.object,
   }).isRequired,
   fetchSettings: PropTypes.func.isRequired,
-  saveSettings: PropTypes.func.isRequired,
-  saveMultipleSettings: PropTypes.func.isRequired,
   saveState: PropTypes.string,
   profileDataManager: PropTypes.string,
 };
 
 export default connect(coachingConsentPageSelector, {
   fetchSettings,
-  saveSettings,
-  saveMultipleSettings,
 })(injectIntl(CoachingConsent));

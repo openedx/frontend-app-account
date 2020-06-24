@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Input, Button, Hyperlink } from '@edx/paragon';
 
@@ -38,7 +37,7 @@ const CoachingForm = props => (
             !!props.profileDataManager &&
             <ManagedProfileAlert profileDataManager={props.profileDataManager} />
           }
-          <ErrorMessage message={props.formErrors.name} />
+          <ErrorMessage message={props.formErrors.full_name} />
           <label className="h6" htmlFor="fullName">{props.intl.formatMessage(messages['account.settings.coaching.consent.label.name'])}</label>
           <Input
             type="text"
@@ -53,7 +52,7 @@ const CoachingForm = props => (
           <label className="h6" htmlFor="phoneNumber">{props.intl.formatMessage(messages['account.settings.coaching.consent.label.phone-number'])}</label>
           <Input
             type="text"
-            name="full-name"
+            name="phone_number"
             id="phoneNumber"
             defaultValue={props.formValues.phone_number}
           />
@@ -107,7 +106,7 @@ CoachingForm.propTypes = {
   }).isRequired,
   formErrors: PropTypes.shape({
     coaching: PropTypes.string,
-    name: PropTypes.string,
+    full_name: PropTypes.string,
     phone_number: PropTypes.string,
   }),
   redirectUrl: PropTypes.string.isRequired,
