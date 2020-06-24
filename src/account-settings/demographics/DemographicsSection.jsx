@@ -102,22 +102,33 @@ class DemographicsSection extends React.Component {
     this.props.saveMultipleSettings(settingsArray, formId);
   };
 
+  /**
+   * If an error is encountered when trying to communicate with the Demographics IDA then we will
+   * display an Alert letting the user know that their info will not be retrieved or displayed
+   * and temporarily cannot be updated.
+   */
   renderDemographicsServiceIssueWarningMessage() {
-    if (true == true) {
+    console.log(this);
+    // TODO: I am trying to figure out how to pass back fieldErrors in the error handling of
+    // the getDemographics() method (../demographics/data/service.js) to determine if I need
+    // to show the Alert that there may be an issue with the Demographics service.
+    // I am _trying_ to base the condition on "if there are demographics field errors, show 
+    // the Alert, otherwise return null (no alert)"
+    if (true === false) {
+      return (
+        <div>
+          <Alert className="alert alert-danger" role="alert">
+            <FormattedMessage
+              id="account.settings.message.demographics.service.issue"
+              defaultMessage="An error occurred attempting to retrieve optional account information. Please try again later."
+              description="alert message informing the user that the there is a problem retrieving information from the Demographics service"
+            />
+          </Alert>
+        </div>
+      );
+    } else {
       return null;
     }
-    
-    return (
-      <div>
-        <Alert className="alert alert-danger" role="alert">
-          <FormattedMessage
-            id="account.settings.message.demographics.service.issue"
-            defaultMessage="An error occurred attempting to retrieve optional account information. Please try again later."
-            description="alert message informing the user that the there is a problem retrieving information from the Demographics service"
-          />
-        </Alert>
-      </div>
-    );
   }
 
   render() {

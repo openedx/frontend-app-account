@@ -30,20 +30,27 @@ export async function postDemographics(userId) {
 export async function getDemographics(userId) {
   const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/${userId}/`;
   let data = {};
-  // getDemographics() will run on Account page load. If the API call results in a '404' then follow up with a
-  // POST call to the Demographics IDA to create an entity in the Demographics IDA for this user. After the 
-  // entity is created all subsequent calls can be PATCH to begin answering the questions
+  
   try {
     ({ data } = await getAuthenticatedHttpClient()
       .get(requestUrl));
 
     data = convertData(data, FROM);
   } catch (error) {
-    Object.create(error);
-    console.log({error});
-    if (error.response) {
-      if (error.response.status == 404) {
+    const apiError = Object.create(error);
+    // if the API called resulted in this user receiving a 404 then follow up with a POST call to
+    // create the demographics entity on the backend
+    if (apiError.customAttributes.httpErrorStatus) {
+      if (apiError.customAttributes.httpErrorStatus == 404) {
         data = await postDemographics(userId);
+      } else {
+        //apiError.fieldErrors.demographicsError = "error ocurred";
+        demographicsFieldErrors = JSON.parse(error.customAttributes.httpErrorResponseData);
+        apiError.fieldsErrors = {
+          ...fieldsErrors,
+          demographicsError: demographicsFieldErrors,
+        }
+        throw apiError;
       }
     }
   }
@@ -64,6 +71,7 @@ export async function patchDemographics(userId, commitValues) {
   ({ data } = await getAuthenticatedHttpClient()
     .patch(requestUrl, convertedCommitValues)
     .catch((error) => {
+      // TODO: I think we need similar error handling as the above?
       const apiError = Object.create(error);
       throw apiError;
     }));

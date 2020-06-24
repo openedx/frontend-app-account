@@ -61,8 +61,12 @@ export function* handleFetchSettings() {
       timeZones,
     }));
   } catch (e) {
-    yield put(fetchSettingsFailure(e.message));
-    throw e;
+    if (e.fieldErrors) {
+      yield put(fetchSettingsFailure({ fieldErrors: e.fieldErrors }));
+    } else {
+      yield put(fetchSettingsFailure(e.message));
+      throw e;
+    }
   }
 }
 
