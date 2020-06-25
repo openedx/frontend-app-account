@@ -4,6 +4,7 @@ import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 
 import messages from './AccountSettingsPage.messages';
+import { getConfig } from '@edx/frontend-platform';
 
 
 function JumpNav({ intl }) {
@@ -32,11 +33,13 @@ function JumpNav({ intl }) {
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </NavHashLink>
         </li>
-        <li>
-          <NavHashLink to="#demographics-information">
-            {intl.formatMessage(messages['account.settings.section.demographics.information'])}
-          </NavHashLink>
-        </li>
+        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION &&
+          <li>
+            <NavHashLink to="#demographics-information">
+              {intl.formatMessage(messages['account.settings.section.demographics.information'])}
+            </NavHashLink>
+          </li>
+        }
         <li>
           <NavHashLink to="#social-media">
             {intl.formatMessage(messages['account.settings.section.social.media'])}
