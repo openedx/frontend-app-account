@@ -43,14 +43,21 @@ export async function getDemographics(userId) {
     if (apiError.customAttributes.httpErrorStatus) {
       if (apiError.customAttributes.httpErrorStatus == 404) {
         data = await postDemographics(userId);
-      } else {
-        //apiError.fieldErrors.demographicsError = "error ocurred";
-        demographicsFieldErrors = JSON.parse(error.customAttributes.httpErrorResponseData);
-        apiError.fieldsErrors = {
-          ...fieldsErrors,
-          demographicsError: demographicsFieldErrors,
-        }
-        throw apiError;
+      } 
+    } else {
+      data = {
+        user: userId,
+        gender: null,
+        gender_description: null,
+        income: null,
+        learner_education_level: null,
+        parent_education_level: null,
+        military_history: null,
+        work_status: null,
+        work_status_description: null,
+        current_work_sector: null,
+        future_work_sector: null,
+        user_ethnicity: []
       }
     }
   }
@@ -71,8 +78,14 @@ export async function patchDemographics(userId, commitValues) {
   ({ data } = await getAuthenticatedHttpClient()
     .patch(requestUrl, convertedCommitValues)
     .catch((error) => {
-      // TODO: I think we need similar error handling as the above?
+      // if there was an error making the PATCH call then create an apiError object with a 'demographicsError' in the
+      // fieldErrors. This will trigger the `renderDemographicsServiceIssueWarningMessage()` (DemographicsSection.jsx)
+      // to display an Alert to let the end-user know that there may be an issue communicating with the Demographics
+      // service.
       const apiError = Object.create(error);
+      apiError.fieldErrors = {
+        demographicsError: error.customAttributes.httpErrorType
+      }
       throw apiError;
     }));
 

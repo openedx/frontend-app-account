@@ -1,6 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-
-import { siteLanguageOptionsSelector, siteLanguageListSelector } from '../site-language';
+import { siteLanguageListSelector, siteLanguageOptionsSelector } from '../site-language';
 
 export const storeName = 'accountSettings';
 
@@ -195,11 +194,14 @@ export const coachingConsentPageSelector = createSelector(
 export const demographicsSectionSelector = createSelector(
   formValuesSelector,
   draftsSelector,
+  errorSelector,
   (
     formValues,
     drafts,
+    errors,
   ) => ({
     formValues,
     drafts,
+    formErrors: errors,
   }),
 );

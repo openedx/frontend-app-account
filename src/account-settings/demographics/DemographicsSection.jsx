@@ -25,6 +25,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { demographicsSectionSelector } from '../data/selectors';
+import isEmpty from 'lodash.isempty';
 import memoize from 'memoize-one';
 import messages from './DemographicsSection.messages';
 
@@ -108,20 +109,14 @@ class DemographicsSection extends React.Component {
    * and temporarily cannot be updated.
    */
   renderDemographicsServiceIssueWarningMessage() {
-    console.log(this);
-    // TODO: I am trying to figure out how to pass back fieldErrors in the error handling of
-    // the getDemographics() method (../demographics/data/service.js) to determine if I need
-    // to show the Alert that there may be an issue with the Demographics service.
-    // I am _trying_ to base the condition on "if there are demographics field errors, show 
-    // the Alert, otherwise return null (no alert)"
-    if (true === false) {
+    if (!isEmpty(this.props.formErrors)) {
       return (
         <div>
           <Alert className="alert alert-danger" role="alert">
             <FormattedMessage
               id="account.settings.message.demographics.service.issue"
-              defaultMessage="An error occurred attempting to retrieve optional account information. Please try again later."
-              description="alert message informing the user that the there is a problem retrieving information from the Demographics service"
+              defaultMessage="An error occurred attempting to retrieve or save your account information. Please try again later."
+              description="alert message informing the user that the there is a problem retrieving or updating information from the Demographics microservice"
             />
           </Alert>
         </div>
@@ -290,6 +285,9 @@ DemographicsSection.propTypes = {
     demographics_work_status: PropTypes.string,
     demographics_current_work_sector: PropTypes.string,
     demographics_future_work_sector: PropTypes.string,
+  }).isRequired,
+  formErrors: PropTypes.shape({
+    demographicsError: PropTypes.string,
   }).isRequired,
   updateDraft: PropTypes.func.isRequired
 };
