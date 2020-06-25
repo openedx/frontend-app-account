@@ -25,6 +25,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { demographicsSectionSelector } from '../data/selectors';
+import get from 'lodash.get';
 import isEmpty from 'lodash.isempty';
 import memoize from 'memoize-one';
 import messages from './DemographicsSection.messages';
@@ -73,7 +74,7 @@ class DemographicsSection extends React.Component {
   }
 
   ethnicityFieldDisplay = () => {
-    if (this.props.formValues.demographics_user_ethnicity) {
+    if (get(this, 'props.formValues.demographics_user_ethnicity')) {
       const ethnicities = this.props.formValues.demographics_user_ethnicity;
       return ethnicities.map((e) => {
         if (e == DECLINED) {
