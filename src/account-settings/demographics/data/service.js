@@ -78,10 +78,10 @@ export async function patchDemographics(userId, commitValues) {
   ({ data } = await getAuthenticatedHttpClient()
     .patch(requestUrl, convertedCommitValues)
     .catch((error) => {
-      // if there was an error making the PATCH call then create an apiError object with a 'demographicsError' in the
-      // fieldErrors. This will trigger the `renderDemographicsServiceIssueWarningMessage()` (DemographicsSection.jsx)
-      // to display an Alert to let the end-user know that there may be an issue communicating with the Demographics
-      // service.
+      // If there was an error making the PATCH call then we create an apiError object containing a 'demographicsError' 
+      // fieldError. The content of the error itself isn't particularly important. This will trigger the 
+      // `renderDemographicsServiceIssueWarningMessage()` (DemographicsSection.jsx) to display an Alert to let the
+      // end-user know that there may be an issue communicating with the Demographics service.
       const apiError = Object.create(error);
       apiError.fieldErrors = {
         demographicsError: error.customAttributes.httpErrorType

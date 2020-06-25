@@ -1,42 +1,39 @@
-import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
-
-import { publish } from '@edx/frontend-platform';
-import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-
 // Actions
 import {
   FETCH_SETTINGS,
-  fetchSettingsBegin,
-  fetchSettingsSuccess,
-  fetchSettingsFailure,
-  closeForm,
-  SAVE_SETTINGS,
-  SAVE_MULTIPLE_SETTINGS,
-  saveSettingsBegin,
-  saveSettingsSuccess,
-  saveSettingsFailure,
-  savePreviousSiteLanguage,
   FETCH_TIME_ZONES,
+  SAVE_MULTIPLE_SETTINGS,
+  SAVE_SETTINGS,
+  closeForm,
+  fetchSettingsBegin,
+  fetchSettingsFailure,
+  fetchSettingsSuccess,
   fetchTimeZones,
   fetchTimeZonesSuccess,
   saveMultipleSettingsBegin,
-  saveMultipleSettingsSuccess,
   saveMultipleSettingsFailure,
+  saveMultipleSettingsSuccess,
+  savePreviousSiteLanguage,
+  saveSettingsBegin,
+  saveSettingsFailure,
+  saveSettingsSuccess,
 } from './actions';
+import { LOCALE_CHANGED, getLocale, handleRtl } from '@edx/frontend-platform/i18n';
+import { all, call, delay, put, takeEvery } from 'redux-saga/effects';
+// Services
+import { getSettings, getTimeZones, patchSettings } from './service';
+import {
+  patchPreferences,
+  postSetLang,
+  saga as siteLanguageSaga,
+} from '../site-language';
 
 // Sub-modules
 import { saga as deleteAccountSaga } from '../delete-account';
+import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { publish } from '@edx/frontend-platform';
 import { saga as resetPasswordSaga } from '../reset-password';
-import {
-  saga as siteLanguageSaga,
-  patchPreferences,
-  postSetLang,
-} from '../site-language';
 import { saga as thirdPartyAuthSaga } from '../third-party-auth';
-
-// Services
-import { getSettings, patchSettings, getTimeZones } from './service';
 
 export function* handleFetchSettings() {
   try {
@@ -61,12 +58,8 @@ export function* handleFetchSettings() {
       timeZones,
     }));
   } catch (e) {
-    if (e.fieldErrors) {
-      yield put(fetchSettingsFailure({ fieldErrors: e.fieldErrors }));
-    } else {
-      yield put(fetchSettingsFailure(e.message));
-      throw e;
-    }
+    yield put(fetchSettingsFailure(e.message));
+    throw e;
   }
 }
 
