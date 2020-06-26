@@ -12,12 +12,24 @@ export async function postDemographics(userId) {
   const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/`;
   const commitValues = { user: userId };
   let data = {};
-
+  
   ({ data } = await getAuthenticatedHttpClient()
     .post(requestUrl, commitValues)
     .catch((error) => {
-      const apiError = Object.create(error);
-      throw apiError;
+      data = {
+        user: userId,
+        gender: null,
+        gender_description: null,
+        income: null,
+        learner_education_level: null,
+        parent_education_level: null,
+        military_history: null,
+        work_status: null,
+        work_status_description: null,
+        current_work_sector: null,
+        future_work_sector: null,
+        user_ethnicity: []
+      }
     }));
 
   return convertData(data, FROM);
@@ -34,11 +46,9 @@ export async function getDemographics(userId) {
   try {
     ({ data } = await getAuthenticatedHttpClient()
       .get(requestUrl));
-
-    data = convertData(data, FROM);
   } catch (error) {
     const apiError = Object.create(error);
-    // if the API called resulted in this user receiving a 404 then follow up with a POST call to
+    // if the API called resulted in this user receiving a 404 then follow up with a POST call to try and
     // create the demographics entity on the backend
     if (apiError.customAttributes.httpErrorStatus) {
       if (apiError.customAttributes.httpErrorStatus == 404) {
@@ -62,7 +72,7 @@ export async function getDemographics(userId) {
     }
   }
 
-  return data;
+  return convertData(data, FROM);
 }
 
 /**

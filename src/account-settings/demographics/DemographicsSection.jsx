@@ -33,6 +33,22 @@ import messages from './DemographicsSection.messages';
 class DemographicsSection extends React.Component {
   constructor(props, context) {
     super(props, context);
+
+    this.alert = null;
+
+    this.setAlertRef = element => {
+      this.alert = element;
+    }
+
+    this.focusAlert = () => {
+      if (this.alert) this.alert.focus();
+    }
+  }
+
+  componentDidUpdate() {
+    if(!isEmpty(this.props.formErrors)) {
+      this.focusAlert();
+    }
   }
 
   getLocalizedOptions = memoize((locale) => ({
@@ -109,10 +125,12 @@ class DemographicsSection extends React.Component {
    * display an Alert letting the user know that their info will not be retrieved or displayed
    * and temporarily cannot be updated.
    */
-  renderDemographicsServiceIssueWarningMessage() {
+  renderDemographicsServiceIssueWarning() {    
     if (!isEmpty(this.props.formErrors)) {
       return (
-        <div>
+        <div 
+          tabIndex="-1"
+          ref={this.setAlertRef}>
           <Alert className="alert alert-danger" role="alert">
             <FormattedMessage
               id="account.settings.message.demographics.service.issue"
@@ -151,7 +169,7 @@ class DemographicsSection extends React.Component {
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
-        {this.renderDemographicsServiceIssueWarningMessage()}
+        {this.renderDemographicsServiceIssueWarning()}
 
         <EditableField
           name="demographics_gender"
