@@ -48,7 +48,7 @@ const messages = defineMessages({
   },
   'account.settings.coaching.consent.success.message': {
     id: 'account.settings.coaching.consent.success.message',
-    defaultMessage: "You're signed up for coaching. You will receive a text message confirmation.",
+    defaultMessage: "You're signed up for coaching. You can expect a message via email or SMS in the coming days.",
     description: 'Text announcing that you have signed up and will receive texts',
   },
   'account.settings.coaching.consent.success.continue': {
