@@ -89,7 +89,7 @@
   "account.settings.coaching.consent.label.name": "Please confirm your name",
   "account.settings.coaching.consent.label.phone-number": "Enter your mobile number",
   "account.settings.coaching.consent.success.header": "Success!",
-  "account.settings.coaching.consent.success.message": "You're signed up for coaching. You will receive a text message confirmation.",
+  "account.settings.coaching.consent.success.message": "You're signed up for coaching. You can expect a message via email or SMS in the coming days.",
   "account.settings.coaching.consent.success.continue": "Start my course",
   "account.settings.coaching.managed.support": "support",
   "account.settings.coaching.managed.alert": "Your name is managed by {managerTitle}. Contact your administrator for help.",
