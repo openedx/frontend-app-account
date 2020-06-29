@@ -1,0 +1,1173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DemographicsSection should render 1`] = `
+<div
+  className="account-section"
+  id="demographics-information"
+>
+  <h2
+    className="section-heading"
+  >
+    Optional Information
+  </h2>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Gender identity
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Race/Ethnicity identity
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          <button
+            className="btn btn-link p-0"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            Add race/ethnicity identity
+          </button>
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Family income
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            U.S. Military status
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Your education level
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Parents/Guardians education level
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Employment status
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Current work industry
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Future work industry
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DemographicsSection should render alert if error occurred 1`] = `
+<div
+  className="account-section"
+  id="demographics-information"
+>
+  <h2
+    className="section-heading"
+  >
+    Optional Information
+  </h2>
+  <div
+    tabIndex="-1"
+  >
+    <div
+      className="alert d-flex align-items-start alert alert-danger"
+    >
+      <div />
+      <div>
+        <span>
+          An error occurred attempting to retrieve or save your account information. Please try again later.
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Gender identity
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Race/Ethnicity identity
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          <button
+            className="btn btn-link p-0"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            Add race/ethnicity identity
+          </button>
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Family income
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            U.S. Military status
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Your education level
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Parents/Guardians education level
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Employment status
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Current work industry
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="pgn-transition-replace-group position-relative"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "padding": ".1px 0",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="d-flex align-items-start"
+        >
+          <h6
+            aria-level="3"
+          >
+            Future work industry
+          </h6>
+          <button
+            className="btn ml-3 btn-link"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+              data-icon="pencil-alt"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={Object {}}
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                fill="currentColor"
+                style={Object {}}
+              />
+            </svg>
+            Edit
+          </button>
+        </div>
+        <p>
+          Prefer not to respond
+        </p>
+        <p
+          className="small text-muted mt-n2"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
