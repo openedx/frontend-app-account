@@ -51,7 +51,7 @@ export async function getDemographics(userId) {
     ({ data } = await getAuthenticatedHttpClient()
       .get(requestUrl));
 
-      data = convertData(data, FROM);
+    data = convertData(data, FROM);
   } catch (error) {
     const apiError = Object.create(error);
     // if the API called resulted in this user receiving a 404 then follow up with a POST call to
@@ -63,22 +63,22 @@ export async function getDemographics(userId) {
     } else {
       data = {
         user: userId,
-        demographics_gender: "",
-        demographics_gender_description: "",
-        demographics_income: "",
-        demographics_learner_education_level: "",
-        demographics_parent_education_level: "",
-        demographics_military_history: "",
-        demographics_work_status: "",
-        demographics_work_status_description: "",
-        demographics_current_work_sector: "",
-        demographics_future_work_sector: "",
+        demographics_gender: '',
+        demographics_gender_description: '',
+        demographics_income: '',
+        demographics_learner_education_level: '',
+        demographics_parent_education_level: '',
+        demographics_military_history: '',
+        demographics_work_status: '',
+        demographics_work_status_description: '',
+        demographics_current_work_sector: '',
+        demographics_future_work_sector: '',
         demographics_user_ethnicity: [],
       };
     }
   }
 
-  return data
+  return data;
 }
 
 /**
