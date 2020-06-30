@@ -6,10 +6,7 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 import DemographicsSection from '../DemographicsSection';
 import { Provider } from 'react-redux';
 import React from 'react';
-import { SELF_DESCRIBE } from '../../data/constants';
-import { act } from 'react-dom/test-utils';
 import configureStore from 'redux-mock-store';
-import { faItalic } from '@fortawesome/free-solid-svg-icons';
 import renderer from 'react-test-renderer';
 
 jest.mock('@edx/frontend-platform/auth');
@@ -25,7 +22,6 @@ const mockStore = configureStore();
 describe('DemographicsSection', () => {
     let props = {};
     let store = {};
-    selectors.mockClear(); // TJ thinks this may not be needed, I can test with removing it and see if everything still works
     
     const reduxWrapper = children => (
         <IntlProvider locale="en">
@@ -33,11 +29,10 @@ describe('DemographicsSection', () => {
         </IntlProvider>
     );
     
-    // same as a "Setup method"
     beforeEach(() => {
         store = mockStore();
         props = {
-            updateDraft: undefined, //?
+            updateDraft: jest.fn(),
             formValues: {
                 demographics_gender: 'declined',
                 demographics_gender_description: '',
@@ -61,22 +56,71 @@ describe('DemographicsSection', () => {
             catch: () => {},
             }),
         }));
-        auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+        auth.getAuthenticatedUser = jest.fn(() => ({ userId: 1 }));
     });
 
-    // each "it" is an individual unit test
     it('should render', () => {
         const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should render alert if error occurred', () => {
+    it('should render an Alert if an error occurs', () => {
         props = {
             ...props,
             formErrors: {
                 demographicsError: "api-error"
             }
         };
+
+        const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
+        expect(wrapper).toMatchSnapshot();
+    });
+    
+    it('should set user input correctly when user provides gender self-description', () => {
+        props = {
+            ...props,
+            formValues: {
+                demographics_gender: 'self-describe',
+                demographics_gender_description: 'test',
+            },
+        }; 
+       
+       const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
+       expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should set user input correctly when user provides answers to work_status question', () => {
+        props = {
+            ...props,
+            formValues: {
+                demographics_work_status: 'other',
+                demographics_work_status_description: 'test',
+            }
+        }
+
+        const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render ethnicity text correctly', () => {
+        props = {
+            ...props,
+            formValues: {
+                demographics_user_ethnicity: ['asian']
+            }
+        }
+        
+        const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render ethnicity correctly when multiple options are selected', () => {
+        props = {
+            ...props,
+            formValues: {
+                demographics_user_ethnicity: ['hispanic-latin-spanish', 'white']
+            }
+        }
 
         const wrapper = renderer.create(reduxWrapper(<IntlDemographicsSection {...props} />)).toJSON();
         expect(wrapper).toMatchSnapshot();

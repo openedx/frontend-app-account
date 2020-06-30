@@ -86,7 +86,7 @@ export async function patchDemographics(userId, commitValues) {
 /**
  *  If there was an error making the PATCH call then we create an apiError object containing a 'demographicsError' 
  *  fieldError. The content of the error itself isn't particularly important. This will trigger the 
- *  `renderDemographicsServiceIssueWarningMessage()` (DemographicsSection.jsx) to display an Alert to let the
+ *  `renderDemographicsServiceIssueWarningMessage()` (in DemographicsSection.jsx) to display an Alert to let the
  *  end-user know that there may be an issue communicating with the Demographics service.
  * 
  * @param {Error} error  

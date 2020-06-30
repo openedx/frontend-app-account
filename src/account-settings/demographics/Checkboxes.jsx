@@ -29,7 +29,7 @@ export const Checkboxes = (props) => {
       setSelected(newSelected);
     }
 
-    // If unchecked, make sure this option is NOT in `seleted`
+    // If unchecked, make sure this option is NOT in `selected`
     if (!value) {
       setSelected(selected.filter(i => i !== option));
     }
