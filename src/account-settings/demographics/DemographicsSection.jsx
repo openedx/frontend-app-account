@@ -33,21 +33,12 @@ import messages from './DemographicsSection.messages';
 class DemographicsSection extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.alert = null;
-
-    this.setAlertRef = element => {
-      this.alert = element;
-    }
-
-    this.focusAlert = () => {
-      if (this.alert) this.alert.focus();
-    }
+    this.alertRef = React.createRef();
   }
 
   componentDidUpdate() {
     if(!isEmpty(this.props.formErrors)) {
-      this.focusAlert();
+      this.alertRef.current.focus();
     }
   }
 
@@ -125,12 +116,12 @@ class DemographicsSection extends React.Component {
    * display an Alert letting the user know that their info will not be retrieved or displayed
    * and temporarily cannot be updated.
    */
-  renderDemographicsServiceIssueWarning() {    
+  renderDemographicsServiceIssueWarning() {
     if (!isEmpty(this.props.formErrors)) {
       return (
-        <div 
+        <div
           tabIndex="-1"
-          ref={this.setAlertRef}>
+          ref={this.alertRef}>
           <Alert className="alert alert-danger" role="alert">
             <FormattedMessage
               id="account.settings.message.demographics.service.issue"
