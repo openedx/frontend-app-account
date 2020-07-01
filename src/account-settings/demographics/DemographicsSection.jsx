@@ -1,31 +1,46 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Input } from '@edx/paragon';
-import memoize from 'memoize-one';
-
-import { demographicsSectionSelector } from '../data/selectors';
-import { saveMultipleSettings, updateDraft } from '../data/actions';
-import EditableField from '../EditableField';
-import Checkboxes from './Checkboxes';
-import messages from './DemographicsSection.messages';
 import {
-  SELF_DESCRIBE,
-  DEMOGRAPHICS_GENDER_OPTIONS,
+  DECLINED,
+  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
   DEMOGRAPHICS_ETHNICITY_OPTIONS,
+  DEMOGRAPHICS_GENDER_OPTIONS,
   DEMOGRAPHICS_INCOME_OPTIONS,
   DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS,
-  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
-  OTHER,
-  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
   DEMOGRAPHICS_WORK_SECTOR_OPTIONS,
-  DECLINED,
+  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
+  OTHER,
+  SELF_DESCRIBE,
 } from '../data/constants';
+import {
+  FormattedMessage,
+  injectIntl,
+  intlShape,
+} from '@edx/frontend-platform/i18n';
+import { saveMultipleSettings, updateDraft } from '../data/actions';
+
+import Alert from '../Alert';
+import Checkboxes from './Checkboxes';
+import EditableField from '../EditableField';
+import { Input } from '@edx/paragon';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { demographicsSectionSelector } from '../data/selectors';
+import get from 'lodash.get';
+import isEmpty from 'lodash.isempty';
+import memoize from 'memoize-one';
+import messages from './DemographicsSection.messages';
 
 class DemographicsSection extends React.Component {
   constructor(props, context) {
-    super(props, context)
+    super(props, context);
+    
+    this.alertRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    if(!isEmpty(this.props.formErrors)) {
+      this.alertRef.current.focus();
+    }
   }
 
   getLocalizedOptions = memoize((locale) => ({
@@ -67,13 +82,15 @@ class DemographicsSection extends React.Component {
   }
 
   ethnicityFieldDisplay = () => {
-    const ethnicities = this.props.formValues.demographics_user_ethnicity;
-    return ethnicities.map((e) => {
-      if (e == DECLINED) {
-        return this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`]);
-      }
-      return this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${e}`])
-    }).join(", ")
+    if (get(this, 'props.formValues.demographics_user_ethnicity')) {
+      const ethnicities = this.props.formValues.demographics_user_ethnicity;
+      return ethnicities.map((e) => {
+        if (e == DECLINED) {
+          return this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`]);
+        }
+        return this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${e}`]);
+      }).join(", ")
+    }
   }
 
   handleEditableFieldChange = (name, value) => {
@@ -94,6 +111,31 @@ class DemographicsSection extends React.Component {
 
     this.props.saveMultipleSettings(settingsArray, formId);
   };
+
+  /**
+   * If an error is encountered when trying to communicate with the Demographics IDA then we will
+   * display an Alert letting the user know that their info will not be retrieved or displayed
+   * and temporarily cannot be updated.
+   */
+  renderDemographicsServiceIssueWarning() {    
+    if (!isEmpty(this.props.formErrors)) {
+      return (
+        <div 
+          tabIndex="-1"
+          ref={this.alertRef}>
+          <Alert className="alert alert-danger" role="alert">
+            <FormattedMessage
+              id="account.settings.message.demographics.service.issue"
+              defaultMessage="An error occurred attempting to retrieve or save your account information. Please try again later."
+              description="alert message informing the user that the there is a problem retrieving or updating information from the Demographics microservice"
+            />
+          </Alert>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
 
   render() {
     const editableFieldProps = {
@@ -119,6 +161,7 @@ class DemographicsSection extends React.Component {
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
+        {this.renderDemographicsServiceIssueWarning()}
 
         <EditableField
           name="demographics_gender"
@@ -239,7 +282,7 @@ class DemographicsSection extends React.Component {
       </div>
     )
   }
-}
+};
 
 DemographicsSection.propTypes = {
   intl: intlShape.isRequired,
@@ -254,10 +297,13 @@ DemographicsSection.propTypes = {
     demographics_current_work_sector: PropTypes.string,
     demographics_future_work_sector: PropTypes.string,
   }).isRequired,
+  formErrors: PropTypes.shape({
+    demographicsError: PropTypes.string,
+  }).isRequired,
   updateDraft: PropTypes.func.isRequired
 };
 
 export default connect(demographicsSectionSelector, {
   saveMultipleSettings,
   updateDraft,
-})(injectIntl(DemographicsSection))
+})(injectIntl(DemographicsSection));
