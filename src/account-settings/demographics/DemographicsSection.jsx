@@ -37,8 +37,16 @@ class DemographicsSection extends React.Component {
     this.alertRef = React.createRef();
   }
 
+  checkFormForDemographicsErrors() {
+    if(!isEmpty(this.props.formErrors.demographicsError)) {
+      return true;
+    }
+
+    return false;
+  }
+
   componentDidUpdate() {
-    if(!isEmpty(this.props.formErrors)) {
+    if(this.checkFormForDemographicsErrors()) {
       this.alertRef.current.focus();
     }
   }
@@ -117,8 +125,8 @@ class DemographicsSection extends React.Component {
    * display an Alert letting the user know that their info will not be retrieved or displayed
    * and temporarily cannot be updated.
    */
-  renderDemographicsServiceIssueWarning() {    
-    if (!isEmpty(this.props.formErrors)) {
+  renderDemographicsServiceIssueWarning() {
+    if (this.checkFormForDemographicsErrors()) {
       return (
         <div 
           tabIndex="-1"
