@@ -123,6 +123,7 @@
   "account.settings.delete.account.modal.after.text": "Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.",
   "account.settings.delete.account.modal.after.button": "Close",
   "account.settings.delete.account.text.3": "You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, {actionLink}.",
+  "account.settings.message.demographics.service.issue": "An error occurred attempting to retrieve or save your account information. Please try again later.",
   "account.settings.field.demographics.gender": "Gender identity",
   "account.settings.field.demographics.gender.empty": "Add gender identity",
   "account.settings.field.demographics.gender.options.empty": "Select a gender identity",
