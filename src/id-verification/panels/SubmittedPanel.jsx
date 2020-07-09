@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -17,7 +17,19 @@ function Survey() {
 }
 
 function SubmittedPanel(props) {
+  const [returnUrl, setReturnUrl] = useState('dashboard');
+  const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'submitted';
+
+  // If the user accessed IDV through a course,
+  // link back to that course rather than the dashboard
+  useEffect(() => {
+    if (sessionStorage.getItem('courseRunKey')) {
+      setReturnUrl(`courses/${sessionStorage.getItem('courseRunKey')}`);
+      setReturnText('id.verification.return.course');
+    }
+  }, []);
+
   return (
     <BasePanel
       name={panelSlug}
@@ -26,8 +38,8 @@ function SubmittedPanel(props) {
       <p>
         {props.intl.formatMessage(messages['id.verification.submitted.text'])}
       </p>
-      <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/dashboard`} style={{ marginBottom: 50 }}>
-        {props.intl.formatMessage(messages['id.verification.return'])}
+      <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`} style={{ marginBottom: 50 }}>
+        {props.intl.formatMessage(messages[returnText])}
       </a>
       <Survey />
     </BasePanel>
