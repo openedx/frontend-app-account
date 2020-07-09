@@ -10,6 +10,7 @@ import {
   OTHER,
   SELF_DESCRIBE,
 } from '../data/constants';
+import { getConfig } from '@edx/frontend-platform';
 import {
   FormattedMessage,
   injectIntl,
@@ -33,7 +34,7 @@ import messages from './DemographicsSection.messages';
 class DemographicsSection extends React.Component {
   constructor(props, context) {
     super(props, context);
-    
+
     this.alertRef = React.createRef();
   }
 
@@ -128,7 +129,7 @@ class DemographicsSection extends React.Component {
   renderDemographicsServiceIssueWarning() {
     if (this.checkFormForDemographicsErrors()) {
       return (
-        <div 
+        <div
           tabIndex="-1"
           ref={this.alertRef}>
           <Alert className="alert alert-danger" role="alert">
@@ -169,7 +170,12 @@ class DemographicsSection extends React.Component {
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
-        {this.renderDemographicsServiceIssueWarning()}
+        <div className="mb-2">
+          <a href={getConfig().MARKETING_SITE_BASE_URL + '/demographics'} target="_blank">
+            {this.props.intl.formatMessage(messages['account.settings.section.demographics.why'])}
+          </a>
+          {this.renderDemographicsServiceIssueWarning()}
+        </div>
 
         <EditableField
           name="demographics_gender"
