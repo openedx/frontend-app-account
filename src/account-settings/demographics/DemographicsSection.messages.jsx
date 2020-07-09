@@ -451,6 +451,11 @@ const messages = defineMessages({
     defaultMessage: 'Prefer not to respond',
     description: 'The label for the declined option.',
   },
+  'account.settings.section.demographics.why': {
+    id: 'account.settings.section.demographics.why',
+    defaultMessage: 'Why does edX collect this information?',
+    description: 'Link text for a link to external legal text',
+  },
 });
 
 export default messages;
