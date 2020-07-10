@@ -169,6 +169,7 @@ export const DEMOGRAPHICS_WORK_STATUS_OPTIONS = [
   '',
   'full-time',
   'part-time',
+  'self-employed',
   'not-employed-looking',
   'not-employed-not-looking',
   'unable',
