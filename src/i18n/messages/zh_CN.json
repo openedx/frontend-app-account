@@ -212,6 +212,7 @@
   "account.settings.field.demographics.work_sector.options.trade": "Wholesale Trade",
   "account.settings.field.demographics.work_sector.options.other": "Other",
   "account.settings.field.demographics.options.declined": "Prefer not to respond",
+  "account.settings.section.demographics.why": "Why does edX collect this information?",
   "error.notfound.message": "The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again.",
   "account.settings.editable.field.password.reset.button.confirmation.support.link": "technical support",
   "account.settings.editable.field.password.reset.button.confirmation": "We've sent a message to {email}. Click the link in the message to reset your password. Didn't receive the message? Contact {technicalSupportLink}.",
