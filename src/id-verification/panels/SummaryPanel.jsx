@@ -29,6 +29,7 @@ function SummaryPanel(props) {
         facePhotoFile,
         idPhotoFile,
         idPhotoName: nameToBeUsed,
+        courseRunKey: sessionStorage.getItem('courseRunKey'),
       };
       const result = await submitIdVerification(verificationData);
       if (result.success) {

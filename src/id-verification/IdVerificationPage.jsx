@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, Redirect, useRouteMatch, useLocation } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal, Button } from '@edx/paragon';
 import { idVerificationSelector } from './data/selectors';
@@ -22,7 +22,16 @@ import messages from './IdVerification.messages';
 // eslint-disable-next-line react/prefer-stateless-function
 function IdVerificationPage(props) {
   const { path } = useRouteMatch();
+  const { search } = useLocation();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Course run key is passed as a query string
+  useEffect(() => {
+    if (search) {
+      sessionStorage.setItem('courseRunKey', search.substring(1));
+    }
+  }, [search]);
 
   return (
     <>
@@ -33,9 +42,6 @@ function IdVerificationPage(props) {
           <div className="col-lg-6 col-md-8">
             <IdVerificationContextProvider>
               <Switch>
-                <Route exact path={path}>
-                  <Redirect to={`${path}/review-requirements`} />
-                </Route>
                 <Route path={`${path}/review-requirements`} component={ReviewRequirementsPanel} />
                 <Route path={`${path}/request-camera-access`} component={RequestCameraAccessPanel} />
                 <Route path={`${path}/portrait-photo-context`} component={PortraitPhotoContextPanel} />
