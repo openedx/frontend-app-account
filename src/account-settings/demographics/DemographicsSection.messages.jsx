@@ -286,6 +286,11 @@ const messages = defineMessages({
     defaultMessage: 'Employed, working part-time',
     description: 'The label for the employed, working part-time work status option.',
   },
+  'account.settings.field.demographics.work_status.options.self-employed': {
+    id: 'account.settings.field.demographics.work_status.options.self-employed',
+    defaultMessage: 'Self-Employed',
+    description: 'The label for the self-employed work status option.',
+  },
   'account.settings.field.demographics.work_status.options.not-employed-looking': {
     id: 'account.settings.field.demographics.work_status.options.not-employed-looking',
     defaultMessage: 'Not employed, looking for work',
