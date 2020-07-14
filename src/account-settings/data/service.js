@@ -152,8 +152,30 @@ export async function getProfileDataManager(username, userRoles) {
 }
 
 /**
+ * A function to determine if the Demographics questions should be displayed to the user. For the
+ * MVP release of Demographics we are limiting the Demographics question visibility only to
+ * MicroBachelors learners.
+ */
+export async function shouldDisplayDemographicsQuestions() {
+  const requestUrl = `${getConfig().LMS_BASE_URL}/api/demographics/v1/demographics/status/`;
+  let data = {};
+
+  try {
+    ({ data } = await getAuthenticatedHttpClient().get(requestUrl));
+    if (data.display) {
+      return data.display;
+    }
+  } catch (error) {
+    // if there was an error then we just hide the section
+    return false;
+  }
+
+  return false;
+}
+
+/**
  * A single function to GET everything considered a setting.
- * Currently encapsulates Account, Preferences, Coaching, and ThirdPartyAuth
+ * Currently encapsulates Account, Preferences, Coaching, ThirdPartyAuth, and Demographics
  */
 export async function getSettings(username, userRoles, userId) {
   const results = await Promise.all([
@@ -163,6 +185,7 @@ export async function getSettings(username, userRoles, userId) {
     getProfileDataManager(username, userRoles),
     getTimeZones(),
     getConfig().COACHING_ENABLED && getCoachingPreferences(userId),
+    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
   ]);
 
@@ -173,7 +196,8 @@ export async function getSettings(username, userRoles, userId) {
     profileDataManager: results[3],
     timeZones: results[4],
     coaching: results[5],
-    ...results[6], // demographics
+    shouldDisplayDemographicsSection: results[6],
+    ...results[7], // demographics
   };
 }
 
