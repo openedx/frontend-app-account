@@ -5,9 +5,10 @@ import Scrollspy from 'react-scrollspy';
 
 import messages from './AccountSettingsPage.messages';
 import { getConfig } from '@edx/frontend-platform';
+import PropTypes from 'prop-types';
 
 
-function JumpNav({ intl }) {
+function JumpNav({ intl, displayDemographicsLink }) {
   return (
     <div className="jump-nav">
       <Scrollspy
@@ -33,7 +34,7 @@ function JumpNav({ intl }) {
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </NavHashLink>
         </li>
-        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION &&
+        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && displayDemographicsLink &&
           <li>
             <NavHashLink to="#demographics-information">
               {intl.formatMessage(messages['account.settings.section.demographics.information'])}
@@ -68,7 +69,11 @@ function JumpNav({ intl }) {
 
 JumpNav.propTypes = {
   intl: intlShape.isRequired,
+  displayDemographicsLink: PropTypes.bool.isRequired,
 };
 
+JumpNav.defaultProps = {
+  displayDemographicsLink: false,
+}
 
 export default injectIntl(JumpNav);

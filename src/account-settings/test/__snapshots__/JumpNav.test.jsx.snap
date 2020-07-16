@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JumpNav should not render Optional Information link 1`] = `
+<div
+  className="jump-nav"
+>
+  <ul
+    className="list-unstyled"
+    style={Object {}}
+  >
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#basic-information"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Account Information
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#profile-information"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Profile Information
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#social-media"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Social Media Links
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#site-preferences"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Site Preferences
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#linked-accounts"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Linked Accounts
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#delete-account"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Delete My Account
+      </a>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`JumpNav should render Optional Information link 1`] = `
+<div
+  className="jump-nav"
+>
+  <ul
+    className="list-unstyled"
+    style={Object {}}
+  >
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#basic-information"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Account Information
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#profile-information"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Profile Information
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#demographics-information"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Optional Information
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#social-media"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Social Media Links
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#site-preferences"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Site Preferences
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#linked-accounts"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Linked Accounts
+      </a>
+    </li>
+    <li
+      className=""
+    >
+      <a
+        aria-current="page"
+        className="active"
+        href="/#delete-account"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Delete My Account
+      </a>
+    </li>
+  </ul>
+</div>
+`;

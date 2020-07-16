@@ -207,6 +207,17 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
+  renderDemographicsSection() {
+    // check the result of an LMS API call to determine if we should render the DemographicsSection component
+    if (this.props.formValues.shouldDisplayDemographicsSection) {
+      return (
+        <DemographicsSection/>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderContent() {
     const editableFieldProps = {
       onChange: this.handleEditableFieldChange,
@@ -364,9 +375,7 @@ class AccountSettingsPage extends React.Component {
             />
           }
         </div>
-        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION &&
-          <DemographicsSection />
-        }
+        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
         <div className="account-section" id="social-media">
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
@@ -479,7 +488,9 @@ class AccountSettingsPage extends React.Component {
         <div>
           <div className="row">
             <div className="col-md-3">
-              <JumpNav />
+              <JumpNav 
+                displayDemographicsLink={this.props.formValues.shouldDisplayDemographicsSection}
+              />
             </div>
             <div className="col-md-9">
               {loading ? this.renderLoading() : null}
