@@ -8,15 +8,17 @@ import ImageFileUpload from '../ImageFileUpload';
 import ImagePreview from '../ImagePreview';
 import Camera from '../Camera';
 import CameraHelp from '../CameraHelp';
-import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
+import { IdVerificationContext } from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
 function TakePortraitPhotoPanel(props) {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { setFacePhotoFile, facePhotoFile, mediaAccess } = useContext(IdVerificationContext);
-  const shouldUseCamera = mediaAccess === MEDIA_ACCESS.GRANTED;
+  const { setFacePhotoFile, facePhotoFile } = useContext(IdVerificationContext);
+  const shouldUseCamera = true;
+  // to reenable upload component:
+  // const shouldUseCamera = mediaAccess === MEDIA_ACCESS.GRANTED;
 
   return (
     <BasePanel

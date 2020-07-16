@@ -8,15 +8,18 @@ import ImageFileUpload from '../ImageFileUpload';
 import ImagePreview from '../ImagePreview';
 import Camera from '../Camera';
 import CameraHelp from '../CameraHelp';
-import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
+import { IdVerificationContext } from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
 function TakeIdPhotoPanel(props) {
   const panelSlug = 'take-id-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { setIdPhotoFile, idPhotoFile, mediaAccess } = useContext(IdVerificationContext);
-  const shouldUseCamera = mediaAccess === MEDIA_ACCESS.GRANTED;
+  const { setIdPhotoFile, idPhotoFile } = useContext(IdVerificationContext);
+  const shouldUseCamera = true;
+  // to reenable upload component:
+  // const shouldUseCamera = mediaAccess === MEDIA_ACCESS.GRANTED;
+
   return (
     <BasePanel
       name={panelSlug}
