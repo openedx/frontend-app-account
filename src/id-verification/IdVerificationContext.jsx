@@ -34,6 +34,7 @@ function IdVerificationContextProvider({ children }) {
     idPhotoName,
     mediaStream,
     mediaAccess,
+    userId: authenticatedUser.userId,
     nameOnAccount: authenticatedUser.name,
     setExistingIdVerification,
     setFacePhotoFile,
