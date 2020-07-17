@@ -89,8 +89,17 @@ export async function getDemographics(userId) {
 export async function patchDemographics(userId, commitValues) {
   const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/${userId}/`;
   const convertedCommitValues = convertData(commitValues, TO);
-  let data = {};
 
+  // Before patching we check to see if the gender options are being updated. If so, then we should
+  // try to make sure we have cleaned up any old data in case the user previously provided a
+  // self-description for their gender identity.
+  if ('gender' in convertedCommitValues) {
+    if (convertedCommitValues.gender !== 'self-describe') {
+      convertedCommitValues.gender_description = null;
+    }
+  }
+
+  let data = {};
   ({ data } = await getAuthenticatedHttpClient()
     .patch(requestUrl, convertedCommitValues)
     .catch((error) => {
