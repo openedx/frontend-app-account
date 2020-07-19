@@ -179,6 +179,7 @@
   "account.settings.field.demographics.work_status.options.empty": "Select employment status",
   "account.settings.field.demographics.work_status.options.full-time": "Employed, working full-time",
   "account.settings.field.demographics.work_status.options.part-time": "Employed, working part-time",
+  "account.settings.field.demographics.work_status.options.self-employed": "Self-Employed",
   "account.settings.field.demographics.work_status.options.not-employed-looking": "Not employed, looking for work",
   "account.settings.field.demographics.work_status.options.not-employed-not-looking": "Not employed, not looking for work",
   "account.settings.field.demographics.work_status.options.unable": "Unable to work",
@@ -291,7 +292,8 @@
   "id.verification.review.confirm": "Confirm",
   "id.verification.submitted.title": "Identity Verification in Progress",
   "id.verification.submitted.text": "We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days). In the meantime, you can still access all available course content.",
-  "id.verification.submitted.return": "Return to Your Dashboard",
+  "id.verification.return.dashboard": "Return to Your Dashboard",
+  "id.verification.return.course": "Return to Course",
   "id.verification.account.name.warning": "{prefix} Any edit to your name will be saved to your account and can be reviewed on {accountSettings}.",
   "id.verification.request.camera.access.instructions": "In order to take a photo using your webcam, you may receive a browser prompt for access to your camera. {clickAllow}",
   "id.verification.requirements.card.device.text": "You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click {allow}."
