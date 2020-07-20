@@ -76,16 +76,15 @@ class AccountSettingsPage extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    if (this.props.loaded) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !prevProps.loaded && this.props.loaded) {
       const locationHash = global.location.hash;
-
       // Check for the locationHash in the URL and then scroll to it if it is in the
       // NavLinks list
       if (typeof locationHash !== 'string')
         return;
       if (Object.keys(this.navLinkRefs).includes(locationHash) && this.navLinkRefs[locationHash].current) {
-          window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop)
+        window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop)
       }
     }
   }
