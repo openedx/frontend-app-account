@@ -231,11 +231,6 @@ const messages = defineMessages({
     defaultMessage: 'Some college, but no degree',
     description: 'The label for the some college, but no degree education level option.',
   },
-  'account.settings.field.demographics.education_level.options.some-college': {
-    id: 'account.settings.field.demographics.education_level.options.some-college',
-    defaultMessage: 'Some college, but no degree',
-    description: 'The label for the some college, but no degree education level option.',
-  },
   'account.settings.field.demographics.education_level.options.associates': {
     id: 'account.settings.field.demographics.education_level.options.associates',
     defaultMessage: 'Associates degree',
