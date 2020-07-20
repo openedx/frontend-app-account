@@ -84,10 +84,8 @@ class AccountSettingsPage extends React.Component {
       // NavLinks list
       if (typeof locationHash !== 'string')
         return;
-      if (Object.keys(this.navLinkRefs).includes(locationHash)) {
-        if (this.navLinkRefs[locationHash].current) {
+      if (Object.keys(this.navLinkRefs).includes(locationHash) && this.navLinkRefs[locationHash].current) {
           window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop)
-        }
       }
     }
   }
