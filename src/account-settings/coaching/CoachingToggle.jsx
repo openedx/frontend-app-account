@@ -33,7 +33,7 @@ const CoachingToggle = props => (
               formId: 'phone_number',
               commitValues: props.phone_number,
             },
-        ]);
+        ], 'phone_number');
       }
         return props.saveSettings('phone_number', props.phone_number);
     }}
