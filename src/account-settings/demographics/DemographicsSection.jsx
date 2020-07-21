@@ -170,12 +170,12 @@ class DemographicsSection extends React.Component {
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
-        <div className="mb-2">
+        <p>
           <a href={getConfig().MARKETING_SITE_BASE_URL + '/demographics'} target="_blank">
             {this.props.intl.formatMessage(messages['account.settings.section.demographics.why'])}
           </a>
-          {this.renderDemographicsServiceIssueWarning()}
-        </div>
+        </p>
+        {this.renderDemographicsServiceIssueWarning()}
 
         <EditableField
           name="demographics_gender"
