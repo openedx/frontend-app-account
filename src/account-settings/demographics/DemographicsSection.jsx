@@ -166,7 +166,7 @@ class DemographicsSection extends React.Component {
     const showWorkStatusDescribe = this.props.formValues.demographics_work_status == OTHER;
 
     return (
-      <div className="account-section" id="demographics-information">
+      <div className="account-section" id="demographics-information" ref={this.props.forwardRef}>
         <h2 className="section-heading">
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>

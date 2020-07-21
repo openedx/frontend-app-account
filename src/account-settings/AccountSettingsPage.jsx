@@ -38,6 +38,7 @@ import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
 import DemographicsSection from './demographics/DemographicsSection';
 
+
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -53,6 +54,16 @@ class AccountSettingsPage extends React.Component {
     this.state = {
       duplicateTpaProvider,
     };
+
+    this.navLinkRefs = {
+      '#basic-information': React.createRef(),
+      '#profile-information': React.createRef(),
+      '#demographics-information': React.createRef(),
+      '#social-media': React.createRef(),
+      '#site-preferences': React.createRef(),
+      '#linked-accounts': React.createRef(),
+      '#delete-account': React.createRef(),
+    };
   }
 
   componentDidMount() {
@@ -63,6 +74,19 @@ class AccountSettingsPage extends React.Component {
       visibility: null,
       user_id: this.context.authenticatedUser.userId,
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !prevProps.loaded && this.props.loaded) {
+      const locationHash = global.location.hash;
+      // Check for the locationHash in the URL and then scroll to it if it is in the
+      // NavLinks list
+      if (typeof locationHash !== 'string')
+        return;
+      if (Object.keys(this.navLinkRefs).includes(locationHash) && this.navLinkRefs[locationHash].current) {
+        window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop)
+      }
+    }
   }
 
   // NOTE: We need 'locale' for the memoization in getLocalizedTimeZoneOptions.  Don't remove it!
@@ -211,7 +235,7 @@ class AccountSettingsPage extends React.Component {
     // check the result of an LMS API call to determine if we should render the DemographicsSection component
     if (this.props.formValues.shouldDisplayDemographicsSection) {
       return (
-        <DemographicsSection/>
+        <DemographicsSection forwardRef={this.navLinkRefs['#demographics-information']}/>
       );
     } else {
       return null;
@@ -247,7 +271,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="account-section" id="basic-information">
+        <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
@@ -334,7 +358,7 @@ class AccountSettingsPage extends React.Component {
           }
         </div>
 
-        <div className="account-section" id="profile-information">
+        <div className="account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
@@ -408,7 +432,7 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section" id="site-preferences">
+        <div className="account-section" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
@@ -439,13 +463,13 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section" id="linked-accounts">
+        <div className="account-section" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
           <h2 className="section-heading">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
           <ThirdPartyAuth />
         </div>
 
-        <div className="account-section" id="delete-account">
+        <div className="account-section" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
           <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
@@ -488,7 +512,7 @@ class AccountSettingsPage extends React.Component {
         <div>
           <div className="row">
             <div className="col-md-3">
-              <JumpNav 
+              <JumpNav
                 displayDemographicsLink={this.props.formValues.shouldDisplayDemographicsSection}
               />
             </div>
