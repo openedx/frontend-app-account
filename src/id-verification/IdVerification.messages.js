@@ -121,6 +121,11 @@ const messages = defineMessages({
     defaultMessage: 'It looks like we\'re unable to access your camera. You will need to upload image files of you and your photo id.',
     description: 'Text indicating that the camera could not be accessed and image upload will be enabled.',
   },
+  'id.verification.camera.access.failure.temporary': {
+    id: 'id.verification.camera.access.failure.temporary',
+    defaultMessage: 'It looks like we\'re unable to access your camera. Please verify that your webcam is connected and that you have allowed your browser to access it.',
+    description: 'Text indicating that the camera could not be accessed.',
+  },
   'id.verification.photo.tips.title': {
     id: 'id.verification.photo.tips.title',
     defaultMessage: 'Helpful Photo Tips',

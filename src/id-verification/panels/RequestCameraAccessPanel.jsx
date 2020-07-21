@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Collapsible } from '@edx/paragon';
+import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -10,9 +10,20 @@ import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 
 function RequestCameraAccessPanel(props) {
+  const [returnUrl, setReturnUrl] = useState('dashboard');
+  const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { tryGetUserMedia, mediaAccess } = useContext(IdVerificationContext);
+
+  // If the user accessed IDV through a course,
+  // link back to that course rather than the dashboard
+  useEffect(() => {
+    if (sessionStorage.getItem('courseRunKey')) {
+      setReturnUrl(`courses/${sessionStorage.getItem('courseRunKey')}`);
+      setReturnText('id.verification.return.course');
+    }
+  }, []);
 
   return (
     <BasePanel
@@ -35,18 +46,6 @@ function RequestCameraAccessPanel(props) {
             <button className="btn btn-primary" onClick={tryGetUserMedia}>
               {props.intl.formatMessage(messages['id.verification.camera.access.enable'])}
             </button>
-            <Collapsible.Advanced className="mr-auto">
-              <Collapsible.Visible whenClosed>
-                <Collapsible.Trigger tag="button" className="btn btn-link px-0">
-                  {props.intl.formatMessage(messages['id.verification.camera.access.problems'])}
-                </Collapsible.Trigger>
-              </Collapsible.Visible>
-              <Collapsible.Body>
-                <Link to={nextPanelSlug} className="btn btn-link">
-                  {props.intl.formatMessage(messages['id.verification.camera.access.skip'])}
-                </Link>
-              </Collapsible.Body>
-            </Collapsible.Advanced>
           </div>
         </div>
       )}
@@ -67,12 +66,12 @@ function RequestCameraAccessPanel(props) {
       {[MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess) && (
         <div>
           <p>
-            {props.intl.formatMessage(messages['id.verification.camera.access.failure'])}
+            {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
           </p>
           <div className="action-row">
-            <Link to={nextPanelSlug} className="btn btn-primary">
-              {props.intl.formatMessage(messages['id.verification.next'])}
-            </Link>
+            <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+              {props.intl.formatMessage(messages[returnText])}
+            </a>
           </div>
         </div>
       )}
