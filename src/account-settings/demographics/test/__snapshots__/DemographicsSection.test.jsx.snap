@@ -10,16 +10,14 @@ exports[`DemographicsSection should render 1`] = `
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
-  </div>
+  </p>
   <div
     className="pgn-transition-replace-group position-relative"
     style={
@@ -599,27 +597,25 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
+  </p>
+  <div
+    tabIndex="-1"
+  >
     <div
-      tabIndex="-1"
+      className="alert d-flex align-items-start alert alert-danger"
     >
-      <div
-        className="alert d-flex align-items-start alert alert-danger"
-      >
-        <div />
-        <div>
-          <span>
-            An error occurred attempting to retrieve or save your account information. Please try again later.
-          </span>
-        </div>
+      <div />
+      <div>
+        <span>
+          An error occurred attempting to retrieve or save your account information. Please try again later.
+        </span>
       </div>
     </div>
   </div>
@@ -1202,16 +1198,14 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
-  </div>
+  </p>
   <div
     className="pgn-transition-replace-group position-relative"
     style={
@@ -1847,16 +1841,14 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
-  </div>
+  </p>
   <div
     className="pgn-transition-replace-group position-relative"
     style={
@@ -2492,16 +2484,14 @@ exports[`DemographicsSection should set user input correctly when user provides 
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
-  </div>
+  </p>
   <div
     className="pgn-transition-replace-group position-relative"
     style={
@@ -3137,16 +3127,14 @@ exports[`DemographicsSection should set user input correctly when user provides 
   >
     Optional Information
   </h2>
-  <div
-    className="mb-2"
-  >
+  <p>
     <a
       href="http://localhost:5335/demographics"
       target="_blank"
     >
       Why does edX collect this information?
     </a>
-  </div>
+  </p>
   <div
     className="pgn-transition-replace-group position-relative"
     style={
