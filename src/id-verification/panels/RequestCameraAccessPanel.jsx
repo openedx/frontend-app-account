@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { getConfig } from '@edx/frontend-platform';
+import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -14,7 +15,22 @@ function RequestCameraAccessPanel(props) {
   const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { tryGetUserMedia, mediaAccess } = useContext(IdVerificationContext);
+  const { tryGetUserMedia, mediaAccess, userId } = useContext(IdVerificationContext);
+
+  useEffect(() => {
+    if (mediaAccess === MEDIA_ACCESS.UNSUPPORTED) {
+      sendTrackingLogEvent('edx.id_verification.camera.unsupported', {
+        category: 'id_verification',
+        user_id: userId,
+      });
+    }
+    if (mediaAccess === MEDIA_ACCESS.DENIED) {
+      sendTrackingLogEvent('edx.id_verification.camera.denied', {
+        category: 'id_verification',
+        user_id: userId,
+      });
+    }
+  }, [mediaAccess, userId]);
 
   // If the user accessed IDV through a course,
   // link back to that course rather than the dashboard

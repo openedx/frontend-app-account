@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Input, Button } from '@edx/paragon';
 import { Link } from 'react-router-dom';
+import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -15,19 +16,30 @@ function GetNameIdPanel(props) {
   const [isEditing, setIsEditing] = useState(false);
   const nameInputRef = useRef();
   const nextPanelSlug = useNextPanelSlug(panelSlug);
+
   useEffect(() => {
     if (isEditing && nameInputRef.current) {
       nameInputRef.current.focus();
     }
   }, [isEditing]);
+
   const {
-    nameOnAccount, idPhotoName, setIdPhotoName, idPhotoFile,
+    nameOnAccount, userId, idPhotoName, setIdPhotoName, idPhotoFile,
   } = useContext(IdVerificationContext);
   const nameOnAccountValue = nameOnAccount || '';
+
+  const handleClick = () => {
+    setIsEditing(true);
+    sendTrackingLogEvent('edx.id_verification.name_change', {
+      category: 'id_verification',
+      user_id: userId,
+    });
+  };
+
   return (
     <BasePanel
       name={panelSlug}
-      title="Account Name Check"
+      title={props.intl.formatMessage(messages['id.verification.account.name.title'])}
     >
       <p>
         {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
@@ -62,7 +74,7 @@ function GetNameIdPanel(props) {
           {!isEditing && (
             <Button
               className="btn-link px-0 ml-3"
-              onClick={() => setIsEditing(true)}
+              onClick={handleClick}
             >
               {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
             </Button>
