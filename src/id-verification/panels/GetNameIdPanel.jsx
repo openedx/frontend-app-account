@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Input, Button } from '@edx/paragon';
 import { Link } from 'react-router-dom';
-import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -30,7 +30,7 @@ function GetNameIdPanel(props) {
 
   const handleClick = () => {
     setIsEditing(true);
-    sendTrackingLogEvent('edx.id_verification.name_change', {
+    sendTrackEvent('edx.id_verification.name_change', {
       category: 'id_verification',
       user_id: userId,
     });

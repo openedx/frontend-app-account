@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { getConfig } from '@edx/frontend-platform';
-import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -19,13 +19,13 @@ function RequestCameraAccessPanel(props) {
 
   useEffect(() => {
     if (mediaAccess === MEDIA_ACCESS.UNSUPPORTED) {
-      sendTrackingLogEvent('edx.id_verification.camera.unsupported', {
+      sendTrackEvent('edx.id_verification.camera.unsupported', {
         category: 'id_verification',
         user_id: userId,
       });
     }
     if (mediaAccess === MEDIA_ACCESS.DENIED) {
-      sendTrackingLogEvent('edx.id_verification.camera.denied', {
+      sendTrackEvent('edx.id_verification.camera.denied', {
         category: 'id_verification',
         user_id: userId,
       });
