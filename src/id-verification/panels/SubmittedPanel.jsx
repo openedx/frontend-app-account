@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getConfig } from '@edx/frontend-platform';
-import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import BasePanel from './BasePanel';
@@ -31,7 +31,7 @@ function SubmittedPanel(props) {
       setReturnUrl(`courses/${sessionStorage.getItem('courseRunKey')}`);
       setReturnText('id.verification.return.course');
     }
-    sendTrackingLogEvent('edx.id_verification.submitted', {
+    sendTrackEvent('edx.id_verification.submitted', {
       category: 'id_verification',
       user_id: userId,
     });
