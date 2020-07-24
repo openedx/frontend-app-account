@@ -338,7 +338,7 @@ const messages = defineMessages({
   },
   'id.verification.submitted.text': {
     id: 'id.verification.submitted.text',
-    defaultMessage: 'We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days). In the meantime, you can still access all available course content.',
+    defaultMessage: 'We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 5 days). In the meantime, you can still access all available course content.',
     description: 'Text confirming that ID verification request has been received.',
   },
   'id.verification.return.dashboard': {
