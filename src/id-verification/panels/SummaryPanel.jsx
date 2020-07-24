@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { history } from '@edx/frontend-platform';
-import { Input, Button } from '@edx/paragon';
+import { Input, Button, Spinner } from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -22,9 +22,11 @@ function SummaryPanel(props) {
     idPhotoName,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function SubmitButton() {
     async function handleClick() {
+      setIsSubmitting(true);
       const verificationData = {
         facePhotoFile,
         idPhotoFile,
@@ -37,7 +39,7 @@ function SummaryPanel(props) {
       }
     }
     return (
-      <Button className="btn btn-primary" title="Confirmation" onClick={handleClick}>
+      <Button className="btn btn-primary" title="Confirmation" disabled={isSubmitting} onClick={handleClick}>
         {props.intl.formatMessage(messages['id.verification.review.confirm'])}
       </Button>
     );
@@ -115,7 +117,8 @@ function SummaryPanel(props) {
           </Link>
         </div>
       </div>
-      <SubmitButton />
+      <SubmitButton />{' '}
+      {isSubmitting && <Spinner animation="border" variant="primary" />}
     </BasePanel>
   );
 }
