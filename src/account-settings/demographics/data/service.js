@@ -1,21 +1,40 @@
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform';
+import get from 'lodash.get';
 import { convertData, TO, FROM } from './utils';
 
 /**
- *  If there was an error making the PATCH call then we create an apiError object containing a
- *  'demographicsError' fieldError. The content of the error itself isn't particularly important.
- *  This will trigger the `renderDemographicsServiceIssueWarningMessage()` (in
- *  DemographicsSection.jsx) to display an Alert to let the end-user know that there may be an
- *  issue communicating with the Demographics service.
+ * Utility method that attempts to extract errors from the response of a PATCH request in order to
+ * display a warning or otherwise meaningful message to the user.
  *
  * @param {Error} error
  */
 export function createDemographicsError(error) {
   const apiError = Object.create(error);
-  apiError.fieldErrors = {
-    demographicsError: error.customAttributes.httpErrorType,
-  };
+  // If the error received has the `httpResponseData` field in it, then we should have reason to
+  // believe the Demographics service is alive and responding. Extract errors from fields where
+  // appropriate so we can display them to the user.
+  if (get(error, 'customAttributes.httpErrorResponseData')) {
+    apiError.fieldErrors = JSON.parse(error.customAttributes.httpErrorResponseData);
+    if (get(apiError, 'fieldErrors.gender_description')) {
+      // eslint-disable-next-line prefer-destructuring
+      apiError.fieldErrors.demographics_gender = apiError.fieldErrors.gender_description[0];
+      delete apiError.fieldErrors.gender_description;
+    } else if (get(apiError, 'fieldErrors.work_status_description')) {
+      // eslint-disable-next-line prefer-destructuring
+      apiError.fieldErrors.demographics_work_status =
+        apiError.fieldErrors.work_status_description[0];
+      delete apiError.fieldErrors.work_status_description;
+    }
+  // Otherwise, when the service is down, the error response will not contain a
+  // `httpErrorResponseData` field. Add a generic 'demographicsError' field to the fieldErrors that
+  // will trigger showing an Alert to the user to them them know the update was unsuccessful.
+  } else {
+    apiError.fieldErrors = {
+      demographicsError: error.customAttributes.httpErrorType,
+    };
+  }
+
   return apiError;
 }
 
