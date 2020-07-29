@@ -44,12 +44,13 @@ export function createDemographicsError(error) {
  * @param {Object} commitValues { demographics }
  */
 export async function postDemographics(userId) {
+  const requestConfig = { headers: { 'Content-Type': 'application/json' } };
   const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/`;
   const commitValues = { user: userId };
   let data = {};
 
   ({ data } = await getAuthenticatedHttpClient()
-    .post(requestUrl, commitValues)
+    .post(requestUrl, commitValues, requestConfig)
     .catch((error) => {
       const apiError = createDemographicsError(error);
       throw apiError;
