@@ -45,7 +45,7 @@ function TakeIdPhotoPanel(props) {
         )}
       </div>
       <div className="action-row" style={{ visibility: idPhotoFile ? 'unset' : 'hidden' }}>
-        <Link to={nextPanelSlug} className="btn btn-primary">
+        <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

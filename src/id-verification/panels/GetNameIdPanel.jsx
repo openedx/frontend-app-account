@@ -70,11 +70,13 @@ function GetNameIdPanel(props) {
             readOnly={!isEditing}
             value={idPhotoName || nameOnAccountValue}
             onChange={e => setIdPhotoName(e.target.value)}
+            data-testid="name-input"
           />
           {!isEditing && (
             <Button
               className="btn-link px-0 ml-3"
               onClick={handleClick}
+              data-testid="edit-button"
             >
               {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
             </Button>
@@ -88,7 +90,7 @@ function GetNameIdPanel(props) {
       />
 
       <div className="action-row">
-        <Link to={nextPanelSlug} className="btn btn-primary">
+        <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {isEditing ? props.intl.formatMessage(messages['id.verification.account.name.save']) : props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

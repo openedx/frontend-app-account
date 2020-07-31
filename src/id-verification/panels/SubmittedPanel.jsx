@@ -35,7 +35,11 @@ function SubmittedPanel(props) {
       <p>
         {props.intl.formatMessage(messages['id.verification.submitted.text'])}
       </p>
-      <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+      <a
+        className="btn btn-primary"
+        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
+        data-testid="return-button"
+      >
         {props.intl.formatMessage(messages[returnText])}
       </a>
     </BasePanel>

@@ -68,11 +68,11 @@ function RequestCameraAccessPanel(props) {
 
       {mediaAccess === MEDIA_ACCESS.GRANTED && (
         <div>
-          <p>
+          <p data-testid="camera-access-success">
             {props.intl.formatMessage(messages['id.verification.camera.access.success'])}
           </p>
           <div className="action-row">
-            <Link to={nextPanelSlug} className="btn btn-primary">
+            <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
               {props.intl.formatMessage(messages['id.verification.next'])}
             </Link>
           </div>
@@ -81,7 +81,7 @@ function RequestCameraAccessPanel(props) {
 
       {[MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess) && (
         <div>
-          <p>
+          <p data-testid="camera-access-failure">
             {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
           </p>
           <div className="action-row">

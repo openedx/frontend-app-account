@@ -39,7 +39,13 @@ function SummaryPanel(props) {
       }
     }
     return (
-      <Button className="btn btn-primary" title="Confirmation" disabled={isSubmitting} onClick={handleClick}>
+      <Button
+        className="btn btn-primary"
+        title="Confirmation"
+        disabled={isSubmitting}
+        onClick={handleClick}
+        data-testid="submit-button"
+      >
         {props.intl.formatMessage(messages['id.verification.review.confirm'])}
       </Button>
     );
