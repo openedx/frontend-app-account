@@ -37,7 +37,7 @@ function PortraitPhotoContextPanel(props) {
         </div>
       </div>
       <div className="action-row">
-        <Link to={nextPanelSlug} className="btn btn-primary">
+        <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
