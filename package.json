@@ -81,7 +81,7 @@
     "@testing-library/react": "^10.4.7",
     "codecov": "3.7.2",
     "enzyme": "3.10.0",
-    "enzyme-adapter-react-16": "1.15.2",
+    "enzyme-adapter-react-16": "1.15.3",
     "es-check": "5.0.0",
     "husky": "3.0.9",
     "jest": "^26.1.0",
