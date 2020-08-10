@@ -43,12 +43,16 @@ describe('GetNameIdPanel', () => {
         </IntlProvider>
       </Router>
     )));
-    const button = await screen.findByTestId('edit-button');
+    const yesButton = await screen.findByTestId('name-matches-yes');
+    const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
-    expect(input).toHaveProperty('disabled', true);
-    fireEvent.click(button);
-    expect(input).toHaveProperty('disabled', false);
+    expect(input).toHaveProperty('readOnly', true);
+    fireEvent.click(noButton);
+    expect(input).toHaveProperty('readOnly', false);
     fireEvent.change(input, { target: { value: 'test change' } });
+    expect(contextValue.setIdPhotoName).toHaveBeenCalled();
+    fireEvent.click(yesButton);
+    expect(input).toHaveProperty('readOnly', true);
     expect(contextValue.setIdPhotoName).toHaveBeenCalled();
   });
 

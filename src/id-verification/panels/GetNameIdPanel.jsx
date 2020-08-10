@@ -1,40 +1,42 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Input, Button } from '@edx/paragon';
+import { Form } from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import { IdVerificationContext } from '../IdVerificationContext';
-import ImagePreview from '../ImagePreview';
 
 import messages from '../IdVerification.messages';
 
 function GetNameIdPanel(props) {
   const panelSlug = 'get-name-id';
-  const [isEditing, setIsEditing] = useState(false);
+  const [nameMatches, setNameMatches] = useState(true);
   const nameInputRef = useRef();
   const nextPanelSlug = useNextPanelSlug(panelSlug);
 
-  useEffect(() => {
-    if (isEditing && nameInputRef.current) {
-      nameInputRef.current.focus();
-    }
-  }, [isEditing]);
-
   const {
-    nameOnAccount, userId, idPhotoName, setIdPhotoName, idPhotoFile,
+    nameOnAccount, userId, idPhotoName, setIdPhotoName,
   } = useContext(IdVerificationContext);
   const nameOnAccountValue = nameOnAccount || '';
+  const invalidName = !nameMatches && (!idPhotoName || idPhotoName === nameOnAccount);
 
-  const handleClick = () => {
-    setIsEditing(true);
-    sendTrackEvent('edx.id_verification.name_change', {
-      category: 'id_verification',
-      user_id: userId,
-    });
-  };
+  useEffect(() => {
+    setIdPhotoName('');
+  }, []);
+
+  useEffect(() => {
+    if (!nameMatches && nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+    if (!nameMatches) {
+      sendTrackEvent('edx.id_verification.name_change', {
+        category: 'id_verification',
+        user_id: userId,
+      });
+    }
+  }, [nameMatches]);
 
   return (
     <BasePanel
@@ -45,53 +47,75 @@ function GetNameIdPanel(props) {
         {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
       </p>
 
-      <div className="alert alert-warning">
-        <FormattedMessage
-          id="id.verification.account.name.warning"
-          defaultMessage="{prefix} Any edit to your name will be saved to your account and can be reviewed on {accountSettings}."
-          description="Warning that any edit to the user's name will be saved to the account."
-          values={{
-            prefix: <strong>{props.intl.formatMessage(messages['id.verification.account.name.warning.prefix'])}</strong>,
-            accountSettings: <Link to="/">{props.intl.formatMessage(messages['id.verification.account.name.settings'])}</Link>,
-          }}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="photo-id-name">
-          {props.intl.formatMessage(messages['id.verification.account.name.label'])}
-        </label>
-        <div className="d-flex">
-          <Input
-            id="photo-id-name"
+      <Form>
+        <Form.Group>
+          <Form.Label htmlFor="nameMatchesYes">
+            {props.intl.formatMessage(messages['id.verification.account.name.radio.label'])}
+          </Form.Label>
+          <Form.Row>
+            <Form.Check
+              type="radio"
+              id="nameMatchesYes"
+              name="nameMatches"
+              data-testid="name-matches-yes"
+              label={props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
+              checked={nameMatches}
+              inline
+              onChange={() => {
+                setNameMatches(true);
+                setIdPhotoName('');
+              }}
+            />
+            <Form.Check
+              type="radio"
+              id="nameMatchesNo"
+              name="nameMatches"
+              data-testid="name-matches-no"
+              label={props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
+              inline
+              checked={!nameMatches}
+              onChange={() => setNameMatches(false)}
+            />
+          </Form.Row>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="photo-id-name">
+            {props.intl.formatMessage(messages['id.verification.account.name.label'])}
+          </Form.Label>
+          <Form.Control
+            controlId="photo-id-name"
+            size="lg"
             type="text"
             ref={nameInputRef}
-            disabled={!isEditing}
-            readOnly={!isEditing}
-            value={idPhotoName || nameOnAccountValue}
+            readOnly={nameMatches}
+            isInvalid={invalidName}
+            aria-describedby="photo-id-name-feedback"
+            value={
+              !nameMatches ?
+                idPhotoName || nameOnAccountValue
+                : nameOnAccountValue
+            }
             onChange={e => setIdPhotoName(e.target.value)}
             data-testid="name-input"
           />
-          {!isEditing && (
-            <Button
-              className="btn-link px-0 ml-3"
-              onClick={handleClick}
-              data-testid="edit-button"
-            >
-              {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
-            </Button>
-          )}
-        </div>
-      </div>
-      <ImagePreview
-        id="photo-of-id"
-        src={idPhotoFile}
-        alt={props.intl.formatMessage(messages['id.verification.account.name.photo.alt'])}
-      />
+          <Form.Control.Feedback id="photo-id-name-feedback" type="invalid">
+            {props.intl.formatMessage(messages['id.verification.account.name.error'])}
+          </Form.Control.Feedback>
+        </Form.Group>
+      </Form>
 
       <div className="action-row">
-        <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
-          {isEditing ? props.intl.formatMessage(messages['id.verification.account.name.save']) : props.intl.formatMessage(messages['id.verification.next'])}
+        <Link
+          to={nextPanelSlug}
+          className={`btn btn-primary ${invalidName && 'disabled'}`}
+          data-testid="next-button"
+          aria-disabled={invalidName}
+        >
+          {
+            !nameMatches ?
+              props.intl.formatMessage(messages['id.verification.account.name.save'])
+              : props.intl.formatMessage(messages['id.verification.next'])
+          }
         </Link>
       </div>
     </BasePanel>

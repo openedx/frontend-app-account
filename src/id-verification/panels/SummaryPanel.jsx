@@ -70,7 +70,7 @@ function SummaryPanel(props) {
             alt={props.intl.formatMessage(messages['id.verification.review.portrait.alt'])}
           />
           <Link
-            className="btn btn-inverse-primary shadow"
+            className="btn btn-outline-primary"
             to={{
               pathname: 'take-portrait-photo',
               state: { fromSummary: true },
@@ -89,7 +89,7 @@ function SummaryPanel(props) {
             alt={props.intl.formatMessage(messages['id.verification.review.id.alt'])}
           />
           <Link
-            className="btn btn-inverse-primary shadow"
+            className="btn btn-outline-primary"
             to={{
               pathname: 'take-id-photo',
               state: { fromSummary: true },

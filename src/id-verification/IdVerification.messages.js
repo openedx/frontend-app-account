@@ -68,13 +68,8 @@ const messages = defineMessages({
   },
   'id.verification.existing.request.pending.text': {
     id: 'id.verification.existing.request.pending.text',
-    defaultMessage: 'You have already submitted your verification information. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days).',
+    defaultMessage: 'You have already submitted your verification information. You will see a message on your dashboard when the verification process is complete (usually within 5 days).',
     description: 'Text that displays when user has a pending or approved request.',
-  },
-  'id.verification.existing.request.denied.text': {
-    id: 'id.verification.existing.request.denied.text',
-    defaultMessage: 'You cannot verify your identity at this time.',
-    description: 'Text that displays when user is denied from making a request.',
   },
   'id.verification.photo.take': {
     id: 'id.verification.photo.take',
@@ -90,6 +85,16 @@ const messages = defineMessages({
     id: 'id.verification.camera.access.title',
     defaultMessage: 'Camera Permissions',
     description: 'Title for the Camera Access page.',
+  },
+  'id.verification.camera.access.title.success': {
+    id: 'id.verification.camera.access.title.success',
+    defaultMessage: 'Camera Access Enabled',
+    description: 'Title for the Camera Access page when camera is enabled.',
+  },
+  'id.verification.camera.access.title.failed': {
+    id: 'id.verification.camera.access.title.failed',
+    defaultMessage: 'Camera Access Failed',
+    description: 'Title for the Camera Access page when camera access is denied or unavailable.',
   },
   'id.verification.camera.access.click.allow': {
     id: 'id.verification.camera.access.click.allow',
@@ -158,12 +163,12 @@ const messages = defineMessages({
   },
   'id.verification.portrait.photo.title.camera': {
     id: 'id.verification.portrait.photo.title.camera',
-    defaultMessage: 'Take Your Photo',
+    defaultMessage: 'Take a Photo of Yourself',
     description: 'Title for the Portrait Photo page if camera access is enabled.',
   },
   'id.verification.portrait.photo.title.upload': {
     id: 'id.verification.portrait.photo.title.upload',
-    defaultMessage: 'Upload Your Portrait Photo',
+    defaultMessage: 'Upload a Photo of Yourself',
     description: 'Title for the Portrait Photo page if camera access is disabled.',
   },
   'id.verification.portrait.photo.preview.alt': {
@@ -208,7 +213,7 @@ const messages = defineMessages({
   },
   'id.verification.id.tips.description': {
     id: 'id.verification.id.tips.description',
-    defaultMessage: 'Next you\'ll need an eligible ID photo, make sure that:',
+    defaultMessage: 'Next, we\'ll need you to take a photo of a valid ID that includes your name. Please have your ID ready. Make sure that:',
     description: 'Description for the ID Tips page.',
   },
   'id.verification.id.tips.list.well.lit': {
@@ -223,12 +228,12 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.title.camera': {
     id: 'id.verification.id.photo.title.camera',
-    defaultMessage: 'Take ID Photo',
+    defaultMessage: 'Take a Photo of Your ID',
     description: 'Title for the ID Photo page if camera access is enabled.',
   },
   'id.verification.id.photo.title.upload': {
     id: 'id.verification.id.photo.title.upload',
-    defaultMessage: 'Upload Your ID Photo',
+    defaultMessage: 'Upload a Photo of Your ID',
     description: 'Title for the ID Photo page if camera access is disabled.',
   },
   'id.verification.id.photo.preview.alt': {
@@ -253,8 +258,28 @@ const messages = defineMessages({
   },
   'id.verification.account.name.instructions': {
     id: 'id.verification.account.name.instructions',
-    defaultMessage: 'Please check the Account Name below to ensure it matches the name on your ID. If not, click "Edit".',
+    defaultMessage: 'The name on your account and the name on your ID must be an exact match. If not, please click "No" to update your account name.',
     description: 'Text to verify that the account name matches the name on the ID photo.',
+  },
+  'id.verification.account.name.radio.label': {
+    id: 'id.verification.account.name.radio.label',
+    defaultMessage: 'Does the name on your ID match the Account Name below?',
+    description: 'Question to ask the user whether their account name match the name on their ID card.',
+  },
+  'id.verification.account.name.radio.yes': {
+    id: 'id.verification.account.name.radio.yes',
+    defaultMessage: 'Yes',
+    description: 'The radio button that says the account name matches.',
+  },
+  'id.verification.account.name.radio.no': {
+    id: 'id.verification.account.name.radio.no',
+    defaultMessage: 'No',
+    description: 'The radio button that says the account name does not match.',
+  },
+  'id.verification.account.name.error': {
+    id: 'id.verification.account.name.error',
+    defaultMessage: 'Please update account name to match the name on your ID.',
+    description: 'Error that shows when the user needs to update their account name to match the name on their ID.',
   },
   'id.verification.account.name.warning.prefix': {
     id: 'id.verification.account.name.warning.prefix',
@@ -268,7 +293,7 @@ const messages = defineMessages({
   },
   'id.verification.account.name.label': {
     id: 'id.verification.account.name.label',
-    defaultMessage: 'Name on ID',
+    defaultMessage: 'Account Name',
     description: 'Label for account name input.',
   },
   'id.verification.account.name.edit': {
@@ -283,7 +308,7 @@ const messages = defineMessages({
   },
   'id.verification.account.name.save': {
     id: 'id.verification.account.name.save',
-    defaultMessage: 'Save',
+    defaultMessage: 'Save and Next',
     description: 'Button to save the account name.',
   },
   'id.verification.review.title': {
@@ -328,8 +353,8 @@ const messages = defineMessages({
   },
   'id.verification.review.confirm': {
     id: 'id.verification.review.confirm',
-    defaultMessage: 'Confirm',
-    description: 'Button to confirm all information is correct.',
+    defaultMessage: 'Submit',
+    description: 'Button to confirm all information is correct and submit.',
   },
   'id.verification.submitted.title': {
     id: 'id.verification.submitted.title',
