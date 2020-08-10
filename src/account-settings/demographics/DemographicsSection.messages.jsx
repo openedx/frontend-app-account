@@ -141,6 +141,11 @@ const messages = defineMessages({
     defaultMessage: 'US $50,000 - $75,000',
     description: 'The label for the US $50,000 - $75,000 income option.',
   },
+  'account.settings.field.demographics.income.options.75k-100k': {
+    id: 'account.settings.field.demographics.income.options.75k-100k',
+    defaultMessage: 'US $75,000 - $100,000',
+    description: 'The label for the US $75,000 - $100,000 income option.',
+  },
   'account.settings.field.demographics.income.options.over-100k': {
     id: 'account.settings.field.demographics.income.options.over-100k',
     defaultMessage: 'Over US $100,000',
