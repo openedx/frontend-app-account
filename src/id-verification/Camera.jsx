@@ -67,7 +67,11 @@ class Camera extends React.Component {
           />
         </div>
         <button
-          className='btn btn-primary camera-btn'
+          className={`btn camera-btn ${
+            this.state.dataUri ?
+              'btn-outline-primary'
+              : 'btn-primary'
+          }`}
           accessKey='c'
           onClick={() => {
             this.takePhoto();

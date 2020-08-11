@@ -32,7 +32,7 @@ function ReviewRequirementsPanel(props) {
       </p>
       <div className="card mb-4 shadow requirements">
         <div className="card-body">
-          <h6>
+          <h6 aria-level="3">
             {props.intl.formatMessage(messages['id.verification.requirements.card.device.title'])}
           </h6>
           <p className="mb-0">
@@ -49,7 +49,7 @@ function ReviewRequirementsPanel(props) {
       </div>
       <div className="card mb-4 shadow requirements">
         <div className="card-body">
-          <h6>
+          <h6 aria-level="3">
             {props.intl.formatMessage(messages['id.verification.requirements.card.id.title'])}
           </h6>
           <p className="mb-0">
@@ -57,16 +57,16 @@ function ReviewRequirementsPanel(props) {
           </p>
         </div>
       </div>
-      <h4 className="mb-3">
+      <h4 aria-level="2" className="mb-3">
         {props.intl.formatMessage(messages['id.verification.privacy.title'])}
       </h4>
-      <h6>
+      <h6 aria-level="3">
         {props.intl.formatMessage(messages['id.verification.privacy.need.photo.question'])}
       </h6>
       <p>
         {props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}
       </p>
-      <h6>
+      <h6 aria-level="3">
         {props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.question'])}
       </h6>
       <p>
