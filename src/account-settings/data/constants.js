@@ -140,6 +140,7 @@ export const DEMOGRAPHICS_INCOME_OPTIONS = [
   '10k-25k',
   '25k-50k',
   '50k-75k',
+  '75k-100k',
   'over-100k',
   'unsure',
 ];
