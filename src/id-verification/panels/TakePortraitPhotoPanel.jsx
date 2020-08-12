@@ -44,7 +44,7 @@ function TakePortraitPhotoPanel(props) {
           </div>
         )}
       </div>
-      {shouldUseCamera && <CameraHelp />}
+      {shouldUseCamera && <CameraHelp isPortrait />}
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { history } from '@edx/frontend-platform';
 import { Input, Button, Spinner } from '@edx/paragon';
 import { Link } from 'react-router-dom';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/service';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -119,7 +119,14 @@ function SummaryPanel(props) {
                 state: { fromSummary: true },
               }}
           >
-            {props.intl.formatMessage(messages['id.verification.account.name.edit'])}
+            <FormattedMessage
+              id="id.verification.account.name.edit"
+              defaultMessage="Edit{sr}"
+              description="Button to edit account name, with clarifying information for screen readers."
+              values={{
+                sr: <span className="sr-only">Account Name</span>,
+              }}
+            />
           </Link>
         </div>
       </div>

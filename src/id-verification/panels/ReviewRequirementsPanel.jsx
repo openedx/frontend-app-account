@@ -30,7 +30,7 @@ function ReviewRequirementsPanel(props) {
       <p>
         {props.intl.formatMessage(messages['id.verification.requirements.description'])}
       </p>
-      <div className="card mb-4 shadow requirements">
+      <div className="card mb-4 shadow accent">
         <div className="card-body">
           <h6 aria-level="3">
             {props.intl.formatMessage(messages['id.verification.requirements.card.device.title'])}
@@ -47,7 +47,7 @@ function ReviewRequirementsPanel(props) {
           </p>
         </div>
       </div>
-      <div className="card mb-4 shadow requirements">
+      <div className="card mb-4 shadow accent">
         <div className="card-body">
           <h6 aria-level="3">
             {props.intl.formatMessage(messages['id.verification.requirements.card.id.title'])}

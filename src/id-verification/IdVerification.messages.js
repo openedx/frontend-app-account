@@ -191,18 +191,28 @@ const messages = defineMessages({
     defaultMessage: 'What if I can\'t see the camera image or if I can\'t see my photo to determine which side is visible?',
     description: 'Question on what to do if the user cannot see the camera image or photo during verification.',
   },
-  'id.verification.camera.help.sight.answer': {
-    id: 'id.verification.camera.help.sight.answer',
-    defaultMessage: 'You may be able to complete the image capture procedure without assistance, but it may take a couple of submission attempts to get the camera positioning right. Optimal camera positioning varies with each computer, but generally the best position for a headshot is approximately 12-18 inches (30-45 centimeters) from the camera, with your head centered relative to the computer screen. If the photos you submit are rejected, try moving the computer or camera orientation to change the lighting angle. The most common reason for rejection is inability to read the text on the ID card.',
-    description: 'Confirming what to do if the camera image or photo cannot be seen during verification.',
+  'id.verification.camera.help.sight.answer.portrait': {
+    id: 'id.verification.camera.help.sight.answer.portrait',
+    defaultMessage: 'You may be able to complete the image capture procedure without assistance, but it may take a couple of submission attempts to get the camera positioning right. Optimal camera positioning varies with each computer, but generally the best position for a headshot is approximately 12-18 inches (30-45 centimeters) from the camera, with your head centered relative to the computer screen. If the photos you submit are rejected, try moving the computer or camera orientation to change the lighting angle.',
+    description: 'Confirming what to do if the camera image of the portrait cannot be seen during verification.',
   },
-  'id.verification.camera.help.head.question': {
-    id: 'id.verification.camera.help.head.question',
+  'id.verification.camera.help.sight.answer.id': {
+    id: 'id.verification.camera.help.sight.answer.id',
+    defaultMessage: 'You may be able to complete the image capture procedure without assistance, but it may take a couple of submission attempts to get the camera positioning right. Optimal camera positioning varies with each computer, but generally, the best position for a photo of an ID card is 8-12 inches (20-30 centimeters) from the camera, with the ID card centered relative to the camera. If the photos you submit are rejected, try moving the computer or camera orientation to change the lighting angle. The most common reason for rejection is inability to read the text on the ID card.',
+    description: 'Confirming what to do if the camera image of the ID cannot be seen during verification.',
+  },
+  'id.verification.camera.help.difficulty.question.portrait': {
+    id: 'id.verification.camera.help.difficulty.question.portrait',
     defaultMessage: 'What if I have difficulty holding my head in position relative to the camera?',
     description: 'Question on what to do if the user has difficulty holding their head relative to the camera.',
   },
-  'id.verification.camera.help.head.answer': {
-    id: 'id.verification.camera.help.head.answer',
+  'id.verification.camera.help.difficulty.question.id': {
+    id: 'id.verification.camera.help.difficulty.question.id',
+    defaultMessage: 'What if I have difficulty holding my ID in position relative to the camera?',
+    description: 'Question on what to do if the user has difficulty holding their ID relative to the camera.',
+  },
+  'id.verification.camera.help.difficulty.answer': {
+    id: 'id.verification.camera.help.difficulty.answer',
     defaultMessage: 'If you require assistance with taking a photo for submission, contact edX support for additional suggestions.',
     description: 'Confirming what to do if the user has difficult holding their head relative to the camera.',
   },
@@ -213,7 +223,7 @@ const messages = defineMessages({
   },
   'id.verification.id.tips.description': {
     id: 'id.verification.id.tips.description',
-    defaultMessage: 'Next, we\'ll need you to take a photo of a valid ID that includes your name. Please have your ID ready. Make sure that:',
+    defaultMessage: 'Next, we\'ll need you to take a photo of a valid ID that includes your name. Please have your ID ready.',
     description: 'Description for the ID Tips page.',
   },
   'id.verification.id.tips.list.well.lit': {
@@ -295,11 +305,6 @@ const messages = defineMessages({
     id: 'id.verification.account.name.label',
     defaultMessage: 'Account Name',
     description: 'Label for account name input.',
-  },
-  'id.verification.account.name.edit': {
-    id: 'id.verification.account.name.edit',
-    defaultMessage: 'Edit',
-    description: 'Button to edit account name.',
   },
   'id.verification.account.name.photo.alt': {
     id: 'id.verification.account.name.photo.alt',

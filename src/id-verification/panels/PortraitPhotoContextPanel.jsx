@@ -4,7 +4,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-
+import CameraHelp from '../CameraHelp';
 import messages from '../IdVerification.messages';
 
 function PortraitPhotoContextPanel(props) {
@@ -18,7 +18,7 @@ function PortraitPhotoContextPanel(props) {
       <p>
         {props.intl.formatMessage(messages['id.verification.photo.tips.description'])}
       </p>
-      <div className="card mb-4 shadow">
+      <div className="card mb-4 shadow accent">
         <div className="card-body">
           <h6>
             {props.intl.formatMessage(messages['id.verification.photo.tips.list.title'])}
@@ -36,6 +36,7 @@ function PortraitPhotoContextPanel(props) {
           </ul>
         </div>
       </div>
+      <CameraHelp isOpen isPortrait />
       <div className="action-row">
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}
