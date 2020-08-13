@@ -9,6 +9,7 @@ import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
 import { getDemographics, patchDemographics } from '../demographics/data/service';
+import { DEMOGRAPHICS_FIELDS } from '../demographics/data/utils';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
@@ -211,8 +212,9 @@ export async function patchSettings(username, commitValues, userId) {
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
   const coachingKeys = ['coaching'];
+  const demographicsKeys = DEMOGRAPHICS_FIELDS;
   const isDemographicsKey = (value, key) => key.includes('demographics');
-  const accountCommitValues = omit(commitValues, preferenceKeys, coachingKeys);
+  const accountCommitValues = omit(commitValues, preferenceKeys, coachingKeys, demographicsKeys);
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
   const coachingCommitValues = pick(commitValues, coachingKeys);
   const demographicsCommitValues = pickBy(commitValues, isDemographicsKey);

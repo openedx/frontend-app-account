@@ -1,5 +1,18 @@
 export const TO = 'to';
 export const FROM = 'from';
+export const DEMOGRAPHICS_FIELDS = [
+  'demographics_gender',
+  'demographics_gender_description',
+  'demographics_income',
+  'demographics_learner_education_level',
+  'demographics_parent_education_level',
+  'demographics_military_history',
+  'demographics_work_status',
+  'demographics_work_status_description',
+  'demographics_current_work_sector',
+  'demographics_future_work_sector',
+  'demographics_user_ethnicity',
+];
 
 // Frontend wants (example):
 //    demographics_user_ethnicity: ["asian", "white", "other"]
