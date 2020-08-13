@@ -21,6 +21,7 @@ function GetNameIdPanel(props) {
   } = useContext(IdVerificationContext);
   const nameOnAccountValue = nameOnAccount || '';
   const invalidName = !nameMatches && (!idPhotoName || idPhotoName === nameOnAccount);
+  const blankName = !nameOnAccount && !idPhotoName;
 
   useEffect(() => {
     setIdPhotoName('');
@@ -36,7 +37,10 @@ function GetNameIdPanel(props) {
         user_id: userId,
       });
     }
-  }, [nameMatches]);
+    if (blankName) {
+      setNameMatches(false);
+    }
+  }, [nameMatches, blankName]);
 
   return (
     <BasePanel
@@ -60,6 +64,7 @@ function GetNameIdPanel(props) {
               data-testid="name-matches-yes"
               label={props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
               checked={nameMatches}
+              disabled={!nameOnAccount}
               inline
               onChange={() => {
                 setNameMatches(true);
@@ -72,8 +77,9 @@ function GetNameIdPanel(props) {
               name="nameMatches"
               data-testid="name-matches-no"
               label={props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
-              inline
               checked={!nameMatches}
+              disabled={!nameOnAccount}
+              inline
               onChange={() => setNameMatches(false)}
             />
           </Form.Row>
@@ -88,7 +94,7 @@ function GetNameIdPanel(props) {
             type="text"
             ref={nameInputRef}
             readOnly={nameMatches}
-            isInvalid={invalidName}
+            isInvalid={invalidName || blankName}
             aria-describedby="photo-id-name-feedback"
             value={
               !nameMatches ?
@@ -107,9 +113,9 @@ function GetNameIdPanel(props) {
       <div className="action-row">
         <Link
           to={nextPanelSlug}
-          className={`btn btn-primary ${invalidName && 'disabled'}`}
+          className={`btn btn-primary ${(invalidName || blankName) && 'disabled'}`}
           data-testid="next-button"
-          aria-disabled={invalidName}
+          aria-disabled={invalidName || blankName}
         >
           {
             !nameMatches ?
