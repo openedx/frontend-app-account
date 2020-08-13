@@ -52,6 +52,13 @@ function IdVerificationContextProvider({ children }) {
         setMediaAccess(MEDIA_ACCESS.DENIED);
       }
     },
+    stopUserMedia: () => {
+      if (mediaStream) {
+        const tracks = mediaStream.getTracks();
+        tracks.forEach(track => track.stop());
+        setMediaStream(null);
+      }
+    }
   };
 
   // Call verification status endpoint to check whether we can verify.

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { render, cleanup, act, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import { render, cleanup, act, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
+import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import { submitIdVerification } from '../../data/service';
 import { IdVerificationContext } from '../../IdVerificationContext';
@@ -31,6 +31,7 @@ describe('SummaryPanel', () => {
     idPhotoFile: 'test.jpg',
     nameOnAccount: '',
     idPhotoName: '',
+    stopUserMedia: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -74,5 +75,6 @@ describe('SummaryPanel', () => {
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
     expect(submitIdVerification).toHaveBeenCalled();
+    await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled())
   });
 });
