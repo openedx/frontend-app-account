@@ -32,11 +32,7 @@ describe('SummaryPanel', () => {
     idPhotoName: '',
   };
 
-  afterEach(() => {
-    cleanup();
-  });
-
-  it('submits', async () => {
+  beforeEach(async () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -46,6 +42,27 @@ describe('SummaryPanel', () => {
         </IntlProvider>
       </Router>
     )));
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('routes back to TakePortraitPhotoPanel', async () => {
+    const button = await screen.findByTestId('portrait-retake');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
+    expect(history.location.state.fromSummary).toEqual(true);
+  });
+
+  it('routes back to TakeIdPhotoPanel', async () => {
+    const button = await screen.findByTestId('id-retake');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-id-photo');
+    expect(history.location.state.fromSummary).toEqual(true);
+  });
+
+  it('submits', async () => {
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
     expect(submitIdVerification).toHaveBeenCalled();

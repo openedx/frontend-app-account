@@ -62,4 +62,21 @@ describe('TakeIdPhotoPanel', () => {
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/get-name-id');
   });
+
+  it('routes back to SummaryPanel if that was the source', async () => {
+    contextValue.idPhotoFile = 'test.jpg';
+    history.location.state = { fromSummary: true };
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlTakeIdPhotoPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/summary');
+  });
 });
