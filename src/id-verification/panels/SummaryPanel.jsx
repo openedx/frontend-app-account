@@ -75,6 +75,7 @@ function SummaryPanel(props) {
               pathname: 'take-portrait-photo',
               state: { fromSummary: true },
             }}
+            data-testid="portrait-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.portrait.retake'])}
           </Link>
@@ -94,6 +95,7 @@ function SummaryPanel(props) {
               pathname: 'take-id-photo',
               state: { fromSummary: true },
             }}
+            data-testid="id-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.id.retake'])}
           </Link>
