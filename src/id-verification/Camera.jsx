@@ -19,7 +19,7 @@ class Camera extends React.Component {
 
   componentDidMount() {
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
-    this.cameraPhoto.startCameraMaxResolution(FACING_MODES.USER);
+    this.cameraPhoto.startCamera(FACING_MODES.USER, { width: 1280 });
   }
 
   takePhoto() {
