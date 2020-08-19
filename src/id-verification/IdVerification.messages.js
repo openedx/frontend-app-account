@@ -131,6 +131,131 @@ const messages = defineMessages({
     defaultMessage: 'It looks like we\'re unable to access your camera. Please verify that your webcam is connected and that you have allowed your browser to access it.',
     description: 'Text indicating that the camera could not be accessed.',
   },
+  'id.verification.camera.access.failure.temporary.chrome': {
+    id: 'id.verification.camera.access.failure.temporary.chrome',
+    defaultMessage: 'To enable camera access in Chrome:',
+    description: 'Description for the directions on enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step1': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step1',
+    defaultMessage: 'Open Chrome.',
+    description: 'Text for step one of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step2': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step2',
+    defaultMessage: 'Navigate to More > Settings.',
+    description: 'Text for step two of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step2.windows': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step2.windows',
+    defaultMessage: 'For Windows: Alt+F, Alt+E, or F10 followed by the spacebar',
+    description: 'Text for Windows keyboard shortcut in chrome.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step2.mac': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step2.mac',
+    defaultMessage: 'For Mac: Command+,',
+    description: 'Text for Mac keyboard shortcut in chrome.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step3': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step3',
+    defaultMessage: 'Under the "Privacy and security" tab, select "Site Settings" and then "Camera."',
+    description: 'Text for step three of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step4': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step4',
+    defaultMessage: 'Under "Blocked," find "edx.org" and select it.',
+    description: 'Text for step four of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.chrome.step5': {
+    id: 'id.verification.camera.access.failure.temporary.chrome.step5',
+    defaultMessage: 'In the "Permissions" section, update the camera permissions to "Allow."',
+    description: 'Text for step five of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.ie11': {
+    id: 'id.verification.camera.access.failure.temporary.ie11',
+    defaultMessage: 'To enable camera access in Internet Explorer:',
+    description: 'Description for the directions on enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.ie11.step1': {
+    id: 'id.verification.camera.access.failure.temporary.ie11.step1',
+    defaultMessage: 'Open the Flash Player Settings Manager by navigating to Windows Settings > Control Panel > Flash Player.',
+    description: 'Text for step one of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.ie11.step2': {
+    id: 'id.verification.camera.access.failure.temporary.ie11.step2',
+    defaultMessage: 'Select the "Camera and Mic" tab, and then select the "Camera and Microphone Settings by Site" button.',
+    description: 'Text for step two of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.ie11.step3': {
+    id: 'id.verification.camera.access.failure.temporary.ie11.step3',
+    defaultMessage: 'Choose "edx.org" from the list of websites and change the permissions by selecting "Allow" in the dropdown menu.',
+    description: 'Text for step three of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox': {
+    id: 'id.verification.camera.access.failure.temporary.firefox',
+    defaultMessage: 'To enable camera access in Firefox:',
+    description: 'Description for the directions on enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step1': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step1',
+    defaultMessage: 'Open Firefox.',
+    description: 'Text for step one of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step2': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step2',
+    defaultMessage: 'Enter "about:preferences" in the URL bar.',
+    description: 'Text for step two of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step3': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step3',
+    defaultMessage: 'Select the "Privacy & Security" tab, and navigate to the "Permissions" section.',
+    description: 'Text for step three of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step4': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step4',
+    defaultMessage: 'Next to "Camera," select the "Settings…" button.',
+    description: 'Text for step four of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step5': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step5',
+    defaultMessage: 'In the search bar, enter "edx.org."',
+    description: 'Text for step five of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step6': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step6',
+    defaultMessage: 'In the status column for "edx.org," select "Allow" from the drop down.',
+    description: 'Text for step six of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.firefox.step7': {
+    id: 'id.verification.camera.access.failure.temporary.firefox.step7',
+    defaultMessage: 'Select "Save Changes."',
+    description: 'Text for step seven of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.safari': {
+    id: 'id.verification.camera.access.failure.temporary.safari',
+    defaultMessage: 'To enable camera access in Safari:',
+    description: 'Description for the directions on enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.safari.step1': {
+    id: 'id.verification.camera.access.failure.temporary.safari.step1',
+    defaultMessage: 'Open Safari.',
+    description: 'Text for step one of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.safari.step2': {
+    id: 'id.verification.camera.access.failure.temporary.safari.step2',
+    defaultMessage: 'Click on the Safari app menu, then select "Preferences." You can also use Command+, as a keyboard shortcut.',
+    description: 'Text for step two of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.safari.step3': {
+    id: 'id.verification.camera.access.failure.temporary.safari.step3',
+    defaultMessage: 'Select the "Websites" tab and then select "Camera."',
+    description: 'Text for step three of enabling camera access.',
+  },
+  'id.verification.camera.access.failure.temporary.safari.step4': {
+    id: 'id.verification.camera.access.failure.temporary.safari.step4',
+    defaultMessage: 'Select "edx.org" and change the camera permissions to "Allow."',
+    description: 'Text for step four of enabling camera access.',
+  },
   'id.verification.photo.tips.title': {
     id: 'id.verification.photo.tips.title',
     defaultMessage: 'Helpful Photo Tips',

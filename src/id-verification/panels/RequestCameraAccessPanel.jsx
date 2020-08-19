@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import Bowser from 'bowser';
 import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
@@ -7,6 +8,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
+import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
 
 import messages from '../IdVerification.messages';
 
@@ -16,6 +18,7 @@ function RequestCameraAccessPanel(props) {
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { tryGetUserMedia, mediaAccess, userId } = useContext(IdVerificationContext);
+  const browserName = Bowser.parse(window.navigator.userAgent).browser.name;
 
   useEffect(() => {
     if (mediaAccess === MEDIA_ACCESS.UNSUPPORTED) {
@@ -89,10 +92,11 @@ function RequestCameraAccessPanel(props) {
       )}
 
       {[MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess) && (
-        <div>
+        <div data-testid="camera-failure-instructions">
           <p data-testid="camera-access-failure">
             {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
           </p>
+          <EnableCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
             <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
               {props.intl.formatMessage(messages[returnText])}
