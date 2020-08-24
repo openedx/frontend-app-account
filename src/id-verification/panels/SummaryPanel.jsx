@@ -11,6 +11,7 @@ import { IdVerificationContext } from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
 
 import messages from '../IdVerification.messages';
+import CameraHelpWithUpload from '../CameraHelpWithUpload';
 
 function SummaryPanel(props) {
   const panelSlug = 'summary';
@@ -101,6 +102,7 @@ function SummaryPanel(props) {
           </Link>
         </div>
       </div>
+      <CameraHelpWithUpload />
       <div className="form-group">
         <label htmlFor="name-to-be-used">
           {props.intl.formatMessage(messages['id.verification.account.name.label'])}
