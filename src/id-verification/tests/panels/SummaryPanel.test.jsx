@@ -2,6 +2,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { render, cleanup, act, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import { submitIdVerification } from '../../data/service';
@@ -60,6 +61,13 @@ describe('SummaryPanel', () => {
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/take-id-photo');
     expect(history.location.state.fromSummary).toEqual(true);
+  });
+
+  it('allows user to upload ID photo', async () => {
+    const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
+    fireEvent.click(collapsible);
+    const uploadButton = await screen.getByTestId('fileUpload');
+    expect(uploadButton).toBeVisible();
   });
 
   it('submits', async () => {

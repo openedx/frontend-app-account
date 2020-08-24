@@ -341,6 +341,11 @@ const messages = defineMessages({
     defaultMessage: 'If you require assistance with taking a photo for submission, contact edX support for additional suggestions.',
     description: 'Confirming what to do if the user has difficult holding their head relative to the camera.',
   },
+  'id.verification.id.photo.unclear.question': {
+    id: 'id.verification.id.photo.unclear.question',
+    defaultMessage: 'Is your ID image not clear or too blurry?',
+    description: 'Question on what to do if the user\'s ID image is unclear',
+  },
   'id.verification.id.tips.title': {
     id: 'id.verification.id.tips.title',
     defaultMessage: 'Helpful ID Tips',
