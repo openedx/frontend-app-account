@@ -16,7 +16,7 @@ export default function BasePanel({
     if (focusOnMount && headingRef.current) {
       headingRef.current.focus();
     }
-  }, []);
+  }, [headingRef.current]);
 
   const redirectSlug = useVerificationRedirectSlug(name);
   if (redirectSlug) {
