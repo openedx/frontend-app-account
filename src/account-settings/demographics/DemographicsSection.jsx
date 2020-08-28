@@ -1,12 +1,4 @@
 import {
-  DECLINED,
-  DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS,
-  DEMOGRAPHICS_ETHNICITY_OPTIONS,
-  DEMOGRAPHICS_GENDER_OPTIONS,
-  DEMOGRAPHICS_INCOME_OPTIONS,
-  DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS,
-  DEMOGRAPHICS_WORK_SECTOR_OPTIONS,
-  DEMOGRAPHICS_WORK_STATUS_OPTIONS,
   OTHER,
   SELF_DESCRIBE,
 } from '../data/constants';
@@ -34,70 +26,77 @@ import messages from './DemographicsSection.messages';
 class DemographicsSection extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.alertRef = React.createRef();
   }
 
-  checkFormForDemographicsErrors() {
-    if(!isEmpty(this.props.formErrors.demographicsError)) {
-      return true;
-    }
-
-    return false;
+  /**
+   * Utility method that helps determine if we were able to retrieve the available options for
+   * the Demographics questions. Returns true if the `demographicsOptions` prop is _not_ empty,
+   * otherwise false. This prop being empty is indicative of a failure communicating with the
+   * Demographics IDA's API.
+   */
+  hasRetrievedDemographicsOptions() {
+    return !isEmpty(this.props.formValues.demographicsOptions);
   }
 
-  componentDidUpdate() {
-    if(this.checkFormForDemographicsErrors()) {
-      this.alertRef.current.focus();
-    }
+  /**
+   * Utility method that adds the specified message as a default option to the list of available
+   * choices.
+   * 
+   * @param {*} messageId id of message matching desired default label text
+   */
+  addDefaultOption(messageId) {
+    return [{
+      value: '',
+      label: this.props.intl.formatMessage(messages[messageId]),
+    }];
   }
-
-  getLocalizedOptions = memoize((locale) => ({
-    demographicsGenderOptions: DEMOGRAPHICS_GENDER_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.gender.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsEthnicityOptions: DEMOGRAPHICS_ETHNICITY_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsIncomeOptions: DEMOGRAPHICS_INCOME_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.income.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsMilitaryHistoryOptions: DEMOGRAPHICS_MILITARY_HISTORY_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.military_history.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsEducationLevelOptions: DEMOGRAPHICS_EDUCATION_LEVEL_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.education_level.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsWorkStatusOptions: DEMOGRAPHICS_WORK_STATUS_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_status.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
-    demographicsWorkSectorOptions: DEMOGRAPHICS_WORK_SECTOR_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.work_sector.options.${key || 'empty'}`]),
-    })).concat(this.getDeclinedOption()),
+  
+  // We check the `demographicsOptions` prop to see if it is empty before we attempt to extract and
+  // format the available options for each question from the API response.
+  getApiOptions = memoize((demographicsOptions) => ( this.hasRetrievedDemographicsOptions() && {
+    demographicsGenderOptions: this.addDefaultOption('account.settings.field.demographics.gender.options.empty')
+      .concat(demographicsOptions.actions.POST.gender.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
+    /* Ethnicity options don't need the blank/default option */
+    demographicsEthnicityOptions: demographicsOptions.actions.POST.user_ethnicity.child.children.ethnicity.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    })),
+    demographicsIncomeOptions: this.addDefaultOption('account.settings.field.demographics.income.options.empty')
+      .concat(demographicsOptions.actions.POST.income.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
+    demographicsMilitaryHistoryOptions: this.addDefaultOption('account.settings.field.demographics.military_history.options.empty')
+      .concat(demographicsOptions.actions.POST.military_history.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
+    demographicsEducationLevelOptions: this.addDefaultOption('account.settings.field.demographics.education_level.options.empty')
+      .concat(demographicsOptions.actions.POST.learner_education_level.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
+    demographicsWorkStatusOptions: this.addDefaultOption('account.settings.field.demographics.work_status.options.empty')
+      .concat(demographicsOptions.actions.POST.work_status.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
+    demographicsWorkSectorOptions: this.addDefaultOption('account.settings.field.demographics.work_sector.options.empty')
+      .concat(demographicsOptions.actions.POST.current_work_sector.choices.map(key => ({
+        value: key.value,
+        label: key.display_name
+    }))),
   }));
 
-  getDeclinedOption() {
-    return [{
-      value: DECLINED,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`])
-    }]
-  }
-
-  ethnicityFieldDisplay = () => {
+  ethnicityFieldDisplay = (demographicsEthnicityOptions) => {
     if (get(this, 'props.formValues.demographics_user_ethnicity')) {
-      const ethnicities = this.props.formValues.demographics_user_ethnicity;
+      const ethnicities = this.props.formValues.demographics_user_ethnicity;  
       return ethnicities.map((e) => {
-        if (e == DECLINED) {
-          return this.props.intl.formatMessage(messages[`account.settings.field.demographics.options.declined`]);
-        }
-        return this.props.intl.formatMessage(messages[`account.settings.field.demographics.ethnicity.options.${e}`]);
+        var matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
+        return matchingOption && matchingOption.label;
       }).join(", ")
     }
   }
@@ -123,11 +122,12 @@ class DemographicsSection extends React.Component {
 
   /**
    * If an error is encountered when trying to communicate with the Demographics IDA then we will
-   * display an Alert letting the user know that their info will not be retrieved or displayed
-   * and temporarily cannot be updated.
+   * display an Alert letting the user know that their info will not be displayed and temporarily
+   * cannot be updated.
    */
   renderDemographicsServiceIssueWarning() {
-    if (this.checkFormForDemographicsErrors()) {
+    if (!isEmpty(this.props.formErrors.demographicsError) |
+        this.hasRetrievedDemographicsOptions() == false) {
       return (
         <div
           tabIndex="-1"
@@ -160,7 +160,7 @@ class DemographicsSection extends React.Component {
       demographicsEducationLevelOptions,
       demographicsWorkStatusOptions,
       demographicsWorkSectorOptions,
-    } = this.getLocalizedOptions(this.context.locale);
+    } = this.getApiOptions(this.props.formValues.demographicsOptions);
 
     const showSelfDescribe = this.props.formValues.demographics_gender == SELF_DESCRIBE;
     const showWorkStatusDescribe = this.props.formValues.demographics_work_status == OTHER;
@@ -176,123 +176,131 @@ class DemographicsSection extends React.Component {
           </a>
         </p>
         {this.renderDemographicsServiceIssueWarning()}
-
-        <EditableField
-          name="demographics_gender"
-          type="select"
-          value={this.props.formValues.demographics_gender}
-          userSuppliedValue={showSelfDescribe ? this.props.formValues.demographics_gender_description : null}
-          options={demographicsGenderOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
-          {...editableFieldProps}
-        >
-          {showSelfDescribe &&
-            <Input
-              name='demographics_gender_description'
-              id='field-demographics_gender_description'
-              type='text'
-              placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description.empty'])}
-              value={this.props.formValues.demographics_gender_description}
-              onChange={(e) => this.handleEditableFieldChange(`demographics_gender_description`, e.target.value)}
-              aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description'])}
-              className="mt-1"
+        {/* 
+          If the demographicsOptions props are empty then there is no need to display the fields as
+          the user will not have any choices available to select, nor will they be able to update
+          their answers.
+        */}
+        { this.hasRetrievedDemographicsOptions() &&
+          <div id="demographics-fields">
+            <EditableField
+              name="demographics_gender"
+              type="select"
+              value={this.props.formValues.demographics_gender}
+              userSuppliedValue={showSelfDescribe ? this.props.formValues.demographics_gender_description : null}
+              options={demographicsGenderOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
+              {...editableFieldProps}
+            >
+              {showSelfDescribe &&
+                <Input
+                  name='demographics_gender_description'
+                  id='field-demographics_gender_description'
+                  type='text'
+                  placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description.empty'])}
+                  value={this.props.formValues.demographics_gender_description}
+                  onChange={(e) => this.handleEditableFieldChange(`demographics_gender_description`, e.target.value)}
+                  aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description'])}
+                  className="mt-1"
+                />
+              }
+            </EditableField>
+            <EditableField
+              name="demographics_user_ethnicity"
+              type="select"
+              hidden
+              value={this.ethnicityFieldDisplay(demographicsEthnicityOptions)}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity.empty'])}
+              {...editableFieldProps}
+            >
+              <Checkboxes
+                id="demographics_user_ethnicity"
+                options={demographicsEthnicityOptions}
+                values={this.props.formValues.demographics_user_ethnicity}
+                {...editableFieldProps}
+              />
+            </EditableField>
+            <EditableField
+              name="demographics_income"
+              type="select"
+              value={this.props.formValues.demographics_income}
+              options={demographicsIncomeOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.income'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.income.empty'])}
+              {...editableFieldProps}
             />
-          }
-        </EditableField>
-        <EditableField
-          name="demographics_user_ethnicity"
-          type="select"
-          hidden
-          value={this.ethnicityFieldDisplay()}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.ethnicity.empty'])}
-          {...editableFieldProps}
-        >
-          <Checkboxes
-            id="demographics_user_ethnicity"
-            options={demographicsEthnicityOptions}
-            values={this.props.formValues.demographics_user_ethnicity}
-            {...editableFieldProps}
-          />
-        </EditableField>
-        <EditableField
-          name="demographics_income"
-          type="select"
-          value={this.props.formValues.demographics_income}
-          options={demographicsIncomeOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.income'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.income.empty'])}
-          {...editableFieldProps}
-        />
-        <EditableField
-          name="demographics_military_history"
-          type="select"
-          value={this.props.formValues.demographics_military_history}
-          options={demographicsMilitaryHistoryOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history.empty'])}
-          {...editableFieldProps}
-        />
-        <EditableField
-          name="demographics_learner_education_level"
-          type="select"
-          value={this.props.formValues.demographics_learner_education_level}
-          options={demographicsEducationLevelOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level.empty'])}
-          {...editableFieldProps}
-        />
-        <EditableField
-          name="demographics_parent_education_level"
-          type="select"
-          value={this.props.formValues.demographics_parent_education_level}
-          options={demographicsEducationLevelOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level.empty'])}
-          {...editableFieldProps}
-        />
-        <EditableField
-          name="demographics_work_status"
-          type="select"
-          value={this.props.formValues.demographics_work_status}
-          userSuppliedValue={showWorkStatusDescribe ? this.props.formValues.demographics_work_status_description : null}
-          options={demographicsWorkStatusOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status.empty'])}
-          {...editableFieldProps}
-        >
-          {showWorkStatusDescribe &&
-            <Input
-              name='demographics_work_status_description'
-              id='field-demographics_work_status_description'
-              type='text'
-              placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description.empty'])}
-              value={this.props.formValues.demographics_work_status_description}
-              onChange={(e) => this.handleEditableFieldChange(`demographics_work_status_description`, e.target.value)}
-              aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description'])}
-              className="mt-1"
+            <EditableField
+              name="demographics_military_history"
+              type="select"
+              value={this.props.formValues.demographics_military_history}
+              options={demographicsMilitaryHistoryOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history.empty'])}
+              {...editableFieldProps}
             />
-          }
-        </EditableField>
-        <EditableField
-          name="demographics_current_work_sector"
-          type="select"
-          value={this.props.formValues.demographics_current_work_sector}
-          options={demographicsWorkSectorOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector.empty'])}
-          {...editableFieldProps}
-        />
-        <EditableField
-          name="demographics_future_work_sector"
-          type="select"
-          value={this.props.formValues.demographics_future_work_sector}
-          options={demographicsWorkSectorOptions}
-          label={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector'])}
-          emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector.empty'])}
-          {...editableFieldProps}
-        />
+            <EditableField
+              name="demographics_learner_education_level"
+              type="select"
+              value={this.props.formValues.demographics_learner_education_level}
+              options={demographicsEducationLevelOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level.empty'])}
+              {...editableFieldProps}
+            />
+            <EditableField
+              name="demographics_parent_education_level"
+              type="select"
+              value={this.props.formValues.demographics_parent_education_level}
+              options={demographicsEducationLevelOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level.empty'])}
+              {...editableFieldProps}
+            />
+            <EditableField
+              name="demographics_work_status"
+              type="select"
+              value={this.props.formValues.demographics_work_status}
+              userSuppliedValue={showWorkStatusDescribe ? this.props.formValues.demographics_work_status_description : null}
+              options={demographicsWorkStatusOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status.empty'])}
+              {...editableFieldProps}
+            >
+              {showWorkStatusDescribe &&
+                <Input
+                  name='demographics_work_status_description'
+                  id='field-demographics_work_status_description'
+                  type='text'
+                  placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description.empty'])}
+                  value={this.props.formValues.demographics_work_status_description}
+                  onChange={(e) => this.handleEditableFieldChange(`demographics_work_status_description`, e.target.value)}
+                  aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description'])}
+                  className="mt-1"
+                />
+              }
+            </EditableField>
+            <EditableField
+              name="demographics_current_work_sector"
+              type="select"
+              value={this.props.formValues.demographics_current_work_sector}
+              options={demographicsWorkSectorOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector.empty'])}
+              {...editableFieldProps}
+            />
+            <EditableField
+              name="demographics_future_work_sector"
+              type="select"
+              value={this.props.formValues.demographics_future_work_sector}
+              options={demographicsWorkSectorOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector'])}
+              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.future_work_sector.empty'])}
+              {...editableFieldProps}
+            />
+          </div>
+        }
       </div>
     )
   }

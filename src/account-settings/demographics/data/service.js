@@ -120,3 +120,22 @@ export async function patchDemographics(userId, commitValues) {
 
   return convertData(data, FROM);
 }
+
+/**
+ * retrieve the options for each field from the Demographics API
+ */
+export async function getDemographicsOptions() {
+  const requestUrl = `${getConfig().DEMOGRAPHICS_BASE_URL}/demographics/api/v1/demographics/`;
+  let data = {};
+
+  try {
+    ({ data } = await getAuthenticatedHttpClient().options(requestUrl));
+  } catch (error) {
+    // We are catching and suppressing errors here on purpose. If an error occurs during the
+    // getDemographicsOptions call we will pass back an empty `data` object. Downstream we make
+    // the assumption that if the demographicsOptions object is empty that there was an issue or
+    // error communicating with the service/API.
+  }
+
+  return data;
+}

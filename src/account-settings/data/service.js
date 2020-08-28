@@ -8,7 +8,7 @@ import isEmpty from 'lodash.isempty';
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
-import { getDemographics, patchDemographics } from '../demographics/data/service';
+import { getDemographics, getDemographicsOptions, patchDemographics } from '../demographics/data/service';
 import { DEMOGRAPHICS_FIELDS } from '../demographics/data/utils';
 
 const SOCIAL_PLATFORMS = [
@@ -188,6 +188,7 @@ export async function getSettings(username, userRoles, userId) {
     getConfig().COACHING_ENABLED && getCoachingPreferences(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
+    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
   ]);
 
   return {
@@ -199,6 +200,7 @@ export async function getSettings(username, userRoles, userId) {
     coaching: results[5],
     shouldDisplayDemographicsSection: results[6],
     ...results[7], // demographics
+    demographicsOptions: results[8],
   };
 }
 
