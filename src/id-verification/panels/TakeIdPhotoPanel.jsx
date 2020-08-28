@@ -24,7 +24,7 @@ function TakeIdPhotoPanel(props) {
         <p>
           {props.intl.formatMessage(messages['id.verification.id.photo.instructions.camera'])}
         </p>
-        <Camera onImageCapture={setIdPhotoFile} />
+        <Camera onImageCapture={setIdPhotoFile} isPortrait={false} />
       </div>
       <CameraHelp />
       <div className="action-row" style={{ visibility: idPhotoFile ? 'unset' : 'hidden' }}>
