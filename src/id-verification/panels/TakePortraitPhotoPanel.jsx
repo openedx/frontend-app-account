@@ -33,7 +33,7 @@ function TakePortraitPhotoPanel(props) {
             <p>
               {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
             </p>
-            <Camera onImageCapture={setFacePhotoFile} />
+            <Camera onImageCapture={setFacePhotoFile} isPortrait />
           </div>
         ) : (
           <div>

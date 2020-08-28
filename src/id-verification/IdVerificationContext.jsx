@@ -58,7 +58,7 @@ function IdVerificationContextProvider({ children }) {
         tracks.forEach(track => track.stop());
         setMediaStream(null);
       }
-    }
+    },
   };
 
   // Call verification status endpoint to check whether we can verify.

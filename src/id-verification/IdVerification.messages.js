@@ -81,6 +81,21 @@ const messages = defineMessages({
     defaultMessage: 'Retake Photo',
     description: 'Button to retake photo.',
   },
+  'id.verification.photo.enable.detection': {
+    id: 'id.verification.photo.enable.detection',
+    defaultMessage: 'Enable Face Detection',
+    description: 'Text label for the checkbox to enable face detection.',
+  },
+  'id.verification.photo.enable.detection.portrait.help.text': {
+    id: 'id.verification.photo.enable.detection.portrait.help.text',
+    defaultMessage: 'If checked, a border will appear around the camera view. Your face can be seen clearly if the border is blue. If your face is not in a good position or undetectable, the border will be red.',
+    description: 'Help text that appears for enabling face detection on the portrait photo panel.',
+  },
+  'id.verification.photo.enable.detection.id.help.text': {
+    id: 'id.verification.photo.enable.detection.id.help.text',
+    defaultMessage: 'If checked, a border will appear around the camera view. The face can be seen clearly if the border is blue. If the face is not in a good position or undetectable, the border will be red.',
+    description: 'Help text that appears for enabling face detection on the portrait photo panel.',
+  },
   'id.verification.camera.access.title': {
     id: 'id.verification.camera.access.title',
     defaultMessage: 'Camera Permissions',
