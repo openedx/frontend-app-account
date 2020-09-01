@@ -40,7 +40,7 @@
     "@fortawesome/react-fontawesome": "0.1.11",
     "@tensorflow-models/blazeface": "git+https://github.com/alangsto/blazeface.git",
     "@tensorflow/tfjs-converter": "1.6.1",
-    "@tensorflow/tfjs-core": "1.6.0",
+    "@tensorflow/tfjs-core": "1.6.1",
     "babel-polyfill": "6.26.0",
     "bowser": "^2.10.0",
     "classnames": "2.2.6",
