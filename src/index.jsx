@@ -15,6 +15,7 @@ import IdVerificationPage from './id-verification';
 import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import LoginPage from './logistration/LoginPage';
 import RegistrationPage from './logistration/RegistrationPage';
+import ForgotPasswordPage from './logistration/forgot-password';
 import appMessages from './i18n';
 
 import './index.scss';
@@ -55,6 +56,11 @@ subscribe(APP_READY, () => {
               flagName="LOGISTRATION_ENABLED"
               path="/register"
               component={RegistrationPage}
+            />
+            <FeatureFlaggedRoute
+              flagName="LOGISTRATION_ENABLED"
+              path="/reset"
+              component={ForgotPasswordPage}
             />
             <Route path="/notfound" component={NotFoundPage} />
             <Route path="*" component={NotFoundPage} />
