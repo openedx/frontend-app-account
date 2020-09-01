@@ -7,7 +7,7 @@ import {
 
 import {
   reducer as registrationReducer,
-} from '../registration';
+} from '../logistration';
 
 const createRootReducer = () => combineReducers({
   [accountSettingsStoreName]: accountSettingsReducer,

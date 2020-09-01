@@ -12,8 +12,8 @@ import Footer, { messages as footerMessages } from '@edx/frontend-component-foot
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import CoachingConsent from './account-settings/coaching/CoachingConsent';
-import LoginPage from './registration/LoginPage';
-import RegistrationPage from './registration/RegistrationPage';
+import LoginPage from './logistration/LoginPage';
+import RegistrationPage from './logistration/RegistrationPage';
 import appMessages from './i18n';
 
 import './index.scss';
