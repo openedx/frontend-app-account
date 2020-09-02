@@ -25,7 +25,7 @@ class Camera extends React.Component {
 
   componentDidMount() {
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
-    this.cameraPhoto.startCamera(FACING_MODES.USER, { width: 1280 });
+    this.cameraPhoto.startCamera(FACING_MODES.USER, { width: 640, height: 480 });
   }
 
   async componentWillUnmount() {
@@ -81,10 +81,8 @@ class Camera extends React.Component {
     }
     // predictions is an array of objects describing each detected face
     predictions.forEach((prediction) => {
-      const xAdjustment = 70;
-      const yAdjustment = 55;
-      const start = [prediction.topLeft[0] - xAdjustment, prediction.topLeft[1] - yAdjustment];
-      const end = [prediction.bottomRight[0] - xAdjustment, prediction.bottomRight[1] - yAdjustment];
+      const start = [prediction.topLeft[0], prediction.topLeft[1]];
+      const end = [prediction.bottomRight[0], prediction.bottomRight[1]];
       const size = [end[0] - start[0], end[1] - start[1]];
 
       // landmarks is an array of points representing each facial landmark (i.e. right eye, left eye, nose, etc.)
@@ -93,8 +91,8 @@ class Camera extends React.Component {
 
       // for each of the landmarks, determine if it is in position
       for (let j = 0; j < features.length; j++) {
-        const x = features[j][0] - xAdjustment;
-        const y = features[j][1] - yAdjustment;
+        const x = features[j][0];
+        const y = features[j][1];
 
         if (this.props.isPortrait) {
           isInPosition = isInPosition && this.isInRangeForPortrait(x, y);
@@ -116,11 +114,11 @@ class Camera extends React.Component {
   }
 
   isInRangeForPortrait(x, y) {
-    return x > 40 && x < 480 && y > 60 && y < 330;
+    return x > 47 && x < 570 && y > 100 && y < 410;
   }
 
   isInRangeForID(x, y) {
-    return x > 60 && x < 360 && y > 150 && y < 250;
+    return x > 120 && x < 470 && y > 120 && y < 350;
   }
 
   setVideoHasLoaded() {
@@ -186,7 +184,7 @@ class Camera extends React.Component {
             onLoadedData={() => { this.setVideoHasLoaded(); }}
             style={{ display: this.state.dataUri ? 'none' : 'block' }}
           />
-          <canvas ref={this.canvasRef} data-testid="detection-canvas" className="canvas-video" style={{ display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block' }} height="375" width="500" />
+          <canvas ref={this.canvasRef} data-testid="detection-canvas" className="canvas-video" style={{ display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block' }} width="640" height="480" />
           <img
             alt="imgCamera"
             src={this.state.dataUri}
