@@ -129,14 +129,36 @@ class Camera extends React.Component {
     if (this.state.dataUri) {
       return this.reset();
     }
+
     const config = {
-      sizeFactor: 1,
+      sizeFactor: this.getSizeFactor(),
     };
 
     this.playShutterClick();
     const dataUri = this.cameraPhoto.getDataUri(config);
     this.setState({ dataUri });
     this.props.onImageCapture(dataUri);
+  }
+
+  getSizeFactor() {
+    let sizeFactor = 1;
+    const settings = this.cameraPhoto.getCameraSettings();
+    if (settings) {
+      const videoWidth = settings.width;
+      const videoHeight = settings.height;
+      // need to multiply by 3 because each pixel contains 3 bytes
+      const currentSize = videoWidth * videoHeight * 3;
+      // chose a limit of 9,999,999 (bytes) so that result will
+      // always be less than 10MB
+      const ratio = 9999999 / currentSize;
+
+      // if the current resolution creates an image larger than 10 MB, adjust sizeFactor (resolution)
+      // to ensure that image will have a file size of less than 10 MB.
+      if (ratio < 1) {
+        sizeFactor = ratio;
+      }
+    }
+    return sizeFactor;
   }
 
   playShutterClick() {
