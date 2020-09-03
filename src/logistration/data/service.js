@@ -1,5 +1,5 @@
 import { getConfig } from '@edx/frontend-platform';
-import { getHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import querystring from 'querystring';
 
 export async function postNewUser(registrationInformation) {
@@ -7,7 +7,7 @@ export async function postNewUser(registrationInformation) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   };
 
-  const { data } = await getHttpClient()
+  const { data } = await getAuthenticatedHttpClient()
     .post(
       `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`,
       querystring.stringify(registrationInformation),
@@ -26,7 +26,7 @@ export async function login(creds) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   };
 
-  const { data } = await getHttpClient()
+  const { data } = await getAuthenticatedHttpClient()
     .post(
       `${getConfig().LMS_BASE_URL}/login_ajax`,
       querystring.stringify(creds),
