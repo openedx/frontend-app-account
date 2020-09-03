@@ -6,6 +6,7 @@ import formurlencoded from 'form-urlencoded';
 export async function forgotPassword(email) {
   const requestConfig = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    isPublic: true,
   };
 
   const { data } = await getAuthenticatedHttpClient()
