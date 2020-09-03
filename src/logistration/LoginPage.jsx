@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 
 import { loginRequest } from './data/actions';
-import { forgotPasswordSelector } from './forgot-password';
+import { forgotPasswordSelector } from './data/selectors';
 import ConfirmationAlert from './ConfirmationAlert';
 
 class LoginPage extends React.Component {

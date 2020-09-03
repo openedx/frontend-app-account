@@ -15,7 +15,6 @@ export async function postNewUser(registrationInformation) {
       requestConfig,
     )
     .catch((e) => {
-      console.log('You messed up');
       throw (e);
     });
 
@@ -35,7 +34,6 @@ export async function login(creds) {
       requestConfig,
     )
     .catch((e) => {
-      console.log('You messed up');
       throw (e);
     });
 

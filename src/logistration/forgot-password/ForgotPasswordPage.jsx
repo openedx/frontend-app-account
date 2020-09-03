@@ -7,7 +7,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import messages from './messages';
 import { forgotPassword } from './data/actions';
-import { forgotPasswordSelector } from './data/selectors';
+import { forgotPasswordSelector } from '../data/selectors';
 import RequestInProgressAlert from '../../account-settings/reset-password/RequestInProgressAlert';
 
 const ForgotPasswordPage = (props) => {
@@ -94,10 +94,10 @@ ForgotPasswordPage.propTypes = {
   status: PropTypes.string,
 }
 
-const mapStateToProps = state => forgotPasswordSelector(state);
+
 
 export default connect(
-  mapStateToProps,
+  forgotPasswordSelector,
   {
     forgotPassword
   },

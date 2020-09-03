@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmationAlert should match default confirmation message snapshot 1`] = `
+<div
+  className="alert d-flex align-items-start alert-success mt-n2"
+>
+  <div />
+  <div>
+    <h4
+      style={
+        Object {
+          "color": "green",
+        }
+      }
+    >
+      <span>
+        Check Your Email
+      </span>
+    </h4>
+    <span>
+      You entered 
+      <strong>
+        test@example.com
+      </strong>
+      . If this email address is associated with your edX account, we will send a message with password recovery instructions to this email address. If you do not receive a password reset message after 1 minute, verify that you entered the correct email address, or check your spam folder. If you need further assistance, Contact 
+      <a
+        href="https://support.edx.org/hc/en-us/articles/206212088-What-if-I-did-not-receive-a-password-reset-message-"
+        onClick={[Function]}
+        target="_self"
+      >
+        <span>
+          technical support
+        </span>
+      </a>
+      .
+    </span>
+  </div>
+</div>
+`;
