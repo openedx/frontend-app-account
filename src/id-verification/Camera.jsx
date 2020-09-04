@@ -58,6 +58,7 @@ class Camera extends React.Component {
             autoPlay={true}
             className='camera-video'
             style={{ display: this.state.dataUri ? 'none' : 'block' }}
+            playsInline
           />
           <img
             alt='imgCamera'
