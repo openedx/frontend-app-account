@@ -205,6 +205,7 @@ class Camera extends React.Component {
             className="camera-video"
             onLoadedData={() => { this.setVideoHasLoaded(); }}
             style={{ display: this.state.dataUri ? 'none' : 'block' }}
+            playsInline
           />
           <canvas ref={this.canvasRef} data-testid="detection-canvas" className="canvas-video" style={{ display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block' }} width="640" height="480" />
           <img
