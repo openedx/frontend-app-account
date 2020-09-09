@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, all } from 'redux-saga/effects';
 
 // Actions
 import {
@@ -11,6 +11,8 @@ import {
   loginRequestFailure,
   loginRequestSuccess,
 } from './actions';
+
+import { saga as forgotPasswordSaga } from '../forgot-password';
 
 
 // Services
@@ -45,4 +47,7 @@ export function* handleLoginRequest(action) {
 export default function* saga() {
   yield takeEvery(REGISTER_NEW_USER.BASE, handleNewUserRegistration);
   yield takeEvery(LOGIN_REQUEST.BASE, handleLoginRequest);
+  yield all([
+    forgotPasswordSaga(),
+  ]);
 }

@@ -5,6 +5,7 @@ import querystring from 'querystring';
 export async function postNewUser(registrationInformation) {
   const requestConfig = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    isPublic: true,
   };
 
   const { data } = await getAuthenticatedHttpClient()
@@ -14,7 +15,6 @@ export async function postNewUser(registrationInformation) {
       requestConfig,
     )
     .catch((e) => {
-      console.log('You messed up');
       throw (e);
     });
 
@@ -24,6 +24,7 @@ export async function postNewUser(registrationInformation) {
 export async function login(creds) {
   const requestConfig = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    isPublic: true,
   };
 
   const { data } = await getAuthenticatedHttpClient()
@@ -33,7 +34,6 @@ export async function login(creds) {
       requestConfig,
     )
     .catch((e) => {
-      console.log('You messed up');
       throw (e);
     });
 

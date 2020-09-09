@@ -12,6 +12,7 @@ describe('AsyncActionType', () => {
     expect(actionType.SUCCESS).toBe('HOUSE_CATS__START_THE_RACE__SUCCESS');
     expect(actionType.FAILURE).toBe('HOUSE_CATS__START_THE_RACE__FAILURE');
     expect(actionType.RESET).toBe('HOUSE_CATS__START_THE_RACE__RESET');
+    expect(actionType.FORBIDDEN).toBe('HOUSE_CATS__START_THE_RACE__FORBIDDEN');
   });
 });
 

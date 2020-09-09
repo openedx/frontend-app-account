@@ -6,11 +6,12 @@ import {
 } from '../account-settings';
 
 import {
-  reducer as registrationReducer,
+  reducer as logistrationReducer,
+  storeName as logistrationStoreName,
 } from '../logistration';
 
 const createRootReducer = () => combineReducers({
   [accountSettingsStoreName]: accountSettingsReducer,
-  registration: registrationReducer,
+  [logistrationStoreName]: logistrationReducer,
 });
 export default createRootReducer;

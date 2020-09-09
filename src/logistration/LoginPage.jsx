@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 
 import { loginRequest } from './data/actions';
+import { forgotPasswordSelector } from './data/selectors';
+import ConfirmationAlert from './ConfirmationAlert';
 
 class LoginPage extends React.Component {
   state = {
@@ -79,6 +82,7 @@ class LoginPage extends React.Component {
               <p> First time here?</p>
               <a className="ml-2" href="/registration"> Join our community!</a>
             </div>
+            {this.props.forgotPassword.status === 'complete' ? <ConfirmationAlert email={this.props.forgotPassword.email} /> : null}
             <form className="m-0">
               <div className="form-group">
                 <h3 className="text-center mt-3">Sign In</h3>
@@ -111,6 +115,13 @@ class LoginPage extends React.Component {
                     onChange={e => this.handleOnChange(e)}
                   />
                 </div>
+                <a href="/reset">
+                  <FormattedMessage
+                    id="logistration.forgot.password.link"
+                    defaultMessage="Forgot password?"
+                    description="Forgot password link"
+                  />
+                </a>
               </div>
               <Button
                 className="btn-primary submit"
@@ -134,8 +145,13 @@ class LoginPage extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  const forgotPassword = forgotPasswordSelector(state);
+  return { forgotPassword }
+}
+
 export default connect(
-  () => ({}),
+  mapStateToProps,
   {
     loginRequest,
   },

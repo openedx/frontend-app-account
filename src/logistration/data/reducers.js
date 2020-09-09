@@ -3,8 +3,11 @@ import {
   LOGIN_REQUEST,
 } from './actions';
 
+import { reducer as forgotPasswordReducer, FORGOT_PASSWORD } from '../forgot-password';
+
 export const defaultState = {
   registrationResult: {},
+  forgotPassword: forgotPasswordReducer(),
 };
 
 const reducer = (state = defaultState, action) => {
@@ -32,6 +35,13 @@ const reducer = (state = defaultState, action) => {
     case LOGIN_REQUEST.FAILURE:
       return {
         ...state,
+      };
+    case FORGOT_PASSWORD.BEGIN:
+    case FORGOT_PASSWORD.SUCCESS:
+    case FORGOT_PASSWORD.FORBIDDEN:
+      return {
+        ...state,
+        forgotPassword: forgotPasswordReducer(state.forgotPassword, action),
       };
     default:
       return state;
