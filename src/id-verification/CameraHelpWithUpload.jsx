@@ -35,7 +35,7 @@ function CameraHelpWithUpload(props) {
         <p>
           {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
         </p>
-        <ImageFileUpload onFileChange={setAndTrackIdPhotoFile} />
+        <ImageFileUpload onFileChange={setAndTrackIdPhotoFile} intl={props.intl} />
       </Collapsible>
     </div>
   );

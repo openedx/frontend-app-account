@@ -403,8 +403,13 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.instructions.upload': {
     id: 'id.verification.id.photo.instructions.upload',
-    defaultMessage: 'Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. (Supported formats: .jpg, .jpeg, .png)',
+    defaultMessage: 'Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. (Supported formats: .jpg, .jpeg, .png)',
     description: 'Instructions for ID photo upload.',
+  },
+  'id.verification.id.photo.instructions.upload.error': {
+    id: 'id.verification.id.photo.instructions.upload.error',
+    defaultMessage: 'The file you have selected is too large. Please try again with a file less than 10MB.',
+    description: 'Error message for file upload that is larger than 10MB.',
   },
   'id.verification.account.name.title': {
     id: 'id.verification.account.name.title',
@@ -505,6 +510,11 @@ const messages = defineMessages({
     id: 'id.verification.review.confirm',
     defaultMessage: 'Submit',
     description: 'Button to confirm all information is correct and submit.',
+  },
+  'id.verification.review.error': {
+    id: 'id.verification.review.error',
+    defaultMessage: 'edX Support Page',
+    description: 'Text linking to the support page.',
   },
   'id.verification.submitted.title': {
     id: 'id.verification.submitted.title',
