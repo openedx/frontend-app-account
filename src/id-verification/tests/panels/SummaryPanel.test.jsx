@@ -5,7 +5,7 @@ import { render, cleanup, act, screen, fireEvent, waitFor } from '@testing-libra
 import '@edx/frontend-platform/analytics';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
-import { submitIdVerification } from '../../data/service';
+import * as dataService from '../../data/service';
 import { IdVerificationContext } from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
 
@@ -13,9 +13,8 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../data/service', () => ({
-  submitIdVerification: jest.fn(() => ({ success: true, message: null })),
-}));
+jest.mock('../../data/service');
+dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 
 const IntlSummaryPanel = injectIntl(SummaryPanel);
 
@@ -74,7 +73,26 @@ describe('SummaryPanel', () => {
   it('submits', async () => {
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
-    expect(submitIdVerification).toHaveBeenCalled();
-    await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled())
+    expect(dataService.submitIdVerification).toHaveBeenCalled();
+    await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled());
+  });
+
+  it('shows error when cannot submit', async () => {
+    await cleanup();
+    dataService.submitIdVerification = jest.fn().mockReturnValue({ success: false });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlSummaryPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('submit-button');
+    await act(async () => fireEvent.click(button));
+    expect(dataService.submitIdVerification).toHaveBeenCalled();
+    const error = await screen.getByTestId('submission-error');
+    expect(error).toBeDefined();
   });
 });

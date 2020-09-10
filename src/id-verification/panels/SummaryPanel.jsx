@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { history } from '@edx/frontend-platform';
-import { Input, Button, Spinner } from '@edx/paragon';
+import { Input, Button, Spinner, Alert } from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
@@ -25,6 +25,7 @@ function SummaryPanel(props) {
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState(false);
 
   function SubmitButton() {
     async function handleClick() {
@@ -39,6 +40,10 @@ function SummaryPanel(props) {
       if (result.success) {
         stopUserMedia();
         history.push(nextPanelSlug);
+      } else {
+        stopUserMedia();
+        setIsSubmitting(false);
+        setSubmissionError(true);
       }
     }
     return (
@@ -59,6 +64,24 @@ function SummaryPanel(props) {
       name={panelSlug}
       title={props.intl.formatMessage(messages['id.verification.review.title'])}
     >
+      {submissionError &&
+      <Alert
+        variant="danger"
+        data-testid="submission-error"
+        dismissible
+        onClose={() => setSubmissionError(false)}
+      >
+        <FormattedMessage
+          id="idv.submission.alert.error"
+          defaultMessage={`
+            We encountered a technical error while trying to submit ID verification.
+            This might be a temporary issue, so please try again in a few minutes.
+            If the problem persists,
+            please go to {support_link} for help.
+          `}
+          values={{ support_link: <Alert.Link href="https://support.edx.org/hc/en-us">{props.intl.formatMessage(messages['id.verification.review.error'])}</Alert.Link> }}
+        />
+      </Alert>}
       <p>
         {props.intl.formatMessage(messages['id.verification.review.description'])}
       </p>
