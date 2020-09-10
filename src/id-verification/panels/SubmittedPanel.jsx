@@ -8,6 +8,16 @@ import BasePanel from './BasePanel';
 import { IdVerificationContext } from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 
+function Survey() {
+  useEffect(() => {
+    const widget = document.createElement('script');
+    widget.src = 'https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd0c0mJMJv8euCYOcfdNU9_2FXvCgswpDPhSbuM7XA77rJp.js';
+    document.body.appendChild(widget);
+  }, []);
+
+  return <div id="smcx-sdk" />;
+}
+
 function SubmittedPanel(props) {
   const { userId } = useContext(IdVerificationContext);
   const [returnUrl, setReturnUrl] = useState('dashboard');
@@ -39,9 +49,11 @@ function SubmittedPanel(props) {
         className="btn btn-primary"
         href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
         data-testid="return-button"
+        style={{ marginBottom: 50 }}
       >
         {props.intl.formatMessage(messages[returnText])}
       </a>
+      <Survey />
     </BasePanel>
   );
 }
