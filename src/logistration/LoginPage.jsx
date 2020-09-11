@@ -58,7 +58,6 @@ class LoginPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log('clicked submit', e);
     e.preventDefault();
 
     const payload = {
@@ -106,12 +105,12 @@ class LoginPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="d-flex justify-content-center registration-container">
+        <div className="d-flex justify-content-center logistration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
             <div className="d-flex flex-row">
-              <p>We <span>&#x2764;&#xFE0F;</span> our learners. </p>
-              <p> First time here?</p>
-              <a className="ml-2" href="/registration"> Join our community!</a>
+              <p>
+                First time here?<a className="ml-1" href="/register">Create an Account.</a>
+              </p>
             </div>
             {this.props.forgotPassword.status === 'complete' ? <ConfirmationAlert email={this.props.forgotPassword.email} /> : null}
             <form className="m-0">

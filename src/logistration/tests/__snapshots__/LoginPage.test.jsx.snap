@@ -2,7 +2,7 @@
 
 exports[`LoginPage should match default section snapshot 1`] = `
 <div
-  className="d-flex justify-content-center registration-container"
+  className="d-flex justify-content-center logistration-container"
 >
   <div
     className="d-flex flex-column"
@@ -16,21 +16,14 @@ exports[`LoginPage should match default section snapshot 1`] = `
       className="d-flex flex-row"
     >
       <p>
-        We 
-        <span>
-          ❤️
-        </span>
-         our learners. 
+        First time here?
+        <a
+          className="ml-1"
+          href="/register"
+        >
+          Create an Account.
+        </a>
       </p>
-      <p>
-         First time here?
-      </p>
-      <a
-        className="ml-2"
-        href="/registration"
-      >
-         Join our community!
-      </a>
     </div>
     <form
       className="m-0"

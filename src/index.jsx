@@ -13,8 +13,7 @@ import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPage from './id-verification';
 import CoachingConsent from './account-settings/coaching/CoachingConsent';
-import LoginPage from './logistration/LoginPage';
-import RegistrationPage from './logistration/RegistrationPage';
+import { LoginPage, RegistrationPage } from './logistration';
 import ForgotPasswordPage from './logistration/forgot-password';
 import appMessages from './i18n';
 
