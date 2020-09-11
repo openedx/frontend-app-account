@@ -4,10 +4,12 @@ import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 import { loginRequest } from './data/actions';
 import { forgotPasswordSelector } from './data/selectors';
 import ConfirmationAlert from './ConfirmationAlert';
+import SwitchContent from '../account-settings/SwitchContent';
 
 class LoginPage extends React.Component {
   state = {
@@ -20,6 +22,7 @@ class LoginPage extends React.Component {
     emailValid: false,
     passwordValid: false,
     formValid: false,
+    showLoginHelp: false
   }
 
   handleOnChange(e) {
@@ -66,10 +69,38 @@ class LoginPage extends React.Component {
     this.props.loginRequest(payload);
   }
 
+  toggleLoginHelp = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLoginHelp: !this.state.showLoginHelp,
+    });
+  }
+
   validateForm() {
     this.setState({
       formValid: this.state.emailValid && this.state.passwordValid,
     });
+  }
+
+  renderLoginHelp() {
+    return (
+      <div className="login-help">
+        <a className="field-link" href="/reset">
+          <FormattedMessage
+            id="logistration.forgot.password.link"
+            defaultMessage="Forgot password?"
+            description="Forgot password link"
+          />
+        </a>
+        <a className="field-link" href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem">
+          <FormattedMessage
+            id="logistration.other.sign.in.issues"
+            defaultMessage="Other sign-in issues"
+            description="A link that redirects to sign-in issues help"
+          />
+        </a>
+      </div>
+    )
   }
 
   render() {
@@ -115,13 +146,21 @@ class LoginPage extends React.Component {
                     onChange={e => this.handleOnChange(e)}
                   />
                 </div>
-                <a href="/reset">
+                <button className="field-link" onClick={this.toggleLoginHelp}>
+                  <FontAwesomeIcon className="mr-1" icon={this.state.showLoginHelp ? faCaretDown : faCaretRight} />
                   <FormattedMessage
-                    id="logistration.forgot.password.link"
-                    defaultMessage="Forgot password?"
-                    description="Forgot password link"
+                    id="logistration.need.help.signing.in.collapsible.menu"
+                    defaultMessage="Need help signing in?"
+                    description="A button for collapsible login help menu"
                   />
-                </a>
+                </button>
+                <SwitchContent
+                  expression={this.state.showLoginHelp ? 'showHelp' : 'default'}
+                  cases={{
+                    showHelp: this.renderLoginHelp(),
+                    default: <React.Fragment/>
+                  }}
+                />
               </div>
               <Button
                 className="btn-primary submit"
