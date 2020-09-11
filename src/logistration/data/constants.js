@@ -1,4 +1,4 @@
-const countryList = {
+const COUNTRY_LIST = {
   AF: 'Afghanistan',
   AL: 'Albania',
   DZ: 'Algeria',
@@ -250,4 +250,4 @@ const countryList = {
   AX: 'Åland Islands',
 };
 
-export default countryList;
+export default COUNTRY_LIST;

@@ -4,11 +4,11 @@ import { Button, Input, ValidationFormGroup, StatusAlert } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import countryList from './countryList';
+import { COUNTRY_LIST } from './data/constants';
 
 import { registerNewUser } from './data/actions';
 
-export class RegistrationPage extends React.Component {
+class RegistrationPage extends React.Component {
   state = {
     email: '',
     name: '',
@@ -38,7 +38,6 @@ export class RegistrationPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log('clicked submit', e);
     e.preventDefault();
     this.setState({ open: true });
 
@@ -118,7 +117,7 @@ export class RegistrationPage extends React.Component {
 
   renderCountryList() {
     const items = [{ value: 'Country or Region of Residence (required)', label: 'Country or Region of Residence (required)' }];
-    const countries = Object.values(countryList);
+    const countries = Object.values(COUNTRY_LIST);
     for (let i = 0; i < countries.length; i += 1) {
       items.push({ value: countries[i], label: countries[i] });
     }
@@ -128,7 +127,7 @@ export class RegistrationPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="registration-container d-flex flex-column align-items-center mx-auto" style={{ width: '30rem' }}>
+        <div className="logistration-container d-flex flex-column align-items-center mx-auto" style={{ width: '30rem' }}>
           <div className="mb-4">
             <FontAwesomeIcon className="d-block mx-auto fa-2x" icon={faGraduationCap} />
             <h4 className="d-block mx-auto">Start learning now!</h4>
