@@ -246,7 +246,8 @@
   "id.verification.id.photo.title.upload": "Upload a Photo of Your ID",
   "id.verification.id.photo.preview.alt": "Preview of photo ID.",
   "id.verification.id.photo.instructions.camera": "When your ID is in position, use the Take Photo button below to take your photo.",
-  "id.verification.id.photo.instructions.upload": "Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. (Supported formats: .jpg, .jpeg, .png)",
+  "id.verification.id.photo.instructions.upload": "Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. (Supported formats: .jpg, .jpeg, .png)",
+  "id.verification.id.photo.instructions.upload.error": "The file you have selected is too large. Please try again with a file less than 10MB.",
   "id.verification.account.name.title": "Account Name Check",
   "id.verification.account.name.instructions": "The name on your account and the name on your ID must be an exact match. If not, please click \"No\" to update your account name.",
   "id.verification.account.name.radio.label": "Does the name on your ID match the Account Name below?",
@@ -267,11 +268,13 @@
   "id.verification.review.id.alt": "Photo of your ID to be submitted.",
   "id.verification.review.id.retake": "Retake ID Photo",
   "id.verification.review.confirm": "Submit",
+  "id.verification.review.error": "edX Support Page",
   "id.verification.submitted.title": "Identity Verification in Progress",
   "id.verification.submitted.text": "We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 5 days). In the meantime, you can still access all available course content.",
   "id.verification.return.dashboard": "Return to Your Dashboard",
   "id.verification.return.course": "Return to Course",
   "id.verification.request.camera.access.instructions": "In order to take a photo using your webcam, you may receive a browser prompt for access to your camera. {clickAllow}",
   "id.verification.requirements.card.device.text": "You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click {allow}.",
+  "idv.submission.alert.error": "\n            We encountered a technical error while trying to submit ID verification.\n            This might be a temporary issue, so please try again in a few minutes.\n            If the problem persists,\n            please go to {support_link} for help.\n          ",
   "id.verification.account.name.edit": "Edit{sr}"
 }
