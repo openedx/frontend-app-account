@@ -8,3 +8,8 @@ export const forgotPasswordSelector = createSelector(
   logistrationSelector,
   logistration => logistration.forgotPassword,
 );
+
+export const loginRequestSelector = createSelector(
+  logistrationSelector,
+  logistration => logistration.loginResult,
+);

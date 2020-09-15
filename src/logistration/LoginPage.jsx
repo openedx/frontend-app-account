@@ -1,5 +1,7 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,9 +9,18 @@ import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg
 import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 import { loginRequest } from './data/actions';
-import { forgotPasswordSelector } from './data/selectors';
+import { forgotPasswordSelector, loginRequestSelector } from './data/selectors';
 import ConfirmationAlert from './ConfirmationAlert';
 import SwitchContent from '../account-settings/SwitchContent';
+
+
+const LoginRedirect = (props) => {
+  const { success, redirectUrl } = props;
+  if (success) {
+    window.location.href = redirectUrl;
+  }
+  return <></>;
+};
 
 class LoginPage extends React.Component {
   state = {
@@ -59,10 +70,12 @@ class LoginPage extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    const params = new URLSearchParams(this.props.location.search);
     const payload = {
       email: this.state.email,
       password: this.state.password,
+      next: params.get('next'),
+      course_id: params.get('course_id'),
     };
 
     this.props.loginRequest(payload);
@@ -105,6 +118,7 @@ class LoginPage extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <LoginRedirect success={this.props.loginResult.success} redirectUrl={this.props.loginResult.redirectUrl} />
         <div className="d-flex justify-content-center logistration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
             <div className="d-flex flex-row">
@@ -183,9 +197,20 @@ class LoginPage extends React.Component {
   }
 }
 
+LoginRedirect.defaultProps = {
+  redirectUrl: '',
+  success: false,
+};
+
+LoginRedirect.propTypes = {
+  redirectUrl: PropTypes.string,
+  success: PropTypes.bool,
+};
+
 const mapStateToProps = state => {
   const forgotPassword = forgotPasswordSelector(state);
-  return { forgotPassword }
+  const loginResult = loginRequestSelector(state);
+  return { forgotPassword, loginResult };
 }
 
 export default connect(

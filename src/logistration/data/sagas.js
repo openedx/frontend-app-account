@@ -35,9 +35,12 @@ export function* handleLoginRequest(action) {
   try {
     yield put(loginRequestBegin());
 
-    yield call(login, action.payload.creds);
+    const { redirectUrl, success } = yield call(login, action.payload.creds);
 
-    yield put(loginRequestSuccess());
+    yield put(loginRequestSuccess(
+      redirectUrl,
+      success,
+    ));
   } catch (e) {
     yield put(loginRequestFailure());
     throw e;
