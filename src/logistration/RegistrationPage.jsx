@@ -4,7 +4,7 @@ import { Button, Input, ValidationFormGroup, StatusAlert } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import { COUNTRY_LIST } from './data/constants';
+import { getLocale, getCountryList } from '@edx/frontend-platform/i18n';
 
 import { registerNewUser } from './data/actions';
 
@@ -31,16 +31,8 @@ class RegistrationPage extends React.Component {
     open: false,
   }
 
-  handleSelectCountry = (e) => {
-    this.setState({
-      country: e.target.value,
-    });
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({ open: true });
-
     const payload = {
       email: this.state.email,
       username: this.state.username,
@@ -50,6 +42,14 @@ class RegistrationPage extends React.Component {
       country: this.state.country,
     };
 
+    if (!this.state.formValid) {
+      Object.entries(payload).forEach(([key, value]) => {
+        this.validateInput(key, value);
+      });
+      return;
+    }
+
+    this.setState({ open: true });
     this.props.registerNewUser(payload);
   }
 
@@ -91,7 +91,7 @@ class RegistrationPage extends React.Component {
         inputErrors.password = passwordValid ? '' : null;
         break;
       case 'country':
-        countryValid = value !== 'Country or Region of Residence (required)';
+        countryValid = value !== '';
         inputErrors.country = countryValid ? '' : null;
         break;
       default:
@@ -116,11 +116,9 @@ class RegistrationPage extends React.Component {
   }
 
   renderCountryList() {
-    const items = [{ value: 'Country or Region of Residence (required)', label: 'Country or Region of Residence (required)' }];
-    const countries = Object.values(COUNTRY_LIST);
-    for (let i = 0; i < countries.length; i += 1) {
-      items.push({ value: countries[i], label: countries[i] });
-    }
+    const locale = getLocale();
+    let items = [{ value: '', label: 'Country or Region of Residence (required)' }];
+    items = items.concat(getCountryList(locale).map(({ code, name }) => ({ value: code, label: name })));
     return items;
   }
 
@@ -212,11 +210,12 @@ class RegistrationPage extends React.Component {
             >
               <label htmlFor="registrationCountry" className="h6 pt-3">Country (required)</label>
               <Input
+                name="country"
                 type="select"
                 placeholder="Country or Region of Residence"
                 value={this.state.country}
                 options={this.renderCountryList()}
-                onChange={this.handleSelectCountry}
+                onChange={e => this.handleOnChange(e)}
                 required
               />
             </ValidationFormGroup>
