@@ -32,8 +32,9 @@ export const loginRequestBegin = () => ({
   type: LOGIN_REQUEST.BEGIN,
 });
 
-export const loginRequestSuccess = () => ({
+export const loginRequestSuccess = (redirectUrl, success) => ({
   type: LOGIN_REQUEST.SUCCESS,
+  payload: { redirectUrl, success },
 });
 
 export const loginRequestFailure = () => ({

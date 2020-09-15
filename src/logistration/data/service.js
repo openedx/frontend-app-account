@@ -36,6 +36,16 @@ export async function login(creds) {
     .catch((e) => {
       throw (e);
     });
+  console.log('Response from server');
+  console.log(data);
+  console.log('response that we are returning');
+  console.log({
+    redirectUrl: data.redirect_url || `${getConfig().LMS_BASE_URL}/dashboard`,
+    success: data.success || false,
+  });
+  return {
+    redirectUrl: data.redirect_url || `${getConfig().LMS_BASE_URL}/dashboard`,
+    success: data.success || false,
+  };
 
-  return data;
 }
