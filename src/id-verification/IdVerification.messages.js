@@ -96,6 +96,66 @@ const messages = defineMessages({
     defaultMessage: 'If checked, a box will appear around the face on your ID card. The face can be seen clearly if the box around it is blue. If the face is not in a good position or undetectable, the box will be red.',
     description: 'Help text that appears for enabling face detection on the portrait photo panel.',
   },
+  'id.verification.photo.feedback.correct': {
+    id: 'id.verification.photo.feedback.correct',
+    defaultMessage: 'Face is in a good position.',
+    description: 'Text for screen reader when user\'s face is in a good position.',
+  },
+  'id.verification.photo.feedback.two.faces': {
+    id: 'id.verification.photo.feedback.two.faces',
+    defaultMessage: 'More than one face detected.',
+    description: 'Text for screen reader when more than one face detected.',
+  },
+  'id.verification.photo.feedback.no.faces': {
+    id: 'id.verification.photo.feedback.no.faces',
+    defaultMessage: 'No face detected.',
+    description: 'Text for screen reader when no face detected.',
+  },
+  'id.verification.photo.feedback.top.left': {
+    id: 'id.verification.photo.feedback.top.left',
+    defaultMessage: 'Incorrect position. Top left.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.top.center': {
+    id: 'id.verification.photo.feedback.top.center',
+    defaultMessage: 'Incorrect position. Top center.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.top.right': {
+    id: 'id.verification.photo.feedback.top.right',
+    defaultMessage: 'Incorrect position. Top right.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.center.left': {
+    id: 'id.verification.photo.feedback.center.left',
+    defaultMessage: 'Incorrect position. Center left.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.center.center': {
+    id: 'id.verification.photo.feedback.center.center',
+    defaultMessage: 'Incorrect position. Too close to camera.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.center.right': {
+    id: 'id.verification.photo.feedback.center.right',
+    defaultMessage: 'Incorrect position. Center right.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.bottom.left': {
+    id: 'id.verification.photo.feedback.bottom.left',
+    defaultMessage: 'Incorrect position. Bottom left.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.bottom.center': {
+    id: 'id.verification.photo.feedback.bottom.center',
+    defaultMessage: 'Incorrect position. Bottom center.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
+  'id.verification.photo.feedback.bottom.right': {
+    id: 'id.verification.photo.feedback.bottom.right',
+    defaultMessage: 'Incorrect position. Bottom right.',
+    description: 'Text for screen reader when face is in a bad position.',
+  },
   'id.verification.camera.access.title': {
     id: 'id.verification.camera.access.title',
     defaultMessage: 'Camera Permissions',

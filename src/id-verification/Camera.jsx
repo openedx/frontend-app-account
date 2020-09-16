@@ -20,14 +20,16 @@ class Camera extends React.Component {
       videoHasLoaded: false,
       shouldDetect: false,
       isFinishedLoadingDetection: true,
+      shouldGiveFeedback: true,
+      feedback: '',
     };
   }
 
   componentDidMount() {
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
     this.cameraPhoto.startCamera(
-      this.props.isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT, 
-      { width: 640, height: 480 }
+      this.props.isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT,
+      { width: 640, height: 480 },
     );
   }
 
@@ -97,11 +99,14 @@ class Camera extends React.Component {
         const x = features[j][0];
         const y = features[j][1];
 
+        let isInRange;
         if (this.props.isPortrait) {
-          isInPosition = isInPosition && this.isInRangeForPortrait(x, y);
+          isInRange = this.isInRangeForPortrait(x, y);
         } else {
-          isInPosition = isInPosition && this.isInRangeForID(x, y);
+          isInRange = this.isInRangeForID(x, y);
         }
+        // if it is not in range, give feedback depending on which feature is out of range
+        isInPosition = isInPosition && isInRange;
       }
 
       // draw a box depending on if all landmarks are in position
@@ -109,11 +114,81 @@ class Camera extends React.Component {
         canvasContext.strokeStyle = '#00ffff';
         canvasContext.lineWidth = 6;
         canvasContext.strokeRect(start[0], start[1], size[0], size[1]);
+        // give positive feedback here if user is in correct position
+        this.giveFeedback(predictions.length, [], true);
       } else {
         canvasContext.fillStyle = 'rgba(255, 51, 0, 0.75)';
         canvasContext.fillRect(start[0], start[1], size[0], size[1]);
+        this.giveFeedback(predictions.length, features[0], false);
       }
     });
+
+    if (predictions.length === 0) {
+      this.giveFeedback(predictions.length, [], false);
+    }
+  }
+
+  giveFeedback(numFaces, rightEye, isCorrect) {
+    if (this.state.shouldGiveFeedback) {
+      const currentFeedback = this.state.feedback;
+      let newFeedback = '';
+      if (numFaces === 1) {
+        // only give feedback if one face is detected otherwise
+        // it would be difficult to tell a user which face to move
+        if (isCorrect) {
+          newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.correct']);
+        } else {
+          // give feedback based on where user is
+          newFeedback = this.props.intl.formatMessage(messages[this.getGridPosition(rightEye)]);
+        }
+      } else if (numFaces > 1) {
+        newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.two.faces']);
+      } else {
+        newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.no.faces']);
+      }
+      if (currentFeedback !== newFeedback) {
+        // only update status if it is different, so we don't overload the user with status updates
+        this.setState({ feedback: newFeedback });
+      }
+      // turn off feedback for one to ensure that instructions aren't disruptive/interrupting
+      this.setState({ shouldGiveFeedback: false });
+      setTimeout(() => {
+        this.setState({ shouldGiveFeedback: true });
+      }, 1000);
+    }
+  }
+
+  getGridPosition(coordinates) {
+    // Used to determine where a face is (i.e. top-left, center-right, bottom-center, etc.)
+
+    const x = coordinates[0];
+    const y = coordinates[1];
+
+    let messageBase = 'id.verification.photo.feedback';
+
+    const heightUpperLimit = 320;
+    const heightMiddleLimit = 160;
+
+    if (y < heightMiddleLimit) {
+      messageBase += '.top';
+    } else if (y < heightUpperLimit && y >= heightMiddleLimit) {
+      messageBase += '.center';
+    } else {
+      messageBase += '.bottom';
+    }
+
+    const widthRightLimit = 213;
+    const widthMiddleLimit = 427;
+
+    if (x < widthRightLimit) {
+      messageBase += '.right';
+    } else if (x >= widthRightLimit && x < widthMiddleLimit) {
+      messageBase += '.center';
+    } else {
+      messageBase += '.left';
+    }
+
+    return messageBase;
   }
 
   isInRangeForPortrait(x, y) {
@@ -207,16 +282,32 @@ class Camera extends React.Component {
             autoPlay
             className="camera-video"
             onLoadedData={() => { this.setVideoHasLoaded(); }}
-            style={{ display: this.state.dataUri ? 'none' : 'block' }}
+            style={{
+              display: this.state.dataUri ? 'none' : 'block',
+              WebkitTransform: 'scaleX(-1)',
+              transform: 'scaleX(-1)',
+            }}
             playsInline
           />
-          <canvas ref={this.canvasRef} data-testid="detection-canvas" className="canvas-video" style={{ display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block' }} width="640" height="480" />
+          <canvas
+            ref={this.canvasRef}
+            data-testid="detection-canvas"
+            className="canvas-video"
+            style={{
+              display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block',
+              WebkitTransform: 'scaleX(-1)',
+              transform: 'scaleX(-1)',
+            }}
+            width="640"
+            height="480"
+          />
           <img
             alt="imgCamera"
             src={this.state.dataUri}
             className="camera-video"
             style={{ display: this.state.dataUri ? 'block' : 'none' }}
           />
+          <div role="status" className="sr-only">{this.state.feedback}</div>
         </div>
         <button
           className={`btn camera-btn ${
