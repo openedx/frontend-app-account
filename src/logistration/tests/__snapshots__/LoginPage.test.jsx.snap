@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage should match default section snapshot 1`] = `
+<div
+  className="d-flex justify-content-center registration-container"
+>
+  <div
+    className="d-flex flex-column"
+    style={
+      Object {
+        "width": "400px",
+      }
+    }
+  >
+    <div
+      className="d-flex flex-row"
+    >
+      <p>
+        We 
+        <span>
+          ❤️
+        </span>
+         our learners. 
+      </p>
+      <p>
+         First time here?
+      </p>
+      <a
+        className="ml-2"
+        href="/registration"
+      >
+         Join our community!
+      </a>
+    </div>
+    <form
+      className="m-0"
+    >
+      <div
+        className="form-group"
+      >
+        <h3
+          className="text-center mt-3"
+        >
+          Sign In
+        </h3>
+        <div
+          className="d-flex flex-column align-items-start"
+        >
+          <div
+            className="form-group"
+          >
+            <label
+              className="h6 mr-1"
+              htmlFor="loginEmail"
+            >
+              Email
+            </label>
+            <input
+              aria-describedby=""
+              className="form-control"
+              id="loginEmail"
+              name="email"
+              onChange={[Function]}
+              placeholder="email@domain.com"
+              style={
+                Object {
+                  "width": "400px",
+                }
+              }
+              type="email"
+              value=""
+            />
+            <strong
+              className="invalid-feedback"
+              id="email-invalid-feedback"
+            >
+              The email address you've provided isn't formatted correctly.
+            </strong>
+          </div>
+        </div>
+        <p
+          className="mb-4"
+        >
+          The email address you used to register with edX.
+        </p>
+        <div
+          className="d-flex flex-column align-items-start"
+        >
+          <label
+            className="h6 mr-1"
+            htmlFor="loginPassword"
+          >
+            Password
+          </label>
+          <input
+            className="form-control"
+            id="loginPassword"
+            name="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+        </div>
+        <a
+          href="/reset"
+        >
+          <span>
+            Forgot password?
+          </span>
+        </a>
+      </div>
+      <button
+        className="btn btn-primary submit"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+    </form>
+    <div
+      className="section-heading-line mb-4"
+    >
+      <h4>
+        or sign in with
+      </h4>
+    </div>
+    <div
+      className="row text-center d-block mb-4"
+    >
+      <button
+        className="btn-social facebook"
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-inline--fa fa-facebook-f fa-w-10 mr-2"
+          data-icon="facebook-f"
+          data-prefix="fab"
+          focusable="false"
+          role="img"
+          style={Object {}}
+          viewBox="0 0 320 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            fill="currentColor"
+            style={Object {}}
+          />
+        </svg>
+        Facebook
+      </button>
+      <button
+        className="btn-social google"
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-inline--fa fa-google fa-w-16 mr-2"
+          data-icon="google"
+          data-prefix="fab"
+          focusable="false"
+          role="img"
+          style={Object {}}
+          viewBox="0 0 488 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+            fill="currentColor"
+            style={Object {}}
+          />
+        </svg>
+        Google
+      </button>
+      <button
+        className="btn-social microsoft"
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-inline--fa fa-microsoft fa-w-14 mr-2"
+          data-icon="microsoft"
+          data-prefix="fab"
+          focusable="false"
+          role="img"
+          style={Object {}}
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 32h214.6v214.6H0V32zm233.4 0H448v214.6H233.4V32zM0 265.4h214.6V480H0V265.4zm233.4 0H448V480H233.4V265.4z"
+            fill="currentColor"
+            style={Object {}}
+          />
+        </svg>
+        Microsoft
+      </button>
+    </div>
+  </div>
+</div>
+`;
