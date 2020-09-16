@@ -1,26 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Router } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
-import { createMemoryHistory } from 'history';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import { getConfig } from '@edx/frontend-platform';
 
 import LoginPage from '../LoginPage';
 
-// jest.mock('../data/selectors', () => {
-//   return jest.fn().mockImplementation(() => ({ loginRequestSelector: () => ({}) }));
-// });
-
-// jest.mock('../data/selectors', () => {
-//   return jest.fn().mockImplementation(() => ({ forgotPasswordSelector: () => ({}) }));
-// });
-
 const IntlLoginPage = injectIntl(LoginPage.WrappedComponent);
 const mockStore = configureStore();
-const history = createMemoryHistory();
 
 describe('LoginPage', () => {
   let props = {};
