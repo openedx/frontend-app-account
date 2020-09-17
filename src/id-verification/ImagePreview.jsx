@@ -5,7 +5,7 @@ export default function ImagePreview({ src, alt, id }) {
   return (
     <div id={id} className="image-preview">
 
-      <img style={{ objectFit: 'contain' }} src={src} alt={alt} />
+      <img data-hj-suppress style={{ objectFit: 'contain' }} src={src} alt={alt} />
 
     </div>
   );

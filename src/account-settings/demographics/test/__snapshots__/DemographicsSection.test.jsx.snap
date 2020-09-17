@@ -38,17 +38,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -100,17 +103,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -170,17 +176,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -232,17 +241,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -294,17 +306,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -356,17 +371,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -418,17 +436,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -480,17 +501,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -542,17 +566,20 @@ exports[`DemographicsSection should render 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -643,17 +670,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -705,17 +735,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -775,17 +808,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -837,17 +873,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -899,17 +938,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -961,17 +1003,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1023,17 +1068,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1085,17 +1133,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1147,17 +1198,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1269,17 +1323,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1331,17 +1388,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1393,17 +1453,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1455,17 +1518,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1517,17 +1583,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1579,17 +1648,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1641,17 +1713,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1703,17 +1778,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1765,17 +1843,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1852,17 +1933,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1914,17 +1998,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -1976,17 +2063,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2038,17 +2128,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2100,17 +2193,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2162,17 +2258,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2224,17 +2323,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2286,17 +2388,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2348,17 +2453,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2435,17 +2543,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2497,17 +2608,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2567,17 +2681,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2629,17 +2746,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2691,17 +2811,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2753,17 +2876,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2815,17 +2941,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2877,17 +3006,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -2939,17 +3071,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3026,17 +3161,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Gender identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3088,17 +3226,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Race/Ethnicity identity
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3158,17 +3299,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Family income
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3220,17 +3364,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               U.S. Military status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3282,17 +3429,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Your education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3344,17 +3494,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Parents/Guardians education level
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3406,17 +3559,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Employment status
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3468,17 +3624,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Current work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
@@ -3530,17 +3689,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <div
           className="form-group"
+          data-hj-suppress={true}
         >
           <div
             className="d-flex align-items-start"
           >
             <h6
               aria-level="3"
+              data-hj-allow={true}
             >
               Future work industry
             </h6>
             <button
               className="btn ml-3 btn-link"
+              data-hj-allow={true}
               onBlur={[Function]}
               onClick={[Function]}
               onKeyDown={[Function]}
