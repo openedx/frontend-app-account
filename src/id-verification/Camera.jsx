@@ -129,6 +129,7 @@ class Camera extends React.Component {
   }
 
   giveFeedback(numFaces, rightEye, isCorrect) {
+    // testing blazeface
     if (this.state.shouldGiveFeedback) {
       const currentFeedback = this.state.feedback;
       let newFeedback = '';
