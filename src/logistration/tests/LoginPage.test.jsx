@@ -1,41 +1,37 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
 import renderer from 'react-test-renderer';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { createMemoryHistory } from 'history';
-import { render, cleanup, screen, act, fireEvent } from '@testing-library/react';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 import LoginPage from '../LoginPage'; // eslint-disable-line import/first
-import { Button } from '@edx/paragon';
 
 const IntlLoginPage = injectIntl(LoginPage);
 const mockStore = configureStore();
-const history = createMemoryHistory();
 
 describe('LoginPage', () => {
   const initialState = {
     logistration: {
-      forgotPassword: {
-        status: null
-      }
-    }
+      forgotPassword: { status: null },
+      loginResult: { success: false, redirectUrl: '' },
+    },
   };
 
   let props = {};
   let store = {};
 
   const reduxWrapper = children => (
-      <IntlProvider locale="en">
-          <Provider store={store}>{children}</Provider>
-      </IntlProvider>
+    <IntlProvider locale="en">
+      <Provider store={store}>{children}</Provider>
+    </IntlProvider>
   );
 
   beforeEach(() => {
     store = mockStore(initialState);
-    props = {};
+    props = {
+      loginRequest: jest.fn(),
+    };
   });
 
   it('should match default section snapshot', () => {
@@ -48,4 +44,18 @@ describe('LoginPage', () => {
     const root = mount(reduxWrapper(<IntlLoginPage {...props} />));
     expect(root.find('.field-link').text()).toEqual('Need help signing in?');
   });
+
+  it('should match url after redirection', () => {
+    const dasboardUrl = 'http://test.com/dashboard/';
+    props = {
+      ...props,
+      loginResult: { success: true, redirectUrl: dasboardUrl },
+    };
+    delete window.location;
+    window.location = { href: '' };
+    window.location.href = dasboardUrl;
+    renderer.create(reduxWrapper(<IntlLoginPage {...props} />));
+    expect(window.location.href).toBe(dasboardUrl);
+  });
 });
+
