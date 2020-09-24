@@ -9,6 +9,7 @@ import messages from './messages';
 import { forgotPassword } from './data/actions';
 import { forgotPasswordSelector } from '../data/selectors';
 import RequestInProgressAlert from '../../account-settings/reset-password/RequestInProgressAlert';
+import LoginHelpLinks from '../LoginHelpLinks';
 
 const ForgotPasswordPage = (props) => {
   const { intl, forgotPassword, status } = props;
@@ -39,16 +40,16 @@ const ForgotPasswordPage = (props) => {
     <React.Fragment>
       {status === 'complete' ? <Redirect to="/login" /> : null}
       <div className="d-flex justify-content-center forgot-password-container">
-        <div className="d-flex flex-column" style={{ width: '400px' }}>
-          <form className="m-0">
+        <div className="d-flex flex-column" style={{ width: '450px' }}>
+          <form className="m-4">
             <div className="form-group">
+              {status === 'forbidden' ? <RequestInProgressAlert /> : null}
               <h3 className="text-center mt-3">
                 {intl.formatMessage(messages['logisration.forgot.password.page.heading'])}
               </h3>
               <p className="mb-4">
                 {intl.formatMessage(messages['logisration.forgot.password.page.instructions'])}
               </p>
-              {status === 'forbidden' ? <RequestInProgressAlert /> : null}
               <div className="d-flex flex-column align-items-start">
                 <ValidationFormGroup
                   for="email"
@@ -64,16 +65,17 @@ const ForgotPasswordPage = (props) => {
                     name="email"
                     id="forgot-password-input"
                     type="email"
-                    placeholder="email@domain.com"
+                    placeholder="username@domain.com"
                     value={emailInput}
                     onChange={e => handleOnChange(e)}
                     style={{ width: '400px' }}
                   />
                 </ValidationFormGroup>
               </div>
-              <p className="mb-4">
+              <p className="mb-0">
                 {intl.formatMessage(messages['logisration.forgot.password.page.email.field.help.text'])}
               </p>
+              <LoginHelpLinks page="forgot-password" />
             </div>
             <Button
               className="btn-primary submit"

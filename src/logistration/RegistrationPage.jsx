@@ -149,7 +149,7 @@ class RegistrationPage extends React.Component {
                 name="email"
                 id="registrationEmail"
                 type="email"
-                placeholder="email@domain.com"
+                placeholder="username@domain.com"
                 value={this.state.email}
                 onChange={e => this.handleOnChange(e)}
                 required

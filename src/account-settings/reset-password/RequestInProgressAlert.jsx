@@ -14,7 +14,7 @@ const RequestInProgressAlert = (props) => {
     >
       <FormattedMessage
         id="account.settings.editable.field.password.reset.button.forbidden"
-        defaultMessage="Your previous request is still in progress, please try again in few moments."
+        defaultMessage="Your previous request is still in progress, please try again in a few moments."
         description="A message displayed when a previous password reset request is still in progress."
       />
     </Alert>
