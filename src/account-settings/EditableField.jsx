@@ -146,11 +146,11 @@ function EditableField(props) {
           </form>
         ),
         default: (
-          <div className="form-group">
+          <div data-hj-suppress className="form-group">
             <div className="d-flex align-items-start">
-              <h6 aria-level="3">{label}</h6>
+              <h6 data-hj-allow aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="ml-3 btn-link">
+                <Button data-hj-allow onClick={handleEdit} className="ml-3 btn-link">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}

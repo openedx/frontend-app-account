@@ -302,6 +302,7 @@ class Camera extends React.Component {
             height="480"
           />
           <img
+            data-hj-suppress
             alt="imgCamera"
             src={this.state.dataUri}
             className="camera-video"
