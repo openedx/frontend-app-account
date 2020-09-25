@@ -54,7 +54,7 @@ exports[`LoginPage should match default section snapshot 1`] = `
               id="loginEmail"
               name="email"
               onChange={[Function]}
-              placeholder="email@domain.com"
+              placeholder="username@domain.com"
               style={
                 Object {
                   "width": "400px",
@@ -95,8 +95,11 @@ exports[`LoginPage should match default section snapshot 1`] = `
           />
         </div>
         <button
-          className="field-link"
+          className="btn mt-0 field-link"
+          onBlur={[Function]}
           onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
         >
           <svg
             aria-hidden="true"
@@ -115,9 +118,7 @@ exports[`LoginPage should match default section snapshot 1`] = `
               style={Object {}}
             />
           </svg>
-          <span>
-            Need help signing in?
-          </span>
+          Need help signing in?
         </button>
         <div
           className="pgn-transition-replace-group position-relative"

@@ -1,17 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Button, Input, ValidationFormGroup } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 import { loginRequest } from './data/actions';
 import { forgotPasswordSelector, loginRequestSelector } from './data/selectors';
 import ConfirmationAlert from './ConfirmationAlert';
-import SwitchContent from '../account-settings/SwitchContent';
+import LoginHelpLinks from './LoginHelpLinks';
 
 
 const LoginRedirect = (props) => {
@@ -33,7 +30,6 @@ class LoginPage extends React.Component {
     emailValid: false,
     passwordValid: false,
     formValid: false,
-    showLoginHelp: false
   }
 
   handleOnChange(e) {
@@ -81,38 +77,10 @@ class LoginPage extends React.Component {
     this.props.loginRequest(payload);
   }
 
-  toggleLoginHelp = (e) => {
-    e.preventDefault();
-    this.setState({
-      showLoginHelp: !this.state.showLoginHelp,
-    });
-  }
-
   validateForm() {
     this.setState({
       formValid: this.state.emailValid && this.state.passwordValid,
     });
-  }
-
-  renderLoginHelp() {
-    return (
-      <div className="login-help">
-        <a className="field-link" href="/reset">
-          <FormattedMessage
-            id="logistration.forgot.password.link"
-            defaultMessage="Forgot password?"
-            description="Forgot password link"
-          />
-        </a>
-        <a className="field-link" href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem">
-          <FormattedMessage
-            id="logistration.other.sign.in.issues"
-            defaultMessage="Other sign-in issues"
-            description="A link that redirects to sign-in issues help"
-          />
-        </a>
-      </div>
-    )
   }
 
   render() {
@@ -121,12 +89,12 @@ class LoginPage extends React.Component {
         <LoginRedirect success={this.props.loginResult.success} redirectUrl={this.props.loginResult.redirectUrl} />
         <div className="d-flex justify-content-center logistration-container">
           <div className="d-flex flex-column" style={{ width: '400px' }}>
+            {this.props.forgotPassword.status === 'complete' ? <ConfirmationAlert email={this.props.forgotPassword.email} /> : null}
             <div className="d-flex flex-row">
               <p>
                 First time here?<a className="ml-1" href="/register">Create an Account.</a>
               </p>
             </div>
-            {this.props.forgotPassword.status === 'complete' ? <ConfirmationAlert email={this.props.forgotPassword.email} /> : null}
             <form className="m-0">
               <div className="form-group">
                 <h3 className="text-center mt-3">Sign In</h3>
@@ -141,7 +109,7 @@ class LoginPage extends React.Component {
                       name="email"
                       id="loginEmail"
                       type="email"
-                      placeholder="email@domain.com"
+                      placeholder="username@domain.com"
                       value={this.state.email}
                       onChange={e => this.handleOnChange(e)}
                       style={{ width: '400px' }}
@@ -159,21 +127,7 @@ class LoginPage extends React.Component {
                     onChange={e => this.handleOnChange(e)}
                   />
                 </div>
-                <button className="field-link" onClick={this.toggleLoginHelp}>
-                  <FontAwesomeIcon className="mr-1" icon={this.state.showLoginHelp ? faCaretDown : faCaretRight} />
-                  <FormattedMessage
-                    id="logistration.need.help.signing.in.collapsible.menu"
-                    defaultMessage="Need help signing in?"
-                    description="A button for collapsible login help menu"
-                  />
-                </button>
-                <SwitchContent
-                  expression={this.state.showLoginHelp ? 'showHelp' : 'default'}
-                  cases={{
-                    showHelp: this.renderLoginHelp(),
-                    default: <React.Fragment/>
-                  }}
-                />
+                <LoginHelpLinks page="login" />
               </div>
               <Button
                 className="btn-primary submit"

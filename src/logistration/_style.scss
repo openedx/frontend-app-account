@@ -75,6 +75,7 @@ $link-blue: #23419f;
 }
 
 .field-link {
+  font-weight: normal;
   display: block;
   color: $link-blue;
   margin-bottom: 5px;
@@ -90,5 +91,5 @@ $link-blue: #23419f;
 }
 
 .login-help {
-  padding-left: 15px;
+  padding-left: 14px;
 }

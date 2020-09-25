@@ -42,7 +42,7 @@ describe('LoginPage', () => {
 
   it('should display login help button', () => {
     const root = mount(reduxWrapper(<IntlLoginPage {...props} />));
-    expect(root.find('.field-link').text()).toEqual('Need help signing in?');
+    expect(root.find('button.field-link').text()).toEqual('Need help signing in?');
   });
 
   it('should match url after redirection', () => {

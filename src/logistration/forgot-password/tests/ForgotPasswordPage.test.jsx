@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
@@ -63,5 +64,10 @@ describe('ForgotPasswordPage', () => {
       )
     );
     expect(history.location.pathname).toEqual('/login');
+  });
+
+  it('should display need other help signing in button', () => {
+    const wrapper = mount(reduxWrapper(<IntlForgotPasswordPage {...props} />));
+    expect(wrapper.find('button.field-link').text()).toEqual('Need other help signing in?');
   });
 });
