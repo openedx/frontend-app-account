@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -37,6 +38,22 @@ class Camera extends React.Component {
     this.cameraPhoto.stopCamera();
   }
 
+  sendEvent() {
+    let eventName = 'edx.id_verification';
+    if (this.props.isPortrait) {
+      eventName += '.user_photo';
+    } else {
+      eventName += '.id_photo';
+    }
+
+    if (this.state.shouldDetect) {
+      eventName += '.face_detection_enabled';
+    } else {
+      eventName += '.face_detection_disabled';
+    }
+    sendTrackEvent(eventName);
+  }
+
   setDetection() {
     this.setState(
       { shouldDetect: !this.state.shouldDetect },
@@ -45,6 +62,7 @@ class Camera extends React.Component {
           this.setState({ isFinishedLoadingDetection: false });
           this.startDetection();
         }
+        this.sendEvent();
       },
     );
   }
