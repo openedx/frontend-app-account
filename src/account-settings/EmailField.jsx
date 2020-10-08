@@ -109,6 +109,7 @@ function EmailField(props) {
             >
               <label className="h6 d-block" htmlFor={id}>{label}</label>
               <Input
+                data-hj-suppress
                 name={name}
                 id={id}
                 type="email"
@@ -146,17 +147,17 @@ function EmailField(props) {
           </form>
         ),
         default: (
-          <div data-hj-suppress className="form-group">
+          <div className="form-group">
             <div className="d-flex align-items-start">
-              <h6 data-hj-allow aria-level="3">{label}</h6>
+              <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button data-hj-allow onClick={handleEdit} className="ml-3 btn-link">
+                <Button onClick={handleEdit} className="ml-3 btn-link">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
                   {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}
             </div>
-            <p>{renderValue()}</p>
+            <p data-hj-suppress>{renderValue()}</p>
             {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
           </div>
         ),
