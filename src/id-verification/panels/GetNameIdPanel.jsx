@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Form } from '@edx/paragon';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -11,6 +11,7 @@ import { IdVerificationContext } from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 
 function GetNameIdPanel(props) {
+  const { push } = useHistory();
   const panelSlug = 'get-name-id';
   const [nameMatches, setNameMatches] = useState(true);
   const nameInputRef = useRef();
@@ -42,6 +43,15 @@ function GetNameIdPanel(props) {
     }
   }, [nameMatches, blankName]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // If the input is empty, or if no changes have been made to the
+    // mismatching name, the user should not be able to proceed.
+    if (!invalidName && !blankName) {
+      push(nextPanelSlug);
+    }
+  };
+
   return (
     <BasePanel
       name={panelSlug}
@@ -51,7 +61,7 @@ function GetNameIdPanel(props) {
         {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
       </p>
 
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label htmlFor="nameMatchesYes">
             {props.intl.formatMessage(messages['id.verification.account.name.radio.label'])}
