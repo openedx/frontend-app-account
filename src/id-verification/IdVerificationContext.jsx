@@ -45,9 +45,9 @@ function IdVerificationContextProvider({ children }) {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         setMediaAccess(MEDIA_ACCESS.GRANTED);
         setMediaStream(stream);
-        // If we would like to stop the stream immediately. I guess we can leave it open
-        // const tracks = stream.getTracks();
-        // tracks.forEach(track => track.stop());
+        // stop the stream, as we are not using it yet
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
       } catch (err) {
         setMediaAccess(MEDIA_ACCESS.DENIED);
       }
