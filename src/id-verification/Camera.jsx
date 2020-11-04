@@ -1,5 +1,4 @@
 import React from 'react';
-import Bowser from 'bowser';
 import PropTypes from 'prop-types';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import * as blazeface from '@tensorflow-models/blazeface';
@@ -28,17 +27,11 @@ class Camera extends React.Component {
   }
 
   componentDidMount() {
-    const browserName = Bowser.parse(window.navigator.userAgent).browser.name;
-    let cameraSize = { width: 1440, height: 1080 };
-    // There is an issue with Safari where, if the camera size is larger than 640x480,
-    // the face detection object isn't drawn on the canvas properly. This is a temporary fix.
-    if (browserName === 'Safari') {
-      cameraSize = { width: 640, height: 480 };
-    }
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
+
     this.cameraPhoto.startCamera(
       this.props.isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT,
-      cameraSize,
+      { width: 640, height: 480 },
     );
   }
 
@@ -256,10 +249,13 @@ class Camera extends React.Component {
       // always be less than 10MB
       const ratio = 9999999 / currentSize;
 
-      // if the current resolution creates an image larger than 10 MB, adjust sizeFactor (resolution)
-      // to ensure that image will have a file size of less than 10 MB.
       if (ratio < 1) {
+        // if the current resolution creates an image larger than 10 MB, adjust sizeFactor (resolution)
+        // to ensure that image will have a file size of less than 10 MB.
         sizeFactor = ratio;
+      } else if (videoWidth === 640 && videoHeight === 480) {
+        // otherwise increase the resolution to try and prevent blurry images.
+        sizeFactor = 2;
       }
     }
     return sizeFactor;
