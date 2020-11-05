@@ -28,7 +28,6 @@ class Camera extends React.Component {
 
   componentDidMount() {
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
-
     this.cameraPhoto.startCamera(
       this.props.isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT,
       { width: 640, height: 480 },
