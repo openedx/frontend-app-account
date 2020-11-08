@@ -60,7 +60,7 @@
     "lodash.pickby": "^4.6.0",
     "lodash.snakecase": "4.1.1",
     "memoize-one": "5.1.1",
-    "newrelic": "5.13.1",
+    "newrelic": "6.14.0",
     "prop-types": "15.7.2",
     "qs": "6.9.4",
     "react": "16.10.2",
