@@ -30,25 +30,6 @@ export async function getExistingIdVerification() {
 }
 
 /**
- * Get the learner's enrollments. Used to check whether the learner is enrolled
- * in a verified course mode.
- *
- * Returns an array: [{...data, mode: String}]
- */
-export async function getEnrollments() {
-  const url = `${getConfig().LMS_BASE_URL}/api/enrollment/v1/enrollment`;
-  const requestConfig = {
-    headers: { Accept: 'application/json' },
-  };
-  try {
-    const { data } = await getAuthenticatedHttpClient().get(url, requestConfig);
-    return data;
-  } catch (e) {
-    return [];
-  }
-}
-
-/**
  * Submit ID verifiction to LMS.
  *
  * verificationData should take the shape of:
