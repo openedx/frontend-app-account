@@ -61,18 +61,13 @@ const messages = defineMessages({
     defaultMessage: 'We securely encrypt your photo and send it our authorization service for review. Your photo and information are not saved or visible anywhere on edX after the verification process is complete.',
     description: 'Answering what edX does with the verification photo.',
   },
-  'id.verification.access.blocked.title': {
-    id: 'id.verification.access.blocked.title',
+  'id.verification.existing.request.title': {
+    id: 'id.verification.existing.request.title',
     defaultMessage: 'Identity Verification',
-    description: 'Title for text that displays when a user is blocked from ID verification.',
+    description: 'Title for text that displays when user has already made a request.',
   },
-  'id.verification.access.blocked.enrollment': {
-    id: 'id.verification.access.blocked.enrollment',
-    defaultMessage: 'You are not currently enrolled in a course that requires identity verification.',
-    description: 'Text that displays when user is trying to verify while not enrolled in a course that requires ID verification.',
-  },
-  'id.verification.access.blocked.pending': {
-    id: 'id.verification.access.blocked.pending',
+  'id.verification.existing.request.pending.text': {
+    id: 'id.verification.existing.request.pending.text',
     defaultMessage: 'You have already submitted your verification information. You will see a message on your dashboard when the verification process is complete (usually within 5 days).',
     description: 'Text that displays when user has a pending or approved request.',
   },

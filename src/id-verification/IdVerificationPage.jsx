@@ -80,8 +80,11 @@ function IdVerificationPage(props) {
     </>
   );
 }
+
 IdVerificationPage.propTypes = {
   intl: intlShape.isRequired,
 };
+
 export default connect(idVerificationSelector, {
 })(injectIntl(IdVerificationPage));
+

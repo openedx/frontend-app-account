@@ -5,31 +5,29 @@ import { render, cleanup, act, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import ExistingRequest from '../ExistingRequest';
 
-import { ERROR_REASONS } from '../IdVerificationContext';
-import AccessBlocked from '../AccessBlocked';
-
-const IntlAccessBlocked = injectIntl(AccessBlocked);
+const IntlExistingRequest = injectIntl(ExistingRequest);
 
 const history = createMemoryHistory();
 
-describe('AccessBlocked', () => {
+describe('ExistingRequest', () => {
   const defaultProps = {
     intl: {},
-    error: '',
+    status: '',
   };
 
   afterEach(() => {
     cleanup();
   });
 
-  it('renders correctly when there is an existing request', async () => {
-    defaultProps.error = ERROR_REASONS.EXISTING_REQUEST;
+  it('renders correctly when status is pending', async () => {
+    defaultProps.status = 'pending';
 
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <IntlExistingRequest {...defaultProps} />
         </IntlProvider>
       </Router>
     )));
@@ -39,29 +37,29 @@ describe('AccessBlocked', () => {
     expect(text).toBeInTheDocument();
   });
 
-  it('renders correctly when learner is not enrolled in a verified course mode', async () => {
-    defaultProps.error = ERROR_REASONS.COURSE_ENROLLMENT;
+  it('renders correctly when status is approved', async () => {
+    defaultProps.status = 'approved';
 
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <IntlExistingRequest {...defaultProps} />
         </IntlProvider>
       </Router>
     )));
 
-    const text = screen.getByText(/You are not currently enrolled in a course that requires identity verification./);
+    const text = screen.getByText(/You have already submitted your verification information./);
 
     expect(text).toBeInTheDocument();
   });
 
   it('renders correctly when status is denied', async () => {
-    defaultProps.error = ERROR_REASONS.CANNOT_VERIFY;
+    defaultProps.status = 'denied';
 
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <IntlExistingRequest {...defaultProps} />
         </IntlProvider>
       </Router>
     )));
