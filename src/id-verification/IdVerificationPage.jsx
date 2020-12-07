@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect, useRouteMatch, useLocation } from 'react-router-dom';
+import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal, Button } from '@edx/paragon';
 import { idVerificationSelector } from './data/selectors';
@@ -29,7 +30,10 @@ function IdVerificationPage(props) {
   // Course run key is passed as a query string
   useEffect(() => {
     if (search) {
-      sessionStorage.setItem('courseRunKey', search.substring(1));
+      const parsed = qs.parse(search, { ignoreQueryPrefix: true });
+      if (parsed.hasOwnProperty('course_id')) {
+        sessionStorage.setItem('courseRunKey', parsed.course_id);
+      }
     }
   }, [search]);
 
