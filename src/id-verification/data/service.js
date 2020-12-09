@@ -64,7 +64,6 @@ export async function submitIdVerification(verificationData) {
     facePhotoFile: 'face_image',
     idPhotoFile: 'photo_id_image',
     idPhotoName: 'full_name',
-    courseRunKey: 'course_key',
   };
   const postData = {};
   // Don't include blank/null/undefined values.

@@ -10,17 +10,11 @@ import messages from '../IdVerification.messages';
 
 function SubmittedPanel(props) {
   const { userId } = useContext(IdVerificationContext);
-  const [returnUrl, setReturnUrl] = useState('dashboard');
-  const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'submitted';
 
   // If the user accessed IDV through a course,
   // link back to that course rather than the dashboard
   useEffect(() => {
-    if (sessionStorage.getItem('courseRunKey')) {
-      setReturnUrl(`courses/${sessionStorage.getItem('courseRunKey')}`);
-      setReturnText('id.verification.return.course');
-    }
     sendTrackEvent('edx.id_verification.submitted', {
       category: 'id_verification',
       user_id: userId,
@@ -37,10 +31,10 @@ function SubmittedPanel(props) {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
+        href={`${getConfig().LMS_BASE_URL}/dashboard`}
         data-testid="return-button"
       >
-        {props.intl.formatMessage(messages[returnText])}
+        {props.intl.formatMessage(messages['id.verification.return.dashboard'])}
       </a>
     </BasePanel>
   );

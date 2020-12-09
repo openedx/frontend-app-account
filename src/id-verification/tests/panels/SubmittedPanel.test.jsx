@@ -47,19 +47,4 @@ describe('SubmittedPanel', () => {
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return to Your Dashboard/);
   });
-
-  it('links to course with courseRunKey', async () => {
-    Storage.prototype.getItem = jest.fn(() => 'courseRunKey');
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlSubmittedPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
-        </IntlProvider>
-      </Router>
-    )));
-    const button = await screen.findByTestId('return-button');
-    expect(button).toHaveTextContent(/Return to Course/);
-  });
 });
