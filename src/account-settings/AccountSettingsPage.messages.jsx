@@ -279,7 +279,7 @@ const messages = defineMessages({
   },
   'account.settings.field.language.proficiencies': {
     id: 'account.settings.field.language.proficiencies',
-    defaultMessage: 'Spoken languages',
+    defaultMessage: 'Spoken language',
     description: 'Label for account settings spoken languages field.',
   },
   'account.settings.field.language.proficiencies.empty': {
