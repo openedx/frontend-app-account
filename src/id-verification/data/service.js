@@ -84,6 +84,9 @@ export async function submitIdVerification(verificationData) {
     await getAuthenticatedHttpClient().post(url, urlEncodedPostData, requestConfig);
     return { success: true, message: null };
   } catch (e) {
-    return { success: false, message: String(e) }; // TODO: is String(e) right?
+    return {
+      success: false,
+      status: e.customAttributes.httpErrorStatus,
+      message: String(e) };
   }
 }

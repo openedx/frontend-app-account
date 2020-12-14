@@ -25,7 +25,7 @@ function SummaryPanel(props) {
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
 
   function SubmitButton() {
     async function handleClick() {
@@ -43,7 +43,7 @@ function SummaryPanel(props) {
       } else {
         stopUserMedia();
         setIsSubmitting(false);
-        setSubmissionError(true);
+        setSubmissionError(result);
       }
     }
     return (
@@ -59,6 +59,29 @@ function SummaryPanel(props) {
     );
   }
 
+  function getError() {
+    if (submissionError.status === 400) {
+      if (submissionError.message.includes('face_image')) {
+        return props.intl.formatMessage(messages['id.verification.submission.alert.error.face']);
+      } else if (submissionError.message.includes('Photo ID image')) {
+        return props.intl.formatMessage(messages['id.verification.submission.alert.error.id']);
+      } else if (submissionError.message.includes('Name')) {
+        return props.intl.formatMessage(messages['id.verification.submission.alert.error.name']);
+      }
+    }
+    return (
+      <FormattedMessage
+        id="idv.submission.alert.error"
+        defaultMessage={`
+          We encountered a technical error while trying to submit ID verification.
+          This might be a temporary issue, so please try again in a few minutes.
+          If the problem persists, please go to {support_link} for help.
+        `}
+        values={{ support_link: <Alert.Link href="https://support.edx.org/hc/en-us">{props.intl.formatMessage(messages['id.verification.review.error'])}</Alert.Link> }}
+      />
+    );
+  }
+
   return (
     <BasePanel
       name={panelSlug}
@@ -69,18 +92,9 @@ function SummaryPanel(props) {
         variant="danger"
         data-testid="submission-error"
         dismissible
-        onClose={() => setSubmissionError(false)}
+        onClose={() => setSubmissionError(null)}
       >
-        <FormattedMessage
-          id="idv.submission.alert.error"
-          defaultMessage={`
-            We encountered a technical error while trying to submit ID verification.
-            This might be a temporary issue, so please try again in a few minutes.
-            If the problem persists,
-            please go to {support_link} for help.
-          `}
-          values={{ support_link: <Alert.Link href="https://support.edx.org/hc/en-us">{props.intl.formatMessage(messages['id.verification.review.error'])}</Alert.Link> }}
-        />
+        {getError()}
       </Alert>}
       <p>
         {props.intl.formatMessage(messages['id.verification.review.description'])}

@@ -576,6 +576,21 @@ const messages = defineMessages({
     defaultMessage: 'Submit',
     description: 'Button to confirm all information is correct and submit.',
   },
+  'id.verification.submission.alert.error.face': {
+    id: 'id.verification.submission.alert.error.face',
+    defaultMessage: 'A photo of your face is required. Please retake your portrait photo.',
+    description: 'Error message displayed when the user\'s portrait photo is missing.',
+  },
+  'id.verification.submission.alert.error.id': {
+    id: 'id.verification.submission.alert.error.id',
+    defaultMessage: 'A photo of your ID card is required. Please retake your ID photo.',
+    description: 'Error message displayed when the user\'s ID photo is missing.',
+  },
+  'id.verification.submission.alert.error.name': {
+    id: 'id.verification.submission.alert.error.name',
+    defaultMessage: 'A valid account name is required. Please update your account name to match the name on your ID.',
+    description: 'Error message displayed when the user\'s account name is missing.',
+  },
   'id.verification.review.error': {
     id: 'id.verification.review.error',
     defaultMessage: 'edX Support Page',
