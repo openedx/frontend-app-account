@@ -33,7 +33,7 @@ describe('SummaryPanel', () => {
     stopUserMedia: jest.fn(),
   };
 
-  beforeEach(async () => {
+  const getPanel = async () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -43,13 +43,14 @@ describe('SummaryPanel', () => {
         </IntlProvider>
       </Router>
     )));
-  });
+  };
 
   afterEach(() => {
     cleanup();
   });
 
   it('routes back to TakePortraitPhotoPanel', async () => {
+    await getPanel();
     const button = await screen.findByTestId('portrait-retake');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/take-portrait-photo');
@@ -57,6 +58,7 @@ describe('SummaryPanel', () => {
   });
 
   it('routes back to TakeIdPhotoPanel', async () => {
+    await getPanel();
     const button = await screen.findByTestId('id-retake');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/take-id-photo');
@@ -64,6 +66,7 @@ describe('SummaryPanel', () => {
   });
 
   it('allows user to upload ID photo', async () => {
+    await getPanel();
     const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
     fireEvent.click(collapsible);
     const uploadButton = await screen.getByTestId('fileUpload');
@@ -71,6 +74,7 @@ describe('SummaryPanel', () => {
   });
 
   it('submits', async () => {
+    await getPanel();
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalled();
@@ -78,21 +82,53 @@ describe('SummaryPanel', () => {
   });
 
   it('shows error when cannot submit', async () => {
-    await cleanup();
     dataService.submitIdVerification = jest.fn().mockReturnValue({ success: false });
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlSummaryPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
-        </IntlProvider>
-      </Router>
-    )));
+    await getPanel();
     const button = await screen.findByTestId('submit-button');
     await act(async () => fireEvent.click(button));
     expect(dataService.submitIdVerification).toHaveBeenCalled();
     const error = await screen.getByTestId('submission-error');
     expect(error).toBeDefined();
+  });
+
+  it('displays correct error for missing portrait photo', async () => {
+    dataService.submitIdVerification = jest.fn().mockReturnValue({
+      success: false,
+      status: 400,
+      message: 'Missing required parameter face_image',
+    });
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    await act(async () => fireEvent.click(button));
+    const error = await screen.getByTestId('submission-error');
+    expect(error).toHaveTextContent('A photo of your face is required. Please retake your portrait photo.');
+  });
+
+  it('displays correct error for missing id photo', async () => {
+    dataService.submitIdVerification = jest.fn().mockReturnValue({
+      success: false,
+      status: 400,
+      message: 'Photo ID image is required if the user does not have an initial verification attempt.',
+    });
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    await act(async () => fireEvent.click(button));
+    const error = await screen.getByTestId('submission-error');
+    expect(error).toHaveTextContent('A photo of your ID card is required. Please retake your ID photo.');
+  });
+
+  it('displays correct error for missing account name', async () => {
+    dataService.submitIdVerification = jest.fn().mockReturnValue({
+      success: false,
+      status: 400,
+      message: 'Name must be at least 1 character long.',
+    });
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    await act(async () => fireEvent.click(button));
+    const error = await screen.getByTestId('submission-error');
+    expect(error).toHaveTextContent(
+      'A valid account name is required. Please update your account name to match the name on your ID.'
+    );
   });
 });
