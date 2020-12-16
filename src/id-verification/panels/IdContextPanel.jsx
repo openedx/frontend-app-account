@@ -6,6 +6,7 @@ import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import CameraHelp from '../CameraHelp';
 import messages from '../IdVerification.messages';
+import exampleCard from '../assets/example-card.png';
 
 function IdContextPanel(props) {
   const panelSlug = 'id-context';
@@ -24,7 +25,7 @@ function IdContextPanel(props) {
           <p>
             {props.intl.formatMessage(messages['id.verification.photo.tips.list.description'])}
           </p>
-          <ul className="mb-0">
+          <ul>
             <li>
               {props.intl.formatMessage(messages['id.verification.id.tips.list.well.lit'])}
             </li>
@@ -32,6 +33,10 @@ function IdContextPanel(props) {
               {props.intl.formatMessage(messages['id.verification.id.tips.list.clear'])}
             </li>
           </ul>
+          <img
+            src={exampleCard}
+            alt={props.intl.formatMessage(messages['id.verification.example.card.alt'])}
+          />
         </div>
       </div>
       <CameraHelp isOpen />
