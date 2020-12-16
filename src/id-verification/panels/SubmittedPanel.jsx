@@ -12,8 +12,6 @@ function SubmittedPanel(props) {
   const { userId } = useContext(IdVerificationContext);
   const panelSlug = 'submitted';
 
-  // If the user accessed IDV through a course,
-  // link back to that course rather than the dashboard
   useEffect(() => {
     sendTrackEvent('edx.id_verification.submitted', {
       category: 'id_verification',

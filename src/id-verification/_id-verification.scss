@@ -1,5 +1,8 @@
 .page__id-verification {
   .verification-panel {
+    img {
+      max-width: 100%;
+    }
     .card.accent {
       border-top: solid 4px theme-color('warning');
     }
@@ -8,7 +11,6 @@
       max-width: 20rem;
       img {
         display: block;
-        max-width: 100%;
         max-height: 10rem;
       }
     }

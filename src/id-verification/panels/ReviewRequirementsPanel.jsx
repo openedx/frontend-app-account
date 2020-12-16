@@ -8,6 +8,7 @@ import BasePanel from './BasePanel';
 
 import { IdVerificationContext } from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
+import exampleCard from '../assets/example-card.png';
 
 function ReviewRequirementsPanel(props) {
   const { userId } = useContext(IdVerificationContext);
@@ -54,6 +55,10 @@ function ReviewRequirementsPanel(props) {
           </h6>
           <p className="mb-0">
             {props.intl.formatMessage(messages['id.verification.requirements.card.id.text'])}
+            <img
+              src={exampleCard}
+              alt={props.intl.formatMessage(messages['id.verification.example.card.alt'])}
+            />
           </p>
         </div>
       </div>

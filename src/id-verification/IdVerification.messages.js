@@ -6,6 +6,11 @@ const messages = defineMessages({
     defaultMessage: 'Next',
     description: 'Next button.',
   },
+  'id.verification.example.card.alt': {
+    id: 'id.verification.example.card.alt',
+    defaultMessage: 'Example of a valid identification card with a full name and photo.',
+    description: 'Alt text for an example identification card.'
+  },
   'id.verification.requirements.title': {
     id: 'id.verification.requirements.title',
     defaultMessage: 'Photo Verification Requirements',
@@ -33,7 +38,7 @@ const messages = defineMessages({
   },
   'id.verification.requirements.card.id.text': {
     id: 'id.verification.requirements.card.id.text',
-    defaultMessage: 'You need a valid ID that contains your full name and photo.',
+    defaultMessage: 'You need a valid identification card that contains your full name and photo.',
     description: 'Text that explains that the user needs a photo ID.',
   },
   'id.verification.privacy.title': {
@@ -433,7 +438,7 @@ const messages = defineMessages({
   },
   'id.verification.id.tips.description': {
     id: 'id.verification.id.tips.description',
-    defaultMessage: 'Next, we\'ll need you to take a photo of a valid ID that includes your name. Please have your ID ready.',
+    defaultMessage: 'Next, we\'ll need you to take a photo of a valid identification card that includes your full name and photo. Please have your ID ready.',
     description: 'Description for the ID Tips page.',
   },
   'id.verification.id.tips.list.well.lit': {
