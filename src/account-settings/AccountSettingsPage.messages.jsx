@@ -279,18 +279,18 @@ const messages = defineMessages({
   },
   'account.settings.field.language.proficiencies': {
     id: 'account.settings.field.language.proficiencies',
-    defaultMessage: 'Spoken languages',
-    description: 'Label for account settings spoken languages field.',
+    defaultMessage: 'Spoken language',
+    description: 'Label for account settings spoken language field.',
   },
   'account.settings.field.language.proficiencies.empty': {
     id: 'account.settings.field.language.proficiencies.empty',
     defaultMessage: 'Add a spoken language',
-    description: 'Placeholder for empty account settings spoken languages field.',
+    description: 'Placeholder for empty account settings spoken language field.',
   },
   'account.settings.field.language_proficiencies.options.empty': {
     id: 'account.settings.field.language_proficiencies.options.empty',
     defaultMessage: 'Select a Language',
-    description: 'Option for an empty value on account settings spoken languages field.',
+    description: 'Option for an empty value on account settings spoken language field.',
   },
 
   'account.settings.field.time.zone': {
