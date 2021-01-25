@@ -9,6 +9,7 @@ import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
 import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
+import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
 
 import messages from '../IdVerification.messages';
 
@@ -53,6 +54,12 @@ function RequestCameraAccessPanel(props) {
     return props.intl.formatMessage(messages['id.verification.camera.access.title']);
   };
 
+  const returnToDashboardLink = (
+    <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+      {props.intl.formatMessage(messages[returnText])}
+    </a>
+  );
+
   return (
     <BasePanel
       name={panelSlug}
@@ -91,16 +98,26 @@ function RequestCameraAccessPanel(props) {
         </div>
       )}
 
-      {[MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess) && (
+      {mediaAccess == MEDIA_ACCESS.DENIED && (
         <div data-testid="camera-failure-instructions">
           <p data-testid="camera-access-failure">
             {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
           </p>
           <EnableCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
-            <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
-              {props.intl.formatMessage(messages[returnText])}
-            </a>
+            {returnToDashboardLink}
+          </div>
+        </div>
+      )}
+
+      {mediaAccess == MEDIA_ACCESS.UNSUPPORTED && (
+        <div data-testid="camera-unsupported-instructions">
+          <p data-testid="camera-unsupported-failure">
+            {props.intl.formatMessage(messages['id.verification.camera.access.failure.unsupported'])}
+          </p>
+          <UnsupportedCameraDirectionsPanel browserName={browserName} intl={props.intl} />
+          <div className="action-row">
+            {returnToDashboardLink}
           </div>
         </div>
       )}

@@ -82,7 +82,24 @@ describe('RequestCameraAccessPanel', () => {
     expect(text).toHaveTextContent(/It looks like we're unable to access your camera./);
   });
 
-  it('renders correctly with media access unsupported', async () => {
+  it('renders correctly with media access unsupported with Chrome browser', async () => {
+    contextValue.mediaAccess = 'unsupported';
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Chrome' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const text = await screen.findByTestId('camera-unsupported-instructions');
+    expect(text).toHaveTextContent(/It looks like your browser does not support camera access./);
+    expect(text).toHaveTextContent(/The Chrome browser currently does not support camera access on iOS devices, such as iPhones and iPads./);
+  });
+
+  it('renders correctly with media access unsupported with non-Chrome browser', async () => {
     contextValue.mediaAccess = 'unsupported';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
@@ -94,8 +111,9 @@ describe('RequestCameraAccessPanel', () => {
         </IntlProvider>
       </Router>
     )));
-    const text = await screen.findByTestId('camera-access-failure');
-    expect(text).toHaveTextContent(/It looks like we're unable to access your camera./);
+    const text = await screen.findByTestId('camera-unsupported-instructions');
+    expect(text).toHaveTextContent(/It looks like your browser does not support camera access./);
+    expect(text).not.toHaveTextContent(/The Chrome browser currently does not support camera access on iOS devices, such as iPhones and iPads./);
   });
 
   it('renders correct directions for Chrome with media access denied', async () => {
