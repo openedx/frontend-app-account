@@ -62,7 +62,7 @@
     "memoize-one": "5.1.1",
     "newrelic": "5.13.1",
     "prop-types": "15.7.2",
-    "qs": "6.9.4",
+    "qs": "6.9.6",
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-redux": "7.1.3",
