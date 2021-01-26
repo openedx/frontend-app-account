@@ -341,6 +341,21 @@ const messages = defineMessages({
     defaultMessage: 'Select "edx.org" and change the camera permissions to "Allow."',
     description: 'Text for step four of enabling camera access.',
   },
+  'id.verification.camera.access.failure.unsupported': {
+    id: 'id.verification.camera.access.failure.unsupported',
+    defaultMessage: 'It looks like your browser does not support camera access.',
+    description: 'Text indicating that the user\'s browser does not support camera access.',
+  },
+  'id.verification.camera.access.failure.unsupported.chrome.explanation': {
+    id: 'id.verification.camera.access.failure.unsupported.chrome.explanation',
+    defaultMessage: 'The Chrome browser currently does not support camera access on iOS devices, such as iPhones and iPads.',
+    description: 'Explanation for why certain web browsers, like Chrome, do not support accessing the user\'s camera.',
+  },
+  'id.verification.camera.access.failure.unsupported.instructions': {
+    id: 'id.verification.camera.access.failure.unsupported.instructions',
+    defaultMessage: 'Please use another browser to complete Identity Verification.',
+    description: 'Instructions for the user to user another web browser to complete the process.',
+  },
   'id.verification.photo.tips.title': {
     id: 'id.verification.photo.tips.title',
     defaultMessage: 'Helpful Photo Tips',
