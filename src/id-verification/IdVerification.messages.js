@@ -88,7 +88,7 @@ const messages = defineMessages({
   },
   'id.verification.photo.retake': {
     id: 'id.verification.photo.retake',
-    defaultMessage: 'Retake Photo',
+    defaultMessage: 'Retake Photo?',
     description: 'Button to retake photo.',
   },
   'id.verification.photo.enable.detection': {
