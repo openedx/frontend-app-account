@@ -136,6 +136,14 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  handleEditableFieldChange = (name, value) => {
+    this.props.updateDraft(name, value);
+  };
+
+  handleSubmit = (formId, values) => {
+    this.props.saveSettings(formId, values);
+  };
+
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
   }
@@ -145,14 +153,6 @@ class AccountSettingsPage extends React.Component {
     // a profile is managed or not by the presence of the profileDataManager prop.
     return Boolean(this.props.profileDataManager);
   }
-
-  handleEditableFieldChange = (name, value) => {
-    this.props.updateDraft(name, value);
-  };
-
-  handleSubmit = (formId, values) => {
-    this.props.saveSettings(formId, values);
-  };
 
   renderDuplicateTpaProviderMessage() {
     if (!this.state.duplicateTpaProvider) {
@@ -258,7 +258,7 @@ class AccountSettingsPage extends React.Component {
     } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
-    const showState = this.props.formValues.country == COUNTRY_WITH_STATES;
+    const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,

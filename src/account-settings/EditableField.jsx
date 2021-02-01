@@ -67,23 +67,25 @@ function EditableField(props) {
   };
 
   const renderValue = (rawValue) => {
-    if (!rawValue) return renderEmptyLabel();
-    let value = rawValue;
+    if (!rawValue) {
+      return renderEmptyLabel();
+    }
+    let finalValue = rawValue;
 
     if (options) {
       // Use == instead of === to prevent issues when HTML casts numbers as strings
       // eslint-disable-next-line eqeqeq
       const selectedOption = options.find(option => option.value == rawValue);
       if (selectedOption) {
-        value = selectedOption.label;
-      };
+        finalValue = selectedOption.label;
+      }
     }
 
     if (userSuppliedValue) {
-      value += `: ${userSuppliedValue}`;
+      finalValue += `: ${userSuppliedValue}`;
     }
 
-    return value;
+    return finalValue;
   };
 
   const renderConfirmationMessage = () => {
