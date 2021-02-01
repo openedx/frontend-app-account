@@ -33,12 +33,13 @@ const CoachingForm = props => (
     <div>
       <form onSubmit={props.onSubmit}>
         <div className="py-3">
-          {
-            !!props.profileDataManager &&
+          {!!props.profileDataManager && (
             <ManagedProfileAlert profileDataManager={props.profileDataManager} />
-          }
+          )}
           <ErrorMessage message={props.formErrors.full_name} />
-          <label className="h6" htmlFor="fullName">{props.intl.formatMessage(messages['account.settings.coaching.consent.label.name'])}</label>
+          <label className="h6" htmlFor="fullName">
+            {props.intl.formatMessage(messages['account.settings.coaching.consent.label.name'])}
+          </label>
           <Input
             type="text"
             name="full-name"
@@ -49,7 +50,9 @@ const CoachingForm = props => (
         </div>
         <div className="py-3">
           <ErrorMessage message={props.formErrors.phone_number} />
-          <label className="h6" htmlFor="phoneNumber">{props.intl.formatMessage(messages['account.settings.coaching.consent.label.phone-number'])}</label>
+          <label className="h6" htmlFor="phoneNumber">
+            {props.intl.formatMessage(messages['account.settings.coaching.consent.label.phone-number'])}
+          </label>
           <Input
             type="text"
             name="phone_number"

@@ -8,7 +8,6 @@ import { editableFieldSelector } from '../data/selectors';
 import { saveSettings, updateDraft, saveMultipleSettings } from '../data/actions';
 import EditableField from '../EditableField';
 
-
 const CoachingToggle = props => (
   <>
     <EditableField
@@ -33,10 +32,10 @@ const CoachingToggle = props => (
               formId: 'phone_number',
               commitValues: props.phone_number,
             },
-        ], 'phone_number');
-      }
+          ], 'phone_number');
+        }
         return props.saveSettings('phone_number', props.phone_number);
-    }}
+      }}
     />
     <ValidationFormGroup
       for="coachingConsent"

@@ -13,9 +13,7 @@ jest.mock('@edx/frontend-platform/auth');
 
 const IntlCoachingConsent = injectIntl(CoachingConsent);
 
-jest.mock('../../data/selectors', () => {
-  return jest.fn().mockImplementation(() => ({ coachingConsentPageSelector: () => ({}) }));
-});
+jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ coachingConsentPageSelector: () => ({}) })));
 
 const mockStore = configureStore();
 

@@ -97,7 +97,6 @@ class CoachingConsent extends React.Component {
     if (get(data, 'status') === 200) {
       this.setState({ submissionSuccess: true });
     }
-    
   }
 
   handleSubmit(e) {
@@ -135,23 +134,27 @@ class CoachingConsent extends React.Component {
       case VIEWS.NOT_LOADED:
         return <PageLoading srMessage="" />;
       case VIEWS.LOADED:
-        return (<CoachingConsentForm
-          onSubmit={this.handleSubmit}
-          declineCoaching={this.declineCoaching}
-          formErrors={this.state.formErrors}
-          formValues={this.props.formValues}
-          redirectUrl={this.state.redirectUrl}
-          profileDataManager={this.props.profileDataManager}
-        />);
+        return (
+          <CoachingConsentForm
+            onSubmit={this.handleSubmit}
+            declineCoaching={this.declineCoaching}
+            formErrors={this.state.formErrors}
+            formValues={this.props.formValues}
+            redirectUrl={this.state.redirectUrl}
+            profileDataManager={this.props.profileDataManager}
+          />
+        );
       case VIEWS.SUCCESS_PENDING:
         return <PageLoading srMessage="Submitting..." />;
       case VIEWS.SUCCESS:
-        return (<SuccessMessage
-          continueUrl={this.state.redirectUrl}
-          header={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.header'])}
-          message={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.message'])}
-          continue={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.continue'])}
-        />);
+        return (
+          <SuccessMessage
+            continueUrl={this.state.redirectUrl}
+            header={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.header'])}
+            message={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.message'])}
+            continue={this.props.intl.formatMessage(messages['account.settings.coaching.consent.success.continue'])}
+          />
+        );
       case VIEWS.DECLINE_PENDING:
         return <PageLoading srMessage="Redirecting..." />;
       case VIEWS.DECLINED:
