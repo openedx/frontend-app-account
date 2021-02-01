@@ -6,6 +6,7 @@ import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+// eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
