@@ -236,7 +236,6 @@ AutoRedirect.propTypes = {
 
 CoachingConsent.defaultProps = {
   loaded: false,
-  saveState: undefined,
   profileDataManager: null,
 };
 
@@ -262,7 +261,6 @@ CoachingConsent.propTypes = {
     phone_number: PropTypes.object,
   }).isRequired,
   fetchSettings: PropTypes.func.isRequired,
-  saveState: PropTypes.string,
   profileDataManager: PropTypes.string,
 };
 
