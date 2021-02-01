@@ -20,29 +20,23 @@ import appMessages from './i18n';
 import './index.scss';
 import './assets/favicon.ico';
 
-const HeaderFooterLayout = ({ children }) => (
-  <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-    <Header />
-    <main className="flex-grow-1">
-      {children}
-    </main>
-    <Footer />
-  </div>
-);
-
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Switch>
         <Route path="/coaching_consent" component={CoachingConsent} />
-        <HeaderFooterLayout>
-          <Switch>
-            <Route path="/id-verification" component={IdVerificationPage} />
-            <Route exact path="/" component={AccountSettingsPage} />
-            <Route path="/notfound" component={NotFoundPage} />
-            <Route path="*" component={NotFoundPage} />
-          </Switch>
-        </HeaderFooterLayout>
+        <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+          <Header />
+          <main className="flex-grow-1">
+            <Switch>
+              <Route path="/id-verification" component={IdVerificationPage} />
+              <Route exact path="/" component={AccountSettingsPage} />
+              <Route path="/notfound" component={NotFoundPage} />
+              <Route path="*" component={NotFoundPage} />
+            </Switch>
+          </main>
+          <Footer />
+        </div>
       </Switch>
     </AppProvider>,
     document.getElementById('root'),
