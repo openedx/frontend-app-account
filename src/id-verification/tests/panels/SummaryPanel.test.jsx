@@ -1,7 +1,9 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { render, cleanup, act, screen, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render, cleanup, act, screen, fireEvent, waitFor,
+} from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
@@ -128,7 +130,7 @@ describe('SummaryPanel', () => {
     await act(async () => fireEvent.click(button));
     const error = await screen.getByTestId('submission-error');
     expect(error).toHaveTextContent(
-      'A valid account name is required. Please update your account name to match the name on your ID.'
+      'A valid account name is required. Please update your account name to match the name on your ID.',
     );
   });
 });

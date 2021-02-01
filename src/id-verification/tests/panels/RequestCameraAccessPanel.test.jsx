@@ -2,7 +2,9 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import Bowser from 'bowser';
 import { createMemoryHistory } from 'history';
-import { render, screen, cleanup, act, fireEvent } from '@testing-library/react';
+import {
+  render, screen, cleanup, act, fireEvent,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import { IdVerificationContext } from '../../IdVerificationContext';

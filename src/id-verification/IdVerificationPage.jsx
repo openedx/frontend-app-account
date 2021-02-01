@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect, useRouteMatch, useLocation } from 'react-router-dom';
+import {
+  Route, Switch, Redirect, useRouteMatch, useLocation,
+} from 'react-router-dom';
 import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal, Button } from '@edx/paragon';
@@ -32,7 +34,7 @@ function IdVerificationPage(props) {
     if (search) {
       const parsed = qs.parse(search, {
         ignoreQueryPrefix: true,
-        interpretNumericEntities: true
+        interpretNumericEntities: true,
       });
       if (parsed.hasOwnProperty('course_id') && parsed.course_id) {
         sessionStorage.setItem('courseRunKey', parsed.course_id);
@@ -63,11 +65,10 @@ function IdVerificationPage(props) {
           </div>
           <div className="col-lg-6 col-md-4 pt-md-0 pt-4 text-right">
             <Button variant="link" className="px-0" onClick={() => setIsModalOpen(true)}>
-            Privacy Information
+              Privacy Information
             </Button>
           </div>
         </div>
-
 
         <Modal
           open={isModalOpen}
@@ -82,13 +83,13 @@ function IdVerificationPage(props) {
           )}
           onClose={() => setIsModalOpen(false)}
         />
-
       </div>
     </>
   );
 }
+
 IdVerificationPage.propTypes = {
   intl: intlShape.isRequired,
 };
-export default connect(idVerificationSelector, {
-})(injectIntl(IdVerificationPage));
+
+export default connect(idVerificationSelector, {})(injectIntl(IdVerificationPage));

@@ -278,7 +278,7 @@ class Camera extends React.Component {
       : 'camera-flash';
     return (
       <div className="camera-outer-wrapper shadow">
-        <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }} >
+        <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }}>
           <Form.Check
             id="videoDetection"
             name="videoDetection"
@@ -333,8 +333,8 @@ class Camera extends React.Component {
         </div>
         <button
           className={`btn camera-btn ${
-            this.state.dataUri ?
-              'btn-outline-primary'
+            this.state.dataUri
+              ? 'btn-outline-primary'
               : 'btn-primary'
           }`}
           accessKey="c"

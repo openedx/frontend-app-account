@@ -48,7 +48,8 @@ function RequestCameraAccessPanel(props) {
   const getTitle = () => {
     if (mediaAccess === MEDIA_ACCESS.GRANTED) {
       return props.intl.formatMessage(messages['id.verification.camera.access.title.success']);
-    } else if ([MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess)) {
+    }
+    if ([MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess)) {
       return props.intl.formatMessage(messages['id.verification.camera.access.title.failed']);
     }
     return props.intl.formatMessage(messages['id.verification.camera.access.title']);

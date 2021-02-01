@@ -15,7 +15,8 @@ export function EnableCameraDirectionsPanel(props) {
         </ol>
       </>
     );
-  } else if (props.browserName === 'Chrome') {
+  }
+  if (props.browserName === 'Chrome') {
     return (
       <>
         <h6>{props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary.chrome'])}</h6>
@@ -32,7 +33,8 @@ export function EnableCameraDirectionsPanel(props) {
         </ol>
       </>
     );
-  } else if (props.browserName === 'Firefox') {
+  }
+  if (props.browserName === 'Firefox') {
     return (
       <>
         <h6>{props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary.firefox'])}</h6>
@@ -47,7 +49,8 @@ export function EnableCameraDirectionsPanel(props) {
         </ol>
       </>
     );
-  } else if (props.browserName === 'Safari') {
+  }
+  if (props.browserName === 'Safari') {
     return (
       <>
         <h6>{props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary.safari'])}</h6>

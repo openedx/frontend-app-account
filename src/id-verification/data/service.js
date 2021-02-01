@@ -87,6 +87,7 @@ export async function submitIdVerification(verificationData) {
     return {
       success: false,
       status: e.customAttributes.httpErrorStatus,
-      message: String(e) };
+      message: String(e),
+    };
   }
 }

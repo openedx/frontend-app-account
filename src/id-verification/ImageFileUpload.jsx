@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Alert } from '@edx/paragon';
 import messages from './IdVerification.messages';
 
-
 export default function ImageFileUpload({ onFileChange, intl }) {
   const [fileTooLargeError, setFileTooLargeError] = useState(false);
   const maxFileSize = 10000000;

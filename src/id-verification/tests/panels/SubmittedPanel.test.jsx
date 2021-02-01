@@ -2,7 +2,9 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import '@testing-library/jest-dom/extend-expect';
-import { render, cleanup, act, screen } from '@testing-library/react';
+import {
+  render, cleanup, act, screen,
+} from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import { IdVerificationContext } from '../../IdVerificationContext';
