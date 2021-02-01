@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckBox } from '@edx/paragon';
 import { DECLINED } from '../data/constants';
 
-export const Checkboxes = (props) => {
+const Checkboxes = (props) => {
   const {
     id,
     options,
@@ -18,7 +18,7 @@ export const Checkboxes = (props) => {
 
   const handleToggle = (value, option) => {
     // If the user checked 'declined', uncheck all other options
-    if (value && option == DECLINED) {
+    if (value && option === DECLINED) {
       setSelected([DECLINED]);
       return;
     }
@@ -62,10 +62,13 @@ export const Checkboxes = (props) => {
 };
 
 Checkboxes.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.array,
-  values: PropTypes.array,
-  onChange: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  })),
+  values: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func.isRequired,
 };
 
 Checkboxes.defaultProps = {
