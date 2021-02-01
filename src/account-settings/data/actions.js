@@ -44,7 +44,6 @@ export const fetchSettingsReset = () => ({
   type: FETCH_SETTINGS.RESET,
 });
 
-
 // FORM STATE ACTIONS
 
 export const openForm = formId => ({
@@ -68,7 +67,6 @@ export const updateDraft = (name, value) => ({
 export const resetDrafts = () => ({
   type: RESET_DRAFTS,
 });
-
 
 // SAVE SETTINGS ACTIONS
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Input, Modal, ValidationFormGroup } from '@edx/paragon';
+import {
+  Button, Input, Modal, ValidationFormGroup,
+} from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,10 +35,9 @@ export class ConfirmationModal extends Component {
       return null;
     }
     const headerMessageId = this.getShortErrorMessageId(errorType);
-    const detailsMessageId =
-      reason === 'empty-password'
-        ? null
-        : 'account.settings.delete.account.error.unable.to.delete.details';
+    const detailsMessageId = reason === 'empty-password'
+      ? null
+      : 'account.settings.delete.account.error.unable.to.delete.details';
 
     return (
       <Alert
@@ -68,7 +69,7 @@ export class ConfirmationModal extends Component {
       <Modal
         open={open}
         title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
-        body={
+        body={(
           <div>
             {this.renderError()}
             <Alert
@@ -100,7 +101,7 @@ export class ConfirmationModal extends Component {
               />
             </ValidationFormGroup>
           </div>
-        }
+        )}
         buttons={[
           <Button variant="danger" onClick={onSubmit}>
             {intl.formatMessage(messages['account.settings.delete.account.modal.confirm.delete'])}

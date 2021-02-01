@@ -1,4 +1,3 @@
-
 export const YEAR_OF_BIRTH_OPTIONS = (() => {
   const currentYear = new Date().getFullYear();
   const years = [];

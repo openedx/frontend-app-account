@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-
 function Alert(props) {
   return (
     <div className={classNames('alert d-flex align-items-start', props.className)}>
@@ -16,7 +15,6 @@ function Alert(props) {
   );
 }
 
-
 Alert.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.node,
@@ -28,6 +26,5 @@ Alert.defaultProps = {
   icon: undefined,
   children: undefined,
 };
-
 
 export default Alert;

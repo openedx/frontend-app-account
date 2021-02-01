@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, Input, StatefulButton, ValidationFormGroup } from '@edx/paragon';
+import {
+  Button, Input, StatefulButton, ValidationFormGroup,
+} from '@edx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +16,6 @@ import {
   closeForm,
 } from './data/actions';
 import { editableFieldSelector } from './data/selectors';
-
 
 function EditableField(props) {
   const {
@@ -86,7 +87,9 @@ function EditableField(props) {
   };
 
   const renderConfirmationMessage = () => {
-    if (!confirmationMessageDefinition || !confirmationValue) return null;
+    if (!confirmationMessageDefinition || !confirmationValue) {
+      return null;
+    }
     return intl.formatMessage(confirmationMessageDefinition, {
       value: confirmationValue,
     });
@@ -133,7 +136,7 @@ function EditableField(props) {
                   // Swallowing the onSubmit event on the form would be better, but
                   // we would have to add that logic for every field given our
                   // current structure of the application.
-                  if (saveState === 'pending') e.preventDefault();
+                  if (saveState === 'pending') { e.preventDefault(); }
                 }}
                 disabledStates={[]}
               />
@@ -164,7 +167,6 @@ function EditableField(props) {
     />
   );
 }
-
 
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
@@ -208,7 +210,6 @@ EditableField.defaultProps = {
   isEditing: false,
   isEditable: true,
 };
-
 
 export default connect(editableFieldSelector, {
   onEdit: openForm,

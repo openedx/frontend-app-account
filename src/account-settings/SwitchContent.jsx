@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TransitionReplace } from '@edx/paragon';
 
-
 const onChildExit = (htmlNode) => {
   // If the leaving child has focus, take control and redirect it
   if (htmlNode.contains(document.activeElement)) {
@@ -11,7 +10,9 @@ const onChildExit = (htmlNode) => {
     const enteringChild = htmlNode.previousSibling || htmlNode.nextSibling;
 
     // There's no replacement, do nothing.
-    if (!enteringChild) return;
+    if (!enteringChild) {
+      return;
+    }
 
     // Get all the focusable elements in the entering child and focus the first one
     const focusableElements = enteringChild.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -21,7 +22,6 @@ const onChildExit = (htmlNode) => {
   }
 };
 
-
 function SwitchContent({ expression, cases, className }) {
   const getContent = (caseKey) => {
     if (cases[caseKey]) {
@@ -29,7 +29,8 @@ function SwitchContent({ expression, cases, className }) {
         return getContent(cases[caseKey]);
       }
       return React.cloneElement(cases[caseKey], { key: caseKey });
-    } else if (cases.default) {
+    }
+    if (cases.default) {
       if (typeof cases.default === 'string') {
         return getContent(cases.default);
       }
@@ -49,7 +50,6 @@ function SwitchContent({ expression, cases, className }) {
   );
 }
 
-
 SwitchContent.propTypes = {
   expression: PropTypes.string,
   cases: PropTypes.objectOf(PropTypes.node).isRequired,
@@ -60,6 +60,5 @@ SwitchContent.defaultProps = {
   expression: null,
   className: null,
 };
-
 
 export default SwitchContent;

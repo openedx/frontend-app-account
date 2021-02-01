@@ -3,10 +3,9 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 
-import messages from './AccountSettingsPage.messages';
 import { getConfig } from '@edx/frontend-platform';
 import PropTypes from 'prop-types';
-
+import messages from './AccountSettingsPage.messages';
 
 function JumpNav({ intl, displayDemographicsLink }) {
   return (
@@ -34,13 +33,14 @@ function JumpNav({ intl, displayDemographicsLink }) {
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </NavHashLink>
         </li>
-        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && displayDemographicsLink &&
+        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && displayDemographicsLink
+          && (
           <li>
             <NavHashLink to="#demographics-information">
               {intl.formatMessage(messages['account.settings.section.demographics.information'])}
             </NavHashLink>
           </li>
-        }
+          )}
         <li>
           <NavHashLink to="#social-media">
             {intl.formatMessage(messages['account.settings.section.social.media'])}
@@ -65,7 +65,6 @@ function JumpNav({ intl, displayDemographicsLink }) {
     </div>
   );
 }
-
 
 JumpNav.propTypes = {
   intl: intlShape.isRequired,

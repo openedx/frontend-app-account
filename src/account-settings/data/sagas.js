@@ -1,4 +1,6 @@
-import { call, put, delay, takeEvery, all } from 'redux-saga/effects';
+import {
+  call, put, delay, takeEvery, all,
+} from 'redux-saga/effects';
 
 import { publish } from '@edx/frontend-platform';
 import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
@@ -52,7 +54,7 @@ export function* handleFetchSettings() {
       userId,
     );
 
-    if (values.country) yield put(fetchTimeZones(values.country));
+    if (values.country) { yield put(fetchTimeZones(values.country)); }
 
     yield put(fetchSettingsSuccess({
       values,
@@ -91,7 +93,7 @@ export function* handleSaveSettings(action) {
       savedValues = yield call(patchSettings, username, commitData, userId);
     }
     yield put(saveSettingsSuccess(savedValues, commitData));
-    if (savedValues.country) yield put(fetchTimeZones(savedValues.country));
+    if (savedValues.country) { yield put(fetchTimeZones(savedValues.country)); }
     yield delay(1000);
     yield put(closeForm(action.payload.formId));
   } catch (e) {
@@ -103,7 +105,6 @@ export function* handleSaveSettings(action) {
     }
   }
 }
-
 
 // handles mutiple settings saved at once, in order, and stops executing on first failure.
 export function* handleSaveMultipleSettings(action) {
@@ -137,7 +138,6 @@ export function* handleFetchTimeZones(action) {
   const response = yield call(getTimeZones, action.payload.country);
   yield put(fetchTimeZonesSuccess(response, action.payload.country));
 }
-
 
 export default function* saga() {
   yield takeEvery(FETCH_SETTINGS.BASE, handleFetchSettings);
