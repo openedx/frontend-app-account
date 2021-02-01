@@ -13,8 +13,8 @@ export const Checkboxes = (props) => {
 
   const [selected, setSelected] = useState(values);
   useEffect(() => {
-    onChange(id, selected)
-  }, [selected])
+    onChange(id, selected);
+  }, [selected]);
 
   const handleToggle = (value, option) => {
     // If the user checked 'declined', uncheck all other options
@@ -33,35 +33,33 @@ export const Checkboxes = (props) => {
     if (!value) {
       setSelected(selected.filter(i => i !== option));
     }
-  }
+  };
 
-  const renderCheckboxes = () => {
-    return options.map((option, index) => {
-      const isFirst = index == 0;
-      const isChecked = selected.includes(option.value);
-      return (
-        <div key={index} className="checkboxOption">
-          <CheckBox
-            type="checkbox"
-            id={option.value}
-            name={option.value}
-            value={option.value}
-            checked={isChecked}
-            autoFocus={isFirst}
-            label={option.label}
-            onChange={(value) => handleToggle(value, option.value)}
-          />
-        </div>
-      )
-    })
-  }
+  const renderCheckboxes = () => options.map((option, index) => {
+    const isFirst = index === 0;
+    const isChecked = selected.includes(option.value);
+    return (
+      <div key={option.value} className="checkboxOption">
+        <CheckBox
+          type="checkbox"
+          id={option.value}
+          name={option.value}
+          value={option.value}
+          checked={isChecked}
+          autoFocus={isFirst}
+          label={option.label}
+          onChange={(value) => handleToggle(value, option.value)}
+        />
+      </div>
+    );
+  });
 
   return (
     <div role="group">
       {renderCheckboxes()}
     </div>
-  )
-}
+  );
+};
 
 Checkboxes.propTypes = {
   id: PropTypes.string,
@@ -73,6 +71,6 @@ Checkboxes.propTypes = {
 Checkboxes.defaultProps = {
   options: [],
   values: [],
-}
+};
 
 export default Checkboxes;

@@ -13,9 +13,20 @@ exports[`DemographicsSection should render 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -612,9 +623,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1225,9 +1247,20 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1260,9 +1293,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1852,9 +1896,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -2444,9 +2499,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -3043,9 +3109,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
