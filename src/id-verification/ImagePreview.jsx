@@ -16,3 +16,7 @@ ImagePreview.propTypes = {
   alt: PropTypes.string.isRequired,
   id: PropTypes.string,
 };
+
+ImagePreview.defaultProps = {
+  id: undefined,
+};

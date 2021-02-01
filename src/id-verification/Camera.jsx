@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable jsx-a11y/no-access-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
@@ -57,7 +59,7 @@ class Camera extends React.Component {
 
   setDetection() {
     this.setState(
-      { shouldDetect: !this.state.shouldDetect },
+      (state) => ({ shouldDetect: !state.shouldDetect }),
       () => {
         if (this.state.shouldDetect) {
           this.setState({ isFinishedLoadingDetection: false });
@@ -224,7 +226,8 @@ class Camera extends React.Component {
 
   takePhoto() {
     if (this.state.dataUri) {
-      return this.reset();
+      this.reset();
+      return;
     }
 
     const config = {
@@ -333,6 +336,7 @@ class Camera extends React.Component {
           <div role="status" className="sr-only">{this.state.feedback}</div>
         </div>
         <button
+          type="button"
           className={`btn camera-btn ${
             this.state.dataUri
               ? 'btn-outline-primary'

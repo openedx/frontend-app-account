@@ -36,7 +36,7 @@ function IdVerificationPage(props) {
         ignoreQueryPrefix: true,
         interpretNumericEntities: true,
       });
-      if (parsed.hasOwnProperty('course_id') && parsed.course_id) {
+      if (Object.prototype.hasOwnProperty.call(parsed, 'course_id') && parsed.course_id) {
         sessionStorage.setItem('courseRunKey', parsed.course_id);
       }
     }
