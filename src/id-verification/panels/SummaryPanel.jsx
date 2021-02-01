@@ -48,7 +48,6 @@ function SummaryPanel(props) {
     }
     return (
       <Button
-        className="btn btn-primary"
         title="Confirmation"
         disabled={isSubmitting}
         onClick={handleClick}

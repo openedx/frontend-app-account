@@ -58,7 +58,7 @@ class ThirdPartyAuth extends Component {
         ) : null}
 
         <StatefulButton
-          className="btn-link"
+          variant="link"
           state={this.props.disconnectionStatuses[id]}
           labels={{
             default: (

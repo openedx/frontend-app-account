@@ -62,7 +62,7 @@ function IdVerificationPage(props) {
             </IdVerificationContextProvider>
           </div>
           <div className="col-lg-6 col-md-4 pt-md-0 pt-4 text-right">
-            <Button className="btn-link px-0" onClick={() => setIsModalOpen(true)}>
+            <Button variant="link" className="px-0" onClick={() => setIsModalOpen(true)}>
             Privacy Information
             </Button>
           </div>

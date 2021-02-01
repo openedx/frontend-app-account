@@ -85,7 +85,7 @@ function EmailField(props) {
 
   const renderEmptyLabel = () => {
     if (isEditable) {
-      return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
+      return <Button variant="link" onClick={handleEdit} className="p-0">{emptyLabel}</Button>;
     }
     return <span className="text-muted">{emptyLabel}</span>;
   };
@@ -120,7 +120,7 @@ function EmailField(props) {
             <p>
               <StatefulButton
                 type="submit"
-                className="btn-primary mr-2"
+                className="mr-2"
                 state={saveState}
                 labels={{
                   default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
@@ -138,8 +138,8 @@ function EmailField(props) {
                 disabledStates={[]}
               />
               <Button
+                variant="outline-primary"
                 onClick={handleCancel}
-                className="btn-outline-primary"
               >
                 {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
               </Button>
@@ -151,7 +151,7 @@ function EmailField(props) {
             <div className="d-flex align-items-start">
               <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="ml-3 btn-link">
+                <Button variant="link" onClick={handleEdit} className="ml-3">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
                   {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>

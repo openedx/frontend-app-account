@@ -65,7 +65,7 @@ class BetaLanguageBanner extends React.Component {
             })}
           </p>
           <div>
-            <Button onClick={this.handleRevertLanguage} className="btn btn-primary mr-2">
+            <Button onClick={this.handleRevertLanguage} className="mr-2">
               {this.props.intl.formatMessage(
                 messages['account.settings.banner.beta.language.action.switch.back'],
                 { previous_language: previousLanguage.name },

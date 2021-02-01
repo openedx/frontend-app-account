@@ -102,7 +102,7 @@ export class ConfirmationModal extends Component {
           </div>
         }
         buttons={[
-          <Button className="btn-danger" onClick={onSubmit}>
+          <Button variant="danger" onClick={onSubmit}>
             {intl.formatMessage(messages['account.settings.delete.account.modal.confirm.delete'])}
           </Button>,
         ]}

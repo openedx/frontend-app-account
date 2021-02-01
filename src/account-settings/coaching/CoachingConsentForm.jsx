@@ -64,7 +64,7 @@ const CoachingForm = props => (
         </div>
         <ErrorMessage message={props.formErrors.coaching} />
         <div className="d-flex flex-column align-items-center">
-          <Button className="w-100 btn-outline-primary" type="submit">
+          <Button variant="outline-primary" className="w-100" type="submit">
             {props.intl.formatMessage(messages['account.settings.coaching.consent.accept-coaching'])}
           </Button>
         </div>
