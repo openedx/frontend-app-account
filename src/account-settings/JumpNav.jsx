@@ -71,8 +71,4 @@ JumpNav.propTypes = {
   displayDemographicsLink: PropTypes.bool.isRequired,
 };
 
-JumpNav.defaultProps = {
-  displayDemographicsLink: false,
-}
-
 export default injectIntl(JumpNav);

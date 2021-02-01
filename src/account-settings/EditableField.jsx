@@ -209,6 +209,7 @@ EditableField.defaultProps = {
   helpText: undefined,
   isEditing: false,
   isEditable: true,
+  userSuppliedValue: undefined,
 };
 
 export default connect(editableFieldSelector, {

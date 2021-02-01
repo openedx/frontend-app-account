@@ -543,6 +543,7 @@ AccountSettingsPage.propTypes = {
     name: PropTypes.string,
     email: PropTypes.string,
     secondary_email: PropTypes.string,
+    secondary_email_enabled: PropTypes.bool,
     year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     country: PropTypes.string,
     level_of_education: PropTypes.string,
@@ -558,6 +559,8 @@ AccountSettingsPage.propTypes = {
       user: PropTypes.number.isRequired,
       eligible_for_coaching: PropTypes.bool.isRequired,
     }),
+    state: PropTypes.string,
+    shouldDisplayDemographicsSection: PropTypes.bool,
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
