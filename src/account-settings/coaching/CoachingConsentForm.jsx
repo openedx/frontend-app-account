@@ -123,7 +123,6 @@ ErrorMessage.propTypes = {
 
 ManagedProfileAlert.propTypes = {
   profileDataManager: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default injectIntl(CoachingForm);
