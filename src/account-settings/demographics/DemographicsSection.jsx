@@ -5,7 +5,7 @@ import {
   intlShape,
 } from '@edx/frontend-platform/i18n';
 
-import { Input } from '@edx/paragon';
+import { Hyperlink, Input } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -24,33 +24,6 @@ import {
 import messages from './DemographicsSection.messages';
 
 class DemographicsSection extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  /**
-   * Utility method that helps determine if we were able to retrieve the available options for
-   * the Demographics questions. Returns true if the `demographicsOptions` prop is _not_ empty,
-   * otherwise false. This prop being empty is indicative of a failure communicating with the
-   * Demographics IDA's API.
-   */
-  hasRetrievedDemographicsOptions() {
-    return !isEmpty(this.props.formValues.demographicsOptions);
-  }
-
-  /**
-   * Utility method that adds the specified message as a default option to the list of available
-   * choices.
-   * 
-   * @param {*} messageId id of message matching desired default label text
-   */
-  addDefaultOption(messageId) {
-    return [{
-      value: '',
-      label: this.props.intl.formatMessage(messages[messageId]),
-    }];
-  }
-  
   // We check the `demographicsOptions` prop to see if it is empty before we attempt to extract and
   // format the available options for each question from the API response.
   getApiOptions = memoize((demographicsOptions) => (this.hasRetrievedDemographicsOptions() && {
@@ -94,33 +67,54 @@ class DemographicsSection extends React.Component {
   }));
 
   ethnicityFieldDisplay = (demographicsEthnicityOptions) => {
+    let ethnicities = [];
     if (get(this, 'props.formValues.demographics_user_ethnicity')) {
-      const ethnicities = this.props.formValues.demographics_user_ethnicity;  
-      return ethnicities.map((e) => {
-        var matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
-        return matchingOption && matchingOption.label;
-      }).join(", ")
+      ethnicities = this.props.formValues.demographics_user_ethnicity;
     }
+    return ethnicities.map((e) => {
+      const matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
+      return matchingOption && matchingOption.label;
+    }).join(', ');
   }
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
   };
 
-  handleSubmit = (formId, values) => {
+  handleSubmit = (formId) => {
     // We have some custom fields in this section. Instead of relying on the
     // submitted values, submit the values stored in 'drafts'.
-    const drafts = this.props.drafts;
-    const settingsArray = []
-    for (let field in drafts) {
-      settingsArray.push({
-        formId: field,
-        commitValues: drafts[field]
-      })
-    }
+    const { drafts } = this.props;
+    const settingsArray = Object.entries(drafts).map(([field, value]) => ({
+      formId: field,
+      commitValues: value,
+    }));
 
     this.props.saveMultipleSettings(settingsArray, formId);
   };
+
+  /**
+   * Utility method that adds the specified message as a default option to the list of available
+   * choices.
+   *
+   * @param {*} messageId id of message matching desired default label text
+   */
+  addDefaultOption(messageId) {
+    return [{
+      value: '',
+      label: this.props.intl.formatMessage(messages[messageId]),
+    }];
+  }
+
+  /**
+   * Utility method that helps determine if we were able to retrieve the available options for
+   * the Demographics questions. Returns true if the `demographicsOptions` prop is _not_ empty,
+   * otherwise false. This prop being empty is indicative of a failure communicating with the
+   * Demographics IDA's API.
+   */
+  hasRetrievedDemographicsOptions() {
+    return !isEmpty(this.props.formValues.demographicsOptions);
+  }
 
   /**
    * If an error is encountered when trying to communicate with the Demographics IDA then we will
@@ -128,8 +122,8 @@ class DemographicsSection extends React.Component {
    * cannot be updated.
    */
   renderDemographicsServiceIssueWarning() {
-    if (!isEmpty(this.props.formErrors.demographicsError) |
-        this.hasRetrievedDemographicsOptions() == false) {
+    if (!isEmpty(this.props.formErrors.demographicsError)
+        || !this.hasRetrievedDemographicsOptions()) {
       return (
         <div
           tabIndex="-1"
@@ -164,8 +158,8 @@ class DemographicsSection extends React.Component {
       demographicsWorkSectorOptions,
     } = this.getApiOptions(this.props.formValues.demographicsOptions);
 
-    const showSelfDescribe = this.props.formValues.demographics_gender == SELF_DESCRIBE;
-    const showWorkStatusDescribe = this.props.formValues.demographics_work_status == OTHER;
+    const showSelfDescribe = this.props.formValues.demographics_gender === SELF_DESCRIBE;
+    const showWorkStatusDescribe = this.props.formValues.demographics_work_status === OTHER;
 
     return (
       <div className="account-section" id="demographics-information" ref={this.props.forwardRef}>
@@ -173,9 +167,13 @@ class DemographicsSection extends React.Component {
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
         <p>
-          <a href={getConfig().MARKETING_SITE_BASE_URL + '/demographics'} target="_blank">
+          <Hyperlink
+            destination={`${getConfig().MARKETING_SITE_BASE_URL}/demographics`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {this.props.intl.formatMessage(messages['account.settings.section.demographics.why'])}
-          </a>
+          </Hyperlink>
         </p>
         {this.renderDemographicsServiceIssueWarning()}
         {/*
@@ -322,11 +320,30 @@ DemographicsSection.propTypes = {
     demographics_work_status: PropTypes.string,
     demographics_current_work_sector: PropTypes.string,
     demographics_future_work_sector: PropTypes.string,
+    demographics_work_status_description: PropTypes.string,
+    demographics_gender_description: PropTypes.string,
+    demographicsOptions: PropTypes.object,
+  }).isRequired,
+  drafts: PropTypes.shape({
+    demographics_gender: PropTypes.string,
+    demographics_user_ethnicity: PropTypes.array,
+    demographics_income: PropTypes.string,
+    demographics_military_history: PropTypes.string,
+    demographics_learner_education_level: PropTypes.string,
+    demographics_parent_education_level: PropTypes.string,
+    demographics_work_status: PropTypes.string,
+    demographics_current_work_sector: PropTypes.string,
+    demographics_future_work_sector: PropTypes.string,
+    demographics_work_status_description: PropTypes.string,
+    demographics_gender_description: PropTypes.string,
+    demographicsOptions: PropTypes.object,
   }).isRequired,
   formErrors: PropTypes.shape({
     demographicsError: PropTypes.string,
   }).isRequired,
-  updateDraft: PropTypes.func.isRequired
+  forwardRef: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
+  saveMultipleSettings: PropTypes.func.isRequired,
 };
 
 export default connect(demographicsSectionSelector, {
