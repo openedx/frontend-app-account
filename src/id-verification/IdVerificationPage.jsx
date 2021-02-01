@@ -9,7 +9,7 @@ import { Modal, Button } from '@edx/paragon';
 import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
-import { IdVerificationContextProvider } from './IdVerificationContext';
+import IdVerificationContextProvider from './IdVerificationContextProvider';
 import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
 import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
 import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';

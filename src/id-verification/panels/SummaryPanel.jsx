@@ -9,7 +9,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 import { submitIdVerification } from '../data/service';
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
 
 import messages from '../IdVerification.messages';

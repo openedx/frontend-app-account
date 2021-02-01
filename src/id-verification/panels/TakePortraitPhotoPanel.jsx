@@ -8,7 +8,7 @@ import ImageFileUpload from '../ImageFileUpload';
 import ImagePreview from '../ImagePreview';
 import Camera from '../Camera';
 import CameraHelp from '../CameraHelp';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 

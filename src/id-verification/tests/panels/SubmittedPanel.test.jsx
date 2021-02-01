@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
-import { IdVerificationContext } from '../../IdVerificationContext';
+import IdVerificationContext from '../../IdVerificationContext';
 import SubmittedPanel from '../../panels/SubmittedPanel';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({

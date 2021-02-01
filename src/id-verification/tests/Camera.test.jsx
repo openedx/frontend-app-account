@@ -8,7 +8,7 @@ import {
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import * as blazeface from '@tensorflow-models/blazeface';
 import * as analytics from '@edx/frontend-platform/analytics';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 import Camera from '../Camera';
 
 jest.mock('jslib-html5-camera-photo');

@@ -7,7 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
+import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
 import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
 import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
 

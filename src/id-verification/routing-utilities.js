@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { IdVerificationContext } from './IdVerificationContext';
+import IdVerificationContext from './IdVerificationContext';
 
 const panelSteps = [
   'review-requirements',

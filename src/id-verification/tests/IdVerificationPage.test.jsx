@@ -9,11 +9,8 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 import IdVerificationPage from '../IdVerificationPage';
 import * as selectors from '../data/selectors';
 
-jest.mock('../IdVerificationContext', () => {
-  const IdVerificationContextProvider = jest.fn(({ children }) => children)
-  return { IdVerificationContextProvider };
-});
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
+jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
 jest.mock('../panels/ReviewRequirementsPanel');
 jest.mock('../panels/RequestCameraAccessPanel');
 jest.mock('../panels/PortraitPhotoContextPanel');

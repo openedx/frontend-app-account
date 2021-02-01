@@ -8,7 +8,7 @@ import '@edx/frontend-platform/analytics';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import * as dataService from '../../data/service';
-import { IdVerificationContext } from '../../IdVerificationContext';
+import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({

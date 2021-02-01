@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
-import { IdVerificationContext } from '../../IdVerificationContext';
+import IdVerificationContext from '../../IdVerificationContext';
 import TakePortraitPhotoPanel from '../../panels/TakePortraitPhotoPanel';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
