@@ -47,9 +47,7 @@ exports[`DeleteAccount should match default section snapshot 1`] = `
     <button
       className="btn btn-outline-danger"
       disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onKeyDown={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       Delete My Account
@@ -105,9 +103,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
     <button
       className="btn btn-outline-danger"
       disabled={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onKeyDown={[Function]}
+      onClick={null}
       type="button"
     >
       Delete My Account
@@ -199,9 +195,7 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
     <button
       className="btn btn-outline-danger"
       disabled={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onKeyDown={[Function]}
+      onClick={null}
       type="button"
     >
       Delete My Account
