@@ -9,13 +9,8 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 import IdVerificationPage from '../IdVerificationPage';
 import * as selectors from '../data/selectors';
 
-jest.mock('../data/selectors', () => {
-  return jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) }));
-});
-jest.mock('../IdVerificationContext', () => {
-  const IdVerificationContextProvider = jest.fn(({ children }) => children)
-  return { IdVerificationContextProvider };
-});
+jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
+jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
 jest.mock('../panels/ReviewRequirementsPanel');
 jest.mock('../panels/RequestCameraAccessPanel');
 jest.mock('../panels/PortraitPhotoContextPanel');
@@ -33,14 +28,14 @@ const history = createMemoryHistory();
 
 describe('IdVerificationPage', () => {
   selectors.mockClear();
-  jest.spyOn(Storage.prototype, 'setItem')
+  jest.spyOn(Storage.prototype, 'setItem');
   const store = mockStore();
   const props = {
     intl: {},
   };
 
   it('does not store irrelevant query params', async () => {
-    history.push('/?test=irrelevant')
+    history.push('/?test=irrelevant');
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -51,10 +46,10 @@ describe('IdVerificationPage', () => {
       </Router>
     )));
     expect(sessionStorage.setItem).toHaveBeenCalledTimes(0);
-  })
-  
+  });
+
   it('does not store empty course_id', async () => {
-    history.push('/?course_id=')
+    history.push('/?course_id=');
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -65,10 +60,10 @@ describe('IdVerificationPage', () => {
       </Router>
     )));
     expect(sessionStorage.setItem).toHaveBeenCalledTimes(0);
-  })
+  });
 
   it('decodes and stores course_id', async () => {
-    history.push('/?course_id=course-v1%3AedX%2BDemoX%2BDemo_Course')
+    history.push('/?course_id=course-v1%3AedX%2BDemoX%2BDemo_Course');
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -80,7 +75,7 @@ describe('IdVerificationPage', () => {
     )));
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       'courseRunKey',
-      'course-v1:edX+DemoX+Demo_Course'
+      'course-v1:edX+DemoX+Demo_Course',
     );
   });
 });

@@ -7,7 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import { IdVerificationContext, MEDIA_ACCESS } from '../IdVerificationContext';
+import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
 import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
 import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
 
@@ -48,7 +48,8 @@ function RequestCameraAccessPanel(props) {
   const getTitle = () => {
     if (mediaAccess === MEDIA_ACCESS.GRANTED) {
       return props.intl.formatMessage(messages['id.verification.camera.access.title.success']);
-    } else if ([MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess)) {
+    }
+    if ([MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess)) {
       return props.intl.formatMessage(messages['id.verification.camera.access.title.failed']);
     }
     return props.intl.formatMessage(messages['id.verification.camera.access.title']);
@@ -78,7 +79,7 @@ function RequestCameraAccessPanel(props) {
             />
           </p>
           <div className="action-row">
-            <button className="btn btn-primary" onClick={tryGetUserMedia}>
+            <button type="button" className="btn btn-primary" onClick={tryGetUserMedia}>
               {props.intl.formatMessage(messages['id.verification.camera.access.enable'])}
             </button>
           </div>
@@ -98,7 +99,7 @@ function RequestCameraAccessPanel(props) {
         </div>
       )}
 
-      {mediaAccess == MEDIA_ACCESS.DENIED && (
+      {mediaAccess === MEDIA_ACCESS.DENIED && (
         <div data-testid="camera-failure-instructions">
           <p data-testid="camera-access-failure">
             {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
@@ -110,7 +111,7 @@ function RequestCameraAccessPanel(props) {
         </div>
       )}
 
-      {mediaAccess == MEDIA_ACCESS.UNSUPPORTED && (
+      {mediaAccess === MEDIA_ACCESS.UNSUPPORTED && (
         <div data-testid="camera-unsupported-instructions">
           <p data-testid="camera-unsupported-failure">
             {props.intl.formatMessage(messages['id.verification.camera.access.failure.unsupported'])}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckBox } from '@edx/paragon';
 import { DECLINED } from '../data/constants';
 
-export const Checkboxes = (props) => {
+const Checkboxes = (props) => {
   const {
     id,
     options,
@@ -13,12 +13,12 @@ export const Checkboxes = (props) => {
 
   const [selected, setSelected] = useState(values);
   useEffect(() => {
-    onChange(id, selected)
-  }, [selected])
+    onChange(id, selected);
+  }, [selected]);
 
   const handleToggle = (value, option) => {
     // If the user checked 'declined', uncheck all other options
-    if (value && option == DECLINED) {
+    if (value && option === DECLINED) {
       setSelected([DECLINED]);
       return;
     }
@@ -33,46 +33,47 @@ export const Checkboxes = (props) => {
     if (!value) {
       setSelected(selected.filter(i => i !== option));
     }
-  }
+  };
 
-  const renderCheckboxes = () => {
-    return options.map((option, index) => {
-      const isFirst = index == 0;
-      const isChecked = selected.includes(option.value);
-      return (
-        <div key={index} className="checkboxOption">
-          <CheckBox
-            type="checkbox"
-            id={option.value}
-            name={option.value}
-            value={option.value}
-            checked={isChecked}
-            autoFocus={isFirst}
-            label={option.label}
-            onChange={(value) => handleToggle(value, option.value)}
-          />
-        </div>
-      )
-    })
-  }
+  const renderCheckboxes = () => options.map((option, index) => {
+    const isFirst = index === 0;
+    const isChecked = selected.includes(option.value);
+    return (
+      <div key={option.value} className="checkboxOption">
+        <CheckBox
+          type="checkbox"
+          id={option.value}
+          name={option.value}
+          value={option.value}
+          checked={isChecked}
+          autoFocus={isFirst}
+          label={option.label}
+          onChange={(value) => handleToggle(value, option.value)}
+        />
+      </div>
+    );
+  });
 
   return (
     <div role="group">
       {renderCheckboxes()}
     </div>
-  )
-}
+  );
+};
 
 Checkboxes.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.array,
-  values: PropTypes.array,
-  onChange: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  })),
+  values: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func.isRequired,
 };
 
 Checkboxes.defaultProps = {
   options: [],
   values: [],
-}
+};
 
 export default Checkboxes;

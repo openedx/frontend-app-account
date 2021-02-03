@@ -1,13 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { history } from '@edx/frontend-platform';
-import { Input, Button, Spinner, Alert } from '@edx/paragon';
+import {
+  Input, Button, Spinner, Alert,
+} from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/service';
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
 
 import messages from '../IdVerification.messages';
@@ -48,7 +50,6 @@ function SummaryPanel(props) {
     }
     return (
       <Button
-        className="btn btn-primary"
         title="Confirmation"
         disabled={isSubmitting}
         onClick={handleClick}
@@ -63,9 +64,11 @@ function SummaryPanel(props) {
     if (submissionError.status === 400) {
       if (submissionError.message.includes('face_image')) {
         return props.intl.formatMessage(messages['id.verification.submission.alert.error.face']);
-      } else if (submissionError.message.includes('Photo ID image')) {
+      }
+      if (submissionError.message.includes('Photo ID image')) {
         return props.intl.formatMessage(messages['id.verification.submission.alert.error.id']);
-      } else if (submissionError.message.includes('Name')) {
+      }
+      if (submissionError.message.includes('Name')) {
         return props.intl.formatMessage(messages['id.verification.submission.alert.error.name']);
       }
     }
@@ -87,15 +90,16 @@ function SummaryPanel(props) {
       name={panelSlug}
       title={props.intl.formatMessage(messages['id.verification.review.title'])}
     >
-      {submissionError &&
-      <Alert
-        variant="danger"
-        data-testid="submission-error"
-        dismissible
-        onClose={() => setSubmissionError(null)}
-      >
-        {getError()}
-      </Alert>}
+      {submissionError && (
+        <Alert
+          variant="danger"
+          data-testid="submission-error"
+          dismissible
+          onClose={() => setSubmissionError(null)}
+        >
+          {getError()}
+        </Alert>
+      )}
       <p>
         {props.intl.formatMessage(messages['id.verification.review.description'])}
       </p>
@@ -158,9 +162,9 @@ function SummaryPanel(props) {
           <Link
             className="btn btn-link ml-3 px-0"
             to={{
-                pathname: 'get-name-id',
-                state: { fromSummary: true },
-              }}
+              pathname: 'get-name-id',
+              state: { fromSummary: true },
+            }}
           >
             <FormattedMessage
               id="id.verification.account.name.edit"

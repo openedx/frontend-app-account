@@ -1,4 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  useContext, useState, useEffect, useRef,
+} from 'react';
 import { Form } from '@edx/paragon';
 import { Link, useHistory } from 'react-router-dom';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
@@ -6,7 +8,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
@@ -107,8 +109,8 @@ function GetNameIdPanel(props) {
             isInvalid={invalidName || blankName}
             aria-describedby="photo-id-name-feedback"
             value={
-              !nameMatches ?
-                idPhotoName || nameOnAccountValue
+              !nameMatches
+                ? idPhotoName || nameOnAccountValue
                 : nameOnAccountValue
             }
             onChange={e => setIdPhotoName(e.target.value)}
@@ -128,8 +130,8 @@ function GetNameIdPanel(props) {
           aria-disabled={invalidName || blankName}
         >
           {
-            !nameMatches ?
-              props.intl.formatMessage(messages['id.verification.account.name.save'])
+            !nameMatches
+              ? props.intl.formatMessage(messages['id.verification.account.name.save'])
               : props.intl.formatMessage(messages['id.verification.next'])
           }
         </Link>

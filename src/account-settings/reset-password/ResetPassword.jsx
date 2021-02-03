@@ -22,7 +22,7 @@ const ResetPassword = (props) => {
       </h6>
       <p>
         <StatefulButton
-          className="btn-link"
+          variant="link"
           state={status}
           onClick={(e) => {
             // Swallow clicks if the state is pending.

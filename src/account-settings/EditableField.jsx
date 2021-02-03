@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, Input, StatefulButton, ValidationFormGroup } from '@edx/paragon';
+import {
+  Button, Input, StatefulButton, ValidationFormGroup,
+} from '@edx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +16,6 @@ import {
   closeForm,
 } from './data/actions';
 import { editableFieldSelector } from './data/selectors';
-
 
 function EditableField(props) {
   const {
@@ -60,33 +61,37 @@ function EditableField(props) {
 
   const renderEmptyLabel = () => {
     if (isEditable) {
-      return <Button onClick={handleEdit} className="btn-link p-0">{emptyLabel}</Button>;
+      return <Button variant="link" onClick={handleEdit} className="p-0">{emptyLabel}</Button>;
     }
     return <span className="text-muted">{emptyLabel}</span>;
   };
 
   const renderValue = (rawValue) => {
-    if (!rawValue) return renderEmptyLabel();
-    let value = rawValue;
+    if (!rawValue) {
+      return renderEmptyLabel();
+    }
+    let finalValue = rawValue;
 
     if (options) {
       // Use == instead of === to prevent issues when HTML casts numbers as strings
       // eslint-disable-next-line eqeqeq
       const selectedOption = options.find(option => option.value == rawValue);
       if (selectedOption) {
-        value = selectedOption.label;
-      };
+        finalValue = selectedOption.label;
+      }
     }
 
     if (userSuppliedValue) {
-      value += `: ${userSuppliedValue}`;
+      finalValue += `: ${userSuppliedValue}`;
     }
 
-    return value;
+    return finalValue;
   };
 
   const renderConfirmationMessage = () => {
-    if (!confirmationMessageDefinition || !confirmationValue) return null;
+    if (!confirmationMessageDefinition || !confirmationValue) {
+      return null;
+    }
     return intl.formatMessage(confirmationMessageDefinition, {
       value: confirmationValue,
     });
@@ -120,7 +125,7 @@ function EditableField(props) {
             <p>
               <StatefulButton
                 type="submit"
-                className="btn-primary mr-2"
+                className="mr-2"
                 state={saveState}
                 labels={{
                   default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
@@ -133,13 +138,13 @@ function EditableField(props) {
                   // Swallowing the onSubmit event on the form would be better, but
                   // we would have to add that logic for every field given our
                   // current structure of the application.
-                  if (saveState === 'pending') e.preventDefault();
+                  if (saveState === 'pending') { e.preventDefault(); }
                 }}
                 disabledStates={[]}
               />
               <Button
+                variant="outline-primary"
                 onClick={handleCancel}
-                className="btn-outline-primary"
               >
                 {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
               </Button>
@@ -151,7 +156,7 @@ function EditableField(props) {
             <div className="d-flex align-items-start">
               <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button onClick={handleEdit} className="ml-3 btn-link">
+                <Button variant="link" onClick={handleEdit} className="ml-3">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}
@@ -164,7 +169,6 @@ function EditableField(props) {
     />
   );
 }
-
 
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
@@ -207,8 +211,8 @@ EditableField.defaultProps = {
   helpText: undefined,
   isEditing: false,
   isEditable: true,
+  userSuppliedValue: undefined,
 };
-
 
 export default connect(editableFieldSelector, {
   onEdit: openForm,

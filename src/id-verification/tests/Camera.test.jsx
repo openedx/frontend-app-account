@@ -2,11 +2,14 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import '@testing-library/jest-dom/extend-expect';
-import { render, cleanup, screen, act, fireEvent } from '@testing-library/react';
+import {
+  render, cleanup, screen, act, fireEvent,
+} from '@testing-library/react';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+// eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import * as analytics from '@edx/frontend-platform/analytics';
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 import Camera from '../Camera';
 
 jest.mock('jslib-html5-camera-photo');

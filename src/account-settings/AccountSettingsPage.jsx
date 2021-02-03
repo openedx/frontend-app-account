@@ -38,7 +38,6 @@ import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
 import DemographicsSection from './demographics/DemographicsSection';
 
-
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -81,10 +80,11 @@ class AccountSettingsPage extends React.Component {
       const locationHash = global.location.hash;
       // Check for the locationHash in the URL and then scroll to it if it is in the
       // NavLinks list
-      if (typeof locationHash !== 'string')
+      if (typeof locationHash !== 'string') {
         return;
+      }
       if (Object.keys(this.navLinkRefs).includes(locationHash) && this.navLinkRefs[locationHash].current) {
-        window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop)
+        window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop);
       }
     }
   }
@@ -136,6 +136,14 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  handleEditableFieldChange = (name, value) => {
+    this.props.updateDraft(name, value);
+  };
+
+  handleSubmit = (formId, values) => {
+    this.props.saveSettings(formId, values);
+  };
+
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
   }
@@ -145,14 +153,6 @@ class AccountSettingsPage extends React.Component {
     // a profile is managed or not by the presence of the profileDataManager prop.
     return Boolean(this.props.profileDataManager);
   }
-
-  handleEditableFieldChange = (name, value) => {
-    this.props.updateDraft(name, value);
-  };
-
-  handleSubmit = (formId, values) => {
-    this.props.saveSettings(formId, values);
-  };
 
   renderDuplicateTpaProviderMessage() {
     if (!this.state.duplicateTpaProvider) {
@@ -215,7 +215,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderSecondaryEmailField(editableFieldProps) {
-    if (!Boolean(this.props.formValues.secondary_email_enabled)) {
+    if (!this.props.formValues.secondary_email_enabled) {
       return null;
     }
 
@@ -235,11 +235,10 @@ class AccountSettingsPage extends React.Component {
     // check the result of an LMS API call to determine if we should render the DemographicsSection component
     if (this.props.formValues.shouldDisplayDemographicsSection) {
       return (
-        <DemographicsSection forwardRef={this.navLinkRefs['#demographics-information']}/>
+        <DemographicsSection forwardRef={this.navLinkRefs['#demographics-information']} />
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   renderContent() {
@@ -259,7 +258,7 @@ class AccountSettingsPage extends React.Component {
     } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
-    const showState = this.props.formValues.country == COUNTRY_WITH_STATES;
+    const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -270,7 +269,7 @@ class AccountSettingsPage extends React.Component {
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
 
     return (
-      <React.Fragment>
+      <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -293,9 +292,9 @@ class AccountSettingsPage extends React.Component {
             value={this.props.formValues.name}
             label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
-              this.isEditable('name') ?
-                this.props.intl.formatMessage(messages['account.settings.field.full.name.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('name')
+                ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
             isEditable={this.isEditable('name')}
@@ -305,9 +304,9 @@ class AccountSettingsPage extends React.Component {
             name="email"
             label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
             emptyLabel={
-              this.isEditable('email') ?
-                this.props.intl.formatMessage(messages['account.settings.field.email.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('email')
+                ? this.props.intl.formatMessage(messages['account.settings.field.email.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             value={this.props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
@@ -333,14 +332,15 @@ class AccountSettingsPage extends React.Component {
             options={countryOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
-              this.isEditable('country') ?
-                this.props.intl.formatMessage(messages['account.settings.field.country.empty']) :
-                this.renderEmptyStaticFieldMessage()
+              this.isEditable('country')
+                ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
+                : this.renderEmptyStaticFieldMessage()
             }
             isEditable={this.isEditable('country')}
             {...editableFieldProps}
           />
-          {showState &&
+          {showState
+            && (
             <EditableField
               name="state"
               type="select"
@@ -348,14 +348,14 @@ class AccountSettingsPage extends React.Component {
               options={stateOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
               emptyLabel={
-                this.isEditable('state') ?
-                  this.props.intl.formatMessage(messages['account.settings.field.state.empty']) :
-                  this.renderEmptyStaticFieldMessage()
+                this.isEditable('state')
+                  ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
+                  : this.renderEmptyStaticFieldMessage()
               }
               isEditable={this.isEditable('state')}
               {...editableFieldProps}
             />
-          }
+            )}
         </div>
 
         <div className="account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
@@ -390,14 +390,15 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-          {getConfig().COACHING_ENABLED &&
-            this.props.formValues.coaching.eligible_for_coaching &&
+          {getConfig().COACHING_ENABLED
+            && this.props.formValues.coaching.eligible_for_coaching
+            && (
             <CoachingToggle
               name="coaching"
               phone_number={this.props.formValues.phone_number}
               coaching={this.props.formValues.coaching}
             />
-          }
+            )}
         </div>
         {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
         <div className="account-section" id="social-media">
@@ -476,7 +477,7 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-      </React.Fragment>
+      </>
     );
   }
 
@@ -542,6 +543,7 @@ AccountSettingsPage.propTypes = {
     name: PropTypes.string,
     email: PropTypes.string,
     secondary_email: PropTypes.string,
+    secondary_email_enabled: PropTypes.bool,
     year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     country: PropTypes.string,
     level_of_education: PropTypes.string,
@@ -557,6 +559,8 @@ AccountSettingsPage.propTypes = {
       user: PropTypes.number.isRequired,
       eligible_for_coaching: PropTypes.bool.isRequired,
     }),
+    state: PropTypes.string,
+    shouldDisplayDemographicsSection: PropTypes.bool,
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,

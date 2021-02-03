@@ -24,9 +24,13 @@ import ConnectedSuccessModal from './SuccessModal';
 import BeforeProceedingBanner from './BeforeProceedingBanner';
 
 export class DeleteAccount extends React.Component {
-  state = {
-    password: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      password: '',
+    };
+  }
 
   handleSubmit = () => {
     if (this.state.password === '') {
@@ -77,7 +81,7 @@ export class DeleteAccount extends React.Component {
         </p>
         <p>
           <Button
-            className="btn-outline-danger"
+            variant="outline-danger"
             onClick={canDelete ? this.props.deleteAccountConfirmation : null}
             disabled={!canDelete}
           >

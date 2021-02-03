@@ -10,7 +10,8 @@ function AccessBlocked({ error, intl }) {
   const handleMessage = () => {
     if (error === ERROR_REASONS.COURSE_ENROLLMENT) {
       return <p>{intl.formatMessage(messages['id.verification.access.blocked.enrollment'])}</p>;
-    } else if (error === ERROR_REASONS.EXISTING_REQUEST) {
+    }
+    if (error === ERROR_REASONS.EXISTING_REQUEST) {
       return <p>{intl.formatMessage(messages['id.verification.access.blocked.pending'])}</p>;
     }
     return (

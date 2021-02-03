@@ -4,14 +4,14 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { getExistingIdVerification, getEnrollments } from '../data/service';
-import { IdVerificationContextProvider } from '../IdVerificationContext';
+import IdVerificationContextProvider from '../IdVerificationContextProvider';
 
 jest.mock('../data/service', () => ({
   getExistingIdVerification: jest.fn(),
   getEnrollments: jest.fn(() => []),
 }));
 
-describe('IdVerificationContext', () => {
+describe('IdVerificationContextProvider', () => {
   const defaultProps = {
     children: <div />,
     intl: {},

@@ -11,14 +11,16 @@ class ThirdPartyAuth extends Component {
   onClickDisconnect = (e) => {
     e.preventDefault();
     const providerId = e.currentTarget.getAttribute('data-provider-id');
-    if (this.props.disconnectionStatuses[providerId] === 'pending') return;
+    if (this.props.disconnectionStatuses[providerId] === 'pending') {
+      return;
+    }
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
     this.props.disconnectAuth(disconnectUrl, providerId);
   }
 
   renderUnconnectedProvider(url, name) {
     return (
-      <React.Fragment>
+      <>
         <h6 aria-level="3">{name}</h6>
         <Hyperlink destination={url} className="btn btn-outline-primary">
           <FormattedMessage
@@ -28,7 +30,7 @@ class ThirdPartyAuth extends Component {
             values={{ name }}
           />
         </Hyperlink>
-      </React.Fragment>
+      </>
     );
   }
 
@@ -36,7 +38,7 @@ class ThirdPartyAuth extends Component {
     const hasError = this.props.errors[id];
 
     return (
-      <React.Fragment>
+      <>
         <h6 aria-level="3">
           {name}
           <span className="small font-weight-normal text-muted ml-2">
@@ -58,7 +60,7 @@ class ThirdPartyAuth extends Component {
         ) : null}
 
         <StatefulButton
-          className="btn-link"
+          variant="link"
           state={this.props.disconnectionStatuses[id]}
           labels={{
             default: (
@@ -75,7 +77,7 @@ class ThirdPartyAuth extends Component {
           data-disconnect-url={url}
           data-provider-id={id}
         />
-      </React.Fragment>
+      </>
     );
   }
 
@@ -85,9 +87,9 @@ class ThirdPartyAuth extends Component {
     return (
       <div className="form-group" key={id}>
         {
-          connected ?
-          this.renderConnectedProvider(disconnectUrl, name, id) :
-          this.renderUnconnectedProvider(connectUrl, name)
+          connected
+            ? this.renderConnectedProvider(disconnectUrl, name, id)
+            : this.renderUnconnectedProvider(connectUrl, name)
         }
       </div>
     );
@@ -104,7 +106,9 @@ class ThirdPartyAuth extends Component {
   }
 
   render() {
-    if (this.props.providers === undefined) return null;
+    if (this.props.providers === undefined) {
+      return null;
+    }
 
     if (this.props.providers.length === 0) {
       return this.renderNoProviders();
@@ -113,7 +117,6 @@ class ThirdPartyAuth extends Component {
     return this.props.providers.map(this.renderProvider, this);
   }
 }
-
 
 ThirdPartyAuth.propTypes = {
   providers: PropTypes.arrayOf(PropTypes.shape({

@@ -9,7 +9,7 @@ const messages = defineMessages({
   'id.verification.example.card.alt': {
     id: 'id.verification.example.card.alt',
     defaultMessage: 'Example of a valid identification card with a full name and photo.',
-    description: 'Alt text for an example identification card.'
+    description: 'Alt text for an example identification card.',
   },
   'id.verification.requirements.title': {
     id: 'id.verification.requirements.title',

@@ -12,9 +12,8 @@ export const siteLanguageListSelector = createSelector(
 
 export const siteLanguageOptionsSelector = createSelector(
   siteLanguageSelector,
-  siteLanguage =>
-    siteLanguage.siteLanguageList.map(({ code, name }) => ({
-      value: code,
-      label: name,
-    })),
+  siteLanguage => siteLanguage.siteLanguageList.map(({ code, name }) => ({
+    value: code,
+    label: name,
+  })),
 );

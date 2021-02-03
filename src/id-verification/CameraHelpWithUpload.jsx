@@ -6,7 +6,7 @@ import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 
 import messages from './IdVerification.messages';
 import ImageFileUpload from './ImageFileUpload';
-import { IdVerificationContext } from './IdVerificationContext';
+import IdVerificationContext from './IdVerificationContext';
 import ImagePreview from './ImagePreview';
 
 function CameraHelpWithUpload(props) {

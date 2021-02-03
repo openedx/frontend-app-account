@@ -1,6 +1,8 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 
-import { resetPasswordBegin, resetPasswordForbidden, resetPasswordSuccess, RESET_PASSWORD } from './actions';
+import {
+  resetPasswordBegin, resetPasswordForbidden, resetPasswordSuccess, RESET_PASSWORD,
+} from './actions';
 import { postResetPassword } from './service';
 
 function* handleResetPassword(action) {

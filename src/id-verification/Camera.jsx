@@ -1,6 +1,9 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable jsx-a11y/no-access-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+// eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -38,25 +41,9 @@ class Camera extends React.Component {
     this.cameraPhoto.stopCamera();
   }
 
-  sendEvent() {
-    let eventName = 'edx.id_verification';
-    if (this.props.isPortrait) {
-      eventName += '.user_photo';
-    } else {
-      eventName += '.id_photo';
-    }
-
-    if (this.state.shouldDetect) {
-      eventName += '.face_detection_enabled';
-    } else {
-      eventName += '.face_detection_disabled';
-    }
-    sendTrackEvent(eventName);
-  }
-
   setDetection() {
     this.setState(
-      { shouldDetect: !this.state.shouldDetect },
+      (state) => ({ shouldDetect: !state.shouldDetect }),
       () => {
         if (this.state.shouldDetect) {
           this.setState({ isFinishedLoadingDetection: false });
@@ -67,21 +54,65 @@ class Camera extends React.Component {
     );
   }
 
-  startDetection() {
-    setTimeout(() => {
-      if (this.state.videoHasLoaded) {
-        const loadModelPromise = blazeface.load();
-        Promise.all([loadModelPromise])
-          .then((values) => {
-            this.setState({ isFinishedLoadingDetection: true });
-            this.detectFromVideoFrame(values[0], this.videoRef.current);
-          });
-      } else {
-        this.setState({ isFinishedLoadingDetection: true });
-        this.setState({ shouldDetect: false });
-        // TODO: add error message
+  setVideoHasLoaded() {
+    this.setState({ videoHasLoaded: 'true' });
+  }
+
+  getGridPosition(coordinates) {
+    // Used to determine where a face is (i.e. top-left, center-right, bottom-center, etc.)
+
+    const x = coordinates[0];
+    const y = coordinates[1];
+
+    let messageBase = 'id.verification.photo.feedback';
+
+    const heightUpperLimit = 320;
+    const heightMiddleLimit = 160;
+
+    if (y < heightMiddleLimit) {
+      messageBase += '.top';
+    } else if (y < heightUpperLimit && y >= heightMiddleLimit) {
+      messageBase += '.center';
+    } else {
+      messageBase += '.bottom';
+    }
+
+    const widthRightLimit = 213;
+    const widthMiddleLimit = 427;
+
+    if (x < widthRightLimit) {
+      messageBase += '.right';
+    } else if (x >= widthRightLimit && x < widthMiddleLimit) {
+      messageBase += '.center';
+    } else {
+      messageBase += '.left';
+    }
+
+    return messageBase;
+  }
+
+  getSizeFactor() {
+    let sizeFactor = 1;
+    const settings = this.cameraPhoto.getCameraSettings();
+    if (settings) {
+      const videoWidth = settings.width;
+      const videoHeight = settings.height;
+      // need to multiply by 3 because each pixel contains 3 bytes
+      const currentSize = videoWidth * videoHeight * 3;
+      // chose a limit of 9,999,999 (bytes) so that result will
+      // always be less than 10MB
+      const ratio = 9999999 / currentSize;
+
+      if (ratio < 1) {
+        // if the current resolution creates an image larger than 10 MB, adjust sizeFactor (resolution)
+        // to ensure that image will have a file size of less than 10 MB.
+        sizeFactor = ratio;
+      } else if (videoWidth === 640 && videoHeight === 480) {
+        // otherwise increase the resolution to try and prevent blurry images.
+        sizeFactor = 2;
       }
-    }, 1000);
+    }
+    return sizeFactor;
   }
 
   detectFromVideoFrame = (model, video) => {
@@ -146,6 +177,39 @@ class Camera extends React.Component {
     }
   }
 
+  startDetection() {
+    setTimeout(() => {
+      if (this.state.videoHasLoaded) {
+        const loadModelPromise = blazeface.load();
+        Promise.all([loadModelPromise])
+          .then((values) => {
+            this.setState({ isFinishedLoadingDetection: true });
+            this.detectFromVideoFrame(values[0], this.videoRef.current);
+          });
+      } else {
+        this.setState({ isFinishedLoadingDetection: true });
+        this.setState({ shouldDetect: false });
+        // TODO: add error message
+      }
+    }, 1000);
+  }
+
+  sendEvent() {
+    let eventName = 'edx.id_verification';
+    if (this.props.isPortrait) {
+      eventName += '.user_photo';
+    } else {
+      eventName += '.id_photo';
+    }
+
+    if (this.state.shouldDetect) {
+      eventName += '.face_detection_enabled';
+    } else {
+      eventName += '.face_detection_disabled';
+    }
+    sendTrackEvent(eventName);
+  }
+
   giveFeedback(numFaces, rightEye, isCorrect) {
     if (this.state.shouldGiveFeedback) {
       const currentFeedback = this.state.feedback;
@@ -176,39 +240,6 @@ class Camera extends React.Component {
     }
   }
 
-  getGridPosition(coordinates) {
-    // Used to determine where a face is (i.e. top-left, center-right, bottom-center, etc.)
-
-    const x = coordinates[0];
-    const y = coordinates[1];
-
-    let messageBase = 'id.verification.photo.feedback';
-
-    const heightUpperLimit = 320;
-    const heightMiddleLimit = 160;
-
-    if (y < heightMiddleLimit) {
-      messageBase += '.top';
-    } else if (y < heightUpperLimit && y >= heightMiddleLimit) {
-      messageBase += '.center';
-    } else {
-      messageBase += '.bottom';
-    }
-
-    const widthRightLimit = 213;
-    const widthMiddleLimit = 427;
-
-    if (x < widthRightLimit) {
-      messageBase += '.right';
-    } else if (x >= widthRightLimit && x < widthMiddleLimit) {
-      messageBase += '.center';
-    } else {
-      messageBase += '.left';
-    }
-
-    return messageBase;
-  }
-
   isInRangeForPortrait(x, y) {
     return x > 47 && x < 570 && y > 100 && y < 410;
   }
@@ -217,13 +248,10 @@ class Camera extends React.Component {
     return x > 120 && x < 470 && y > 120 && y < 350;
   }
 
-  setVideoHasLoaded() {
-    this.setState({ videoHasLoaded: 'true' });
-  }
-
   takePhoto() {
     if (this.state.dataUri) {
-      return this.reset();
+      this.reset();
+      return;
     }
 
     const config = {
@@ -234,30 +262,6 @@ class Camera extends React.Component {
     const dataUri = this.cameraPhoto.getDataUri(config);
     this.setState({ dataUri });
     this.props.onImageCapture(dataUri);
-  }
-
-  getSizeFactor() {
-    let sizeFactor = 1;
-    const settings = this.cameraPhoto.getCameraSettings();
-    if (settings) {
-      const videoWidth = settings.width;
-      const videoHeight = settings.height;
-      // need to multiply by 3 because each pixel contains 3 bytes
-      const currentSize = videoWidth * videoHeight * 3;
-      // chose a limit of 9,999,999 (bytes) so that result will
-      // always be less than 10MB
-      const ratio = 9999999 / currentSize;
-
-      if (ratio < 1) {
-        // if the current resolution creates an image larger than 10 MB, adjust sizeFactor (resolution)
-        // to ensure that image will have a file size of less than 10 MB.
-        sizeFactor = ratio;
-      } else if (videoWidth === 640 && videoHeight === 480) {
-        // otherwise increase the resolution to try and prevent blurry images.
-        sizeFactor = 2;
-      }
-    }
-    return sizeFactor;
   }
 
   playShutterClick() {
@@ -278,7 +282,7 @@ class Camera extends React.Component {
       : 'camera-flash';
     return (
       <div className="camera-outer-wrapper shadow">
-        <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }} >
+        <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }}>
           <Form.Check
             id="videoDetection"
             name="videoDetection"
@@ -332,9 +336,10 @@ class Camera extends React.Component {
           <div role="status" className="sr-only">{this.state.feedback}</div>
         </div>
         <button
+          type="button"
           className={`btn camera-btn ${
-            this.state.dataUri ?
-              'btn-outline-primary'
+            this.state.dataUri
+              ? 'btn-outline-primary'
               : 'btn-primary'
           }`}
           accessKey="c"

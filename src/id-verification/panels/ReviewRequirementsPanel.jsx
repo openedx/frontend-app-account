@@ -6,7 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 
-import { IdVerificationContext } from '../IdVerificationContext';
+import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 

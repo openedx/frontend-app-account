@@ -1,439 +1,590 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConfirmationModal should match default closed confirmation modal snapshot 1`] = `
-<div>
+Array [
   <div
     className="fade"
     role="presentation"
-  />
+  />,
   <div
-    className="modal js-close-modal-on-click fade"
-    onMouseDown={[Function]}
+    className="modal fade"
+    role="presentation"
+  >
+    <div
+      aria-labelledby="id1"
+      aria-modal={true}
+      className=""
+      role="dialog"
+    >
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={-1}
+      />
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={-1}
+      />
+      <div
+        data-focus-lock-disabled="disabled"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onScrollCapture={[Function]}
+        onTouchMoveCapture={[Function]}
+        onWheelCapture={[Function]}
+      >
+        <div
+          className="modal-content"
+        >
+          <div
+            className="modal-header"
+          >
+            <h2
+              className="modal-title"
+              id="id1"
+            >
+              Are you sure?
+            </h2>
+          </div>
+          <div
+            className="modal-body"
+          >
+            <div>
+              <div
+                className="alert d-flex align-items-start alert-warning mt-n2"
+              >
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
+                    data-icon="exclamation-triangle"
+                    data-prefix="fas"
+                    focusable="false"
+                    role="img"
+                    style={Object {}}
+                    viewBox="0 0 576 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                      fill="currentColor"
+                      style={Object {}}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h6>
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                  </h6>
+                  <p>
+                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                  </p>
+                  <p>
+                    <span>
+                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
+                      <a
+                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
+                        onClick={[Function]}
+                        target="_self"
+                      >
+                        follow the instructions for printing or downloading a certificate
+                      </a>
+                      .
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                className="form-group"
+              >
+                <label
+                  className="d-block"
+                  htmlFor="passwordFieldId"
+                >
+                  If you still wish to continue and delete your account, please enter your account password:
+                </label>
+                <input
+                  aria-describedby=""
+                  className="form-control"
+                  id="passwordFieldId"
+                  name="password"
+                  onChange={[MockFunction]}
+                  type="password"
+                  value="fluffy bunnies"
+                />
+                <strong
+                  className="invalid-feedback"
+                  id="passwordFieldId-invalid-feedback"
+                >
+                  Unable to delete account
+                </strong>
+              </div>
+            </div>
+          </div>
+          <div
+            className="modal-footer"
+          >
+            <button
+              className="btn btn-link"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              disabled={false}
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Yes, Delete
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={-1}
+      />
+    </div>
+  </div>,
+]
+`;
+
+exports[`ConfirmationModal should match empty password confirmation modal snapshot 1`] = `
+Array [
+  <div
+    className="modal-backdrop show"
+    role="presentation"
+  />,
+  <div
+    className="modal show d-block"
+    role="presentation"
+  >
+    <div
+      aria-labelledby="id3"
+      aria-modal={true}
+      className="modal-dialog"
+      role="dialog"
+    >
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={0}
+      />
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={1}
+      />
+      <div
+        data-focus-lock-disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onScrollCapture={[Function]}
+        onTouchMoveCapture={[Function]}
+        onTouchStart={[Function]}
+        onWheelCapture={[Function]}
+      >
+        <div
+          className="modal-content"
+        >
+          <div
+            className="modal-header"
+          >
+            <h2
+              className="modal-title"
+              id="id3"
+            >
+              Are you sure?
+            </h2>
+          </div>
+          <div
+            className="modal-body"
+          >
+            <div>
+              <div
+                className="alert d-flex align-items-start alert-danger mt-n2"
+              >
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    className="svg-inline--fa fa-exclamation-circle fa-w-16 mr-2"
+                    data-icon="exclamation-circle"
+                    data-prefix="fas"
+                    focusable="false"
+                    role="img"
+                    style={Object {}}
+                    viewBox="0 0 512 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                      fill="currentColor"
+                      style={Object {}}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h6>
+                    A password is required
+                  </h6>
+                  <p
+                    className="text-danger"
+                  >
+                    Sorry, there was an error trying to process your request. Please try again later.
+                  </p>
+                </div>
+              </div>
+              <div
+                className="alert d-flex align-items-start alert-warning mt-n2"
+              >
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
+                    data-icon="exclamation-triangle"
+                    data-prefix="fas"
+                    focusable="false"
+                    role="img"
+                    style={Object {}}
+                    viewBox="0 0 576 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                      fill="currentColor"
+                      style={Object {}}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h6>
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                  </h6>
+                  <p>
+                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                  </p>
+                  <p>
+                    <span>
+                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
+                      <a
+                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
+                        onClick={[Function]}
+                        target="_self"
+                      >
+                        follow the instructions for printing or downloading a certificate
+                      </a>
+                      .
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                className="form-group"
+              >
+                <label
+                  className="d-block"
+                  htmlFor="passwordFieldId"
+                >
+                  If you still wish to continue and delete your account, please enter your account password:
+                </label>
+                <input
+                  aria-describedby="passwordFieldId-invalid-feedback"
+                  className="form-control is-invalid"
+                  id="passwordFieldId"
+                  name="password"
+                  onChange={[MockFunction]}
+                  type="password"
+                  value="fluffy bunnies"
+                />
+                <strong
+                  className="invalid-feedback"
+                  id="passwordFieldId-invalid-feedback"
+                >
+                  A password is required
+                </strong>
+              </div>
+            </div>
+          </div>
+          <div
+            className="modal-footer"
+          >
+            <button
+              className="btn btn-link"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              disabled={false}
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Yes, Delete
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={0}
+      />
+    </div>
+  </div>,
+]
+`;
+
+exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
+Array [
+  <div
+    className="modal-backdrop show"
+    role="presentation"
+  />,
+  <div
+    className="modal show d-block"
     role="presentation"
   >
     <div
       aria-labelledby="id2"
       aria-modal={true}
-      className=""
-      role="dialog"
-      tabIndex="-1"
-    >
-      <div
-        className="modal-content"
-      >
-        <div
-          className="modal-header"
-        >
-          <h2
-            className="modal-title"
-            id="id2"
-          >
-            Are you sure?
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <div
-              className="alert d-flex align-items-start alert-warning mt-n2"
-            >
-              <div>
-                <svg
-                  aria-hidden="true"
-                  className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
-                  data-icon="exclamation-triangle"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  style={Object {}}
-                  viewBox="0 0 576 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                    fill="currentColor"
-                    style={Object {}}
-                  />
-                </svg>
-              </div>
-              <div>
-                <h6>
-                  You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
-                </h6>
-                <p>
-                  If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
-                </p>
-                <p>
-                  <span>
-                    You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                    <a
-                      href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                      onClick={[Function]}
-                      target="_self"
-                    >
-                      follow the instructions for printing or downloading a certificate
-                    </a>
-                    .
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div
-              className="form-group"
-            >
-              <label
-                className="d-block"
-                htmlFor="passwordFieldId"
-              >
-                If you still wish to continue and delete your account, please enter your account password:
-              </label>
-              <input
-                aria-describedby=""
-                className="form-control"
-                id="passwordFieldId"
-                name="password"
-                onChange={[MockFunction]}
-                type="password"
-                value="fluffy bunnies"
-              />
-              <strong
-                className="invalid-feedback"
-                id="passwordFieldId-invalid-feedback"
-              >
-                Unable to delete account
-              </strong>
-            </div>
-          </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn btn-danger"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Yes, Delete
-          </button>
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            id="paragonCloseModalButton1"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ConfirmationModal should match empty password confirmation modal snapshot 1`] = `
-<div>
-  <div
-    className="modal-backdrop show"
-    role="presentation"
-  />
-  <div
-    className="modal js-close-modal-on-click show d-block"
-    onMouseDown={[Function]}
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id6"
-      aria-modal={true}
       className="modal-dialog"
       role="dialog"
-      tabIndex="-1"
     >
       <div
-        className="modal-content"
-      >
-        <div
-          className="modal-header"
-        >
-          <h2
-            className="modal-title"
-            id="id6"
-          >
-            Are you sure?
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <div
-              className="alert d-flex align-items-start alert-danger mt-n2"
-            >
-              <div>
-                <svg
-                  aria-hidden="true"
-                  className="svg-inline--fa fa-exclamation-circle fa-w-16 mr-2"
-                  data-icon="exclamation-circle"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  style={Object {}}
-                  viewBox="0 0 512 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                    fill="currentColor"
-                    style={Object {}}
-                  />
-                </svg>
-              </div>
-              <div>
-                <h6>
-                  A password is required
-                </h6>
-                <p
-                  className="text-danger"
-                >
-                  Sorry, there was an error trying to process your request. Please try again later.
-                </p>
-              </div>
-            </div>
-            <div
-              className="alert d-flex align-items-start alert-warning mt-n2"
-            >
-              <div>
-                <svg
-                  aria-hidden="true"
-                  className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
-                  data-icon="exclamation-triangle"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  style={Object {}}
-                  viewBox="0 0 576 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                    fill="currentColor"
-                    style={Object {}}
-                  />
-                </svg>
-              </div>
-              <div>
-                <h6>
-                  You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
-                </h6>
-                <p>
-                  If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
-                </p>
-                <p>
-                  <span>
-                    You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                    <a
-                      href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                      onClick={[Function]}
-                      target="_self"
-                    >
-                      follow the instructions for printing or downloading a certificate
-                    </a>
-                    .
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div
-              className="form-group"
-            >
-              <label
-                className="d-block"
-                htmlFor="passwordFieldId"
-              >
-                If you still wish to continue and delete your account, please enter your account password:
-              </label>
-              <input
-                aria-describedby="passwordFieldId-invalid-feedback"
-                className="form-control is-invalid"
-                id="passwordFieldId"
-                name="password"
-                onChange={[MockFunction]}
-                type="password"
-                value="fluffy bunnies"
-              />
-              <strong
-                className="invalid-feedback"
-                id="passwordFieldId-invalid-feedback"
-              >
-                A password is required
-              </strong>
-            </div>
-          </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn btn-danger"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Yes, Delete
-          </button>
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            id="paragonCloseModalButton5"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
-<div>
-  <div
-    className="modal-backdrop show"
-    role="presentation"
-  />
-  <div
-    className="modal js-close-modal-on-click show d-block"
-    onMouseDown={[Function]}
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id4"
-      aria-modal={true}
-      className="modal-dialog"
-      role="dialog"
-      tabIndex="-1"
-    >
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={0}
+      />
       <div
-        className="modal-content"
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={1}
+      />
+      <div
+        data-focus-lock-disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onScrollCapture={[Function]}
+        onTouchMoveCapture={[Function]}
+        onTouchStart={[Function]}
+        onWheelCapture={[Function]}
       >
         <div
-          className="modal-header"
+          className="modal-content"
         >
-          <h2
-            className="modal-title"
-            id="id4"
+          <div
+            className="modal-header"
           >
-            Are you sure?
-          </h2>
-        </div>
-        <div
-          className="modal-body"
-        >
-          <div>
-            <div
-              className="alert d-flex align-items-start alert-warning mt-n2"
+            <h2
+              className="modal-title"
+              id="id2"
             >
-              <div>
-                <svg
-                  aria-hidden="true"
-                  className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
-                  data-icon="exclamation-triangle"
-                  data-prefix="fas"
-                  focusable="false"
-                  role="img"
-                  style={Object {}}
-                  viewBox="0 0 576 512"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                    fill="currentColor"
+              Are you sure?
+            </h2>
+          </div>
+          <div
+            className="modal-body"
+          >
+            <div>
+              <div
+                className="alert d-flex align-items-start alert-warning mt-n2"
+              >
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
+                    data-icon="exclamation-triangle"
+                    data-prefix="fas"
+                    focusable="false"
+                    role="img"
                     style={Object {}}
-                  />
-                </svg>
+                    viewBox="0 0 576 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                      fill="currentColor"
+                      style={Object {}}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h6>
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                  </h6>
+                  <p>
+                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                  </p>
+                  <p>
+                    <span>
+                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
+                      <a
+                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
+                        onClick={[Function]}
+                        target="_self"
+                      >
+                        follow the instructions for printing or downloading a certificate
+                      </a>
+                      .
+                    </span>
+                  </p>
+                </div>
               </div>
-              <div>
-                <h6>
-                  You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
-                </h6>
-                <p>
-                  If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
-                </p>
-                <p>
-                  <span>
-                    You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                    <a
-                      href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                      onClick={[Function]}
-                      target="_self"
-                    >
-                      follow the instructions for printing or downloading a certificate
-                    </a>
-                    .
-                  </span>
-                </p>
+              <div
+                className="form-group"
+              >
+                <label
+                  className="d-block"
+                  htmlFor="passwordFieldId"
+                >
+                  If you still wish to continue and delete your account, please enter your account password:
+                </label>
+                <input
+                  aria-describedby=""
+                  className="form-control"
+                  id="passwordFieldId"
+                  name="password"
+                  onChange={[MockFunction]}
+                  type="password"
+                  value="fluffy bunnies"
+                />
+                <strong
+                  className="invalid-feedback"
+                  id="passwordFieldId-invalid-feedback"
+                >
+                  Unable to delete account
+                </strong>
               </div>
-            </div>
-            <div
-              className="form-group"
-            >
-              <label
-                className="d-block"
-                htmlFor="passwordFieldId"
-              >
-                If you still wish to continue and delete your account, please enter your account password:
-              </label>
-              <input
-                aria-describedby=""
-                className="form-control"
-                id="passwordFieldId"
-                name="password"
-                onChange={[MockFunction]}
-                type="password"
-                value="fluffy bunnies"
-              />
-              <strong
-                className="invalid-feedback"
-                id="passwordFieldId-invalid-feedback"
-              >
-                Unable to delete account
-              </strong>
             </div>
           </div>
-        </div>
-        <div
-          className="modal-footer"
-        >
-          <button
-            className="btn btn-danger"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
+          <div
+            className="modal-footer"
           >
-            Yes, Delete
-          </button>
-          <button
-            className="btn js-close-modal-on-click btn-secondary"
-            id="paragonCloseModalButton3"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            type="button"
-          >
-            Cancel
-          </button>
+            <button
+              className="btn btn-link"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              disabled={false}
+              onClick={[MockFunction]}
+              type="button"
+            >
+              Yes, Delete
+            </button>
+          </div>
         </div>
       </div>
+      <div
+        data-focus-guard={true}
+        style={
+          Object {
+            "height": "0px",
+            "left": "1px",
+            "overflow": "hidden",
+            "padding": 0,
+            "position": "fixed",
+            "top": "1px",
+            "width": "1px",
+          }
+        }
+        tabIndex={0}
+      />
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;

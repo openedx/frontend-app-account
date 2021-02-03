@@ -22,8 +22,7 @@ export function createDemographicsError(error) {
       delete apiError.fieldErrors.gender_description;
     } else if (get(apiError, 'fieldErrors.work_status_description')) {
       // eslint-disable-next-line prefer-destructuring
-      apiError.fieldErrors.demographics_work_status =
-        apiError.fieldErrors.work_status_description[0];
+      apiError.fieldErrors.demographics_work_status = apiError.fieldErrors.work_status_description[0];
       delete apiError.fieldErrors.work_status_description;
     }
   // Otherwise, when the service is down, the error response will not contain a

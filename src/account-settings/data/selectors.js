@@ -72,7 +72,6 @@ export const staticFieldsSelector = createSelector(
   accountSettings => (accountSettings.profileDataManager ? ['name', 'email', 'country'] : []),
 );
 
-
 /**
  * If there's no draft present at all (undefined), use the original committed value.
  */

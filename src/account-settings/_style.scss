@@ -2,9 +2,11 @@
   .form-group {
     margin-bottom: 1.5rem;
   }
+
   h6, .h6 {
     margin-bottom: .25rem;
   }
+
   .btn-link {
     line-height: 1.2;
     border: none;
@@ -18,8 +20,10 @@
       position: sticky;
       top: 1rem;
     }
+
     li {
       margin-bottom: .5rem;
+
       a {
         text-decoration: underline;
       }
@@ -30,15 +34,17 @@
     @extend .h4;
     margin-bottom: map-get($spacers, 3);
   }
+
   .account-section {
     // These properties together will shift the hashlink position
     margin-bottom: map-get($spacers, 5);
     padding-top: 1rem;
   }
-  
+
   .custom-switch {
     padding: 0;
     max-width: 500px;
+
     .custom-control-label {
       left: 2.25rem;
       line-height: 1.6rem;

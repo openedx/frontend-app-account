@@ -11,13 +11,13 @@ export const SuccessModal = (props) => {
     <Modal
       open={status === 'deleted'}
       title={intl.formatMessage(messages['account.settings.delete.account.modal.after.header'])}
-      body={
+      body={(
         <div>
           <p className="h6">
             {intl.formatMessage(messages['account.settings.delete.account.modal.after.text'])}
           </p>
         </div>
-      }
+      )}
       closeText={intl.formatMessage(messages['account.settings.delete.account.modal.after.button'])}
       renderHeaderCloseButton={false}
       onClose={onClose}

@@ -13,9 +13,20 @@ exports[`DemographicsSection should render 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -48,10 +59,9 @@ exports[`DemographicsSection should render 1`] = `
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -112,10 +122,9 @@ exports[`DemographicsSection should render 1`] = `
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -142,10 +151,9 @@ exports[`DemographicsSection should render 1`] = `
             data-hj-suppress={true}
           >
             <button
-              className="btn btn-link p-0"
-              onBlur={[Function]}
+              className="p-0 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               Add race/ethnicity identity
@@ -184,10 +192,9 @@ exports[`DemographicsSection should render 1`] = `
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -248,10 +255,9 @@ exports[`DemographicsSection should render 1`] = `
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -312,10 +318,9 @@ exports[`DemographicsSection should render 1`] = `
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -376,10 +381,9 @@ exports[`DemographicsSection should render 1`] = `
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -440,10 +444,9 @@ exports[`DemographicsSection should render 1`] = `
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -504,10 +507,9 @@ exports[`DemographicsSection should render 1`] = `
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -568,10 +570,9 @@ exports[`DemographicsSection should render 1`] = `
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -622,9 +623,20 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -671,10 +683,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -735,10 +746,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -765,10 +775,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
             data-hj-suppress={true}
           >
             <button
-              className="btn btn-link p-0"
-              onBlur={[Function]}
+              className="p-0 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               Add race/ethnicity identity
@@ -807,10 +816,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -871,10 +879,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -935,10 +942,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -999,10 +1005,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1063,10 +1068,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1127,10 +1131,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1191,10 +1194,9 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1245,9 +1247,20 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1280,9 +1293,20 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1315,10 +1339,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1379,10 +1402,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1443,10 +1465,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1507,10 +1528,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1571,10 +1591,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1635,10 +1654,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1699,10 +1717,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1763,10 +1780,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1827,10 +1843,9 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1881,9 +1896,20 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -1916,10 +1942,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -1980,10 +2005,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2044,10 +2068,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2108,10 +2131,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2172,10 +2194,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2236,10 +2257,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2300,10 +2320,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2364,10 +2383,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2428,10 +2446,9 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2482,9 +2499,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -2517,10 +2545,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2581,10 +2608,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2611,10 +2637,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
             data-hj-suppress={true}
           >
             <button
-              className="btn btn-link p-0"
-              onBlur={[Function]}
+              className="p-0 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               Add race/ethnicity identity
@@ -2653,10 +2678,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2717,10 +2741,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2781,10 +2804,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2845,10 +2867,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2909,10 +2930,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -2973,10 +2993,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3037,10 +3056,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3091,9 +3109,20 @@ exports[`DemographicsSection should set user input correctly when user provides 
   <p>
     <a
       href="http://localhost:5335/demographics"
+      onClick={[Function]}
+      rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does edX collect this information?
+      <span>
+         
+        <span
+          aria-hidden={false}
+          aria-label="Opens in a new window"
+          className="fa fa-external-link"
+          title="Opens in a new window"
+        />
+      </span>
     </a>
   </p>
   <div
@@ -3126,10 +3155,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Gender identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3190,10 +3218,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Race/Ethnicity identity
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3220,10 +3247,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
             data-hj-suppress={true}
           >
             <button
-              className="btn btn-link p-0"
-              onBlur={[Function]}
+              className="p-0 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               Add race/ethnicity identity
@@ -3262,10 +3288,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Family income
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3326,10 +3351,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               U.S. Military status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3390,10 +3414,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Your education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3454,10 +3477,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Parents/Guardians education level
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3518,10 +3540,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Employment status
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3582,10 +3603,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Current work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg
@@ -3646,10 +3666,9 @@ exports[`DemographicsSection should set user input correctly when user provides 
               Future work industry
             </h6>
             <button
-              className="btn ml-3 btn-link"
-              onBlur={[Function]}
+              className="ml-3 btn btn-link"
+              disabled={false}
               onClick={[Function]}
-              onKeyDown={[Function]}
               type="button"
             >
               <svg

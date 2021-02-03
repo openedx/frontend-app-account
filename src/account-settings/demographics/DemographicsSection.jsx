@@ -1,31 +1,109 @@
-import {
-  OTHER,
-  SELF_DESCRIBE,
-} from '../data/constants';
 import { getConfig } from '@edx/frontend-platform';
 import {
   FormattedMessage,
   injectIntl,
   intlShape,
 } from '@edx/frontend-platform/i18n';
-import { saveMultipleSettings, updateDraft } from '../data/actions';
 
-import Alert from '../Alert';
-import Checkboxes from './Checkboxes';
-import EditableField from '../EditableField';
-import { Input } from '@edx/paragon';
+import { Hyperlink, Input } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { demographicsSectionSelector } from '../data/selectors';
 import get from 'lodash.get';
 import isEmpty from 'lodash.isempty';
 import memoize from 'memoize-one';
+import { demographicsSectionSelector } from '../data/selectors';
+import EditableField from '../EditableField';
+import Checkboxes from './Checkboxes';
+import Alert from '../Alert';
+import { saveMultipleSettings, updateDraft } from '../data/actions';
+import {
+  OTHER,
+  SELF_DESCRIBE,
+} from '../data/constants';
 import messages from './DemographicsSection.messages';
 
 class DemographicsSection extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  // We check the `demographicsOptions` prop to see if it is empty before we attempt to extract and
+  // format the available options for each question from the API response.
+  getApiOptions = memoize((demographicsOptions) => (this.hasRetrievedDemographicsOptions() && {
+    demographicsGenderOptions: this.addDefaultOption('account.settings.field.demographics.gender.options.empty')
+      .concat(demographicsOptions.actions.POST.gender.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+    /* Ethnicity options don't need the blank/default option */
+    demographicsEthnicityOptions: demographicsOptions.actions.POST.user_ethnicity.child.children.ethnicity.choices.map(
+      key => ({
+        value: key.value,
+        label: key.display_name,
+      }),
+    ),
+    demographicsIncomeOptions: this.addDefaultOption('account.settings.field.demographics.income.options.empty')
+      .concat(demographicsOptions.actions.POST.income.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+    demographicsMilitaryHistoryOptions: this.addDefaultOption('account.settings.field.demographics.military_history.options.empty')
+      .concat(demographicsOptions.actions.POST.military_history.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+    demographicsEducationLevelOptions: this.addDefaultOption('account.settings.field.demographics.education_level.options.empty')
+      .concat(demographicsOptions.actions.POST.learner_education_level.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+    demographicsWorkStatusOptions: this.addDefaultOption('account.settings.field.demographics.work_status.options.empty')
+      .concat(demographicsOptions.actions.POST.work_status.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+    demographicsWorkSectorOptions: this.addDefaultOption('account.settings.field.demographics.work_sector.options.empty')
+      .concat(demographicsOptions.actions.POST.current_work_sector.choices.map(key => ({
+        value: key.value,
+        label: key.display_name,
+      }))),
+  }));
+
+  ethnicityFieldDisplay = (demographicsEthnicityOptions) => {
+    let ethnicities = [];
+    if (get(this, 'props.formValues.demographics_user_ethnicity')) {
+      ethnicities = this.props.formValues.demographics_user_ethnicity;
+    }
+    return ethnicities.map((e) => {
+      const matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
+      return matchingOption && matchingOption.label;
+    }).join(', ');
+  }
+
+  handleEditableFieldChange = (name, value) => {
+    this.props.updateDraft(name, value);
+  };
+
+  handleSubmit = (formId) => {
+    // We have some custom fields in this section. Instead of relying on the
+    // submitted values, submit the values stored in 'drafts'.
+    const { drafts } = this.props;
+    const settingsArray = Object.entries(drafts).map(([field, value]) => ({
+      formId: field,
+      commitValues: value,
+    }));
+
+    this.props.saveMultipleSettings(settingsArray, formId);
+  };
+
+  /**
+   * Utility method that adds the specified message as a default option to the list of available
+   * choices.
+   *
+   * @param {*} messageId id of message matching desired default label text
+   */
+  addDefaultOption(messageId) {
+    return [{
+      value: '',
+      label: this.props.intl.formatMessage(messages[messageId]),
+    }];
   }
 
   /**
@@ -39,99 +117,18 @@ class DemographicsSection extends React.Component {
   }
 
   /**
-   * Utility method that adds the specified message as a default option to the list of available
-   * choices.
-   * 
-   * @param {*} messageId id of message matching desired default label text
-   */
-  addDefaultOption(messageId) {
-    return [{
-      value: '',
-      label: this.props.intl.formatMessage(messages[messageId]),
-    }];
-  }
-  
-  // We check the `demographicsOptions` prop to see if it is empty before we attempt to extract and
-  // format the available options for each question from the API response.
-  getApiOptions = memoize((demographicsOptions) => ( this.hasRetrievedDemographicsOptions() && {
-    demographicsGenderOptions: this.addDefaultOption('account.settings.field.demographics.gender.options.empty')
-      .concat(demographicsOptions.actions.POST.gender.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-    /* Ethnicity options don't need the blank/default option */
-    demographicsEthnicityOptions: demographicsOptions.actions.POST.user_ethnicity.child.children.ethnicity.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    })),
-    demographicsIncomeOptions: this.addDefaultOption('account.settings.field.demographics.income.options.empty')
-      .concat(demographicsOptions.actions.POST.income.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-    demographicsMilitaryHistoryOptions: this.addDefaultOption('account.settings.field.demographics.military_history.options.empty')
-      .concat(demographicsOptions.actions.POST.military_history.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-    demographicsEducationLevelOptions: this.addDefaultOption('account.settings.field.demographics.education_level.options.empty')
-      .concat(demographicsOptions.actions.POST.learner_education_level.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-    demographicsWorkStatusOptions: this.addDefaultOption('account.settings.field.demographics.work_status.options.empty')
-      .concat(demographicsOptions.actions.POST.work_status.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-    demographicsWorkSectorOptions: this.addDefaultOption('account.settings.field.demographics.work_sector.options.empty')
-      .concat(demographicsOptions.actions.POST.current_work_sector.choices.map(key => ({
-        value: key.value,
-        label: key.display_name
-    }))),
-  }));
-
-  ethnicityFieldDisplay = (demographicsEthnicityOptions) => {
-    if (get(this, 'props.formValues.demographics_user_ethnicity')) {
-      const ethnicities = this.props.formValues.demographics_user_ethnicity;  
-      return ethnicities.map((e) => {
-        var matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
-        return matchingOption && matchingOption.label;
-      }).join(", ")
-    }
-  }
-
-  handleEditableFieldChange = (name, value) => {
-    this.props.updateDraft(name, value);
-  };
-
-  handleSubmit = (formId, values) => {
-    // We have some custom fields in this section. Instead of relying on the
-    // submitted values, submit the values stored in 'drafts'.
-    const drafts = this.props.drafts;
-    const settingsArray = []
-    for (let field in drafts) {
-      settingsArray.push({
-        formId: field,
-        commitValues: drafts[field]
-      })
-    }
-
-    this.props.saveMultipleSettings(settingsArray, formId);
-  };
-
-  /**
    * If an error is encountered when trying to communicate with the Demographics IDA then we will
    * display an Alert letting the user know that their info will not be displayed and temporarily
    * cannot be updated.
    */
   renderDemographicsServiceIssueWarning() {
-    if (!isEmpty(this.props.formErrors.demographicsError) |
-        this.hasRetrievedDemographicsOptions() == false) {
+    if (!isEmpty(this.props.formErrors.demographicsError)
+        || !this.hasRetrievedDemographicsOptions()) {
       return (
         <div
           tabIndex="-1"
-          ref={this.alertRef}>
+          ref={this.alertRef}
+        >
           <Alert className="alert alert-danger" role="alert">
             <FormattedMessage
               id="account.settings.message.demographics.service.issue"
@@ -141,9 +138,8 @@ class DemographicsSection extends React.Component {
           </Alert>
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {
@@ -162,8 +158,8 @@ class DemographicsSection extends React.Component {
       demographicsWorkSectorOptions,
     } = this.getApiOptions(this.props.formValues.demographicsOptions);
 
-    const showSelfDescribe = this.props.formValues.demographics_gender == SELF_DESCRIBE;
-    const showWorkStatusDescribe = this.props.formValues.demographics_work_status == OTHER;
+    const showSelfDescribe = this.props.formValues.demographics_gender === SELF_DESCRIBE;
+    const showWorkStatusDescribe = this.props.formValues.demographics_work_status === OTHER;
 
     return (
       <div className="account-section" id="demographics-information" ref={this.props.forwardRef}>
@@ -171,17 +167,21 @@ class DemographicsSection extends React.Component {
           {this.props.intl.formatMessage(messages['account.settings.section.demographics.information'])}
         </h2>
         <p>
-          <a href={getConfig().MARKETING_SITE_BASE_URL + '/demographics'} target="_blank">
+          <Hyperlink
+            destination={`${getConfig().MARKETING_SITE_BASE_URL}/demographics`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {this.props.intl.formatMessage(messages['account.settings.section.demographics.why'])}
-          </a>
+          </Hyperlink>
         </p>
         {this.renderDemographicsServiceIssueWarning()}
-        {/* 
+        {/*
           If the demographicsOptions props are empty then there is no need to display the fields as
           the user will not have any choices available to select, nor will they be able to update
           their answers.
         */}
-        { this.hasRetrievedDemographicsOptions() &&
+        {this.hasRetrievedDemographicsOptions() && (
           <div id="demographics-fields">
             <EditableField
               name="demographics_gender"
@@ -193,18 +193,18 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender.empty'])}
               {...editableFieldProps}
             >
-              {showSelfDescribe &&
+              {showSelfDescribe && (
                 <Input
-                  name='demographics_gender_description'
-                  id='field-demographics_gender_description'
-                  type='text'
+                  name="demographics_gender_description"
+                  id="field-demographics_gender_description"
+                  type="text"
                   placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description.empty'])}
                   value={this.props.formValues.demographics_gender_description}
-                  onChange={(e) => this.handleEditableFieldChange(`demographics_gender_description`, e.target.value)}
+                  onChange={(e) => this.handleEditableFieldChange('demographics_gender_description', e.target.value)}
                   aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.gender_description'])}
                   className="mt-1"
                 />
-              }
+              )}
             </EditableField>
             <EditableField
               name="demographics_user_ethnicity"
@@ -262,24 +262,26 @@ class DemographicsSection extends React.Component {
               name="demographics_work_status"
               type="select"
               value={this.props.formValues.demographics_work_status}
-              userSuppliedValue={showWorkStatusDescribe ? this.props.formValues.demographics_work_status_description : null}
+              userSuppliedValue={showWorkStatusDescribe
+                ? this.props.formValues.demographics_work_status_description
+                : null}
               options={demographicsWorkStatusOptions}
               label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status'])}
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status.empty'])}
               {...editableFieldProps}
             >
-              {showWorkStatusDescribe &&
+              {showWorkStatusDescribe && (
                 <Input
-                  name='demographics_work_status_description'
-                  id='field-demographics_work_status_description'
-                  type='text'
+                  name="demographics_work_status_description"
+                  id="field-demographics_work_status_description"
+                  type="text"
                   placeholder={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description.empty'])}
                   value={this.props.formValues.demographics_work_status_description}
-                  onChange={(e) => this.handleEditableFieldChange(`demographics_work_status_description`, e.target.value)}
+                  onChange={(e) => this.handleEditableFieldChange('demographics_work_status_description', e.target.value)}
                   aria-label={this.props.intl.formatMessage(messages['account.settings.field.demographics.work_status_description'])}
                   className="mt-1"
                 />
-              }
+              )}
             </EditableField>
             <EditableField
               name="demographics_current_work_sector"
@@ -300,11 +302,11 @@ class DemographicsSection extends React.Component {
               {...editableFieldProps}
             />
           </div>
-        }
+        )}
       </div>
-    )
+    );
   }
-};
+}
 
 DemographicsSection.propTypes = {
   intl: intlShape.isRequired,
@@ -318,11 +320,30 @@ DemographicsSection.propTypes = {
     demographics_work_status: PropTypes.string,
     demographics_current_work_sector: PropTypes.string,
     demographics_future_work_sector: PropTypes.string,
+    demographics_work_status_description: PropTypes.string,
+    demographics_gender_description: PropTypes.string,
+    demographicsOptions: PropTypes.object,
+  }).isRequired,
+  drafts: PropTypes.shape({
+    demographics_gender: PropTypes.string,
+    demographics_user_ethnicity: PropTypes.array,
+    demographics_income: PropTypes.string,
+    demographics_military_history: PropTypes.string,
+    demographics_learner_education_level: PropTypes.string,
+    demographics_parent_education_level: PropTypes.string,
+    demographics_work_status: PropTypes.string,
+    demographics_current_work_sector: PropTypes.string,
+    demographics_future_work_sector: PropTypes.string,
+    demographics_work_status_description: PropTypes.string,
+    demographics_gender_description: PropTypes.string,
+    demographicsOptions: PropTypes.object,
   }).isRequired,
   formErrors: PropTypes.shape({
     demographicsError: PropTypes.string,
   }).isRequired,
-  updateDraft: PropTypes.func.isRequired
+  forwardRef: PropTypes.func.isRequired,
+  updateDraft: PropTypes.func.isRequired,
+  saveMultipleSettings: PropTypes.func.isRequired,
 };
 
 export default connect(demographicsSectionSelector, {

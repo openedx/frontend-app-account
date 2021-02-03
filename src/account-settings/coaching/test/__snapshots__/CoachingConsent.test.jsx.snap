@@ -103,10 +103,8 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
           className="d-flex flex-column align-items-center"
         >
           <button
-            className="btn w-100 btn-outline-primary"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
+            className="w-100 btn btn-outline-primary"
+            disabled={false}
             type="submit"
           >
             Sign up for coaching
@@ -254,10 +252,8 @@ exports[`CoachingConsent should render 1`] = `
           className="d-flex flex-column align-items-center"
         >
           <button
-            className="btn w-100 btn-outline-primary"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onKeyDown={[Function]}
+            className="w-100 btn btn-outline-primary"
+            disabled={false}
             type="submit"
           >
             Sign up for coaching
