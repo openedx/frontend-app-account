@@ -325,37 +325,39 @@ class AccountSettingsPage extends React.Component {
             options={yearOfBirthOptions}
             {...editableFieldProps}
           />
-          <EditableField
-            name="country"
-            type="select"
-            value={this.props.formValues.country}
-            options={countryOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
-            emptyLabel={
-              this.isEditable('country')
-                ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
-                : this.renderEmptyStaticFieldMessage()
-            }
-            isEditable={this.isEditable('country')}
-            {...editableFieldProps}
-          />
-          {showState
-            && (
+          <div className="notranslate">
             <EditableField
-              name="state"
+              name="country"
               type="select"
-              value={this.props.formValues.state}
-              options={stateOptions}
-              label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+              value={this.props.formValues.country}
+              options={countryOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
               emptyLabel={
-                this.isEditable('state')
-                  ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
+                this.isEditable('country')
+                  ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
                   : this.renderEmptyStaticFieldMessage()
               }
-              isEditable={this.isEditable('state')}
+              isEditable={this.isEditable('country')}
               {...editableFieldProps}
             />
-            )}
+
+            {showState &&
+              <EditableField
+                name="state"
+                type="select"
+                value={this.props.formValues.state}
+                options={stateOptions}
+                label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+                emptyLabel={
+                  this.isEditable('state') ?
+                    this.props.intl.formatMessage(messages['account.settings.field.state.empty']) :
+                    this.renderEmptyStaticFieldMessage()
+                }
+                isEditable={this.isEditable('state')}
+                {...editableFieldProps}
+              />
+            }
+          </div>
         </div>
 
         <div className="account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
