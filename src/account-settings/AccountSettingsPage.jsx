@@ -325,6 +325,14 @@ class AccountSettingsPage extends React.Component {
             options={yearOfBirthOptions}
             {...editableFieldProps}
           />
+          {/*
+            There is an issue with conditional rendering of state between react UI and google translate.
+            As state depends upon country component, we need to wrap them inside "notranslate" class so
+            The hack is to disabling Chrome's translation by wrapping these components in inside
+            "notranslate" class until the underlying issue is fixed.
+            TNL-7867
+           */
+          }
           <div className="notranslate">
             <EditableField
               name="country"
