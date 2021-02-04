@@ -365,7 +365,7 @@ class AccountSettingsPage extends React.Component {
                 isEditable={this.isEditable('state')}
                 {...editableFieldProps}
               />
-            )}
+          )}
           </div>
         </div>
 
