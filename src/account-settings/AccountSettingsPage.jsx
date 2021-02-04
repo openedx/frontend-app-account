@@ -349,7 +349,8 @@ class AccountSettingsPage extends React.Component {
               {...editableFieldProps}
             />
 
-            {showState &&
+            {showState
+              && (
               <EditableField
                 name="state"
                 type="select"
@@ -357,14 +358,14 @@ class AccountSettingsPage extends React.Component {
                 options={stateOptions}
                 label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
                 emptyLabel={
-                  this.isEditable('state') ?
-                    this.props.intl.formatMessage(messages['account.settings.field.state.empty']) :
-                    this.renderEmptyStaticFieldMessage()
+                  this.isEditable('state')
+                    ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
+                    : this.renderEmptyStaticFieldMessage()
                 }
                 isEditable={this.isEditable('state')}
                 {...editableFieldProps}
               />
-            }
+            )}
           </div>
         </div>
 
