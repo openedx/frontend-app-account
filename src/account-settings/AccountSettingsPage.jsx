@@ -325,37 +325,48 @@ class AccountSettingsPage extends React.Component {
             options={yearOfBirthOptions}
             {...editableFieldProps}
           />
-          <EditableField
-            name="country"
-            type="select"
-            value={this.props.formValues.country}
-            options={countryOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
-            emptyLabel={
-              this.isEditable('country')
-                ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
-                : this.renderEmptyStaticFieldMessage()
-            }
-            isEditable={this.isEditable('country')}
-            {...editableFieldProps}
-          />
-          {showState
-            && (
+          {/*
+            There is an issue with conditional rendering of state between react UI and google translate.
+            As state depends upon country component, we need to wrap them inside "notranslate" class so
+            The hack is to disabling Chrome's translation by wrapping these components in inside
+            "notranslate" class until the underlying issue is fixed.
+            TNL-7867
+           */
+          }
+          <div className="notranslate">
             <EditableField
-              name="state"
+              name="country"
               type="select"
-              value={this.props.formValues.state}
-              options={stateOptions}
-              label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+              value={this.props.formValues.country}
+              options={countryOptions}
+              label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
               emptyLabel={
-                this.isEditable('state')
-                  ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
+                this.isEditable('country')
+                  ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
                   : this.renderEmptyStaticFieldMessage()
               }
-              isEditable={this.isEditable('state')}
+              isEditable={this.isEditable('country')}
               {...editableFieldProps}
             />
-            )}
+
+            {showState
+              && (
+                <EditableField
+                  name="state"
+                  type="select"
+                  value={this.props.formValues.state}
+                  options={stateOptions}
+                  label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+                  emptyLabel={
+                    this.isEditable('state')
+                      ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
+                      : this.renderEmptyStaticFieldMessage()
+                  }
+                  isEditable={this.isEditable('state')}
+                  {...editableFieldProps}
+                />
+              )}
+          </div>
         </div>
 
         <div className="account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
