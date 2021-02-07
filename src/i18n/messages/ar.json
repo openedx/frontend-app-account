@@ -183,7 +183,7 @@
   "id.verification.access.blocked.enrollment": "أنت الآن ملتحق بمساق يتطلب التحقق من الهوية.",
   "id.verification.access.blocked.pending": "لقد قمت بالفعل بإرسال معلومات التحقق الخاصة بك. ستصلك رسالة على لوحة المعلومات عند اكتمال عملية التحقق (عادةً خلال 5 أيام).",
   "id.verification.photo.take": "التقاط صورة ",
-  "id.verification.photo.retake": "إعادة التقاط الصورة",
+  "id.verification.photo.retake": "Retake Photo?",
   "id.verification.photo.enable.detection": "تمكين خاصية التعرف على الوجه",
   "id.verification.photo.enable.detection.portrait.help.text": "عند تحديد هذا الخيار، فسيظهر مربع حول وجهك. يمكن رؤية وجهك بوضوح إذا كان المربع المحيط به أزرق. إذا لم يكن وجهك في وضع جيد أو إذا لم يكن قابلاً للاكتشاف، فسيكون المربع باللون الأحمر.",
   "id.verification.photo.enable.detection.id.help.text": "عند تحديد هذا الخيار، فسيظهر مربع حول صورة وجهك في بطاقة الهوية. يمكن رؤية وجهك بوضوح إذا كان المربع المحيط به أزرق. إذا لم يكن وجهك في وضع جيد أو إذا لم يكن قابلاً للاكتشاف، فسيكون المربع باللون الأحمر.",

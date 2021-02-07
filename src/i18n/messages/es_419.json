@@ -183,7 +183,7 @@
   "id.verification.access.blocked.enrollment": "Actualmente, no estás inscrito en un curso que requiera verificación de identidad.",
   "id.verification.access.blocked.pending": "Ya has enviado tu información de verificación de identidad. Recibirás un mensaje en tu panel principal cuando el proceso de verificación esté completado (usualmente dentro de los 5 días).",
   "id.verification.photo.take": "Tomar la foto",
-  "id.verification.photo.retake": "Tomar nuevamente la foto",
+  "id.verification.photo.retake": "Retake Photo?",
   "id.verification.photo.enable.detection": "Habilitar la detección de rostro",
   "id.verification.photo.enable.detection.portrait.help.text": "Si está marcada, aparecerá un cuadro alrededor de tu cara. Tu rostro se puede ver claramente si el cuadro que lo rodea es azul. Si Tu cara no está en una buena posición o es indetectable, el cuadro será rojo.",
   "id.verification.photo.enable.detection.id.help.text": "Si está marcada, aparecerá una casilla alrededor de la cara de tu documento de identificación. La cara se puede ver claramente si la caja que la rodea es azul. Si la cara no está en una buena posición o es indetectable, el cuadro será rojo.",
