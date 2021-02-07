@@ -183,7 +183,7 @@
   "id.verification.access.blocked.enrollment": "You are not currently enrolled in a course that requires identity verification.",
   "id.verification.access.blocked.pending": "You have already submitted your verification information. You will see a message on your dashboard when the verification process is complete (usually within 5 days).",
   "id.verification.photo.take": "Take Photo",
-  "id.verification.photo.retake": "Retake Photo",
+  "id.verification.photo.retake": "Retake Photo?",
   "id.verification.photo.enable.detection": "Enable Face Detection",
   "id.verification.photo.enable.detection.portrait.help.text": "If checked, a box will appear around your face. Your face can be seen clearly if the box around it is blue. If your face is not in a good position or undetectable, the box will be red.",
   "id.verification.photo.enable.detection.id.help.text": "If checked, a box will appear around the face on your ID card. The face can be seen clearly if the box around it is blue. If the face is not in a good position or undetectable, the box will be red.",
