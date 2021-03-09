@@ -6,6 +6,7 @@ import {
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import IdVerificationContext from '../../IdVerificationContext';
 import ReviewRequirementsPanel from '../../panels/ReviewRequirementsPanel';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -20,6 +21,8 @@ describe('ReviewRequirementsPanel', () => {
   const defaultProps = {
     intl: {},
   };
+
+  const context = { setOptimizelyExperimentName: jest.fn() };
 
   afterEach(() => {
     cleanup();
@@ -36,5 +39,20 @@ describe('ReviewRequirementsPanel', () => {
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/request-camera-access');
+  });
+
+  it('updates optimizely experiment name in context', async () => {
+    window.experimentVariables = {};
+    window.experimentVariables.experimentName = 'test-experiment';
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={context}>
+            <IntlReviewRequirementsPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    expect(context.setOptimizelyExperimentName).toHaveBeenCalledWith('test-experiment');
   });
 });

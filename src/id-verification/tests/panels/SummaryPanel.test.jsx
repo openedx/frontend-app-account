@@ -30,8 +30,9 @@ describe('SummaryPanel', () => {
   const contextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: 'test.jpg',
-    nameOnAccount: '',
-    idPhotoName: '',
+    nameOnAccount: 'test name',
+    idPhotoName: 'test name',
+    optimizelyExperimentName: 'test-experiment',
     stopUserMedia: jest.fn(),
   };
 
@@ -76,10 +77,17 @@ describe('SummaryPanel', () => {
   });
 
   it('submits', async () => {
+    const verificationData = {
+      facePhotoFile: contextValue.facePhotoFile,
+      idPhotoFile: contextValue.idPhotoFile,
+      idPhotoName: contextValue.idPhotoName,
+      optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      courseRunKey: null,
+    };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
-    expect(dataService.submitIdVerification).toHaveBeenCalled();
+    expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
     await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled());
   });
 
