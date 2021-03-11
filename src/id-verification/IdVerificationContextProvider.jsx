@@ -20,6 +20,7 @@ export default function IdVerificationContextProvider({ children }) {
   const [canVerify, setCanVerify] = useState(true);
   const [error, setError] = useState('');
   const { authenticatedUser } = useContext(AppContext);
+  const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
 
   const contextValue = {
     existingIdVerification,
@@ -30,10 +31,12 @@ export default function IdVerificationContextProvider({ children }) {
     mediaAccess,
     userId: authenticatedUser.userId,
     nameOnAccount: authenticatedUser.name,
+    optimizelyExperimentName,
     setExistingIdVerification,
     setFacePhotoFile,
     setIdPhotoFile,
     setIdPhotoName,
+    setOptimizelyExperimentName,
     tryGetUserMedia: async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });

@@ -5,6 +5,11 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="shortcut icon" href="<%=webpackConfig.output.publicPath%>favicon.ico" type="image/x-icon" />
+      <% if (process.env.OPTIMIZELY_PROJECT_ID) { %>
+        <script
+          src="<%= process.env.MARKETING_SITE_BASE_URL %>/optimizelyjs/<%= process.env.OPTIMIZELY_PROJECT_ID %>.js"
+        ></script>
+      <% } %>
   </head>
   <body>
     <div id="root"></div>

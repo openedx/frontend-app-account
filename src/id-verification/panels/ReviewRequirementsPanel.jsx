@@ -11,15 +11,29 @@ import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
 function ReviewRequirementsPanel(props) {
-  const { userId } = useContext(IdVerificationContext);
+  const { userId, setOptimizelyExperimentName } = useContext(IdVerificationContext);
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
+
+  const getExperiments = () => {
+    const {
+      experimentVariables: {
+        experimentName = '',
+      } = {},
+    } = window;
+
+    if (experimentName) {
+      setOptimizelyExperimentName(experimentName);
+    }
+  };
 
   useEffect(() => {
     sendTrackEvent('edx.id_verification.started', {
       category: 'id_verification',
       user_id: userId,
     });
+
+    getExperiments();
   }, [userId]);
 
   return (

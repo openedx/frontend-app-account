@@ -24,6 +24,7 @@ function SummaryPanel(props) {
     nameOnAccount,
     idPhotoName,
     stopUserMedia,
+    optimizelyExperimentName,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,12 +33,15 @@ function SummaryPanel(props) {
   function SubmitButton() {
     async function handleClick() {
       setIsSubmitting(true);
-      const verificationData = {
+      let verificationData = {
         facePhotoFile,
         idPhotoFile,
         idPhotoName: nameToBeUsed,
         courseRunKey: sessionStorage.getItem('courseRunKey'),
       };
+      if (optimizelyExperimentName) {
+        verificationData = { ...verificationData, optimizelyExperimentName };
+      }
       const result = await submitIdVerification(verificationData);
       if (result.success) {
         stopUserMedia();
