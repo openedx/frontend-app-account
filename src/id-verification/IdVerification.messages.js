@@ -6,6 +6,11 @@ const messages = defineMessages({
     defaultMessage: 'Next',
     description: 'Next button.',
   },
+  'id.verification.support': {
+    id: 'id.verification.support',
+    defaultMessage: 'support',
+    description: 'Website support.',
+  },
   'id.verification.example.card.alt': {
     id: 'id.verification.example.card.alt',
     defaultMessage: 'Example of a valid identification card with a full name and photo.',
