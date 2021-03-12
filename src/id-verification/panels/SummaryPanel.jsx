@@ -33,14 +33,16 @@ function SummaryPanel(props) {
   function SubmitButton() {
     async function handleClick() {
       setIsSubmitting(true);
-      let verificationData = {
+      const verificationData = {
         facePhotoFile,
         idPhotoFile,
-        idPhotoName: nameToBeUsed,
         courseRunKey: sessionStorage.getItem('courseRunKey'),
       };
+      if (idPhotoName) {
+        verificationData.idPhotoName = idPhotoName;
+      }
       if (optimizelyExperimentName) {
-        verificationData = { ...verificationData, optimizelyExperimentName };
+        verificationData.optimizelyExperimentName = optimizelyExperimentName;
       }
       const result = await submitIdVerification(verificationData);
       if (result.success) {

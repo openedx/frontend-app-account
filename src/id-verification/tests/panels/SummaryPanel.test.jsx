@@ -91,6 +91,34 @@ describe('SummaryPanel', () => {
     await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled());
   });
 
+  it('does not submit a name if name is blank', async () => {
+    contextValue.idPhotoName = '';
+    const verificationData = {
+      facePhotoFile: contextValue.facePhotoFile,
+      idPhotoFile: contextValue.idPhotoFile,
+      optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      courseRunKey: null,
+    };
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    fireEvent.click(button);
+    expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
+  });
+
+  it('does not submit a name if name is unchanged', async () => {
+    contextValue.idPhotoName = null;
+    const verificationData = {
+      facePhotoFile: contextValue.facePhotoFile,
+      idPhotoFile: contextValue.idPhotoFile,
+      optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      courseRunKey: null,
+    };
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    fireEvent.click(button);
+    expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
+  });
+
   it('shows error when cannot submit', async () => {
     dataService.submitIdVerification = jest.fn().mockReturnValue({ success: false });
     await getPanel();
