@@ -31,7 +31,11 @@ describe('GetNameIdPanel', () => {
     idPhotoFile: 'test.jpg',
   };
 
-  const getPanel = async () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('edits', async () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -41,29 +45,16 @@ describe('GetNameIdPanel', () => {
         </IntlProvider>
       </Router>
     )));
-  };
-
-  afterEach(() => {
-    cleanup();
-  });
-
-  it('edits', async () => {
-    await getPanel();
-
     const yesButton = await screen.findByTestId('name-matches-yes');
     const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
     const nextButton = await screen.findByTestId('next-button');
-
     expect(input).toHaveProperty('readOnly');
-
     fireEvent.click(noButton);
     expect(input).toHaveProperty('readOnly', false);
     expect(nextButton.classList.contains('disabled')).toBe(true);
-
     fireEvent.change(input, { target: { value: 'test change' } });
     expect(contextValue.setIdPhotoName).toHaveBeenCalled();
-
     fireEvent.click(yesButton);
     expect(input).toHaveProperty('readOnly');
     expect(contextValue.setIdPhotoName).toHaveBeenCalled();
@@ -71,39 +62,36 @@ describe('GetNameIdPanel', () => {
 
   it('disables radio buttons + next button and enables input if account name is blank', async () => {
     contextValue.nameOnAccount = '';
-    await getPanel();
-
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlGetNameIdPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
     const yesButton = await screen.findByTestId('name-matches-yes');
     const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
     const nextButton = await screen.findByTestId('next-button');
-
     expect(yesButton).toHaveProperty('disabled');
     expect(noButton).toHaveProperty('disabled');
     expect(input).toHaveProperty('readOnly', false);
     expect(nextButton.classList.contains('disabled')).toBe(true);
   });
 
-  it('blocks the user from changing account name if managed by a third party', async () => {
-    contextValue.profileDataManager = 'test-org';
-    await getPanel();
-
-    const noButton = await screen.findByTestId('name-matches-no');
-    const input = await screen.findByTestId('name-input');
-    const nextButton = await screen.findByTestId('next-button');
-
-    fireEvent.click(noButton);
-    expect(input).toHaveProperty('readOnly');
-    expect(nextButton.classList.contains('disabled')).toBe(true);
-    const warning = await screen.getAllByText('test-org');
-    expect(warning.length).toEqual(2);
-  });
-
   it('routes to SummaryPanel', async () => {
-    await getPanel();
-
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlGetNameIdPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
     const button = await screen.findByTestId('next-button');
-
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/summary');
   });

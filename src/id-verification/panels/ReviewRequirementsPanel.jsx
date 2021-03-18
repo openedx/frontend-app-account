@@ -1,9 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
-import { Alert, Hyperlink } from '@edx/paragon';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -13,9 +11,7 @@ import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
 function ReviewRequirementsPanel(props) {
-  const {
-    userId, profileDataManager, setOptimizelyExperimentName,
-  } = useContext(IdVerificationContext);
+  const { userId, setOptimizelyExperimentName } = useContext(IdVerificationContext);
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
 
@@ -46,23 +42,6 @@ function ReviewRequirementsPanel(props) {
       title={props.intl.formatMessage(messages['id.verification.requirements.title'])}
       focusOnMount={false}
     >
-      {profileDataManager && (
-        <Alert className="alert alert-primary" role="alert">
-          <FormattedMessage
-            id="id.verification.requirements.account.managed.alert"
-            defaultMessage="Your account settings are managed by {managerTitle}. If the name on your photo ID does not match the name on your account, please contact your {managerTitle} administrator or {support} for help before completing the Photo Verification process."
-            description="Alert message informing the user their account data is managed by a third party."
-            values={{
-              managerTitle: <strong>{profileDataManager}</strong>,
-              support: (
-                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
-                  {props.intl.formatMessage(messages['id.verification.support'])}
-                </Hyperlink>
-              ),
-            }}
-          />
-        </Alert>
-      )}
       <p>
         {props.intl.formatMessage(messages['id.verification.requirements.description'])}
       </p>

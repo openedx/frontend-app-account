@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { getConfig, history } from '@edx/frontend-platform';
+import { history } from '@edx/frontend-platform';
 import {
-  Alert, Hyperlink, Input, Button, Spinner,
+  Input, Button, Spinner, Alert,
 } from '@edx/paragon';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
@@ -21,7 +21,6 @@ function SummaryPanel(props) {
   const {
     facePhotoFile,
     idPhotoFile,
-    profileDataManager,
     nameOnAccount,
     idPhotoName,
     stopUserMedia,
@@ -112,7 +111,7 @@ function SummaryPanel(props) {
       </p>
       <div className="row mb-4">
         <div className="col-6">
-          <label htmlFor="photo-of-face" className="font-weight-bold">
+          <label htmlFor="photo-of-face">
             {props.intl.formatMessage(messages['id.verification.review.portrait.label'])}
           </label>
           <ImagePreview
@@ -132,7 +131,7 @@ function SummaryPanel(props) {
           </Link>
         </div>
         <div className="col-6">
-          <label htmlFor="photo-of-id/edit" className="font-weight-bold">
+          <label htmlFor="photo-of-id/edit">
             {props.intl.formatMessage(messages['id.verification.review.id.label'])}
           </label>
           <ImagePreview
@@ -154,26 +153,9 @@ function SummaryPanel(props) {
       </div>
       <CameraHelpWithUpload />
       <div className="form-group">
-        <label htmlFor="name-to-be-used" className="font-weight-bold">
+        <label htmlFor="name-to-be-used">
           {props.intl.formatMessage(messages['id.verification.account.name.label'])}
         </label>
-        {profileDataManager && (
-          <p id="profile-manager-warning">
-            <FormattedMessage
-              id="id.verification.account.name.summary.alert"
-              defaultMessage="Your account settings are managed by {managerTitle}. If the name on your photo ID does not match the name on your account, please contact your {managerTitle} administrator or {support} for help."
-              description="Alert message informing the user their account data is managed by a third party."
-              values={{
-                managerTitle: <strong>{profileDataManager}</strong>,
-                support: (
-                  <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
-                    {props.intl.formatMessage(messages['id.verification.support'])}
-                  </Hyperlink>
-                ),
-              }}
-            />
-          </p>
-        )}
         <div className="d-flex">
           <Input
             id="name-to-be-used"
@@ -181,26 +163,24 @@ function SummaryPanel(props) {
             readOnly
             value={nameToBeUsed}
             onChange={() => {}}
-            aria-describedby={profileDataManager ? 'profile-manager-warning' : null}
           />
-          {!profileDataManager && (
-            <Link
-              className="btn btn-link ml-3 px-0"
-              to={{
-                pathname: 'get-name-id',
-                state: { fromSummary: true },
+
+          <Link
+            className="btn btn-link ml-3 px-0"
+            to={{
+              pathname: 'get-name-id',
+              state: { fromSummary: true },
+            }}
+          >
+            <FormattedMessage
+              id="id.verification.account.name.edit"
+              defaultMessage="Edit{sr}"
+              description="Button to edit account name, with clarifying information for screen readers."
+              values={{
+                sr: <span className="sr-only">Account Name</span>,
               }}
-            >
-              <FormattedMessage
-                id="id.verification.account.name.edit"
-                defaultMessage="Edit {sr}"
-                description="Button to edit account name, with clarifying information for screen readers."
-                values={{
-                  sr: <span className="sr-only">Account Name</span>,
-                }}
-              />
-            </Link>
-          )}
+            />
+          </Link>
         </div>
       </div>
       <SubmitButton />{' '}
