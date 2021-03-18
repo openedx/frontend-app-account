@@ -76,6 +76,13 @@ describe('SummaryPanel', () => {
     expect(uploadButton).toBeVisible();
   });
 
+  it('displays warning if account is managed by a third party', async () => {
+    contextValue.profileDataManager = 'test-org';
+    await getPanel();
+    const warning = await screen.getAllByText('test-org');
+    expect(warning.length).toEqual(2);
+  });
+
   it('submits', async () => {
     const verificationData = {
       facePhotoFile: contextValue.facePhotoFile,
