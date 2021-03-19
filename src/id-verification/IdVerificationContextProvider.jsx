@@ -77,6 +77,7 @@ export default function IdVerificationContextProvider({ children }) {
   }, [authenticatedUser]);
 
   const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
+  const [shouldUseCamera, setShouldUseCamera] = useState(false);
 
   const contextValue = {
     existingIdVerification,
@@ -89,16 +90,19 @@ export default function IdVerificationContextProvider({ children }) {
     nameOnAccount: authenticatedUser.name,
     profileDataManager,
     optimizelyExperimentName,
+    shouldUseCamera,
     setExistingIdVerification,
     setFacePhotoFile,
     setIdPhotoFile,
     setIdPhotoName,
     setOptimizelyExperimentName,
+    setShouldUseCamera,
     tryGetUserMedia: async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         setMediaAccess(MEDIA_ACCESS.GRANTED);
         setMediaStream(stream);
+        setShouldUseCamera(true);
         // stop the stream, as we are not using it yet
         const tracks = stream.getTracks();
         tracks.forEach(track => track.stop());

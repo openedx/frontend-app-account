@@ -81,4 +81,26 @@ describe('TakeIdPhotoPanel', () => {
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/summary');
   });
+
+  it('shows correct text if user should use upload', async () => {
+    contextValue.optimizelyExperimentName = 'test';
+    contextValue.shouldUseCamera = false;
+
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlTakeIdPhotoPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+
+    // check that upload title and text are correct
+    const title = await screen.findByText('Upload a Photo of Your ID');
+    expect(title).toBeVisible();
+
+    const text = await screen.findByTestId('upload-text');
+    expect(text.textContent).toContain('Please upload an ID photo');
+  });
 });

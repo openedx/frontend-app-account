@@ -641,6 +641,56 @@ const messages = defineMessages({
     defaultMessage: 'Return to Course',
     description: 'Return to the course which ID verification was accessed from.',
   },
+  'id.verification.photo.upload.help.title': {
+    id: 'id.verification.photo.upload.help.title',
+    defaultMessage: 'Upload a Photo Instead',
+    description: 'Title for section that allows switching to photo upload mode.',
+  },
+  'id.verification.photo.camera.help.title': {
+    id: 'id.verification.photo.camera.help.title',
+    defaultMessage: 'Use Your Camera Instead',
+    description: 'Title for section that allows switching to camera mode.',
+  },
+  'id.verification.photo.upload.help.text': {
+    id: 'id.verification.photo.upload.help.text',
+    defaultMessage: 'If you are having trouble using the photo capture above, you may want to upload a photo instead. To upload a photo, click the button below.',
+    description: 'Help text for switching to upload mode.',
+  },
+  'id.verification.photo.camera.help.text': {
+    id: 'id.verification.photo.camera.help.text',
+    defaultMessage: 'If you are having trouble uploading a photo above, you may want to use your camera instead. To use your camera, click the button below.',
+    description: 'Help text for switching to camera mode.',
+  },
+  'id.verification.photo.upload.help.button': {
+    id: 'id.verification.upload.help.button',
+    defaultMessage: 'Switch to Upload Mode',
+    description: 'Button used to switch to upload mode.',
+  },
+  'id.verification.photo.camera.help.button': {
+    id: 'id.verification.camera.help.button',
+    defaultMessage: 'Switch to Camera Mode',
+    description: 'Button used to switch to camera mode.',
+  },
+  'id.verification.choose.mode.title': {
+    id: 'id.verification.choose.mode.title',
+    defaultMessage: 'Photo Requirements Options',
+    description: 'Title for section that allows user to choose photo mode.',
+  },
+  'id.verification.choose.mode.help.text': {
+    id: 'id.verification.choose.mode.hep.text',
+    defaultMessage: 'To complete verification, please select one of the following options to submit photos. You will be able to switch between these options throughout the process if needed.',
+    description: 'Help text for section that allows user to choose photo mode.',
+  },
+  'id.verification.choose.mode.radio.upload': {
+    id: 'id.verification.choose.mode.radio.upload',
+    defaultMessage: 'Upload photos from my device',
+    description: 'Radio button to choose to upload photos.',
+  },
+  'id.verification.choose.mode.radio.camera': {
+    id: 'id.verification.choose.mode.radio.camera',
+    defaultMessage: 'Take pictures using my camera',
+    description: 'Radio button to choose to use camera for photos.',
+  },
 });
 
 export default messages;
