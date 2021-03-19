@@ -177,7 +177,7 @@ function SummaryPanel(props) {
           </Link>
         </div>
       </div>
-      <CameraHelpWithUpload />
+      {!optimizelyExperimentName && <CameraHelpWithUpload />}
       <div className="form-group">
         <label htmlFor="name-to-be-used" className="font-weight-bold">
           {props.intl.formatMessage(messages['id.verification.account.name.label'])}
