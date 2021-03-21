@@ -296,5 +296,5 @@
   "id.verification.request.camera.access.instructions": "لالتقاط صورة باستخدام كاميرا الويب، قد تتلقى طلب المتصفح للوصول إلى الكاميرا. {clickAllow}",
   "id.verification.requirements.card.device.text": "أنت بحاجة إلى جهاز مزود بكاميرا. إذا تلقيت طلب المتصفح للوصول إلى الكاميرا، فيرجى التأكد من النقر فوق {السماح}.",
   "idv.submission.alert.error": "\nواجهنا خطأ فني أثناء محاولة رفع طلب التحقق من الهوية\nقد تكون هذه مشكلة مؤقتة، لذا يرجى المحاولة مرة أخرى بعد بضع دقائق\nعند استمرار المشكلة يرجى الانتقال إلى {support_link} للحصول على المساعدة",
-  "id.verification.account.name.edit": "تعديل{sr}"
+  "id.verification.account.name.edit": "Edit{sr}"
 }

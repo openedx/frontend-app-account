@@ -296,5 +296,5 @@
   "id.verification.request.camera.access.instructions": "Para tomar una foto con tu cámara web, es posible que recibas un aviso del navegador para acceder a tu cámara. {clickAllow}",
   "id.verification.requirements.card.device.text": "Necesitas un dispositivo que tenga una cámara. Si has recibido un aviso del navegador para habilitar acceso a tu cámara, por favor asegúrate de seleccionar [allow].",
   "idv.submission.alert.error": "\n          Se produjo un error técnico al intentar enviar la verificación de ID.\n          Es posible que sea una cuestión temporal, así que inténtalo de nuevo en unos minutos.\n          Si el problema continúa, dirígete a {support_link} para obtener ayuda.\n        ",
-  "id.verification.account.name.edit": "Editar{sr}"
+  "id.verification.account.name.edit": "Edit{sr}"
 }
