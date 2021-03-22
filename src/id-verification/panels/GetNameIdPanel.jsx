@@ -1,10 +1,11 @@
 import React, {
   useContext, useState, useEffect, useRef,
 } from 'react';
-import { Form } from '@edx/paragon';
+import { getConfig } from '@edx/frontend-platform';
+import { Hyperlink, Form } from '@edx/paragon';
 import { Link, useHistory } from 'react-router-dom';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -20,14 +21,14 @@ function GetNameIdPanel(props) {
   const nextPanelSlug = useNextPanelSlug(panelSlug);
 
   const {
-    nameOnAccount, userId, idPhotoName, setIdPhotoName,
+    nameOnAccount, userId, profileDataManager, idPhotoName, setIdPhotoName,
   } = useContext(IdVerificationContext);
   const nameOnAccountValue = nameOnAccount || '';
   const invalidName = !nameMatches && (!idPhotoName || idPhotoName === nameOnAccount);
   const blankName = !nameOnAccount && !idPhotoName;
 
   useEffect(() => {
-    setIdPhotoName('');
+    setIdPhotoName(null);
   }, []);
 
   useEffect(() => {
@@ -45,14 +46,47 @@ function GetNameIdPanel(props) {
     }
   }, [nameMatches, blankName]);
 
-  const handleSubmit = (e) => {
+  function getNameValue() {
+    if (!nameMatches) {
+      // Explicitly check for null, as an empty string should still be used here
+      if (idPhotoName === null) {
+        return nameOnAccountValue;
+      }
+      return idPhotoName;
+    }
+    return nameOnAccountValue;
+  }
+
+  function getErrorMessage() {
+    if (profileDataManager) {
+      return (
+        <FormattedMessage
+          id="id.verification.account.name.managed.alert"
+          defaultMessage="Your profile settings are managed by {managerTitle}, so you are not allowed to update your name. Please contact your {profileDataManager} administrator or {support} for help."
+          description="Alert message informing the user their account name is managed by a third party."
+          values={{
+            managerTitle: <strong>{profileDataManager}</strong>,
+            profileDataManager,
+            support: (
+              <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+                {props.intl.formatMessage(messages['id.verification.support'])}
+              </Hyperlink>
+            ),
+          }}
+        />
+      );
+    }
+    return props.intl.formatMessage(messages['id.verification.account.name.error']);
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
     // If the input is empty, or if no changes have been made to the
     // mismatching name, the user should not be able to proceed.
     if (!invalidName && !blankName) {
       push(nextPanelSlug);
     }
-  };
+  }
 
   return (
     <BasePanel
@@ -80,7 +114,7 @@ function GetNameIdPanel(props) {
               inline
               onChange={() => {
                 setNameMatches(true);
-                setIdPhotoName('');
+                setIdPhotoName(null);
               }}
             />
             <Form.Check
@@ -105,19 +139,15 @@ function GetNameIdPanel(props) {
             size="lg"
             type="text"
             ref={nameInputRef}
-            readOnly={nameMatches}
+            readOnly={nameMatches || profileDataManager}
             isInvalid={invalidName || blankName}
             aria-describedby="photo-id-name-feedback"
-            value={
-              !nameMatches
-                ? idPhotoName || nameOnAccountValue
-                : nameOnAccountValue
-            }
+            value={getNameValue()}
             onChange={e => setIdPhotoName(e.target.value)}
             data-testid="name-input"
           />
           <Form.Control.Feedback id="photo-id-name-feedback" type="invalid">
-            {props.intl.formatMessage(messages['id.verification.account.name.error'])}
+            {getErrorMessage()}
           </Form.Control.Feedback>
         </Form.Group>
       </Form>
