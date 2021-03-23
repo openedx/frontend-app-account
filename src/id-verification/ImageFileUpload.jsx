@@ -27,7 +27,7 @@ export default function ImageFileUpload({ onFileChange, intl }) {
     <>
       <input
         type="file"
-        accept="image/*"
+        accept=".png, .jpg, .jpeg"
         data-testid="fileUpload"
         onChange={handleChange}
       />

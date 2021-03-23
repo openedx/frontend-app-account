@@ -9,24 +9,43 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 import CameraHelp from '../CameraHelp';
+import ImagePreview from '../ImagePreview';
+import ImageFileUpload from '../ImageFileUpload';
+import CollapsibleImageHelp from '../CollapsibleImageHelp';
 
 function TakeIdPhotoPanel(props) {
   const panelSlug = 'take-id-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { setIdPhotoFile, idPhotoFile } = useContext(IdVerificationContext);
+  const {
+    setIdPhotoFile, idPhotoFile, optimizelyExperimentName, shouldUseCamera,
+  } = useContext(IdVerificationContext);
 
   return (
     <BasePanel
       name={panelSlug}
-      title={props.intl.formatMessage(messages['id.verification.id.photo.title.camera'])}
+      title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.id.photo.title.camera']) : props.intl.formatMessage(messages['id.verification.id.photo.title.upload'])}
     >
       <div>
-        <p>
-          {props.intl.formatMessage(messages['id.verification.id.photo.instructions.camera'])}
-        </p>
-        <Camera onImageCapture={setIdPhotoFile} isPortrait={false} />
+        {idPhotoFile && !shouldUseCamera && <ImagePreview src={idPhotoFile} alt={props.intl.formatMessage(messages['id.verification.id.photo.preview.alt'])} />}
+
+        {shouldUseCamera ? (
+          <div>
+            <p>
+              {props.intl.formatMessage(messages['id.verification.id.photo.instructions.camera'])}
+            </p>
+            <Camera onImageCapture={setIdPhotoFile} isPortrait={false} />
+          </div>
+        ) : (
+          <div style={{ marginBottom: '1.25rem' }}>
+            <p data-testid="upload-text">
+              {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
+            </p>
+            <ImageFileUpload onFileChange={setIdPhotoFile} intl={props.intl} />
+          </div>
+        )}
       </div>
-      <CameraHelp />
+      {shouldUseCamera && !optimizelyExperimentName && <CameraHelp />}
+      <CollapsibleImageHelp isPortrait={false} />
       <div className="action-row" style={{ visibility: idPhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}

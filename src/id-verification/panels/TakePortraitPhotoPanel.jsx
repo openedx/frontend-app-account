@@ -11,14 +11,14 @@ import CameraHelp from '../CameraHelp';
 import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
+import CollapsibleImageHelp from '../CollapsibleImageHelp';
 
 function TakePortraitPhotoPanel(props) {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { setFacePhotoFile, facePhotoFile } = useContext(IdVerificationContext);
-  const shouldUseCamera = true;
-  // to reenable upload component:
-  // const shouldUseCamera = mediaAccess === MEDIA_ACCESS.GRANTED;
+  const {
+    setFacePhotoFile, facePhotoFile, shouldUseCamera, optimizelyExperimentName,
+  } = useContext(IdVerificationContext);
 
   return (
     <BasePanel
@@ -36,15 +36,16 @@ function TakePortraitPhotoPanel(props) {
             <Camera onImageCapture={setFacePhotoFile} isPortrait />
           </div>
         ) : (
-          <div>
-            <p>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <p data-testid="upload-text">
               {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.upload'])}
             </p>
-            <ImageFileUpload onFileChange={setFacePhotoFile} />
+            <ImageFileUpload onFileChange={setFacePhotoFile} intl={props.intl} />
           </div>
         )}
       </div>
-      {shouldUseCamera && <CameraHelp isPortrait />}
+      {shouldUseCamera && !optimizelyExperimentName && <CameraHelp isPortrait />}
+      <CollapsibleImageHelp isPortrait />
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}

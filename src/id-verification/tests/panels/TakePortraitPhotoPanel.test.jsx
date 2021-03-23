@@ -27,6 +27,7 @@ describe('TakePortraitPhotoPanel', () => {
   const contextValue = {
     facePhotoFile: null,
     setFacePhotoFile: jest.fn(),
+    setShouldUseCamera: jest.fn(),
   };
 
   afterEach(() => {
@@ -49,6 +50,7 @@ describe('TakePortraitPhotoPanel', () => {
 
   it('shows next button after photo is taken and routes to IdContextPanel', async () => {
     contextValue.facePhotoFile = 'test.jpg';
+    contextValue.shouldUseCamera = true;
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
@@ -79,5 +81,27 @@ describe('TakePortraitPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/summary');
+  });
+
+  it('shows correct text if user should use upload', async () => {
+    contextValue.optimizelyExperimentName = 'test';
+    contextValue.shouldUseCamera = false;
+
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlTakePortraitPhotoPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+
+    // check that upload title and text are correct
+    const title = await screen.findByText('Upload a Photo of Yourself');
+    expect(title).toBeVisible();
+
+    const text = await screen.findByTestId('upload-text');
+    expect(text.textContent).toContain('Please upload a portrait photo');
   });
 });

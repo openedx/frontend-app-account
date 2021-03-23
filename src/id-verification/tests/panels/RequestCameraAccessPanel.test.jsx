@@ -181,4 +181,42 @@ describe('RequestCameraAccessPanel', () => {
     const text = await screen.findByTestId('camera-failure-instructions');
     expect(text).toHaveTextContent(/Open the Flash Player/);
   });
+
+  it('reroutes correctly to portrait context', async () => {
+    contextValue.mediaAccess = 'granted';
+    history.location.state = { fromPortraitCapture: true };
+
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/portrait-photo-context');
+  });
+
+  it('reroutes correctly to ID context', async () => {
+    contextValue.mediaAccess = 'granted';
+    history.location.state = { fromIdCapture: true };
+
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/id-context');
+  });
 });

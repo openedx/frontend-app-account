@@ -11,6 +11,7 @@ import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
 import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
+import ChooseModePanel from './panels/ChooseModePanel';
 import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
 import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';
 import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
@@ -52,6 +53,7 @@ function IdVerificationPage(props) {
             <IdVerificationContextProvider>
               <Switch>
                 <Route path={`${path}/review-requirements`} component={ReviewRequirementsPanel} />
+                <Route path={`${path}/choose-mode`} component={ChooseModePanel} />
                 <Route path={`${path}/request-camera-access`} component={RequestCameraAccessPanel} />
                 <Route path={`${path}/portrait-photo-context`} component={PortraitPhotoContextPanel} />
                 <Route path={`${path}/take-portrait-photo`} component={TakePortraitPhotoPanel} />
