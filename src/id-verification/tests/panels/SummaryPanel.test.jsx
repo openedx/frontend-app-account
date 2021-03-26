@@ -69,11 +69,13 @@ describe('SummaryPanel', () => {
   });
 
   it('allows user to upload ID photo', async () => {
+    contextValue.optimizelyExperimentName = '';
     await getPanel();
     const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
     fireEvent.click(collapsible);
     const uploadButton = await screen.getByTestId('fileUpload');
     expect(uploadButton).toBeVisible();
+    contextValue.optimizelyExperimentName = 'test-experiment';
   });
 
   it('displays warning if account is managed by a third party', async () => {
@@ -175,5 +177,12 @@ describe('SummaryPanel', () => {
     expect(error).toHaveTextContent(
       'A valid account name is required. Please update your account name to match the name on your ID.',
     );
+  });
+
+  it('does not show ID upload option if user is in experiment', async () => {
+    await getPanel();
+    const collapsible = await screen.queryByTestId('collapsible');
+    expect(collapsible).not.toBeInTheDocument();
+    contextValue.optimizelyExperimentName = 'test-experiment';
   });
 });
