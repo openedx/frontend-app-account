@@ -3,9 +3,14 @@ import { intlShape } from '@edx/frontend-platform/i18n';
 import PropTypes from 'prop-types';
 import { Alert } from '@edx/paragon';
 import messages from './IdVerification.messages';
+import SupportedMediaTypes from './SupportedMediaTypes';
 
 export default function ImageFileUpload({ onFileChange, intl }) {
-  const [fileTooLargeError, setFileTooLargeError] = useState(false);
+  const [error, setError] = useState(null);
+  const errorTypes = {
+    invalidFileType: 'invalidFileType',
+    fileTooLarge: 'fileTooLarge',
+  };
   const maxFileSize = 10000000;
 
   const handleChange = useCallback((e) => {
@@ -14,12 +19,15 @@ export default function ImageFileUpload({ onFileChange, intl }) {
     }
 
     const fileObject = e.target.files[0];
-    if (fileObject.size < maxFileSize) {
+    if (!fileObject.type.startsWith('image')) {
+      setError(errorTypes.invalidFileType);
+    } else if (fileObject.size >= maxFileSize) {
+      setError(errorTypes.fileTooLarge);
+    } else {
+      setError(null);
       const fileReader = new FileReader();
       fileReader.addEventListener('load', () => onFileChange(fileReader.result));
       fileReader.readAsDataURL(fileObject);
-    } else {
-      setFileTooLargeError(true);
     }
   }, []);
 
@@ -27,18 +35,19 @@ export default function ImageFileUpload({ onFileChange, intl }) {
     <>
       <input
         type="file"
-        accept=".png, .jpg, .jpeg"
+        accept="image/*"
         data-testid="fileUpload"
         onChange={handleChange}
       />
-      {fileTooLargeError && (
+      {error && (
       <Alert
-        id="fileTooLargeError"
+        id="fileError"
         variant="danger"
         tabIndex="-1"
         style={{ marginTop: '1rem' }}
       >
-        {intl.formatMessage(messages['id.verification.id.photo.instructions.upload.error'])}
+        {intl.formatMessage(messages[`id.verification.id.photo.instructions.upload.error.${error}`])}
+        <SupportedMediaTypes />
       </Alert>
       )}
     </>

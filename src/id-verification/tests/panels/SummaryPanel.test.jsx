@@ -179,6 +179,21 @@ describe('SummaryPanel', () => {
     );
   });
 
+  it('displays correct error for unsupported file type', async () => {
+    dataService.submitIdVerification = jest.fn().mockReturnValue({
+      success: false,
+      status: 400,
+      message: 'Image data is in an unsupported format.',
+    });
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    await act(async () => fireEvent.click(button));
+    const error = await screen.getByTestId('submission-error');
+    expect(error).toHaveTextContent(
+      'One or more of the files you have uploaded is in an unsupported format. Please choose from the following:',
+    );
+  });
+
   it('does not show ID upload option if user is in experiment', async () => {
     await getPanel();
     const collapsible = await screen.queryByTestId('collapsible');

@@ -14,6 +14,7 @@ import ImagePreview from '../ImagePreview';
 
 import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
+import SupportedMediaTypes from '../SupportedMediaTypes';
 
 function SummaryPanel(props) {
   const panelSlug = 'summary';
@@ -102,6 +103,14 @@ function SummaryPanel(props) {
       }
       if (submissionError.message.includes('Name')) {
         return props.intl.formatMessage(messages['id.verification.submission.alert.error.name']);
+      }
+      if (submissionError.message.includes('unsupported format')) {
+        return (
+          <>
+            {props.intl.formatMessage(messages['id.verification.submission.alert.error.unsupported'])}
+            <SupportedMediaTypes />
+          </>
+        );
       }
     }
     return (
