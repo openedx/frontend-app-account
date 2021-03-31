@@ -446,6 +446,16 @@ const messages = defineMessages({
     defaultMessage: 'If you require assistance with taking a photo for submission, contact edX support for additional suggestions.',
     description: 'Confirming what to do if the user has difficult holding their head relative to the camera.',
   },
+  'id.verification.camera.help.upload.question': {
+    id: 'id.verification.camera.help.upload.question',
+    defaultMessage: 'What if I want to upload a photo instead?',
+    description: 'Question on what to do if the user would like to upload a photo instead.',
+  },
+  'id.verification.camera.help.upload.answer': {
+    id: 'id.verification.camera.help.upload.answer',
+    defaultMessage: 'On the next page you will have the option to switch to upload mode. By selecting that option, you will be able to upload a photo instead.',
+    description: 'Confirming what to do if the user would like to upload a photo.',
+  },
   'id.verification.id.photo.unclear.question': {
     id: 'id.verification.id.photo.unclear.question',
     defaultMessage: 'Is your ID image not clear or too blurry?',

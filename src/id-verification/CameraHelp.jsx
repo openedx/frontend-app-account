@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Collapsible } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import messages from './IdVerification.messages';
+import IdVerificationContext from './IdVerificationContext';
 
 function CameraHelp(props) {
+  const { optimizelyExperimentName } = useContext(IdVerificationContext);
+
   return (
     <div>
+      { optimizelyExperimentName
+        && (
+        <Collapsible
+          styling="card"
+          title={props.intl.formatMessage(messages['id.verification.camera.help.upload.question'])}
+          className="mb-4 shadow"
+          defaultOpen={props.isOpen}
+        >
+          <p>
+            {props.intl.formatMessage(messages['id.verification.camera.help.upload.answer'])}
+          </p>
+        </Collapsible>
+        )}
       <Collapsible
         styling="card"
         title={props.intl.formatMessage(messages['id.verification.camera.help.sight.question'])}

@@ -4,9 +4,11 @@ import { createMemoryHistory } from 'history';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import PortraitPhotoContextPanel from '../../panels/PortraitPhotoContextPanel';
+import IdVerificationContext from '../../IdVerificationContext';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
@@ -21,6 +23,10 @@ describe('PortraitPhotoContextPanel', () => {
     intl: {},
   };
 
+  const contextValue = {
+    optimizelyExperimentName: '',
+  };
+
   afterEach(() => {
     cleanup();
   });
@@ -29,12 +35,43 @@ describe('PortraitPhotoContextPanel', () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IntlPortraitPhotoContextPanel {...defaultProps} />
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlPortraitPhotoContextPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/take-portrait-photo');
+  });
+
+  it('does not show help text for photo upload if not part of experiment', async () => {
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlPortraitPhotoContextPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const title = await screen.queryByText('What if I want to upload a photo instead?');
+    expect(title).not.toBeInTheDocument();
+  });
+
+  it('shows help text for photo upload if part of experiment', async () => {
+    contextValue.optimizelyExperimentName = 'test';
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlPortraitPhotoContextPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const title = await screen.queryByText('What if I want to upload a photo instead?');
+    expect(title).toBeInTheDocument();
   });
 });
