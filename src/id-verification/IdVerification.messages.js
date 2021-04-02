@@ -413,7 +413,7 @@ const messages = defineMessages({
   },
   'id.verification.portrait.photo.instructions.upload': {
     id: 'id.verification.portrait.photo.instructions.upload',
-    defaultMessage: 'Please upload a portrait photo. Ensure your entire face fits inside the frame and is well-lit. (Supported formats: .jpg, .jpeg, .png)',
+    defaultMessage: 'Please upload a portrait photo. Ensure your entire face fits inside the frame and is well-lit. Supported formats: ',
     description: 'Instructions for portrait photo upload.',
   },
   'id.verification.camera.help.sight.question': {
@@ -503,11 +503,16 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.instructions.upload': {
     id: 'id.verification.id.photo.instructions.upload',
-    defaultMessage: 'Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. (Supported formats: .jpg, .jpeg, .png)',
+    defaultMessage: 'Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. Supported formats: ',
     description: 'Instructions for ID photo upload.',
   },
-  'id.verification.id.photo.instructions.upload.error': {
-    id: 'id.verification.id.photo.instructions.upload.error',
+  'id.verification.id.photo.instructions.upload.error.invalidFileType': {
+    id: 'id.verification.id.photo.instructions.upload.error.invalidFileType',
+    defaultMessage: 'The file you have selected is not a supported image type. Please choose from the following formats: ',
+    description: 'Error message for file upload that is not a supported image type.',
+  },
+  'id.verification.id.photo.instructions.upload.error.fileTooLarge': {
+    id: 'id.verification.id.photo.instructions.upload.error.fileTooLarge',
     defaultMessage: 'The file you have selected is too large. Please try again with a file less than 10MB.',
     description: 'Error message for file upload that is larger than 10MB.',
   },
@@ -625,6 +630,11 @@ const messages = defineMessages({
     id: 'id.verification.submission.alert.error.name',
     defaultMessage: 'A valid account name is required. Please update your account name to match the name on your ID.',
     description: 'Error message displayed when the user\'s account name is missing.',
+  },
+  'id.verification.submission.alert.error.unsupported': {
+    id: 'id.verification.submission.alert.error.unsupported',
+    defaultMessage: 'One or more of the files you have uploaded is in an unsupported format. Please choose from the following: ',
+    description: 'Error message displayed when the user uploads an unsupported file type.',
   },
   'id.verification.review.error': {
     id: 'id.verification.review.error',

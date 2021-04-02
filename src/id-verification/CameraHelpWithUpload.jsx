@@ -8,6 +8,7 @@ import messages from './IdVerification.messages';
 import ImageFileUpload from './ImageFileUpload';
 import IdVerificationContext from './IdVerificationContext';
 import ImagePreview from './ImagePreview';
+import SupportedMediaTypes from './SupportedMediaTypes';
 
 function CameraHelpWithUpload(props) {
   const { setIdPhotoFile, idPhotoFile, userId } = useContext(IdVerificationContext);
@@ -34,6 +35,7 @@ function CameraHelpWithUpload(props) {
         {idPhotoFile && hasUploadedImage && <ImagePreview src={idPhotoFile} alt={props.intl.formatMessage(messages['id.verification.id.photo.preview.alt'])} />}
         <p>
           {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
+          <SupportedMediaTypes />
         </p>
         <ImageFileUpload onFileChange={setAndTrackIdPhotoFile} intl={props.intl} />
       </Collapsible>

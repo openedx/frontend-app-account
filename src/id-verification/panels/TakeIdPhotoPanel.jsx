@@ -12,6 +12,7 @@ import CameraHelp from '../CameraHelp';
 import ImagePreview from '../ImagePreview';
 import ImageFileUpload from '../ImageFileUpload';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';
+import SupportedMediaTypes from '../SupportedMediaTypes';
 
 function TakeIdPhotoPanel(props) {
   const panelSlug = 'take-id-photo';
@@ -39,6 +40,7 @@ function TakeIdPhotoPanel(props) {
           <div style={{ marginBottom: '1.25rem' }}>
             <p data-testid="upload-text">
               {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
+              <SupportedMediaTypes />
             </p>
             <ImageFileUpload onFileChange={setIdPhotoFile} intl={props.intl} />
           </div>

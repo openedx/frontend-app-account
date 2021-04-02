@@ -12,6 +12,7 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';
+import SupportedMediaTypes from '../SupportedMediaTypes';
 
 function TakePortraitPhotoPanel(props) {
   const panelSlug = 'take-portrait-photo';
@@ -39,6 +40,7 @@ function TakePortraitPhotoPanel(props) {
           <div style={{ marginBottom: '1.25rem' }}>
             <p data-testid="upload-text">
               {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.upload'])}
+              <SupportedMediaTypes />
             </p>
             <ImageFileUpload onFileChange={setFacePhotoFile} intl={props.intl} />
           </div>
