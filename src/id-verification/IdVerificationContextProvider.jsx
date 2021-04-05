@@ -108,6 +108,7 @@ export default function IdVerificationContextProvider({ children }) {
         tracks.forEach(track => track.stop());
       } catch (err) {
         setMediaAccess(MEDIA_ACCESS.DENIED);
+        setShouldUseCamera(false);
       }
     },
     stopUserMedia: () => {
