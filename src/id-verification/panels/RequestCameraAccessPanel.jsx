@@ -18,7 +18,9 @@ function RequestCameraAccessPanel(props) {
   const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const { tryGetUserMedia, mediaAccess, userId } = useContext(IdVerificationContext);
+  const {
+    tryGetUserMedia, mediaAccess, userId, optimizelyExperimentName,
+  } = useContext(IdVerificationContext);
   const browserName = Bowser.parse(window.navigator.userAgent).browser.name;
 
   useEffect(() => {
@@ -59,6 +61,12 @@ function RequestCameraAccessPanel(props) {
     <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
       {props.intl.formatMessage(messages[returnText])}
     </a>
+  );
+
+  const nextButtonLink = (
+    <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
+      {props.intl.formatMessage(messages['id.verification.continue.upload'])}
+    </Link>
   );
 
   return (
@@ -106,7 +114,7 @@ function RequestCameraAccessPanel(props) {
           </p>
           <EnableCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
-            {returnToDashboardLink}
+            {optimizelyExperimentName ? nextButtonLink : returnToDashboardLink}
           </div>
         </div>
       )}
@@ -118,7 +126,7 @@ function RequestCameraAccessPanel(props) {
           </p>
           <UnsupportedCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
-            {returnToDashboardLink}
+            {optimizelyExperimentName ? nextButtonLink : returnToDashboardLink}
           </div>
         </div>
       )}

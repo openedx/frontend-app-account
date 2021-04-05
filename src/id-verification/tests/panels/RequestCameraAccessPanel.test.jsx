@@ -84,6 +84,27 @@ describe('RequestCameraAccessPanel', () => {
     expect(text).toHaveTextContent(/It looks like we're unable to access your camera./);
   });
 
+  it('renders correctly with media access denied in optimizely experiment', async () => {
+    contextValue.mediaAccess = 'denied';
+    contextValue.optimizelyExperimentName = 'test';
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const text = await screen.findByTestId('camera-access-failure');
+    expect(text).toHaveTextContent(/It looks like we're unable to access your camera./);
+    const nextButton = await screen.findByText('Continue with Upload');
+    fireEvent.click(nextButton);
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
+    contextValue.optimizelyExperimentName = '';
+  });
+
   it('renders correctly with media access unsupported with Chrome browser', async () => {
     contextValue.mediaAccess = 'unsupported';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Chrome' } });
@@ -218,5 +239,47 @@ describe('RequestCameraAccessPanel', () => {
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/id-context');
+  });
+
+  it('reroutes correctly to portrait context with no media access', async () => {
+    contextValue.mediaAccess = 'denied';
+    contextValue.optimizelyExperimentName = 'test';
+    history.location.state = { fromPortraitCapture: true };
+
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
+    contextValue.optimizelyExperimentName = '';
+  });
+
+  it('reroutes correctly to ID context with no media access', async () => {
+    contextValue.mediaAccess = 'denied';
+    contextValue.optimizelyExperimentName = 'test';
+    history.location.state = { fromIdCapture: true };
+
+    Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlRequestCameraAccessPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-id-photo');
+    contextValue.optimizelyExperimentName = '';
   });
 });

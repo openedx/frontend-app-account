@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import IdVerificationContext from './IdVerificationContext';
+import IdVerificationContext, { MEDIA_ACCESS } from './IdVerificationContext';
 
 const panelSteps = [
   'review-requirements',
@@ -22,16 +22,24 @@ export const useNextPanelSlug = (originSlug) => {
   const isFromSummary = location.state && location.state.fromSummary;
   const isFromPortrait = location.state && location.state.fromPortraitCapture;
   const isFromId = location.state && location.state.fromIdCapture;
-  const { shouldUseCamera, optimizelyExperimentName } = useContext(IdVerificationContext);
+  const { shouldUseCamera, mediaAccess, optimizelyExperimentName } = useContext(IdVerificationContext);
 
   if (isFromSummary) {
     return 'summary';
   }
+
+  // the following are used as part of an A/B experiment
   if (isFromPortrait) {
-    return 'portrait-photo-context';
+    if (mediaAccess === MEDIA_ACCESS.GRANTED) {
+      return 'portrait-photo-context';
+    }
+    return 'take-portrait-photo';
   }
   if (isFromId) {
-    return 'id-context';
+    if (mediaAccess === MEDIA_ACCESS.GRANTED) {
+      return 'id-context';
+    }
+    return 'take-id-photo';
   }
   if (originSlug === 'review-requirements' && !optimizelyExperimentName) {
     return 'request-camera-access';
@@ -41,6 +49,9 @@ export const useNextPanelSlug = (originSlug) => {
   }
   if (originSlug === 'take-portrait-photo' && !shouldUseCamera) {
     return 'take-id-photo';
+  }
+  if (originSlug === 'request-camera-access' && mediaAccess !== MEDIA_ACCESS.GRANTED) {
+    return 'take-portrait-photo';
   }
 
   const nextIndex = panelSteps.indexOf(originSlug) + 1;
