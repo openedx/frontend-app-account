@@ -2,56 +2,79 @@ import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import IdVerificationContext, { MEDIA_ACCESS } from './IdVerificationContext';
 
+const SLUGS = {
+  REVIEW_REQUIREMENTS: 'review-requirements',
+  CHOOSE_MODE: 'choose-mode',
+  REQUEST_CAMERA_ACCESS: 'request-camera-access',
+  PORTRAIT_PHOTO_CONTEXT: 'portrait-photo-context',
+  TAKE_PORTRAIT_PHOTO: 'take-portrait-photo',
+  ID_CONTEXT: 'id-context',
+  TAKE_ID_PHOTO: 'take-id-photo',
+  GET_NAME_ID: 'get-name-id',
+  SUMMARY: 'summary',
+  SUBMITTED: 'submitted',
+};
+
 const panelSteps = [
-  'review-requirements',
-  'choose-mode',
-  'request-camera-access',
-  'portrait-photo-context',
-  'take-portrait-photo',
-  'id-context',
-  'take-id-photo',
-  'get-name-id',
-  'summary',
-  'submitted',
+  SLUGS.REVIEW_REQUIREMENTS,
+  SLUGS.CHOOSE_MODE,
+  SLUGS.REQUEST_CAMERA_ACCESS,
+  SLUGS.PORTRAIT_PHOTO_CONTEXT,
+  SLUGS.TAKE_PORTRAIT_PHOTO,
+  SLUGS.ID_CONTEXT,
+  SLUGS.TAKE_ID_PHOTO,
+  SLUGS.GET_NAME_ID,
+  SLUGS.SUMMARY,
+  SLUGS.SUBMITTED,
 ];
 
 // eslint-disable-next-line import/prefer-default-export
 export const useNextPanelSlug = (originSlug) => {
   // Go back to the summary view if that's where they came from
   const location = useLocation();
-  const isFromSummary = location.state && location.state.fromSummary;
   const isFromPortrait = location.state && location.state.fromPortraitCapture;
   const isFromId = location.state && location.state.fromIdCapture;
-  const { shouldUseCamera, mediaAccess, optimizelyExperimentName } = useContext(IdVerificationContext);
+  const {
+    mediaAccess,
+    optimizelyExperimentName,
+    reachedSummary,
+    shouldUseCamera,
+  } = useContext(IdVerificationContext);
 
-  if (isFromSummary) {
-    return 'summary';
+  const canRerouteToSummary = [
+    SLUGS.TAKE_PORTRAIT_PHOTO,
+    SLUGS.TAKE_ID_PHOTO,
+    SLUGS.GET_NAME_ID,
+  ];
+
+  if (reachedSummary && canRerouteToSummary.includes(originSlug)) {
+    return SLUGS.SUMMARY;
   }
 
   // the following are used as part of an A/B experiment
   if (isFromPortrait) {
     if (mediaAccess === MEDIA_ACCESS.GRANTED) {
-      return 'portrait-photo-context';
+      return SLUGS.PORTRAIT_PHOTO_CONTEXT;
     }
-    return 'take-portrait-photo';
+    return SLUGS.TAKE_PORTRAIT_PHOTO;
   }
   if (isFromId) {
     if (mediaAccess === MEDIA_ACCESS.GRANTED) {
-      return 'id-context';
+      return SLUGS.ID_CONTEXT;
     }
-    return 'take-id-photo';
+    return SLUGS.TAKE_ID_PHOTO;
   }
-  if (originSlug === 'review-requirements' && !optimizelyExperimentName) {
-    return 'request-camera-access';
+  if (originSlug === SLUGS.REVIEW_REQUIREMENTS && !optimizelyExperimentName) {
+    return SLUGS.REQUEST_CAMERA_ACCESS;
   }
-  if (originSlug === 'choose-mode' && !shouldUseCamera) {
-    return 'take-portrait-photo';
+  if (originSlug === SLUGS.CHOOSE_MODE && !shouldUseCamera) {
+    return SLUGS.TAKE_PORTRAIT_PHOTO;
   }
-  if (originSlug === 'take-portrait-photo' && !shouldUseCamera) {
-    return 'take-id-photo';
+  if (originSlug === SLUGS.TAKE_PORTRAIT_PHOTO && !shouldUseCamera) {
+    return SLUGS.TAKE_ID_PHOTO;
   }
-  if (originSlug === 'request-camera-access' && mediaAccess !== MEDIA_ACCESS.GRANTED) {
-    return 'take-portrait-photo';
+  if (originSlug === SLUGS.REQUEST_CAMERA_ACCESS && mediaAccess !== MEDIA_ACCESS.GRANTED) {
+    return SLUGS.TAKE_PORTRAIT_PHOTO;
   }
 
   const nextIndex = panelSteps.indexOf(originSlug) + 1;
@@ -63,16 +86,16 @@ export const useNextPanelSlug = (originSlug) => {
 export const useVerificationRedirectSlug = (slug) => {
   const { facePhotoFile, idPhotoFile, optimizelyExperimentName } = useContext(IdVerificationContext);
   const indexOfCurrentPanel = panelSteps.indexOf(slug);
-  if (!optimizelyExperimentName && slug === 'choose-mode') {
-    return 'review-requirements';
+  if (!optimizelyExperimentName && slug === SLUGS.CHOOSE_MODE) {
+    return SLUGS.REVIEW_REQUIREMENTS;
   }
   if (!facePhotoFile) {
-    if (indexOfCurrentPanel > panelSteps.indexOf('take-portrait-photo')) {
-      return 'portrait-photo-context';
+    if (indexOfCurrentPanel > panelSteps.indexOf(SLUGS.TAKE_PORTRAIT_PHOTO)) {
+      return SLUGS.PORTRAIT_PHOTO_CONTEXT;
     }
   } else if (!idPhotoFile) {
-    if (indexOfCurrentPanel > panelSteps.indexOf('take-id-photo')) {
-      return 'id-context';
+    if (indexOfCurrentPanel > panelSteps.indexOf(SLUGS.TAKE_ID_PHOTO)) {
+      return SLUGS.ID_CONTEXT;
     }
   }
 

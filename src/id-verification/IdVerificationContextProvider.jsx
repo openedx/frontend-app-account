@@ -79,6 +79,10 @@ export default function IdVerificationContextProvider({ children }) {
   const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
   const [shouldUseCamera, setShouldUseCamera] = useState(false);
 
+  // If the user reaches the end of the flow and goes back to retake their photos,
+  // this flag ensures that they are directed straight back to the summary panel
+  const [reachedSummary, setReachedSummary] = useState(false);
+
   const contextValue = {
     existingIdVerification,
     facePhotoFile,
@@ -91,12 +95,14 @@ export default function IdVerificationContextProvider({ children }) {
     profileDataManager,
     optimizelyExperimentName,
     shouldUseCamera,
+    reachedSummary,
     setExistingIdVerification,
     setFacePhotoFile,
     setIdPhotoFile,
     setIdPhotoName,
     setOptimizelyExperimentName,
     setShouldUseCamera,
+    setReachedSummary,
     tryGetUserMedia: async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });

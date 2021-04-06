@@ -25,13 +25,30 @@ describe('PortraitPhotoContextPanel', () => {
 
   const contextValue = {
     optimizelyExperimentName: '',
+    reachedSummary: false,
   };
 
   afterEach(() => {
     cleanup();
   });
 
-  it('routes to TakePortraitPhotoPanel', async () => {
+  it('routes to TakePortraitPhotoPanel normally', async () => {
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlPortraitPhotoContextPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
+  });
+
+  it('routes to TakePortraitPhotoPanel if reachedSummary is true', async () => {
+    contextValue.reachedSummary = true;
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">

@@ -34,6 +34,7 @@ describe('SummaryPanel', () => {
     idPhotoName: 'test name',
     optimizelyExperimentName: 'test-experiment',
     stopUserMedia: jest.fn(),
+    setReachedSummary: jest.fn(),
   };
 
   const getPanel = async () => {

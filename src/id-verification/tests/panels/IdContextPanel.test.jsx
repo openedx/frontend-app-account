@@ -26,13 +26,30 @@ describe('IdContextPanel', () => {
   const contextValue = {
     optimizelyExperimentName: '',
     facePhotoFile: 'test.jpg',
+    reachedSummary: false,
   };
 
   afterEach(() => {
     cleanup();
   });
 
-  it('routes to TakeIdPhotoPanel', async () => {
+  it('routes to TakeIdPhotoPanel normally', async () => {
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlIdContextPanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('next-button');
+    fireEvent.click(button);
+    expect(history.location.pathname).toEqual('/take-id-photo');
+  });
+
+  it('routes to TakeIdPhotoPanel if reachedSummary is true', async () => {
+    contextValue.reachedSummary = true;
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
