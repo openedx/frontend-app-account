@@ -27,6 +27,7 @@ describe('TakeIdPhotoPanel', () => {
   const contextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: null,
+    reachedSummary: false,
     setIdPhotoFile: jest.fn(),
   };
 
@@ -67,7 +68,7 @@ describe('TakeIdPhotoPanel', () => {
 
   it('routes back to SummaryPanel if that was the source', async () => {
     contextValue.idPhotoFile = 'test.jpg';
-    history.location.state = { fromSummary: true };
+    contextValue.reachedSummary = true;
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">

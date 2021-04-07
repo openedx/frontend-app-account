@@ -2,7 +2,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import {
-  render, cleanup, act, screen,
+  render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
@@ -25,6 +25,7 @@ describe('ChooseModePanel', () => {
   const contextValue = {
     optimizelyExperimentName: 'test',
     shouldUseCamera: false,
+    reachedSummary: false,
   };
 
   afterEach(() => {
@@ -71,6 +72,23 @@ describe('ChooseModePanel', () => {
     // check that if upload is selected, next button goes to correct screen
     const nextButton = await screen.findByTestId('next-button');
     expect(nextButton.getAttribute('href')).toEqual('/request-camera-access');
+  });
+
+  it('reroutes correctly if reachedSummary is true', async () => {
+    contextValue.shouldUseCamera = true;
+    contextValue.reachedSummary = true;
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <IntlChooseModePanel {...defaultProps} />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const nextButton = await screen.findByTestId('next-button');
+    fireEvent.click(nextButton);
+    expect(history.location.pathname).toEqual('/request-camera-access');
   });
 
   it('redirects if user is not part of experiment', async () => {

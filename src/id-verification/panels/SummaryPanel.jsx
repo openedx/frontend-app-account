@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { getConfig, history } from '@edx/frontend-platform';
 import {
   Alert, Hyperlink, Input, Button, Spinner,
@@ -27,10 +27,13 @@ function SummaryPanel(props) {
     idPhotoName,
     stopUserMedia,
     optimizelyExperimentName,
+    setReachedSummary,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
+
+  useEffect(() => setReachedSummary(true), []);
 
   function renderManagedProfileMessage() {
     if (!profileDataManager) {
