@@ -168,6 +168,7 @@
   "id.verification.access.blocked.denied": "No puedes verificar tu identidad en este momento. Si aún tienes que activar tu cuenta, revisa tu carpeta de correo no deseado y busca el correo electrónico de activación de {email}.",
   "id.verification.next": "Siguiente",
   "id.verification.support": "support",
+  "id.verification.continue.upload": "Continue with Upload",
   "id.verification.example.card.alt": "Ejemplo de un documento de identidad válido con foto y nombre completo.",
   "id.verification.requirements.title": "Requerimientos de verificación por foto",
   "id.verification.requirements.description": "Para completar la verificación por foto en línea, necesitarás lo siguiente:",
