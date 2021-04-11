@@ -168,6 +168,7 @@
   "id.verification.access.blocked.denied": "لا يمكنك التحقق من هويتك في الوقت الحالي. إذا لم تقم بعد بتنشيط حسابك، فيرجى التحقق من مجلد البريد المهمل للحصول على رسالة التفعيل من {email}.",
   "id.verification.next": "التالي",
   "id.verification.support": "support",
+  "id.verification.continue.upload": "Continue with Upload",
   "id.verification.example.card.alt": "مثال على بطاقة هوية صحيحة بالاسم الكامل وصورة.",
   "id.verification.requirements.title": "متطلبات التحقق من الصورة",
   "id.verification.requirements.description": "يجب عليك اتباع الآتي لإكمال عملية التحقق الإلكتروني من هويتك:",

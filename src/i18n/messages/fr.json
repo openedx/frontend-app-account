@@ -168,6 +168,7 @@
   "id.verification.access.blocked.denied": "You cannot verify your identity at this time. If you have yet to activate your account, please check your spam folder for the activation email from {email}.",
   "id.verification.next": "Next",
   "id.verification.support": "support",
+  "id.verification.continue.upload": "Continue with Upload",
   "id.verification.example.card.alt": "Example of a valid identification card with a full name and photo.",
   "id.verification.requirements.title": "Photo Verification Requirements",
   "id.verification.requirements.description": "In order to complete Photo Verification online, you will need the following:",
