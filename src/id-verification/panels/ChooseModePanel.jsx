@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Form } from '@edx/paragon';
 
@@ -10,10 +11,16 @@ import messages from '../IdVerification.messages';
 
 function ChooseModePanel(props) {
   const panelSlug = 'choose-mode';
-  const { shouldUseCamera, setShouldUseCamera } = useContext(IdVerificationContext);
+  const { userId, shouldUseCamera, setShouldUseCamera } = useContext(IdVerificationContext);
 
   function onPhotoModeChange(value) {
     setShouldUseCamera(value);
+    const mode = value ? 'camera' : 'upload';
+    const eventName = `edx.id_verification.choose.${mode}`;
+    sendTrackEvent(eventName, {
+      category: 'id_verification',
+      user_id: userId,
+    });
   }
 
   return (

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Button, Collapsible } from '@edx/paragon';
 import { Link } from 'react-router-dom';
@@ -9,10 +10,16 @@ import messages from './IdVerification.messages';
 
 function CollapsibleImageHelp(props) {
   const {
-    shouldUseCamera, setShouldUseCamera, optimizelyExperimentName, mediaAccess,
+    userId, shouldUseCamera, setShouldUseCamera, optimizelyExperimentName, mediaAccess,
   } = useContext(IdVerificationContext);
 
   function handleClick() {
+    const toggleTo = shouldUseCamera ? 'upload' : 'camera';
+    const eventName = `edx.id_verification.toggle_to.${toggleTo}`;
+    sendTrackEvent(eventName, {
+      category: 'id_verification',
+      user_id: userId,
+    });
     setShouldUseCamera(!shouldUseCamera);
   }
 
