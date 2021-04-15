@@ -18,7 +18,7 @@ function TakeIdPhotoPanel(props) {
   const panelSlug = 'take-id-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
-    setIdPhotoFile, idPhotoFile, optimizelyExperimentName, shouldUseCamera,
+    setIdPhotoFile, idPhotoFile, optimizelyExperimentName, shouldUseCamera, setIdPhotoMode,
   } = useContext(IdVerificationContext);
 
   return (
@@ -34,7 +34,7 @@ function TakeIdPhotoPanel(props) {
             <p>
               {props.intl.formatMessage(messages['id.verification.id.photo.instructions.camera'])}
             </p>
-            <Camera onImageCapture={setIdPhotoFile} isPortrait={false} />
+            <Camera onImageCapture={setIdPhotoFile} setPhotoMode={setIdPhotoMode} isPortrait={false} />
           </div>
         ) : (
           <div style={{ marginBottom: '1.25rem' }}>
@@ -42,7 +42,7 @@ function TakeIdPhotoPanel(props) {
               {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
               <SupportedMediaTypes />
             </p>
-            <ImageFileUpload onFileChange={setIdPhotoFile} intl={props.intl} />
+            <ImageFileUpload onFileChange={setIdPhotoFile} setPhotoMode={setIdPhotoMode} intl={props.intl} />
           </div>
         )}
       </div>

@@ -28,6 +28,7 @@ describe('SubmittedPanel', () => {
   const defaultProps = {
     intl: {},
     onImageCapture: jest.fn(),
+    setPhotoMode: jest.fn(),
     isPortrait: true,
   };
 
@@ -57,6 +58,7 @@ describe('SubmittedPanel', () => {
     expect(button).toHaveTextContent('Take Photo');
     fireEvent.click(button);
     expect(defaultProps.onImageCapture).toHaveBeenCalled();
+    expect(defaultProps.setPhotoMode).toHaveBeenCalledWith('camera');
   });
 
   it('shows correct help text for portrait photo capture', async () => {

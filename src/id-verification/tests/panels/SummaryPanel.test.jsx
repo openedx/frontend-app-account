@@ -33,6 +33,8 @@ describe('SummaryPanel', () => {
     nameOnAccount: 'test name',
     idPhotoName: 'test name',
     optimizelyExperimentName: 'test-experiment',
+    portraitPhotoMode: 'camera',
+    idPhotoMode: 'upload',
     stopUserMedia: jest.fn(),
     setReachedSummary: jest.fn(),
   };
@@ -92,6 +94,8 @@ describe('SummaryPanel', () => {
       idPhotoFile: contextValue.idPhotoFile,
       idPhotoName: contextValue.idPhotoName,
       optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      portraitPhotoMode: contextValue.portraitPhotoMode,
+      idPhotoMode: contextValue.idPhotoMode,
       courseRunKey: null,
     };
     await getPanel();
@@ -106,6 +110,8 @@ describe('SummaryPanel', () => {
     const verificationData = {
       facePhotoFile: contextValue.facePhotoFile,
       idPhotoFile: contextValue.idPhotoFile,
+      portraitPhotoMode: contextValue.portraitPhotoMode,
+      idPhotoMode: contextValue.idPhotoMode,
       optimizelyExperimentName: contextValue.optimizelyExperimentName,
       courseRunKey: null,
     };
@@ -120,6 +126,8 @@ describe('SummaryPanel', () => {
     const verificationData = {
       facePhotoFile: contextValue.facePhotoFile,
       idPhotoFile: contextValue.idPhotoFile,
+      portraitPhotoMode: contextValue.portraitPhotoMode,
+      idPhotoMode: contextValue.idPhotoMode,
       optimizelyExperimentName: contextValue.optimizelyExperimentName,
       courseRunKey: null,
     };
