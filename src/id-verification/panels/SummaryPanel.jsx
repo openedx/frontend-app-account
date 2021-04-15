@@ -28,6 +28,8 @@ function SummaryPanel(props) {
     stopUserMedia,
     optimizelyExperimentName,
     setReachedSummary,
+    portraitPhotoMode,
+    idPhotoMode,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,6 +75,8 @@ function SummaryPanel(props) {
       }
       if (optimizelyExperimentName) {
         verificationData.optimizelyExperimentName = optimizelyExperimentName;
+        verificationData.portraitPhotoMode = portraitPhotoMode;
+        verificationData.idPhotoMode = idPhotoMode;
       }
       const result = await submitIdVerification(verificationData);
       if (result.success) {

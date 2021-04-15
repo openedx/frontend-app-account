@@ -79,6 +79,10 @@ export default function IdVerificationContextProvider({ children }) {
   const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
   const [shouldUseCamera, setShouldUseCamera] = useState(false);
 
+  // The following are used to keep track of how a user has submitted photos
+  const [portraitPhotoMode, setPortraitPhotoMode] = useState('');
+  const [idPhotoMode, setIdPhotoMode] = useState('');
+
   // If the user reaches the end of the flow and goes back to retake their photos,
   // this flag ensures that they are directed straight back to the summary panel
   const [reachedSummary, setReachedSummary] = useState(false);
@@ -95,6 +99,8 @@ export default function IdVerificationContextProvider({ children }) {
     profileDataManager,
     optimizelyExperimentName,
     shouldUseCamera,
+    portraitPhotoMode,
+    idPhotoMode,
     reachedSummary,
     setExistingIdVerification,
     setFacePhotoFile,
@@ -102,6 +108,8 @@ export default function IdVerificationContextProvider({ children }) {
     setIdPhotoName,
     setOptimizelyExperimentName,
     setShouldUseCamera,
+    setPortraitPhotoMode,
+    setIdPhotoMode,
     setReachedSummary,
     tryGetUserMedia: async () => {
       try {
