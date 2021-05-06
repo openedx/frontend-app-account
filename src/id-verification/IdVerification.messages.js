@@ -58,23 +58,23 @@ const messages = defineMessages({
   },
   'id.verification.privacy.need.photo.question': {
     id: 'id.verification.privacy.need.photo.question',
-    defaultMessage: 'Why does edX need my photo?',
-    description: 'Question about why edX needs a verification photo.',
+    defaultMessage: 'Why does {siteName} need my photo?',
+    description: 'Question about why the platform needs a verification photo.',
   },
   'id.verification.privacy.need.photo.answer': {
     id: 'id.verification.privacy.need.photo.answer',
     defaultMessage: 'We use your verification photos to confirm your identity and ensure the validity of your certificate.',
-    description: 'Answering why edX needs a verification photo.',
+    description: 'Answering why the platform needs a verification photo.',
   },
   'id.verification.privacy.do.with.photo.question': {
     id: 'id.verification.privacy.do.with.photo.question',
-    defaultMessage: 'What does edX do with this photo?',
-    description: 'Question about what edX does with the verification photo.',
+    defaultMessage: 'What does {siteName} do with this photo?',
+    description: 'Question about what the platform does with the verification photo.',
   },
   'id.verification.privacy.do.with.photo.answer': {
     id: 'id.verification.privacy.do.with.photo.answer',
-    defaultMessage: 'We securely encrypt your photo and send it our authorization service for review. Your photo and information are not saved or visible anywhere on edX after the verification process is complete.',
-    description: 'Answering what edX does with the verification photo.',
+    defaultMessage: 'We securely encrypt your photo and send it our authorization service for review. Your photo and information are not saved or visible anywhere on {siteName} after the verification process is complete.',
+    description: 'Answering what the platform does with the verification photo.',
   },
   'id.verification.access.blocked.title': {
     id: 'id.verification.access.blocked.title',
@@ -448,7 +448,7 @@ const messages = defineMessages({
   },
   'id.verification.camera.help.difficulty.answer': {
     id: 'id.verification.camera.help.difficulty.answer',
-    defaultMessage: 'If you require assistance with taking a photo for submission, contact edX support for additional suggestions.',
+    defaultMessage: 'If you require assistance with taking a photo for submission, contact {siteName} support for additional suggestions.',
     description: 'Confirming what to do if the user has difficult holding their head relative to the camera.',
   },
   'id.verification.camera.help.upload.question': {
@@ -643,8 +643,8 @@ const messages = defineMessages({
   },
   'id.verification.review.error': {
     id: 'id.verification.review.error',
-    defaultMessage: 'edX Support Page',
-    description: 'Text linking to the support page.',
+    defaultMessage: '{siteName} Support Page',
+    description: 'Text linking to the platform support page.',
   },
   'id.verification.submitted.title': {
     id: 'id.verification.submitted.title',
