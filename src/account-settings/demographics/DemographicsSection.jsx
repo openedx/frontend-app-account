@@ -172,7 +172,12 @@ class DemographicsSection extends React.Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {this.props.intl.formatMessage(messages['account.settings.section.demographics.why'])}
+            {this.props.intl.formatMessage(
+              messages['account.settings.section.demographics.why'],
+              {
+                siteName: getConfig().SITE_NAME,
+              },
+            )}
           </Hyperlink>
         </p>
         {this.renderDemographicsServiceIssueWarning()}
