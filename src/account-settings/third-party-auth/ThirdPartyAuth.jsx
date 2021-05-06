@@ -100,7 +100,7 @@ class ThirdPartyAuth extends Component {
       <FormattedMessage
         id="account.settings.sso.no.providers"
         defaultMessage="No accounts can be linked at this time."
-        description="Displayed when no third party accounts are available to link an edX account to"
+        description="Displayed when no third-party accounts are available for the user to link to their account on the platform."
       />
     );
   }
