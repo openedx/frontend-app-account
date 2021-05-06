@@ -60,19 +60,36 @@ export class DeleteAccount extends React.Component {
     } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
 
+    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+    // to allow edx.org to fulfill its business requirements.
+    const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
+      ? 'account.settings.delete.account.text.2.edX'
+      : 'account.settings.delete.account.text.2';
+
     return (
       <div>
         <h2 className="section-heading">
           {intl.formatMessage(messages['account.settings.delete.account.header'])}
         </h2>
         <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
-        <p>{intl.formatMessage(messages['account.settings.delete.account.text.1'])}</p>
-        <p>{intl.formatMessage(messages['account.settings.delete.account.text.2'])}</p>
+        <p>
+          {intl.formatMessage(
+            messages['account.settings.delete.account.text.1'],
+            { siteName: getConfig().SITE_NAME },
+          )}
+        </p>
+        <p>
+          {intl.formatMessage(
+            messages[deleteAccountText2MessageKey],
+            { siteName: getConfig().SITE_NAME },
+          )}
+        </p>
         <p>
           <PrintingInstructions />
         </p>
         <p className="text-danger h6">
-          {intl.formatMessage(messages['account.settings.delete.account.text.warning'])}
+          {intl.formatMessage(messages['account.settings.delete.account.text.warning'],
+            { siteName: getConfig().SITE_NAME })}
         </p>
         <p>
           <Hyperlink destination="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings">
