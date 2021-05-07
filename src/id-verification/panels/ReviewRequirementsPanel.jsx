@@ -112,16 +112,25 @@ function ReviewRequirementsPanel(props) {
         {props.intl.formatMessage(messages['id.verification.privacy.title'])}
       </h4>
       <h6 aria-level="3">
-        {props.intl.formatMessage(messages['id.verification.privacy.need.photo.question'])}
+        {props.intl.formatMessage(
+          messages['id.verification.privacy.need.photo.question'],
+          { siteName: getConfig().SITE_NAME },
+        )}
       </h6>
       <p>
         {props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}
       </p>
       <h6 aria-level="3">
-        {props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.question'])}
+        {props.intl.formatMessage(
+          messages['id.verification.privacy.do.with.photo.question'],
+          { siteName: getConfig().SITE_NAME },
+        )}
       </h6>
       <p>
-        {props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.answer'])}
+        {props.intl.formatMessage(
+          messages['id.verification.privacy.do.with.photo.answer'],
+          { siteName: getConfig().SITE_NAME },
+        )}
       </p>
 
       <div className="action-row">

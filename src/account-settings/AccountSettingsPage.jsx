@@ -44,8 +44,8 @@ class AccountSettingsPage extends React.Component {
 
     // If there is a "duplicate_provider" query parameter, that's the backend's
     // way of telling us that the provider account the user tried to link is already linked
-    // to another Open edX account. We use this to display a message to that effect, and remove the
-    // parameter from the URL.
+    // to another user account on the platform. We use this to display a message to that effect,
+    // and remove the parameter from the URL.
     const duplicateTpaProvider = getQueryParameters().duplicate_provider;
     if (duplicateTpaProvider !== undefined) {
       history.replace(history.location.pathname);
@@ -164,10 +164,11 @@ class AccountSettingsPage extends React.Component {
         <Alert className="alert alert-danger" role="alert">
           <FormattedMessage
             id="account.settings.message.duplicate.tpa.provider"
-            defaultMessage="The {provider} account you selected is already linked to another edX account."
-            description="alert message informing the user that the third-party account they attempted to link is already linked to another edX account"
+            defaultMessage="The {provider} account you selected is already linked to another {siteName} account."
+            description="alert message informing the user that the third-party account they attempted to link is already linked to another account"
             values={{
               provider: <b>{this.state.duplicateTpaProvider}</b>,
+              siteName: getConfig().SITE_NAME,
             }}
           />
         </Alert>
@@ -282,7 +283,10 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={this.props.formValues.username}
             label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
-            helpText={this.props.intl.formatMessage(messages['account.settings.field.username.help.text'])}
+            helpText={this.props.intl.formatMessage(
+              messages['account.settings.field.username.help.text'],
+              { siteName: getConfig().SITE_NAME },
+            )}
             isEditable={false}
             {...editableFieldProps}
           />
@@ -310,7 +314,10 @@ class AccountSettingsPage extends React.Component {
             }
             value={this.props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
-            helpText={this.props.intl.formatMessage(messages['account.settings.field.email.help.text'])}
+            helpText={this.props.intl.formatMessage(
+              messages['account.settings.field.email.help.text'],
+              { siteName: getConfig().SITE_NAME },
+            )}
             isEditable={this.isEditable('email')}
             {...editableFieldProps}
           />
@@ -405,7 +412,12 @@ class AccountSettingsPage extends React.Component {
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
-          <p>{this.props.intl.formatMessage(messages['account.settings.section.social.media.description'])}</p>
+          <p>
+            {this.props.intl.formatMessage(
+              messages['account.settings.section.social.media.description'],
+              { siteName: getConfig().SITE_NAME },
+            )}
+          </p>
 
           <EditableField
             name="social_link_linkedin"
@@ -466,7 +478,12 @@ class AccountSettingsPage extends React.Component {
 
         <div className="account-section" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
           <h2 className="section-heading">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
-          <p>{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts.description'])}</p>
+          <p>
+            {this.props.intl.formatMessage(
+              messages['account.settings.section.linked.accounts.description'],
+              { siteName: getConfig().SITE_NAME },
+            )}
+          </p>
           <ThirdPartyAuth />
         </div>
 

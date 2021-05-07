@@ -95,22 +95,14 @@ Array [
                 </div>
                 <div>
                   <h6>
-                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
                   </h6>
                   <p>
-                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                    If you proceed, you will be unable to use this account to take courses on localhost.
                   </p>
                   <p>
                     <span>
-                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                      <a
-                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                        onClick={[Function]}
-                        target="_self"
-                      >
-                        follow the instructions for printing or downloading a certificate
-                      </a>
-                      .
+                      You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
                     </span>
                   </p>
                 </div>
@@ -314,22 +306,14 @@ Array [
                 </div>
                 <div>
                   <h6>
-                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
                   </h6>
                   <p>
-                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                    If you proceed, you will be unable to use this account to take courses on localhost.
                   </p>
                   <p>
                     <span>
-                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                      <a
-                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                        onClick={[Function]}
-                        target="_self"
-                      >
-                        follow the instructions for printing or downloading a certificate
-                      </a>
-                      .
+                      You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
                     </span>
                   </p>
                 </div>
@@ -500,22 +484,14 @@ Array [
                 </div>
                 <div>
                   <h6>
-                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.
+                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
                   </h6>
                   <p>
-                    If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer's or university's system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.
+                    If you proceed, you will be unable to use this account to take courses on localhost.
                   </p>
                   <p>
                     <span>
-                      You may also lose access to verified certificates and other program credentials like MicroMasters certificates. If you want to make a copy of these for your records before proceeding with deletion, 
-                      <a
-                        href="https://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/SFD_certificates.html#printing-a-certificate"
-                        onClick={[Function]}
-                        target="_self"
-                      >
-                        follow the instructions for printing or downloading a certificate
-                      </a>
-                      .
+                      You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
                     </span>
                   </p>
                 </div>

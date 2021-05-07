@@ -6,6 +6,7 @@ import {
 import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal, Button } from '@edx/paragon';
+import { getConfig } from '@edx/frontend-platform';
 import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
@@ -77,10 +78,25 @@ function IdVerificationPage(props) {
           title={props.intl.formatMessage(messages['id.verification.privacy.title'])}
           body={(
             <div>
-              <h6>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.question'])}</h6>
+              <h6>
+                {props.intl.formatMessage(
+                  messages['id.verification.privacy.need.photo.question'],
+                  { siteName: getConfig().SITE_NAME },
+                )}
+              </h6>
               <p>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
-              <h6>{props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.question'])}</h6>
-              <p>{props.intl.formatMessage(messages['id.verification.privacy.do.with.photo.answer'])}</p>
+              <h6>
+                {props.intl.formatMessage(
+                  messages['id.verification.privacy.do.with.photo.question'],
+                  { siteName: getConfig().SITE_NAME },
+                )}
+              </h6>
+              <p>
+                {props.intl.formatMessage(
+                  messages['id.verification.privacy.do.with.photo.answer'],
+                  { siteName: getConfig().SITE_NAME },
+                )}
+              </p>
             </div>
           )}
           onClose={() => setIsModalOpen(false)}

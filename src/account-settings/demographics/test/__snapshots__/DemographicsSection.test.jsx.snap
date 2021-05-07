@@ -17,7 +17,7 @@ exports[`DemographicsSection should render 1`] = `
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -627,7 +627,7 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -1251,7 +1251,7 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -1297,7 +1297,7 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -1900,7 +1900,7 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -2503,7 +2503,7 @@ exports[`DemographicsSection should set user input correctly when user provides 
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span
@@ -3113,7 +3113,7 @@ exports[`DemographicsSection should set user input correctly when user provides 
       rel="noopener noopener noreferrer"
       target="_blank"
     >
-      Why does edX collect this information?
+      Why does localhost collect this information?
       <span>
          
         <span

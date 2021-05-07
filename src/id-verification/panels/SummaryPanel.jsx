@@ -124,7 +124,16 @@ function SummaryPanel(props) {
           This might be a temporary issue, so please try again in a few minutes.
           If the problem persists, please go to {support_link} for help.
         `}
-        values={{ support_link: <Alert.Link href="https://support.edx.org/hc/en-us">{props.intl.formatMessage(messages['id.verification.review.error'])}</Alert.Link> }}
+        values={{
+          support_link: (
+            <Alert.Link href="https://support.edx.org/hc/en-us">
+              {props.intl.formatMessage(
+                messages['id.verification.review.error'],
+                { siteName: getConfig().SITE_NAME },
+              )}
+            </Alert.Link>
+          ),
+        }}
       />
     );
   }
