@@ -23,7 +23,7 @@ const messages = defineMessages({
   },
   'account.settings.delete.account.text.2.edX': {
     id: 'account.settings.delete.account.text.2.edX',
-    defaultMessage: 'Once your account is deleted, you cannot use it to take courses on the {siteName} app, edx.org, or any other site hosted by {siteName}. This includes access to edx.org from your employer’s or university’s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
+    defaultMessage: 'Once your account is deleted, you cannot use it to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer’s or university’s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
     description: 'A message in the user account deletion area',
   },
   'account.settings.delete.account.text.3.link': {
@@ -73,7 +73,7 @@ const messages = defineMessages({
   },
   'account.settings.delete.account.modal.text.2.edX': {
     id: 'account.settings.delete.account.modal.text.2.edX',
-    defaultMessage: 'If you proceed, you will be unable to use this account to take courses on the {siteName} app, edx.org, or any other site hosted by {siteName}. This includes access to edx.org from your employer\'s or university\'s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
+    defaultMessage: 'If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer\'s or university\'s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
     description: 'Messaging in the dialog asking user to confirm that they want to delete their entire account',
   },
   'account.settings.delete.account.modal.enter.password': {
