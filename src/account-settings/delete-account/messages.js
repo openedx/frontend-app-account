@@ -13,22 +13,27 @@ const messages = defineMessages({
   },
   'account.settings.delete.account.text.1': {
     id: 'account.settings.delete.account.text.1',
-    defaultMessage: 'Please note: Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.',
+    defaultMessage: 'Please note: Deletion of your account and personal data is permanent and cannot be undone. {siteName} will not be able to recover your account or the data that is deleted.',
     description: 'A message in the user account deletion area',
   },
   'account.settings.delete.account.text.2': {
     id: 'account.settings.delete.account.text.2',
+    defaultMessage: 'Once your account is deleted, you cannot use it to take courses on {siteName}.',
+    description: 'A message in the user account deletion area',
+  },
+  'account.settings.delete.account.text.2.edX': {
+    id: 'account.settings.delete.account.text.2.edX',
     defaultMessage: 'Once your account is deleted, you cannot use it to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer’s or university’s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
     description: 'A message in the user account deletion area',
   },
   'account.settings.delete.account.text.3.link': {
     id: 'account.settings.delete.account.text.3.link',
-    defaultMessage: 'follow the instructions for printing or downloading a certificate',
-    description: 'This text will be a link to a technical support page; it will go in the phrase If you want to make a copy of these for your records, ______ .',
+    defaultMessage: 'Follow these instructions for printing or downloading a certificate',
+    description: 'This text is a link to a technical support page where users can learn how to print or download their certificates.',
   },
   'account.settings.delete.account.text.warning': {
     id: 'account.settings.delete.account.text.warning',
-    defaultMessage: 'Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on edX.',
+    defaultMessage: 'Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on {siteName}.',
     description: 'A message in the user account deletion area',
   },
   'account.settings.delete.account.text.change.instead': {
@@ -39,7 +44,7 @@ const messages = defineMessages({
   'account.settings.delete.account.button': {
     id: 'account.settings.delete.account.button',
     defaultMessage: 'Delete My Account',
-    description: 'Button label to permanently delete your edX account',
+    description: 'Button label to permanently delete your platform account',
   },
   'account.settings.delete.account.please.activate': {
     id: 'account.settings.delete.account.please.activate',
@@ -58,11 +63,16 @@ const messages = defineMessages({
   },
   'account.settings.delete.account.modal.text.1': {
     id: 'account.settings.delete.account.modal.text.1',
-    defaultMessage: 'You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. edX will not be able to recover your account or the data that is deleted.',
+    defaultMessage: 'You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. {siteName} will not be able to recover your account or the data that is deleted.',
     description: 'Messaging in the dialog asking user to confirm that they want to delete their entire account',
   },
   'account.settings.delete.account.modal.text.2': {
     id: 'account.settings.delete.account.modal.text.2',
+    defaultMessage: 'If you proceed, you will be unable to use this account to take courses on {siteName}.',
+    description: 'Messaging in the dialog asking user to confirm that they want to delete their entire account',
+  },
+  'account.settings.delete.account.modal.text.2.edX': {
+    id: 'account.settings.delete.account.modal.text.2.edX',
     defaultMessage: 'If you proceed, you will be unable to use this account to take courses on the edX app, edx.org, or any other site hosted by edX. This includes access to edx.org from your employer\'s or university\'s system and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.',
     description: 'Messaging in the dialog asking user to confirm that they want to delete their entire account',
   },

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Collapsible } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
+import { getConfig } from '@edx/frontend-platform';
 import messages from './IdVerification.messages';
 import IdVerificationContext from './IdVerificationContext';
 
@@ -41,7 +42,10 @@ function CameraHelp(props) {
         defaultOpen={props.isOpen}
       >
         <p>
-          {props.intl.formatMessage(messages['id.verification.camera.help.difficulty.answer'])}
+          {props.intl.formatMessage(
+            messages['id.verification.camera.help.difficulty.answer'],
+            { siteName: getConfig().SITE_NAME },
+          )}
         </p>
       </Collapsible>
     </div>

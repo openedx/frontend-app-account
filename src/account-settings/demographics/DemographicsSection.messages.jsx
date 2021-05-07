@@ -162,7 +162,7 @@ const messages = defineMessages({
   /* Legal copy link text */
   'account.settings.section.demographics.why': {
     id: 'account.settings.section.demographics.why',
-    defaultMessage: 'Why does edX collect this information?',
+    defaultMessage: 'Why does {siteName} collect this information?',
     description: 'Link text for a link to external legal text',
   },
 });

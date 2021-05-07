@@ -8,6 +8,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { getConfig } from '@edx/frontend-platform';
 import messages from './messages';
 import Alert from '../Alert';
 import PrintingInstructions from './PrintingInstructions';
@@ -65,6 +66,13 @@ export class ConfirmationModal extends Component {
     const open = ['confirming', 'pending', 'failed'].includes(status);
     const passwordFieldId = 'passwordFieldId';
     const invalidMessage = messages[this.getShortErrorMessageId(errorType)];
+
+    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+    // to allow edx.org to fulfill its business requirements.
+    const deleteAccountModalText2MessageKey = getConfig().SITE_NAME === 'edX'
+      ? 'account.settings.delete.account.modal.text.2.edX'
+      : 'account.settings.delete.account.modal.text.2';
+
     return (
       <Modal
         open={open}
@@ -77,9 +85,17 @@ export class ConfirmationModal extends Component {
               icon={<FontAwesomeIcon className="mr-2" icon={faExclamationTriangle} />}
             >
               <h6>
-                {intl.formatMessage(messages['account.settings.delete.account.modal.text.1'])}
+                {intl.formatMessage(
+                  messages['account.settings.delete.account.modal.text.1'],
+                  { siteName: getConfig().SITE_NAME },
+                )}
               </h6>
-              <p>{intl.formatMessage(messages['account.settings.delete.account.modal.text.2'])}</p>
+              <p>
+                {intl.formatMessage(
+                  messages[deleteAccountModalText2MessageKey],
+                  { siteName: getConfig().SITE_NAME },
+                )}
+              </p>
               <p>
                 <PrintingInstructions />
               </p>
