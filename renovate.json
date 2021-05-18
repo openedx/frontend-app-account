@@ -1,17 +1,15 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":automergeLinters",
+    ":automergeTesters",
+    ":automergeMinor",
+    ":noUnscheduledUpdates",
+    ":semanticCommits"
   ],
-  "patch": {
-    "automerge": true
-  },
   "rebaseStalePrs": true,
-  "packageRules": [
-    {
-      "matchPackagePatterns": ["^@edx/paragon"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true,
-      "stabilityDays": 3
-    }
-  ]
+  "schedule": [
+    "every weekend"
+  ],
+  "timezone": "America/New_York"
 }
