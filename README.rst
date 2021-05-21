@@ -3,7 +3,7 @@
 frontend-app-account
 ====================
 
-Please tag **@sarina** on any PRs or issues.  Thanks!
+Please tag **@edx/community-engineering** on any PRs or issues.  Thanks!
 
 Introduction
 ------------
@@ -32,7 +32,7 @@ This MFE is bundled with `Devstack <https://github.com/edx/devstack>`_, see the 
 3. Log in to Devstack (http://localhost:18000/login )
 
 4. Within this project, install requirements and start the development server:
-   
+
    .. code-block::
 
       npm install
@@ -45,7 +45,18 @@ This MFE is bundled with `Devstack <https://github.com/edx/devstack>`_, see the 
 Environment Variables/Setup Notes
 ---------------------------------
 
-This MFE is configured via node environment variables supplied at build time. See the `.env` file for the list of required environment variables.
+This MFE is configured via environment variables supplied at build time.  All micro-frontends have a shared set of required environment variables, as documented in the Open edX Developer Guide under `Required Environment Variables <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
+
+The account settings micro-frontend also supports the following additional variable:
+
+* ``SUPPORT_URL`` - The fully-qualified
+
+Furthermore, there are several edX-specific environment variables that enable integrations with closed-source services private to the edX organization, and are unsupported in Open edX.  Enabling these environment variables will result in undefined behavior in Open edX installations:
+
+* ``COACHING_ENABLED`` - Enables support for a section of the micro-frontend that helps users arrange for coaching sessions.  Integrates with a private coaching plugin and is only used by edx.org.
+* ``ENABLE_DEMOGRAPHICS_COLLECTION`` -  Enables support for a section of the account settings page where a user can enter demographics information.  Integrates with a private demographics service and is only used by edx.org.
+* ``DEMOGRAPHICS_BASE_URL`` - Required only if ``ENABLE_DEMOGRAPHICS_COLLECTION`` is true.  The fully-qualified URL to the private demographics service in the target environment.
+
 Example build syntax with a single environment variable:
 
 .. code:: bash
@@ -53,7 +64,7 @@ Example build syntax with a single environment variable:
    NODE_ENV=development ACCESS_TOKEN_COOKIE_NAME='edx-jwt-cookie-header-payload' npm run build
 
 For more information see the document: `Micro-frontend applications in Open
-edX <https://github.com/edx/edx-developer-docs/blob/5191e800bf16cf42f25c58c58f983bdaf7f9305d/docs/micro-frontends-in-open-edx.rst>`__.
+edX <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
 
 Known Issues
 ------------
