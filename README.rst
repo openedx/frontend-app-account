@@ -49,13 +49,34 @@ This MFE is configured via environment variables supplied at build time.  All mi
 
 The account settings micro-frontend also supports the following additional variable:
 
-* ``SUPPORT_URL`` - The fully-qualified
+``SUPPORT_URL``
+
+Example: ``https://support.example.com``
+
+The fully-qualified URL to the support page in the target environment.
+
+edX-specific Environment Variables
+**********************************
 
 Furthermore, there are several edX-specific environment variables that enable integrations with closed-source services private to the edX organization, and are unsupported in Open edX.  Enabling these environment variables will result in undefined behavior in Open edX installations:
 
-* ``COACHING_ENABLED`` - Enables support for a section of the micro-frontend that helps users arrange for coaching sessions.  Integrates with a private coaching plugin and is only used by edx.org.
-* ``ENABLE_DEMOGRAPHICS_COLLECTION`` -  Enables support for a section of the account settings page where a user can enter demographics information.  Integrates with a private demographics service and is only used by edx.org.
-* ``DEMOGRAPHICS_BASE_URL`` - Required only if ``ENABLE_DEMOGRAPHICS_COLLECTION`` is true.  The fully-qualified URL to the private demographics service in the target environment.
+``COACHING_ENABLED``
+
+Example: ``true`` | ``''`` (empty strings are falsy)
+
+Enables support for a section of the micro-frontend that helps users arrange for coaching sessions.  Integrates with a private coaching plugin and is only used by edx.org.
+
+``ENABLE_DEMOGRAPHICS_COLLECTION``
+
+Example: ``true`` | ``''`` (empty strings are falsy)
+
+Enables support for a section of the account settings page where a user can enter demographics information.  Integrates with a private demographics service and is only used by edx.org.
+
+``DEMOGRAPHICS_BASE_URL``
+
+Example: ``https://demographics.example.com``
+
+Required only if ``ENABLE_DEMOGRAPHICS_COLLECTION`` is true.  The fully-qualified URL to the private demographics service in the target environment.
 
 Example build syntax with a single environment variable:
 
