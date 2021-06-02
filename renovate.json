@@ -1,15 +1,21 @@
 {
   "extends": [
     "config:base",
+    "schedule:weekly",
     ":automergeLinters",
     ":automergeTesters",
     ":automergeMinor",
     ":noUnscheduledUpdates",
+    ":rebaseStalePrs",
     ":semanticCommits"
   ],
-  "rebaseStalePrs": true,
-  "schedule": [
-    "every weekend"
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "automerge": true
+    }
   ],
   "timezone": "America/New_York"
 }
