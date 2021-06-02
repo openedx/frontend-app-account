@@ -13,6 +13,20 @@ transifex_temp = ./temp/babel-plugin-react-intl
 requirements:
 	npm install
 
+.PHONY: requirements.ci
+requirements.ci:  ## install ci requirements
+	npm ci
+
+NPM_TESTS=i18n_extract lint test build is-es5
+
+.PHONY: test
+test: $(addprefix test.npm.,$(NPM_TESTS))  ## validate ci suite
+
+.PHONY: test.npm.*
+test.npm.%: validate-no-uncommitted-package-lock-changes
+	test -d node_modules || $(MAKE) requirements.ci
+	npm run $(*)
+
 i18n.extract:
 	# Pulling display strings from .jsx files into .json files...
 	rm -rf $(transifex_temp)
