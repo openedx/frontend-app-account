@@ -25,6 +25,7 @@ jobs:
     - run: make requirements
     - run: make test NPM_TESTS=${{ matrix.npm_tests }}
     - name: upload coverage
+      if: ${{ matrix.npm_tests }} == 'test'
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true
