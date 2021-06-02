@@ -13,7 +13,6 @@ jobs:
         node-version:
         - 12
         npm_tests:
-        - build
         - i18n_extract
         - is-es5
         - lint
