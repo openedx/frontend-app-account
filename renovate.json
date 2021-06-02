@@ -5,9 +5,9 @@
     ":automergeLinters",
     ":automergeTesters",
     ":automergeMinor",
-    ":noUnscheduledUpdates",
     ":rebaseStalePrs",
-    ":semanticCommits"
+    ":semanticCommits",
+    ":updateNotScheduled"
   ],
   "packageRules": [
     {
