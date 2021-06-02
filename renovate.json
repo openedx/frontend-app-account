@@ -5,6 +5,7 @@
     ":automergeLinters",
     ":automergeTesters",
     ":automergeMinor",
+    ":enableVulnerabilityAlerts",
     ":rebaseStalePrs",
     ":semanticCommits",
     ":updateNotScheduled"
