@@ -13,7 +13,8 @@
   "packageRules": [
     {
       "matchDepTypes": [
-        "devDependencies"
+        "devDependencies",
+        "lockFileMaintenance"
       ],
       "automerge": true
     }
