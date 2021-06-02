@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g npm@6
-    - run: make requirements.ci
+    - run: make requirements
     - run: make test
     - name: upload coverage
       uses: codecov/codecov-action@v1
