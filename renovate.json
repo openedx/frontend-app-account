@@ -9,5 +9,13 @@
     ":rebaseStalePrs",
     ":semanticCommits"
   ],
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "automerge": true
+    }
+  ],
   "timezone": "America/New_York"
 }
