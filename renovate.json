@@ -5,9 +5,9 @@
     ":automergeTesters",
     ":automergeMinor",
     ":noUnscheduledUpdates",
+    ":rebaseStalePrs",
     ":semanticCommits"
   ],
-  "rebaseStalePrs": true,
   "schedule": [
     "every weekend"
   ],
