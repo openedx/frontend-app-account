@@ -1,4 +1,4 @@
-|Build Status| |Codecov| |npm_version| |npm_downloads| |license| |semantic-release|
+|ci-badge| |Codecov| |npm_version| |npm_downloads| |license| |semantic-release|
 
 frontend-app-account
 ====================
@@ -102,8 +102,9 @@ In the future, it's possible that demographics could be modeled as a plugin rath
 
 ==============================
 
-.. |Build Status| image:: https://api.travis-ci.com/edx/frontend-app-account.svg?branch=master
-   :target: https://travis-ci.com/edx/frontend-app-account
+.. |ci-badge| image:: https://github.com/edx/edx-developer-docs/actions/workflows/ci.yml/badge.svg
+   :target: https://github.com/edx/edx-developer-docs/actions/workflows/ci.yml
+   :alt: Continuous Integration
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/edx/frontend-app-account
    :target: https://codecov.io/gh/edx/frontend-app-account
 .. |npm_version| image:: https://img.shields.io/npm/v/@edx/frontend-app-account.svg
