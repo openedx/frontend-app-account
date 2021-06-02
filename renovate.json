@@ -2,8 +2,6 @@
   "extends": [
     "config:base",
     "schedule:weekly",
-    ":automergeLinters",
-    ":automergeTesters",
     ":automergeMinor",
     ":enableVulnerabilityAlerts",
     ":rebaseStalePrs",
