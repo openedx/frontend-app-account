@@ -2,17 +2,17 @@
   "extends": [
     "config:base",
     "schedule:weekly",
-    ":automergeLinters",
-    ":automergeTesters",
     ":automergeMinor",
-    ":noUnscheduledUpdates",
+    ":enableVulnerabilityAlerts",
     ":rebaseStalePrs",
-    ":semanticCommits"
+    ":semanticCommits",
+    ":updateNotScheduled"
   ],
   "packageRules": [
     {
       "matchDepTypes": [
-        "devDependencies"
+        "devDependencies",
+        "lockFileMaintenance"
       ],
       "automerge": true
     }
