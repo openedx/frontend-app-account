@@ -83,7 +83,7 @@
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "10.4.9",
     "codecov": "3.8.2",
-    "enzyme": "3.10.0",
+    "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "es-check": "5.2.3",
     "husky": "3.1.0",
