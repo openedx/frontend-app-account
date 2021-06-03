@@ -41,7 +41,7 @@
     "@fortawesome/react-fontawesome": "0.1.14",
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs-converter": "1.7.4",
-    "@tensorflow/tfjs-core": "1.6.1",
+    "@tensorflow/tfjs-core": "1.7.4",
     "babel-polyfill": "6.26.0",
     "bowser": "2.11.0",
     "classnames": "2.2.6",
