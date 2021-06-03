@@ -1,0 +1,32 @@
+---
+name: ci
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+        - 12
+        npm-test:
+        - i18n_extract
+        - is-es5
+        - lint
+        - test
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install -g npm@6
+    - run: make requirements
+    - run: make test NPM_TESTS=build
+    - run: make test NPM_TESTS=${{ matrix.npm-test }}
+    - name: upload coverage
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: false
