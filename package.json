@@ -85,7 +85,7 @@
     "codecov": "3.7.2",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.6",
-    "es-check": "5.0.0",
+    "es-check": "5.2.3",
     "husky": "3.0.9",
     "react-test-renderer": "16.8.6",
     "reactifex": "1.1.1",
