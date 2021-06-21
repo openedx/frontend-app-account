@@ -58,7 +58,7 @@
     "lodash.omit": "4.5.0",
     "lodash.pick": "4.4.0",
     "lodash.pickby": "4.6.0",
-    "memoize-one": "5.1.1",
+    "memoize-one": "5.2.1",
     "newrelic": "5.13.1",
     "prop-types": "15.7.2",
     "qs": "6.9.6",
