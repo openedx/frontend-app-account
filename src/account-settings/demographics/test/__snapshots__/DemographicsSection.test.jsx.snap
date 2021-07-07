@@ -12,20 +12,43 @@ exports[`DemographicsSection should render 1`] = `
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -622,20 +645,43 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -1246,20 +1292,43 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -1292,20 +1361,43 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -1895,20 +1987,43 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -2498,20 +2613,43 @@ exports[`DemographicsSection should set user input correctly when user provides 
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
@@ -3108,20 +3246,43 @@ exports[`DemographicsSection should set user input correctly when user provides 
   </h2>
   <p>
     <a
+      className="default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
       rel="noopener noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
-      <span>
+      <span
+        className="d-inline-block align-text-top"
+      >
          
         <span
-          aria-hidden={false}
-          aria-label="Opens in a new window"
-          className="fa fa-external-link"
-          title="Opens in a new window"
-        />
+          className="pgn__icon"
+          style={
+            Object {
+              "height": "1em",
+              "width": "1em",
+            }
+          }
+        >
+          <svg
+            aria-hidden={true}
+            aria-label=""
+            fill="none"
+            focusable={false}
+            height={24}
+            role="img"
+            viewBox="0 0 24 24"
+            width={24}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 19H5V5h7V3H3v18h18v-9h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
       </span>
     </a>
   </p>
