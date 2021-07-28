@@ -91,6 +91,31 @@ const messages = defineMessages({
     defaultMessage: 'The name that is used for ID verification and that appears on your certificates.',
     description: 'Help text for the account settings name field.',
   },
+  'account.settings.field.name.verified': {
+    id: 'account.settings.field.name.verified',
+    defaultMessage: 'Verified name',
+    description: 'Label for account settings verified name field.',
+  },
+  'account.settings.field.name.verified.help.text.verified': {
+    id: 'account.settings.field.name.verified.help.text.verified',
+    defaultMessage: 'This name has been verified by government ID.',
+    description: 'Help text for the account settings verified name field when the name is verified.',
+  },
+  'account.settings.field.name.verified.help.text.pending': {
+    id: 'account.settings.field.name.verified.help.text.pending',
+    defaultMessage: 'This name is pending verification.',
+    description: 'Help text for the account settings verified name field when the name is pending verification.',
+  },
+  'account.settings.field.name.verified.sucess.message': {
+    id: 'account.settings.field.name.verified.sucess.message',
+    defaultMessage: 'Your identity verification request has successfully completed. You now have the option of selecting which name you prefer to appear on your certificates and public-records.',
+    description: 'The body of the success alert indicating that a user\'s name has been verified',
+  },
+  'account.settings.field.name.verified.sucess.message.header': {
+    id: 'account.settings.field.name.verified.sucess.message.header',
+    defaultMessage: 'Your name change request is complete!',
+    description: 'The header of the success alert indicating that a user\'s name has been verified',
+  },
   'account.settings.field.email': {
     id: 'account.settings.field.email',
     defaultMessage: 'Email address (Sign in)',
