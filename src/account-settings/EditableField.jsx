@@ -172,7 +172,7 @@ function EditableField(props) {
 
 EditableField.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.node]),
   emptyLabel: PropTypes.node,
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

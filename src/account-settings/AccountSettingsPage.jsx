@@ -13,7 +13,8 @@ import {
   getCountryList,
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
-import { Hyperlink } from '@edx/paragon';
+import { Hyperlink, Icon } from '@edx/paragon';
+import { CheckCircle } from '@edx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './data/actions';
@@ -27,6 +28,7 @@ import ResetPassword from './reset-password';
 import ThirdPartyAuth from './third-party-auth';
 import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
+import OneTimeDismissibleAlert from './OneTimeDismissibleAlert';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
@@ -206,6 +208,22 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
+  renderVerifiedNameSuccessMessage() {
+    if (this.props.formValues.verified_name_enabled && this.props.formValues.is_verified) {
+      return (
+        <OneTimeDismissibleAlert
+          id="dismissedVerifiedNameSuccessMessage"
+          variant="success"
+          icon={CheckCircle}
+          header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
+          body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
+        />
+      );
+    }
+
+    return null;
+  }
+
   renderEmptyStaticFieldMessage() {
     if (this.isManagedProfile()) {
       return this.props.intl.formatMessage(messages['account.settings.static.field.empty'], {
@@ -261,6 +279,8 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
+    const showVerifiedName = this.props.formValues.verified_name_enabled && this.props.formValues.verified_name;
+
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
       this.props.countryTimeZoneOptions,
@@ -272,6 +292,8 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
+          {this.renderVerifiedNameSuccessMessage()}
+
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
@@ -304,6 +326,30 @@ class AccountSettingsPage extends React.Component {
             isEditable={this.isEditable('name')}
             {...editableFieldProps}
           />
+          {showVerifiedName
+            && (
+            <EditableField
+              name="verifiedName"
+              type="text"
+              value={this.props.formValues.verified_name}
+              label={
+                (
+                  <div className="d-flex">
+                    {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
+                    {this.props.formValues.is_verified && <Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />}
+                  </div>
+                )
+              }
+              helpText={
+                this.props.formValues.is_verified
+                  ? this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified'])
+                  : this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending'])
+              }
+              isEditable={this.isEditable('verified_name')}
+              {...editableFieldProps}
+            />
+            )}
+
           <EmailField
             name="email"
             label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
@@ -578,6 +624,9 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
+    verified_name: PropTypes.string,
+    is_verified: PropTypes.bool,
+    verified_name_enabled: PropTypes.bool,
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
