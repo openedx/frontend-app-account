@@ -225,7 +225,7 @@ export async function getSettings(username, userRoles, userId) {
     profileDataManager,
     timeZones,
     coaching,
-    shouldDisplayDemographicsQuestions: shouldDisplayDemographicsQuestionsResponse,
+    shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
     ...demographics,
     demographicsOptions,
     ...verifiedName,
