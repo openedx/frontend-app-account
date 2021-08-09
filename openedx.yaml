@@ -3,5 +3,4 @@
 
 nick: acct
 oeps: {}
-owner: edx/arch-team
 openedx-release: {ref: master}
