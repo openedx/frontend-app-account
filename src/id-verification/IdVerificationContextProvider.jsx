@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager } from '../account-settings/data/service';
+import { getProfileDataManager, getVerifiedName } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
 
 import { getExistingIdVerification, getEnrollments } from './data/service';
@@ -76,6 +76,19 @@ export default function IdVerificationContextProvider({ children }) {
     }
   }, [authenticatedUser]);
 
+  const [verifiedName, setVerifiedName] = useState('');
+  useEffect(() => {
+    // Make the API call to retrieve VerifiedName of the learner.
+    // If the learner do not have such attribute from their account, that's OK.
+    // If the learner do have the attribute, the VerifiedName is overriding authenticatedUser.name
+    (async () => {
+      const verifiedNameResponse = await getVerifiedName();
+      if (verifiedNameResponse) {
+        setVerifiedName(verifiedNameResponse.verified_name);
+      }
+    })();
+  }, []);
+
   const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
   const [shouldUseCamera, setShouldUseCamera] = useState(false);
 
@@ -95,7 +108,7 @@ export default function IdVerificationContextProvider({ children }) {
     mediaStream,
     mediaAccess,
     userId: authenticatedUser.userId,
-    nameOnAccount: authenticatedUser.name,
+    nameOnAccount: verifiedName || authenticatedUser.name,
     profileDataManager,
     optimizelyExperimentName,
     shouldUseCamera,

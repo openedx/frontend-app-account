@@ -5,13 +5,14 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager } from '../../account-settings/data/service';
+import { getProfileDataManager, getVerifiedName } from '../../account-settings/data/service';
 
 import { getExistingIdVerification, getEnrollments } from '../data/service';
 import IdVerificationContextProvider from '../IdVerificationContextProvider';
 
 jest.mock('../../account-settings/data/service', () => ({
   getProfileDataManager: jest.fn(),
+  getVerifiedName: jest.fn(),
 }));
 
 jest.mock('../data/service', () => ({
@@ -61,5 +62,17 @@ describe('IdVerificationContextProvider', () => {
       context.authenticatedUser.username,
       context.authenticatedUser.roles,
     );
+  });
+
+  it('calls getVerifiedName', async () => {
+    const context = { authenticatedUser: { userId: 3, roles: [] } };
+    await act(async () => render((
+      <AppContext.Provider value={context}>
+        <IntlProvider locale="en">
+          <IdVerificationContextProvider {...defaultProps} />
+        </IntlProvider>
+      </AppContext.Provider>
+    )));
+    expect(getVerifiedName).toHaveBeenCalled();
   });
 });

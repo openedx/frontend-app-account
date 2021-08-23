@@ -176,12 +176,12 @@ export async function shouldDisplayDemographicsQuestions() {
   return false;
 }
 
-export async function getVerifiedName(username) {
+export async function getVerifiedName() {
   let data;
   const client = getAuthenticatedHttpClient();
   try {
-    ({ data } = await client
-      .get(`${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name?username=${username}`));
+    const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+    ({ data } = await client.get(requestUrl));
   } catch (error) {
     return {};
   }
@@ -215,7 +215,7 @@ export async function getSettings(username, userRoles, userId) {
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
-    getVerifiedName(username),
+    getVerifiedName(),
   ]);
 
   return {
