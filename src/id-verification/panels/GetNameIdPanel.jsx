@@ -146,9 +146,15 @@ function GetNameIdPanel(props) {
             onChange={e => setIdPhotoName(e.target.value)}
             data-testid="name-input"
           />
-          <Form.Control.Feedback id="photo-id-name-feedback" type="invalid">
-            {getErrorMessage()}
-          </Form.Control.Feedback>
+          {(invalidName || profileDataManager) && (
+            <Form.Control.Feedback
+              id="photo-id-name-feedback"
+              data-testid="id-name-feedback-message"
+              type="invalid"
+            >
+              {getErrorMessage()}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
       </Form>
 

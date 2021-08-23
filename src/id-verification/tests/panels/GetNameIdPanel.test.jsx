@@ -54,8 +54,10 @@ describe('GetNameIdPanel', () => {
     const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
     const nextButton = await screen.findByTestId('next-button');
+    const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
 
     expect(input).toHaveProperty('readOnly');
+    expect(errorMessageQuery).toBeNull();
 
     fireEvent.click(noButton);
     expect(input).toHaveProperty('readOnly', false);
@@ -63,6 +65,8 @@ describe('GetNameIdPanel', () => {
 
     fireEvent.change(input, { target: { value: 'test change' } });
     expect(contextValue.setIdPhotoName).toHaveBeenCalled();
+    // Ensure the feedback message on name shows when the user says the name does not match ID
+    expect(await screen.queryByTestId('id-name-feedback-message')).toBeTruthy();
 
     fireEvent.click(yesButton);
     expect(input).toHaveProperty('readOnly');
@@ -77,11 +81,13 @@ describe('GetNameIdPanel', () => {
     const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
     const nextButton = await screen.findByTestId('next-button');
+    const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
 
     expect(yesButton).toHaveProperty('disabled');
     expect(noButton).toHaveProperty('disabled');
     expect(input).toHaveProperty('readOnly', false);
     expect(nextButton.classList.contains('disabled')).toBe(true);
+    expect(errorMessageQuery).toBeTruthy();
   });
 
   it('blocks the user from changing account name if managed by a third party', async () => {
