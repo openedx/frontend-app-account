@@ -47,7 +47,7 @@
     "classnames": "2.3.1",
     "font-awesome": "4.7.0",
     "form-urlencoded": "4.0.1",
-    "formdata-polyfill": "3.0.20",
+    "formdata-polyfill": "4.0.6",
     "history": "4.10.1",
     "jslib-html5-camera-photo": "3.1.8",
     "lodash.debounce": "4.0.8",
