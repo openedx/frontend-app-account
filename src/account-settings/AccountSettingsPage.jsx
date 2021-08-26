@@ -208,20 +208,16 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderVerifiedNameSuccessMessage(showVerifiedApproved) {
-    if (showVerifiedApproved) {
-      return (
-        <OneTimeDismissibleAlert
-          id="dismissedVerifiedNameSuccessMessage"
-          variant="success"
-          icon={CheckCircle}
-          header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
-          body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
-        />
-      );
-    }
-
-    return null;
+  renderVerifiedNameSuccessMessage() {
+    return (
+      <OneTimeDismissibleAlert
+        id="dismissedVerifiedNameSuccessMessage"
+        variant="success"
+        icon={CheckCircle}
+        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
+        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
+      />
+    );
   }
 
   renderEmptyStaticFieldMessage() {
@@ -294,7 +290,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {this.renderVerifiedNameSuccessMessage(showVerifiedApproved)}
+          {showVerifiedApproved && this.renderVerifiedNameSuccessMessage()}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
