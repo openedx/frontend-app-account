@@ -209,19 +209,15 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderVerifiedNameSuccessMessage() {
-    if (this.props.formValues.verified_name_enabled && this.props.formValues.is_verified) {
-      return (
-        <OneTimeDismissibleAlert
-          id="dismissedVerifiedNameSuccessMessage"
-          variant="success"
-          icon={CheckCircle}
-          header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
-          body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
-        />
-      );
-    }
-
-    return null;
+    return (
+      <OneTimeDismissibleAlert
+        id="dismissedVerifiedNameSuccessMessage"
+        variant="success"
+        icon={CheckCircle}
+        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
+        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
+      />
+    );
   }
 
   renderEmptyStaticFieldMessage() {
@@ -279,7 +275,9 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const showVerifiedName = this.props.formValues.verified_name_enabled && this.props.formValues.verified_name;
+    const showVerifiedName = this.props.formValues.verifiedName
+      && this.props.formValues.verifiedName.verified_name_enabled;
+    const showVerifiedApproved = showVerifiedName && this.props.formValues.verifiedName.status === 'approved';
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -292,7 +290,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {this.renderVerifiedNameSuccessMessage()}
+          {showVerifiedApproved && this.renderVerifiedNameSuccessMessage()}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -331,17 +329,17 @@ class AccountSettingsPage extends React.Component {
             <EditableField
               name="verifiedName"
               type="text"
-              value={this.props.formValues.verified_name}
+              value={this.props.formValues.verifiedName.verified_name}
               label={
                 (
                   <div className="d-flex">
                     {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
-                    {this.props.formValues.is_verified && <Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />}
+                    {showVerifiedApproved && <Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />}
                   </div>
                 )
               }
               helpText={
-                this.props.formValues.is_verified
+                showVerifiedApproved
                   ? this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified'])
                   : this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending'])
               }
@@ -624,9 +622,11 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
-    verified_name: PropTypes.string,
-    is_verified: PropTypes.bool,
-    verified_name_enabled: PropTypes.bool,
+    verifiedName: PropTypes.shape({
+      verified_name: PropTypes.string,
+      status: PropTypes.string,
+      verified_name_enabled: PropTypes.bool,
+    }),
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,

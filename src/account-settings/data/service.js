@@ -228,7 +228,7 @@ export async function getSettings(username, userRoles, userId) {
     shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
     ...demographics,
     demographicsOptions,
-    ...verifiedName,
+    verifiedName,
   };
 }
 
