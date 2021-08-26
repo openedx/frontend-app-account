@@ -279,8 +279,9 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const showVerifiedName = this.props.formValues.verified_name_enabled && this.props.formValues.verified_name;
-    const showVerifiedApproved = showVerifiedName && this.props.formValues.status === 'approved';
+    const showVerifiedName = this.props.formValues.verifiedName
+      && this.props.formValues.verifiedName.verified_name_enabled;
+    const showVerifiedApproved = showVerifiedName && this.props.formValues.verifiedName.status === 'approved';
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -332,7 +333,7 @@ class AccountSettingsPage extends React.Component {
             <EditableField
               name="verifiedName"
               type="text"
-              value={this.props.formValues.verified_name}
+              value={this.props.formValues.verifiedName.verified_name}
               label={
                 (
                   <div className="d-flex">
@@ -625,9 +626,7 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
-    verified_name: PropTypes.string,
-    status: PropTypes.string,
-    verified_name_enabled: PropTypes.bool,
+    verifiedName: PropTypes.object,
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
