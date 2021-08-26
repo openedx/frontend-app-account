@@ -626,7 +626,11 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
-    verifiedName: PropTypes.object,
+    verifiedName: PropTypes.shape({
+      verified_name: PropTypes.string,
+      status: PropTypes.string,
+      verified_name_enabled: PropTypes.bool,
+    }),
   }).isRequired,
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
