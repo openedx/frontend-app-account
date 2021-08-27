@@ -189,6 +189,19 @@ export async function getVerifiedName() {
   return data;
 }
 
+export async function getVerifiedNameHistory() {
+  let data;
+  const client = getAuthenticatedHttpClient();
+  try {
+    const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name/history`;
+    ({ data } = await client.get(requestUrl));
+  } catch (error) {
+    return {};
+  }
+
+  return data;
+}
+
 /**
  * A single function to GET everything considered a setting.
  * Currently encapsulates Account, Preferences, Coaching, ThirdPartyAuth, and Demographics
@@ -204,7 +217,7 @@ export async function getSettings(username, userRoles, userId) {
     shouldDisplayDemographicsQuestionsResponse,
     demographics,
     demographicsOptions,
-    verifiedName,
+    verifiedNameHistory,
   ] = await Promise.all([
     getAccount(username),
     getPreferences(username),
@@ -215,7 +228,7 @@ export async function getSettings(username, userRoles, userId) {
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
-    getVerifiedName(),
+    getVerifiedNameHistory(),
   ]);
 
   return {
@@ -228,7 +241,7 @@ export async function getSettings(username, userRoles, userId) {
     shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
     ...demographics,
     demographicsOptions,
-    verifiedName,
+    verifiedNameHistory,
   };
 }
 

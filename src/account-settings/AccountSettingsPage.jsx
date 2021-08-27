@@ -138,6 +138,20 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  getMostRecentVerifiedNameRecord = verifiedNameHistory => {
+    if (verifiedNameHistory.length > 0) {
+      return verifiedNameHistory.reduce(
+        (prev, curr) => {
+          const prevDate = new Date(prev.created);
+          const currDate = new Date(curr.created);
+          return currDate > prevDate ? curr : prev;
+        },
+      );
+    }
+
+    return null;
+  }
+
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
   };
@@ -275,9 +289,10 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const showVerifiedName = this.props.formValues.verifiedName
-      && this.props.formValues.verifiedName.verified_name_enabled;
-    const showVerifiedApproved = showVerifiedName && this.props.formValues.verifiedName.status === 'approved';
+    const verifiedName = this.getMostRecentVerifiedNameRecord(this.props.formValues.verifiedNameHistory.results);
+    const showVerifiedName = verifiedName
+      && this.props.formValues.verifiedNameHistory.verified_name_enabled;
+    const showVerifiedApproved = showVerifiedName && verifiedName.status === 'approved';
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -286,7 +301,6 @@ class AccountSettingsPage extends React.Component {
     );
 
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
-
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
@@ -329,7 +343,7 @@ class AccountSettingsPage extends React.Component {
             <EditableField
               name="verifiedName"
               type="text"
-              value={this.props.formValues.verifiedName.verified_name}
+              value={verifiedName.verified_name}
               label={
                 (
                   <div className="d-flex">
@@ -622,10 +636,16 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
-    verifiedName: PropTypes.shape({
-      verified_name: PropTypes.string,
-      status: PropTypes.string,
+    verifiedNameHistory: PropTypes.shape({
       verified_name_enabled: PropTypes.bool,
+      use_verified_name_for_certs: PropTypes.bool,
+      results: PropTypes.arrayOf(
+        PropTypes.shape({
+          verified_name: PropTypes.string,
+          status: PropTypes.string,
+          verified_name_enabled: PropTypes.bool,
+        }),
+      ),
     }),
   }).isRequired,
   siteLanguage: PropTypes.shape({
