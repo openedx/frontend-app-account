@@ -30,6 +30,7 @@ import {
 // Sub-modules
 import { saga as deleteAccountSaga } from '../delete-account';
 import { saga as resetPasswordSaga } from '../reset-password';
+import { saga as nameChangeSaga } from '../name-change';
 import {
   saga as siteLanguageSaga,
   patchPreferences,
@@ -152,6 +153,7 @@ export default function* saga() {
     deleteAccountSaga(),
     siteLanguageSaga(),
     resetPasswordSaga(),
+    nameChangeSaga(),
     thirdPartyAuthSaga(),
   ]);
 }

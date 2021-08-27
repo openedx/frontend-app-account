@@ -216,6 +216,15 @@ export async function getVerifiedNameHistory() {
   return data;
 }
 
+export async function postVerifiedName(data) {
+  const requestConfig = { headers: { Accept: 'application/json' } };
+  const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+
+  await getAuthenticatedHttpClient()
+    .post(requestUrl, data, requestConfig)
+    .catch(error => handleRequestError(error));
+}
+
 /**
  * A single function to GET everything considered a setting.
  * Currently encapsulates Account, Preferences, Coaching, ThirdPartyAuth, and Demographics

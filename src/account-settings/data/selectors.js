@@ -211,6 +211,7 @@ export const accountSettingsPageSelector = createSelector(
   formValuesSelector,
   valuesSelector,
   draftsSelector,
+  errorSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
   timeZonesSelector,
@@ -223,6 +224,7 @@ export const accountSettingsPageSelector = createSelector(
     formValues,
     committedValues,
     drafts,
+    formErrors,
     profileDataManager,
     staticFields,
     timeZoneOptions,
@@ -240,6 +242,7 @@ export const accountSettingsPageSelector = createSelector(
     formValues,
     committedValues,
     drafts,
+    formErrors,
     profileDataManager,
     staticFields,
     tpaProviders: accountSettings.thirdPartyAuth.providers,
@@ -309,5 +312,14 @@ export const demographicsSectionSelector = createSelector(
     formValues,
     drafts,
     formErrors: errors,
+  }),
+);
+
+export const nameChangeSelector = createSelector(
+  accountSettingsSelector,
+  formValuesSelector,
+  (accountSettings, formValues) => ({
+    ...accountSettings.nameChange,
+    formValues,
   }),
 );
