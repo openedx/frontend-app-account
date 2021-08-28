@@ -14,7 +14,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
 import { Hyperlink, Icon } from '@edx/paragon';
-import { CheckCircle } from '@edx/paragon/icons';
+import { CheckCircle, WarningFilled } from '@edx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './data/actions';
@@ -154,11 +154,13 @@ class AccountSettingsPage extends React.Component {
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
-  };
+  }
 
   handleSubmit = (formId, values) => {
     this.props.saveSettings(formId, values);
-  };
+  }
+
+  isVerifiedNameEditable = (verifiedName) => ['approved', 'denied'].includes(verifiedName.status)
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
@@ -348,7 +350,11 @@ class AccountSettingsPage extends React.Component {
                 (
                   <div className="d-flex">
                     {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
-                    {showVerifiedApproved && <Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />}
+                    {
+                      showVerifiedApproved
+                        ? (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />)
+                        : (<Icon src={WarningFilled} className="ml-1" style={{ height: '18px', width: '18px', color: 'yellow' }} />)
+                    }
                   </div>
                 )
               }
@@ -357,8 +363,9 @@ class AccountSettingsPage extends React.Component {
                   ? this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified'])
                   : this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending'])
               }
-              isEditable={this.isEditable('verified_name')}
-              {...editableFieldProps}
+              isEditable={this.isVerifiedNameEditable(verifiedName) && this.isEditable('verified_name')}
+              isGrayedOut={!this.isVerifiedNameEditable(verifiedName)}
+              {...(this.isVerifiedNameEditable(verifiedName) && editableFieldProps)}
             />
             )}
 
