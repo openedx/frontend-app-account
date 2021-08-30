@@ -138,18 +138,19 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
-  getMostRecentVerifiedNameRecord = verifiedNameHistory => {
-    if (verifiedNameHistory.length > 0) {
-      return verifiedNameHistory.reduce(
-        (prev, curr) => {
-          const prevDate = new Date(prev.created);
-          const currDate = new Date(curr.created);
-          return currDate > prevDate ? curr : prev;
-        },
-      );
+  sortDates = (a, b) => {
+    const aTimeSinceEpoch = new Date(a).getTime();
+    const bTimeSinceEpoch = new Date(b).getTime();
+
+    return bTimeSinceEpoch - aTimeSinceEpoch;
+  }
+
+  sortVerifiedNameRecords = verifiedNameHistory => {
+    if (Array.isArray(verifiedNameHistory)) {
+      return [...verifiedNameHistory].sort(this.sortDates);
     }
 
-    return null;
+    return [];
   }
 
   handleEditableFieldChange = (name, value) => {
@@ -224,19 +225,17 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderVerifiedNameSuccessMessage() {
-    return (
-      <OneTimeDismissibleAlert
-        id="dismissedVerifiedNameSuccessMessage"
-        variant="success"
-        icon={CheckCircle}
-        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
-        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
-      />
-    );
-  }
+  renderVerifiedNameSuccessMessage = () => (
+    <OneTimeDismissibleAlert
+      id="dismissedVerifiedNameSuccessMessage"
+      variant="success"
+      icon={CheckCircle}
+      header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
+      body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
+    />
+  )
 
-  renderVerifiedNameFailureMessage(verifiedName, created) {
+  renderVerifiedNameFailureMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
     const id = `dismissedVerifiedNameFailureMessage-${verifiedName}-${dateValue}`;
 
@@ -269,6 +268,41 @@ class AccountSettingsPage extends React.Component {
         }
       />
     );
+  }
+
+  renderVerifiedNameMessage = verifiedNameRecord => {
+    const { created, status, verified_name: verifiedName } = verifiedNameRecord;
+
+    switch (status) {
+      case 'approved':
+        return this.renderVerifiedNameSuccessMessage();
+      case 'denied':
+        return this.renderVerifiedNameFailureMessage(verifiedName, created);
+      default:
+        return null;
+    }
+  }
+
+  renderVerifiedNameIcon = (status) => {
+    switch (status) {
+      case 'approved':
+        return (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />);
+      case 'pending':
+        return (<Icon src={WarningFilled} className="ml-1" style={{ height: '18px', width: '18px', color: 'yellow' }} />);
+      default:
+        return null;
+    }
+  }
+
+  renderVerifiedNameHelpText = (status) => {
+    switch (status) {
+      case 'approved':
+        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']));
+      case 'pending':
+        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending']));
+      default:
+        return null;
+    }
   }
 
   renderEmptyStaticFieldMessage() {
@@ -326,23 +360,24 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const verifiedName = this.getMostRecentVerifiedNameRecord(this.props.formValues.verifiedNameHistory.results);
-    const showVerifiedName = verifiedName
-      && this.props.formValues.verifiedNameHistory.verified_name_enabled;
+    const sortedVerifiedNames = this.sortVerifiedNameRecords(this.props.formValues.verifiedNameHistory.results);
+    const mostRecentVerifiedName = sortedVerifiedNames.length > 0 ? sortedVerifiedNames[0] : null;
+    const approvedVerifiedNames = sortedVerifiedNames.filter(name => name.status === 'approved');
+    const approvedVerifiedName = approvedVerifiedNames.length > 0 ? approvedVerifiedNames[0] : null;
 
-    let verifiedNameMessage;
-    let showVerifiedApproved = false;
-    switch (verifiedName.status) {
+    let verifiedNameToDisplay = null;
+    switch (mostRecentVerifiedName && mostRecentVerifiedName.status) {
       case 'approved':
-        showVerifiedApproved = true;
-        verifiedNameMessage = this.renderVerifiedNameSuccessMessage();
-        break;
       case 'denied':
-        verifiedNameMessage = this.renderVerifiedNameFailureMessage(verifiedName.verified_name, verifiedName.created);
+        verifiedNameToDisplay = approvedVerifiedName;
+        break;
+      case 'pending':
+        verifiedNameToDisplay = mostRecentVerifiedName;
         break;
       default:
-        verifiedNameMessage = null;
+        verifiedNameToDisplay = null;
     }
+    const verifiedNameEnabled = this.props.formValues.verifiedNameHistory.verified_name_enabled;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -354,7 +389,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {showVerifiedName && verifiedNameMessage}
+          {verifiedNameEnabled && this.renderVerifiedNameMessage(mostRecentVerifiedName)}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -388,32 +423,26 @@ class AccountSettingsPage extends React.Component {
             isEditable={this.isEditable('name')}
             {...editableFieldProps}
           />
-          {showVerifiedName
+          {verifiedNameEnabled && verifiedNameToDisplay
             && (
             <EditableField
               name="verifiedName"
               type="text"
-              value={verifiedName.verified_name}
+              value={verifiedNameToDisplay.verified_name}
               label={
                 (
                   <div className="d-flex">
                     {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
                     {
-                      showVerifiedApproved
-                        ? (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />)
-                        : (<Icon src={WarningFilled} className="ml-1" style={{ height: '18px', width: '18px', color: 'yellow' }} />)
+                      this.renderVerifiedNameIcon(verifiedNameToDisplay.status)
                     }
                   </div>
                 )
               }
-              helpText={
-                showVerifiedApproved
-                  ? this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified'])
-                  : this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending'])
-              }
-              isEditable={this.isVerifiedNameEditable(verifiedName) && this.isEditable('verified_name')}
-              isGrayedOut={!this.isVerifiedNameEditable(verifiedName)}
-              {...(this.isVerifiedNameEditable(verifiedName) && editableFieldProps)}
+              helpText={this.renderVerifiedNameHelpText(verifiedNameToDisplay.status)}
+              isEditable={this.isVerifiedNameEditable(verifiedNameToDisplay) && this.isEditable('verified_name')}
+              isGrayedOut={!this.isVerifiedNameEditable(verifiedNameToDisplay)}
+              {...(this.isVerifiedNameEditable(verifiedNameToDisplay) && editableFieldProps)}
             />
             )}
 
