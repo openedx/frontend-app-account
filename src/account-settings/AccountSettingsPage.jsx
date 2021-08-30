@@ -13,8 +13,8 @@ import {
   getCountryList,
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
-import { Hyperlink, Icon } from '@edx/paragon';
-import { CheckCircle, WarningFilled } from '@edx/paragon/icons';
+import { Button, Hyperlink, Icon } from '@edx/paragon';
+import { CheckCircle, Error, WarningFilled } from '@edx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './data/actions';
@@ -230,8 +230,43 @@ class AccountSettingsPage extends React.Component {
         id="dismissedVerifiedNameSuccessMessage"
         variant="success"
         icon={CheckCircle}
-        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message.header'])}
-        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.sucess.message'])}
+        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
+        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
+      />
+    );
+  }
+
+  renderVerifiedNameFailureMessage(verifiedName, created) {
+    const dateValue = new Date(created).valueOf();
+    const id = `dismissedVerifiedNameFailureMessage-${verifiedName}-${dateValue}`;
+
+    return (
+      <OneTimeDismissibleAlert
+        id={id}
+        variant="danger"
+        icon={Error}
+        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.header'])}
+        body={
+          (
+            <>
+              <div className="d-flex flex-row">
+                {this.props.intl.formatMessage(
+                  messages['account.settings.field.name.verified.failure.message'], {
+                    verifiedName,
+                  },
+                )}
+              </div>
+              <div className="d-flex flex-row-reverse mt-3">
+                <Button
+                  variant="primary"
+                  href="https://support.edx.org/hc/en-us/articles/360004381594-Why-was-my-ID-verification-denied"
+                >
+                  {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.help.link'])}
+                </Button>{' '}
+              </div>
+            </>
+          )
+        }
       />
     );
   }
@@ -294,7 +329,20 @@ class AccountSettingsPage extends React.Component {
     const verifiedName = this.getMostRecentVerifiedNameRecord(this.props.formValues.verifiedNameHistory.results);
     const showVerifiedName = verifiedName
       && this.props.formValues.verifiedNameHistory.verified_name_enabled;
-    const showVerifiedApproved = showVerifiedName && verifiedName.status === 'approved';
+
+    let verifiedNameMessage;
+    let showVerifiedApproved = false;
+    switch (verifiedName.status) {
+      case 'approved':
+        showVerifiedApproved = true;
+        verifiedNameMessage = this.renderVerifiedNameSuccessMessage();
+        break;
+      case 'denied':
+        verifiedNameMessage = this.renderVerifiedNameFailureMessage(verifiedName.verified_name, verifiedName.created);
+        break;
+      default:
+        verifiedNameMessage = null;
+    }
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -306,7 +354,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {showVerifiedApproved && this.renderVerifiedNameSuccessMessage()}
+          {showVerifiedName && verifiedNameMessage}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}

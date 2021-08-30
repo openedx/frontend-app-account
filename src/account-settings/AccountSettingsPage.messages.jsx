@@ -106,15 +106,30 @@ const messages = defineMessages({
     defaultMessage: 'Verification Pending. This usually takes 48 hours or less. Verified Name cannot be changed while identity verification is pending',
     description: 'Help text for the account settings verified name field when the name is pending verification.',
   },
-  'account.settings.field.name.verified.sucess.message': {
-    id: 'account.settings.field.name.verified.sucess.message',
+  'account.settings.field.name.verified.success.message': {
+    id: 'account.settings.field.name.verified.success.message',
     defaultMessage: 'Your identity verification request has successfully completed. You now have the option of selecting which name you prefer to appear on your certificates and public-records.',
     description: 'The body of the success alert indicating that a user\'s name has been verified',
   },
-  'account.settings.field.name.verified.sucess.message.header': {
-    id: 'account.settings.field.name.verified.sucess.message.header',
+  'account.settings.field.name.verified.success.message.header': {
+    id: 'account.settings.field.name.verified.success.message.header',
     defaultMessage: 'Your name change request is complete!',
     description: 'The header of the success alert indicating that a user\'s name has been verified',
+  },
+  'account.settings.field.name.verified.failure.message': {
+    id: 'account.settings.field.name.verified.failure.message',
+    defaultMessage: 'Your Verified name change attempt, “{verifiedName}”, did not pass ID verification. Your previous Verified name settings have been restored.',
+    description: 'The body of the failure alert indicating that a user\'s name was not able to be verified',
+  },
+  'account.settings.field.name.verified.failure.message.header': {
+    id: 'account.settings.field.name.verified.failure.message.header',
+    defaultMessage: 'We were not able to verify your identity.',
+    description: 'The header of the failure alert indicating that a user\'s name was not able to be verified',
+  },
+  'account.settings.field.name.verified.failure.message.help.link': {
+    id: 'account.settings.field.name.verified.failure.message.help.link',
+    defaultMessage: 'Learn more about ID verification',
+    description: 'The text of the button displayed when a user\'s name was not able to be verified, intended to direct the user to a help article about ID verification.',
   },
   'account.settings.field.email': {
     id: 'account.settings.field.email',
