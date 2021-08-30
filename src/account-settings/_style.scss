@@ -50,4 +50,8 @@
       line-height: 1.6rem;
     }
   }
+  .grayed-out{
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */
+  }
 }

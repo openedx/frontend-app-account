@@ -37,6 +37,7 @@ function EditableField(props) {
     onChange,
     isEditing,
     isEditable,
+    isGrayedOut,
     intl,
     ...others
   } = props;
@@ -161,7 +162,7 @@ function EditableField(props) {
                 </Button>
               ) : null}
             </div>
-            <p data-hj-suppress>{renderValue(value)}</p>
+            <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
             <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
@@ -196,6 +197,7 @@ EditableField.propTypes = {
   onChange: PropTypes.func.isRequired,
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
+  isGrayedOut: PropTypes.bool,
   intl: intlShape.isRequired,
 };
 
@@ -211,6 +213,7 @@ EditableField.defaultProps = {
   helpText: undefined,
   isEditing: false,
   isEditable: true,
+  isGrayedOut: false,
   userSuppliedValue: undefined,
 };
 

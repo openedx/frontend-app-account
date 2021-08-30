@@ -103,7 +103,7 @@ const messages = defineMessages({
   },
   'account.settings.field.name.verified.help.text.pending': {
     id: 'account.settings.field.name.verified.help.text.pending',
-    defaultMessage: 'This name is pending verification.',
+    defaultMessage: 'Verification Pending. This usually takes 48 hours or less. Verified Name cannot be changed while identity verification is pending',
     description: 'Help text for the account settings verified name field when the name is pending verification.',
   },
   'account.settings.field.name.verified.sucess.message': {
