@@ -101,10 +101,15 @@ const messages = defineMessages({
     defaultMessage: 'This name has been verified by government ID.',
     description: 'Help text for the account settings verified name field when the name is verified.',
   },
-  'account.settings.field.name.verified.help.text.pending': {
-    id: 'account.settings.field.name.verified.help.text.pending',
-    defaultMessage: 'Verification Pending. This usually takes 48 hours or less. Verified Name cannot be changed while identity verification is pending',
-    description: 'Help text for the account settings verified name field when the name is pending verification.',
+  'account.settings.field.name.verified.help.text.submitted': {
+    id: 'account.settings.field.name.verified.help.text.submitted',
+    defaultMessage: 'Verification has been submitted. This usually takes 48 hours or less. Verified name cannot be changed at this time.',
+    description: 'Help text for the account settings verified name field when a verified name has been submitted.',
+  },
+  'account.settings.field.full.name.help.text.submitted': {
+    id: 'account.settings.field.full.name.help.text.submitted',
+    defaultMessage: 'When identity verification is successful, this name will appear on your certificates and public-facing records. Full name cannot be changed at this time.',
+    description: 'Help text for the account settings full name field when a verified name has been submitted.',
   },
   'account.settings.field.name.verified.success.message': {
     id: 'account.settings.field.name.verified.success.message',
@@ -130,6 +135,16 @@ const messages = defineMessages({
     id: 'account.settings.field.name.verified.failure.message.help.link',
     defaultMessage: 'Learn more about ID verification',
     description: 'The text of the button displayed when a user\'s name was not able to be verified, intended to direct the user to a help article about ID verification.',
+  },
+  'account.settings.field.name.verified.submitted.message': {
+    id: 'account.settings.field.name.verified.submitted.message',
+    defaultMessage: 'Your identity verification request has been submitted and usually takes between 24 and 48 hours to complete. When your request is approved, your updated name will appear on all associated certificates and public-facing records.',
+    description: 'The body of the submitted alert indicating that a user\'s name has been submitted for verification',
+  },
+  'account.settings.field.name.verified.submitted.message.header': {
+    id: 'account.settings.field.name.verified.submitted.message.header',
+    defaultMessage: 'Your name change request is almost complete!',
+    description: 'The header of the submitted alert indicating that a user\'s name has been submitted for verification',
   },
   'account.settings.field.email': {
     id: 'account.settings.field.email',
