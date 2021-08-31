@@ -13,14 +13,15 @@ import {
   getCountryList,
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
-import { Button, Hyperlink, Icon } from '@edx/paragon';
+import {
+  Button, Hyperlink, Icon, Alert,
+} from '@edx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@edx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import { fetchSettings, saveSettings, updateDraft } from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
-import Alert from './Alert';
 import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
@@ -180,7 +181,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div>
-        <Alert className="alert alert-danger" role="alert">
+        <Alert variant="danger">
           <FormattedMessage
             id="account.settings.message.duplicate.tpa.provider"
             defaultMessage="The {provider} account you selected is already linked to another {siteName} account."
@@ -202,7 +203,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <div>
-        <Alert className="alert alert-primary" role="alert">
+        <Alert variant="info">
           <FormattedMessage
             id="account.settings.message.managed.settings"
             defaultMessage="Your profile settings are managed by {managerTitle}. Contact your administrator or {support} for help."
@@ -270,6 +271,20 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
+  renderVerifiedNameSubmittedMessage = () => (
+    <Alert
+      variant="warning"
+      icon={WarningFilled}
+    >
+      <Alert.Heading>
+        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.header'])}
+      </Alert.Heading>
+      <p>
+        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message'])}
+      </p>
+    </Alert>
+  )
+
   renderVerifiedNameMessage = verifiedNameRecord => {
     const { created, status, verified_name: verifiedName } = verifiedNameRecord;
 
@@ -278,6 +293,8 @@ class AccountSettingsPage extends React.Component {
         return this.renderVerifiedNameSuccessMessage();
       case 'denied':
         return this.renderVerifiedNameFailureMessage(verifiedName, created);
+      case 'submitted':
+        return this.renderVerifiedNameSubmittedMessage();
       default:
         return null;
     }
@@ -287,7 +304,7 @@ class AccountSettingsPage extends React.Component {
     switch (status) {
       case 'approved':
         return (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />);
-      case 'pending':
+      case 'submitted':
         return (<Icon src={WarningFilled} className="ml-1" style={{ height: '18px', width: '18px', color: 'yellow' }} />);
       default:
         return null;
@@ -298,10 +315,19 @@ class AccountSettingsPage extends React.Component {
     switch (status) {
       case 'approved':
         return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']));
-      case 'pending':
-        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.pending']));
+      case 'submitted':
+        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']));
       default:
         return null;
+    }
+  }
+
+  renderFullNameHelpText = (status) => {
+    switch (status) {
+      case 'submitted':
+        return (this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']));
+      default:
+        return (this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']));
     }
   }
 
@@ -371,7 +397,7 @@ class AccountSettingsPage extends React.Component {
       case 'denied':
         verifiedNameToDisplay = approvedVerifiedName;
         break;
-      case 'pending':
+      case 'submitted':
         verifiedNameToDisplay = mostRecentVerifiedName;
         break;
       default:
@@ -419,8 +445,19 @@ class AccountSettingsPage extends React.Component {
                 ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
                 : this.renderEmptyStaticFieldMessage()
             }
-            helpText={this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])}
-            isEditable={this.isEditable('name')}
+            helpText={
+              verifiedNameEnabled && verifiedNameToDisplay
+                ? this.renderFullNameHelpText(verifiedNameToDisplay.status)
+                : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
+            }
+            isEditable={
+              verifiedNameEnabled && verifiedNameToDisplay
+                ? this.isVerifiedNameEditable(verifiedNameToDisplay) && this.isEditable('name')
+                : this.isEditable('name')
+            }
+            isGrayedOut={
+              verifiedNameEnabled && verifiedNameToDisplay && !this.isVerifiedNameEditable(verifiedNameToDisplay)
+            }
             {...editableFieldProps}
           />
           {verifiedNameEnabled && verifiedNameToDisplay
