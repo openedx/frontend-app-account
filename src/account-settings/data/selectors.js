@@ -7,9 +7,63 @@ export const accountSettingsSelector = state => ({ ...state[storeName] });
 
 const editableFieldNameSelector = (state, props) => props.name;
 
+const sortedVerifiedNameHistorySelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => {
+    function sortDates(a, b) {
+      const aTimeSinceEpoch = new Date(a).getTime();
+      const bTimeSinceEpoch = new Date(b).getTime();
+      return bTimeSinceEpoch - aTimeSinceEpoch;
+    }
+
+    const history = accountSettings.values.verifiedNameHistory && accountSettings.values.verifiedNameHistory.results;
+
+    if (Array.isArray(history)) {
+      return history.sort(sortDates);
+    }
+
+    return [];
+  },
+);
+
+const mostRecentVerifiedNameSelector = createSelector(
+  sortedVerifiedNameHistorySelector,
+  sortedHistory => (sortedHistory.length > 0 ? sortedHistory[0] : null),
+);
+
+const mostRecentApprovedVerifiedNameValueSelector = createSelector(
+  sortedVerifiedNameHistorySelector,
+  mostRecentVerifiedNameSelector,
+  (sortedHistory, mostRecentVerifiedName) => {
+    const approvedVerifiedNames = sortedHistory.filter(name => name.status === 'approved');
+    const approvedVerifiedName = approvedVerifiedNames.length > 0 ? approvedVerifiedNames[0] : null;
+
+    let verifiedName = null;
+    switch (mostRecentVerifiedName && mostRecentVerifiedName.status) {
+      case 'approved':
+      case 'denied':
+        verifiedName = approvedVerifiedName;
+        break;
+      case 'submitted':
+        verifiedName = mostRecentVerifiedName;
+        break;
+      default:
+        verifiedName = null;
+    }
+    return verifiedName;
+  },
+);
+
 const valuesSelector = createSelector(
   accountSettingsSelector,
-  accountSettings => accountSettings.values,
+  mostRecentVerifiedNameSelector,
+  mostRecentApprovedVerifiedNameValueSelector,
+  (accountSettings, mostRecentVerifiedNameValue, mostRecentApprovedVerifiedNameValue) => (
+    {
+      ...accountSettings.values,
+      verifiedName: mostRecentApprovedVerifiedNameValue,
+      mostRecentVerifiedName: mostRecentVerifiedNameValue,
+    }),
 );
 
 const draftsSelector = createSelector(
@@ -69,7 +123,18 @@ export const profileDataManagerSelector = createSelector(
 
 export const staticFieldsSelector = createSelector(
   accountSettingsSelector,
-  accountSettings => (accountSettings.profileDataManager ? ['name', 'email', 'country'] : []),
+  mostRecentVerifiedNameSelector,
+  (accountSettings, verifiedName) => {
+    const staticFields = [];
+    if (accountSettings.profileDataManager) {
+      staticFields.push('name', 'email', 'country');
+    }
+    if (verifiedName && ['pending', 'submitted'].includes(verifiedName.status)) {
+      staticFields.push('verifiedName');
+    }
+
+    return staticFields;
+  },
 );
 
 /**

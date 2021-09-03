@@ -162,8 +162,6 @@ class AccountSettingsPage extends React.Component {
     this.props.saveSettings(formId, values);
   }
 
-  isVerifiedNameEditable = (verifiedName) => ['approved', 'denied'].includes(verifiedName.status)
-
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
   }
@@ -386,23 +384,7 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const sortedVerifiedNames = this.sortVerifiedNameRecords(this.props.formValues.verifiedNameHistory.results);
-    const mostRecentVerifiedName = sortedVerifiedNames.length > 0 ? sortedVerifiedNames[0] : null;
-    const approvedVerifiedNames = sortedVerifiedNames.filter(name => name.status === 'approved');
-    const approvedVerifiedName = approvedVerifiedNames.length > 0 ? approvedVerifiedNames[0] : null;
-
-    let verifiedNameToDisplay = null;
-    switch (mostRecentVerifiedName && mostRecentVerifiedName.status) {
-      case 'approved':
-      case 'denied':
-        verifiedNameToDisplay = approvedVerifiedName;
-        break;
-      case 'submitted':
-        verifiedNameToDisplay = mostRecentVerifiedName;
-        break;
-      default:
-        verifiedNameToDisplay = null;
-    }
+    const { verifiedName } = this.props.formValues;
     const verifiedNameEnabled = this.props.formValues.verifiedNameHistory.verified_name_enabled;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
@@ -415,7 +397,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {verifiedNameEnabled && this.renderVerifiedNameMessage(mostRecentVerifiedName)}
+          {verifiedNameEnabled && this.renderVerifiedNameMessage(this.props.formValues.mostRecentVerifiedName)}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -446,40 +428,40 @@ class AccountSettingsPage extends React.Component {
                 : this.renderEmptyStaticFieldMessage()
             }
             helpText={
-              verifiedNameEnabled && verifiedNameToDisplay
-                ? this.renderFullNameHelpText(verifiedNameToDisplay.status)
+              verifiedNameEnabled && verifiedName
+                ? this.renderFullNameHelpText(verifiedName.status)
                 : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
             isEditable={
-              verifiedNameEnabled && verifiedNameToDisplay
-                ? this.isVerifiedNameEditable(verifiedNameToDisplay) && this.isEditable('name')
+              verifiedNameEnabled && verifiedName
+                ? this.isEditable('verifiedName') && this.isEditable('name')
                 : this.isEditable('name')
             }
             isGrayedOut={
-              verifiedNameEnabled && verifiedNameToDisplay && !this.isVerifiedNameEditable(verifiedNameToDisplay)
+              verifiedNameEnabled && verifiedName && !this.isEditable('verifiedName')
             }
             {...editableFieldProps}
           />
-          {verifiedNameEnabled && verifiedNameToDisplay
+          {verifiedNameEnabled && verifiedName
             && (
             <EditableField
               name="verifiedName"
               type="text"
-              value={verifiedNameToDisplay.verified_name}
+              value={this.props.formValues.verifiedName.verified_name}
               label={
                 (
                   <div className="d-flex">
                     {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
                     {
-                      this.renderVerifiedNameIcon(verifiedNameToDisplay.status)
+                      this.renderVerifiedNameIcon(verifiedName.status)
                     }
                   </div>
                 )
               }
-              helpText={this.renderVerifiedNameHelpText(verifiedNameToDisplay.status)}
-              isEditable={this.isVerifiedNameEditable(verifiedNameToDisplay) && this.isEditable('verified_name')}
-              isGrayedOut={!this.isVerifiedNameEditable(verifiedNameToDisplay)}
-              {...(this.isVerifiedNameEditable(verifiedNameToDisplay) && editableFieldProps)}
+              helpText={this.renderVerifiedNameHelpText(verifiedName.status)}
+              isEditable={this.isEditable('verifiedName')}
+              isGrayedOut={!this.isEditable('verifiedName')}
+              {...(this.isEditable('verifiedName') && editableFieldProps)}
             />
             )}
 
@@ -764,9 +746,16 @@ AccountSettingsPage.propTypes = {
         PropTypes.shape({
           verified_name: PropTypes.string,
           status: PropTypes.string,
-          verified_name_enabled: PropTypes.bool,
         }),
       ),
+    }),
+    verifiedName: PropTypes.shape({
+      verified_name: PropTypes.string,
+      status: PropTypes.string,
+    }),
+    mostRecentVerifiedName: PropTypes.shape({
+      verified_name: PropTypes.string,
+      status: PropTypes.string,
     }),
   }).isRequired,
   siteLanguage: PropTypes.shape({
