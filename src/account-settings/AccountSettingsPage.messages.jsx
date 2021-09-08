@@ -91,6 +91,16 @@ const messages = defineMessages({
     defaultMessage: 'The name that is used for ID verification and that appears on your certificates.',
     description: 'Help text for the account settings name field.',
   },
+  'account.settings.field.full.name.help.text.non.certificate': {
+    id: 'account.settings.field.full.name.help.text.non.certificate',
+    defaultMessage: 'The name that appears on your public profile.',
+    description: 'Help text for the account settings name field.',
+  },
+  'account.settings.field.full.name.help.text.certificate': {
+    id: 'account.settings.field.full.name.help.text.certificate',
+    defaultMessage: 'This name is selected to appear on your certificates and public-facing records.',
+    description: 'Help text for the account settings name field.',
+  },
   'account.settings.field.name.verified': {
     id: 'account.settings.field.name.verified',
     defaultMessage: 'Verified name',
@@ -100,6 +110,11 @@ const messages = defineMessages({
     id: 'account.settings.field.name.verified.help.text.verified',
     defaultMessage: 'This name has been verified by government ID.',
     description: 'Help text for the account settings verified name field when the name is verified.',
+  },
+  'account.settings.field.name.verified.help.text.certificate': {
+    id: 'account.settings.field.name.verified.help.text.certificate',
+    defaultMessage: 'This name has been verified by government ID and selected to appear on your certificates and public-facing records.',
+    description: 'Help text for the account settings verified name field when the name is selected for certificates.',
   },
   'account.settings.field.name.verified.help.text.submitted': {
     id: 'account.settings.field.name.verified.help.text.submitted',
