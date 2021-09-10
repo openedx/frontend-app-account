@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager, getVerifiedName } from '../account-settings/data/service';
+import { getProfileDataManager, getVerifiedName, getVerifiedNameEnabled } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
 
 import { getExistingIdVerification, getEnrollments } from './data/service';
@@ -30,11 +30,25 @@ export default function IdVerificationContextProvider({ children }) {
     hasGetUserMediaSupport ? MEDIA_ACCESS.PENDING : MEDIA_ACCESS.UNSUPPORTED,
   );
 
+  const [verifiedNameEnabled, setVerifiedNameEnabled] = useState('');
+  useEffect(() => {
+    // Make the API call to retrieve VerifiedNameEnabled
+    (async () => {
+      const response = await getVerifiedNameEnabled();
+      if (response) {
+        setVerifiedNameEnabled(response.verified_name_enabled);
+      } else {
+        setVerifiedNameEnabled(false);
+      }
+    })();
+  }, []);
+
   const [canVerify, setCanVerify] = useState(true);
   const [error, setError] = useState('');
   useEffect(() => {
-    // Check for an existing verification attempt
-    if (existingIdVerification && !existingIdVerification.canVerify) {
+    // With verified name we can redo verification multiple times
+    // if not a successful request prevents re-verification
+    if (!verifiedNameEnabled && existingIdVerification && !existingIdVerification.canVerify) {
       const { status } = existingIdVerification;
       setCanVerify(false);
       if (status === 'pending' || status === 'approved') {
@@ -43,7 +57,7 @@ export default function IdVerificationContextProvider({ children }) {
         setError(ERROR_REASONS.CANNOT_VERIFY);
       }
     }
-  }, [existingIdVerification]);
+  }, [existingIdVerification, verifiedNameEnabled]);
   useEffect(() => {
     // Check whether the learner is enrolled in a verified course mode.
     (async () => {
