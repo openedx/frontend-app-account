@@ -19,7 +19,12 @@ import {
 import { CheckCircle, Error, WarningFilled } from '@edx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
-import { fetchSettings, saveSettings, updateDraft } from './data/actions';
+import {
+  fetchSettings,
+  saveMultipleSettings,
+  saveSettings,
+  updateDraft,
+} from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
 import JumpNav from './JumpNav';
@@ -162,6 +167,23 @@ class AccountSettingsPage extends React.Component {
     this.props.saveSettings(formId, values);
   }
 
+  handleSubmitName = (formId, values) => {
+    if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
+      this.props.saveMultipleSettings([
+        {
+          formId,
+          commitValues: values,
+        },
+        {
+          formId: 'useVerifiedNameForCerts',
+          commitValues: this.props.formValues.useVerifiedNameForCerts,
+        },
+      ], formId);
+    } else {
+      this.props.saveSettings(formId, values);
+    }
+  };
+
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
   }
@@ -222,6 +244,25 @@ class AccountSettingsPage extends React.Component {
         </Alert>
       </div>
     );
+  }
+
+  renderFullNameHelpText = (status) => {
+    if (
+      !this.props.formValues.verifiedNameHistory
+      || !this.props.formValues.verifiedNameHistory.verified_name_enabled
+    ) {
+      return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']);
+    }
+
+    switch (status) {
+      case 'submitted':
+        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']);
+      default:
+        if (this.props.committedValues.useVerifiedNameForCerts) {
+          return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.non.certificate']);
+        }
+        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.certificate']);
+    }
   }
 
   renderVerifiedNameSuccessMessage = () => (
@@ -312,20 +353,14 @@ class AccountSettingsPage extends React.Component {
   renderVerifiedNameHelpText = (status) => {
     switch (status) {
       case 'approved':
+        if (this.props.committedValues.useVerifiedNameForCerts) {
+          return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.certificate']));
+        }
         return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']));
       case 'submitted':
         return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']));
       default:
         return null;
-    }
-  }
-
-  renderFullNameHelpText = (status) => {
-    switch (status) {
-      case 'submitted':
-        return (this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']));
-      default:
-        return (this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']));
     }
   }
 
@@ -440,7 +475,8 @@ class AccountSettingsPage extends React.Component {
             isGrayedOut={
               verifiedNameEnabled && verifiedName && !this.isEditable('verifiedName')
             }
-            {...editableFieldProps}
+            onChange={this.handleEditableFieldChange}
+            onSubmit={this.handleSubmitName}
           />
           {verifiedNameEnabled && verifiedName
             && (
@@ -461,7 +497,8 @@ class AccountSettingsPage extends React.Component {
               helpText={this.renderVerifiedNameHelpText(verifiedName.status)}
               isEditable={this.isEditable('verifiedName')}
               isGrayedOut={!this.isEditable('verifiedName')}
-              {...(this.isEditable('verifiedName') && editableFieldProps)}
+              onChange={this.handleEditableFieldChange}
+              onSubmit={this.handleSubmitName}
             />
             )}
 
@@ -739,6 +776,7 @@ AccountSettingsPage.propTypes = {
     }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
+    useVerifiedNameForCerts: PropTypes.bool.isRequired,
     verifiedNameHistory: PropTypes.shape({
       verified_name_enabled: PropTypes.bool,
       use_verified_name_for_certs: PropTypes.bool,
@@ -758,6 +796,10 @@ AccountSettingsPage.propTypes = {
       status: PropTypes.string,
     }),
   }).isRequired,
+  committedValues: PropTypes.shape({
+    useVerifiedNameForCerts: PropTypes.bool,
+  }),
+  drafts: PropTypes.shape({}),
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
     draft: PropTypes.string,
@@ -781,6 +823,7 @@ AccountSettingsPage.propTypes = {
   })),
   fetchSiteLanguages: PropTypes.func.isRequired,
   updateDraft: PropTypes.func.isRequired,
+  saveMultipleSettings: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
@@ -790,6 +833,10 @@ AccountSettingsPage.defaultProps = {
   loading: false,
   loaded: false,
   loadingError: null,
+  committedValues: {
+    useVerifiedNameForCerts: false,
+  },
+  drafts: {},
   siteLanguage: null,
   siteLanguageOptions: [],
   timeZoneOptions: [],
@@ -804,6 +851,7 @@ AccountSettingsPage.defaultProps = {
 export default connect(accountSettingsPageSelector, {
   fetchSettings,
   saveSettings,
+  saveMultipleSettings,
   updateDraft,
   fetchSiteLanguages,
 })(injectIntl(AccountSettingsPage));

@@ -16,6 +16,7 @@ import {
   closeForm,
 } from './data/actions';
 import { editableFieldSelector } from './data/selectors';
+import CertificatePreference from './certificate-preference/CertificatePreference';
 
 function EditableField(props) {
   const {
@@ -103,54 +104,57 @@ function EditableField(props) {
       expression={isEditing ? 'editing' : 'default'}
       cases={{
         editing: (
-          <form onSubmit={handleSubmit}>
-            <ValidationFormGroup
-              for={id}
-              invalid={error != null}
-              invalidMessage={error}
-              helpText={helpText}
-            >
-              <label className="h6 d-block" htmlFor={id}>{label}</label>
-              <Input
-                data-hj-suppress
-                name={name}
-                id={id}
-                type={type}
-                value={value}
-                onChange={handleChange}
-                options={options}
-                {...others}
-              />
-              <>{others.children}</>
-            </ValidationFormGroup>
-            <p>
-              <StatefulButton
-                type="submit"
-                className="mr-2"
-                state={saveState}
-                labels={{
-                  default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                }}
-                onClick={(e) => {
-                  // Swallow clicks if the state is pending.
-                  // We do this instead of disabling the button to prevent
-                  // it from losing focus (disabled elements cannot have focus).
-                  // Disabling it would causes upstream issues in focus management.
-                  // Swallowing the onSubmit event on the form would be better, but
-                  // we would have to add that logic for every field given our
-                  // current structure of the application.
-                  if (saveState === 'pending') { e.preventDefault(); }
-                }}
-                disabledStates={[]}
-              />
-              <Button
-                variant="outline-primary"
-                onClick={handleCancel}
+          <>
+            <form onSubmit={handleSubmit}>
+              <ValidationFormGroup
+                for={id}
+                invalid={error != null}
+                invalidMessage={error}
+                helpText={helpText}
               >
-                {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-              </Button>
-            </p>
-          </form>
+                <label className="h6 d-block" htmlFor={id}>{label}</label>
+                <Input
+                  data-hj-suppress
+                  name={name}
+                  id={id}
+                  type={type}
+                  value={value}
+                  onChange={handleChange}
+                  options={options}
+                  {...others}
+                />
+                <>{others.children}</>
+              </ValidationFormGroup>
+              <p>
+                <StatefulButton
+                  type="submit"
+                  className="mr-2"
+                  state={saveState}
+                  labels={{
+                    default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                  }}
+                  onClick={(e) => {
+                    // Swallow clicks if the state is pending.
+                    // We do this instead of disabling the button to prevent
+                    // it from losing focus (disabled elements cannot have focus).
+                    // Disabling it would causes upstream issues in focus management.
+                    // Swallowing the onSubmit event on the form would be better, but
+                    // we would have to add that logic for every field given our
+                    // current structure of the application.
+                    if (saveState === 'pending') { e.preventDefault(); }
+                  }}
+                  disabledStates={[]}
+                />
+                <Button
+                  variant="outline-primary"
+                  onClick={handleCancel}
+                >
+                  {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                </Button>
+              </p>
+            </form>
+            {['name', 'verifiedName'].includes(name) && <CertificatePreference fieldName={name} />}
+          </>
         ),
         default: (
           <div className="form-group">

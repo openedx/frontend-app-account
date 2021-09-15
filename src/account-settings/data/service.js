@@ -7,6 +7,7 @@ import isEmpty from 'lodash.isempty';
 
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
+import { postVerifiedNameConfig } from '../certificate-preference/data/service';
 import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
 import { getDemographics, getDemographicsOptions, patchDemographics } from '../demographics/data/service';
 import { DEMOGRAPHICS_FIELDS } from '../demographics/data/utils';
@@ -269,11 +270,19 @@ export async function patchSettings(username, commitValues, userId) {
   const preferenceKeys = ['time_zone'];
   const coachingKeys = ['coaching'];
   const demographicsKeys = DEMOGRAPHICS_FIELDS;
+  const certificateKeys = ['useVerifiedNameForCerts'];
   const isDemographicsKey = (value, key) => key.includes('demographics');
-  const accountCommitValues = omit(commitValues, preferenceKeys, coachingKeys, demographicsKeys);
+  const accountCommitValues = omit(
+    commitValues,
+    preferenceKeys,
+    coachingKeys,
+    demographicsKeys,
+    certificateKeys,
+  );
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
   const coachingCommitValues = pick(commitValues, coachingKeys);
   const demographicsCommitValues = pickBy(commitValues, isDemographicsKey);
+  const certCommitValues = pick(commitValues, certificateKeys);
   const patchRequests = [];
 
   if (!isEmpty(accountCommitValues)) {
@@ -287,6 +296,9 @@ export async function patchSettings(username, commitValues, userId) {
   }
   if (!isEmpty(demographicsCommitValues)) {
     patchRequests.push(patchDemographics(userId, demographicsCommitValues));
+  }
+  if (!isEmpty(certCommitValues)) {
+    patchRequests.push(postVerifiedNameConfig(username, certCommitValues));
   }
 
   const results = await Promise.all(patchRequests);

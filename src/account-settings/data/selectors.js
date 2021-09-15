@@ -58,12 +58,22 @@ const valuesSelector = createSelector(
   accountSettingsSelector,
   mostRecentVerifiedNameSelector,
   mostRecentApprovedVerifiedNameValueSelector,
-  (accountSettings, mostRecentVerifiedNameValue, mostRecentApprovedVerifiedNameValue) => (
-    {
+  (accountSettings, mostRecentVerifiedNameValue, mostRecentApprovedVerifiedNameValue) => {
+    let useVerifiedNameForCerts = (
+      accountSettings.values.verifiedNameHistory?.use_verified_name_for_certs || false
+    );
+
+    if (Object.keys(accountSettings.confirmationValues).includes('useVerifiedNameForCerts')) {
+      useVerifiedNameForCerts = accountSettings.confirmationValues.useVerifiedNameForCerts;
+    }
+
+    return {
       ...accountSettings.values,
       verifiedName: mostRecentApprovedVerifiedNameValue,
       mostRecentVerifiedName: mostRecentVerifiedNameValue,
-    }),
+      useVerifiedNameForCerts,
+    };
+  },
 );
 
 const draftsSelector = createSelector(
@@ -150,7 +160,11 @@ const formValuesSelector = createSelector(
   (values, drafts) => {
     const formValues = {};
     Object.entries(values).forEach(([name, value]) => {
-      formValues[name] = chooseFormValue(drafts[name], value) || '';
+      if (typeof value === 'boolean') {
+        formValues[name] = chooseFormValue(drafts[name], value);
+      } else {
+        formValues[name] = chooseFormValue(drafts[name], value) || '';
+      }
     });
     return formValues;
   },
@@ -195,6 +209,8 @@ export const accountSettingsPageSelector = createSelector(
   siteLanguageOptionsSelector,
   siteLanguageSelector,
   formValuesSelector,
+  valuesSelector,
+  draftsSelector,
   profileDataManagerSelector,
   staticFieldsSelector,
   timeZonesSelector,
@@ -205,6 +221,8 @@ export const accountSettingsPageSelector = createSelector(
     siteLanguageOptions,
     siteLanguage,
     formValues,
+    committedValues,
+    drafts,
     profileDataManager,
     staticFields,
     timeZoneOptions,
@@ -220,9 +238,33 @@ export const accountSettingsPageSelector = createSelector(
     countryTimeZoneOptions,
     isActive: activeAccount,
     formValues,
+    committedValues,
+    drafts,
     profileDataManager,
     staticFields,
     tpaProviders: accountSettings.thirdPartyAuth.providers,
+  }),
+);
+
+export const certPreferenceSelector = createSelector(
+  valuesSelector,
+  formValuesSelector,
+  mostRecentApprovedVerifiedNameValueSelector,
+  saveStateSelector,
+  errorSelector,
+  (
+    committedValues,
+    formValues,
+    mostRecentApprovedVerifiedNameValue,
+    saveState,
+    errors,
+  ) => ({
+    originalFullName: committedValues?.name || '',
+    originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name || '',
+    useVerifiedNameForCerts: formValues.useVerifiedNameForCerts || false,
+    saveState,
+    verifiedNameEnabled: formValues.verifiedNameHistory?.verified_name_enabled || false,
+    formErrors: errors,
   }),
 );
 
