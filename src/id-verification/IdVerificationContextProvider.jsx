@@ -30,7 +30,7 @@ export default function IdVerificationContextProvider({ children }) {
     hasGetUserMediaSupport ? MEDIA_ACCESS.PENDING : MEDIA_ACCESS.UNSUPPORTED,
   );
 
-  const [verifiedNameEnabled, setVerifiedNameEnabled] = useState('');
+  const [verifiedNameEnabled, setVerifiedNameEnabled] = useState(false);
   useEffect(() => {
     // Make the API call to retrieve VerifiedNameEnabled
     (async () => {
