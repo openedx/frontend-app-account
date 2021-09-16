@@ -31,6 +31,7 @@ import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
 import ResetPassword from './reset-password';
+import NameChange from './name-change';
 import ThirdPartyAuth from './third-party-auth';
 import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
@@ -373,6 +374,17 @@ class AccountSettingsPage extends React.Component {
     return this.props.intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
   }
 
+  renderNameChangeModal() {
+    const shouldDisplayNameChangeModal = (
+      this.props.formErrors.name
+      && this.props.formErrors.name.includes('ID verification')
+    );
+    if (shouldDisplayNameChangeModal) {
+      return <NameChange />;
+    }
+    return null;
+  }
+
   renderSecondaryEmailField(editableFieldProps) {
     if (!this.props.formValues.secondary_email_enabled) {
       return null;
@@ -439,6 +451,8 @@ class AccountSettingsPage extends React.Component {
           </h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
           {this.renderManagedProfileMessage()}
+
+          {this.renderNameChangeModal()}
 
           <EditableField
             name="username"
@@ -800,6 +814,9 @@ AccountSettingsPage.propTypes = {
     useVerifiedNameForCerts: PropTypes.bool,
   }),
   drafts: PropTypes.shape({}),
+  formErrors: PropTypes.shape({
+    name: PropTypes.string,
+  }),
   siteLanguage: PropTypes.shape({
     previousValue: PropTypes.string,
     draft: PropTypes.string,
@@ -837,6 +854,7 @@ AccountSettingsPage.defaultProps = {
     useVerifiedNameForCerts: false,
   },
   drafts: {},
+  formErrors: {},
   siteLanguage: null,
   siteLanguageOptions: [],
   timeZoneOptions: [],

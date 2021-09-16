@@ -13,6 +13,7 @@ import {
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
 import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from '../site-language';
 import { reducer as resetPasswordReducer, RESET_PASSWORD } from '../reset-password';
+import { reducer as nameChangeReducer, REQUEST_NAME_CHANGE } from '../name-change';
 import { reducer as thirdPartyAuthReducer, DISCONNECT_AUTH } from '../third-party-auth';
 
 export const defaultState = {
@@ -31,6 +32,7 @@ export const defaultState = {
   deleteAccount: deleteAccountReducer(),
   siteLanguage: siteLanguageReducer(),
   resetPassword: resetPasswordReducer(),
+  nameChange: nameChangeReducer(),
   thirdPartyAuth: thirdPartyAuthReducer(),
 };
 
@@ -196,6 +198,15 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         resetPassword: resetPasswordReducer(state.resetPassword, action),
+      };
+
+    case REQUEST_NAME_CHANGE.BEGIN:
+    case REQUEST_NAME_CHANGE.SUCCESS:
+    case REQUEST_NAME_CHANGE.FAILURE:
+    case REQUEST_NAME_CHANGE.RESET:
+      return {
+        ...state,
+        nameChange: nameChangeReducer(state.nameChange, action),
       };
 
     case DISCONNECT_AUTH.BEGIN:
