@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { siteLanguageListSelector, siteLanguageOptionsSelector } from '../site-language';
+import { compareVerifiedNamesByCreatedDate } from '../../utils';
 
 export const storeName = 'accountSettings';
 
@@ -10,16 +11,10 @@ const editableFieldNameSelector = (state, props) => props.name;
 const sortedVerifiedNameHistorySelector = createSelector(
   accountSettingsSelector,
   accountSettings => {
-    function sortDates(a, b) {
-      const aTimeSinceEpoch = new Date(a).getTime();
-      const bTimeSinceEpoch = new Date(b).getTime();
-      return bTimeSinceEpoch - aTimeSinceEpoch;
-    }
-
     const history = accountSettings.values.verifiedNameHistory && accountSettings.values.verifiedNameHistory.results;
 
     if (Array.isArray(history)) {
-      return history.sort(sortDates);
+      return history.sort(compareVerifiedNamesByCreatedDate);
     }
 
     return [];
