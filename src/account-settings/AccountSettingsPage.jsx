@@ -469,7 +469,13 @@ class AccountSettingsPage extends React.Component {
           <EditableField
             name="name"
             type="text"
-            value={this.props.formValues.name}
+            value={
+              verifiedNameEnabled
+              && verifiedName.status === 'submitted'
+              && this.props.formValues.pending_name_change
+                ? this.props.formValues.pending_name_change
+                : this.props.formValues.name
+              }
             label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
               this.isEditable('name')
@@ -778,6 +784,7 @@ AccountSettingsPage.propTypes = {
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
     language_proficiencies: PropTypes.string,
+    pending_name_change: PropTypes.string,
     phone_number: PropTypes.string,
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
