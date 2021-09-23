@@ -48,13 +48,13 @@ const messages = defineMessages({
   },
   'account.settings.delete.account.please.activate': {
     id: 'account.settings.delete.account.please.activate',
-    defaultMessage: 'activate your account',
-    description: 'This is the text on a link that goes to the support page.  It is part of this sentence: Before proceeding, please activate your account.',
+    defaultMessage: 'Before proceeding, please {linkStart}activate your account{linkEnd}',
+    description: 'This message links to a support article',
   },
   'account.settings.delete.account.please.unlink': {
     id: 'account.settings.delete.account.please.unlink',
-    defaultMessage: 'unlink all social media accounts',
-    description: 'This is the text on a link that goes to the support page.  It is part of this sentence: Before proceeding, please unlink all social media accounts.',
+    defaultMessage: 'Before proceeding, please {linkStart}unlink all social media accounts{linkEnd}',
+    description: 'This message links to a support article',
   },
   'account.settings.delete.account.modal.header': {
     id: 'account.settings.delete.account.modal.header',

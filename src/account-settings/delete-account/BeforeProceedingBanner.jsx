@@ -21,15 +21,10 @@ const BeforeProceedingBanner = (props) => {
       icon={<FontAwesomeIcon className="mr-2" icon={faExclamationTriangle} />}
     >
       <FormattedMessage
-        id="account.settings.delete.account.before.proceeding"
-        defaultMessage="Before proceeding, please {actionLink}."
-        description="Error that appears if you are trying to delete your account, but something about your account needs attention first.  The actionLink will be instructions, such as 'unlink your Facebook account'."
+        defaultMessage=intl.formatMessage(
+          messages[instructionMessageId], {linkStart: <Hyperlink destination={supportArticleURL}>, linkEnd=</Hyperlink>}
+        )
         values={{
-          actionLink: (
-            <Hyperlink destination={supportArticleUrl}>
-              {intl.formatMessage(messages[instructionMessageId])}
-            </Hyperlink>
-          ),
           siteName: getConfig().SITE_NAME,
         }}
       />
