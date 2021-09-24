@@ -840,8 +840,12 @@ AccountSettingsPage.propTypes = {
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   beginNameChange: PropTypes.func.isRequired,
-  tpaProviders: PropTypes.arrayOf(PropTypes.object),
-  nameChangeModal: PropTypes.object,
+  tpaProviders: PropTypes.arrayOf(PropTypes.shape({
+    connected: PropTypes.bool,
+  })),
+  nameChangeModal: PropTypes.shape({
+    formId: PropTypes.string,
+  }),
   verifiedNameEnabled: PropTypes.bool,
   verifiedName: PropTypes.shape({
     verified_name: PropTypes.string,
