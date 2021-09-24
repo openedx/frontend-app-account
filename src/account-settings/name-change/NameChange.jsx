@@ -22,6 +22,7 @@ import { requestNameChange, requestNameChangeFailure, requestNameChangeReset } f
 import messages from './messages';
 
 function NameChangeModal({
+  targetFormId,
   errors,
   formValues,
   intl,
@@ -30,7 +31,7 @@ function NameChangeModal({
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { username } = getAuthenticatedUser();
-  const [verifiedNameInput, setVerifiedNameInput] = useState('');
+  const [verifiedNameInput, setVerifiedNameInput] = useState(formValues.verified_name || '');
   const [confirmedWarning, setConfirmedWarning] = useState(false);
 
   function resetLocalState() {
@@ -44,7 +45,7 @@ function NameChangeModal({
 
   function handleClose() {
     resetLocalState();
-    dispatch(closeForm('name'));
+    dispatch(closeForm(targetFormId));
     dispatch(saveSettingsReset());
   }
 
@@ -60,7 +61,8 @@ function NameChangeModal({
         verified_name: intl.formatMessage(messages['account.settings.name.change.error.valid.name']),
       }));
     } else {
-      dispatch(requestNameChange(username, formValues.name, verifiedNameInput));
+      const draftProfileName = targetFormId === 'name' ? formValues.name : null;
+      dispatch(requestNameChange(username, draftProfileName, verifiedNameInput));
     }
   }
 
@@ -184,8 +186,12 @@ function NameChangeModal({
 }
 
 NameChangeModal.propTypes = {
+  targetFormId: PropTypes.string.isRequired,
   errors: PropTypes.shape({}).isRequired,
-  formValues: PropTypes.shape({ name: PropTypes.string }).isRequired,
+  formValues: PropTypes.shape({
+    name: PropTypes.string,
+    verified_name: PropTypes.string,
+  }).isRequired,
   saveState: PropTypes.string,
   intl: intlShape.isRequired,
 };

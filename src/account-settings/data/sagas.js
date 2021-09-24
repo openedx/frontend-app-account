@@ -25,6 +25,7 @@ import {
   saveMultipleSettingsBegin,
   saveMultipleSettingsSuccess,
   saveMultipleSettingsFailure,
+  beginNameChange,
 } from './actions';
 
 // Sub-modules
@@ -43,6 +44,7 @@ import {
   getSettings,
   patchSettings,
   getTimeZones,
+  getVerifiedNameHistory,
 } from './service';
 
 export function* handleFetchSettings() {
@@ -59,6 +61,8 @@ export function* handleFetchSettings() {
       userId,
     );
 
+    const verifiedNameHistory = yield call(getVerifiedNameHistory);
+
     if (values.country) { yield put(fetchTimeZones(values.country)); }
 
     yield put(fetchSettingsSuccess({
@@ -66,6 +70,7 @@ export function* handleFetchSettings() {
       thirdPartyAuthProviders,
       profileDataManager,
       timeZones,
+      verifiedNameHistory,
     }));
   } catch (e) {
     yield put(fetchSettingsFailure(e.message));
@@ -103,6 +108,9 @@ export function* handleSaveSettings(action) {
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {
+      if (Object.keys(e.fieldErrors).includes('name')) {
+        yield put(beginNameChange('name'));
+      }
       yield put(saveSettingsFailure({ fieldErrors: e.fieldErrors }));
     } else {
       yield put(saveSettingsFailure(e.message));
@@ -131,6 +139,9 @@ export function* handleSaveMultipleSettings(action) {
     }
   } catch (e) {
     if (e.fieldErrors) {
+      if (Object.keys(e.fieldErrors).includes('name')) {
+        yield put(beginNameChange('name'));
+      }
       yield put(saveMultipleSettingsFailure({ fieldErrors: e.fieldErrors }));
     } else {
       yield put(saveMultipleSettingsFailure(e.message));

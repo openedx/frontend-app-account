@@ -42,7 +42,7 @@ function CertificatePreference({
 
   function handleCheckboxChange() {
     if (!checked) {
-      if (fieldName === 'verifiedName') {
+      if (fieldName === 'verified_name') {
         dispatch(updateDraft(formId, true));
       } else {
         dispatch(updateDraft(formId, false));

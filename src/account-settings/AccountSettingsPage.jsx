@@ -24,6 +24,7 @@ import {
   saveMultipleSettings,
   saveSettings,
   updateDraft,
+  beginNameChange,
 } from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
@@ -168,7 +169,7 @@ class AccountSettingsPage extends React.Component {
     this.props.saveSettings(formId, values);
   }
 
-  handleSubmitName = (formId, values) => {
+  handleSubmitProfileName = (formId, values) => {
     if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
       this.props.saveMultipleSettings([
         {
@@ -184,6 +185,15 @@ class AccountSettingsPage extends React.Component {
       this.props.saveSettings(formId, values);
     }
   };
+
+  handleSubmitVerifiedName = (formId, values) => {
+    if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
+      this.props.saveSettings('useVerifiedNameForCerts', this.props.formValues.useVerifiedNameForCerts);
+    }
+    if (values !== this.props.committedValues?.verified_name) {
+      this.props.beginNameChange(formId);
+    }
+  }
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
@@ -249,8 +259,8 @@ class AccountSettingsPage extends React.Component {
 
   renderFullNameHelpText = (status) => {
     if (
-      !this.props.formValues.verifiedNameHistory
-      || !this.props.formValues.verifiedNameHistory.verified_name_enabled
+      !this.props.verifiedNameHistory
+      || !this.props.verifiedNameEnabled
     ) {
       return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']);
     }
@@ -375,12 +385,8 @@ class AccountSettingsPage extends React.Component {
   }
 
   renderNameChangeModal() {
-    const shouldDisplayNameChangeModal = (
-      this.props.formErrors.name
-      && this.props.formErrors.name.includes('ID verification')
-    );
-    if (shouldDisplayNameChangeModal) {
-      return <NameChange />;
+    if (this.props.nameChangeModal && this.props.nameChangeModal.formId) {
+      return <NameChange targetFormId={this.props.nameChangeModal.formId} />;
     }
     return null;
   }
@@ -431,8 +437,7 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const { verifiedName } = this.props.formValues;
-    const verifiedNameEnabled = this.props.formValues.verifiedNameHistory.verified_name_enabled;
+    const { verifiedName, verifiedNameEnabled } = this.props;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -444,7 +449,7 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {verifiedNameEnabled && this.renderVerifiedNameMessage(this.props.formValues.mostRecentVerifiedName)}
+          {verifiedNameEnabled && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)}
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
@@ -496,14 +501,14 @@ class AccountSettingsPage extends React.Component {
               verifiedNameEnabled && verifiedName && !this.isEditable('verifiedName')
             }
             onChange={this.handleEditableFieldChange}
-            onSubmit={this.handleSubmitName}
+            onSubmit={this.handleSubmitProfileName}
           />
           {verifiedNameEnabled && verifiedName
             && (
             <EditableField
-              name="verifiedName"
+              name="verified_name"
               type="text"
-              value={this.props.formValues.verifiedName.verified_name}
+              value={this.props.formValues.verified_name}
               label={
                 (
                   <div className="d-flex">
@@ -518,7 +523,7 @@ class AccountSettingsPage extends React.Component {
               isEditable={this.isEditable('verifiedName')}
               isGrayedOut={!this.isEditable('verifiedName')}
               onChange={this.handleEditableFieldChange}
-              onSubmit={this.handleSubmitName}
+              onSubmit={this.handleSubmitVerifiedName}
             />
             )}
 
@@ -798,27 +803,11 @@ AccountSettingsPage.propTypes = {
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
     useVerifiedNameForCerts: PropTypes.bool.isRequired,
-    verifiedNameHistory: PropTypes.shape({
-      verified_name_enabled: PropTypes.bool,
-      use_verified_name_for_certs: PropTypes.bool,
-      results: PropTypes.arrayOf(
-        PropTypes.shape({
-          verified_name: PropTypes.string,
-          status: PropTypes.string,
-        }),
-      ),
-    }),
-    verifiedName: PropTypes.shape({
-      verified_name: PropTypes.string,
-      status: PropTypes.string,
-    }),
-    mostRecentVerifiedName: PropTypes.shape({
-      verified_name: PropTypes.string,
-      status: PropTypes.string,
-    }),
+    verified_name: PropTypes.string,
   }).isRequired,
   committedValues: PropTypes.shape({
     useVerifiedNameForCerts: PropTypes.bool,
+    verified_name: PropTypes.string,
   }),
   drafts: PropTypes.shape({}),
   formErrors: PropTypes.shape({
@@ -850,7 +839,24 @@ AccountSettingsPage.propTypes = {
   saveMultipleSettings: PropTypes.func.isRequired,
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
+  beginNameChange: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.object),
+  nameChangeModal: PropTypes.object,
+  verifiedNameEnabled: PropTypes.bool,
+  verifiedName: PropTypes.shape({
+    verified_name: PropTypes.string,
+    status: PropTypes.string,
+  }),
+  mostRecentVerifiedName: PropTypes.shape({
+    verified_name: PropTypes.string,
+    status: PropTypes.string,
+  }),
+  verifiedNameHistory: PropTypes.arrayOf(
+    PropTypes.shape({
+      verified_name: PropTypes.string,
+      status: PropTypes.string,
+    }),
+  ),
 };
 
 AccountSettingsPage.defaultProps = {
@@ -859,6 +865,7 @@ AccountSettingsPage.defaultProps = {
   loadingError: null,
   committedValues: {
     useVerifiedNameForCerts: false,
+    verified_name: null,
   },
   drafts: {},
   formErrors: {},
@@ -871,6 +878,11 @@ AccountSettingsPage.defaultProps = {
   tpaProviders: [],
   isActive: true,
   secondary_email_enabled: false,
+  nameChangeModal: {},
+  verifiedNameEnabled: false,
+  verifiedName: null,
+  mostRecentVerifiedName: {},
+  verifiedNameHistory: [],
 };
 
 export default connect(accountSettingsPageSelector, {
@@ -879,4 +891,5 @@ export default connect(accountSettingsPageSelector, {
   saveMultipleSettings,
   updateDraft,
   fetchSiteLanguages,
+  beginNameChange,
 })(injectIntl(AccountSettingsPage));

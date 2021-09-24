@@ -8,6 +8,7 @@ import {
   UPDATE_DRAFT,
   RESET_DRAFTS,
   SAVE_MULTIPLE_SETTINGS,
+  BEGIN_NAME_CHANGE,
 } from './actions';
 
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
@@ -34,6 +35,11 @@ export const defaultState = {
   resetPassword: resetPasswordReducer(),
   nameChange: nameChangeReducer(),
   thirdPartyAuth: thirdPartyAuthReducer(),
+  nameChangeModal: false,
+  verifiedName: null,
+  mostRecentVerifiedName: {},
+  verifiedNameHistory: {},
+  verifiedNameEnabled: false,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -58,6 +64,7 @@ const reducer = (state = defaultState, action) => {
         loading: false,
         loaded: true,
         loadingError: null,
+        verifiedNameHistory: action.payload.verifiedNameHistory,
       };
     case FETCH_SETTINGS.FAILURE:
       return {
@@ -91,6 +98,7 @@ const reducer = (state = defaultState, action) => {
           saveState: null,
           errors: {},
           drafts: {},
+          nameChangeModal: false,
         };
       }
       return state;
@@ -108,6 +116,15 @@ const reducer = (state = defaultState, action) => {
         drafts: {},
       };
 
+    case BEGIN_NAME_CHANGE:
+      return {
+        ...state,
+        saveState: 'error',
+        nameChangeModal: {
+          formId: action.payload.formId,
+        },
+      };
+
     case SAVE_SETTINGS.BEGIN:
       return {
         ...state,
@@ -121,7 +138,6 @@ const reducer = (state = defaultState, action) => {
         values: { ...state.values, ...action.payload.values },
         errors: {},
         confirmationValues: {
-
           ...state.confirmationValues,
           ...action.payload.confirmationValues,
         },
