@@ -10,6 +10,7 @@ import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import * as dataService from '../../data/service';
 import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
+import { VerifiedNameContext } from '../../VerifiedNameContext';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
@@ -27,7 +28,7 @@ describe('SummaryPanel', () => {
     intl: {},
   };
 
-  const contextValue = {
+  const appContextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: 'test.jpg',
     nameOnAccount: 'test name',
@@ -39,13 +40,19 @@ describe('SummaryPanel', () => {
     setReachedSummary: jest.fn(),
   };
 
+  const verifiedNameContextValue = {
+    verifiedNameEnabled: false,
+  };
+
   const getPanel = async () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlSummaryPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
+          <VerifiedNameContext.Provider value={verifiedNameContextValue}>
+            <IdVerificationContext.Provider value={appContextValue}>
+              <IntlSummaryPanel {...defaultProps} />
+            </IdVerificationContext.Provider>
+          </VerifiedNameContext.Provider>
         </IntlProvider>
       </Router>
     )));
@@ -72,17 +79,17 @@ describe('SummaryPanel', () => {
   });
 
   it('allows user to upload ID photo', async () => {
-    contextValue.optimizelyExperimentName = '';
+    appContextValue.optimizelyExperimentName = '';
     await getPanel();
     const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
     fireEvent.click(collapsible);
     const uploadButton = await screen.getByTestId('fileUpload');
     expect(uploadButton).toBeVisible();
-    contextValue.optimizelyExperimentName = 'test-experiment';
+    appContextValue.optimizelyExperimentName = 'test-experiment';
   });
 
   it('displays warning if account is managed by a third party', async () => {
-    contextValue.profileDataManager = 'test-org';
+    appContextValue.profileDataManager = 'test-org';
     await getPanel();
     const warning = await screen.getAllByText('test-org');
     expect(warning.length).toEqual(1);
@@ -90,29 +97,29 @@ describe('SummaryPanel', () => {
 
   it('submits', async () => {
     const verificationData = {
-      facePhotoFile: contextValue.facePhotoFile,
-      idPhotoFile: contextValue.idPhotoFile,
-      idPhotoName: contextValue.idPhotoName,
-      optimizelyExperimentName: contextValue.optimizelyExperimentName,
-      portraitPhotoMode: contextValue.portraitPhotoMode,
-      idPhotoMode: contextValue.idPhotoMode,
+      facePhotoFile: appContextValue.facePhotoFile,
+      idPhotoFile: appContextValue.idPhotoFile,
+      idPhotoName: appContextValue.idPhotoName,
+      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
+      portraitPhotoMode: appContextValue.portraitPhotoMode,
+      idPhotoMode: appContextValue.idPhotoMode,
       courseRunKey: null,
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
     fireEvent.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
-    await waitFor(() => expect(contextValue.stopUserMedia).toHaveBeenCalled());
+    await waitFor(() => expect(appContextValue.stopUserMedia).toHaveBeenCalled());
   });
 
   it('does not submit a name if name is blank', async () => {
-    contextValue.idPhotoName = '';
+    appContextValue.idPhotoName = '';
     const verificationData = {
-      facePhotoFile: contextValue.facePhotoFile,
-      idPhotoFile: contextValue.idPhotoFile,
-      portraitPhotoMode: contextValue.portraitPhotoMode,
-      idPhotoMode: contextValue.idPhotoMode,
-      optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      facePhotoFile: appContextValue.facePhotoFile,
+      idPhotoFile: appContextValue.idPhotoFile,
+      portraitPhotoMode: appContextValue.portraitPhotoMode,
+      idPhotoMode: appContextValue.idPhotoMode,
+      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
       courseRunKey: null,
     };
     await getPanel();
@@ -122,14 +129,32 @@ describe('SummaryPanel', () => {
   });
 
   it('does not submit a name if name is unchanged', async () => {
-    contextValue.idPhotoName = null;
+    appContextValue.idPhotoName = null;
     const verificationData = {
-      facePhotoFile: contextValue.facePhotoFile,
-      idPhotoFile: contextValue.idPhotoFile,
-      portraitPhotoMode: contextValue.portraitPhotoMode,
-      idPhotoMode: contextValue.idPhotoMode,
-      optimizelyExperimentName: contextValue.optimizelyExperimentName,
+      facePhotoFile: appContextValue.facePhotoFile,
+      idPhotoFile: appContextValue.idPhotoFile,
+      portraitPhotoMode: appContextValue.portraitPhotoMode,
+      idPhotoMode: appContextValue.idPhotoMode,
+      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
       courseRunKey: null,
+    };
+    await getPanel();
+    const button = await screen.findByTestId('submit-button');
+    fireEvent.click(button);
+    expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
+  });
+
+  it('submits a name if a name is unchanged if verified name feature is enabled', async () => {
+    appContextValue.idPhotoName = null;
+    verifiedNameContextValue.verifiedNameEnabled = true;
+    const verificationData = {
+      facePhotoFile: appContextValue.facePhotoFile,
+      idPhotoFile: appContextValue.idPhotoFile,
+      portraitPhotoMode: appContextValue.portraitPhotoMode,
+      idPhotoMode: appContextValue.idPhotoMode,
+      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
+      courseRunKey: null,
+      idPhotoName: appContextValue.nameOnAccount,
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
@@ -207,6 +232,6 @@ describe('SummaryPanel', () => {
     await getPanel();
     const collapsible = await screen.queryByTestId('collapsible');
     expect(collapsible).not.toBeInTheDocument();
-    contextValue.optimizelyExperimentName = 'test-experiment';
+    appContextValue.optimizelyExperimentName = 'test-experiment';
   });
 });
