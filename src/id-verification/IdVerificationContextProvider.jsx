@@ -2,16 +2,18 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager, getVerifiedName, getVerifiedNameEnabled } from '../account-settings/data/service';
+import { getProfileDataManager } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
 
 import { getExistingIdVerification, getEnrollments } from './data/service';
 import AccessBlocked from './AccessBlocked';
 import { hasGetUserMediaSupport } from './getUserMediaShim';
 import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from './IdVerificationContext';
+import { VerifiedNameContext } from './VerifiedNameContext';
 
 export default function IdVerificationContextProvider({ children }) {
   const { authenticatedUser } = useContext(AppContext);
+  const { verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
 
   const [existingIdVerification, setExistingIdVerification] = useState(null);
   useEffect(() => {
@@ -29,19 +31,6 @@ export default function IdVerificationContextProvider({ children }) {
   const [mediaAccess, setMediaAccess] = useState(
     hasGetUserMediaSupport ? MEDIA_ACCESS.PENDING : MEDIA_ACCESS.UNSUPPORTED,
   );
-
-  const [verifiedNameEnabled, setVerifiedNameEnabled] = useState(false);
-  useEffect(() => {
-    // Make the API call to retrieve VerifiedNameEnabled
-    (async () => {
-      const response = await getVerifiedNameEnabled();
-      if (response) {
-        setVerifiedNameEnabled(response.verified_name_enabled);
-      } else {
-        setVerifiedNameEnabled(false);
-      }
-    })();
-  }, []);
 
   const [canVerify, setCanVerify] = useState(true);
   const [error, setError] = useState('');
@@ -90,19 +79,6 @@ export default function IdVerificationContextProvider({ children }) {
     }
   }, [authenticatedUser]);
 
-  const [verifiedName, setVerifiedName] = useState('');
-  useEffect(() => {
-    // Make the API call to retrieve VerifiedName of the learner.
-    // If the learner do not have such attribute from their account, that's OK.
-    // If the learner do have the attribute, the VerifiedName is overriding authenticatedUser.name
-    (async () => {
-      const verifiedNameResponse = await getVerifiedName();
-      if (verifiedNameResponse) {
-        setVerifiedName(verifiedNameResponse.verified_name);
-      }
-    })();
-  }, []);
-
   const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
   const [shouldUseCamera, setShouldUseCamera] = useState(false);
 
@@ -122,6 +98,8 @@ export default function IdVerificationContextProvider({ children }) {
     mediaStream,
     mediaAccess,
     userId: authenticatedUser.userId,
+    // If the learner has an applicable verified name, then this should override authenticatedUser.name
+    // when determining the context value nameOnAccount.
     nameOnAccount: verifiedName || authenticatedUser.name,
     profileDataManager,
     optimizelyExperimentName,

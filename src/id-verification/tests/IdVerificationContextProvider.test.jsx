@@ -5,15 +5,15 @@ import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager, getVerifiedName, getVerifiedNameEnabled } from '../../account-settings/data/service';
+import { getProfileDataManager } from '../../account-settings/data/service';
 
 import { getExistingIdVerification, getEnrollments } from '../data/service';
 import IdVerificationContextProvider from '../IdVerificationContextProvider';
+import { VerifiedNameContext } from '../VerifiedNameContext';
 
 jest.mock('../../account-settings/data/service', () => ({
   getProfileDataManager: jest.fn(),
-  getVerifiedName: jest.fn(),
-  getVerifiedNameEnabled: jest.fn(),
+  getVerifiedNameHistory: jest.fn(),
 }));
 
 jest.mock('../data/service', () => ({
@@ -32,12 +32,15 @@ describe('IdVerificationContextProvider', () => {
   });
 
   it('renders correctly and calls getExistingIdVerification + getEnrollments', async () => {
-    const context = { authenticatedUser: { userId: 3, roles: [] } };
+    const appContext = { authenticatedUser: { userId: 3, roles: [] } };
+    const verifiedNameContext = { verifiedName: '', verifiedNameEnabled: false };
     await act(async () => render((
-      <AppContext.Provider value={context}>
-        <IntlProvider locale="en">
-          <IdVerificationContextProvider {...defaultProps} />
-        </IntlProvider>
+      <AppContext.Provider value={appContext}>
+        <VerifiedNameContext.Provider value={verifiedNameContext}>
+          <IntlProvider locale="en">
+            <IdVerificationContextProvider {...defaultProps} />
+          </IntlProvider>
+        </VerifiedNameContext.Provider>
       </AppContext.Provider>
     )));
     expect(getExistingIdVerification).toHaveBeenCalled();
@@ -45,47 +48,26 @@ describe('IdVerificationContextProvider', () => {
   });
 
   it('calls getProfileDataManager if the user has any roles', async () => {
-    const context = {
+    const appContext = {
       authenticatedUser: {
         userId: 3,
         username: 'testname',
         roles: ['enterprise_learner'],
       },
     };
+    const verifiedNameContext = { verifiedName: '', verifiedNameEnabled: false };
     await act(async () => render((
-      <AppContext.Provider value={context}>
-        <IntlProvider locale="en">
-          <IdVerificationContextProvider {...defaultProps} />
-        </IntlProvider>
+      <AppContext.Provider value={appContext}>
+        <VerifiedNameContext.Provider value={verifiedNameContext}>
+          <IntlProvider locale="en">
+            <IdVerificationContextProvider {...defaultProps} />
+          </IntlProvider>
+        </VerifiedNameContext.Provider>
       </AppContext.Provider>
     )));
     expect(getProfileDataManager).toHaveBeenCalledWith(
-      context.authenticatedUser.username,
-      context.authenticatedUser.roles,
+      appContext.authenticatedUser.username,
+      appContext.authenticatedUser.roles,
     );
-  });
-
-  it('calls getVerifiedName', async () => {
-    const context = { authenticatedUser: { userId: 3, roles: [] } };
-    await act(async () => render((
-      <AppContext.Provider value={context}>
-        <IntlProvider locale="en">
-          <IdVerificationContextProvider {...defaultProps} />
-        </IntlProvider>
-      </AppContext.Provider>
-    )));
-    expect(getVerifiedName).toHaveBeenCalled();
-  });
-
-  it('calls getVerifiedNameEnabled', async () => {
-    const context = { authenticatedUser: { userId: 3, roles: [] } };
-    await act(async () => render((
-      <AppContext.Provider value={context}>
-        <IntlProvider locale="en">
-          <IdVerificationContextProvider {...defaultProps} />
-        </IntlProvider>
-      </AppContext.Provider>
-    )));
-    expect(getVerifiedNameEnabled).toHaveBeenCalled();
   });
 });

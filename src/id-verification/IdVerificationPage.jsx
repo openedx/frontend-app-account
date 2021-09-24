@@ -11,6 +11,7 @@ import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
+import { VerifiedNameContextProvider } from './VerifiedNameContext';
 import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
 import ChooseModePanel from './panels/ChooseModePanel';
 import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
@@ -51,20 +52,22 @@ function IdVerificationPage(props) {
       <div className="page__id-verification container-fluid py-5">
         <div className="row">
           <div className="col-lg-6 col-md-8">
-            <IdVerificationContextProvider>
-              <Switch>
-                <Route path={`${path}/review-requirements`} component={ReviewRequirementsPanel} />
-                <Route path={`${path}/choose-mode`} component={ChooseModePanel} />
-                <Route path={`${path}/request-camera-access`} component={RequestCameraAccessPanel} />
-                <Route path={`${path}/portrait-photo-context`} component={PortraitPhotoContextPanel} />
-                <Route path={`${path}/take-portrait-photo`} component={TakePortraitPhotoPanel} />
-                <Route path={`${path}/id-context`} component={IdContextPanel} />
-                <Route path={`${path}/get-name-id`} component={GetNameIdPanel} />
-                <Route path={`${path}/take-id-photo`} component={TakeIdPhotoPanel} />
-                <Route path={`${path}/summary`} component={SummaryPanel} />
-                <Route path={`${path}/submitted`} component={SubmittedPanel} />
-              </Switch>
-            </IdVerificationContextProvider>
+            <VerifiedNameContextProvider>
+              <IdVerificationContextProvider>
+                <Switch>
+                  <Route path={`${path}/review-requirements`} component={ReviewRequirementsPanel} />
+                  <Route path={`${path}/choose-mode`} component={ChooseModePanel} />
+                  <Route path={`${path}/request-camera-access`} component={RequestCameraAccessPanel} />
+                  <Route path={`${path}/portrait-photo-context`} component={PortraitPhotoContextPanel} />
+                  <Route path={`${path}/take-portrait-photo`} component={TakePortraitPhotoPanel} />
+                  <Route path={`${path}/id-context`} component={IdContextPanel} />
+                  <Route path={`${path}/get-name-id`} component={GetNameIdPanel} />
+                  <Route path={`${path}/take-id-photo`} component={TakeIdPhotoPanel} />
+                  <Route path={`${path}/summary`} component={SummaryPanel} />
+                  <Route path={`${path}/submitted`} component={SubmittedPanel} />
+                </Switch>
+              </IdVerificationContextProvider>
+            </VerifiedNameContextProvider>
           </div>
           <div className="col-lg-6 col-md-4 pt-md-0 pt-4 text-right">
             <Button variant="link" className="px-0" onClick={() => setIsModalOpen(true)}>

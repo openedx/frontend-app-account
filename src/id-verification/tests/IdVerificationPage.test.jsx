@@ -11,6 +11,13 @@ import * as selectors from '../data/selectors';
 
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
 jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
+jest.mock('../VerifiedNameContext', () => {
+  const originalModule = jest.requireActual('../VerifiedNameContext');
+  return {
+    ...originalModule,
+    VerifiedNameContextProvider: jest.fn(({ children }) => children),
+  };
+});
 jest.mock('../panels/ReviewRequirementsPanel');
 jest.mock('../panels/RequestCameraAccessPanel');
 jest.mock('../panels/PortraitPhotoContextPanel');
