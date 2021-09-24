@@ -11,6 +11,7 @@ import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import IdVerificationContext from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
+import { VerifiedNameContext } from '../VerifiedNameContext';
 
 import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
@@ -31,6 +32,7 @@ function SummaryPanel(props) {
     portraitPhotoMode,
     idPhotoMode,
   } = useContext(IdVerificationContext);
+  const { verifiedNameEnabled } = useContext(VerifiedNameContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
@@ -72,6 +74,19 @@ function SummaryPanel(props) {
       };
       if (idPhotoName) {
         verificationData.idPhotoName = idPhotoName;
+      } else if (verifiedNameEnabled) {
+        /**
+         * If learner has not entered an idPhotoName on the GetNameIdPanel,
+         * and the verified name feature is enabled, use the current nameOnAccount
+         * when submitting IDV. The reason we only do this if the feature is enabled
+         * is that, when the feature is off, the server will change the learner's
+         * profile name to this value. If we send the idPhotoName on all requests,
+         * even ones where the learner does not change the idPhotoName, then the
+         * server will record that the full name on the learner's profile has
+         * a requested change, even if the name is the same. This will pollute
+         * the history.
+         */
+        verificationData.idPhotoName = nameOnAccount;
       }
       if (optimizelyExperimentName) {
         verificationData.optimizelyExperimentName = optimizelyExperimentName;
