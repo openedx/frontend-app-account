@@ -449,7 +449,10 @@ class AccountSettingsPage extends React.Component {
     return (
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
-          {verifiedNameEnabled && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)}
+          {
+            verifiedNameEnabled && this.props.mostRecentVerifiedName
+            && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
+          }
 
           <h2 className="section-heading">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
