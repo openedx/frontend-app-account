@@ -476,7 +476,7 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={
               verifiedNameEnabled
-              && verifiedName.status === 'submitted'
+              && verifiedName?.status === 'submitted'
               && this.props.formValues.pending_name_change
                 ? this.props.formValues.pending_name_change
                 : this.props.formValues.name
