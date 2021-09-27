@@ -98,10 +98,10 @@ describe('TakeIdPhotoPanel', () => {
     )));
 
     // check that upload title and text are correct
-    const title = await screen.findByText('Upload a Photo of Your ID');
+    const title = await screen.findByText('Upload a Photo of Your Identification Card');
     expect(title).toBeVisible();
 
     const text = await screen.findByTestId('upload-text');
-    expect(text.textContent).toContain('Please upload an ID photo');
+    expect(text.textContent).toContain('Please upload a photo of your identification card');
   });
 });
