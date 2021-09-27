@@ -1,4 +1,6 @@
-import 'babel-polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import 'formdata-polyfill';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import {
@@ -18,7 +20,6 @@ import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import appMessages from './i18n';
 
 import './index.scss';
-import './assets/favicon.ico';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
