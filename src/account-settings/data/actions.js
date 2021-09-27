@@ -9,6 +9,7 @@ export const OPEN_FORM = 'OPEN_FORM';
 export const CLOSE_FORM = 'CLOSE_FORM';
 export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 export const RESET_DRAFTS = 'RESET_DRAFTS';
+export const BEGIN_NAME_CHANGE = 'BEGIN_NAME_CHANGE';
 
 // FETCH SETTINGS ACTIONS
 
@@ -25,6 +26,7 @@ export const fetchSettingsSuccess = ({
   thirdPartyAuthProviders,
   profileDataManager,
   timeZones,
+  verifiedNameHistory,
 }) => ({
   type: FETCH_SETTINGS.SUCCESS,
   payload: {
@@ -32,6 +34,7 @@ export const fetchSettingsSuccess = ({
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
+    verifiedNameHistory,
   },
 });
 
@@ -68,6 +71,10 @@ export const resetDrafts = () => ({
   type: RESET_DRAFTS,
 });
 
+export const beginNameChange = (formId) => ({
+  type: BEGIN_NAME_CHANGE,
+  payload: { formId },
+});
 // SAVE SETTINGS ACTIONS
 
 export const saveSettings = (formId, commitValues) => ({

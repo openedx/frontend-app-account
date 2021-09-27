@@ -153,7 +153,7 @@ function EditableField(props) {
                 </Button>
               </p>
             </form>
-            {['name', 'verifiedName'].includes(name) && <CertificatePreference fieldName={name} />}
+            {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
           </>
         ),
         default: (

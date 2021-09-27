@@ -48,8 +48,12 @@ describe('NameChange', () => {
   beforeEach(() => {
     store = mockStore();
     props = {
+      targetFormId: 'test_form',
       errors: {},
-      formValues: { name: 'edx edx' },
+      formValues: {
+        name: 'edx edx',
+        verified_name: 'edX Verified',
+      },
       saveState: null,
       intl: {},
     };
@@ -65,7 +69,7 @@ describe('NameChange', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('renders input after clicking continue', async () => {
+  it('renders populated input after clicking continue if verified_name in form data', async () => {
     const getInput = () => screen.queryByPlaceholderText('Enter the name on your government ID');
 
     render(reduxWrapper(<IntlNameChange {...props} />));
@@ -74,13 +78,29 @@ describe('NameChange', () => {
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
 
-    expect(getInput()).toBeTruthy();
+    expect(getInput().value).toBe('edX Verified');
   });
 
-  it('dispatches action on submit', async () => {
+  it('renders empty input after clicking continue if verified_name not in form data', async () => {
+    const getInput = () => screen.queryByPlaceholderText('Enter the name on your government ID');
+    const formProps = {
+      ...props,
+      formValues: {
+        name: 'edx edx',
+      },
+    };
+    render(reduxWrapper(<IntlNameChange {...formProps} />));
+
+    const continueButton = screen.getByText('Continue');
+    fireEvent.click(continueButton);
+
+    expect(getInput().value).toBe('');
+  });
+
+  it('dispatches verifiedName on submit if targetForm is not "name"', async () => {
     const dispatchData = {
       payload: {
-        newName: 'edx edx',
+        profileName: null,
         username: 'edx',
         verifiedName: 'Verified Name',
       },
@@ -88,6 +108,33 @@ describe('NameChange', () => {
     };
 
     render(reduxWrapper(<IntlNameChange {...props} />));
+
+    const continueButton = screen.getByText('Continue');
+    fireEvent.click(continueButton);
+
+    const input = screen.getByPlaceholderText('Enter the name on your government ID');
+    fireEvent.change(input, { target: { value: 'Verified Name' } });
+
+    const submitButton = screen.getByText('Continue');
+    fireEvent.click(submitButton);
+    expect(mockDispatch).toHaveBeenCalledWith(dispatchData);
+  });
+
+  it('dispatches both profileName and verifiedName on submit if the targetForm is "name"', async () => {
+    const dispatchData = {
+      payload: {
+        profileName: 'edx edx',
+        username: 'edx',
+        verifiedName: 'Verified Name',
+      },
+      type: 'ACCOUNT_SETTINGS__REQUEST_NAME_CHANGE',
+    };
+    const formProps = {
+      ...props,
+      targetFormId: 'name',
+    };
+
+    render(reduxWrapper(<IntlNameChange {...formProps} />));
 
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);

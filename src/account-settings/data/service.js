@@ -240,7 +240,6 @@ export async function getSettings(username, userRoles, userId) {
     shouldDisplayDemographicsQuestionsResponse,
     demographics,
     demographicsOptions,
-    verifiedNameHistory,
   ] = await Promise.all([
     getAccount(username),
     getPreferences(username),
@@ -251,7 +250,6 @@ export async function getSettings(username, userRoles, userId) {
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
-    getVerifiedNameHistory(),
   ]);
 
   return {
@@ -264,7 +262,6 @@ export async function getSettings(username, userRoles, userId) {
     shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
     ...demographics,
     demographicsOptions,
-    verifiedNameHistory,
   };
 }
 

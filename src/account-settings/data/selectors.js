@@ -8,10 +8,19 @@ export const accountSettingsSelector = state => ({ ...state[storeName] });
 
 const editableFieldNameSelector = (state, props) => props.name;
 
-const sortedVerifiedNameHistorySelector = createSelector(
+const verifiedNameSettingsSelector = createSelector(
   accountSettingsSelector,
-  accountSettings => {
-    const history = accountSettings.values.verifiedNameHistory && accountSettings.values.verifiedNameHistory.results;
+  accountSettings => ({
+    history: accountSettings.verifiedNameHistory.results,
+    verifiedNameEnabled: accountSettings?.verifiedNameHistory.verified_name_enabled,
+    useVerifiedNameForCerts: accountSettings?.verifiedNameHistory.use_verified_name_for_certs,
+  }),
+);
+
+const sortedVerifiedNameHistorySelector = createSelector(
+  verifiedNameSettingsSelector,
+  verifiedNameSettings => {
+    const { history } = verifiedNameSettings;
 
     if (Array.isArray(history)) {
       return history.sort(compareVerifiedNamesByCreatedDate);
@@ -51,9 +60,8 @@ const mostRecentApprovedVerifiedNameValueSelector = createSelector(
 
 const valuesSelector = createSelector(
   accountSettingsSelector,
-  mostRecentVerifiedNameSelector,
   mostRecentApprovedVerifiedNameValueSelector,
-  (accountSettings, mostRecentVerifiedNameValue, mostRecentApprovedVerifiedNameValue) => {
+  (accountSettings, mostRecentApprovedVerifiedNameValue) => {
     let useVerifiedNameForCerts = (
       accountSettings.values.verifiedNameHistory?.use_verified_name_for_certs || false
     );
@@ -64,8 +72,7 @@ const valuesSelector = createSelector(
 
     return {
       ...accountSettings.values,
-      verifiedName: mostRecentApprovedVerifiedNameValue,
-      mostRecentVerifiedName: mostRecentVerifiedNameValue,
+      verified_name: mostRecentApprovedVerifiedNameValue?.verified_name,
       useVerifiedNameForCerts,
     };
   },
@@ -107,6 +114,11 @@ const confirmationValuesSelector = createSelector(
 const errorSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.errors,
+);
+
+const nameChangeModalSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.nameChangeModal,
 );
 
 const saveStateSelector = createSelector(
@@ -212,6 +224,11 @@ export const accountSettingsPageSelector = createSelector(
   timeZonesSelector,
   countryTimeZonesSelector,
   activeAccountSelector,
+  nameChangeModalSelector,
+  mostRecentApprovedVerifiedNameValueSelector,
+  mostRecentVerifiedNameSelector,
+  sortedVerifiedNameHistorySelector,
+  verifiedNameSettingsSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -225,6 +242,11 @@ export const accountSettingsPageSelector = createSelector(
     timeZoneOptions,
     countryTimeZoneOptions,
     activeAccount,
+    nameChangeModal,
+    verifiedName,
+    mostRecentVerifiedName,
+    verifiedNameHistory,
+    verifiedNameSettings,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
@@ -241,16 +263,23 @@ export const accountSettingsPageSelector = createSelector(
     profileDataManager,
     staticFields,
     tpaProviders: accountSettings.thirdPartyAuth.providers,
+    nameChangeModal,
+    verifiedName,
+    mostRecentVerifiedName,
+    verifiedNameHistory,
+    verifiedNameEnabled: verifiedNameSettings?.verifiedNameEnabled,
   }),
 );
 
 export const certPreferenceSelector = createSelector(
+  verifiedNameSettingsSelector,
   valuesSelector,
   formValuesSelector,
   mostRecentApprovedVerifiedNameValueSelector,
   saveStateSelector,
   errorSelector,
   (
+    verifiedNameSettings,
     committedValues,
     formValues,
     mostRecentApprovedVerifiedNameValue,
@@ -261,7 +290,7 @@ export const certPreferenceSelector = createSelector(
     originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name || '',
     useVerifiedNameForCerts: formValues.useVerifiedNameForCerts || false,
     saveState,
-    verifiedNameEnabled: formValues.verifiedNameHistory?.verified_name_enabled || false,
+    verifiedNameEnabled: verifiedNameSettings.verifiedNameEnabled || false,
     formErrors: errors,
   }),
 );

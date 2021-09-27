@@ -121,6 +121,11 @@ const messages = defineMessages({
     defaultMessage: 'Verification has been submitted. This usually takes 48 hours or less. Verified name cannot be changed at this time.',
     description: 'Help text for the account settings verified name field when a verified name has been submitted.',
   },
+  'account.settings.field.name.verified.verification.alert': {
+    id: 'account.settings.field.name.verified.verification.help',
+    defaultMessage: 'Enter your name as it appears on your government-issued ID.',
+    description: 'Form label instructing the user to enter the name on their ID.',
+  },
   'account.settings.field.full.name.help.text.submitted': {
     id: 'account.settings.field.full.name.help.text.submitted',
     defaultMessage: 'When identity verification is successful, this name will appear on your certificates and public-facing records. Full name cannot be changed at this time.',
