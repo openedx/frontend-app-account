@@ -28,7 +28,7 @@ const messages = defineMessages({
   },
   'id.verification.requirements.description': {
     id: 'id.verification.requirements.description',
-    defaultMessage: 'In order to complete Photo Verification online, you will need the following:',
+    defaultMessage: 'In order to complete Photo Verification, you will need the following:',
     description: 'Description for the Photo Verification Requirements page.',
   },
   'id.verification.requirements.card.device.title': {
@@ -43,12 +43,12 @@ const messages = defineMessages({
   },
   'id.verification.requirements.card.id.title': {
     id: 'id.verification.requirements.card.id.title',
-    defaultMessage: 'Photo Identification',
+    defaultMessage: 'Photo Identification Card',
     description: 'Title for the Photo Identification requirement card.',
   },
   'id.verification.requirements.card.id.text': {
     id: 'id.verification.requirements.card.id.text',
-    defaultMessage: 'You need a valid identification card that contains your full name and photo.',
+    defaultMessage: 'You need a valid identification card that contains your full name and photo, such as a driver’s license or passport.',
     description: 'Text that explains that the user needs a photo ID.',
   },
   'id.verification.privacy.title': {
@@ -463,22 +463,22 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.unclear.question': {
     id: 'id.verification.id.photo.unclear.question',
-    defaultMessage: 'Is your ID image not clear or too blurry?',
+    defaultMessage: 'Is your ID card image not clear or too blurry?',
     description: 'Question on what to do if the user\'s ID image is unclear',
   },
   'id.verification.id.tips.title': {
     id: 'id.verification.id.tips.title',
-    defaultMessage: 'Helpful ID Tips',
+    defaultMessage: 'Helpful Identification Card Tips',
     description: 'Title for the ID Tips page.',
   },
   'id.verification.id.tips.description': {
     id: 'id.verification.id.tips.description',
-    defaultMessage: 'Next, we\'ll need you to take a photo of a valid identification card that includes your full name and photo. Please have your ID ready.',
+    defaultMessage: 'Next, we\'ll need you to take a photo of a valid identification card that includes your full name and photo, such as a driver’s license or passport. Please have your ID ready.',
     description: 'Description for the ID Tips page.',
   },
   'id.verification.id.tips.list.well.lit': {
     id: 'id.verification.id.tips.list.well.lit',
-    defaultMessage: 'Your ID is well-lit.',
+    defaultMessage: 'Your identification card is well-lit.',
     description: 'Tip to ensure ID is well lit.',
   },
   'id.verification.id.tips.list.clear': {
@@ -488,12 +488,12 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.title.camera': {
     id: 'id.verification.id.photo.title.camera',
-    defaultMessage: 'Take a Photo of Your ID',
+    defaultMessage: 'Take a Photo of Your Identification Card',
     description: 'Title for the ID Photo page if camera access is enabled.',
   },
   'id.verification.id.photo.title.upload': {
     id: 'id.verification.id.photo.title.upload',
-    defaultMessage: 'Upload a Photo of Your ID',
+    defaultMessage: 'Upload a Photo of Your Identification Card',
     description: 'Title for the ID Photo page if camera access is disabled.',
   },
   'id.verification.id.photo.preview.alt': {
@@ -503,12 +503,12 @@ const messages = defineMessages({
   },
   'id.verification.id.photo.instructions.camera': {
     id: 'id.verification.id.photo.instructions.camera',
-    defaultMessage: 'When your ID is in position, use the Take Photo button below to take your photo.',
+    defaultMessage: 'When your ID is in position, use the Take Photo button below to take your photo. Please use a passport, driver’s license, or another identification card that includes your full name and a picture of your face.',
     description: 'Instructions to use the camera to take an ID photo.',
   },
   'id.verification.id.photo.instructions.upload': {
     id: 'id.verification.id.photo.instructions.upload',
-    defaultMessage: 'Please upload an ID photo. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. Supported formats: ',
+    defaultMessage: 'Please upload a photo of your identification card. Ensure the entire ID fits inside the frame and is well-lit. The file size must be under 10 MB. Supported formats: ',
     description: 'Instructions for ID photo upload.',
   },
   'id.verification.id.photo.instructions.upload.error.invalidFileType': {
@@ -603,12 +603,12 @@ const messages = defineMessages({
   },
   'id.verification.review.id.label': {
     id: 'id.verification.review.id.label',
-    defaultMessage: 'Your Photo ID',
+    defaultMessage: 'Your Identification Card',
     description: 'Label for the Photo ID card.',
   },
   'id.verification.review.id.alt': {
     id: 'id.verification.review.id.alt',
-    defaultMessage: 'Photo of your ID to be submitted.',
+    defaultMessage: 'Photo of your identification card to be submitted.',
     description: 'Alt text for the ID photo.',
   },
   'id.verification.review.id.retake': {
