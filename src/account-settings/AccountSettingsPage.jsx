@@ -153,6 +153,12 @@ class AccountSettingsPage extends React.Component {
     return bTimeSinceEpoch - aTimeSinceEpoch;
   }
 
+  verificationFailureAcked = verifiedNameObj => (
+    localStorage.getItem(
+      `dismissedVerifiedNameFailureMessage-${verifiedNameObj.verified_name}-${new Date(verifiedNameObj.created).valueOf()}`,
+    ) === 'true'
+  )
+
   sortVerifiedNameRecords = verifiedNameHistory => {
     if (Array.isArray(verifiedNameHistory)) {
       return [...verifiedNameHistory].sort(this.sortDates);
@@ -259,7 +265,8 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderFullNameHelpText = (status) => {
+  renderFullNameHelpText = (verifiedNameObj) => {
+    const { status, profile_name: profileName } = verifiedNameObj;
     if (
       !this.props.verifiedNameHistory
       || !this.props.verifiedNameEnabled
@@ -270,6 +277,18 @@ class AccountSettingsPage extends React.Component {
     switch (status) {
       case 'submitted':
         return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']);
+      case 'denied':
+        if (this.props.committedValues.name !== profileName && !this.verificationFailureAcked(verifiedNameObj)) {
+          return (
+            <span className="text-danger">
+              { `${this.props.intl.formatMessage(messages['account.settings.field.full.name.failure.message'], { profileName })}` }
+              <a href="https://support.edx.org/hc/en-us/articles/360004381594-Why-was-my-ID-verification-denied">
+                {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.help.link'])}
+              </a>
+            </span>
+          );
+        }
+        /* falls through */
       default:
         if (this.props.committedValues.useVerifiedNameForCerts) {
           return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.non.certificate']);
@@ -368,7 +387,8 @@ class AccountSettingsPage extends React.Component {
     }
   }
 
-  renderVerifiedNameHelpText = (status) => {
+  renderVerifiedNameHelpText = (verifiedNameObj) => {
+    const { status, verified_name: verifiedName } = verifiedNameObj;
     switch (status) {
       case 'approved':
         if (this.props.committedValues.useVerifiedNameForCerts) {
@@ -377,6 +397,18 @@ class AccountSettingsPage extends React.Component {
         return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']));
       case 'submitted':
         return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']));
+      case 'denied':
+        if (!this.verificationFailureAcked(verifiedNameObj)) {
+          return (
+            <span className="text-danger">
+              { `${this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'], { verifiedName })} ` }
+              <a href="https://support.edx.org/hc/en-us/articles/360004381594-Why-was-my-ID-verification-denied">
+                {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.help.link'])}
+              </a>
+            </span>
+          );
+        }
+        /* falls through */
       default:
         return null;
     }
@@ -444,7 +476,7 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const { verifiedName, verifiedNameEnabled } = this.props;
+    const { verifiedName, verifiedNameEnabled, mostRecentVerifiedName } = this.props;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -498,8 +530,8 @@ class AccountSettingsPage extends React.Component {
                 : this.renderEmptyStaticFieldMessage()
             }
             helpText={
-              verifiedNameEnabled && verifiedName
-                ? this.renderFullNameHelpText(verifiedName.status)
+              verifiedNameEnabled && mostRecentVerifiedName
+                ? this.renderFullNameHelpText(mostRecentVerifiedName)
                 : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
             isEditable={
@@ -529,7 +561,7 @@ class AccountSettingsPage extends React.Component {
                   </div>
                 )
               }
-              helpText={this.renderVerifiedNameHelpText(verifiedName.status)}
+              helpText={this.renderVerifiedNameHelpText(mostRecentVerifiedName)}
               isEditable={this.isEditable('verifiedName')}
               isGrayedOut={!this.isEditable('verifiedName')}
               onChange={this.handleEditableFieldChange}
@@ -818,6 +850,7 @@ AccountSettingsPage.propTypes = {
   committedValues: PropTypes.shape({
     useVerifiedNameForCerts: PropTypes.bool,
     verified_name: PropTypes.string,
+    name: PropTypes.string,
   }),
   drafts: PropTypes.shape({}),
   formErrors: PropTypes.shape({

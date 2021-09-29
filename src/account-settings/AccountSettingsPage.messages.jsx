@@ -131,6 +131,11 @@ const messages = defineMessages({
     defaultMessage: 'When identity verification is successful, this name will appear on your certificates and public-facing records. Full name cannot be changed at this time.',
     description: 'Help text for the account settings full name field when a verified name has been submitted.',
   },
+  'account.settings.field.full.name.failure.message': {
+    id: 'account.settings.field.name.verified.failure.message',
+    defaultMessage: 'Your Full name change attempt, “{profileName}”, did not pass ID verification. Your previous Full name settings have been restored. Try changing your Full name again. ',
+    description: 'The body of the failure alert indicating that a user\'s name was not able to be changed',
+  },
   'account.settings.field.name.verified.success.message': {
     id: 'account.settings.field.name.verified.success.message',
     defaultMessage: 'Your identity verification request has successfully completed. You now have the option of selecting which name you prefer to appear on your certificates and public-records.',
