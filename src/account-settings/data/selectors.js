@@ -63,7 +63,7 @@ const valuesSelector = createSelector(
   mostRecentApprovedVerifiedNameValueSelector,
   (accountSettings, mostRecentApprovedVerifiedNameValue) => {
     let useVerifiedNameForCerts = (
-      accountSettings.values.verifiedNameHistory?.use_verified_name_for_certs || false
+      accountSettings.verifiedNameHistory?.use_verified_name_for_certs || false
     );
 
     if (Object.keys(accountSettings.confirmationValues).includes('useVerifiedNameForCerts')) {

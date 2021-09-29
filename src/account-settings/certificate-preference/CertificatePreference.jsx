@@ -76,7 +76,7 @@ function CertificatePreference({
   }
 
   useEffect(() => {
-    if (fieldName === 'verifiedName') {
+    if (fieldName === 'verified_name') {
       setChecked(useVerifiedNameForCerts);
     } else {
       setChecked(!useVerifiedNameForCerts);

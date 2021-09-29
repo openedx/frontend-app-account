@@ -192,6 +192,8 @@ class AccountSettingsPage extends React.Component {
     }
     if (values !== this.props.committedValues?.verified_name) {
       this.props.beginNameChange(formId);
+    } else {
+      this.props.saveSettings(formId, values);
     }
   }
 

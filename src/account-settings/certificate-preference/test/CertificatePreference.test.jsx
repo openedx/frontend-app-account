@@ -158,4 +158,17 @@ describe('NameChange', () => {
       type: 'ACCOUNT_SETTINGS__SAVE_SETTINGS',
     });
   });
+
+  it('checks box for verified name', () => {
+    props = {
+      ...props,
+      fieldName: 'verified_name',
+      useVerifiedNameForCerts: true,
+    };
+
+    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+
+    const checkbox = screen.getByLabelText(labelText);
+    expect(checkbox.checked).toEqual(true);
+  });
 });
