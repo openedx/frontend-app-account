@@ -278,15 +278,20 @@ class AccountSettingsPage extends React.Component {
     }
   }
 
-  renderVerifiedNameSuccessMessage = () => (
-    <OneTimeDismissibleAlert
-      id="dismissedVerifiedNameSuccessMessage"
-      variant="success"
-      icon={CheckCircle}
-      header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
-      body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
-    />
-  )
+  renderVerifiedNameSuccessMessage = (verifiedName, created) => {
+    const dateValue = new Date(created).valueOf();
+    const id = `dismissedVerifiedNameSuccessMessage-${verifiedName}-${dateValue}`;
+
+    return (
+      <OneTimeDismissibleAlert
+        id={id}
+        variant="success"
+        icon={CheckCircle}
+        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
+        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
+      />
+    );
+  }
 
   renderVerifiedNameFailureMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
@@ -342,7 +347,7 @@ class AccountSettingsPage extends React.Component {
 
     switch (status) {
       case 'approved':
-        return this.renderVerifiedNameSuccessMessage();
+        return this.renderVerifiedNameSuccessMessage(verifiedName, created);
       case 'denied':
         return this.renderVerifiedNameFailureMessage(verifiedName, created);
       case 'submitted':
