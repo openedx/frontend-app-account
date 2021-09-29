@@ -46,6 +46,7 @@ const mostRecentApprovedVerifiedNameValueSelector = createSelector(
     switch (mostRecentVerifiedName && mostRecentVerifiedName.status) {
       case 'approved':
       case 'denied':
+      case 'pending':
         verifiedName = approvedVerifiedName;
         break;
       case 'submitted':
@@ -146,7 +147,7 @@ export const staticFieldsSelector = createSelector(
     if (accountSettings.profileDataManager) {
       staticFields.push('name', 'email', 'country');
     }
-    if (verifiedName && ['pending', 'submitted'].includes(verifiedName.status)) {
+    if (verifiedName && ['submitted'].includes(verifiedName.status)) {
       staticFields.push('verifiedName');
     }
 
