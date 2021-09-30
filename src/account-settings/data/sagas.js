@@ -108,7 +108,7 @@ export function* handleSaveSettings(action) {
     yield put(closeForm(action.payload.formId));
   } catch (e) {
     if (e.fieldErrors) {
-      if (Object.keys(e.fieldErrors).includes('name')) {
+      if (e.fieldErrors.name?.includes('verification')) {
         yield put(beginNameChange('name'));
       }
       yield put(saveSettingsFailure({ fieldErrors: e.fieldErrors }));
@@ -139,7 +139,7 @@ export function* handleSaveMultipleSettings(action) {
     }
   } catch (e) {
     if (e.fieldErrors) {
-      if (Object.keys(e.fieldErrors).includes('name')) {
+      if (e.fieldErrors.name?.includes('verification')) {
         yield put(beginNameChange('name'));
       }
       yield put(saveMultipleSettingsFailure({ fieldErrors: e.fieldErrors }));
