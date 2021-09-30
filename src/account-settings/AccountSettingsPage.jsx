@@ -307,11 +307,7 @@ class AccountSettingsPage extends React.Component {
           (
             <>
               <div className="d-flex flex-row">
-                {this.props.intl.formatMessage(
-                  messages['account.settings.field.name.verified.failure.message'], {
-                    verifiedName,
-                  },
-                )}
+                {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
               </div>
               <div className="d-flex flex-row-reverse mt-3">
                 <Button
