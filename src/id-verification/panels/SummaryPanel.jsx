@@ -220,14 +220,16 @@ function SummaryPanel(props) {
       {!optimizelyExperimentName && <CameraHelpWithUpload />}
       <div className="form-group">
         <label htmlFor="name-to-be-used" className="font-weight-bold">
-          {props.intl.formatMessage(messages['id.verification.account.name.label'])}
+          {verifiedNameEnabled
+            ? props.intl.formatMessage(messages['id.verification.name.label'])
+            : props.intl.formatMessage(messages['id.verification.account.name.label'])}
         </label>
         {renderManagedProfileMessage()}
         <div className="d-flex">
           <Input
             id="name-to-be-used"
             type="text"
-            readOnly
+            disabled
             value={nameToBeUsed}
             onChange={() => {}}
             aria-describedby={profileDataManager ? 'profile-manager-warning' : null}
@@ -240,14 +242,29 @@ function SummaryPanel(props) {
                 state: { fromSummary: true },
               }}
             >
-              <FormattedMessage
-                id="id.verification.account.name.edit"
-                defaultMessage="Edit {sr}"
-                description="Button to edit account name, with clarifying information for screen readers."
-                values={{
-                  sr: <span className="sr-only">Account Name</span>,
-                }}
-              />
+              {
+                verifiedNameEnabled
+                  ? (
+                    <FormattedMessage
+                      id="id.verification.account.name.edit"
+                      defaultMessage="Edit {sr}"
+                      description="Button to edit account name, with clarifying information for screen readers."
+                      values={{
+                        sr: <span className="sr-only">Name</span>,
+                      }}
+                    />
+                  )
+                  : (
+                    <FormattedMessage
+                      id="id.verification.account.name.edit"
+                      defaultMessage="Edit {sr}"
+                      description="Button to edit account name, with clarifying information for screen readers."
+                      values={{
+                        sr: <span className="sr-only">Account Name</span>,
+                      }}
+                    />
+                  )
+              }
             </Link>
           )}
         </div>

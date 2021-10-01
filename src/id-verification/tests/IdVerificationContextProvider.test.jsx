@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, cleanup, act } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';

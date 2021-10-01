@@ -10,6 +10,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import IdVerificationContext from '../IdVerificationContext';
+import { VerifiedNameContext } from '../VerifiedNameContext';
 
 import messages from '../IdVerification.messages';
 
@@ -23,6 +24,7 @@ function GetNameIdPanel(props) {
   const {
     nameOnAccount, userId, profileDataManager, idPhotoName, setIdPhotoName,
   } = useContext(IdVerificationContext);
+  const { verifiedNameEnabled } = useContext(VerifiedNameContext);
   const nameOnAccountValue = nameOnAccount || '';
   const invalidName = !nameMatches && (!idPhotoName || idPhotoName === nameOnAccount);
   const blankName = !nameOnAccount && !idPhotoName;
@@ -91,62 +93,77 @@ function GetNameIdPanel(props) {
   return (
     <BasePanel
       name={panelSlug}
-      title={props.intl.formatMessage(messages['id.verification.account.name.title'])}
+      title={
+        verifiedNameEnabled
+          ? props.intl.formatMessage(messages['id.verification.name.check.title'])
+          : props.intl.formatMessage(messages['id.verification.account.name.title'])
+      }
     >
       <p>
-        {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
+        {
+          verifiedNameEnabled
+            ? props.intl.formatMessage(messages['id.verification.name.check.instructions'])
+            : props.intl.formatMessage(messages['id.verification.account.name.instructions'])
+        }
+      </p>
+      <p>
+        {verifiedNameEnabled && props.intl.formatMessage(messages['id.verification.name.check.mismatch.information'])}
       </p>
 
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label htmlFor="nameMatchesYes">
-            {props.intl.formatMessage(messages['id.verification.account.name.radio.label'])}
+          <Form.Label className="font-weight-bold" htmlFor="nameMatchesYes">
+            {
+              verifiedNameEnabled
+                ? props.intl.formatMessage(messages['id.verification.name.check.radio.label'])
+                : props.intl.formatMessage(messages['id.verification.account.name.radio.label'])
+            }
           </Form.Label>
-          <Form.Row>
-            <Form.Check
-              type="radio"
-              id="nameMatchesYes"
-              name="nameMatches"
-              data-testid="name-matches-yes"
-              label={props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
-              checked={nameMatches}
-              disabled={!nameOnAccount}
-              inline
-              onChange={() => {
-                setNameMatches(true);
-                setIdPhotoName(null);
-              }}
-            />
-            <Form.Check
-              type="radio"
-              id="nameMatchesNo"
-              name="nameMatches"
-              data-testid="name-matches-no"
-              label={props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
-              checked={!nameMatches}
-              disabled={!nameOnAccount}
-              inline
-              onChange={() => setNameMatches(false)}
-            />
-          </Form.Row>
+          <Form.Check
+            type="radio"
+            id="nameMatchesYes"
+            name="nameMatches"
+            data-testid="name-matches-yes"
+            label={verifiedNameEnabled ? props.intl.formatMessage(messages['id.verification.name.check.radio.yes']) : props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
+            checked={nameMatches}
+            disabled={!nameOnAccount}
+            onChange={() => {
+              setNameMatches(true);
+              setIdPhotoName(null);
+            }}
+          />
+          <Form.Check
+            type="radio"
+            id="nameMatchesNo"
+            name="nameMatches"
+            data-testid="name-matches-no"
+            label={verifiedNameEnabled ? props.intl.formatMessage(messages['id.verification.name.check.radio.no']) : props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
+            checked={!nameMatches}
+            disabled={!nameOnAccount}
+            onChange={() => setNameMatches(false)}
+          />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="photo-id-name">
-            {props.intl.formatMessage(messages['id.verification.account.name.label'])}
+          <Form.Label className="font-weight-bold" htmlFor="photo-id-name">
+            {
+              verifiedNameEnabled
+                ? props.intl.formatMessage(messages['id.verification.name.label'])
+                : props.intl.formatMessage(messages['id.verification.account.name.label'])
+            }
           </Form.Label>
           <Form.Control
             controlId="photo-id-name"
             size="lg"
             type="text"
             ref={nameInputRef}
-            readOnly={nameMatches || profileDataManager}
+            readOnly={nameMatches || !!profileDataManager}
             isInvalid={invalidName || blankName}
             aria-describedby="photo-id-name-feedback"
             value={getNameValue()}
             onChange={e => setIdPhotoName(e.target.value)}
             data-testid="name-input"
           />
-          {(invalidName || profileDataManager) && (
+          {(invalidName || !!profileDataManager) && (
             <Form.Control.Feedback
               id="photo-id-name-feedback"
               data-testid="id-name-feedback-message"

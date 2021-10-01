@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakePortraitPhotoPanel from '../../panels/TakePortraitPhotoPanel';
