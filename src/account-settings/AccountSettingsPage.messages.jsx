@@ -143,7 +143,7 @@ const messages = defineMessages({
   },
   'account.settings.field.name.verified.failure.message': {
     id: 'account.settings.field.name.verified.failure.message',
-    defaultMessage: 'Your Verified name change attempt, “{verifiedName}”, did not pass ID verification. Your previous Verified name settings have been restored.',
+    defaultMessage: 'Your most recent identity verification attempt did not pass. Related account settings have been restored.',
     description: 'The body of the failure alert indicating that a user\'s name was not able to be verified',
   },
   'account.settings.field.name.verified.failure.message.header': {
