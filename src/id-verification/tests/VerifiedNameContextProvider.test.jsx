@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 
 import { getVerifiedNameHistory } from '../../account-settings/data/service';
 import { VerifiedNameContext, VerifiedNameContextProvider } from '../VerifiedNameContext';

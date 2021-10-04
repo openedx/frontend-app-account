@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 

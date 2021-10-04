@@ -7,6 +7,7 @@ import {
 import '@edx/frontend-platform/analytics';
 import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
+import { VerifiedNameContext } from '../../VerifiedNameContext';
 import GetNameIdPanel from '../../panels/GetNameIdPanel';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -22,7 +23,7 @@ describe('GetNameIdPanel', () => {
     intl: {},
   };
 
-  const contextValue = {
+  const IDVerificationContextValue = {
     nameOnAccount: 'test',
     userId: 3,
     idPhotoName: '',
@@ -31,13 +32,19 @@ describe('GetNameIdPanel', () => {
     idPhotoFile: 'test.jpg',
   };
 
+  const verifiedNameContextValue = {
+    verifiedNameEnabled: false,
+  };
+
   const getPanel = async () => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlGetNameIdPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
+          <VerifiedNameContext.Provider value={verifiedNameContextValue}>
+            <IdVerificationContext.Provider value={IDVerificationContextValue}>
+              <IntlGetNameIdPanel {...defaultProps} />
+            </IdVerificationContext.Provider>
+          </VerifiedNameContext.Provider>
         </IntlProvider>
       </Router>
     )));
@@ -56,25 +63,26 @@ describe('GetNameIdPanel', () => {
     const nextButton = await screen.findByTestId('next-button');
     const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
 
-    expect(input).toHaveProperty('readOnly');
+    expect(input).toHaveAttribute('readonly');
     expect(errorMessageQuery).toBeNull();
 
     fireEvent.click(noButton);
-    expect(input).toHaveProperty('readOnly', false);
+    expect(input).not.toHaveAttribute('readonly');
     expect(nextButton.classList.contains('disabled')).toBe(true);
+    expect(nextButton).toHaveAttribute('aria-disabled');
 
     fireEvent.change(input, { target: { value: 'test change' } });
-    expect(contextValue.setIdPhotoName).toHaveBeenCalled();
+    expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalled();
     // Ensure the feedback message on name shows when the user says the name does not match ID
     expect(await screen.queryByTestId('id-name-feedback-message')).toBeTruthy();
 
     fireEvent.click(yesButton);
-    expect(input).toHaveProperty('readOnly');
-    expect(contextValue.setIdPhotoName).toHaveBeenCalled();
+    expect(input).toHaveAttribute('readonly');
+    expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalled();
   });
 
   it('disables radio buttons + next button and enables input if account name is blank', async () => {
-    contextValue.nameOnAccount = '';
+    IDVerificationContextValue.nameOnAccount = '';
     await getPanel();
 
     const yesButton = await screen.findByTestId('name-matches-yes');
@@ -83,15 +91,16 @@ describe('GetNameIdPanel', () => {
     const nextButton = await screen.findByTestId('next-button');
     const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
 
-    expect(yesButton).toHaveProperty('disabled');
-    expect(noButton).toHaveProperty('disabled');
-    expect(input).toHaveProperty('readOnly', false);
+    expect(yesButton).toBeDisabled();
+    expect(noButton).toBeDisabled();
+    expect(input).not.toHaveAttribute('readonly');
     expect(nextButton.classList.contains('disabled')).toBe(true);
+    expect(nextButton).toHaveAttribute('aria-disabled');
     expect(errorMessageQuery).toBeTruthy();
   });
 
   it('blocks the user from changing account name if managed by a third party', async () => {
-    contextValue.profileDataManager = 'test-org';
+    IDVerificationContextValue.profileDataManager = 'test-org';
     await getPanel();
 
     const noButton = await screen.findByTestId('name-matches-no');
@@ -99,8 +108,9 @@ describe('GetNameIdPanel', () => {
     const nextButton = await screen.findByTestId('next-button');
 
     fireEvent.click(noButton);
-    expect(input).toHaveProperty('readOnly');
+    expect(input).toHaveAttribute('readonly');
     expect(nextButton.classList.contains('disabled')).toBe(true);
+    expect(nextButton).toHaveAttribute('aria-disabled');
     const warning = await screen.getAllByText('test-org');
     expect(warning.length).toEqual(1);
   });
