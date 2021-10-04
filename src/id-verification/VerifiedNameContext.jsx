@@ -3,31 +3,29 @@ import PropTypes from 'prop-types';
 
 import { getVerifiedNameHistory } from '../account-settings/data/service';
 import { getMostRecentApprovedOrPendingVerifiedName } from '../utils';
+import { useAsyncCall } from '../hooks';
 
 export const VerifiedNameContext = createContext();
 
 export function VerifiedNameContextProvider({ children }) {
   const [verifiedNameEnabled, setVerifiedNameEnabled] = useState(false);
   const [verifiedName, setVerifiedName] = useState('');
-  useEffect(() => {
-    // Make API call to retrieve VerifiedName history for the learner.
-    // From this information, derive whether the verified name feature is enabled
-    // and the learner's verified name as it should be displayed during the IDV process.
-    (async () => {
-      const response = await getVerifiedNameHistory();
-      if (response) {
-        const { verified_name_enabled: verifiedNameFeatureEnabled, results } = response;
-        setVerifiedNameEnabled(verifiedNameFeatureEnabled);
+  const [isVerifiedNameHistoryLoading, verifiedNameHistory] = useAsyncCall(getVerifiedNameHistory);
 
-        if (verifiedNameFeatureEnabled) {
-          const applicableVerifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
-          setVerifiedName(applicableVerifiedName);
-        }
+  useEffect(() => {
+    if (verifiedNameHistory) {
+      const { verified_name_enabled: verifiedNameFeatureEnabled, results } = verifiedNameHistory;
+      setVerifiedNameEnabled(verifiedNameFeatureEnabled);
+
+      if (verifiedNameFeatureEnabled) {
+        const applicableVerifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
+        setVerifiedName(applicableVerifiedName);
       }
-    })();
-  }, []);
+    }
+  }, [verifiedNameHistory]);
 
   const value = {
+    isVerifiedNameHistoryLoading,
     verifiedNameEnabled,
     verifiedName,
   };
