@@ -4,6 +4,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 
 import { getProfileDataManager } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
+import { useAsyncCall } from '../hooks';
 
 import { getExistingIdVerification, getEnrollments } from './data/service';
 import AccessBlocked from './AccessBlocked';
@@ -13,16 +14,17 @@ import { VerifiedNameContext } from './VerifiedNameContext';
 
 export default function IdVerificationContextProvider({ children }) {
   const { authenticatedUser } = useContext(AppContext);
-  const { verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
+  const { isVerifiedNameHistoryLoading, verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
 
+  // Call verification status endpoint to check whether we can verify.
   const [existingIdVerification, setExistingIdVerification] = useState(null);
+  const [isIDVerificationLoading, idVerificationData] = useAsyncCall(getExistingIdVerification);
+  const [isEnrollmentsLoading, enrollmentsData] = useAsyncCall(getEnrollments);
   useEffect(() => {
-    // Call verification status endpoint to check whether we can verify.
-    (async () => {
-      const existingIdV = await getExistingIdVerification();
-      setExistingIdVerification(existingIdV);
-    })();
-  }, []);
+    if (idVerificationData) {
+      setExistingIdVerification(idVerificationData);
+    }
+  }, [idVerificationData]);
 
   const [facePhotoFile, setFacePhotoFile] = useState(null);
   const [idPhotoFile, setIdPhotoFile] = useState(null);
@@ -45,22 +47,22 @@ export default function IdVerificationContextProvider({ children }) {
       } else {
         setError(ERROR_REASONS.CANNOT_VERIFY);
       }
+    } else if (verifiedNameEnabled) {
+      setCanVerify(true);
     }
   }, [existingIdVerification, verifiedNameEnabled]);
+
   useEffect(() => {
-    // Check whether the learner is enrolled in a verified course mode.
-    (async () => {
-      /* eslint-disable arrow-body-style */
-      const enrollments = await getEnrollments();
-      const verifiedEnrollments = enrollments.filter((enrollment) => {
-        return VERIFIED_MODES.includes(enrollment.mode);
-      });
+    if (!isEnrollmentsLoading && enrollmentsData) {
+      const verifiedEnrollments = enrollmentsData.filter((enrollment) => (
+        VERIFIED_MODES.includes(enrollment.mode)
+      ));
       if (verifiedEnrollments.length === 0) {
         setCanVerify(false);
         setError(ERROR_REASONS.COURSE_ENROLLMENT);
       }
-    })();
-  }, []);
+    }
+  }, [enrollmentsData]);
 
   const [profileDataManager, setProfileDataManager] = useState(null);
   useEffect(() => {
@@ -140,7 +142,7 @@ export default function IdVerificationContextProvider({ children }) {
   };
 
   // If we are waiting for verification status endpoint, show spinner.
-  if (!existingIdVerification) {
+  if (isIDVerificationLoading || isVerifiedNameHistoryLoading) {
     return <PageLoading srMessage="Loading verification status" />;
   }
 

@@ -528,7 +528,7 @@ const messages = defineMessages({
   },
   'id.verification.name.check.title': {
     id: 'id.verification.name.check.title',
-    defaultMessage: 'Double-check your name',
+    defaultMessage: 'Double-Check Your Name',
     description: 'Title for the page where a user double-checks that their name is correct.',
   },
   'id.verification.account.name.instructions': {
@@ -538,7 +538,7 @@ const messages = defineMessages({
   },
   'id.verification.name.check.instructions': {
     id: 'id.verification.name.check.instructions',
-    defaultMessage: 'Does the name below match the name on your government-issued ID? If not, update the Name below to match your goverment-issued ID.',
+    defaultMessage: 'Does the name below match the name on your government-issued ID? If not, update the name below to match your goverment-issued ID.',
     description: 'Text to instruct the user to check that the name displayed on the page matches what is on their government-issued ID.',
   },
   'id.verification.name.check.mismatch.information': {
