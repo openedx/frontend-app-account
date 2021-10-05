@@ -1,31 +1,31 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { getVerifiedNameHistory } from '../account-settings/data/service';
 import { getMostRecentApprovedOrPendingVerifiedName } from '../utils';
 import { useAsyncCall } from '../hooks';
+import { SUCCESS_STATUS } from '../constants';
 
 export const VerifiedNameContext = createContext();
 
 export function VerifiedNameContextProvider({ children }) {
-  const [verifiedNameEnabled, setVerifiedNameEnabled] = useState(false);
-  const [verifiedName, setVerifiedName] = useState('');
-  const [isVerifiedNameHistoryLoading, verifiedNameHistory] = useAsyncCall(getVerifiedNameHistory);
+  const verifiedNameHistoryData = useAsyncCall(getVerifiedNameHistory);
 
-  useEffect(() => {
-    if (verifiedNameHistory) {
-      const { verified_name_enabled: verifiedNameFeatureEnabled, results } = verifiedNameHistory;
-      setVerifiedNameEnabled(verifiedNameFeatureEnabled);
+  let verifiedNameEnabled = false;
+  let verifiedName = '';
+  const { status, data } = verifiedNameHistoryData;
+  if (status === SUCCESS_STATUS && data) {
+    const { verified_name_enabled: verifiedNameFeatureEnabled, results } = data;
+    verifiedNameEnabled = verifiedNameFeatureEnabled;
 
-      if (verifiedNameFeatureEnabled) {
-        const applicableVerifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
-        setVerifiedName(applicableVerifiedName);
-      }
+    if (verifiedNameFeatureEnabled) {
+      const applicableVerifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
+      verifiedName = applicableVerifiedName;
     }
-  }, [verifiedNameHistory]);
+  }
 
   const value = {
-    isVerifiedNameHistoryLoading,
+    verifiedNameHistoryCallStatus: status,
     verifiedNameEnabled,
     verifiedName,
   };

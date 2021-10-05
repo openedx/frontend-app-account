@@ -15,7 +15,7 @@ const VerifiedNameContextTestComponent = () => {
 };
 
 jest.mock('../../account-settings/data/service', () => ({
-  getVerifiedNameHistory: jest.fn(),
+  getVerifiedNameHistory: jest.fn(() => ({})),
 }));
 
 describe('VerifiedNameContextProvider', () => {
@@ -31,11 +31,11 @@ describe('VerifiedNameContextProvider', () => {
 
   it('calls getVerifiedNameHistory', async () => {
     jest.mock('../../account-settings/data/service', () => ({
-      getVerifiedNameHistory: jest.fn(),
+      getVerifiedNameHistory: jest.fn(() => ({})),
     }));
 
     render(<VerifiedNameContextProvider {...defaultProps} />);
-    expect(getVerifiedNameHistory).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(getVerifiedNameHistory).toHaveBeenCalledTimes(1));
   });
 
   it('sets verifiedName and verifiedNameEnabled correctly when verified name feature enabled', async () => {
