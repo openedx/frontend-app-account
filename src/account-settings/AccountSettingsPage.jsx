@@ -269,7 +269,10 @@ class AccountSettingsPage extends React.Component {
 
     switch (status) {
       case 'submitted':
-        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']);
+        if (this.props.committedValues.useVerifiedNameForCerts) {
+          return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']);
+        }
+        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted.certificate']);
       default:
         if (this.props.committedValues.useVerifiedNameForCerts) {
           return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.non.certificate']);
@@ -324,7 +327,7 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderVerifiedNameSubmittedMessage = () => (
+  renderVerifiedNameSubmittedMessage = (willCertNameChange) => (
     <Alert
       variant="warning"
       icon={WarningFilled}
@@ -333,13 +336,38 @@ class AccountSettingsPage extends React.Component {
         {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.header'])}
       </Alert.Heading>
       <p>
-        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message'])}
+        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message'])}{' '}
+        {
+          willCertNameChange
+          && this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.certificate'])
+        }
       </p>
     </Alert>
   )
 
   renderVerifiedNameMessage = verifiedNameRecord => {
-    const { created, status, verified_name: verifiedName } = verifiedNameRecord;
+    const {
+      created,
+      status,
+      profile_name: profileName,
+      verified_name: verifiedName,
+    } = verifiedNameRecord;
+    let willCertNameChange = false;
+
+    if (
+      (
+        // User submitted a profile name change, and uses their profile name on certificates
+        this.props.committedValues.name !== profileName
+        && !this.props.committedValues.useVerifiedNameForCerts
+      )
+      || (
+        // User submitted a verified name change, and uses their verified name on certificates
+        this.props.committedValues.name === profileName
+        && this.props.committedValues.useVerifiedNameForCerts
+      )
+    ) {
+      willCertNameChange = true;
+    }
 
     switch (status) {
       case 'approved':
@@ -347,7 +375,7 @@ class AccountSettingsPage extends React.Component {
       case 'denied':
         return this.renderVerifiedNameFailureMessage(verifiedName, created);
       case 'submitted':
-        return this.renderVerifiedNameSubmittedMessage();
+        return this.renderVerifiedNameSubmittedMessage(willCertNameChange);
       default:
         return null;
     }
@@ -368,11 +396,14 @@ class AccountSettingsPage extends React.Component {
     switch (status) {
       case 'approved':
         if (this.props.committedValues.useVerifiedNameForCerts) {
-          return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.certificate']));
+          return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.certificate']);
         }
-        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']));
+        return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']);
       case 'submitted':
-        return (this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']));
+        if (this.props.committedValues.useVerifiedNameForCerts) {
+          return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted.certificate']);
+        }
+        return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']);
       default:
         return null;
     }
@@ -812,6 +843,7 @@ AccountSettingsPage.propTypes = {
     verified_name: PropTypes.string,
   }).isRequired,
   committedValues: PropTypes.shape({
+    name: PropTypes.string,
     useVerifiedNameForCerts: PropTypes.bool,
     verified_name: PropTypes.string,
   }),
