@@ -38,12 +38,15 @@ function RequestCameraAccessPanel(props) {
     }
   }, [mediaAccess, userId]);
 
-  // If the user accessed IDV through a course,
-  // link back to that course rather than the dashboard
+  // Link back to the correct location if the user accessed IDV somewhere other
+  // than the dashboard
   useEffect(() => {
-    if (sessionStorage.getItem('courseRunKey')) {
-      setReturnUrl(`courses/${sessionStorage.getItem('courseRunKey')}`);
+    if (sessionStorage.getItem('courseId')) {
+      setReturnUrl(`courses/${sessionStorage.getItem('courseId')}`);
       setReturnText('id.verification.return.course');
+    } else if (sessionStorage.getItem('next')) {
+      setReturnUrl(sessionStorage.getItem('next'));
+      setReturnText('id.verification.return.generic');
     }
   }, []);
 
@@ -57,7 +60,7 @@ function RequestCameraAccessPanel(props) {
     return props.intl.formatMessage(messages['id.verification.camera.access.title']);
   };
 
-  const returnToDashboardLink = (
+  const returnLink = (
     <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
       {props.intl.formatMessage(messages[returnText])}
     </a>
@@ -114,7 +117,7 @@ function RequestCameraAccessPanel(props) {
           </p>
           <EnableCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
-            {optimizelyExperimentName ? nextButtonLink : returnToDashboardLink}
+            {optimizelyExperimentName ? nextButtonLink : returnLink}
           </div>
         </div>
       )}
@@ -126,7 +129,7 @@ function RequestCameraAccessPanel(props) {
           </p>
           <UnsupportedCameraDirectionsPanel browserName={browserName} intl={props.intl} />
           <div className="action-row">
-            {optimizelyExperimentName ? nextButtonLink : returnToDashboardLink}
+            {optimizelyExperimentName ? nextButtonLink : returnLink}
           </div>
         </div>
       )}

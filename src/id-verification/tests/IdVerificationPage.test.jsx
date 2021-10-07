@@ -41,34 +41,6 @@ describe('IdVerificationPage', () => {
     intl: {},
   };
 
-  it('does not store irrelevant query params', async () => {
-    history.push('/?test=irrelevant');
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
-        </IntlProvider>
-      </Router>
-    )));
-    expect(sessionStorage.setItem).toHaveBeenCalledTimes(0);
-  });
-
-  it('does not store empty course_id', async () => {
-    history.push('/?course_id=');
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
-        </IntlProvider>
-      </Router>
-    )));
-    expect(sessionStorage.setItem).toHaveBeenCalledTimes(0);
-  });
-
   it('decodes and stores course_id', async () => {
     history.push('/?course_id=course-v1%3AedX%2BDemoX%2BDemo_Course');
     await act(async () => render((
@@ -81,8 +53,25 @@ describe('IdVerificationPage', () => {
       </Router>
     )));
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
-      'courseRunKey',
+      'courseId',
       'course-v1:edX+DemoX+Demo_Course',
+    );
+  });
+
+  it('stores `next` value', async () => {
+    history.push('/?next=dashboard');
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <Provider store={store}>
+            <IntlIdVerificationPage {...props} />
+          </Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      'next',
+      'dashboard',
     );
   });
 });

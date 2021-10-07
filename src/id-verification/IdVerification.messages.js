@@ -701,6 +701,11 @@ const messages = defineMessages({
     defaultMessage: 'Return to Course',
     description: 'Return to the course which ID verification was accessed from.',
   },
+  'id.verification.return.generic': {
+    id: 'id.verification.return.generic',
+    defaultMessage: 'Return',
+    description: 'Button to return to the user\'s original location.',
+  },
   'id.verification.photo.upload.help.title': {
     id: 'id.verification.photo.upload.help.title',
     defaultMessage: 'Upload a Photo Instead',

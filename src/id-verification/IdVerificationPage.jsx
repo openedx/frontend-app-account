@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   Route, Switch, Redirect, useRouteMatch, useLocation,
 } from 'react-router-dom';
+import camelCase from 'lodash.camelcase';
 import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Modal, Button } from '@edx/paragon';
@@ -32,16 +33,16 @@ function IdVerificationPage(props) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Course run key is passed as a query string
+  // Save query params in order to route back to the correct location later
   useEffect(() => {
     if (search) {
-      const parsed = qs.parse(search, {
+      const parsedQueryParams = qs.parse(search, {
         ignoreQueryPrefix: true,
         interpretNumericEntities: true,
       });
-      if (Object.prototype.hasOwnProperty.call(parsed, 'course_id') && parsed.course_id) {
-        sessionStorage.setItem('courseRunKey', parsed.course_id);
-      }
+      Object.entries(parsedQueryParams).forEach(([key, value]) => {
+        sessionStorage.setItem(camelCase(key), value);
+      });
     }
   }, [search]);
 

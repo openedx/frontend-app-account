@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -10,6 +10,8 @@ import messages from '../IdVerification.messages';
 
 function SubmittedPanel(props) {
   const { userId } = useContext(IdVerificationContext);
+  const [returnUrl, setReturnUrl] = useState('dashboard');
+  const [returnText, setReturnText] = useState('id.verification.return.dashboard');
   const panelSlug = 'submitted';
 
   useEffect(() => {
@@ -18,6 +20,18 @@ function SubmittedPanel(props) {
       user_id: userId,
     });
   }, [userId]);
+
+  // Link back to the correct location if the user accessed IDV somewhere other
+  // than the dashboard
+  useEffect(() => {
+    if (sessionStorage.getItem('courseId')) {
+      setReturnUrl(`courses/${sessionStorage.getItem('courseId')}`);
+      setReturnText('id.verification.return.course');
+    } else if (sessionStorage.getItem('next')) {
+      setReturnUrl(sessionStorage.getItem('next'));
+      setReturnText('id.verification.return.generic');
+    }
+  }, []);
 
   return (
     <BasePanel
@@ -29,10 +43,10 @@ function SubmittedPanel(props) {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/dashboard`}
+        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
         data-testid="return-button"
       >
-        {props.intl.formatMessage(messages['id.verification.return.dashboard'])}
+        {props.intl.formatMessage(messages[returnText])}
       </a>
     </BasePanel>
   );
