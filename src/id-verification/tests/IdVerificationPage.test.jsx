@@ -42,7 +42,7 @@ describe('IdVerificationPage', () => {
   };
 
   it('decodes and stores course_id', async () => {
-    history.push('/?course_id=course-v1%3AedX%2BDemoX%2BDemo_Course');
+    history.push(`/?course_id=${encodeURIComponent('course-v1:edX+DemoX+Demo_Course')}`);
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
