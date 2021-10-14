@@ -111,7 +111,7 @@ function CertificatePreference({
             </ModalDialog.Title>
           </ModalDialog.Header>
 
-          <ModalDialog.Body>
+          <ModalDialog.Body className="overflow-hidden">
             <Form.Group className="mb-4">
               <Form.Label>
                 {intl.formatMessage(messages['account.settings.field.name.modal.certificate.select'])}

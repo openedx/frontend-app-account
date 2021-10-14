@@ -167,7 +167,7 @@ function NameChangeModal({
           </ModalDialog.Title>
         </ModalDialog.Header>
 
-        <ModalDialog.Body>
+        <ModalDialog.Body className="mb-3 overflow-hidden">
           {renderBody()}
         </ModalDialog.Body>
 
