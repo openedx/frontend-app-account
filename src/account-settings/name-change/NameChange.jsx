@@ -69,7 +69,7 @@ function NameChangeModal({
   useEffect(() => {
     if (saveState === 'complete') {
       handleClose();
-      push('/id-verification');
+      push(`/id-verification?next=${encodeURIComponent('account/settings')}`);
     }
   }, [saveState]);
 

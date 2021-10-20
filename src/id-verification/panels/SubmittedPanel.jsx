@@ -1,15 +1,18 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
-import BasePanel from './BasePanel';
+import { useRedirect } from '../../hooks';
 
 import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 
+import BasePanel from './BasePanel';
+
 function SubmittedPanel(props) {
   const { userId } = useContext(IdVerificationContext);
+  const { location: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'submitted';
 
   useEffect(() => {
@@ -29,10 +32,10 @@ function SubmittedPanel(props) {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/dashboard`}
+        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
         data-testid="return-button"
       >
-        {props.intl.formatMessage(messages['id.verification.return.dashboard'])}
+        {props.intl.formatMessage(messages[returnText])}
       </a>
     </BasePanel>
   );
