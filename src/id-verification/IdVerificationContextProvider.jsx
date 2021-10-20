@@ -5,6 +5,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 import { getProfileDataManager } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
 import { useAsyncCall } from '../hooks';
+import { IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 import { getExistingIdVerification, getEnrollments } from './data/service';
 import AccessBlocked from './AccessBlocked';
@@ -14,17 +15,10 @@ import { VerifiedNameContext } from './VerifiedNameContext';
 
 export default function IdVerificationContextProvider({ children }) {
   const { authenticatedUser } = useContext(AppContext);
-  const { isVerifiedNameHistoryLoading, verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
+  const { verifiedNameHistoryCallStatus, verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
 
-  // Call verification status endpoint to check whether we can verify.
-  const [existingIdVerification, setExistingIdVerification] = useState(null);
-  const [isIDVerificationLoading, idVerificationData] = useAsyncCall(getExistingIdVerification);
-  const [isEnrollmentsLoading, enrollmentsData] = useAsyncCall(getEnrollments);
-  useEffect(() => {
-    if (idVerificationData) {
-      setExistingIdVerification(idVerificationData);
-    }
-  }, [idVerificationData]);
+  const idVerificationData = useAsyncCall(getExistingIdVerification);
+  const enrollmentsData = useAsyncCall(getEnrollments);
 
   const [facePhotoFile, setFacePhotoFile] = useState(null);
   const [idPhotoFile, setIdPhotoFile] = useState(null);
@@ -33,36 +27,6 @@ export default function IdVerificationContextProvider({ children }) {
   const [mediaAccess, setMediaAccess] = useState(
     hasGetUserMediaSupport ? MEDIA_ACCESS.PENDING : MEDIA_ACCESS.UNSUPPORTED,
   );
-
-  const [canVerify, setCanVerify] = useState(true);
-  const [error, setError] = useState('');
-  useEffect(() => {
-    // With verified name we can redo verification multiple times
-    // if not a successful request prevents re-verification
-    if (!verifiedNameEnabled && existingIdVerification && !existingIdVerification.canVerify) {
-      const { status } = existingIdVerification;
-      setCanVerify(false);
-      if (status === 'pending' || status === 'approved') {
-        setError(ERROR_REASONS.EXISTING_REQUEST);
-      } else {
-        setError(ERROR_REASONS.CANNOT_VERIFY);
-      }
-    } else if (verifiedNameEnabled) {
-      setCanVerify(true);
-    }
-  }, [existingIdVerification, verifiedNameEnabled]);
-
-  useEffect(() => {
-    if (!isEnrollmentsLoading && enrollmentsData) {
-      const verifiedEnrollments = enrollmentsData.filter((enrollment) => (
-        VERIFIED_MODES.includes(enrollment.mode)
-      ));
-      if (verifiedEnrollments.length === 0) {
-        setCanVerify(false);
-        setError(ERROR_REASONS.COURSE_ENROLLMENT);
-      }
-    }
-  }, [enrollmentsData]);
 
   const [profileDataManager, setProfileDataManager] = useState(null);
   useEffect(() => {
@@ -92,6 +56,40 @@ export default function IdVerificationContextProvider({ children }) {
   // this flag ensures that they are directed straight back to the summary panel
   const [reachedSummary, setReachedSummary] = useState(false);
 
+  let canVerify = false;
+  let error = '';
+  let existingIdVerification;
+
+  if (idVerificationData?.data) {
+    existingIdVerification = idVerificationData.data;
+  }
+
+  if (verifiedNameHistoryCallStatus === SUCCESS_STATUS && idVerificationData.status === SUCCESS_STATUS) {
+    // With verified name we can redo verification multiple times
+    // if not a successful request prevents re-verification
+    if (!verifiedNameEnabled && existingIdVerification && !existingIdVerification.canVerify) {
+      const { status } = existingIdVerification;
+      canVerify = false;
+      if (status === 'pending' || status === 'approved') {
+        error = ERROR_REASONS.EXISTING_REQUEST;
+      } else {
+        error = ERROR_REASONS.CANNOT_VERIFY;
+      }
+    } else if (verifiedNameEnabled) {
+      canVerify = true;
+    }
+  }
+
+  if (enrollmentsData.status === SUCCESS_STATUS && enrollmentsData?.data) {
+    const verifiedEnrollments = enrollmentsData.data.filter((enrollment) => (
+      VERIFIED_MODES.includes(enrollment.mode)
+    ));
+    if (verifiedEnrollments.length === 0) {
+      canVerify = false;
+      error = ERROR_REASONS.COURSE_ENROLLMENT;
+    }
+  }
+
   const contextValue = {
     existingIdVerification,
     facePhotoFile,
@@ -109,7 +107,6 @@ export default function IdVerificationContextProvider({ children }) {
     portraitPhotoMode,
     idPhotoMode,
     reachedSummary,
-    setExistingIdVerification,
     setFacePhotoFile,
     setIdPhotoFile,
     setIdPhotoName,
@@ -141,8 +138,9 @@ export default function IdVerificationContextProvider({ children }) {
     },
   };
 
-  // If we are waiting for verification status endpoint, show spinner.
-  if (isIDVerificationLoading || isVerifiedNameHistoryLoading) {
+  const loadingStatuses = [IDLE_STATUS, LOADING_STATUS];
+  // If we are waiting for verification status or verified name history endpoint, show spinner.
+  if (loadingStatuses.includes(idVerificationData.status) || loadingStatuses.includes(verifiedNameHistoryCallStatus)) {
     return <PageLoading srMessage="Loading verification status" />;
   }
 

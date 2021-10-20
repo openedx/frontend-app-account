@@ -2,15 +2,14 @@ import PropTypes from 'prop-types';
 import { render, waitFor } from '@testing-library/react';
 
 import { useAsyncCall } from '../hooks';
+import { LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS } from '../constants';
 
-const TestUseAsyncCallHookComponent = (props) => {
-  const { asyncFunc } = props;
-  const [isCallLoading, callData] = useAsyncCall(asyncFunc);
-
+const TestUseAsyncCallHookComponent = ({ asyncFunc }) => {
+  const { status, data } = useAsyncCall(asyncFunc);
   return (
     <>
-      { isCallLoading && <div>loading</div> }
-      <div>{ callData }</div>
+      <div>{status}</div>
+      {data && Object.keys(data).length !== 0 && <div data-testid="data">{ data.data }</div>}
     </>
   );
 };
@@ -20,27 +19,31 @@ TestUseAsyncCallHookComponent.propTypes = {
 };
 
 describe('useAsyncCall mock', () => {
-  it('returns data correctly for response', async () => {
-    const mockAsyncFunc = jest.fn(async () => ('data'));
+  it('returns status and data correctly for successful response', async () => {
+    const mockAsyncFunc = jest.fn(async () => ({ data: 'data' }));
 
     const { queryByText } = render(<TestUseAsyncCallHookComponent asyncFunc={mockAsyncFunc} />);
 
     await waitFor(() => (expect(mockAsyncFunc).toHaveBeenCalledTimes(1)));
+    expect(queryByText(SUCCESS_STATUS)).not.toBeNull();
     expect(queryByText('data')).not.toBeNull();
   });
-  it('returns data correctly for no response', async () => {
-    const mockAsyncFunc = jest.fn(async () => {});
+  it('returns status and data correctly for unsuccessful response', async () => {
+    const mockAsyncFunc = jest.fn(async () => ({}));
 
-    const { queryByText } = render(<TestUseAsyncCallHookComponent asyncFunc={mockAsyncFunc} />);
+    const { queryByText, queryByTestId } = render(<TestUseAsyncCallHookComponent asyncFunc={mockAsyncFunc} />);
 
     await waitFor(() => (expect(mockAsyncFunc).toHaveBeenCalledTimes(1)));
-    expect(queryByText('data')).toBeNull();
+    expect(queryByText(FAILURE_STATUS)).not.toBeNull();
+    expect(queryByTestId('data')).toBeNull();
   });
-  it('returns isLoading correctly', async () => {
-    const mockAsyncFunc = jest.fn(async () => {});
+  it('returns status and data correctly for pending request', async () => {
+    const mockAsyncFunc = jest.fn(async () => ({}));
 
-    const { queryByText } = render(<TestUseAsyncCallHookComponent asyncFunc={mockAsyncFunc} />);
-    expect(queryByText('loading')).not.toBeNull();
-    expect(queryByText('data')).toBeNull();
+    const { queryByText, queryByTestId } = render(<TestUseAsyncCallHookComponent asyncFunc={mockAsyncFunc} />);
+    expect(queryByText(LOADING_STATUS)).not.toBeNull();
+    expect(queryByTestId('data')).toBeNull();
+
+    await waitFor(() => (expect(mockAsyncFunc).toHaveBeenCalledTimes(1)));
   });
 });

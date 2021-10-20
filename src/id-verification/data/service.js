@@ -44,7 +44,7 @@ export async function getEnrollments() {
     const { data } = await getAuthenticatedHttpClient().get(url, requestConfig);
     return data;
   } catch (e) {
-    return [];
+    return {};
   }
 }
 

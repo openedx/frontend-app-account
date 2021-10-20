@@ -16,8 +16,8 @@ jest.mock('../../account-settings/data/service', () => ({
 }));
 
 jest.mock('../data/service', () => ({
-  getExistingIdVerification: jest.fn(),
-  getEnrollments: jest.fn(() => []),
+  getExistingIdVerification: jest.fn(() => ({})),
+  getEnrollments: jest.fn(() => ({})),
 }));
 
 describe('IdVerificationContextProvider', () => {
