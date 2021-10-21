@@ -67,7 +67,7 @@ describe('AccessBlocked', () => {
       </Router>
     )));
 
-    const text = screen.getByText(/You cannot verify your identity at this time./);
+    const text = screen.getByText(/We cannot verify your identity at this time./);
 
     expect(text).toBeInTheDocument();
   });
