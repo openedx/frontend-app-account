@@ -17,7 +17,7 @@ function AccessBlocked({ error, intl }) {
     return (
       <FormattedMessage
         id="id.verification.access.blocked.denied"
-        defaultMessage="You cannot verify your identity at this time. If you have yet to activate your account, please check your spam folder for the activation email from {email}."
+        defaultMessage="We cannot verify your identity at this time. If you have yet to activate your account, please check your spam folder for the activation email from {email}."
         description="Text that displays when user is denied from making a request, and to check their email for an activation email."
         values={{
           email: <strong>no-reply@registration.edx.org</strong>,
