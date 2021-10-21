@@ -56,7 +56,7 @@ export default function IdVerificationContextProvider({ children }) {
   // this flag ensures that they are directed straight back to the summary panel
   const [reachedSummary, setReachedSummary] = useState(false);
 
-  let canVerify = false;
+  let canVerify = true;
   let error = '';
   let existingIdVerification;
 
@@ -75,8 +75,8 @@ export default function IdVerificationContextProvider({ children }) {
       } else {
         error = ERROR_REASONS.CANNOT_VERIFY;
       }
-    } else if (verifiedNameEnabled) {
-      canVerify = true;
+    } else if (!verifiedNameEnabled) {
+      canVerify = false;
     }
   }
 
