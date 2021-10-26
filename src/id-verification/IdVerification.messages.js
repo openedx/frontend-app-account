@@ -581,6 +581,11 @@ const messages = defineMessages({
     defaultMessage: 'Please update account name to match the name on your ID.',
     description: 'Error that shows when the user needs to update their account name to match the name on their ID.',
   },
+  'id.verification.name.error': {
+    id: 'id.verification.name.error',
+    defaultMessage: 'Please enter your name as it appears on your government-issued ID.',
+    description: 'Error that shows when the user needs to update their name to match the name on their ID.',
+  },
   'id.verification.account.name.warning.prefix': {
     id: 'id.verification.account.name.warning.prefix',
     defaultMessage: 'Please Note:',
