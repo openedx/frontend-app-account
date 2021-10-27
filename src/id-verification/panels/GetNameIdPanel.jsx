@@ -14,7 +14,87 @@ import { VerifiedNameContext } from '../VerifiedNameContext';
 
 import messages from '../IdVerification.messages';
 
-function GetNameIdPanel(props) {
+function GetNameIdPanelVerified(props) {
+  const { push, location } = useHistory();
+  const nameInputRef = useRef();
+  const panelSlug = 'get-name-id';
+  const nextPanelSlug = useNextPanelSlug(panelSlug);
+
+  const { nameOnAccount, idPhotoName, setIdPhotoName } = useContext(IdVerificationContext);
+  const nameOnAccountValue = nameOnAccount || '';
+
+  useEffect(() => {
+    if (idPhotoName === null) {
+      setIdPhotoName(nameOnAccountValue);
+    }
+
+    if (location.state?.fromSummary && nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+  }, []);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (idPhotoName) {
+      push(nextPanelSlug);
+    }
+  }
+
+  return (
+    <BasePanel
+      name={panelSlug}
+      title={props.intl.formatMessage(messages['id.verification.name.check.title'])}
+    >
+      <p>
+        {props.intl.formatMessage(messages['id.verification.name.check.instructions'])}
+      </p>
+      <p>
+        {props.intl.formatMessage(messages['id.verification.name.check.mismatch.information'])}
+      </p>
+
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label className="font-weight-bold" htmlFor="photo-id-name">
+            {props.intl.formatMessage(messages['id.verification.name.label'])}
+          </Form.Label>
+          <Form.Control
+            controlId="photo-id-name"
+            size="lg"
+            type="text"
+            ref={nameInputRef}
+            isInvalid={!idPhotoName}
+            aria-describedby="photo-id-name-feedback"
+            value={idPhotoName}
+            onChange={e => setIdPhotoName(e.target.value)}
+            data-testid="name-input"
+          />
+          {!idPhotoName && (
+            <Form.Control.Feedback
+              id="photo-id-name-feedback"
+              data-testid="id-name-feedback-message"
+              type="invalid"
+            >
+              {props.intl.formatMessage(messages['id.verification.name.error'])}
+            </Form.Control.Feedback>
+          )}
+        </Form.Group>
+      </Form>
+
+      <div className="action-row">
+        <Link
+          to={nextPanelSlug}
+          className={`btn btn-primary ${!idPhotoName && 'disabled'}`}
+          data-testid="next-button"
+          aria-disabled={!idPhotoName}
+        >
+          {props.intl.formatMessage(messages['id.verification.next'])}
+        </Link>
+      </div>
+    </BasePanel>
+  );
+}
+
+function GetNameIdPanelNonVerified(props) {
   const { push } = useHistory();
   const panelSlug = 'get-name-id';
   const [nameMatches, setNameMatches] = useState(true);
@@ -24,7 +104,6 @@ function GetNameIdPanel(props) {
   const {
     nameOnAccount, userId, profileDataManager, idPhotoName, setIdPhotoName,
   } = useContext(IdVerificationContext);
-  const { verifiedNameEnabled } = useContext(VerifiedNameContext);
   const nameOnAccountValue = nameOnAccount || '';
   const invalidName = !nameMatches && (!idPhotoName || idPhotoName === nameOnAccount);
   const blankName = !nameOnAccount && !idPhotoName;
@@ -93,38 +172,23 @@ function GetNameIdPanel(props) {
   return (
     <BasePanel
       name={panelSlug}
-      title={
-        verifiedNameEnabled
-          ? props.intl.formatMessage(messages['id.verification.name.check.title'])
-          : props.intl.formatMessage(messages['id.verification.account.name.title'])
-      }
+      title={props.intl.formatMessage(messages['id.verification.account.name.title'])}
     >
       <p>
-        {
-          verifiedNameEnabled
-            ? props.intl.formatMessage(messages['id.verification.name.check.instructions'])
-            : props.intl.formatMessage(messages['id.verification.account.name.instructions'])
-        }
-      </p>
-      <p>
-        {verifiedNameEnabled && props.intl.formatMessage(messages['id.verification.name.check.mismatch.information'])}
+        {props.intl.formatMessage(messages['id.verification.account.name.instructions'])}
       </p>
 
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label className="font-weight-bold" htmlFor="nameMatchesYes">
-            {
-              verifiedNameEnabled
-                ? props.intl.formatMessage(messages['id.verification.name.check.radio.label'])
-                : props.intl.formatMessage(messages['id.verification.account.name.radio.label'])
-            }
+            {props.intl.formatMessage(messages['id.verification.account.name.radio.label'])}
           </Form.Label>
           <Form.Check
             type="radio"
             id="nameMatchesYes"
             name="nameMatches"
             data-testid="name-matches-yes"
-            label={verifiedNameEnabled ? props.intl.formatMessage(messages['id.verification.name.check.radio.yes']) : props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
+            label={props.intl.formatMessage(messages['id.verification.account.name.radio.yes'])}
             checked={nameMatches}
             disabled={!nameOnAccount}
             onChange={() => {
@@ -137,7 +201,7 @@ function GetNameIdPanel(props) {
             id="nameMatchesNo"
             name="nameMatches"
             data-testid="name-matches-no"
-            label={verifiedNameEnabled ? props.intl.formatMessage(messages['id.verification.name.check.radio.no']) : props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
+            label={props.intl.formatMessage(messages['id.verification.account.name.radio.no'])}
             checked={!nameMatches}
             disabled={!nameOnAccount}
             onChange={() => setNameMatches(false)}
@@ -145,11 +209,7 @@ function GetNameIdPanel(props) {
         </Form.Group>
         <Form.Group>
           <Form.Label className="font-weight-bold" htmlFor="photo-id-name">
-            {
-              verifiedNameEnabled
-                ? props.intl.formatMessage(messages['id.verification.name.label'])
-                : props.intl.formatMessage(messages['id.verification.account.name.label'])
-            }
+            {props.intl.formatMessage(messages['id.verification.account.name.label'])}
           </Form.Label>
           <Form.Control
             controlId="photo-id-name"
@@ -193,7 +253,21 @@ function GetNameIdPanel(props) {
   );
 }
 
-GetNameIdPanel.propTypes = {
+function GetNameIdPanel(props) {
+  const { verifiedNameEnabled } = useContext(VerifiedNameContext);
+
+  if (verifiedNameEnabled) {
+    return <GetNameIdPanelVerified {...props} />;
+  }
+
+  return <GetNameIdPanelNonVerified {...props} />;
+}
+
+GetNameIdPanelVerified.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+GetNameIdPanelNonVerified.propTypes = {
   intl: intlShape.isRequired,
 };
 
