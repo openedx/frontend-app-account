@@ -63,7 +63,7 @@ initialize({
         COACHING_ENABLED: (process.env.COACHING_ENABLED || false),
         ENABLE_DEMOGRAPHICS_COLLECTION: (process.env.ENABLE_DEMOGRAPHICS_COLLECTION || false),
         DEMOGRAPHICS_BASE_URL: process.env.DEMOGRAPHICS_BASE_URL,
-        COLLECT_YEAR_OF_BIRTH: (process.env.COLLECT_YEAR_OF_BIRTH || true),
+        ENABLE_COPPA_COMPLIANCE: (process.env.ENABLE_COPPA_COMPLIANCE || false),
       }, 'App loadConfig override handler');
     },
   },
