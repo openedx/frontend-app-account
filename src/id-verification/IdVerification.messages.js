@@ -521,20 +521,10 @@ const messages = defineMessages({
     defaultMessage: 'The file you have selected is too large. Please try again with a file less than 10MB.',
     description: 'Error message for file upload that is larger than 10MB.',
   },
-  'id.verification.account.name.title': {
-    id: 'id.verification.account.name.title',
-    defaultMessage: 'Account Name Check',
-    description: 'Title for the Account Name Check page.',
-  },
   'id.verification.name.check.title': {
     id: 'id.verification.name.check.title',
     defaultMessage: 'Double-Check Your Name',
     description: 'Title for the page where a user double-checks that their name is correct.',
-  },
-  'id.verification.account.name.instructions': {
-    id: 'id.verification.account.name.instructions',
-    defaultMessage: 'The name on your account and the name on your ID must be an exact match. If not, please click "No" to update your account name.',
-    description: 'Text to verify that the account name matches the name on the ID photo.',
   },
   'id.verification.name.check.instructions': {
     id: 'id.verification.name.check.instructions',
@@ -545,41 +535,6 @@ const messages = defineMessages({
     id: 'id.verification.name.check.mismatch.information',
     defaultMessage: 'If the name below does not match your government-issued ID, your identity verification will be denied.',
     description: 'Text to inform the user that if the name displayed on the page does not match what is on their government-issued ID, identity verification will be denied.',
-  },
-  'id.verification.account.name.radio.label': {
-    id: 'id.verification.account.name.radio.label',
-    defaultMessage: 'Does the name on your ID match the Account Name below?',
-    description: 'Question to ask the user whether their account name match the name on their ID card.',
-  },
-  'id.verification.name.check.radio.label': {
-    id: 'id.verification.name.check.radio.label',
-    defaultMessage: 'Select an option',
-    description: 'Label for a radio button group where the user needs to choose one of two options.',
-  },
-  'id.verification.account.name.radio.yes': {
-    id: 'id.verification.account.name.radio.yes',
-    defaultMessage: 'Yes',
-    description: 'The radio button that says the account name matches.',
-  },
-  'id.verification.name.check.radio.yes': {
-    id: 'id.verification.name.check.radio.yes',
-    defaultMessage: 'Yes, the name below matches my ID',
-    description: 'Label for a radio button that indicates that the name displayed on the page matches the name on the user\'s ID.',
-  },
-  'id.verification.account.name.radio.no': {
-    id: 'id.verification.account.name.radio.no',
-    defaultMessage: 'No',
-    description: 'The radio button that says the account name does not match.',
-  },
-  'id.verification.name.check.radio.no': {
-    id: 'id.verification.name.check.radio.no',
-    defaultMessage: 'No, the name below does not match my ID',
-    description: 'Label for a radio button that indicates that the name displayed on the page does not match the name on the user\'s ID.',
-  },
-  'id.verification.account.name.error': {
-    id: 'id.verification.account.name.error',
-    defaultMessage: 'Please update account name to match the name on your ID.',
-    description: 'Error that shows when the user needs to update their account name to match the name on their ID.',
   },
   'id.verification.name.error': {
     id: 'id.verification.name.error',
@@ -596,11 +551,6 @@ const messages = defineMessages({
     defaultMessage: 'Account Settings',
     description: 'Link to Account Settings.',
   },
-  'id.verification.account.name.label': {
-    id: 'id.verification.account.name.label',
-    defaultMessage: 'Account Name',
-    description: 'Label for account name input.',
-  },
   'id.verification.name.label': {
     id: 'id.verification.name.label',
     defaultMessage: 'Name',
@@ -610,11 +560,6 @@ const messages = defineMessages({
     id: 'id.verification.account.name.photo.alt',
     defaultMessage: 'Photo of your ID to be submitted.',
     description: 'Alt text for the photo of the user\'s ID.',
-  },
-  'id.verification.account.name.save': {
-    id: 'id.verification.account.name.save',
-    defaultMessage: 'Save and Next',
-    description: 'Button to save the account name.',
   },
   'id.verification.review.title': {
     id: 'id.verification.review.title',

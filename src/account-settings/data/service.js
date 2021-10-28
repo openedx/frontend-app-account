@@ -177,19 +177,6 @@ export async function shouldDisplayDemographicsQuestions() {
   return false;
 }
 
-export async function getVerifiedNameEnabled() {
-  let data;
-  const client = getAuthenticatedHttpClient();
-  try {
-    const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name_enabled`;
-    ({ data } = await client.get(requestUrl));
-  } catch (error) {
-    return {};
-  }
-
-  return data;
-}
-
 export async function getVerifiedName() {
   let data;
   const client = getAuthenticatedHttpClient();

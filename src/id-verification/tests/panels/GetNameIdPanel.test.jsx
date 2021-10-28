@@ -32,16 +32,14 @@ describe('GetNameIdPanel', () => {
     idPhotoFile: 'test.jpg',
   };
 
-  const verifiedNameContextValue = {
-    verifiedNameEnabled: false,
-  };
+  const verifiedNameContextValue = {};
 
-  const getPanel = async () => {
+  const getPanel = async (idVerificationContextValue = IDVerificationContextValue) => {
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
           <VerifiedNameContext.Provider value={verifiedNameContextValue}>
-            <IdVerificationContext.Provider value={IDVerificationContextValue}>
+            <IdVerificationContext.Provider value={idVerificationContextValue}>
               <IntlGetNameIdPanel {...defaultProps} />
             </IdVerificationContext.Provider>
           </VerifiedNameContext.Provider>
@@ -54,65 +52,28 @@ describe('GetNameIdPanel', () => {
     cleanup();
   });
 
-  it('edits', async () => {
+  it('shows feedback message when user has an empty name', async () => {
     await getPanel();
-
-    const yesButton = await screen.findByTestId('name-matches-yes');
-    const noButton = await screen.findByTestId('name-matches-no');
-    const input = await screen.findByTestId('name-input');
-    const nextButton = await screen.findByTestId('next-button');
-    const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
-
-    expect(input).toHaveAttribute('readonly');
-    expect(errorMessageQuery).toBeNull();
-
-    fireEvent.click(noButton);
-    expect(input).not.toHaveAttribute('readonly');
-    expect(nextButton.classList.contains('disabled')).toBe(true);
-    expect(nextButton).toHaveAttribute('aria-disabled');
-
-    fireEvent.change(input, { target: { value: 'test change' } });
-    expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalled();
-    // Ensure the feedback message on name shows when the user says the name does not match ID
+    // Ensure the feedback message on name shows when the user has an empty name
     expect(await screen.queryByTestId('id-name-feedback-message')).toBeTruthy();
-
-    fireEvent.click(yesButton);
-    expect(input).toHaveAttribute('readonly');
-    expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalled();
   });
 
-  it('disables radio buttons + next button and enables input if account name is blank', async () => {
-    IDVerificationContextValue.nameOnAccount = '';
-    await getPanel();
-
-    const yesButton = await screen.findByTestId('name-matches-yes');
-    const noButton = await screen.findByTestId('name-matches-no');
-    const input = await screen.findByTestId('name-input');
-    const nextButton = await screen.findByTestId('next-button');
-    const errorMessageQuery = await screen.queryByTestId('id-name-feedback-message');
-
-    expect(yesButton).toBeDisabled();
-    expect(noButton).toBeDisabled();
-    expect(input).not.toHaveAttribute('readonly');
-    expect(nextButton.classList.contains('disabled')).toBe(true);
-    expect(nextButton).toHaveAttribute('aria-disabled');
-    expect(errorMessageQuery).toBeTruthy();
+  it('does not show feedback message when user has an non-empty name', async () => {
+    const idVerificationContextValue = {
+      ...IDVerificationContextValue,
+      idPhotoName: 'test',
+    };
+    await getPanel(idVerificationContextValue);
+    // Ensure the feedback message on name shows when the user has an empty name
+    expect(await screen.queryByTestId('id-name-feedback-message')).toBeNull();
   });
 
-  it('blocks the user from changing account name if managed by a third party', async () => {
-    IDVerificationContextValue.profileDataManager = 'test-org';
+  it('calls setIdPhotoName with correct name', async () => {
     await getPanel();
 
-    const noButton = await screen.findByTestId('name-matches-no');
     const input = await screen.findByTestId('name-input');
-    const nextButton = await screen.findByTestId('next-button');
-
-    fireEvent.click(noButton);
-    expect(input).toHaveAttribute('readonly');
-    expect(nextButton.classList.contains('disabled')).toBe(true);
-    expect(nextButton).toHaveAttribute('aria-disabled');
-    const warning = await screen.getAllByText('test-org');
-    expect(warning.length).toEqual(1);
+    fireEvent.change(input, { target: { value: 'test' } });
+    expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalledWith('test');
   });
 
   it('routes to SummaryPanel', async () => {

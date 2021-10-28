@@ -56,7 +56,6 @@ describe('NameChange', () => {
       originalVerifiedName: 'edX Verified',
       saveState: null,
       useVerifiedNameForCerts: false,
-      verifiedNameEnabled: true,
       intl: {},
     };
 

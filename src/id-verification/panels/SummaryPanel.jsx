@@ -11,7 +11,6 @@ import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import IdVerificationContext from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
-import { VerifiedNameContext } from '../VerifiedNameContext';
 
 import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
@@ -32,7 +31,6 @@ function SummaryPanel(props) {
     portraitPhotoMode,
     idPhotoMode,
   } = useContext(IdVerificationContext);
-  const { verifiedNameEnabled } = useContext(VerifiedNameContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
@@ -74,17 +72,10 @@ function SummaryPanel(props) {
       };
       if (idPhotoName) {
         verificationData.idPhotoName = idPhotoName;
-      } else if (verifiedNameEnabled) {
+      } else {
         /**
          * If learner has not entered an idPhotoName on the GetNameIdPanel,
-         * and the verified name feature is enabled, use the current nameOnAccount
-         * when submitting IDV. The reason we only do this if the feature is enabled
-         * is that, when the feature is off, the server will change the learner's
-         * profile name to this value. If we send the idPhotoName on all requests,
-         * even ones where the learner does not change the idPhotoName, then the
-         * server will record that the full name on the learner's profile has
-         * a requested change, even if the name is the same. This will pollute
-         * the history.
+         * use the current nameOnAccount when submitting IDV.
          */
         verificationData.idPhotoName = nameOnAccount;
       }
@@ -220,9 +211,7 @@ function SummaryPanel(props) {
       {!optimizelyExperimentName && <CameraHelpWithUpload />}
       <div className="form-group">
         <label htmlFor="name-to-be-used" className="font-weight-bold">
-          {verifiedNameEnabled
-            ? props.intl.formatMessage(messages['id.verification.name.label'])
-            : props.intl.formatMessage(messages['id.verification.account.name.label'])}
+          {props.intl.formatMessage(messages['id.verification.name.label'])}
         </label>
         {renderManagedProfileMessage()}
         <div className="d-flex">
@@ -242,29 +231,14 @@ function SummaryPanel(props) {
                 state: { fromSummary: true },
               }}
             >
-              {
-                verifiedNameEnabled
-                  ? (
-                    <FormattedMessage
-                      id="id.verification.account.name.edit"
-                      defaultMessage="Edit {sr}"
-                      description="Button to edit account name, with clarifying information for screen readers."
-                      values={{
-                        sr: <span className="sr-only">Name</span>,
-                      }}
-                    />
-                  )
-                  : (
-                    <FormattedMessage
-                      id="id.verification.account.name.edit"
-                      defaultMessage="Edit {sr}"
-                      description="Button to edit account name, with clarifying information for screen readers."
-                      values={{
-                        sr: <span className="sr-only">Account Name</span>,
-                      }}
-                    />
-                  )
-              }
+              <FormattedMessage
+                id="id.verification.account.name.edit"
+                defaultMessage="Edit {sr}"
+                description="Button to edit name, with clarifying information for screen readers."
+                values={{
+                  sr: <span className="sr-only">Name</span>,
+                }}
+              />
             </Link>
           )}
         </div>

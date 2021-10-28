@@ -39,7 +39,6 @@ export const defaultState = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: {},
-  verifiedNameEnabled: false,
 };
 
 const reducer = (state = defaultState, action) => {

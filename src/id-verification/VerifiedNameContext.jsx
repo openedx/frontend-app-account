@@ -11,22 +11,15 @@ export const VerifiedNameContext = createContext();
 export function VerifiedNameContextProvider({ children }) {
   const verifiedNameHistoryData = useAsyncCall(getVerifiedNameHistory);
 
-  let verifiedNameEnabled = false;
   let verifiedName = '';
   const { status, data } = verifiedNameHistoryData;
   if (status === SUCCESS_STATUS && data) {
-    const { verified_name_enabled: verifiedNameFeatureEnabled, results } = data;
-    verifiedNameEnabled = verifiedNameFeatureEnabled;
-
-    if (verifiedNameFeatureEnabled) {
-      const applicableVerifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
-      verifiedName = applicableVerifiedName;
-    }
+    const { results } = data;
+    verifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
   }
 
   const value = {
     verifiedNameHistoryCallStatus: status,
-    verifiedNameEnabled,
     verifiedName,
   };
 

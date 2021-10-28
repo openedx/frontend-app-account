@@ -262,7 +262,6 @@ class AccountSettingsPage extends React.Component {
   renderFullNameHelpText = (status) => {
     if (
       !this.props.verifiedNameHistory
-      || !this.props.verifiedNameEnabled
     ) {
       return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']);
     }
@@ -471,7 +470,7 @@ class AccountSettingsPage extends React.Component {
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
 
-    const { verifiedName, verifiedNameEnabled } = this.props;
+    const { verifiedName } = this.props;
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -484,7 +483,7 @@ class AccountSettingsPage extends React.Component {
       <>
         <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           {
-            verifiedNameEnabled && this.props.mostRecentVerifiedName
+            this.props.mostRecentVerifiedName
             && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
           }
 
@@ -512,8 +511,7 @@ class AccountSettingsPage extends React.Component {
             name="name"
             type="text"
             value={
-              verifiedNameEnabled
-              && verifiedName?.status === 'submitted'
+              verifiedName?.status === 'submitted'
               && this.props.formValues.pending_name_change
                 ? this.props.formValues.pending_name_change
                 : this.props.formValues.name
@@ -525,22 +523,22 @@ class AccountSettingsPage extends React.Component {
                 : this.renderEmptyStaticFieldMessage()
             }
             helpText={
-              verifiedNameEnabled && verifiedName
+              verifiedName
                 ? this.renderFullNameHelpText(verifiedName.status)
                 : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
             isEditable={
-              verifiedNameEnabled && verifiedName
+              verifiedName
                 ? this.isEditable('verifiedName') && this.isEditable('name')
                 : this.isEditable('name')
             }
             isGrayedOut={
-              verifiedNameEnabled && verifiedName && !this.isEditable('verifiedName')
+              verifiedName && !this.isEditable('verifiedName')
             }
             onChange={this.handleEditableFieldChange}
             onSubmit={this.handleSubmitProfileName}
           />
-          {verifiedNameEnabled && verifiedName
+          {verifiedName
             && (
             <EditableField
               name="verified_name"
@@ -887,7 +885,6 @@ AccountSettingsPage.propTypes = {
   nameChangeModal: PropTypes.shape({
     formId: PropTypes.string,
   }),
-  verifiedNameEnabled: PropTypes.bool,
   verifiedName: PropTypes.shape({
     verified_name: PropTypes.string,
     status: PropTypes.string,
@@ -924,7 +921,6 @@ AccountSettingsPage.defaultProps = {
   isActive: true,
   secondary_email_enabled: false,
   nameChangeModal: {},
-  verifiedNameEnabled: false,
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],

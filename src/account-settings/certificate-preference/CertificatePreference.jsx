@@ -28,9 +28,8 @@ function CertificatePreference({
   originalVerifiedName,
   saveState,
   useVerifiedNameForCerts,
-  verifiedNameEnabled,
 }) {
-  if (!verifiedNameEnabled || !originalVerifiedName) {
+  if (!originalVerifiedName) {
     // If the user doesn't have an approved verified name, do not display this component
     return null;
   }
@@ -161,7 +160,6 @@ CertificatePreference.propTypes = {
   originalVerifiedName: PropTypes.string,
   saveState: PropTypes.string,
   useVerifiedNameForCerts: PropTypes.bool,
-  verifiedNameEnabled: PropTypes.bool,
 };
 
 CertificatePreference.defaultProps = {
@@ -169,7 +167,6 @@ CertificatePreference.defaultProps = {
   originalVerifiedName: '',
   saveState: null,
   useVerifiedNameForCerts: false,
-  verifiedNameEnabled: false,
 };
 
 export default connect(certPreferenceSelector)(injectIntl(CertificatePreference));
