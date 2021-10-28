@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Button, Input, StatefulButton, ValidationFormGroup,
@@ -43,6 +44,10 @@ function EditableField(props) {
     ...others
   } = props;
   const id = `field-${name}`;
+  let inputOptions = options;
+  if (getConfig().ENABLE_COPPA_COMPLIANCE && name === 'level_of_education' && options) {
+    inputOptions = options.filter(option => option.value !== 'el');
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,7 +125,7 @@ function EditableField(props) {
                   type={type}
                   value={value}
                   onChange={handleChange}
-                  options={options}
+                  options={inputOptions}
                   {...others}
                 />
                 <>{others.children}</>

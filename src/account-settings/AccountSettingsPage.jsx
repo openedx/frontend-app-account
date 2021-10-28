@@ -583,7 +583,7 @@ class AccountSettingsPage extends React.Component {
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
           <ResetPassword email={this.props.formValues.email} />
-          {(getConfig().COLLECT_YEAR_OF_BIRTH === 'true')
+          {(!getConfig().ENABLE_COPPA_COMPLIANCE)
             && (
             <EditableField
               name="year_of_birth"
