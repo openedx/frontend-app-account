@@ -319,6 +319,7 @@
   "id.verification.account.name.radio.no": "لا",
   "id.verification.name.check.radio.no": "No, the name below does not match my ID",
   "id.verification.account.name.error": "يرجى تحديث اسم الحساب لمطابقة الاسم على بطاقة الهوية.",
+  "id.verification.name.error": "Please enter your name as it appears on your government-issued ID.",
   "id.verification.account.name.warning.prefix": "يُرجى الملاحظة:",
   "id.verification.account.name.settings": "إعدادات الحساب",
   "id.verification.account.name.label": "اسم الحساب",

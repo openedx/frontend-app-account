@@ -319,6 +319,7 @@
   "id.verification.account.name.radio.no": "No",
   "id.verification.name.check.radio.no": "No, the name below does not match my ID",
   "id.verification.account.name.error": "Please update account name to match the name on your ID.",
+  "id.verification.name.error": "Please enter your name as it appears on your government-issued ID.",
   "id.verification.account.name.warning.prefix": "Please Note:",
   "id.verification.account.name.settings": "Account Settings",
   "id.verification.account.name.label": "Account Name",
