@@ -319,6 +319,7 @@
   "id.verification.account.name.radio.no": "Non",
   "id.verification.name.check.radio.no": "Non, le nom ci-dessous ne correspond pas à mon ID",
   "id.verification.account.name.error": "Veuillez mettre à jour le nom de votre compte pour qu'il corresponde au nom sur votre pièce d'identité.",
+  "id.verification.name.error": "Veuillez entrer votre nom tel qu'il apparaît sur votre pièce d'identité. ",
   "id.verification.account.name.warning.prefix": "Veuillez noter:",
   "id.verification.account.name.settings": "Paramètres du compte",
   "id.verification.account.name.label": "Nom du compte",
