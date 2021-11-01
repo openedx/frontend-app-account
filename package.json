@@ -38,7 +38,7 @@
     "@fortawesome/free-brands-svg-icons": "5.15.4",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
-    "@fortawesome/react-fontawesome": "0.1.15",
+    "@fortawesome/react-fontawesome": "0.1.16",
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs-converter": "1.7.4",
     "@tensorflow/tfjs-core": "1.7.4",
