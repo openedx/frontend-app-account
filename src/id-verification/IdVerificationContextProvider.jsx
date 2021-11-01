@@ -15,7 +15,7 @@ import { VerifiedNameContext } from './VerifiedNameContext';
 
 export default function IdVerificationContextProvider({ children }) {
   const { authenticatedUser } = useContext(AppContext);
-  const { verifiedNameHistoryCallStatus, verifiedName, verifiedNameEnabled } = useContext(VerifiedNameContext);
+  const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
   const idVerificationData = useAsyncCall(getExistingIdVerification);
   const enrollmentsData = useAsyncCall(getEnrollments);
@@ -62,20 +62,6 @@ export default function IdVerificationContextProvider({ children }) {
 
   if (idVerificationData?.data) {
     existingIdVerification = idVerificationData.data;
-  }
-
-  if (verifiedNameHistoryCallStatus === SUCCESS_STATUS && idVerificationData.status === SUCCESS_STATUS) {
-    // With verified name we can redo verification multiple times
-    // if not a successful request prevents re-verification
-    if (!verifiedNameEnabled && existingIdVerification && !existingIdVerification.canVerify) {
-      const { status } = existingIdVerification;
-      canVerify = false;
-      if (status === 'pending' || status === 'approved') {
-        error = ERROR_REASONS.EXISTING_REQUEST;
-      } else {
-        error = ERROR_REASONS.CANNOT_VERIFY;
-      }
-    }
   }
 
   if (enrollmentsData.status === SUCCESS_STATUS && enrollmentsData?.data) {

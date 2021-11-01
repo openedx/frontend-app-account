@@ -12,7 +12,6 @@ const verifiedNameSettingsSelector = createSelector(
   accountSettingsSelector,
   accountSettings => ({
     history: accountSettings.verifiedNameHistory.results,
-    verifiedNameEnabled: accountSettings?.verifiedNameHistory.verified_name_enabled,
     useVerifiedNameForCerts: accountSettings?.verifiedNameHistory.use_verified_name_for_certs,
   }),
 );
@@ -229,7 +228,6 @@ export const accountSettingsPageSelector = createSelector(
   mostRecentApprovedVerifiedNameValueSelector,
   mostRecentVerifiedNameSelector,
   sortedVerifiedNameHistorySelector,
-  verifiedNameSettingsSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -247,7 +245,6 @@ export const accountSettingsPageSelector = createSelector(
     verifiedName,
     mostRecentVerifiedName,
     verifiedNameHistory,
-    verifiedNameSettings,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
@@ -268,19 +265,16 @@ export const accountSettingsPageSelector = createSelector(
     verifiedName,
     mostRecentVerifiedName,
     verifiedNameHistory,
-    verifiedNameEnabled: verifiedNameSettings?.verifiedNameEnabled,
   }),
 );
 
 export const certPreferenceSelector = createSelector(
-  verifiedNameSettingsSelector,
   valuesSelector,
   formValuesSelector,
   mostRecentApprovedVerifiedNameValueSelector,
   saveStateSelector,
   errorSelector,
   (
-    verifiedNameSettings,
     committedValues,
     formValues,
     mostRecentApprovedVerifiedNameValue,
@@ -291,7 +285,6 @@ export const certPreferenceSelector = createSelector(
     originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name || '',
     useVerifiedNameForCerts: formValues.useVerifiedNameForCerts || false,
     saveState,
-    verifiedNameEnabled: verifiedNameSettings.verifiedNameEnabled || false,
     formErrors: errors,
   }),
 );

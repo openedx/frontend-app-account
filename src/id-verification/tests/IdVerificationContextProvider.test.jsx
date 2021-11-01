@@ -32,7 +32,7 @@ describe('IdVerificationContextProvider', () => {
 
   it('renders correctly and calls getExistingIdVerification + getEnrollments', async () => {
     const appContext = { authenticatedUser: { userId: 3, roles: [] } };
-    const verifiedNameContext = { verifiedName: '', verifiedNameEnabled: false };
+    const verifiedNameContext = { verifiedName: '' };
     await act(async () => render((
       <AppContext.Provider value={appContext}>
         <VerifiedNameContext.Provider value={verifiedNameContext}>
@@ -54,7 +54,7 @@ describe('IdVerificationContextProvider', () => {
         roles: ['enterprise_learner'],
       },
     };
-    const verifiedNameContext = { verifiedName: '', verifiedNameEnabled: false };
+    const verifiedNameContext = { verifiedName: '' };
     await act(async () => render((
       <AppContext.Provider value={appContext}>
         <VerifiedNameContext.Provider value={verifiedNameContext}>

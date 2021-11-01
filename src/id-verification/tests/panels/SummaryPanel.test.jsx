@@ -39,9 +39,7 @@ describe('SummaryPanel', () => {
     setReachedSummary: jest.fn(),
   };
 
-  const verifiedNameContextValue = {
-    verifiedNameEnabled: false,
-  };
+  const verifiedNameContextValue = {};
 
   const getPanel = async () => {
     await act(async () => render((
@@ -111,7 +109,7 @@ describe('SummaryPanel', () => {
     await waitFor(() => expect(appContextValue.stopUserMedia).toHaveBeenCalled());
   });
 
-  it('does not submit a name if name is blank', async () => {
+  it('submits a name if name is blank', async () => {
     appContextValue.idPhotoName = '';
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
@@ -120,6 +118,7 @@ describe('SummaryPanel', () => {
       idPhotoMode: appContextValue.idPhotoMode,
       optimizelyExperimentName: appContextValue.optimizelyExperimentName,
       courseRunKey: null,
+      idPhotoName: appContextValue.nameOnAccount,
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
@@ -127,25 +126,8 @@ describe('SummaryPanel', () => {
     expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
   });
 
-  it('does not submit a name if name is unchanged', async () => {
+  it('submits a name if a name is unchanged', async () => {
     appContextValue.idPhotoName = null;
-    const verificationData = {
-      facePhotoFile: appContextValue.facePhotoFile,
-      idPhotoFile: appContextValue.idPhotoFile,
-      portraitPhotoMode: appContextValue.portraitPhotoMode,
-      idPhotoMode: appContextValue.idPhotoMode,
-      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
-      courseRunKey: null,
-    };
-    await getPanel();
-    const button = await screen.findByTestId('submit-button');
-    fireEvent.click(button);
-    expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
-  });
-
-  it('submits a name if a name is unchanged if verified name feature is enabled', async () => {
-    appContextValue.idPhotoName = null;
-    verifiedNameContextValue.verifiedNameEnabled = true;
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
       idPhotoFile: appContextValue.idPhotoFile,
