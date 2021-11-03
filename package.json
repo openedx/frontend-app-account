@@ -11,7 +11,6 @@
   "scripts": {
     "build": "fedx-scripts webpack",
     "i18n_extract": "BABEL_ENV=i18n fedx-scripts babel src --quiet > /dev/null",
-    "is-es5": "es-check es5 ./dist/*.js",
     "lint": "fedx-scripts eslint --ext .js --ext .jsx .",
     "snapshot": "fedx-scripts jest --updateSnapshot",
     "start": "fedx-scripts webpack-dev-server --progress",
@@ -25,8 +24,7 @@
     "access": "public"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie 11"
+    "extends @edx/browserslist-config"
   ],
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
@@ -80,6 +78,7 @@
     "universal-cookie": "4.0.4"
   },
   "devDependencies": {
+    "@edx/browserslist-config": "1.0.0",
     "@edx/frontend-build": "9.1.1",
     "@edx/reactifex": "^1.0.3",
     "@testing-library/jest-dom": "5.15.1",
