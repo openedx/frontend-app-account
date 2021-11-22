@@ -66,6 +66,10 @@ export class DeleteAccount extends React.Component {
       ? 'account.settings.delete.account.text.2.edX'
       : 'account.settings.delete.account.text.2';
 
+    const optInInstructionMessageId = getConfig().MARKETING_EMAILS_OPT_IN
+      ? 'account.settings.delete.account.please.confirm'
+      : 'account.settings.delete.account.please.activate';
+
     return (
       <div>
         <h2 className="section-heading">
@@ -108,7 +112,7 @@ export class DeleteAccount extends React.Component {
 
         {isVerifiedAccount ? null : (
           <BeforeProceedingBanner
-            instructionMessageId="account.settings.delete.account.please.activate"
+            instructionMessageId={optInInstructionMessageId}
             supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
           />
         )}
