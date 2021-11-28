@@ -133,6 +133,7 @@
   "account.settings.delete.account.text.change.instead": "En lugar de eso, ¿quieres cambiar tu correo electrónico, nombre o contraseña?",
   "account.settings.delete.account.button": "Eliminar mi cuenta",
   "account.settings.delete.account.please.activate": "activar su cuenta",
+  "account.settings.delete.account.please.confirm": "Confirma tu cuenta",
   "account.settings.delete.account.please.unlink": "Desvincular todas las cuentas de redes sociales.",
   "account.settings.delete.account.modal.header": "¿Está seguro?",
   "account.settings.delete.account.modal.text.1": "Has seleccionado la opción ''Eliminar mi cuenta''. Ten en cuenta que la eliminación de tu cuenta e información personal es permanente y no puede revertirse. {siteName} no será capaz de recuperar tu cuenta o información una vez esta sea eliminada. ",
