@@ -133,6 +133,7 @@
   "account.settings.delete.account.text.change.instead": "هل تريد تغيير البريد الإلكتروني أو الاسم أو كلمة المرور بدلاً من ذلك؟",
   "account.settings.delete.account.button": "احذف حسابي",
   "account.settings.delete.account.please.activate": "تنشيط حسابك",
+  "account.settings.delete.account.please.confirm": "confirm your account",
   "account.settings.delete.account.please.unlink": "إلغاء ربط جميع حسابات التواصل الاجتماعي",
   "account.settings.delete.account.modal.header": "هل أنت متأكد؟",
   "account.settings.delete.account.modal.text.1": "You have selected \"Delete My Account\". Deletion of your account and personal data is permanent and cannot be undone. {siteName} will not be able to recover your account or the data that is deleted.",

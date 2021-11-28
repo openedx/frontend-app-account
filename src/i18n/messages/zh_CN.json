@@ -133,6 +133,7 @@
   "account.settings.delete.account.text.change.instead": "Want to change your email, name, or password instead?",
   "account.settings.delete.account.button": "Delete My Account",
   "account.settings.delete.account.please.activate": "activate your account",
+  "account.settings.delete.account.please.confirm": "confirm your account",
   "account.settings.delete.account.please.unlink": "unlink all social media accounts",
   "account.settings.delete.account.modal.header": "Are you sure?",
   "account.settings.delete.account.modal.text.1": "You have selected \"Delete My Account\". Deletion of your account and personal data is permanent and cannot be undone. {siteName} will not be able to recover your account or the data that is deleted.",
