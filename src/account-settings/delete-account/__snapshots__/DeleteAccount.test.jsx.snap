@@ -122,7 +122,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
         Before proceeding, please 
         <a
           className="default-link standalone-link"
-          href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-activate-my-account-"
+          href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email-"
           onClick={[Function]}
           target="_self"
         >
