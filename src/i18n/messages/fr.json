@@ -133,7 +133,7 @@
   "account.settings.delete.account.text.change.instead": "Vous souhaitez modifier votre adresse électronique, votre nom ou votre mot de passe?",
   "account.settings.delete.account.button": "Supprimer mon compte",
   "account.settings.delete.account.please.activate": "activez votre compte",
-  "account.settings.delete.account.please.confirm": "confirm your account",
+  "account.settings.delete.account.please.confirm": "confirmer votre compte",
   "account.settings.delete.account.please.unlink": "dissocier tous les comptes de médias sociaux",
   "account.settings.delete.account.modal.header": "Êtes-vous certain ?",
   "account.settings.delete.account.modal.text.1": "Vous avez sélectionné \"Supprimer mon compte\". La suppression de votre compte et de vos données personnelles est permanente et ne peut être annulée. {siteName} ne pourra ni récupérer votre compte ni les données supprimées.",
