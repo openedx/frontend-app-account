@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -20,10 +20,17 @@ function TakePortraitPhotoPanel(props) {
   const {
     setFacePhotoFile, facePhotoFile, shouldUseCamera, optimizelyExperimentName, setPortraitPhotoMode,
   } = useContext(IdVerificationContext);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // This prevents focus switching to the heading when taking a photo
+    setMounted(true);
+  }, []);
 
   return (
     <BasePanel
       name={panelSlug}
+      focusOnMount={!mounted}
       title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.portrait.photo.title.camera']) : props.intl.formatMessage(messages['id.verification.portrait.photo.title.upload'])}
     >
       <div>
