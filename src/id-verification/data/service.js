@@ -64,9 +64,6 @@ export async function submitIdVerification(verificationData) {
     facePhotoFile: 'face_image',
     idPhotoFile: 'photo_id_image',
     idPhotoName: 'full_name',
-    optimizelyExperimentName: 'experiment_name',
-    portraitPhotoMode: 'portrait_photo_mode',
-    idPhotoMode: 'id_photo_mode',
   };
   const postData = {};
   // Don't include blank/null/undefined values.

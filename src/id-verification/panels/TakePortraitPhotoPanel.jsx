@@ -4,22 +4,16 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import ImageFileUpload from '../ImageFileUpload';
-import ImagePreview from '../ImagePreview';
 import Camera from '../Camera';
 import CameraHelp from '../CameraHelp';
 import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
-import CollapsibleImageHelp from '../CollapsibleImageHelp';
-import SupportedMediaTypes from '../SupportedMediaTypes';
 
 function TakePortraitPhotoPanel(props) {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const {
-    setFacePhotoFile, facePhotoFile, shouldUseCamera, optimizelyExperimentName, setPortraitPhotoMode,
-  } = useContext(IdVerificationContext);
+  const { setFacePhotoFile, facePhotoFile } = useContext(IdVerificationContext);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -31,30 +25,15 @@ function TakePortraitPhotoPanel(props) {
     <BasePanel
       name={panelSlug}
       focusOnMount={!mounted}
-      title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.portrait.photo.title.camera']) : props.intl.formatMessage(messages['id.verification.portrait.photo.title.upload'])}
+      title={props.intl.formatMessage(messages['id.verification.portrait.photo.title.camera'])}
     >
       <div>
-        {facePhotoFile && !shouldUseCamera && <ImagePreview src={facePhotoFile} alt={props.intl.formatMessage(messages['id.verification.portrait.photo.preview.alt'])} />}
-
-        {shouldUseCamera ? (
-          <div>
-            <p>
-              {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
-            </p>
-            <Camera onImageCapture={setFacePhotoFile} setPhotoMode={setPortraitPhotoMode} isPortrait />
-          </div>
-        ) : (
-          <div style={{ marginBottom: '1.25rem' }}>
-            <p data-testid="upload-text">
-              {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.upload'])}
-              <SupportedMediaTypes />
-            </p>
-            <ImageFileUpload onFileChange={setFacePhotoFile} setPhotoMode={setPortraitPhotoMode} intl={props.intl} />
-          </div>
-        )}
+        <p>
+          {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
+        </p>
+        <Camera onImageCapture={setFacePhotoFile} isPortrait />
       </div>
-      {shouldUseCamera && !optimizelyExperimentName && <CameraHelp isPortrait />}
-      <CollapsibleImageHelp isPortrait />
+      <CameraHelp isPortrait />
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}

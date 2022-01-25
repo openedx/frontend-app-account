@@ -2,72 +2,55 @@ import React, { useContext } from 'react';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Button, Collapsible } from '@edx/paragon';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-import IdVerificationContext, { MEDIA_ACCESS } from './IdVerificationContext';
+import IdVerificationContext from './IdVerificationContext';
 import messages from './IdVerification.messages';
 
 function CollapsibleImageHelp(props) {
   const {
-    userId, shouldUseCamera, setShouldUseCamera, optimizelyExperimentName, mediaAccess,
+    userId, useCameraForId, setUseCameraForId,
   } = useContext(IdVerificationContext);
 
   function handleClick() {
-    const toggleTo = shouldUseCamera ? 'upload' : 'camera';
+    const toggleTo = useCameraForId ? 'upload' : 'camera';
     const eventName = `edx.id_verification.toggle_to.${toggleTo}`;
     sendTrackEvent(eventName, {
       category: 'id_verification',
       user_id: userId,
     });
-    setShouldUseCamera(!shouldUseCamera);
+    setUseCameraForId(!useCameraForId);
   }
 
-  if (optimizelyExperimentName && mediaAccess !== MEDIA_ACCESS.DENIED && mediaAccess !== MEDIA_ACCESS.UNSUPPORTED) {
-    return (
-      <Collapsible
-        styling="card"
-        title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.photo.upload.help.title']) : props.intl.formatMessage(messages['id.verification.photo.camera.help.title'])}
-        className="mb-4 shadow"
-        defaultOpen
+  return (
+    <Collapsible
+      styling="card"
+      title={useCameraForId
+        ? props.intl.formatMessage(messages['id.verification.photo.upload.help.title'])
+        : props.intl.formatMessage(messages['id.verification.photo.camera.help.title'])}
+      className="mb-4 shadow"
+      defaultOpen
+    >
+      <p data-testid="help-text">
+        {useCameraForId
+          ? props.intl.formatMessage(messages['id.verification.photo.upload.help.text'])
+          : props.intl.formatMessage(messages['id.verification.photo.camera.help.text'])}
+      </p>
+      <Button
+        title={useCameraForId ? 'Upload Photo' : 'Take Photo'} // TO-DO: translation
+        data-testid="toggle-button"
+        onClick={handleClick}
+        style={{ marginTop: '0.5rem' }}
       >
-        <p data-testid="help-text">
-          {shouldUseCamera
-            ? props.intl.formatMessage(messages['id.verification.photo.upload.help.text'])
-            : props.intl.formatMessage(messages['id.verification.photo.camera.help.text'])}
-        </p>
-        { (mediaAccess === MEDIA_ACCESS.PENDING && !shouldUseCamera)
-          ? (
-            // if a user has not enabled camera access yet, and they are trying to switch
-            // to camera mode, direct them to panel that requests camera access
-            <Link
-              to={{ pathname: 'request-camera-access', state: { fromPortraitCapture: props.isPortrait, fromIdCapture: !props.isPortrait } }}
-              className="btn btn-primary"
-              data-testid="access-link"
-            >
-              {props.intl.formatMessage(messages['id.verification.photo.camera.help.button'])}
-            </Link>
-          )
-          : (
-            <Button
-              title={shouldUseCamera ? 'Upload Portrait Photo' : 'Take Portrait Photo'}
-              data-testid="toggle-button"
-              onClick={handleClick}
-              style={{ marginTop: '0.5rem' }}
-            >
-              {shouldUseCamera ? props.intl.formatMessage(messages['id.verification.photo.upload.help.button']) : props.intl.formatMessage(messages['id.verification.photo.camera.help.button'])}
-            </Button>
-          )}
-      </Collapsible>
-    );
-  }
-
-  return null;
+        {useCameraForId
+          ? props.intl.formatMessage(messages['id.verification.photo.upload.help.button'])
+          : props.intl.formatMessage(messages['id.verification.photo.camera.help.button'])}
+      </Button>
+    </Collapsible>
+  );
 }
 
 CollapsibleImageHelp.propTypes = {
   intl: intlShape.isRequired,
-  isPortrait: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(CollapsibleImageHelp);
