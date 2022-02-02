@@ -45,12 +45,8 @@ export default function IdVerificationContextProvider({ children }) {
     }
   }, [authenticatedUser]);
 
-  const [optimizelyExperimentName, setOptimizelyExperimentName] = useState('');
-  const [shouldUseCamera, setShouldUseCamera] = useState(false);
-
-  // The following are used to keep track of how a user has submitted photos
-  const [portraitPhotoMode, setPortraitPhotoMode] = useState('');
-  const [idPhotoMode, setIdPhotoMode] = useState('');
+  // Default to upload for the ID image
+  const [useCameraForId, setUseCameraForId] = useState(false);
 
   // If the user reaches the end of the flow and goes back to retake their photos,
   // this flag ensures that they are directed straight back to the summary panel
@@ -86,31 +82,23 @@ export default function IdVerificationContextProvider({ children }) {
     // when determining the context value nameOnAccount.
     nameOnAccount: verifiedName || authenticatedUser.name,
     profileDataManager,
-    optimizelyExperimentName,
-    shouldUseCamera,
-    portraitPhotoMode,
-    idPhotoMode,
+    useCameraForId,
     reachedSummary,
     setFacePhotoFile,
     setIdPhotoFile,
     setIdPhotoName,
-    setOptimizelyExperimentName,
-    setShouldUseCamera,
-    setPortraitPhotoMode,
-    setIdPhotoMode,
+    setUseCameraForId,
     setReachedSummary,
     tryGetUserMedia: async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         setMediaAccess(MEDIA_ACCESS.GRANTED);
         setMediaStream(stream);
-        setShouldUseCamera(true);
         // stop the stream, as we are not using it yet
         const tracks = stream.getTracks();
         tracks.forEach(track => track.stop());
       } catch (err) {
         setMediaAccess(MEDIA_ACCESS.DENIED);
-        setShouldUseCamera(false);
       }
     },
     stopUserMedia: () => {

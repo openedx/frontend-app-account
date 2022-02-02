@@ -13,31 +13,15 @@ import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
 function ReviewRequirementsPanel(props) {
-  const {
-    userId, profileDataManager, setOptimizelyExperimentName,
-  } = useContext(IdVerificationContext);
+  const { userId, profileDataManager } = useContext(IdVerificationContext);
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-
-  const getExperiments = () => {
-    const {
-      experimentVariables: {
-        experimentName = '',
-      } = {},
-    } = window;
-
-    if (experimentName) {
-      setOptimizelyExperimentName(experimentName);
-    }
-  };
 
   useEffect(() => {
     sendTrackEvent('edx.id_verification.started', {
       category: 'id_verification',
       user_id: userId,
     });
-
-    getExperiments();
   }, [userId]);
 
   function renderManagedProfileMessage() {

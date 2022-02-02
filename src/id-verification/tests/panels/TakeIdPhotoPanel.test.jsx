@@ -28,6 +28,7 @@ describe('TakeIdPhotoPanel', () => {
     idPhotoFile: null,
     reachedSummary: false,
     setIdPhotoFile: jest.fn(),
+    useCameraForId: false,
   };
 
   afterEach(() => {
@@ -83,9 +84,6 @@ describe('TakeIdPhotoPanel', () => {
   });
 
   it('shows correct text if user should use upload', async () => {
-    contextValue.optimizelyExperimentName = 'test';
-    contextValue.shouldUseCamera = false;
-
     await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">

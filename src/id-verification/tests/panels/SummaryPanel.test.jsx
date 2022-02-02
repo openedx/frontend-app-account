@@ -32,9 +32,6 @@ describe('SummaryPanel', () => {
     idPhotoFile: 'test.jpg',
     nameOnAccount: 'test name',
     idPhotoName: 'test name',
-    optimizelyExperimentName: 'test-experiment',
-    portraitPhotoMode: 'camera',
-    idPhotoMode: 'upload',
     stopUserMedia: jest.fn(),
     setReachedSummary: jest.fn(),
   };
@@ -76,13 +73,11 @@ describe('SummaryPanel', () => {
   });
 
   it('allows user to upload ID photo', async () => {
-    appContextValue.optimizelyExperimentName = '';
     await getPanel();
     const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
     fireEvent.click(collapsible);
     const uploadButton = await screen.getByTestId('fileUpload');
     expect(uploadButton).toBeVisible();
-    appContextValue.optimizelyExperimentName = 'test-experiment';
   });
 
   it('displays warning if account is managed by a third party', async () => {
@@ -97,9 +92,6 @@ describe('SummaryPanel', () => {
       facePhotoFile: appContextValue.facePhotoFile,
       idPhotoFile: appContextValue.idPhotoFile,
       idPhotoName: appContextValue.idPhotoName,
-      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
-      portraitPhotoMode: appContextValue.portraitPhotoMode,
-      idPhotoMode: appContextValue.idPhotoMode,
       courseRunKey: null,
     };
     await getPanel();
@@ -114,9 +106,6 @@ describe('SummaryPanel', () => {
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
       idPhotoFile: appContextValue.idPhotoFile,
-      portraitPhotoMode: appContextValue.portraitPhotoMode,
-      idPhotoMode: appContextValue.idPhotoMode,
-      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
       courseRunKey: null,
       idPhotoName: appContextValue.nameOnAccount,
     };
@@ -131,9 +120,6 @@ describe('SummaryPanel', () => {
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
       idPhotoFile: appContextValue.idPhotoFile,
-      portraitPhotoMode: appContextValue.portraitPhotoMode,
-      idPhotoMode: appContextValue.idPhotoMode,
-      optimizelyExperimentName: appContextValue.optimizelyExperimentName,
       courseRunKey: null,
       idPhotoName: appContextValue.nameOnAccount,
     };
@@ -207,12 +193,5 @@ describe('SummaryPanel', () => {
     expect(error).toHaveTextContent(
       'One or more of the files you have uploaded is in an unsupported format. Please choose from the following:',
     );
-  });
-
-  it('does not show ID upload option if user is in experiment', async () => {
-    await getPanel();
-    const collapsible = await screen.queryByTestId('collapsible');
-    expect(collapsible).not.toBeInTheDocument();
-    appContextValue.optimizelyExperimentName = 'test-experiment';
   });
 });

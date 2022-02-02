@@ -23,7 +23,6 @@ describe('IdContextPanel', () => {
   };
 
   const contextValue = {
-    optimizelyExperimentName: '',
     facePhotoFile: 'test.jpg',
     reachedSummary: false,
   };
@@ -61,34 +60,5 @@ describe('IdContextPanel', () => {
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/take-id-photo');
-  });
-
-  it('does not show help text for photo upload if not part of experiment', async () => {
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlIdContextPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
-        </IntlProvider>
-      </Router>
-    )));
-    const title = await screen.queryByText('What if I want to upload a photo instead?');
-    expect(title).not.toBeInTheDocument();
-  });
-
-  it('shows help text for photo upload if part of experiment', async () => {
-    contextValue.optimizelyExperimentName = 'test';
-    await act(async () => render((
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <IdVerificationContext.Provider value={contextValue}>
-            <IntlIdContextPanel {...defaultProps} />
-          </IdVerificationContext.Provider>
-        </IntlProvider>
-      </Router>
-    )));
-    const title = await screen.queryByText('What if I want to upload a photo instead?');
-    expect(title).toBeInTheDocument();
   });
 });

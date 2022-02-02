@@ -11,11 +11,6 @@ const messages = defineMessages({
     defaultMessage: 'support',
     description: 'Website support.',
   },
-  'id.verification.continue.upload': {
-    id: 'id.verification.continue.upload',
-    defaultMessage: 'Continue with Upload',
-    description: 'Button to continue with upload.',
-  },
   'id.verification.example.card.alt': {
     id: 'id.verification.example.card.alt',
     defaultMessage: 'Example of a valid identification card with a full name and photo.',
@@ -401,25 +396,10 @@ const messages = defineMessages({
     defaultMessage: 'Take a Photo of Yourself',
     description: 'Title for the Portrait Photo page if camera access is enabled.',
   },
-  'id.verification.portrait.photo.title.upload': {
-    id: 'id.verification.portrait.photo.title.upload',
-    defaultMessage: 'Upload a Photo of Yourself',
-    description: 'Title for the Portrait Photo page if camera access is disabled.',
-  },
-  'id.verification.portrait.photo.preview.alt': {
-    id: 'id.verification.portrait.photo.preview.alt',
-    defaultMessage: 'Preview of photo of user\'s face.',
-    description: 'Alt text for the portrait photo preview.',
-  },
   'id.verification.portrait.photo.instructions.camera': {
     id: 'id.verification.portrait.photo.instructions.camera',
     defaultMessage: 'When your face is in position, use the Take Photo button below to take your photo.',
     description: 'Instructions to use the camera to take a portrait photo..',
-  },
-  'id.verification.portrait.photo.instructions.upload': {
-    id: 'id.verification.portrait.photo.instructions.upload',
-    defaultMessage: 'Please upload a portrait photo. Ensure your entire face fits inside the frame and is well-lit. Supported formats: ',
-    description: 'Instructions for portrait photo upload.',
   },
   'id.verification.camera.help.sight.question': {
     id: 'id.verification.camera.help.sight.question',
@@ -450,16 +430,6 @@ const messages = defineMessages({
     id: 'id.verification.camera.help.difficulty.answer',
     defaultMessage: 'If you require assistance with taking a photo for submission, contact {siteName} support for additional suggestions.',
     description: 'Confirming what to do if the user has difficult holding their head relative to the camera.',
-  },
-  'id.verification.camera.help.upload.question': {
-    id: 'id.verification.camera.help.upload.question',
-    defaultMessage: 'What if I want to upload a photo instead?',
-    description: 'Question on what to do if the user would like to upload a photo instead.',
-  },
-  'id.verification.camera.help.upload.answer': {
-    id: 'id.verification.camera.help.upload.answer',
-    defaultMessage: 'On the next page you will have the option to switch to upload mode. By selecting that option, you will be able to upload a photo instead.',
-    description: 'Confirming what to do if the user would like to upload a photo.',
   },
   'id.verification.id.photo.unclear.question': {
     id: 'id.verification.id.photo.unclear.question',
@@ -685,26 +655,6 @@ const messages = defineMessages({
     id: 'id.verification.camera.help.button',
     defaultMessage: 'Switch to Camera Mode',
     description: 'Button used to switch to camera mode.',
-  },
-  'id.verification.choose.mode.title': {
-    id: 'id.verification.choose.mode.title',
-    defaultMessage: 'Photo Requirements Options',
-    description: 'Title for section that allows user to choose photo mode.',
-  },
-  'id.verification.choose.mode.help.text': {
-    id: 'id.verification.choose.mode.hep.text',
-    defaultMessage: 'To complete verification, please select one of the following options to submit photos. You will be able to switch between these options throughout the process if needed.',
-    description: 'Help text for section that allows user to choose photo mode.',
-  },
-  'id.verification.choose.mode.radio.upload': {
-    id: 'id.verification.choose.mode.radio.upload',
-    defaultMessage: 'Upload photos from my device',
-    description: 'Radio button to choose to upload photos.',
-  },
-  'id.verification.choose.mode.radio.camera': {
-    id: 'id.verification.choose.mode.radio.camera',
-    defaultMessage: 'Take pictures using my camera',
-    description: 'Radio button to choose to use camera for photos.',
   },
 });
 

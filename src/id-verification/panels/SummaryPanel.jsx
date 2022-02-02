@@ -26,10 +26,7 @@ function SummaryPanel(props) {
     nameOnAccount,
     idPhotoName,
     stopUserMedia,
-    optimizelyExperimentName,
     setReachedSummary,
-    portraitPhotoMode,
-    idPhotoMode,
   } = useContext(IdVerificationContext);
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,11 +75,6 @@ function SummaryPanel(props) {
          * use the current nameOnAccount when submitting IDV.
          */
         verificationData.idPhotoName = nameOnAccount;
-      }
-      if (optimizelyExperimentName) {
-        verificationData.optimizelyExperimentName = optimizelyExperimentName;
-        verificationData.portraitPhotoMode = portraitPhotoMode;
-        verificationData.idPhotoMode = idPhotoMode;
       }
       const result = await submitIdVerification(verificationData);
       if (result.success) {
@@ -208,7 +200,7 @@ function SummaryPanel(props) {
           </Link>
         </div>
       </div>
-      {!optimizelyExperimentName && <CameraHelpWithUpload />}
+      <CameraHelpWithUpload />
       <div className="form-group">
         <label htmlFor="name-to-be-used" className="font-weight-bold">
           {props.intl.formatMessage(messages['id.verification.name.label'])}

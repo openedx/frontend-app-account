@@ -262,7 +262,6 @@ class Camera extends React.Component {
     const dataUri = this.cameraPhoto.getDataUri(config);
     this.setState({ dataUri });
     this.props.onImageCapture(dataUri);
-    this.props.setPhotoMode('camera');
   }
 
   playShutterClick() {
@@ -360,7 +359,6 @@ class Camera extends React.Component {
 Camera.propTypes = {
   intl: intlShape.isRequired,
   onImageCapture: PropTypes.func.isRequired,
-  setPhotoMode: PropTypes.func.isRequired,
   isPortrait: PropTypes.bool.isRequired,
 };
 

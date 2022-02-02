@@ -22,7 +22,7 @@ describe('ReviewRequirementsPanel', () => {
     intl: {},
   };
 
-  const context = { setOptimizelyExperimentName: jest.fn() };
+  const context = {};
 
   const getPanel = async () => {
     await act(async () => render((
@@ -45,13 +45,6 @@ describe('ReviewRequirementsPanel', () => {
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
     expect(history.location.pathname).toEqual('/request-camera-access');
-  });
-
-  it('updates optimizely experiment name in context', async () => {
-    window.experimentVariables = {};
-    window.experimentVariables.experimentName = 'test-experiment';
-    await getPanel();
-    expect(context.setOptimizelyExperimentName).toHaveBeenCalledWith('test-experiment');
   });
 
   it('displays an alert if the user\'s account information is managed by a third party', async () => {

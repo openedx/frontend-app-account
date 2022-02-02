@@ -17,9 +17,7 @@ import SupportedMediaTypes from '../SupportedMediaTypes';
 function TakeIdPhotoPanel(props) {
   const panelSlug = 'take-id-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
-  const {
-    setIdPhotoFile, idPhotoFile, optimizelyExperimentName, shouldUseCamera, setIdPhotoMode,
-  } = useContext(IdVerificationContext);
+  const { setIdPhotoFile, idPhotoFile, useCameraForId } = useContext(IdVerificationContext);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -31,17 +29,24 @@ function TakeIdPhotoPanel(props) {
     <BasePanel
       name={panelSlug}
       focusOnMount={!mounted}
-      title={shouldUseCamera ? props.intl.formatMessage(messages['id.verification.id.photo.title.camera']) : props.intl.formatMessage(messages['id.verification.id.photo.title.upload'])}
+      title={useCameraForId
+        ? props.intl.formatMessage(messages['id.verification.id.photo.title.camera'])
+        : props.intl.formatMessage(messages['id.verification.id.photo.title.upload'])}
     >
       <div>
-        {idPhotoFile && !shouldUseCamera && <ImagePreview src={idPhotoFile} alt={props.intl.formatMessage(messages['id.verification.id.photo.preview.alt'])} />}
+        {idPhotoFile && !useCameraForId && (
+          <ImagePreview
+            src={idPhotoFile}
+            alt={props.intl.formatMessage(messages['id.verification.id.photo.preview.alt'])}
+          />
+        )}
 
-        {shouldUseCamera ? (
+        {useCameraForId ? (
           <div>
             <p>
               {props.intl.formatMessage(messages['id.verification.id.photo.instructions.camera'])}
             </p>
-            <Camera onImageCapture={setIdPhotoFile} setPhotoMode={setIdPhotoMode} isPortrait={false} />
+            <Camera onImageCapture={setIdPhotoFile} isPortrait={false} />
           </div>
         ) : (
           <div style={{ marginBottom: '1.25rem' }}>
@@ -49,12 +54,12 @@ function TakeIdPhotoPanel(props) {
               {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
               <SupportedMediaTypes />
             </p>
-            <ImageFileUpload onFileChange={setIdPhotoFile} setPhotoMode={setIdPhotoMode} intl={props.intl} />
+            <ImageFileUpload onFileChange={setIdPhotoFile} intl={props.intl} />
           </div>
         )}
       </div>
-      {shouldUseCamera && !optimizelyExperimentName && <CameraHelp />}
-      <CollapsibleImageHelp isPortrait={false} />
+      {useCameraForId && <CameraHelp />}
+      <CollapsibleImageHelp />
       <div className="action-row" style={{ visibility: idPhotoFile ? 'unset' : 'hidden' }}>
         <Link to={nextPanelSlug} className="btn btn-primary" data-testid="next-button">
           {props.intl.formatMessage(messages['id.verification.next'])}
