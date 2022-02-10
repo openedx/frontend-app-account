@@ -498,17 +498,17 @@ const messages = defineMessages({
   },
   'id.verification.name.check.instructions': {
     id: 'id.verification.name.check.instructions',
-    defaultMessage: 'Does the name below match the name on your government-issued ID? If not, update the name below to match your goverment-issued ID.',
-    description: 'Text to instruct the user to check that the name displayed on the page matches what is on their government-issued ID.',
+    defaultMessage: 'Does the name below match the name on your photo ID? If not, update the name below to match your photo ID.',
+    description: 'Text to instruct the user to check that the name displayed on the page matches what is on their photo ID.',
   },
   'id.verification.name.check.mismatch.information': {
     id: 'id.verification.name.check.mismatch.information',
-    defaultMessage: 'If the name below does not match your government-issued ID, your identity verification will be denied.',
-    description: 'Text to inform the user that if the name displayed on the page does not match what is on their government-issued ID, identity verification will be denied.',
+    defaultMessage: 'If the name below does not match your photo ID, your identity verification will be denied.',
+    description: 'Text to inform the user that if the name displayed on the page does not match what is on their photo ID, identity verification will be denied.',
   },
   'id.verification.name.error': {
     id: 'id.verification.name.error',
-    defaultMessage: 'Please enter your name as it appears on your government-issued ID.',
+    defaultMessage: 'Please enter your name as it appears on your photo ID.',
     description: 'Error that shows when the user needs to update their name to match the name on their ID.',
   },
   'id.verification.account.name.warning.prefix': {

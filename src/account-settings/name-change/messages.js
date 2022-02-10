@@ -23,12 +23,12 @@ const messages = defineMessages({
   },
   'account.settings.name.change.id.name.label': {
     id: 'account.settings.name.change.id.name.label',
-    defaultMessage: 'Enter your name as it appears on your government-issued ID.',
+    defaultMessage: 'Enter your name as it appears on your unexpired student, work, or government-issued identification card.',
     description: 'Form label instructing the user to enter the name on their ID.',
   },
   'account.settings.name.change.id.name.placeholder': {
     id: 'account.settings.name.change.id.name.placeholder',
-    defaultMessage: 'Enter the name on your government ID',
+    defaultMessage: 'Enter the name on your photo ID',
     description: 'Form label instructing the user to enter the name on their ID.',
   },
   'account.settings.name.change.error.valid.name': {
