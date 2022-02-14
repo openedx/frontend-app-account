@@ -108,12 +108,12 @@ const messages = defineMessages({
   },
   'account.settings.field.name.verified.help.text.verified': {
     id: 'account.settings.field.name.verified.help.text.verified',
-    defaultMessage: 'This name has been verified by government ID.',
+    defaultMessage: 'This name has been verified by photo ID.',
     description: 'Help text for the account settings verified name field when the name is verified.',
   },
   'account.settings.field.name.verified.help.text.certificate': {
     id: 'account.settings.field.name.verified.help.text.certificate',
-    defaultMessage: 'This name has been verified by government ID and selected to appear on your certificates and public-facing records.',
+    defaultMessage: 'This name has been verified by photo ID, and is selected to appear on your certificates and public-facing records.',
     description: 'Help text for the account settings verified name field when the name is selected for certificates.',
   },
   'account.settings.field.name.verified.help.text.submitted': {
@@ -128,7 +128,7 @@ const messages = defineMessages({
   },
   'account.settings.field.name.verified.verification.alert': {
     id: 'account.settings.field.name.verified.verification.help',
-    defaultMessage: 'Enter your name as it appears on your government-issued ID.',
+    defaultMessage: 'Enter your name as it appears on your unexpired student, work, or government-issued identification card.',
     description: 'Form label instructing the user to enter the name on their ID.',
   },
   'account.settings.field.full.name.help.text.submitted': {

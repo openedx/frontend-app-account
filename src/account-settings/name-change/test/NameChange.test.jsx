@@ -70,7 +70,7 @@ describe('NameChange', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('renders populated input after clicking continue if verified_name in form data', async () => {
-    const getInput = () => screen.queryByPlaceholderText('Enter the name on your government ID');
+    const getInput = () => screen.queryByPlaceholderText('Enter the name on your photo ID');
 
     render(reduxWrapper(<IntlNameChange {...props} />));
     expect(getInput()).toBeNull();
@@ -82,7 +82,7 @@ describe('NameChange', () => {
   });
 
   it('renders empty input after clicking continue if verified_name not in form data', async () => {
-    const getInput = () => screen.queryByPlaceholderText('Enter the name on your government ID');
+    const getInput = () => screen.queryByPlaceholderText('Enter the name on your photo ID');
     const formProps = {
       ...props,
       formValues: {
@@ -112,7 +112,7 @@ describe('NameChange', () => {
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
 
-    const input = screen.getByPlaceholderText('Enter the name on your government ID');
+    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
     fireEvent.change(input, { target: { value: 'Verified Name' } });
 
     const submitButton = screen.getByText('Continue');
@@ -139,7 +139,7 @@ describe('NameChange', () => {
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
 
-    const input = screen.getByPlaceholderText('Enter the name on your government ID');
+    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
     fireEvent.change(input, { target: { value: 'Verified Name' } });
 
     const submitButton = screen.getByText('Continue');
@@ -155,7 +155,7 @@ describe('NameChange', () => {
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
 
-    const input = screen.getByPlaceholderText('Enter the name on your government ID');
+    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
     fireEvent.change(input, { target: { value: 'Verified Name' } });
 
     const submitButton = screen.getByText('Continue');
