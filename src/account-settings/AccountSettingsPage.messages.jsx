@@ -91,13 +91,13 @@ const messages = defineMessages({
     defaultMessage: 'The name that is used for ID verification and that appears on your certificates.',
     description: 'Help text for the account settings name field.',
   },
-  'account.settings.field.full.name.help.text.non.certificate': {
-    id: 'account.settings.field.full.name.help.text.non.certificate',
+  'account.settings.field.full.name.help.text.default': {
+    id: 'account.settings.field.full.name.help.text.default',
     defaultMessage: 'The name that appears on your public profile.',
     description: 'Help text for the account settings name field.',
   },
-  'account.settings.field.full.name.help.text.certificate': {
-    id: 'account.settings.field.full.name.help.text.certificate',
+  'account.settings.field.full.name.help.text.default.certificate': {
+    id: 'account.settings.field.full.name.help.text.default.certificate',
     defaultMessage: 'This name is selected to appear on your certificates and public-facing records.',
     description: 'Help text for the account settings name field.',
   },
@@ -111,20 +111,40 @@ const messages = defineMessages({
     defaultMessage: 'This name has been verified by photo ID.',
     description: 'Help text for the account settings verified name field when the name is verified.',
   },
-  'account.settings.field.name.verified.help.text.certificate': {
-    id: 'account.settings.field.name.verified.help.text.certificate',
+  'account.settings.field.name.verified.help.text.verified.proctored': {
+    id: 'account.settings.field.name.verified.help.text.verified.proctored',
+    defaultMessage: 'This name has been verified by proctoring.',
+    description: 'Help text for the account settings verified name field when the name is verified through proctoring.',
+  },
+  'account.settings.field.name.verified.help.text.verified.certificate': {
+    id: 'account.settings.field.name.verified.help.text.verified.certificate',
     defaultMessage: 'This name has been verified by photo ID, and is selected to appear on your certificates and public-facing records.',
     description: 'Help text for the account settings verified name field when the name is selected for certificates.',
+  },
+  'account.settings.field.name.verified.help.text.verified.proctored.certificate': {
+    id: 'account.settings.field.name.verified.help.text.verified.proctored.certificate',
+    defaultMessage: 'This name has been verified by proctoring, and is selected to appear on your certificates and public-facing records.',
+    description: 'Help text for the account settings verified name field when the name is selected for certificates, and the name is verified through proctoring.',
   },
   'account.settings.field.name.verified.help.text.submitted': {
     id: 'account.settings.field.name.verified.help.text.submitted',
     defaultMessage: 'Verification has been submitted. This usually takes 48 hours or less. Verified name cannot be changed at this time.',
     description: 'Help text for the account settings verified name field when a verified name has been submitted.',
   },
+  'account.settings.field.name.verified.help.text.submitted.proctored': {
+    id: 'account.settings.field.name.verified.help.text.submitted.proctored',
+    defaultMessage: 'Your proctored exam has been submitted. Verified name cannot be changed at this time. Please check back in 2-5 days.',
+    description: 'Help text for the account settings verified name field when a verified name has been submitted through proctoring.',
+  },
   'account.settings.field.name.verified.help.text.submitted.certificate': {
     id: 'account.settings.field.name.verified.help.text.submitted.certificate',
     defaultMessage: 'When identity verification is successful, this name will appear on your certificates and public-facing records. Verified name cannot be changed at this time.',
     description: 'Help text for the account settings verified name field when a verified name has been submitted and will appear on certificates.',
+  },
+  'account.settings.field.name.verified.help.text.submitted.proctored.certificate': {
+    id: 'account.settings.field.name.verified.help.text.submitted.proctored.certificate',
+    defaultMessage: 'Once your proctored exam passes review, this name will appear on your certificate and public-facing records. Verified Name cannot be changed at this time.',
+    description: 'Help text for the account settings verified name field when a verified name has been submitted through proctoring and will appear on certificates.',
   },
   'account.settings.field.name.verified.verification.alert': {
     id: 'account.settings.field.name.verified.verification.help',
@@ -136,9 +156,19 @@ const messages = defineMessages({
     defaultMessage: 'Verification has been submitted. This usually takes 48 hours or less. Full name cannot be changed at this time.',
     description: 'Help text for the account settings full name field when a verified name has been submitted.',
   },
+  'account.settings.field.full.name.help.text.submitted.proctored': {
+    id: 'account.settings.field.full.name.help.text.submitted.proctored',
+    defaultMessage: 'Your proctored exam has been submitted. Full name cannot be changed at this time. Please check back in 2-5 days.',
+    description: 'Help text for the account settings full name field when a verified name has been submitted through proctoring.',
+  },
   'account.settings.field.full.name.help.text.submitted.certificate': {
     id: 'account.settings.field.full.name.help.text.submitted.certificate',
     defaultMessage: 'When identity verification is successful, this name will appear on your certificates and public-facing records. Full name cannot be changed at this time.',
+    description: 'Help text for the account settings full name field when a full name has been submitted and will appear on certificates.',
+  },
+  'account.settings.field.full.name.help.text.submitted.proctored.certificate': {
+    id: 'account.settings.field.full.name.help.text.submitted.proctored.certificate',
+    defaultMessage: 'Once your proctored exam passes review, this name will appear on your certificates and public-facing records. Full name cannot be changed at this time.',
     description: 'Help text for the account settings full name field when a full name has been submitted and will appear on certificates.',
   },
   'account.settings.field.name.verified.success.message': {

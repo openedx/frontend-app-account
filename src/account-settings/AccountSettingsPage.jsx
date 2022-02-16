@@ -259,25 +259,27 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderFullNameHelpText = (status) => {
-    if (
-      !this.props.verifiedNameHistory
-    ) {
+  renderFullNameHelpText = (status, proctoredExamId) => {
+    if (!this.props.verifiedNameHistory) {
       return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']);
     }
 
-    switch (status) {
-      case 'submitted':
-        if (this.props.committedValues.useVerifiedNameForCerts) {
-          return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted']);
-        }
-        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.submitted.certificate']);
-      default:
-        if (this.props.committedValues.useVerifiedNameForCerts) {
-          return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.non.certificate']);
-        }
-        return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text.certificate']);
+    let messageString = 'account.settings.field.full.name.help.text';
+
+    if (status === 'submitted') {
+      messageString += '.submitted';
+      if (proctoredExamId) {
+        messageString += '.proctored';
+      }
+    } else {
+      messageString += '.default';
     }
+
+    if (!this.props.committedValues.useVerifiedNameForCerts) {
+      messageString += '.certificate';
+    }
+
+    return this.props.intl.formatMessage(messages[messageString]);
   }
 
   renderVerifiedNameSuccessMessage = (verifiedName, created) => {
@@ -350,6 +352,7 @@ class AccountSettingsPage extends React.Component {
       status,
       profile_name: profileName,
       verified_name: verifiedName,
+      proctored_exam_attempt_id: proctoredExamId,
     } = verifiedNameRecord;
     let willCertNameChange = false;
 
@@ -366,6 +369,10 @@ class AccountSettingsPage extends React.Component {
       )
     ) {
       willCertNameChange = true;
+    }
+
+    if (proctoredExamId) {
+      return null;
     }
 
     switch (status) {
@@ -391,21 +398,29 @@ class AccountSettingsPage extends React.Component {
     }
   }
 
-  renderVerifiedNameHelpText = (status) => {
-    switch (status) {
-      case 'approved':
-        if (this.props.committedValues.useVerifiedNameForCerts) {
-          return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.certificate']);
-        }
-        return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.verified']);
-      case 'submitted':
-        if (this.props.committedValues.useVerifiedNameForCerts) {
-          return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted.certificate']);
-        }
-        return this.props.intl.formatMessage(messages['account.settings.field.name.verified.help.text.submitted']);
-      default:
-        return null;
+  renderVerifiedNameHelpText = (status, proctoredExamId) => {
+    let messageStr = 'account.settings.field.name.verified.help.text';
+
+    // add additional string based on status
+    if (status === 'approved') {
+      messageStr += '.verified';
+    } else if (status === 'submitted') {
+      messageStr += '.submitted';
+    } else {
+      return null;
     }
+
+    // add additional string if verified name came from a proctored exam attempt
+    if (proctoredExamId) {
+      messageStr += '.proctored';
+    }
+
+    // add additional string based on certificate name use
+    if (this.props.committedValues.useVerifiedNameForCerts) {
+      messageStr += '.certificate';
+    }
+
+    return this.props.intl.formatMessage(messages[messageStr]);
   }
 
   renderEmptyStaticFieldMessage() {
@@ -524,7 +539,7 @@ class AccountSettingsPage extends React.Component {
             }
             helpText={
               verifiedName
-                ? this.renderFullNameHelpText(verifiedName.status)
+                ? this.renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
                 : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
             isEditable={
@@ -554,7 +569,7 @@ class AccountSettingsPage extends React.Component {
                   </div>
                 )
               }
-              helpText={this.renderVerifiedNameHelpText(verifiedName.status)}
+              helpText={this.renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
               isEditable={this.isEditable('verifiedName')}
               isGrayedOut={!this.isEditable('verifiedName')}
               onChange={this.handleEditableFieldChange}
@@ -888,15 +903,18 @@ AccountSettingsPage.propTypes = {
   verifiedName: PropTypes.shape({
     verified_name: PropTypes.string,
     status: PropTypes.string,
+    proctored_exam_attempt_id: PropTypes.number,
   }),
   mostRecentVerifiedName: PropTypes.shape({
     verified_name: PropTypes.string,
     status: PropTypes.string,
+    proctored_exam_attempt_id: PropTypes.number,
   }),
   verifiedNameHistory: PropTypes.arrayOf(
     PropTypes.shape({
       verified_name: PropTypes.string,
       status: PropTypes.string,
+      proctored_exam_attempt_id: PropTypes.number,
     }),
   ),
 };
