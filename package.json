@@ -25,23 +25,23 @@
     "access": "public"
   },
   "browserslist": [
-    "last 2 versions",
+    "last 2 version",
     "ie 11"
   ],
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
-    "@edx/frontend-component-footer": "10.1.6",
-    "@edx/frontend-component-header": "2.3.0",
-    "@edx/frontend-platform": "1.14.1",
-    "@edx/paragon": "16.1.0",
+    "@edx/frontend-component-footer": "10.2.1",
+    "@edx/frontend-component-header": "2.4.5",
+    "@edx/frontend-platform": "1.15.1",
+    "@edx/paragon": "19.6.0",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.16",
     "@tensorflow-models/blazeface": "0.0.7",
-    "@tensorflow/tfjs-converter": "1.7.4",
-    "@tensorflow/tfjs-core": "1.7.4",
+    "@tensorflow/tfjs-converter": "3.1.0",
+    "@tensorflow/tfjs-core": "3.1.0",
     "bowser": "2.11.0",
     "classnames": "2.3.1",
     "core-js": "3.19.3",
@@ -80,7 +80,7 @@
     "universal-cookie": "4.0.4"
   },
   "devDependencies": {
-    "@edx/frontend-build": "8.1.6",
+    "@edx/frontend-build": "9.1.0",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.2",
     "codecov": "3.8.3",
