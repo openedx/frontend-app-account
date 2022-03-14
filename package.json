@@ -26,8 +26,7 @@
   },
   "browserslist": [
     "last 2 versions",
-    "not ie > 0",
-    "not ie_mob > 0"
+    "ie 11"
   ],
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
@@ -81,7 +80,7 @@
     "universal-cookie": "4.0.4"
   },
   "devDependencies": {
-    "@edx/frontend-build": "9.1.0",
+    "@edx/frontend-build": "9.1.1",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.2",
     "codecov": "3.8.3",
