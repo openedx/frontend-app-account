@@ -61,7 +61,7 @@
     "lodash.pickby": "4.6.0",
     "memoize-one": "5.2.1",
     "prop-types": "15.7.2",
-    "qs": "6.10.1",
+    "qs": "6.10.3",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-redux": "7.2.6",
