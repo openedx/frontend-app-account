@@ -12,17 +12,17 @@ exports[`DemographicsSection should render 1`] = `
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -34,7 +34,6 @@ exports[`DemographicsSection should render 1`] = `
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -48,6 +47,11 @@ exports[`DemographicsSection should render 1`] = `
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -654,17 +658,17 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -676,7 +680,6 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -690,6 +693,11 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -1310,17 +1318,17 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -1332,7 +1340,6 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -1346,6 +1353,11 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -1379,17 +1391,17 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -1401,7 +1413,6 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -1415,6 +1426,11 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -2014,17 +2030,17 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -2036,7 +2052,6 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -2050,6 +2065,11 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -2649,17 +2669,17 @@ exports[`DemographicsSection should set user input correctly when user provides 
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -2671,7 +2691,6 @@ exports[`DemographicsSection should set user input correctly when user provides 
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -2685,6 +2704,11 @@ exports[`DemographicsSection should set user input correctly when user provides 
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>
@@ -3291,17 +3315,17 @@ exports[`DemographicsSection should set user input correctly when user provides 
   </h2>
   <p>
     <a
-      className="default-link standalone-link"
+      className="pgn__hyperlink default-link standalone-link"
       href="http://localhost:5335/demographics"
       onClick={[Function]}
-      rel="noopener noopener noreferrer"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Why does localhost collect this information?
       <span
-        className="d-inline-block align-text-top"
+        className="pgn__hyperlink__external-icon"
+        title="Opens in a new tab"
       >
-         
         <span
           className="pgn__icon"
           style={
@@ -3313,7 +3337,6 @@ exports[`DemographicsSection should set user input correctly when user provides 
         >
           <svg
             aria-hidden={true}
-            aria-label=""
             fill="none"
             focusable={false}
             height={24}
@@ -3327,6 +3350,11 @@ exports[`DemographicsSection should set user input correctly when user provides 
               fill="currentColor"
             />
           </svg>
+          <span
+            className="sr-only"
+          >
+            in a new tab
+          </span>
         </span>
       </span>
     </a>

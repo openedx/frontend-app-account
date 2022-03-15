@@ -114,7 +114,7 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
           className="mt-3"
         >
           <a
-            className="mt-3 text-dark btn-link small"
+            className="pgn__hyperlink default-link standalone-link mt-3 text-dark btn-link small"
             href="http://localhost:18000/dashboard/"
             onClick={[Function]}
             target="_self"
@@ -263,7 +263,7 @@ exports[`CoachingConsent should render 1`] = `
           className="mt-3"
         >
           <a
-            className="mt-3 text-dark btn-link small"
+            className="pgn__hyperlink default-link standalone-link mt-3 text-dark btn-link small"
             href="http://localhost:18000/dashboard/"
             onClick={[Function]}
             target="_self"
