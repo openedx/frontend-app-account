@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@edx/frontend-build": "9.1.1",
+    "@edx/reactifex": "^1.0.3",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.4",
     "codecov": "3.8.3",
