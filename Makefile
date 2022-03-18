@@ -1,3 +1,4 @@
+export TRANSIFEX_RESOURCE = frontend-app-account
 transifex_resource = frontend-app-account
 transifex_langs = "ar,fr,es_419,zh_CN"
 
@@ -45,11 +46,11 @@ push_translations:
 	# Pushing strings to Transifex...
 	tx push -s
 	# Fetching hashes from Transifex...
-	./node_modules/reactifex/bash_scripts/get_hashed_strings.sh $(tx_url1)
+	./node_modules/@edx/reactifex/bash_scripts/get_hashed_strings_v3.sh
 	# Writing out comments to file...
-	$(transifex_utils) $(transifex_temp) --comments
+	$(transifex_utils) $(transifex_temp) --comments --v3-scripts-path
 	# Pushing comments to Transifex...
-	./node_modules/reactifex/bash_scripts/put_comments.sh $(tx_url2)
+	./node_modules/@edx/reactifex/bash_scripts/put_comments_v3.sh
 
 # Pulls translations from Transifex.
 pull_translations:

@@ -17,7 +17,7 @@ const ManagedProfileAlert = ({ profileDataManager }) => (
     <FormattedMessage
       id="account.settings.coaching.managed.alert"
       defaultMessage="Your name is managed by {managerTitle}. Contact your administrator for help."
-      description="alert message informing the user their account data is managed by a third party"
+      description="Alert message informing the user their account data is managed by a third party"
       values={{
         managerTitle: <b>{profileDataManager}</b>,
       }}

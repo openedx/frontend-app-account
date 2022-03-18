@@ -8,7 +8,7 @@ export default function NotFoundPage() {
         <FormattedMessage
           id="error.notfound.message"
           defaultMessage="The page you're looking for is unavailable or there's an error in the URL. Please check the URL and try again."
-          description="error message when a page does not exist"
+          description="Error message when a page does not exist"
         />
       </p>
     </div>
