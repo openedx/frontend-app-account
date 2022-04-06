@@ -29,9 +29,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm install -g npm@${{ matrix.npm }}
-    - run: |
-        npm install
-        make requirements
+    - run: make requirements
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
     - name: upload coverage
