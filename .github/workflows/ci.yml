@@ -11,6 +11,13 @@ jobs:
       matrix:
         node: [12, 14, 16]
         npm: [6, 8.5.0]
+        exclude:
+          - node: 12
+            npm: 8.5.0
+          - node: 14
+            npm: 8.5.0
+          - node: 16
+            npm: 6
         npm-test:
         - i18n_extract
         - is-es5
