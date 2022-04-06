@@ -13,7 +13,7 @@ jobs:
         npm: [6, 8]
         npm-test:
         - i18n_extract
-        - is-es5
+ #       - is-es5
         - lint
         - test
     steps:
@@ -22,7 +22,9 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm install -g npm@${{ matrix.npm }}
-    - run: make requirements
+    - run: |
+        npm install
+        make requirements
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
     - name: upload coverage
