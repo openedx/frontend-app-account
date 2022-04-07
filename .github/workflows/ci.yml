@@ -20,7 +20,7 @@ jobs:
             npm: 6
         npm-test:
         - i18n_extract
-        - is-es5
+        - is-es6
         - lint
         - test
     steps:
