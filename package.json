@@ -26,7 +26,8 @@
   },
   "browserslist": [
     "last 2 versions",
-    "ie 11"
+    "not ie > 0",
+    "not ie_mob > 0"
   ],
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
