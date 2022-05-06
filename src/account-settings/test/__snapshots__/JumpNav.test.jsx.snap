@@ -2,7 +2,7 @@
 
 exports[`JumpNav should not render Optional Information link 1`] = `
 <div
-  className="jump-nav"
+  className="jump-nav jump-nav-sm position-sticky pt-3"
 >
   <ul
     className="list-unstyled"
@@ -92,7 +92,7 @@ exports[`JumpNav should not render Optional Information link 1`] = `
 
 exports[`JumpNav should render Optional Information link 1`] = `
 <div
-  className="jump-nav"
+  className="jump-nav jump-nav-sm position-sticky pt-3"
 >
   <ul
     className="list-unstyled"

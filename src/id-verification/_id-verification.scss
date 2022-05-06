@@ -4,7 +4,8 @@
       max-width: 100%;
     }
     .card.accent {
-      border-top: solid 4px theme-color('warning');
+      border-top-width: 4px;
+      border-top-style: solid;
     }
     .image-preview {
       margin-bottom: 1rem;

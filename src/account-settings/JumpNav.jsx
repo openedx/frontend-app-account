@@ -1,15 +1,20 @@
-import React from 'react';
+import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { breakpoints, useWindowSize } from '@edx/paragon';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
-
-import { getConfig } from '@edx/frontend-platform';
-import PropTypes from 'prop-types';
 import messages from './AccountSettingsPage.messages';
 
-function JumpNav({ intl, displayDemographicsLink }) {
+function JumpNav({
+  intl,
+  displayDemographicsLink,
+}) {
+  const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
   return (
-    <div className="jump-nav">
+    <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
       <Scrollspy
         items={[
           'basic-information',
