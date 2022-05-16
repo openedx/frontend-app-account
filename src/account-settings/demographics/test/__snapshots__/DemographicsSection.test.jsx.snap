@@ -2,11 +2,11 @@
 
 exports[`DemographicsSection should render 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -648,11 +648,11 @@ exports[`DemographicsSection should render 1`] = `
 
 exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -1308,11 +1308,11 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
 
 exports[`DemographicsSection should render an Alert when demographicsOptions props are empty 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -1381,11 +1381,11 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
 
 exports[`DemographicsSection should render ethnicity correctly when multiple options are selected 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -2020,11 +2020,11 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
 
 exports[`DemographicsSection should render ethnicity text correctly 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -2659,11 +2659,11 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
 
 exports[`DemographicsSection should set user input correctly when user provides answers to work_status question 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>
@@ -3305,11 +3305,11 @@ exports[`DemographicsSection should set user input correctly when user provides 
 
 exports[`DemographicsSection should set user input correctly when user provides gender self-description 1`] = `
 <div
-  className="account-section"
+  className="account-section pt-3 mb-5"
   id="demographics-information"
 >
   <h2
-    className="section-heading"
+    className="section-heading h4 mb-3"
   >
     Optional Information
   </h2>

@@ -496,13 +496,13 @@ class AccountSettingsPage extends React.Component {
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
     return (
       <>
-        <div className="account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
+        <div className="account-section pt-3 mb-5" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           {
             this.props.mostRecentVerifiedName
             && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
           }
 
-          <h2 className="section-heading">
+          <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
@@ -641,8 +641,8 @@ class AccountSettingsPage extends React.Component {
             )}
         </div>
 
-        <div className="account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
-          <h2 className="section-heading">
+        <div className="account-section pt-3 mb-5" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
+          <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
@@ -684,8 +684,8 @@ class AccountSettingsPage extends React.Component {
             )}
         </div>
         {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
-        <div className="account-section" id="social-media">
-          <h2 className="section-heading">
+        <div className="account-section pt-3 mb-5" id="social-media">
+          <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
           <p>
@@ -721,8 +721,8 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
-          <h2 className="section-heading">
+        <div className="account-section pt-3 mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
+          <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
@@ -752,8 +752,8 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
-          <h2 className="section-heading">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
+        <div className="account-section pt-3 mb-5" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
+          <h2 className="section-heading h4 mb-3">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
@@ -763,7 +763,7 @@ class AccountSettingsPage extends React.Component {
           <ThirdPartyAuth />
         </div>
 
-        <div className="account-section" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
+        <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
           <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}

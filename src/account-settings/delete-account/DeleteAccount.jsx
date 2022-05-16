@@ -72,7 +72,7 @@ export class DeleteAccount extends React.Component {
 
     return (
       <div>
-        <h2 className="section-heading">
+        <h2 className="section-heading h4 mb-3">
           {intl.formatMessage(messages['account.settings.delete.account.header'])}
         </h2>
         <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>

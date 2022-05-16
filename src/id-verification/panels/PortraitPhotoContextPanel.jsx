@@ -18,7 +18,7 @@ function PortraitPhotoContextPanel(props) {
       <p>
         {props.intl.formatMessage(messages['id.verification.photo.tips.description'])}
       </p>
-      <div className="card mb-4 shadow accent">
+      <div className="card mb-4 shadow accent border-warning">
         <div className="card-body">
           <h6>
             {props.intl.formatMessage(messages['id.verification.photo.tips.list.title'])}
