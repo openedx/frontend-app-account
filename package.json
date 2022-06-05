@@ -40,8 +40,8 @@
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.16",
     "@tensorflow-models/blazeface": "0.0.7",
-    "@tensorflow/tfjs-converter": "1.7.4",
-    "@tensorflow/tfjs-core": "1.7.4",
+    "@tensorflow/tfjs-converter": "3.18.0",
+    "@tensorflow/tfjs-core": "3.18.0",
     "bowser": "2.11.0",
     "classnames": "2.3.1",
     "core-js": "3.19.3",
@@ -80,7 +80,7 @@
     "universal-cookie": "4.0.4"
   },
   "devDependencies": {
-    "@edx/frontend-build": "9.1.1",
+    "@edx/frontend-build": "11.0.0",
     "@edx/reactifex": "^1.0.3",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.4",
