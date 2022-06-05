@@ -417,16 +417,14 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
       <div
-        data-focus-lock-disabled={false}
+        data-focus-lock-disabled="disabled"
         onBlur={[Function]}
         onFocus={[Function]}
-        onMouseDown={[Function]}
         onScrollCapture={[Function]}
         onTouchMoveCapture={[Function]}
-        onTouchStart={[Function]}
         onWheelCapture={[Function]}
       >
         <div
@@ -480,7 +478,7 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
     </div>
   </div>,
