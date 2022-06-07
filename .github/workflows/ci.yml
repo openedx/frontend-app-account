@@ -13,8 +13,8 @@ jobs:
         npm: [8.5.0]
         npm-test:
         - i18n_extract
-        - is-es5
         - lint
+        - is-es6
         - test
     steps:
     - uses: actions/checkout@v2
