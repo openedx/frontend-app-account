@@ -14,6 +14,7 @@ jobs:
         npm-test:
         - i18n_extract
         - lint
+        - is-es6
         - test
     steps:
     - uses: actions/checkout@v2
