@@ -32,7 +32,7 @@ function SummaryPanel(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
 
-  useEffect(() => setReachedSummary(true), []);
+  useEffect(() => setReachedSummary(true), [setReachedSummary]);
 
   function renderManagedProfileMessage() {
     if (!profileDataManager) {
