@@ -13,7 +13,6 @@ jobs:
         npm: [6, 8.5.0]
         npm-test:
         - i18n_extract
-        - is-es5
         - lint
         - test
         exclude:
