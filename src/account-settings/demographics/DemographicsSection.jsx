@@ -5,7 +5,7 @@ import {
   intlShape,
 } from '@edx/frontend-platform/i18n';
 
-import { Hyperlink, Input } from '@edx/paragon';
+import { Hyperlink, Form } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -199,7 +199,7 @@ class DemographicsSection extends React.Component {
               {...editableFieldProps}
             >
               {showSelfDescribe && (
-                <Input
+                <Form.Control
                   name="demographics_gender_description"
                   id="field-demographics_gender_description"
                   type="text"
@@ -276,7 +276,7 @@ class DemographicsSection extends React.Component {
               {...editableFieldProps}
             >
               {showWorkStatusDescribe && (
-                <Input
+                <Form.Control
                   name="demographics_work_status_description"
                   id="field-demographics_work_status_description"
                   type="text"
