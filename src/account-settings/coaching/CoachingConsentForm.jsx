@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
-import { Input, Button, Hyperlink } from '@edx/paragon';
+import { Form, Button, Hyperlink } from '@edx/paragon';
 
 import PropTypes from 'prop-types';
 
@@ -40,7 +40,7 @@ const CoachingForm = props => (
           <label className="h6" htmlFor="fullName">
             {props.intl.formatMessage(messages['account.settings.coaching.consent.label.name'])}
           </label>
-          <Input
+          <Form.Control
             type="text"
             name="full-name"
             id="fullName"
@@ -53,7 +53,7 @@ const CoachingForm = props => (
           <label className="h6" htmlFor="phoneNumber">
             {props.intl.formatMessage(messages['account.settings.coaching.consent.label.phone-number'])}
           </label>
-          <Input
+          <Form.Control
             type="text"
             name="phone_number"
             id="phoneNumber"
