@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CheckBox } from '@edx/paragon';
+import { Form } from '@edx/paragon';
 import { DECLINED } from '../data/constants';
 
 const Checkboxes = (props) => {
@@ -40,16 +40,17 @@ const Checkboxes = (props) => {
     const isChecked = selected.includes(option.value);
     return (
       <div key={option.value} className="checkboxOption">
-        <CheckBox
+        <Form.Checkbox
           type="checkbox"
           id={option.value}
           name={option.value}
           value={option.value}
           checked={isChecked}
           autoFocus={isFirst}
-          label={option.label}
-          onChange={(value) => handleToggle(value, option.value)}
-        />
+          onChange={(event) => handleToggle(event.target.checked, option.value)}
+        >
+          {option.label}
+        </Form.Checkbox>
       </div>
     );
   });
