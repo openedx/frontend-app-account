@@ -11,7 +11,7 @@ tx_url2 = https://www.transifex.com/api/2/project/edx-platform/resource/$(transi
 # This directory must match .babelrc .
 transifex_temp = ./temp/babel-plugin-react-intl
 
-NPM_TESTS=build i18n_extract lint test is-es5
+NPM_TESTS=build i18n_extract lint test
 
 .PHONY: test
 test: $(addprefix test.npm.,$(NPM_TESTS))  ## validate ci suite
