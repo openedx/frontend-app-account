@@ -31,7 +31,7 @@ export default function ImageFileUpload({ onFileChange, intl }) {
       });
       fileReader.readAsDataURL(fileObject);
     }
-  }, []);
+  }, [errorTypes.fileTooLarge, errorTypes.invalidFileType, onFileChange]);
 
   return (
     <>
