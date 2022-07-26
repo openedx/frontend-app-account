@@ -84,7 +84,6 @@
     "@edx/reactifex": "^1.0.3",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.4",
-    "codecov": "3.8.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "react-test-renderer": "16.14.0",
