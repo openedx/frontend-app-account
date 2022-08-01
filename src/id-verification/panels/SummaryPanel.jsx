@@ -32,7 +32,7 @@ function SummaryPanel(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
 
-  useEffect(() => setReachedSummary(true), []);
+  useEffect(() => setReachedSummary(true), [setReachedSummary]);
 
   function renderManagedProfileMessage() {
     if (!profileDataManager) {
@@ -59,8 +59,9 @@ function SummaryPanel(props) {
     );
   }
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   function SubmitButton() {
-    async function handleClick() {
+    const handleClick = async () => {
       setIsSubmitting(true);
       const verificationData = {
         facePhotoFile,
@@ -85,7 +86,7 @@ function SummaryPanel(props) {
         setIsSubmitting(false);
         setSubmissionError(result);
       }
-    }
+    };
     return (
       <Button
         title="Confirmation"

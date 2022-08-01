@@ -29,17 +29,12 @@ function CertificatePreference({
   saveState,
   useVerifiedNameForCerts,
 }) {
-  if (!originalVerifiedName) {
-    // If the user doesn't have an approved verified name, do not display this component
-    return null;
-  }
-
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formId = 'useVerifiedNameForCerts';
 
-  function handleCheckboxChange() {
+  const handleCheckboxChange = () => {
     if (!checked) {
       if (fieldName === 'verified_name') {
         dispatch(updateDraft(formId, true));
@@ -49,22 +44,22 @@ function CertificatePreference({
     } else {
       setModalIsOpen(true);
     }
-  }
+  };
 
-  function handleCancel() {
+  const handleCancel = () => {
     setModalIsOpen(false);
     dispatch(resetDrafts());
-  }
+  };
 
-  function handleModalChange(e) {
+  const handleModalChange = (e) => {
     if (e.target.value === 'fullName') {
       dispatch(updateDraft(formId, false));
     } else {
       dispatch(updateDraft(formId, true));
     }
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (saveState === 'pending') {
@@ -72,7 +67,7 @@ function CertificatePreference({
     }
 
     dispatch(saveSettings(formId, useVerifiedNameForCerts));
-  }
+  };
 
   useEffect(() => {
     if (fieldName === 'verified_name') {
@@ -80,14 +75,19 @@ function CertificatePreference({
     } else {
       setChecked(!useVerifiedNameForCerts);
     }
-  }, [useVerifiedNameForCerts]);
+  }, [fieldName, useVerifiedNameForCerts]);
 
   useEffect(() => {
     if (modalIsOpen && saveState === 'complete') {
       setModalIsOpen(false);
       dispatch(closeForm(fieldName));
     }
-  }, [modalIsOpen, saveState]);
+  }, [dispatch, fieldName, modalIsOpen, saveState]);
+
+  if (!originalVerifiedName) {
+    // If the user doesn't have an approved verified name, do not display this component
+    return null;
+  }
 
   return (
     <>

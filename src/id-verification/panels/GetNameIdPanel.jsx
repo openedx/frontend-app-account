@@ -28,14 +28,14 @@ function GetNameIdPanel(props) {
     if (location.state?.fromSummary && nameInputRef.current) {
       nameInputRef.current.focus();
     }
-  }, []);
+  }, [idPhotoName, location.state?.fromSummary, nameOnAccountValue, setIdPhotoName]);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
       push(nextPanelSlug);
     }
-  }
+  };
 
   return (
     <BasePanel

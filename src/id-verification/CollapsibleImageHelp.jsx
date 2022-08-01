@@ -11,7 +11,7 @@ function CollapsibleImageHelp(props) {
     userId, useCameraForId, setUseCameraForId,
   } = useContext(IdVerificationContext);
 
-  function handleClick() {
+  const handleClick = () => {
     const toggleTo = useCameraForId ? 'upload' : 'camera';
     const eventName = `edx.id_verification.toggle_to.${toggleTo}`;
     sendTrackEvent(eventName, {
@@ -19,7 +19,7 @@ function CollapsibleImageHelp(props) {
       user_id: userId,
     });
     setUseCameraForId(!useCameraForId);
-  }
+  };
 
   return (
     <Collapsible

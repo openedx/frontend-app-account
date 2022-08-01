@@ -39,17 +39,17 @@ function NameChangeModal({
     dispatch(requestNameChangeReset());
   }
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setVerifiedNameInput(e.target.value);
-  }
+  };
 
-  function handleClose() {
+  const handleClose = () => {
     resetLocalState();
     dispatch(closeForm(targetFormId));
     dispatch(saveSettingsReset());
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (saveState === 'pending') {
@@ -64,13 +64,14 @@ function NameChangeModal({
       const draftProfileName = targetFormId === 'name' ? formValues.name : null;
       dispatch(requestNameChange(username, draftProfileName, verifiedNameInput));
     }
-  }
+  };
 
   useEffect(() => {
     if (saveState === 'complete') {
       handleClose();
       push(`/id-verification?next=${encodeURIComponent('account/settings')}`);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveState]);
 
   function renderErrors() {

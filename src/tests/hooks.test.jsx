@@ -4,7 +4,7 @@ import { render, waitFor } from '@testing-library/react';
 import { useAsyncCall } from '../hooks';
 import { LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS } from '../constants';
 
-const TestUseAsyncCallHookComponent = ({ asyncFunc }) => {
+function TestUseAsyncCallHookComponent({ asyncFunc }) {
   const { status, data } = useAsyncCall(asyncFunc);
   return (
     <>
@@ -12,7 +12,7 @@ const TestUseAsyncCallHookComponent = ({ asyncFunc }) => {
       {data && Object.keys(data).length !== 0 && <div data-testid="data">{ data.data }</div>}
     </>
   );
-};
+}
 
 TestUseAsyncCallHookComponent.propTypes = {
   asyncFunc: PropTypes.func.isRequired,
