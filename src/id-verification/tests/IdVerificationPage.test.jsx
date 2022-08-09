@@ -18,15 +18,15 @@ jest.mock('../VerifiedNameContext', () => {
     VerifiedNameContextProvider: jest.fn(({ children }) => children),
   };
 });
-jest.mock('../panels/ReviewRequirementsPanel');
-jest.mock('../panels/RequestCameraAccessPanel');
-jest.mock('../panels/PortraitPhotoContextPanel');
-jest.mock('../panels/TakePortraitPhotoPanel');
-jest.mock('../panels/IdContextPanel');
-jest.mock('../panels/GetNameIdPanel');
-jest.mock('../panels/TakeIdPhotoPanel');
-jest.mock('../panels/SummaryPanel');
-jest.mock('../panels/SubmittedPanel');
+jest.mock('../panels/ReviewRequirementsPanel', () => () => (<></>));
+jest.mock('../panels/RequestCameraAccessPanel', () => () => (<></>));
+jest.mock('../panels/PortraitPhotoContextPanel', () => () => (<></>));
+jest.mock('../panels/TakePortraitPhotoPanel', () => () => (<></>));
+jest.mock('../panels/IdContextPanel', () => () => (<></>));
+jest.mock('../panels/GetNameIdPanel', () => () => (<></>));
+jest.mock('../panels/TakeIdPhotoPanel', () => () => (<></>));
+jest.mock('../panels/SummaryPanel', () => () => (<></>));
+jest.mock('../panels/SubmittedPanel', () => () => (<></>));
 
 const IntlIdVerificationPage = injectIntl(IdVerificationPage);
 
