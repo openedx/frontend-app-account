@@ -34,13 +34,11 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
           >
             <div />
             <div>
-              <span>
-                Your name is managed by 
-                <b>
-                  test person
-                </b>
-                . Contact your administrator for help.
-              </span>
+              Your name is managed by 
+              <b>
+                test person
+              </b>
+              . Contact your administrator for help.
             </div>
           </div>
           <div

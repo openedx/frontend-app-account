@@ -3,8 +3,8 @@ import renderer from 'react-test-renderer';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 // Testing the modals separately, they just clutter up the snapshots if included here.
-jest.mock('./ConfirmationModal');
-jest.mock('./SuccessModal');
+jest.mock('./ConfirmationModal', () => () => (<></>));
+jest.mock('./SuccessModal', () => () => (<></>));
 
 import { DeleteAccount } from './DeleteAccount'; // eslint-disable-line import/first
 
@@ -37,6 +37,7 @@ describe('DeleteAccount', () => {
         </IntlProvider>
       ))
       .toJSON();
+
     expect(tree).toMatchSnapshot();
   });
 
