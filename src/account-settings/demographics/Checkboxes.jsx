@@ -14,7 +14,7 @@ const Checkboxes = (props) => {
   const [selected, setSelected] = useState(values);
   useEffect(() => {
     onChange(id, selected);
-  }, [selected]);
+  }, [id, onChange, selected]);
 
   const handleToggle = (value, option) => {
     // If the user checked 'declined', uncheck all other options

@@ -29,11 +29,6 @@ function CertificatePreference({
   saveState,
   useVerifiedNameForCerts,
 }) {
-  if (!originalVerifiedName) {
-    // If the user doesn't have an approved verified name, do not display this component
-    return null;
-  }
-
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -75,21 +70,27 @@ function CertificatePreference({
   }
 
   useEffect(() => {
-    if (fieldName === 'verified_name') {
-      setChecked(useVerifiedNameForCerts);
-    } else {
-      setChecked(!useVerifiedNameForCerts);
+    if (originalVerifiedName) {
+      if (fieldName === 'verified_name') {
+        setChecked(useVerifiedNameForCerts);
+      } else {
+        setChecked(!useVerifiedNameForCerts);
+      }
     }
-  }, [useVerifiedNameForCerts]);
+  }, [originalVerifiedName, fieldName, useVerifiedNameForCerts]);
 
   useEffect(() => {
-    if (modalIsOpen && saveState === 'complete') {
-      setModalIsOpen(false);
-      dispatch(closeForm(fieldName));
+    if (originalVerifiedName) {
+      if (modalIsOpen && saveState === 'complete') {
+        setModalIsOpen(false);
+        dispatch(closeForm(fieldName));
+      }
     }
-  }, [modalIsOpen, saveState]);
+  }, [dispatch, originalVerifiedName, fieldName, modalIsOpen, saveState]);
 
-  return (
+  // If the user doesn't have an approved verified name, do not display this component
+
+  return originalVerifiedName ? (
     <>
       <Form.Checkbox className="mt-1 mb-4" checked={checked} onChange={handleCheckboxChange}>
         {intl.formatMessage(messages['account.settings.field.name.checkbox.certificate.select'])}
@@ -150,7 +151,7 @@ function CertificatePreference({
         </Form>
       </ModalDialog>
     </>
-  );
+  ) : null;
 }
 
 CertificatePreference.propTypes = {

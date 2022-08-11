@@ -20,10 +20,12 @@ import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import appMessages from './i18n';
 
 import './index.scss';
+import Head from './head/Head';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
+      <Head />
       <Switch>
         <Route path="/coaching_consent" component={CoachingConsent} />
         <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -34,20 +34,20 @@ function NameChangeModal({
   const [verifiedNameInput, setVerifiedNameInput] = useState(formValues.verified_name || '');
   const [confirmedWarning, setConfirmedWarning] = useState(false);
 
-  function resetLocalState() {
+  const resetLocalState = useCallback(() => {
     setConfirmedWarning(false);
     dispatch(requestNameChangeReset());
-  }
+  }, [dispatch]);
 
   function handleChange(e) {
     setVerifiedNameInput(e.target.value);
   }
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     resetLocalState();
     dispatch(closeForm(targetFormId));
     dispatch(saveSettingsReset());
-  }
+  }, [dispatch, resetLocalState, targetFormId]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -71,7 +71,7 @@ function NameChangeModal({
       handleClose();
       push(`/id-verification?next=${encodeURIComponent('account/settings')}`);
     }
-  }, [saveState]);
+  }, [handleClose, push, saveState]);
 
   function renderErrors() {
     if (Object.keys(errors).length > 0) {
