@@ -651,7 +651,9 @@ class AccountSettingsPage extends React.Component {
             name="level_of_education"
             type="select"
             value={this.props.formValues.level_of_education}
-            options={educationLevelOptions}
+            options={getConfig().ENABLE_COPPA_COMPLIANCE
+              ? educationLevelOptions.filter(option => option.value !== 'el')
+              : educationLevelOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.education.empty'])}
             {...editableFieldProps}

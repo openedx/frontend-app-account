@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Button, Form, StatefulButton,
@@ -44,10 +43,6 @@ function EditableSelectField(props) {
     ...others
   } = props;
   const id = `field-${name}`;
-  let inputOptions = options;
-  if (getConfig().ENABLE_COPPA_COMPLIANCE && name === 'level_of_education' && options) {
-    inputOptions = options.filter(option => option.value !== 'el');
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -104,7 +99,7 @@ function EditableSelectField(props) {
     });
   };
   const selectOptions = options.map(option => (
-    <option value={option.value}>{option.label}</option>
+    <option value={option.value} key={`${option.value}-${option.label}`}>{option.label}</option>
   ));
 
   return (
@@ -127,7 +122,6 @@ function EditableSelectField(props) {
                   as={type}
                   value={value}
                   onChange={handleChange}
-                  options={inputOptions}
                   {...others}
                 >
                   {options.length > 0 && selectOptions}

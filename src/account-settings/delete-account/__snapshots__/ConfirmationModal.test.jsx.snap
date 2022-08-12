@@ -186,16 +186,14 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
       <div
-        data-focus-lock-disabled={false}
+        data-focus-lock-disabled="disabled"
         onBlur={[Function]}
         onFocus={[Function]}
-        onMouseDown={[Function]}
         onScrollCapture={[Function]}
         onTouchMoveCapture={[Function]}
-        onTouchStart={[Function]}
         onWheelCapture={[Function]}
       >
         <div
@@ -295,7 +293,6 @@ Array [
                   className="pgn__form-control-decorator-group"
                 >
                   <input
-                    aria-describedby="passwordFieldId-7"
                     className="has-value form-control is-invalid"
                     id="passwordFieldId"
                     name="password"
@@ -307,7 +304,6 @@ Array [
                 </div>
                 <div
                   className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
-                  id="passwordFieldId-7"
                 >
                   <span
                     className="pgn__icon"
@@ -368,7 +364,7 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
     </div>
   </div>,
@@ -404,14 +400,16 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={-1}
+        tabIndex={0}
       />
       <div
-        data-focus-lock-disabled="disabled"
+        data-focus-lock-disabled={false}
         onBlur={[Function]}
         onFocus={[Function]}
+        onMouseDown={[Function]}
         onScrollCapture={[Function]}
         onTouchMoveCapture={[Function]}
+        onTouchStart={[Function]}
         onWheelCapture={[Function]}
       >
         <div
@@ -525,7 +523,7 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={-1}
+        tabIndex={0}
       />
     </div>
   </div>,
