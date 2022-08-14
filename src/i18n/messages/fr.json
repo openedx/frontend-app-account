@@ -209,6 +209,7 @@
   "account.settings.sso.account.disconnect.error": "Un problème est survenu lors de la déconnexion de ce compte. Contactez le support si le problème persiste.",
   "account.settings.sso.unlink.account": "Dissocier le compte {name}",
   "account.settings.sso.no.providers": "Aucun compte ne peut être lié pour le moment.",
+  "account.page.title": "Account | {siteName}",
   "id.verification.access.blocked.denied": "Nous ne pouvez pas vérifier votre identité pour le moment. Si vous n'avez pas encore activé votre compte, veuillez vérifier votre dossier de pourriels pour le courriel d'activation de {email}.",
   "id.verification.next": "Suivant",
   "id.verification.support": "support",
