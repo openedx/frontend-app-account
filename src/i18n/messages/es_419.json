@@ -209,6 +209,7 @@
   "account.settings.sso.account.disconnect.error": "Hubo un problema al desconectar esta Cuenta. Si el problema persiste, contacte soporte.",
   "account.settings.sso.unlink.account": "Desvincular la cuenta de {accountName} ",
   "account.settings.sso.no.providers": "No se pueden vincular cuentas en este momento.",
+  "account.page.title": "Account | {siteName}",
   "id.verification.access.blocked.denied": "No podemos verificar tu identidad en este momento. Si aún no has activado tu cuenta, comprueba en tu carpeta de correo no deseado el correo de activación de {email}.",
   "id.verification.next": "Siguiente",
   "id.verification.support": "soporte",
