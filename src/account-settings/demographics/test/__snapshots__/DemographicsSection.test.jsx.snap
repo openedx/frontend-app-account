@@ -710,9 +710,7 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
     >
       <div />
       <div>
-        <span>
-          An error occurred attempting to retrieve or save your account information. Please try again later.
-        </span>
+        An error occurred attempting to retrieve or save your account information. Please try again later.
       </div>
     </div>
   </div>
@@ -1370,9 +1368,7 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
     >
       <div />
       <div>
-        <span>
-          An error occurred attempting to retrieve or save your account information. Please try again later.
-        </span>
+        An error occurred attempting to retrieve or save your account information. Please try again later.
       </div>
     </div>
   </div>

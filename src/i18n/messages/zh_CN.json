@@ -209,6 +209,7 @@
   "account.settings.sso.account.disconnect.error": "There was a problem disconnecting this account. Contact support if the problem persists.",
   "account.settings.sso.unlink.account": "Unlink {name} account",
   "account.settings.sso.no.providers": "No accounts can be linked at this time.",
+  "account.page.title": "Account | {siteName}",
   "id.verification.access.blocked.denied": "We cannot verify your identity at this time. If you have yet to activate your account, please check your spam folder for the activation email from {email}.",
   "id.verification.next": "Next",
   "id.verification.support": "support",
