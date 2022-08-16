@@ -5,14 +5,16 @@ import { getConfig } from '@edx/frontend-platform';
 
 import messages from './messages';
 
-const Head = ({ intl }) => (
-  <Helmet>
-    <title>
-      {intl.formatMessage(messages['account.page.title'], { siteName: getConfig().SITE_NAME })}
-    </title>
-    <link rel="shortcut icon" href={getConfig().FAVICON_URL} type="image/x-icon" />
-  </Helmet>
-);
+function Head({ intl }) {
+  return (
+    <Helmet>
+      <title>
+        {intl.formatMessage(messages['account.page.title'], { siteName: getConfig().SITE_NAME })}
+      </title>
+      <link rel="shortcut icon" href={getConfig().FAVICON_URL} type="image/x-icon" />
+    </Helmet>
+  );
+}
 
 Head.propTypes = {
   intl: intlShape.isRequired,
