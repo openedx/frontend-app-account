@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-exports
 export { default } from './AccountSettingsPage';
 export { default as reducer } from './data/reducers';
 export { default as saga } from './data/sagas';

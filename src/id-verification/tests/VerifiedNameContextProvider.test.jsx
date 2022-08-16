@@ -4,14 +4,12 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import { getVerifiedNameHistory } from '../../account-settings/data/service';
 import { VerifiedNameContext, VerifiedNameContextProvider } from '../VerifiedNameContext';
 
-const VerifiedNameContextTestComponent = () => {
+function VerifiedNameContextTestComponent() {
   const { verifiedName } = useContext(VerifiedNameContext);
   return (
-    <>
-      {verifiedName && (<div data-testid="verified-name">{verifiedName}</div>)}
-    </>
+    verifiedName && (<div data-testid="verified-name">{verifiedName}</div>)
   );
-};
+}
 
 jest.mock('../../account-settings/data/service', () => ({
   getVerifiedNameHistory: jest.fn(() => ({})),

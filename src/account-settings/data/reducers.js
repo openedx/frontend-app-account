@@ -41,7 +41,7 @@ export const defaultState = {
   verifiedNameHistory: {},
 };
 
-const reducer = (state = defaultState, action) => {
+const reducer = (state = defaultState, action = {}) => {
   let dispatcherIsOpenForm;
 
   switch (action.type) {

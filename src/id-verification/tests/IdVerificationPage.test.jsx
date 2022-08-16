@@ -18,15 +18,33 @@ jest.mock('../VerifiedNameContext', () => {
     VerifiedNameContextProvider: jest.fn(({ children }) => children),
   };
 });
-jest.mock('../panels/ReviewRequirementsPanel', () => () => (<></>));
-jest.mock('../panels/RequestCameraAccessPanel', () => () => (<></>));
-jest.mock('../panels/PortraitPhotoContextPanel', () => () => (<></>));
-jest.mock('../panels/TakePortraitPhotoPanel', () => () => (<></>));
-jest.mock('../panels/IdContextPanel', () => () => (<></>));
-jest.mock('../panels/GetNameIdPanel', () => () => (<></>));
-jest.mock('../panels/TakeIdPhotoPanel', () => () => (<></>));
-jest.mock('../panels/SummaryPanel', () => () => (<></>));
-jest.mock('../panels/SubmittedPanel', () => () => (<></>));
+jest.mock('../panels/ReviewRequirementsPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/RequestCameraAccessPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/PortraitPhotoContextPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/TakePortraitPhotoPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/IdContextPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/GetNameIdPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/TakeIdPhotoPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/SummaryPanel', () => function () {
+  return null;
+});
+jest.mock('../panels/SubmittedPanel', () => function () {
+  return null;
+});
 
 const IntlIdVerificationPage = injectIntl(IdVerificationPage);
 
