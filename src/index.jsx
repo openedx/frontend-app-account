@@ -66,6 +66,7 @@ initialize({
         ENABLE_DEMOGRAPHICS_COLLECTION: (process.env.ENABLE_DEMOGRAPHICS_COLLECTION || false),
         DEMOGRAPHICS_BASE_URL: process.env.DEMOGRAPHICS_BASE_URL,
         ENABLE_COPPA_COMPLIANCE: (process.env.ENABLE_COPPA_COMPLIANCE || false),
+        ENABLE_DOB_UPDATE: (process.env.ENABLE_DOB_UPDATE || false),
         MARKETING_EMAILS_OPT_IN: (process.env.MARKETING_EMAILS_OPT_IN || false),
       }, 'App loadConfig override handler');
     },

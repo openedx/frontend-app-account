@@ -10,6 +10,11 @@ export const YEAR_OF_BIRTH_OPTIONS = (() => {
   return years.reverse();
 })();
 
+export const COPPA_COMPLIANCE_YEAR = (() => {
+  const currentYear = new Date().getFullYear();
+  return currentYear - 13;
+})();
+
 export const EDUCATION_LEVELS = [
   '',
   'p',
