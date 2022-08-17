@@ -5,7 +5,7 @@ import { Hyperlink } from '@edx/paragon';
 import { getConfig } from '@edx/frontend-platform';
 import messages from './messages';
 
-const PrintingInstructions = (props) => {
+function PrintingInstructions(props) {
   const actionLink = (
     <Hyperlink
       // TODO: What would a generic version of this link look like?  Should
@@ -38,7 +38,7 @@ const PrintingInstructions = (props) => {
       values={{ actionLink }}
     />
   );
-};
+}
 
 PrintingInstructions.propTypes = {
   intl: intlShape.isRequired,

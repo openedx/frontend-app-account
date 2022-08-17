@@ -209,6 +209,7 @@
   "account.settings.sso.account.disconnect.error": "حدثت مشكلة أثناء قطع اتصال هذا الحساب، اتصل بالدعم عند استمرار المشكلة.",
   "account.settings.sso.unlink.account": "إلغاء ربط حساب {name} ",
   "account.settings.sso.no.providers": "لا يمكن ربط أية حسابات حاليًا",
+  "account.page.title": "Account | {siteName}",
   "id.verification.access.blocked.denied": "We cannot verify your identity at this time. If you have yet to activate your account, please check your spam folder for the activation email from {email}.",
   "id.verification.next": "التالي",
   "id.verification.support": "support",

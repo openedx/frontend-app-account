@@ -75,7 +75,7 @@ class DemographicsSection extends React.Component {
       const matchingOption = demographicsEthnicityOptions.filter(option => option.value === e)[0];
       return matchingOption && matchingOption.label;
     }).join(', ');
-  }
+  };
 
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
@@ -317,7 +317,7 @@ DemographicsSection.propTypes = {
   intl: intlShape.isRequired,
   formValues: PropTypes.shape({
     demographics_gender: PropTypes.string,
-    demographics_user_ethnicity: PropTypes.array,
+    demographics_user_ethnicity: PropTypes.shape([]),
     demographics_income: PropTypes.string,
     demographics_military_history: PropTypes.string,
     demographics_learner_education_level: PropTypes.string,
@@ -327,11 +327,11 @@ DemographicsSection.propTypes = {
     demographics_future_work_sector: PropTypes.string,
     demographics_work_status_description: PropTypes.string,
     demographics_gender_description: PropTypes.string,
-    demographicsOptions: PropTypes.object,
+    demographicsOptions: PropTypes.shape({}),
   }).isRequired,
   drafts: PropTypes.shape({
     demographics_gender: PropTypes.string,
-    demographics_user_ethnicity: PropTypes.array,
+    demographics_user_ethnicity: PropTypes.shape([]),
     demographics_income: PropTypes.string,
     demographics_military_history: PropTypes.string,
     demographics_learner_education_level: PropTypes.string,
@@ -341,7 +341,7 @@ DemographicsSection.propTypes = {
     demographics_future_work_sector: PropTypes.string,
     demographics_work_status_description: PropTypes.string,
     demographics_gender_description: PropTypes.string,
-    demographicsOptions: PropTypes.object,
+    demographicsOptions: PropTypes.shape({}),
   }).isRequired,
   formErrors: PropTypes.shape({
     demographicsError: PropTypes.string,

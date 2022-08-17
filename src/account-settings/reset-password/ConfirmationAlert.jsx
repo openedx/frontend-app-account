@@ -7,7 +7,7 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 import Alert from '../Alert';
 
-const ConfirmationAlert = (props) => {
+function ConfirmationAlert(props) {
   const { email } = props;
 
   const technicalSupportLink = (
@@ -38,7 +38,7 @@ const ConfirmationAlert = (props) => {
       />
     </Alert>
   );
-};
+}
 
 ConfirmationAlert.propTypes = {
   email: PropTypes.string.isRequired,

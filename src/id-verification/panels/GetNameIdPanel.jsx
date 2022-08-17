@@ -30,12 +30,12 @@ function GetNameIdPanel(props) {
     }
   }, [idPhotoName, location.state, nameOnAccountValue, setIdPhotoName]);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
       push(nextPanelSlug);
     }
-  }
+  };
 
   return (
     <BasePanel
