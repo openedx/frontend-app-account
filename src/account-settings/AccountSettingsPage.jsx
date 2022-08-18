@@ -148,13 +148,28 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  sortDates = (a, b) => {
+    const aTimeSinceEpoch = new Date(a).getTime();
+    const bTimeSinceEpoch = new Date(b).getTime();
+
+    return bTimeSinceEpoch - aTimeSinceEpoch;
+  }
+
+  sortVerifiedNameRecords = verifiedNameHistory => {
+    if (Array.isArray(verifiedNameHistory)) {
+      return [...verifiedNameHistory].sort(this.sortDates);
+    }
+
+    return [];
+  }
+
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
-  };
+  }
 
   handleSubmit = (formId, values) => {
     this.props.saveSettings(formId, values);
-  };
+  }
 
   handleSubmitProfileName = (formId, values) => {
     if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
@@ -182,7 +197,7 @@ class AccountSettingsPage extends React.Component {
     } else {
       this.props.saveSettings(formId, values);
     }
-  };
+  }
 
   isEditable(fieldName) {
     return !this.props.staticFields.includes(fieldName);
@@ -267,7 +282,7 @@ class AccountSettingsPage extends React.Component {
     }
 
     return this.props.intl.formatMessage(messages[messageString]);
-  };
+  }
 
   renderVerifiedNameSuccessMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
@@ -282,7 +297,7 @@ class AccountSettingsPage extends React.Component {
         body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
       />
     );
-  };
+  }
 
   renderVerifiedNameFailureMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
@@ -313,7 +328,7 @@ class AccountSettingsPage extends React.Component {
         }
       />
     );
-  };
+  }
 
   renderVerifiedNameSubmittedMessage = (willCertNameChange) => (
     <Alert
@@ -331,7 +346,7 @@ class AccountSettingsPage extends React.Component {
         }
       </p>
     </Alert>
-  );
+  )
 
   renderVerifiedNameMessage = verifiedNameRecord => {
     const {
@@ -372,7 +387,7 @@ class AccountSettingsPage extends React.Component {
       default:
         return null;
     }
-  };
+  }
 
   renderVerifiedNameIcon = (status) => {
     switch (status) {
@@ -383,7 +398,7 @@ class AccountSettingsPage extends React.Component {
       default:
         return null;
     }
-  };
+  }
 
   renderVerifiedNameHelpText = (status, proctoredExamId) => {
     let messageStr = 'account.settings.field.name.verified.help.text';
@@ -408,7 +423,7 @@ class AccountSettingsPage extends React.Component {
     }
 
     return this.props.intl.formatMessage(messages[messageStr]);
-  };
+  }
 
   renderEmptyStaticFieldMessage() {
     if (this.isManagedProfile()) {

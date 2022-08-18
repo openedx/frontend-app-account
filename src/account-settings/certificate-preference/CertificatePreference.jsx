@@ -34,7 +34,7 @@ function CertificatePreference({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formId = 'useVerifiedNameForCerts';
 
-  const handleCheckboxChange = () => {
+  function handleCheckboxChange() {
     if (!checked) {
       if (fieldName === 'verified_name') {
         dispatch(updateDraft(formId, true));
@@ -44,22 +44,22 @@ function CertificatePreference({
     } else {
       setModalIsOpen(true);
     }
-  };
+  }
 
-  const handleCancel = () => {
+  function handleCancel() {
     setModalIsOpen(false);
     dispatch(resetDrafts());
-  };
+  }
 
-  const handleModalChange = (e) => {
+  function handleModalChange(e) {
     if (e.target.value === 'fullName') {
       dispatch(updateDraft(formId, false));
     } else {
       dispatch(updateDraft(formId, true));
     }
-  };
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (saveState === 'pending') {
@@ -67,7 +67,7 @@ function CertificatePreference({
     }
 
     dispatch(saveSettings(formId, useVerifiedNameForCerts));
-  };
+  }
 
   useEffect(() => {
     if (originalVerifiedName) {

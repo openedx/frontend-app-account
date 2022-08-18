@@ -59,9 +59,8 @@ function SummaryPanel(props) {
     );
   }
 
-  // eslint-disable-next-line react/no-unstable-nested-components
   function SubmitButton() {
-    const handleClick = async () => {
+    async function handleClick() {
       setIsSubmitting(true);
       const verificationData = {
         facePhotoFile,
@@ -86,7 +85,7 @@ function SummaryPanel(props) {
         setIsSubmitting(false);
         setSubmissionError(result);
       }
-    };
+    }
     return (
       <Button
         title="Confirmation"

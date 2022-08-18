@@ -14,14 +14,14 @@ function CameraHelpWithUpload(props) {
   const { setIdPhotoFile, idPhotoFile, userId } = useContext(IdVerificationContext);
   const [hasUploadedImage, setHasUploadedImage] = useState(false);
 
-  const setAndTrackIdPhotoFile = (image) => {
+  function setAndTrackIdPhotoFile(image) {
     sendTrackEvent('edx.id_verification.upload_id', {
       category: 'id_verification',
       user_id: userId,
     });
     setHasUploadedImage(true);
     setIdPhotoFile(image);
-  };
+  }
 
   return (
     <div>

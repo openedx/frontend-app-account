@@ -1,4 +1,4 @@
-import React, { createContext, useMemo } from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { getVerifiedNameHistory } from '../account-settings/data/service';
@@ -18,10 +18,10 @@ export function VerifiedNameContextProvider({ children }) {
     verifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
   }
 
-  const value = useMemo(() => ({
+  const value = {
     verifiedNameHistoryCallStatus: status,
     verifiedName,
-  }), [status, verifiedName]);
+  };
 
   return (<VerifiedNameContext.Provider value={value}>{children}</VerifiedNameContext.Provider>);
 }

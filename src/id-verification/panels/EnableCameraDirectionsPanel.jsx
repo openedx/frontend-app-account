@@ -63,7 +63,6 @@ export function EnableCameraDirectionsPanel(props) {
       </>
     );
   }
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
 }
 

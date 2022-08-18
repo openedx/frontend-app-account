@@ -13,7 +13,6 @@ jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');
 jest.mock('@edx/frontend-platform/analytics');
 
-// eslint-disable-next-line no-import-assign
 analytics.sendTrackEvent = jest.fn();
 
 window.HTMLMediaElement.prototype.play = () => {};

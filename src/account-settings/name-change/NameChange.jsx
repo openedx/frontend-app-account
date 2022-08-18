@@ -39,9 +39,9 @@ function NameChangeModal({
     dispatch(requestNameChangeReset());
   }, [dispatch]);
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     setVerifiedNameInput(e.target.value);
-  };
+  }
 
   const handleClose = useCallback(() => {
     resetLocalState();
@@ -49,7 +49,7 @@ function NameChangeModal({
     dispatch(saveSettingsReset());
   }, [dispatch, resetLocalState, targetFormId]);
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (saveState === 'pending') {
@@ -64,7 +64,7 @@ function NameChangeModal({
       const draftProfileName = targetFormId === 'name' ? formValues.name : null;
       dispatch(requestNameChange(username, draftProfileName, verifiedNameInput));
     }
-  };
+  }
 
   useEffect(() => {
     if (saveState === 'complete') {

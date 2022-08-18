@@ -175,7 +175,7 @@ class Camera extends React.Component {
     if (predictions.length === 0) {
       this.giveFeedback(predictions.length, [], false);
     }
-  };
+  }
 
   startDetection() {
     setTimeout(() => {

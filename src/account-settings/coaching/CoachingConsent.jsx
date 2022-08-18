@@ -17,28 +17,27 @@ import LogoSVG from '../../logo.svg';
 import { fetchSettings } from '../data/actions';
 import { coachingConsentPageSelector } from '../data/selectors';
 
-function Logo({ src, alt, ...attributes }) {
-  return <img src={src} alt={alt} {...attributes} />;
-}
+const Logo = ({ src, alt, ...attributes }) => (
+  <>
+    <img src={src} alt={alt} {...attributes} />
+  </>
+);
 
-function SuccessMessage(props) {
-  return (
-    <div className="col-12 col-lg-6 shadow-lg mx-auto mt-4 p-5">
-      <FontAwesomeIcon className="text-success" icon={faCheck} size="5x" />
-      <div className="h3">{props.header}</div>
-      <div>{props.message}</div>
-      <Hyperlink destination={props.continueUrl} className="d-block p-2 my-3 text-center text-white bg-primary rounded">
-        {props.continue}
-      </Hyperlink>
-    </div>
-  );
-}
+const SuccessMessage = props => (
+  <div className="col-12 col-lg-6 shadow-lg mx-auto mt-4 p-5">
+    <FontAwesomeIcon className="text-success" icon={faCheck} size="5x" />
+    <div className="h3">{props.header}</div>
+    <div>{props.message}</div>
+    <Hyperlink destination={props.continueUrl} className="d-block p-2 my-3 text-center text-white bg-primary rounded">
+      {props.continue}
+    </Hyperlink>
+  </div>
+);
 
-function AutoRedirect(props) {
+const AutoRedirect = (props) => {
   window.location.href = props.redirectUrl;
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
-}
+};
 
 const VIEWS = {
   NOT_LOADED: 'NOT_LOADED',
@@ -72,23 +71,6 @@ class CoachingConsent extends React.Component {
     this.props.fetchSettings();
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const fullName = e.target.fullName.value;
-    const phoneNumber = e.target.phoneNumber.value;
-    const body = {
-      coaching_consent: true,
-      consent_form_seen: true,
-      phone_number: phoneNumber,
-      full_name: fullName,
-    };
-    this.setState({
-      formErrors: {},
-      formSubmitted: true,
-      declineSubmitted: false,
-    }, () => this.patchUsingCoachingConsentForm(body));
-  }
-
   sanitizeForwardingUrl(url) {
     // Redirect to root of MFE if invalid next param is sent
     return url && url.startsWith(getConfig().LMS_BASE_URL) ? url : `${getConfig().LMS_BASE_URL}/dashboard/`;
@@ -115,6 +97,23 @@ class CoachingConsent extends React.Component {
     if (get(data, 'status') === 200) {
       this.setState({ submissionSuccess: true });
     }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const fullName = e.target.fullName.value;
+    const phoneNumber = e.target.phoneNumber.value;
+    const body = {
+      coaching_consent: true,
+      consent_form_seen: true,
+      phone_number: phoneNumber,
+      full_name: fullName,
+    };
+    this.setState({
+      formErrors: {},
+      formSubmitted: true,
+      declineSubmitted: false,
+    }, () => this.patchUsingCoachingConsentForm(body));
   }
 
   declineCoaching(e) {
@@ -161,7 +160,6 @@ class CoachingConsent extends React.Component {
       case VIEWS.DECLINED:
         return <AutoRedirect redirectUrl={this.state.redirectUrl} />;
       default:
-        // eslint-disable-next-line react/jsx-no-useless-fragment
         return <></>;
     }
   }
@@ -255,12 +253,12 @@ CoachingConsent.propTypes = {
     }),
   }).isRequired,
   formErrors: PropTypes.shape({
-    coaching: PropTypes.shape({}),
+    coaching: PropTypes.object,
   }).isRequired,
   confirmationValues: PropTypes.shape({
-    coaching: PropTypes.shape({}),
-    name: PropTypes.shape({}),
-    phone_number: PropTypes.shape({}),
+    coaching: PropTypes.object,
+    name: PropTypes.object,
+    phone_number: PropTypes.object,
   }).isRequired,
   fetchSettings: PropTypes.func.isRequired,
   profileDataManager: PropTypes.string,

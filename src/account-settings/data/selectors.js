@@ -179,7 +179,7 @@ const formValuesSelector = createSelector(
 
 const transformTimeZonesToOptions = timeZoneArr => timeZoneArr
   .map(({ time_zone, description }) => ({ // eslint-disable-line camelcase
-    value: time_zone, label: description, // eslint-disable-line camelcase
+    value: time_zone, label: description,
   }));
 
 const timeZonesSelector = createSelector(

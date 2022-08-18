@@ -1,4 +1,3 @@
-/* eslint-disable no-import-assign */
 import * as auth from '@edx/frontend-platform/auth';
 
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';

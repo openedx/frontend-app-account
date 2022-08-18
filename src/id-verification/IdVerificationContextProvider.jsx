@@ -1,6 +1,4 @@
-import React, {
-  useState, useContext, useEffect, useMemo,
-} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 
@@ -72,7 +70,7 @@ export default function IdVerificationContextProvider({ children }) {
     }
   }
 
-  const contextValue = useMemo(() => ({
+  const contextValue = {
     existingIdVerification,
     facePhotoFile,
     idPhotoFile,
@@ -110,9 +108,7 @@ export default function IdVerificationContextProvider({ children }) {
         setMediaStream(null);
       }
     },
-  }), [authenticatedUser.name, authenticatedUser.userId, existingIdVerification, facePhotoFile,
-    idPhotoFile, idPhotoName, mediaAccess, mediaStream, profileDataManager, reachedSummary,
-    useCameraForId, verifiedName]);
+  };
 
   const loadingStatuses = [IDLE_STATUS, LOADING_STATUS];
   // If we are waiting for verification status or verified name history endpoint, show spinner.

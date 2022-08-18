@@ -128,7 +128,7 @@ function EditableField(props) {
                   options={inputOptions}
                   {...others}
                 />
-                {others.children}
+                <>{others.children}</>
               </ValidationFormGroup>
               <p>
                 <StatefulButton

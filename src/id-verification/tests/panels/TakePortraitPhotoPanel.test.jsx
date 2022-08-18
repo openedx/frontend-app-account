@@ -12,9 +12,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../Camera', () => function () {
-  return null;
-});
+jest.mock('../../Camera', () => () => (<></>));
 
 const history = createMemoryHistory();
 

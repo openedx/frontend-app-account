@@ -16,7 +16,7 @@ class ThirdPartyAuth extends Component {
     }
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
     this.props.disconnectAuth(disconnectUrl, providerId);
-  };
+  }
 
   renderUnconnectedProvider(url, name) {
     return (
