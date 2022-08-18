@@ -37,11 +37,13 @@ import ThirdPartyAuth from './third-party-auth';
 import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
 import OneTimeDismissibleAlert from './OneTimeDismissibleAlert';
+import DOBModal from './DOBForm';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
   GENDER_OPTIONS,
   COUNTRY_WITH_STATES,
+  COPPA_COMPLIANCE_YEAR,
   getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
@@ -479,13 +481,37 @@ class AccountSettingsPage extends React.Component {
     );
 
     const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
+
+    // if user is under 13 and does not have cookie set
+    const shouldUpdateDOB = (
+      getConfig().ENABLE_COPPA_COMPLIANCE
+      && getConfig().ENABLE_DOB_UPDATE
+      && this.props.formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
+      && !localStorage.getItem('submittedDOB')
+    );
     return (
       <>
+        { shouldUpdateDOB
+          && (
+          <DOBModal
+            {...editableFieldProps}
+          />
+          )}
         <div className="account-section pt-3 mb-5" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           {
             this.props.mostRecentVerifiedName
             && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
           }
+          {localStorage.getItem('submittedDOB')
+            && (
+            <OneTimeDismissibleAlert
+              id="updated-dob"
+              variant="success"
+              icon={CheckCircle}
+              header={this.props.intl.formatMessage(messages['account.settings.field.dob.form.success'])}
+              body=""
+            />
+            )}
 
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
