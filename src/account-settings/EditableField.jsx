@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -128,7 +129,7 @@ function EditableField(props) {
                   options={inputOptions}
                   {...others}
                 />
-                {others.children}
+                <>{others.children}</>
               </ValidationFormGroup>
               <p>
                 <StatefulButton

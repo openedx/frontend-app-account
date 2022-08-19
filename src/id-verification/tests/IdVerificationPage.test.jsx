@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -19,31 +20,31 @@ jest.mock('../VerifiedNameContext', () => {
   };
 });
 jest.mock('../panels/ReviewRequirementsPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/RequestCameraAccessPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/PortraitPhotoContextPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/TakePortraitPhotoPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/IdContextPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/GetNameIdPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/TakeIdPhotoPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/SummaryPanel', () => function () {
-  return null;
+  return <></>;
 });
 jest.mock('../panels/SubmittedPanel', () => function () {
-  return null;
+  return <></>;
 });
 
 const IntlIdVerificationPage = injectIntl(IdVerificationPage);

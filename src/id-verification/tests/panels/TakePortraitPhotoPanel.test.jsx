@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -13,7 +14,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 jest.mock('../../Camera', () => function () {
-  return null;
+  return <></>;
 });
 
 const history = createMemoryHistory();
