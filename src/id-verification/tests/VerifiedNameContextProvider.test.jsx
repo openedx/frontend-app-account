@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useContext } from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 
@@ -7,7 +8,9 @@ import { VerifiedNameContext, VerifiedNameContextProvider } from '../VerifiedNam
 function VerifiedNameContextTestComponent() {
   const { verifiedName } = useContext(VerifiedNameContext);
   return (
-    verifiedName && (<div data-testid="verified-name">{verifiedName}</div>)
+    <>
+      {verifiedName && (<div data-testid="verified-name">{verifiedName}</div>)}
+    </>
   );
 }
 
