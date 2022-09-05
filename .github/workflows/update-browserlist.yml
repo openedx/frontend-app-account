@@ -1,7 +1,8 @@
 name: Update Browserlist DB
 on:
   schedule:
-    - cron:  '*/5 * * * *' # for testing, once testing is done, we'll shift it to '0 0 * * 1' i.e every Monday
+    - cron:  '0 0 * * 1'
+  workflow_dispatch:
 
 env:
   PR_TITLE: Update browserslist DB
