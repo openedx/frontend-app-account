@@ -8,7 +8,7 @@ env:
   PR_TITLE: Update browserslist DB
   COMMIT_MESSAGE: "chore: update browserslist"
   PR_BODY: Updated browserlist DB
-  BRANCH_NAME: update-browserslist
+  BRANCH_NAME: "update-browserslist"
 
 jobs:
   update-dep:
@@ -29,7 +29,7 @@ jobs:
     - name: Update dependencies
       run: npx browserslist@latest --update-db
 
-    -  name: setup testeng-ci
+    - name: setup testeng-ci
       run: |
         git clone https://github.com/edx/testeng-ci.git
         cd $GITHUB_WORKSPACE/testeng-ci
