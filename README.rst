@@ -12,7 +12,7 @@ This is a micro-frontend application responsible for the display and updating of
 
 What is the domain of this MFE?
 
-In this MFE: Private user settings UIs. Public facing profile is in a `separate MFE (Profile) <https://github.com/edx/frontend-app-profile>`_
+In this MFE: Private user settings UIs. Public facing profile is in a `separate MFE (Profile) <https://github.com/openedx/frontend-app-profile>`_
 
 - Account settings page
 
@@ -23,9 +23,9 @@ In this MFE: Private user settings UIs. Public facing profile is in a `separate 
 Installation
 ------------
 
-This MFE is bundled with `Devstack <https://github.com/edx/devstack>`_, see the `Getting Started <https://github.com/edx/devstack#getting-started>`_ section for setup instructions.
+This MFE is bundled with `Devstack <https://github.com/openedx/devstack>`_, see the `Getting Started <https://github.com/openedx/devstack#getting-started>`_ section for setup instructions.
 
-1. Install Devstack using the `Getting Started <https://github.com/edx/devstack#getting-started>`_ instructions.
+1. Install Devstack using the `Getting Started <https://github.com/openedx/devstack#getting-started>`_ instructions.
 
 2. Start up Devstack, if it's not already started.
 
@@ -102,8 +102,8 @@ In the future, it's possible that demographics could be modeled as a plugin rath
 
 ==============================
 
-.. |ci-badge| image:: https://github.com/edx/edx-developer-docs/actions/workflows/ci.yml/badge.svg
-   :target: https://github.com/edx/edx-developer-docs/actions/workflows/ci.yml
+.. |ci-badge| image:: https://github.com/openedx/edx-developer-docs/actions/workflows/ci.yml/badge.svg
+   :target: https://github.com/openedx/edx-developer-docs/actions/workflows/ci.yml
    :alt: Continuous Integration
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/edx/frontend-app-account
    :target: https://codecov.io/gh/edx/frontend-app-account

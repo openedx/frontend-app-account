@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edx/frontend-app-account.git"
+    "url": "git+https://github.com/openedx/frontend-app-account.git"
   },
   "scripts": {
     "build": "fedx-scripts webpack",
@@ -17,9 +17,9 @@
     "test": "TZ=UTC fedx-scripts jest --coverage --passWithNoTests"
   },
   "bugs": {
-    "url": "https://github.com/edx/frontend-app-account/issues"
+    "url": "https://github.com/openedx/frontend-app-account/issues"
   },
-  "homepage": "https://github.com/edx/frontend-app-account#readme",
+  "homepage": "https://github.com/openedx/frontend-app-account#readme",
   "publishConfig": {
     "access": "public"
   },
