@@ -288,12 +288,12 @@ const messages = defineMessages({
   },
   'account.settings.field.dob.form.help.text': {
     id: 'account.settings.field.dob.form.help.text',
-    defaultMessage: 'We ask for birthday information to ensure that underage people aren’t using edX.',
+    defaultMessage: 'We ask for birth date information to help us comply with our legal obligations.',
     description: 'Help text for DOB form',
   },
   'account.settings.field.dob.form.success': {
     id: 'account.settings.field.dob.form.success',
-    defaultMessage: 'Thank you for entering your birthday information.',
+    defaultMessage: 'Thank you for entering your birth date information.',
     description: 'Title of banner when date of birth is successfully entered',
   },
   'account.settings.field.month_of_birth.options.empty': {
