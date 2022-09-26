@@ -6,6 +6,18 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="shortcut icon" href="<%=htmlWebpackPlugin.options.FAVICON_URL%>" type="image/x-icon" />
       <script src="https://cdn.tailwindcss.com"></script>
+      <script>
+        tailwind.config = {
+          prefix: 'tw-',
+          corePlugins: {
+            preflight: false
+          },
+          important: true,
+          theme: {
+            extend: {}
+          }
+        }
+      </script>
       <% if (process.env.OPTIMIZELY_PROJECT_ID) { %>
         <script
           src="<%= process.env.MARKETING_SITE_BASE_URL %>/optimizelyjs/<%= process.env.OPTIMIZELY_PROJECT_ID %>.js"
