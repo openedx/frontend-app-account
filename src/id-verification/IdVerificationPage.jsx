@@ -6,7 +6,7 @@ import {
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, ModalLayer, ModalCloseButton } from '@edx/paragon';
+import { Button, ModalDialog, ActionRow } from '@edx/paragon';
 import { getConfig } from '@edx/frontend-platform';
 import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
@@ -74,11 +74,19 @@ function IdVerificationPage(props) {
             </Button>
           </div>
         </div>
-
-        <ModalLayer isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-
-          <div className="mw-sm p-5 bg-white mx-auto my-5">
-            <h1>{props.intl.formatMessage(messages['id.verification.privacy.title'])}</h1>
+        <ModalDialog
+          isOpen={isModalOpen}
+          title="my modal"
+          onClose={() => setIsModalOpen(false)}
+          size="lg"
+          hasCloseButton={false}
+        >
+          <ModalDialog.Header>
+            <ModalDialog.Title>
+              {props.intl.formatMessage(messages['id.verification.privacy.title'])}
+            </ModalDialog.Title>
+          </ModalDialog.Header>
+          <ModalDialog.Body>
             <div className="p-3">
               <h6>
                 {props.intl.formatMessage(
@@ -100,12 +108,16 @@ function IdVerificationPage(props) {
                 )}
               </p>
             </div>
-            <p>
-              <ModalCloseButton className="float-right" variant="link">Close</ModalCloseButton>
-            </p>
-          </div>
+          </ModalDialog.Body>
+          <ModalDialog.Footer className="p-2">
+            <ActionRow>
+              <ModalDialog.CloseButton variant="link">
+                Close
+              </ModalDialog.CloseButton>
+            </ActionRow>
+          </ModalDialog.Footer>
+        </ModalDialog>
 
-        </ModalLayer>
       </div>
     </>
   );
