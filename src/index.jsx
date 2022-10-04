@@ -20,7 +20,10 @@ import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import appMessages from './i18n';
 
 import './index.scss';
+import './output.css'
 import Head from './head/Head';
+import {MyHeader} from './header/MyHeader'
+import {MyFooter} from './footer/MyFooter'
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -29,7 +32,7 @@ subscribe(APP_READY, () => {
       <Switch>
         <Route path="/coaching_consent" component={CoachingConsent} />
         <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-          <Header />
+          <MyHeader />         
           <main className="flex-grow-1">
             <Switch>
               <Route path="/id-verification" component={IdVerificationPage} />
@@ -38,7 +41,7 @@ subscribe(APP_READY, () => {
               <Route path="*" component={NotFoundPage} />
             </Switch>
           </main>
-          <Footer />
+          <MyFooter />        
         </div>
       </Switch>
     </AppProvider>,

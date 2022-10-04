@@ -4,20 +4,11 @@
       <title>Account | <%= process.env.SITE_NAME %></title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
       <link rel="shortcut icon" href="<%=htmlWebpackPlugin.options.FAVICON_URL%>" type="image/x-icon" />
-      <script src="https://cdn.tailwindcss.com"></script>
-      <script>
-        tailwind.config = {
-          prefix: 'tw-',
-          corePlugins: {
-            preflight: false
-          },
-          important: true,
-          theme: {
-            extend: {}
-          }
-        }
-      </script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
       <% if (process.env.OPTIMIZELY_PROJECT_ID) { %>
         <script
           src="<%= process.env.MARKETING_SITE_BASE_URL %>/optimizelyjs/<%= process.env.OPTIMIZELY_PROJECT_ID %>.js"

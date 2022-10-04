@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tw-shadow-all {
+    
+    box-shadow: 0px 0px 5px 0px  !important;
+}
+
+.tw-border-course:hover {
+    border-bottom: 3px #B80934 solid !important;
+}
+
+@layer components {
+
+    .btn-link {
+        @apply tw-text-primaryNavy hover:tw-bg-gray-200 hover:tw-pl-4 !important;
+    }
+
+    .form-control {
+        @apply tw-border-primaryNavy focus:tw-ring-0 !important;
+    }
+
+    .nav-link { 
+        @apply tw-text-primaryCrimson hover:tw-bg-white hover:tw-text-red-600 !important;
+    }
+
+    .tw-footer-link > li {
+        @apply -tw-ml-10 !important;
+    }
+
+    .tw-footer-link a {
+        @apply tw-text-sm tw-text-gray-800 tw-font-semibold !important;
+    }
+    
+    .container-fluid {
+        @apply tw-container !important;
+    }
+
+    .menu button {
+        @apply tw-border-none hover:tw-bg-white tw-space-x-10 tw-text-gray-800 !important;
+    }
+
+    .tw-main-dropdown > a > div {
+        @apply hover:tw-bg-gray-200 tw-flex tw-py-3 tw-text-gray-700 tw-justify-center !important;
+    }
+
+    .tw-main-dropdown > a {
+        @apply tw-no-underline !important;
+    }
+
+    .tw-mobile-dropdown-right > a > div {
+        @apply tw-cursor-pointer tw-py-2 hover:tw-bg-gray-200 tw-pl-5 !important;
+    }
+
+    .tw-mobile-dropdown-right > a {
+        @apply tw-no-underline tw-text-gray-800 !important;
+    }
+}
