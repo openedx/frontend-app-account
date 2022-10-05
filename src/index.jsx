@@ -33,7 +33,7 @@ subscribe(APP_READY, () => {
         <Route path="/coaching_consent" component={CoachingConsent} />
         <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
           <MyHeader />         
-          <main className="flex-grow-1">
+          <main className="flex-grow-1 tw-font-nunito">
             <Switch>
               <Route path="/id-verification" component={IdVerificationPage} />
               <Route exact path="/" component={AccountSettingsPage} />

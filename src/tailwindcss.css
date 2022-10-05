@@ -14,7 +14,7 @@
 @layer components {
 
     .btn-link {
-        @apply tw-text-primaryNavy hover:tw-bg-gray-200 hover:tw-pl-4 !important;
+        @apply tw-text-primaryNavy hover:tw-bg-gray-200 tw-p-2 !important;
     }
 
     .form-control {
@@ -55,5 +55,13 @@
 
     .tw-mobile-dropdown-right > a {
         @apply tw-no-underline tw-text-gray-800 !important;
+    }
+
+    .list-unstyled > li > a {
+        @apply tw-text-primaryNavy tw-no-underline hover:tw-bg-gray-200 tw-p-2 !important;
+    }
+
+    .font-weight-bold > a {
+        @apply tw-bg-gray-200 tw-p-2 !important;
     }
 }

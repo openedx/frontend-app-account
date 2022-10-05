@@ -297,10 +297,10 @@ class AccountSettingsPage extends React.Component {
         body={
           (
             <>
-              <div className="d-flex flex-row">
+              <div className="flex-row d-flex">
                 {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
               </div>
-              <div className="d-flex flex-row-reverse mt-3">
+              <div className="flex-row-reverse mt-3 d-flex">
                 <Button
                   variant="primary"
                   href="https://support.edx.org/hc/en-us/articles/360004381594-Why-was-my-ID-verification-denied"
@@ -497,7 +497,7 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
           )}
-        <div className="account-section pt-3 mb-5" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
+        <div className="pt-3 mb-5 account-section" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
           {
             this.props.mostRecentVerifiedName
             && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
@@ -513,7 +513,7 @@ class AccountSettingsPage extends React.Component {
             />
             )}
 
-          <h2 className="section-heading h4 mb-3">
+          <h2 className="mb-3 section-heading h4">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
           <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
@@ -652,8 +652,8 @@ class AccountSettingsPage extends React.Component {
             )}
         </div>
 
-        <div className="account-section pt-3 mb-5" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
-          <h2 className="section-heading h4 mb-3">
+        <div className="pt-3 mb-5 account-section" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
+          <h2 className="mb-3 section-heading h4">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
@@ -695,8 +695,8 @@ class AccountSettingsPage extends React.Component {
             )}
         </div>
         {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
-        <div className="account-section pt-3 mb-5" id="social-media">
-          <h2 className="section-heading h4 mb-3">
+        <div className="pt-3 mb-5 account-section" id="social-media">
+          <h2 className="mb-3 section-heading h4">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
           <p>
@@ -732,8 +732,8 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section pt-3 mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
-          <h2 className="section-heading h4 mb-3">
+        <div className="pt-3 mb-5 account-section" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
+          <h2 className="mb-3 section-heading h4">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
@@ -763,8 +763,8 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section pt-3 mb-5" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
-          <h2 className="section-heading h4 mb-3">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
+        <div className="pt-3 mb-5 account-section" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
+          <h2 className="mb-3 section-heading h4">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
@@ -774,7 +774,7 @@ class AccountSettingsPage extends React.Component {
           <ThirdPartyAuth />
         </div>
 
-        <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
+        <div className="pt-3 mb-5 account-section" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
           <DeleteAccount
             isVerifiedAccount={this.props.isActive}
             hasLinkedTPA={hasLinkedTPA}
@@ -809,9 +809,9 @@ class AccountSettingsPage extends React.Component {
     } = this.props;
 
     return (
-      <div className="page__account-settings container-fluid py-5">
+      <div className="py-5 page__account-settings container-fluid">
         {this.renderDuplicateTpaProviderMessage()}
-        <h1 className="mb-4">
+        <h1 className="mb-4 tw-text-2xl tw-font-plexSerif">
           {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
         </h1>
         <div>

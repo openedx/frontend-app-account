@@ -9,28 +9,22 @@ import MobileDropDownRight from './MobileDropDownRight';
 import { useEffect } from 'react';
 
 
-
-
 export const MyHeader = () => {
     const lmsBaseUrl = getConfig().LMS_BASE_URL;
     const dashboardUrl = `${lmsBaseUrl}/dashboard/`;
     const hackademyLogo = `${lmsBaseUrl}/static/hackademy-theme/images/logo.png`;
-    const authenticatedUser = getAuthenticatedUser();
-
-    const [username, setUsername] = useState("anonymousUser")
-    // imageUrl not working hardcode default avatar for now
-    // const [imageAvatar, setImageAvatar] = useState("")
+    const defaultImg = `${lmsBaseUrl}/static/images/profiles/default_30.png`;
+    
+    const [data, setData] = useState([]);
     
 
-    // this code is use for getting the Avatar.url
-    // const profileImageObj = new Map();
-    // for (const key in authenticatedUser.profileImage) {
-    //     profileImageObj.set(key, authenticatedUser.profileImage[key]);
-    // }
-
     useEffect(()=> {
-        setUsername(authenticatedUser.username);
-    },[username]);
+        setData(getAuthenticatedUser());
+        console.log("inside ",data)
+        
+    },[data]);
+
+  
     
    
 
@@ -84,13 +78,13 @@ export const MyHeader = () => {
                         </div>
                         {/* username */}
                         <div className='tw-hidden md:tw-block tw-cursor-pointer hover:tw-bg-gray-200 tw-px-1'>
-                            <a href={dashboardUrl} className='tw-text-primaryNavy tw-no-underline'>{username}</a>
+                            <a href={dashboardUrl} className='tw-text-primaryNavy tw-no-underline'>{data.username ? data.username: 'blank_user'}</a>
                         </div>
 
                         {/* mobile avatar dropdown*/}
                         <div onClick={ () => { setShowRightDrop(true) } } className='p-1 tw-relative md:tw-hidden hover:tw-bg-gray-200'>
                             <div className='tw-cursor-pointer tw-h-12 tw-w-12 tw-rounded-full tw-shadow-all tw-overflow-hidden'>
-                                <img className='tw-w-full tw-h-full tw-object-cover' src="http://local.overhang.io:8000/static/images/profiles/default_30.png" alt="" />  
+                                <img className='tw-w-full tw-h-full tw-object-cover' src={data.profileImage?.imageUrlSmall ? data.profileImage.imageUrlSmall : defaultImg} alt="" />  
                             </div>
                             
                         </div>
@@ -99,7 +93,7 @@ export const MyHeader = () => {
                         <div className='p-1 tw-hidden md:tw-block hover:tw-bg-gray-200'>
                             <div className='tw-cursor-pointer tw-h-12 tw-w-12 tw-rounded-full tw-shadow-all tw-overflow-hidden'>
                                 <a href={dashboardUrl}>
-                                    <img className='tw-w-full tw-h-full tw-object-cover' src="http://local.overhang.io:8000/static/images/profiles/default_30.png" alt="" />
+                                    <img className='tw-w-full tw-h-full tw-object-cover' src={data.profileImage?.imageUrlSmall ? data.profileImage.imageUrlSmall : defaultImg} alt="" />
                                 </a>
                             </div>
                         </div>

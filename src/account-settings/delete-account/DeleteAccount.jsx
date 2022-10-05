@@ -72,7 +72,7 @@ export class DeleteAccount extends React.Component {
 
     return (
       <div>
-        <h2 className="section-heading h4 mb-3">
+        <h2 className="mb-3 section-heading h4">
           {intl.formatMessage(messages['account.settings.delete.account.header'])}
         </h2>
         <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
@@ -98,7 +98,7 @@ export class DeleteAccount extends React.Component {
           )}
         </p>
         <p>
-          <Hyperlink destination="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings">
+          <Hyperlink className="tw-text-primaryNavy tw-no-underline hover:tw-bg-gray-200 tw-p-1" destination="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings">
             {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
           </Hyperlink>
         </p>
