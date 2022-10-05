@@ -60,26 +60,6 @@ describe('IdVerificationPage', () => {
   const props = {
     intl: {},
   };
-
-  beforeEach(() => {
-    history.push('/id-verification');
-    wrapper = mount(
-      <Router history={history}>
-        <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
-        </IntlProvider>
-      </Router>,
-    );
-  });
-  it('shows modal on click of button', () => {
-    wrapper.find('.page__id-verification button').simulate('click');
-    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
-    expect(wrapper.find('.pgn__modal-title').text()).toBe('Privacy Information');
-    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button').length).toBe(1);
-  });
-
   it('decodes and stores course_id', async () => {
     history.push(`/?course_id=${encodeURIComponent('course-v1:edX+DemoX+Demo_Course')}`);
     await act(async () => render((
@@ -112,5 +92,37 @@ describe('IdVerificationPage', () => {
       'next',
       'dashboard',
     );
+  });
+});
+
+describe('IdVerificationPage', () => {
+  const store = mockStore();
+  const props = {
+    intl: {},
+  };
+
+  beforeEach(() => {
+    history.push('/id-verification');
+    wrapper = mount(
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <Provider store={store}>
+            <IntlIdVerificationPage {...props} />
+          </Provider>
+        </IntlProvider>
+      </Router>,
+    );
+  });
+  it('shows modal on click of button', () => {
+    wrapper.find('.page__id-verification button').simulate('click');
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
+    expect(wrapper.find('.pgn__modal-title').text()).toBe('Privacy Information');
+    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button').length).toBe(1);
+  });
+  it('closes if the header close button is clicked', () => {
+    wrapper.find('.page__id-verification button').simulate('click');
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
+    wrapper.find('.pgn__modal-footer .pgn__action-row button').simulate('click');
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(0);
   });
 });
