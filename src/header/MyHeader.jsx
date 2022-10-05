@@ -6,24 +6,35 @@ import { DropDown } from './DropDown';
 import BurgerIcon from './BurgerIcon';
 import MobileDropDownLeft from './MobileDropDownLeft';
 import MobileDropDownRight from './MobileDropDownRight';
+import { useEffect } from 'react';
 
 
 
 
 export const MyHeader = () => {
-    let lmsBaseUrl = getConfig().LMS_BASE_URL;
-    let dashboardUrl = `${lmsBaseUrl}/dashboard/`;
-    let hackademyLogo = `${lmsBaseUrl}/static/hackademy-theme/images/logo.png`;
-    let profileImage = getAuthenticatedUser().profileImage;
-    let username = getAuthenticatedUser().username;
+    const lmsBaseUrl = getConfig().LMS_BASE_URL;
+    const dashboardUrl = `${lmsBaseUrl}/dashboard/`;
+    const hackademyLogo = `${lmsBaseUrl}/static/hackademy-theme/images/logo.png`;
+    const authenticatedUser = getAuthenticatedUser();
+
+    const [username, setUsername] = useState("anonymousUser")
+    // imageUrl not working hardcode default avatar for now
+    // const [imageAvatar, setImageAvatar] = useState("")
+    
 
     // this code is use for getting the Avatar.url
-    const profileImageObj = new Map();
-    for (const key in profileImage) {
-        profileImageObj.set(key, profileImage[key]);
-    }
+    // const profileImageObj = new Map();
+    // for (const key in authenticatedUser.profileImage) {
+    //     profileImageObj.set(key, authenticatedUser.profileImage[key]);
+    // }
 
-    let imageUrl = profileImageObj.get('imageUrlSmall')
+    useEffect(()=> {
+        setUsername(authenticatedUser.username);
+    },[username]);
+    
+   
+
+    
     
 
     // this code is use for toggling the dropdown menu
@@ -46,7 +57,6 @@ export const MyHeader = () => {
            
     }
     
-
 
     return (
         <div className='tw-relative tw-font-nunito'>
@@ -80,7 +90,7 @@ export const MyHeader = () => {
                         {/* mobile avatar dropdown*/}
                         <div onClick={ () => { setShowRightDrop(true) } } className='p-1 tw-relative md:tw-hidden hover:tw-bg-gray-200'>
                             <div className='tw-cursor-pointer tw-h-12 tw-w-12 tw-rounded-full tw-shadow-all tw-overflow-hidden'>
-                                <img className='tw-w-full tw-h-full tw-object-cover' src={profileImageObj.get('imageUrlSmall')} alt="" />  
+                                <img className='tw-w-full tw-h-full tw-object-cover' src="http://local.overhang.io:8000/static/images/profiles/default_30.png" alt="" />  
                             </div>
                             
                         </div>
@@ -89,7 +99,7 @@ export const MyHeader = () => {
                         <div className='p-1 tw-hidden md:tw-block hover:tw-bg-gray-200'>
                             <div className='tw-cursor-pointer tw-h-12 tw-w-12 tw-rounded-full tw-shadow-all tw-overflow-hidden'>
                                 <a href={dashboardUrl}>
-                                    <img className='tw-w-full tw-h-full tw-object-cover' src={imageUrl} alt="" />
+                                    <img className='tw-w-full tw-h-full tw-object-cover' src="http://local.overhang.io:8000/static/images/profiles/default_30.png" alt="" />
                                 </a>
                             </div>
                         </div>

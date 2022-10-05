@@ -4,11 +4,13 @@ import { getConfig } from '@edx/frontend-platform';
 
 export const MyFooter = () => {
     
-    let urlLogo = getConfig().LOGO_URL;
+    
     let lmsBaseUrl = getConfig().LMS_BASE_URL;
-    const ingenuityDarkLogo = `${lmsBaseUrl}/static/hackademy-theme/images/ingenuity-dark-logo.png`
-    const tesdaLogo = `${lmsBaseUrl}/static/hackademy-theme/images/tesda-logo.png`
-    const icons8Logo = `${lmsBaseUrl}/static/hackademy-theme/images/icons8-logo.png`
+    const ingenuityDarkLogo = `${lmsBaseUrl}/static/hackademy-theme/images/ingenuity-dark-logo.png`;
+    const tesdaLogo = `${lmsBaseUrl}/static/hackademy-theme/images/tesda-logo.png`;
+    const icons8Logo = `${lmsBaseUrl}/static/hackademy-theme/images/icons8-logo.png`;
+    let hackademyLogo = `${lmsBaseUrl}/static/hackademy-theme/images/logo.png`
+
     
     return (
         <div className="tw-bg-gray-100 tw-font-nunito">
@@ -17,7 +19,7 @@ export const MyFooter = () => {
                 <div>
                     <div className='tw-w-30 tw-h-11'>
                         <img className='tw-w-full tw-h-full'
-                            src={urlLogo}
+                            src={hackademyLogo}
                             alt="hackademy-logo" />
                     </div>
                 </div>
