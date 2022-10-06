@@ -10,6 +10,7 @@ export const MyFooter = () => {
     const tesdaLogo = `${lmsBaseUrl}/static/hackademy-theme/images/tesda-logo.png`;
     const icons8Logo = `${lmsBaseUrl}/static/hackademy-theme/images/icons8-logo.png`;
     let hackademyLogo = `${lmsBaseUrl}/static/hackademy-theme/images/logo.png`
+    const openedxLogo = `${lmsBaseUrl}/static/hackademy-theme/images/openedx-logo.png`;
 
     
     return (
@@ -21,6 +22,11 @@ export const MyFooter = () => {
                         <img className='tw-w-full tw-h-full'
                             src={hackademyLogo}
                             alt="hackademy-logo" />
+                    </div>
+		    <div className='tw-w-28 tw-h-16'>
+                        <img className="tw-object-contain tw-h-full tw-w-full"
+                            src={openedxLogo} 
+                            alt="openedx-logo" />
                     </div>
                 </div>
 
