@@ -64,7 +64,7 @@ export const MyHeader = () => {
                     <a className='tw-no-underline' href={dashboardUrl}>
                         <div className='tw-cursor-pointer tw-h-10 tw-flex tw-gap-5 tw-items-center'>
                             <img className='tw-w-full tw-h-full' src={hackademyLogo} alt="hackademy-logo" />
-                            <div className='tw-border-course tw-cursor-pointer tw-hidden md:tw-block tw-border-bottom'>
+                            <div className='tw-border-course tw-py-4 tw-px-6 tw-cursor-pointer tw-hidden md:tw-block tw-border-bottom'>
                                 <a className="tw-no-underline tw-text-primaryNavy" href={dashboardUrl}>Course</a>
                             </div>
                         </div>  

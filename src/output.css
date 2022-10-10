@@ -385,20 +385,28 @@
   display: none !important;
 }
 
-.tw-h-11 {
-  height: 2.75rem !important;
+.tw-h-16 {
+  height: 4rem !important;
 }
 
 .tw-h-full {
   height: 100% !important;
 }
 
-.tw-h-16 {
-  height: 4rem !important;
+.tw-h-10 {
+  height: 2.5rem !important;
+}
+
+.tw-h-12 {
+  height: 3rem !important;
 }
 
 .tw-h-10 {
   height: 2.5rem !important;
+}
+
+.tw-h-full {
+  height: 100% !important;
 }
 
 .tw-h-12 {
@@ -419,6 +427,18 @@
 
 .tw-w-12 {
   width: 3rem !important;
+}
+
+.tw-w-full {
+  width: 100% !important;
+}
+
+.tw-w-12 {
+  width: 3rem !important;
+}
+
+.tw-flex-none {
+  flex: none !important;
 }
 
 .tw-cursor-pointer {
@@ -459,6 +479,14 @@
 
 .tw-gap-3 {
   gap: 0.75rem !important;
+}
+
+.tw-gap-4 {
+  gap: 1rem !important;
+}
+
+.tw-gap-5 {
+  gap: 1.25rem !important;
 }
 
 .tw-gap-4 {
@@ -529,6 +557,26 @@
   padding-right: 0.25rem !important;
 }
 
+.tw-py-5 {
+  padding-top: 1.25rem !important;
+  padding-bottom: 1.25rem !important;
+}
+
+.tw-py-4 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.tw-px-6 {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.tw-px-1 {
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+}
+
 .tw-pl-5 {
   padding-left: 1.25rem !important;
 }
@@ -539,6 +587,10 @@
 
 .tw-font-plexSerif {
   font-family: 'IBM Plex Serif', serif !important;
+}
+
+.tw-font-nunito {
+  font-family: 'Nunito Sans', sans-serif !important;
 }
 
 .tw-text-2xl {
@@ -575,6 +627,16 @@
   color: rgb(55 65 81 / var(--tw-text-opacity)) !important;
 }
 
+.tw-text-primaryNavy {
+  --tw-text-opacity: 1 !important;
+  color: rgb(18 12 69 / var(--tw-text-opacity)) !important;
+}
+
+.tw-text-gray-700 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(55 65 81 / var(--tw-text-opacity)) !important;
+}
+
 .tw-no-underline {
   -webkit-text-decoration-line: none !important;
           text-decoration-line: none !important;
@@ -586,6 +648,10 @@
 
 .tw-opacity-100 {
   opacity: 1 !important;
+}
+
+.tw-opacity-0 {
+  opacity: 0 !important;
 }
 
 .tw-transition {
@@ -608,8 +674,13 @@
   box-shadow: 0px 0px 5px 0px  !important;
 }
 
+.tw-border-course {
+  border-bottom: 4px solid rgb(255, 255, 255) !important;
+  border-bottom: 4px solid rgba(255, 255, 255) !important;
+}
+
 .tw-border-course:hover {
-  border-bottom: 3px #B80934 solid !important;
+  border-bottom: 4px solid #B80934 !important;
 }
 
 .hover\:tw-bg-gray-200:hover {

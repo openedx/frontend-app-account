@@ -7,8 +7,13 @@
     box-shadow: 0px 0px 5px 0px  !important;
 }
 
+.tw-border-course {
+    border-bottom: 4px solid rgb(255, 255, 255) !important;
+    border-bottom: 4px solid rgba(255, 255, 255) !important;
+
+}
 .tw-border-course:hover {
-    border-bottom: 3px #B80934 solid !important;
+   border-bottom: 4px solid #B80934 !important;
 }
 
 @layer components {
