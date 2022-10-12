@@ -93,6 +93,7 @@
     "redux-mock-store": "1.5.4"
   },
  "overrides": {
-   "bootstrap": "4.6.1"
+   "bootstrap": "4.6.1",
+   "webpack-cli": "4.10.0"
  }
 }
