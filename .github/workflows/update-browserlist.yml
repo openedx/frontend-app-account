@@ -13,15 +13,16 @@ jobs:
         npm: [8.5.x]
 
     steps:
-    - name: Checkout
+    - name: Check out the repo
       uses: actions/checkout@v2
+      
+    - name: Install node
       uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
+      with:
+        node-version: ${{ matrix.node }}
     
     - name: Install dependencies
       run: npm install -g npm@${{ matrix.npm }}
-      run: make requirements
 
     - name: Update dependencies
       run: npx browserslist@latest --update-db
