@@ -13,12 +13,15 @@ jobs:
         npm: [8.5.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node }}
-    - run: npm install -g npm@${{ matrix.npm }}
-    - run: make requirements
+    - name: Checkout
+      uses: actions/checkout@v2
+      uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+    
+    - name: Install dependencies
+      run: npm install -g npm@${{ matrix.npm }}
+      run: make requirements
 
     - name: Update dependencies
       run: npx browserslist@latest --update-db
@@ -28,6 +31,7 @@ jobs:
         git clone https://github.com/edx/testeng-ci.git
         cd $GITHUB_WORKSPACE/testeng-ci
         pip install -r requirements/base.txt
+
     - name: create pull request
       id: createpullrequest
       env:
@@ -38,4 +42,4 @@ jobs:
         python -m jenkins.pull_request_creator --repo-root=$GITHUB_WORKSPACE \
         --target-branch="master" --base-branch-name="update-browserslist" \
         --commit-message="chore: update browserslist" --pr-title="Update browserslist DB" \
-        --pr-body="Updated browserlist DB" --delete-old-pull-requests --output-pr-url-for-github-action
+        --pr-body="Updated browserslist DB" --delete-old-pull-requests --output-pr-url-for-github-action
