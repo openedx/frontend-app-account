@@ -12,7 +12,7 @@ import messages from './messages';
 // Components
 import Alert from '../Alert';
 
-function BeforeProceedingBanner(props) {
+const BeforeProceedingBanner = (props) => {
   const { instructionMessageId, intl, supportArticleUrl } = props;
 
   return (
@@ -35,7 +35,7 @@ function BeforeProceedingBanner(props) {
       />
     </Alert>
   );
-}
+};
 
 BeforeProceedingBanner.propTypes = {
   instructionMessageId: PropTypes.string.isRequired,

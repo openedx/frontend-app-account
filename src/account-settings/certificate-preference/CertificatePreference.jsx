@@ -21,14 +21,14 @@ import { certPreferenceSelector } from '../data/selectors';
 import commonMessages from '../AccountSettingsPage.messages';
 import messages from './messages';
 
-function CertificatePreference({
+const CertificatePreference = ({
   intl,
   fieldName,
   originalFullName,
   originalVerifiedName,
   saveState,
   useVerifiedNameForCerts,
-}) {
+}) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -152,7 +152,7 @@ function CertificatePreference({
       </ModalDialog>
     </>
   ) : null;
-}
+};
 
 CertificatePreference.propTypes = {
   intl: intlShape.isRequired,

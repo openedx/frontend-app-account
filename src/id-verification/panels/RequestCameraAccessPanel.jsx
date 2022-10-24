@@ -14,7 +14,7 @@ import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsP
 
 import messages from '../IdVerification.messages';
 
-function RequestCameraAccessPanel(props) {
+const RequestCameraAccessPanel = (props) => {
   const { location: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
@@ -118,7 +118,7 @@ function RequestCameraAccessPanel(props) {
 
     </BasePanel>
   );
-}
+};
 
 RequestCameraAccessPanel.propTypes = {
   intl: intlShape.isRequired,

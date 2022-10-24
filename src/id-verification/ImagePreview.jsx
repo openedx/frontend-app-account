@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ImagePreview({ src, alt, id }) {
-  return (
-    <div id={id} className="image-preview">
+const ImagePreview = ({ src, alt, id }) => (
+  <div id={id} className="image-preview">
 
-      <img data-hj-suppress style={{ objectFit: 'contain' }} src={src} alt={alt} />
+    <img data-hj-suppress style={{ objectFit: 'contain' }} src={src} alt={alt} />
 
-    </div>
-  );
-}
+  </div>
+);
 
 ImagePreview.propTypes = {
   src: PropTypes.string.isRequired,
@@ -20,3 +18,5 @@ ImagePreview.propTypes = {
 ImagePreview.defaultProps = {
   id: undefined,
 };
+
+export default ImagePreview;

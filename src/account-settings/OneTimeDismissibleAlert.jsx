@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Alert } from '@edx/paragon';
 
-export default function OneTimeDismissibleAlert(props) {
+const OneTimeDismissibleAlert = (props) => {
   const [dismissed, setDismissed] = useState(localStorage.getItem(props.id) !== 'true');
 
   const onClose = () => {
@@ -25,7 +25,7 @@ export default function OneTimeDismissibleAlert(props) {
       </p>
     </Alert>
   );
-}
+};
 
 OneTimeDismissibleAlert.propTypes = {
   id: PropTypes.string.isRequired,
@@ -41,3 +41,5 @@ OneTimeDismissibleAlert.defaultProps = {
   header: undefined,
   body: undefined,
 };
+
+export default OneTimeDismissibleAlert;

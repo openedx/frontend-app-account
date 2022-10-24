@@ -10,7 +10,7 @@ import messages from '../IdVerification.messages';
 
 import BasePanel from './BasePanel';
 
-function SubmittedPanel(props) {
+const SubmittedPanel = (props) => {
   const { userId } = useContext(IdVerificationContext);
   const { location: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'submitted';
@@ -39,7 +39,7 @@ function SubmittedPanel(props) {
       </a>
     </BasePanel>
   );
-}
+};
 
 SubmittedPanel.propTypes = {
   intl: intlShape.isRequired,

@@ -15,7 +15,7 @@ import { hasGetUserMediaSupport } from './getUserMediaShim';
 import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from './IdVerificationContext';
 import { VerifiedNameContext } from './VerifiedNameContext';
 
-export default function IdVerificationContextProvider({ children }) {
+const IdVerificationContextProvider = ({ children }) => {
   const { authenticatedUser } = useContext(AppContext);
   const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
@@ -129,8 +129,10 @@ export default function IdVerificationContextProvider({ children }) {
       {children}
     </IdVerificationContext.Provider>
   );
-}
+};
 
 IdVerificationContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default IdVerificationContextProvider;

@@ -5,7 +5,7 @@ import { Alert } from '@edx/paragon';
 import messages from './IdVerification.messages';
 import SupportedMediaTypes from './SupportedMediaTypes';
 
-export default function ImageFileUpload({ onFileChange, intl }) {
+const ImageFileUpload = ({ onFileChange, intl }) => {
   const [error, setError] = useState(null);
   const errorTypes = {
     invalidFileType: 'invalidFileType',
@@ -54,9 +54,11 @@ export default function ImageFileUpload({ onFileChange, intl }) {
       )}
     </>
   );
-}
+};
 
 ImageFileUpload.propTypes = {
   onFileChange: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };
+
+export default ImageFileUpload;

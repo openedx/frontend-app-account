@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SupportedMediaTypes() {
+const SupportedMediaTypes = () => {
   const SUPPORTED_TYPES = ['.png', '.jpeg', '.jpg', '.bmp', '.webp', '.tiff'];
 
   const getSupportedTypes = () => SUPPORTED_TYPES.map((type, index) => {
@@ -11,4 +11,6 @@ export default function SupportedMediaTypes() {
   });
 
   return <span>{getSupportedTypes()}</span>;
-}
+};
+
+export default SupportedMediaTypes;

@@ -8,10 +8,10 @@ import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 import messages from './AccountSettingsPage.messages';
 
-function JumpNav({
+const JumpNav = ({
   intl,
   displayDemographicsLink,
-}) {
+}) => {
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
   return (
     <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
@@ -69,7 +69,7 @@ function JumpNav({
       </Scrollspy>
     </div>
   );
-}
+};
 
 JumpNav.propTypes = {
   intl: intlShape.isRequired,

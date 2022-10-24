@@ -11,7 +11,7 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
-function GetNameIdPanel(props) {
+const GetNameIdPanel = (props) => {
   const { push, location } = useHistory();
   const nameInputRef = useRef();
   const panelSlug = 'get-name-id';
@@ -89,7 +89,7 @@ function GetNameIdPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 GetNameIdPanel.propTypes = {
   intl: intlShape.isRequired,
