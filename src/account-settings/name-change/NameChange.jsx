@@ -21,13 +21,13 @@ import { nameChangeSelector } from '../data/selectors';
 import { requestNameChange, requestNameChangeFailure, requestNameChangeReset } from './data/actions';
 import messages from './messages';
 
-function NameChangeModal({
+const NameChangeModal = ({
   targetFormId,
   errors,
   formValues,
   intl,
   saveState,
-}) {
+}) => {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { username } = getAuthenticatedUser();
@@ -183,7 +183,7 @@ function NameChangeModal({
 
     </ModalDialog>
   );
-}
+};
 
 NameChangeModal.propTypes = {
   targetFormId: PropTypes.string.isRequired,

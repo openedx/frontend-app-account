@@ -7,7 +7,7 @@ import BasePanel from './BasePanel';
 import CameraHelp from '../CameraHelp';
 import messages from '../IdVerification.messages';
 
-function PortraitPhotoContextPanel(props) {
+const PortraitPhotoContextPanel = (props) => {
   const panelSlug = 'portrait-photo-context';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   return (
@@ -44,7 +44,7 @@ function PortraitPhotoContextPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 PortraitPhotoContextPanel.propTypes = {
   intl: intlShape.isRequired,

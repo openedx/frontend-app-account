@@ -26,7 +26,7 @@ import SubmittedPanel from './panels/SubmittedPanel';
 import messages from './IdVerification.messages';
 
 // eslint-disable-next-line react/prefer-stateless-function
-function IdVerificationPage(props) {
+const IdVerificationPage = (props) => {
   const { path } = useRouteMatch();
   const { search } = useLocation();
 
@@ -106,7 +106,7 @@ function IdVerificationPage(props) {
       </div>
     </>
   );
-}
+};
 
 IdVerificationPage.propTypes = {
   intl: intlShape.isRequired,

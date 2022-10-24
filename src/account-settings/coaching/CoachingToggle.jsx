@@ -8,69 +8,67 @@ import { editableFieldSelector } from '../data/selectors';
 import { saveSettings, updateDraft, saveMultipleSettings } from '../data/actions';
 import EditableField from '../EditableField';
 
-function CoachingToggle(props) {
-  return (
-    <>
-      <EditableField
-        name="phone_number"
-        type="text"
-        value={props.phone_number}
-        label={props.intl.formatMessage(messages['account.settings.field.phone_number'])}
-        emptyLabel={props.intl.formatMessage(messages['account.settings.field.phone_number.empty'])}
-        onChange={props.updateDraft}
-        onSubmit={() => {
-          const { coaching } = props;
-          if (coaching.coaching_consent === true) {
-            return props.saveMultipleSettings([
-              {
-                formId: 'coaching',
-                commitValues: {
-                  ...coaching,
-                  phone_number: props.phone_number,
-                },
+const CoachingToggle = (props) => (
+  <>
+    <EditableField
+      name="phone_number"
+      type="text"
+      value={props.phone_number}
+      label={props.intl.formatMessage(messages['account.settings.field.phone_number'])}
+      emptyLabel={props.intl.formatMessage(messages['account.settings.field.phone_number.empty'])}
+      onChange={props.updateDraft}
+      onSubmit={() => {
+        const { coaching } = props;
+        if (coaching.coaching_consent === true) {
+          return props.saveMultipleSettings([
+            {
+              formId: 'coaching',
+              commitValues: {
+                ...coaching,
+                phone_number: props.phone_number,
               },
-              {
-                formId: 'phone_number',
-                commitValues: props.phone_number,
-              },
-            ], 'phone_number');
-          }
-          return props.saveSettings('phone_number', props.phone_number);
+            },
+            {
+              formId: 'phone_number',
+              commitValues: props.phone_number,
+            },
+          ], 'phone_number');
+        }
+        return props.saveSettings('phone_number', props.phone_number);
+      }}
+    />
+    <ValidationFormGroup
+      for="coachingConsent"
+      helpText={props.intl.formatMessage(messages['account.settings.field.coaching_consent.tooltip'])}
+      invalid={!!props.error}
+      invalidMessage={props.intl.formatMessage(messages['account.settings.field.coaching_consent.error'])}
+      className="custom-control custom-switch"
+    >
+      <Input
+        name={props.name}
+        className="custom-control-input"
+        disabled={props.saveState === 'pending'}
+        type="checkbox"
+        id="coachingConsent"
+        checked={props.coaching.coaching_consent}
+        value={props.coaching.coaching_consent}
+        onChange={async (e) => {
+          const { name } = e.target;
+          // eslint-disable-next-line camelcase
+          const { user, eligible_for_coaching } = props.coaching;
+          const value = {
+            user,
+            // eslint-disable-next-line camelcase
+            eligible_for_coaching,
+            coaching_consent: e.target.checked,
+          };
+          props.saveSettings(name, value);
         }}
       />
-      <ValidationFormGroup
-        for="coachingConsent"
-        helpText={props.intl.formatMessage(messages['account.settings.field.coaching_consent.tooltip'])}
-        invalid={!!props.error}
-        invalidMessage={props.intl.formatMessage(messages['account.settings.field.coaching_consent.error'])}
-        className="custom-control custom-switch"
-      >
-        <Input
-          name={props.name}
-          className="custom-control-input"
-          disabled={props.saveState === 'pending'}
-          type="checkbox"
-          id="coachingConsent"
-          checked={props.coaching.coaching_consent}
-          value={props.coaching.coaching_consent}
-          onChange={async (e) => {
-            const { name } = e.target;
-            // eslint-disable-next-line camelcase
-            const { user, eligible_for_coaching } = props.coaching;
-            const value = {
-              user,
-              // eslint-disable-next-line camelcase
-              eligible_for_coaching,
-              coaching_consent: e.target.checked,
-            };
-            props.saveSettings(name, value);
-          }}
-        />
-        <label className="custom-control-label" htmlFor="coachingConsent">{props.intl.formatMessage(messages['account.settings.field.coaching_consent'])}</label>
-      </ValidationFormGroup>
-    </>
-  );
-}
+      <label className="custom-control-label" htmlFor="coachingConsent">{props.intl.formatMessage(messages['account.settings.field.coaching_consent'])}</label>
+    </ValidationFormGroup>
+  </>
+);
 
 CoachingToggle.defaultProps = {
   phone_number: '',

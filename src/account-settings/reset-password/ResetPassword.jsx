@@ -9,7 +9,7 @@ import messages from './messages';
 import ConfirmationAlert from './ConfirmationAlert';
 import RequestInProgressAlert from './RequestInProgressAlert';
 
-function ResetPassword(props) {
+const ResetPassword = (props) => {
   const { email, intl, status } = props;
   return (
     <div className="form-group">
@@ -47,7 +47,7 @@ function ResetPassword(props) {
       {status === 'forbidden' ? <RequestInProgressAlert /> : null}
     </div>
   );
-}
+};
 
 ResetPassword.propTypes = {
   email: PropTypes.string,
