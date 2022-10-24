@@ -76,13 +76,13 @@ function IdVerificationPage(props) {
         </div>
         <ModalDialog
           isOpen={isModalOpen}
-          title="my modal"
+          title="Id modal"
           onClose={() => setIsModalOpen(false)}
           size="lg"
           hasCloseButton={false}
         >
           <ModalDialog.Header>
-            <ModalDialog.Title>
+            <ModalDialog.Title data-testid="Id-modal">
               {props.intl.formatMessage(messages['id.verification.privacy.title'])}
             </ModalDialog.Title>
           </ModalDialog.Header>

@@ -4,13 +4,12 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import configureStore from 'redux-mock-store';
-import { render, act } from '@testing-library/react';
+import {
+  render, act, screen, fireEvent,
+} from '@testing-library/react';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import { mount } from 'enzyme';
 import IdVerificationPage from '../IdVerificationPage';
 import * as selectors from '../data/selectors';
-
-let wrapper;
 
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
 jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
@@ -93,36 +92,35 @@ describe('IdVerificationPage', () => {
       'dashboard',
     );
   });
-});
-
-describe('IdVerificationPage', () => {
-  const store = mockStore();
-  const props = {
-    intl: {},
-  };
-
-  beforeEach(() => {
-    history.push('/id-verification');
-    wrapper = mount(
+  it('shows modal on click of button', async () => {
+    history.push('/?next=dashboard');
+    await act(async () => render((
       <Router history={history}>
         <IntlProvider locale="en">
           <Provider store={store}>
             <IntlIdVerificationPage {...props} />
           </Provider>
         </IntlProvider>
-      </Router>,
-    );
+      </Router>
+    )));
+    expect(screen.getByText('Privacy Information')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Privacy Information'));
+    expect(screen.getByTestId('Id-modal')).toBeInTheDocument();
   });
-  it('shows modal on click of button', () => {
-    wrapper.find('.page__id-verification button').simulate('click');
-    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
-    expect(wrapper.find('.pgn__modal-title').text()).toBe('Privacy Information');
-    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button').length).toBe(1);
-  });
-  it('closes if the header close button is clicked', () => {
-    wrapper.find('.page__id-verification button').simulate('click');
-    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
-    wrapper.find('.pgn__modal-footer .pgn__action-row button').simulate('click');
-    expect(wrapper.find('.pgn__modal-body-content').length).toBe(0);
+  it('shows modal on click of button', async () => {
+    history.push('/?next=dashboard');
+    await act(async () => render((
+      <Router history={history}>
+        <IntlProvider locale="en">
+          <Provider store={store}>
+            <IntlIdVerificationPage {...props} />
+          </Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    expect(screen.getByText('Privacy Information')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Privacy Information'));
+    expect(screen.getByTestId('Id-modal')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Close'));
   });
 });
