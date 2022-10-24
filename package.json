@@ -39,7 +39,7 @@
     "@fortawesome/react-fontawesome": "0.1.16",
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs-converter": "3.18.0",
-    "@tensorflow/tfjs-core": "3.18.0",
+    "@tensorflow/tfjs-core": "3.21.0",
     "bowser": "2.11.0",
     "classnames": "2.3.2",
     "core-js": "3.19.3",
