@@ -8,7 +8,7 @@ import CameraHelp from '../CameraHelp';
 import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
-function IdContextPanel(props) {
+const IdContextPanel = (props) => {
   const panelSlug = 'id-context';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   return (
@@ -47,7 +47,7 @@ function IdContextPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 IdContextPanel.propTypes = {
   intl: intlShape.isRequired,

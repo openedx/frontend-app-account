@@ -14,7 +14,7 @@ import ImageFileUpload from '../ImageFileUpload';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';
 import SupportedMediaTypes from '../SupportedMediaTypes';
 
-function TakeIdPhotoPanel(props) {
+const TakeIdPhotoPanel = (props) => {
   const panelSlug = 'take-id-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { setIdPhotoFile, idPhotoFile, useCameraForId } = useContext(IdVerificationContext);
@@ -67,7 +67,7 @@ function TakeIdPhotoPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 TakeIdPhotoPanel.propTypes = {
   intl: intlShape.isRequired,

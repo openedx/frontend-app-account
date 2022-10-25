@@ -18,7 +18,7 @@ import {
 } from './data/actions';
 import { editableFieldSelector } from './data/selectors';
 
-function EmailField(props) {
+const EmailField = (props) => {
   const {
     name,
     label,
@@ -169,7 +169,7 @@ function EmailField(props) {
       }}
     />
   );
-}
+};
 
 EmailField.propTypes = {
   name: PropTypes.string.isRequired,

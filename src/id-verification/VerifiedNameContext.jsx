@@ -8,7 +8,7 @@ import { SUCCESS_STATUS } from '../constants';
 
 export const VerifiedNameContext = createContext();
 
-export function VerifiedNameContextProvider({ children }) {
+export const VerifiedNameContextProvider = ({ children }) => {
   const verifiedNameHistoryData = useAsyncCall(getVerifiedNameHistory);
 
   let verifiedName = '';
@@ -24,7 +24,7 @@ export function VerifiedNameContextProvider({ children }) {
   }), [status, verifiedName]);
 
   return (<VerifiedNameContext.Provider value={value}>{children}</VerifiedNameContext.Provider>);
-}
+};
 
 VerifiedNameContextProvider.propTypes = {
   children: PropTypes.node.isRequired,

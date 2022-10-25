@@ -3,7 +3,7 @@ import React from 'react';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from '../IdVerification.messages';
 
-export function EnableCameraDirectionsPanel(props) {
+export const EnableCameraDirectionsPanel = (props) => {
   if (props.browserName === 'Internet Explorer') {
     return (
       <>
@@ -65,7 +65,7 @@ export function EnableCameraDirectionsPanel(props) {
   }
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
-}
+};
 
 EnableCameraDirectionsPanel.propTypes = {
   intl: intlShape.isRequired,

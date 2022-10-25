@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckBox } from '@edx/paragon';
 import { DECLINED } from '../data/constants';
 
-function Checkboxes(props) {
+const Checkboxes = (props) => {
   const {
     id,
     options,
@@ -59,7 +59,7 @@ function Checkboxes(props) {
       {renderCheckboxes()}
     </div>
   );
-}
+};
 
 Checkboxes.propTypes = {
   id: PropTypes.string.isRequired,

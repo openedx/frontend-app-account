@@ -6,7 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/
 import messages from './IdVerification.messages';
 import { ERROR_REASONS } from './IdVerificationContext';
 
-function AccessBlocked({ error, intl }) {
+const AccessBlocked = ({ error, intl }) => {
   const handleMessage = () => {
     if (error === ERROR_REASONS.COURSE_ENROLLMENT) {
       return <p>{intl.formatMessage(messages['id.verification.access.blocked.enrollment'])}</p>;
@@ -39,7 +39,7 @@ function AccessBlocked({ error, intl }) {
       </div>
     </div>
   );
-}
+};
 
 AccessBlocked.propTypes = {
   intl: intlShape.isRequired,

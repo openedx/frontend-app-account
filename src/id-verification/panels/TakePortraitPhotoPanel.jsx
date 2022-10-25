@@ -10,7 +10,7 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
-function TakePortraitPhotoPanel(props) {
+const TakePortraitPhotoPanel = (props) => {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { setFacePhotoFile, facePhotoFile } = useContext(IdVerificationContext);
@@ -41,7 +41,7 @@ function TakePortraitPhotoPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 TakePortraitPhotoPanel.propTypes = {
   intl: intlShape.isRequired,

@@ -6,7 +6,7 @@ import { Button, Collapsible } from '@edx/paragon';
 import IdVerificationContext from './IdVerificationContext';
 import messages from './IdVerification.messages';
 
-function CollapsibleImageHelp(props) {
+const CollapsibleImageHelp = (props) => {
   const {
     userId, useCameraForId, setUseCameraForId,
   } = useContext(IdVerificationContext);
@@ -47,7 +47,7 @@ function CollapsibleImageHelp(props) {
       </Button>
     </Collapsible>
   );
-}
+};
 
 CollapsibleImageHelp.propTypes = {
   intl: intlShape.isRequired,
