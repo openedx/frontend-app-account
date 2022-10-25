@@ -63,7 +63,7 @@ describe('TakeIdPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/get-name-id');
+    expect(history.location.pathname).toEqual('get-name-id');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
@@ -80,7 +80,7 @@ describe('TakeIdPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(history.location.pathname).toEqual('summary');
   });
 
   it('shows correct text if user should use upload', async () => {
