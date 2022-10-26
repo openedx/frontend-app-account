@@ -66,7 +66,7 @@ describe('RequestCameraAccessPanel', () => {
     expect(text).toHaveTextContent(/Looks like your camera is working and ready./);
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/portrait-photo-context');
+    expect(history.location.pathname).toEqual('portrait-photo-context');
   });
 
   it('renders correctly with media access denied', async () => {
@@ -215,6 +215,6 @@ describe('RequestCameraAccessPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/portrait-photo-context');
+    expect(history.location.pathname).toEqual('portrait-photo-context');
   });
 });

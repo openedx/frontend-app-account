@@ -65,7 +65,7 @@ describe('TakePortraitPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/id-context');
+    expect(history.location.pathname).toEqual('id-context');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
@@ -83,6 +83,6 @@ describe('TakePortraitPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(history.location.pathname).toEqual('summary');
   });
 });

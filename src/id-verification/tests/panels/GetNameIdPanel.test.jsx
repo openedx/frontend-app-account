@@ -82,6 +82,6 @@ describe('GetNameIdPanel', () => {
     const button = await screen.findByTestId('next-button');
 
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(history.location.pathname).toEqual('summary');
   });
 });

@@ -44,7 +44,7 @@ describe('ReviewRequirementsPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/request-camera-access');
+    expect(history.location.pathname).toEqual('request-camera-access');
   });
 
   it('displays an alert if the user\'s account information is managed by a third party', async () => {
