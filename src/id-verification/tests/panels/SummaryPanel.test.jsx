@@ -22,7 +22,6 @@ dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 const IntlSummaryPanel = injectIntl(SummaryPanel);
 
 const history = createMemoryHistory();
-console.warn(history.location);
 describe('SummaryPanel', () => {
   const defaultProps = {
     intl: {},
@@ -69,7 +68,6 @@ describe('SummaryPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('id-retake');
     fireEvent.click(button);
-    console.warn(history.location);
     expect(history.location.pathname).toEqual('/take-id-photo');
     expect(history.location.state.fromSummary).toEqual(true);
   });
