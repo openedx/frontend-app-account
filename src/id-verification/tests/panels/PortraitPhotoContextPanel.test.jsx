@@ -40,7 +40,7 @@ describe('PortraitPhotoContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('take-portrait-photo');
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
   });
 
   it('routes to TakePortraitPhotoPanel if reachedSummary is true', async () => {
@@ -56,6 +56,6 @@ describe('PortraitPhotoContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('take-portrait-photo');
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
   });
 });

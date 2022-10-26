@@ -60,7 +60,7 @@ describe('SummaryPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('portrait-retake');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('take-portrait-photo');
+    expect(history.location.pathname).toEqual('/take-portrait-photo');
     expect(history.location.state.fromSummary).toEqual(true);
   });
 
@@ -68,7 +68,7 @@ describe('SummaryPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('id-retake');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('take-id-photo');
+    expect(history.location.pathname).toEqual('/take-id-photo');
     expect(history.location.state.fromSummary).toEqual(true);
   });
 
