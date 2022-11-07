@@ -18,7 +18,7 @@ import {
 import { editableFieldSelector } from './data/selectors';
 import CertificatePreference from './certificate-preference/CertificatePreference';
 
-function EditableSelectField(props) {
+const EditableSelectField = (props) => {
   const {
     name,
     label,
@@ -178,7 +178,7 @@ function EditableSelectField(props) {
       }}
     />
   );
-}
+};
 
 EditableSelectField.propTypes = {
   name: PropTypes.string.isRequired,
