@@ -10,7 +10,7 @@ import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
 import { editableFieldSelector } from './data/selectors';
 import { saveSettingsReset } from './data/actions';
 
-function DOBModal(props) {
+const DOBModal = (props) => {
   const {
     saveState,
     error,
@@ -131,7 +131,7 @@ function DOBModal(props) {
       </ModalDialog>
     </>
   );
-}
+};
 
 DOBModal.propTypes = {
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),

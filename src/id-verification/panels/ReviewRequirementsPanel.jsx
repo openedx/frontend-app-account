@@ -12,7 +12,7 @@ import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
-function ReviewRequirementsPanel(props) {
+const ReviewRequirementsPanel = (props) => {
   const { userId, profileDataManager } = useContext(IdVerificationContext);
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
@@ -124,7 +124,7 @@ function ReviewRequirementsPanel(props) {
       </div>
     </BasePanel>
   );
-}
+};
 
 ReviewRequirementsPanel.propTypes = {
   intl: intlShape.isRequired,

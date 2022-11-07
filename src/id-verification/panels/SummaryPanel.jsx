@@ -16,7 +16,7 @@ import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
 import SupportedMediaTypes from '../SupportedMediaTypes';
 
-function SummaryPanel(props) {
+const SummaryPanel = (props) => {
   const panelSlug = 'summary';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
@@ -60,7 +60,7 @@ function SummaryPanel(props) {
   }
 
   // eslint-disable-next-line react/no-unstable-nested-components
-  function SubmitButton() {
+  const SubmitButton = () => {
     const handleClick = async () => {
       setIsSubmitting(true);
       const verificationData = {
@@ -97,7 +97,7 @@ function SummaryPanel(props) {
         {props.intl.formatMessage(messages['id.verification.review.confirm'])}
       </Button>
     );
-  }
+  };
 
   function getError() {
     if (submissionError.status === 400) {
@@ -240,7 +240,7 @@ function SummaryPanel(props) {
       {isSubmitting && <Spinner animation="border" variant="primary" />}
     </BasePanel>
   );
-}
+};
 
 SummaryPanel.propTypes = {
   intl: intlShape.isRequired,

@@ -10,7 +10,7 @@ import IdVerificationContext from './IdVerificationContext';
 import ImagePreview from './ImagePreview';
 import SupportedMediaTypes from './SupportedMediaTypes';
 
-function CameraHelpWithUpload(props) {
+const CameraHelpWithUpload = (props) => {
   const { setIdPhotoFile, idPhotoFile, userId } = useContext(IdVerificationContext);
   const [hasUploadedImage, setHasUploadedImage] = useState(false);
 
@@ -41,7 +41,7 @@ function CameraHelpWithUpload(props) {
       </Collapsible>
     </div>
   );
-}
+};
 
 CameraHelpWithUpload.propTypes = {
   intl: intlShape.isRequired,
