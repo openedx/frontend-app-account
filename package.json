@@ -28,10 +28,10 @@
   ],
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
-    "@edx/frontend-component-footer": "11.2.1",
-    "@edx/frontend-component-header": "3.2.1",
+    "@edx/frontend-component-footer": "11.4.1",
+    "@edx/frontend-component-header": "3.3.0",
     "@edx/frontend-platform": "2.6.2",
-    "@edx/paragon": "19.20.0",
+    "@edx/paragon": "19.25.3",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
@@ -86,7 +86,7 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.6",
+    "enzyme-adapter-react-16": "1.15.7",
     "react-test-renderer": "16.14.0",
     "reactifex": "1.1.1",
     "redux-mock-store": "1.5.4"
