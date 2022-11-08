@@ -5,7 +5,7 @@ import {
   intlShape,
 } from '@edx/frontend-platform/i18n';
 
-import { Hyperlink, Input } from '@edx/paragon';
+import { Hyperlink, Form } from '@edx/paragon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -13,7 +13,7 @@ import get from 'lodash.get';
 import isEmpty from 'lodash.isempty';
 import memoize from 'memoize-one';
 import { demographicsSectionSelector } from '../data/selectors';
-import EditableField from '../EditableField';
+import EditableSelectField from '../EditableSelectField';
 import Checkboxes from './Checkboxes';
 import Alert from '../Alert';
 import { saveMultipleSettings, updateDraft } from '../data/actions';
@@ -188,7 +188,7 @@ class DemographicsSection extends React.Component {
         */}
         {this.hasRetrievedDemographicsOptions() && (
           <div id="demographics-fields">
-            <EditableField
+            <EditableSelectField
               name="demographics_gender"
               type="select"
               value={this.props.formValues.demographics_gender}
@@ -199,7 +199,7 @@ class DemographicsSection extends React.Component {
               {...editableFieldProps}
             >
               {showSelfDescribe && (
-                <Input
+                <Form.Control
                   name="demographics_gender_description"
                   id="field-demographics_gender_description"
                   type="text"
@@ -210,8 +210,8 @@ class DemographicsSection extends React.Component {
                   className="mt-1"
                 />
               )}
-            </EditableField>
-            <EditableField
+            </EditableSelectField>
+            <EditableSelectField
               name="demographics_user_ethnicity"
               type="select"
               hidden
@@ -226,8 +226,8 @@ class DemographicsSection extends React.Component {
                 values={this.props.formValues.demographics_user_ethnicity}
                 {...editableFieldProps}
               />
-            </EditableField>
-            <EditableField
+            </EditableSelectField>
+            <EditableSelectField
               name="demographics_income"
               type="select"
               value={this.props.formValues.demographics_income}
@@ -236,7 +236,7 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.income.empty'])}
               {...editableFieldProps}
             />
-            <EditableField
+            <EditableSelectField
               name="demographics_military_history"
               type="select"
               value={this.props.formValues.demographics_military_history}
@@ -245,7 +245,7 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.military_history.empty'])}
               {...editableFieldProps}
             />
-            <EditableField
+            <EditableSelectField
               name="demographics_learner_education_level"
               type="select"
               value={this.props.formValues.demographics_learner_education_level}
@@ -254,7 +254,7 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.learner_education_level.empty'])}
               {...editableFieldProps}
             />
-            <EditableField
+            <EditableSelectField
               name="demographics_parent_education_level"
               type="select"
               value={this.props.formValues.demographics_parent_education_level}
@@ -263,7 +263,7 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.parent_education_level.empty'])}
               {...editableFieldProps}
             />
-            <EditableField
+            <EditableSelectField
               name="demographics_work_status"
               type="select"
               value={this.props.formValues.demographics_work_status}
@@ -276,7 +276,7 @@ class DemographicsSection extends React.Component {
               {...editableFieldProps}
             >
               {showWorkStatusDescribe && (
-                <Input
+                <Form.Control
                   name="demographics_work_status_description"
                   id="field-demographics_work_status_description"
                   type="text"
@@ -287,8 +287,8 @@ class DemographicsSection extends React.Component {
                   className="mt-1"
                 />
               )}
-            </EditableField>
-            <EditableField
+            </EditableSelectField>
+            <EditableSelectField
               name="demographics_current_work_sector"
               type="select"
               value={this.props.formValues.demographics_current_work_sector}
@@ -297,7 +297,7 @@ class DemographicsSection extends React.Component {
               emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.demographics.current_work_sector.empty'])}
               {...editableFieldProps}
             />
-            <EditableField
+            <EditableSelectField
               name="demographics_future_work_sector"
               type="select"
               value={this.props.formValues.demographics_future_work_sector}

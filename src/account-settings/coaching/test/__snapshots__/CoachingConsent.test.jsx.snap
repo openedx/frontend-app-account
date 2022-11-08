@@ -52,14 +52,19 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
           >
             Please confirm your name
           </label>
-          <input
-            className="form-control"
-            defaultValue="edx edx"
-            disabled={true}
-            id="fullName"
-            name="full-name"
-            type="text"
-          />
+          <div
+            className="pgn__form-control-decorator-group"
+          >
+            <input
+              className="has-value form-control"
+              defaultValue="edx edx"
+              disabled={true}
+              id="fullName"
+              name="full-name"
+              onBlur={[Function]}
+              type="text"
+            />
+          </div>
         </div>
         <div
           className="py-3"
@@ -75,13 +80,18 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
           >
             Enter your mobile number
           </label>
-          <input
-            className="form-control"
-            defaultValue="1234567890"
-            id="phoneNumber"
-            name="phone_number"
-            type="text"
-          />
+          <div
+            className="pgn__form-control-decorator-group"
+          >
+            <input
+              className="has-value form-control"
+              defaultValue="1234567890"
+              id="phoneNumber"
+              name="phone_number"
+              onBlur={[Function]}
+              type="text"
+            />
+          </div>
         </div>
         <div
           className=" py-3"
@@ -201,14 +211,19 @@ exports[`CoachingConsent should render 1`] = `
           >
             Please confirm your name
           </label>
-          <input
-            className="form-control"
-            defaultValue="edx edx"
-            disabled={false}
-            id="fullName"
-            name="full-name"
-            type="text"
-          />
+          <div
+            className="pgn__form-control-decorator-group"
+          >
+            <input
+              className="has-value form-control"
+              defaultValue="edx edx"
+              disabled={false}
+              id="fullName"
+              name="full-name"
+              onBlur={[Function]}
+              type="text"
+            />
+          </div>
         </div>
         <div
           className="py-3"
@@ -224,13 +239,18 @@ exports[`CoachingConsent should render 1`] = `
           >
             Enter your mobile number
           </label>
-          <input
-            className="form-control"
-            defaultValue="1234567890"
-            id="phoneNumber"
-            name="phone_number"
-            type="text"
-          />
+          <div
+            className="pgn__form-control-decorator-group"
+          >
+            <input
+              className="has-value form-control"
+              defaultValue="1234567890"
+              id="phoneNumber"
+              name="phone_number"
+              onBlur={[Function]}
+              type="text"
+            />
+          </div>
         </div>
         <div
           className=" py-3"

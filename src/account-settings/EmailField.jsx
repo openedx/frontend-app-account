@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
-  Button, StatefulButton, Input, ValidationFormGroup,
+  Button, StatefulButton, Form,
 } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -106,14 +106,12 @@ const EmailField = (props) => {
       cases={{
         editing: (
           <form onSubmit={handleSubmit}>
-            <ValidationFormGroup
-              for={id}
-              invalid={error != null}
-              invalidMessage={error}
-              helpText={helpText}
+            <Form.Group
+              controlId={id}
+              isInvalid={error != null}
             >
-              <label className="h6 d-block" htmlFor={id}>{label}</label>
-              <Input
+              <Form.Label className="h6 d-block" htmlFor={id}>{label}</Form.Label>
+              <Form.Control
                 data-hj-suppress
                 name={name}
                 id={id}
@@ -121,7 +119,9 @@ const EmailField = (props) => {
                 value={value}
                 onChange={handleChange}
               />
-            </ValidationFormGroup>
+              {!!helpText && <Form.Text>{helpText}</Form.Text>}
+              {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
+            </Form.Group>
             <p>
               <StatefulButton
                 type="submit"

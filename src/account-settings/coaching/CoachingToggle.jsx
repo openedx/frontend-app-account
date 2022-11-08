@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { ValidationFormGroup, Input } from '@edx/paragon';
+import { Form } from '@edx/paragon';
 import messages from './CoachingToggle.messages';
 import { editableFieldSelector } from '../data/selectors';
 import { saveSettings, updateDraft, saveMultipleSettings } from '../data/actions';
@@ -37,20 +37,18 @@ const CoachingToggle = (props) => (
         return props.saveSettings('phone_number', props.phone_number);
       }}
     />
-    <ValidationFormGroup
-      for="coachingConsent"
-      helpText={props.intl.formatMessage(messages['account.settings.field.coaching_consent.tooltip'])}
-      invalid={!!props.error}
-      invalidMessage={props.intl.formatMessage(messages['account.settings.field.coaching_consent.error'])}
+    <Form.Group
+      isInvalid={!!props.error}
       className="custom-control custom-switch"
     >
-      <Input
+      <Form.Switch
         name={props.name}
         className="custom-control-input"
         disabled={props.saveState === 'pending'}
         type="checkbox"
         id="coachingConsent"
         checked={props.coaching.coaching_consent}
+        helperText={props.intl.formatMessage(messages['account.settings.field.coaching_consent.tooltip'])}
         value={props.coaching.coaching_consent}
         onChange={async (e) => {
           const { name } = e.target;
@@ -64,9 +62,15 @@ const CoachingToggle = (props) => (
           };
           props.saveSettings(name, value);
         }}
-      />
-      <label className="custom-control-label" htmlFor="coachingConsent">{props.intl.formatMessage(messages['account.settings.field.coaching_consent'])}</label>
-    </ValidationFormGroup>
+      >
+        {props.intl.formatMessage(messages['account.settings.field.coaching_consent'])}
+      </Form.Switch>
+      {!!props.error && (
+        <Form.Control.Feedback>
+          {props.intl.formatMessage(messages['account.settings.field.coaching_consent.error'])}
+        </Form.Control.Feedback>
+      )}
+    </Form.Group>
   </>
 );
 

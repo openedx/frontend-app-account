@@ -91,29 +91,27 @@ Array [
                 </div>
               </div>
               <div
-                className="form-group"
+                className="pgn__form-group"
               >
                 <label
-                  className="d-block"
+                  className="pgn__form-label d-block"
                   htmlFor="passwordFieldId"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <input
-                  aria-describedby=""
-                  className="form-control"
-                  id="passwordFieldId"
-                  name="password"
-                  onChange={[MockFunction]}
-                  type="password"
-                  value="fluffy bunnies"
-                />
-                <strong
-                  className="invalid-feedback"
-                  id="passwordFieldId-invalid-feedback"
+                <div
+                  className="pgn__form-control-decorator-group"
                 >
-                  Unable to delete account
-                </strong>
+                  <input
+                    className="has-value form-control"
+                    id="passwordFieldId"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[MockFunction]}
+                    type="password"
+                    value="fluffy bunnies"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -170,7 +168,7 @@ Array [
     role="presentation"
   >
     <div
-      aria-labelledby="id3"
+      aria-labelledby="id5"
       aria-modal={true}
       className="modal-dialog"
       role="dialog"
@@ -188,16 +186,14 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
       <div
-        data-focus-lock-disabled={false}
+        data-focus-lock-disabled="disabled"
         onBlur={[Function]}
         onFocus={[Function]}
-        onMouseDown={[Function]}
         onScrollCapture={[Function]}
         onTouchMoveCapture={[Function]}
-        onTouchStart={[Function]}
         onWheelCapture={[Function]}
       >
         <div
@@ -208,7 +204,7 @@ Array [
           >
             <h2
               className="modal-title"
-              id="id3"
+              id="id5"
             >
               Are you sure?
             </h2>
@@ -285,29 +281,51 @@ Array [
                 </div>
               </div>
               <div
-                className="form-group"
+                className="pgn__form-group"
               >
                 <label
-                  className="d-block"
+                  className="pgn__form-label d-block"
                   htmlFor="passwordFieldId"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <input
-                  aria-describedby="passwordFieldId-invalid-feedback"
-                  className="form-control is-invalid"
-                  id="passwordFieldId"
-                  name="password"
-                  onChange={[MockFunction]}
-                  type="password"
-                  value="fluffy bunnies"
-                />
-                <strong
-                  className="invalid-feedback"
-                  id="passwordFieldId-invalid-feedback"
+                <div
+                  className="pgn__form-control-decorator-group"
                 >
+                  <input
+                    className="has-value form-control is-invalid"
+                    id="passwordFieldId"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[MockFunction]}
+                    type="password"
+                    value="fluffy bunnies"
+                  />
+                </div>
+                <div
+                  className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
+                >
+                  <span
+                    className="pgn__icon"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      fill="none"
+                      focusable={false}
+                      height={24}
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width={24}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
                   A password is required
-                </strong>
+                </div>
               </div>
             </div>
           </div>
@@ -346,7 +364,7 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={0}
+        tabIndex={-1}
       />
     </div>
   </div>,
@@ -364,7 +382,7 @@ Array [
     role="presentation"
   >
     <div
-      aria-labelledby="id2"
+      aria-labelledby="id3"
       aria-modal={true}
       className="modal-dialog"
       role="dialog"
@@ -382,14 +400,16 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={-1}
+        tabIndex={0}
       />
       <div
-        data-focus-lock-disabled="disabled"
+        data-focus-lock-disabled={false}
         onBlur={[Function]}
         onFocus={[Function]}
+        onMouseDown={[Function]}
         onScrollCapture={[Function]}
         onTouchMoveCapture={[Function]}
+        onTouchStart={[Function]}
         onWheelCapture={[Function]}
       >
         <div
@@ -400,7 +420,7 @@ Array [
           >
             <h2
               className="modal-title"
-              id="id2"
+              id="id3"
             >
               Are you sure?
             </h2>
@@ -444,29 +464,27 @@ Array [
                 </div>
               </div>
               <div
-                className="form-group"
+                className="pgn__form-group"
               >
                 <label
-                  className="d-block"
+                  className="pgn__form-label d-block"
                   htmlFor="passwordFieldId"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <input
-                  aria-describedby=""
-                  className="form-control"
-                  id="passwordFieldId"
-                  name="password"
-                  onChange={[MockFunction]}
-                  type="password"
-                  value="fluffy bunnies"
-                />
-                <strong
-                  className="invalid-feedback"
-                  id="passwordFieldId-invalid-feedback"
+                <div
+                  className="pgn__form-control-decorator-group"
                 >
-                  Unable to delete account
-                </strong>
+                  <input
+                    className="has-value form-control"
+                    id="passwordFieldId"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[MockFunction]}
+                    type="password"
+                    value="fluffy bunnies"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -505,7 +523,7 @@ Array [
             "width": "1px",
           }
         }
-        tabIndex={-1}
+        tabIndex={0}
       />
     </div>
   </div>,
