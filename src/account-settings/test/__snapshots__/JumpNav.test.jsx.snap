@@ -12,11 +12,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#basic-information"
         onClick={[Function]}
-        style={Object {}}
       >
         Account Information
       </a>
@@ -25,11 +23,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#profile-information"
         onClick={[Function]}
-        style={Object {}}
       >
         Profile Information
       </a>
@@ -38,11 +34,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#social-media"
         onClick={[Function]}
-        style={Object {}}
       >
         Social Media Links
       </a>
@@ -51,11 +45,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#site-preferences"
         onClick={[Function]}
-        style={Object {}}
       >
         Site Preferences
       </a>
@@ -64,11 +56,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#linked-accounts"
         onClick={[Function]}
-        style={Object {}}
       >
         Linked Accounts
       </a>
@@ -77,11 +67,9 @@ exports[`JumpNav should not render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#delete-account"
         onClick={[Function]}
-        style={Object {}}
       >
         Delete My Account
       </a>
@@ -102,11 +90,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#basic-information"
         onClick={[Function]}
-        style={Object {}}
       >
         Account Information
       </a>
@@ -115,11 +101,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#profile-information"
         onClick={[Function]}
-        style={Object {}}
       >
         Profile Information
       </a>
@@ -128,11 +112,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#demographics-information"
         onClick={[Function]}
-        style={Object {}}
       >
         Optional Information
       </a>
@@ -141,11 +123,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#social-media"
         onClick={[Function]}
-        style={Object {}}
       >
         Social Media Links
       </a>
@@ -154,11 +134,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#site-preferences"
         onClick={[Function]}
-        style={Object {}}
       >
         Site Preferences
       </a>
@@ -167,11 +145,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#linked-accounts"
         onClick={[Function]}
-        style={Object {}}
       >
         Linked Accounts
       </a>
@@ -180,11 +156,9 @@ exports[`JumpNav should render Optional Information link 1`] = `
       className=""
     >
       <a
-        aria-current="page"
-        className="active"
+        aria-current={null}
         href="/#delete-account"
         onClick={[Function]}
-        style={Object {}}
       >
         Delete My Account
       </a>
