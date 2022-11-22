@@ -283,17 +283,17 @@ const messages = defineMessages({
   },
   'account.settings.field.dob.form.title': {
     id: 'account.settings.field.dob.form.title',
-    defaultMessage: 'Confirm your date of birth',
+    defaultMessage: 'Enter your birth month and year',
     description: 'Title of DOB form',
   },
   'account.settings.field.dob.form.help.text': {
     id: 'account.settings.field.dob.form.help.text',
-    defaultMessage: 'We ask for birth date information to help us comply with our legal obligations.',
+    defaultMessage: 'We ask for birth month and year information to help us comply with our legal obligations.',
     description: 'Help text for DOB form',
   },
   'account.settings.field.dob.form.success': {
     id: 'account.settings.field.dob.form.success',
-    defaultMessage: 'Thank you for entering your birth date information.',
+    defaultMessage: 'Thank you for entering your information.',
     description: 'Title of banner when date of birth is successfully entered',
   },
   'account.settings.field.month_of_birth.options.empty': {
