@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { useVerificationRedirectSlug } from '../routing-utilities';
 
-export default function BasePanel({
+const BasePanel = ({
   children,
   focusOnMount,
   name,
   title,
-}) {
+}) => {
   const headingRef = useRef();
 
   // focus heading element on mount
@@ -29,7 +29,7 @@ export default function BasePanel({
       {children}
     </div>
   );
-}
+};
 
 BasePanel.propTypes = {
   children: PropTypes.node.isRequired,
@@ -41,3 +41,5 @@ BasePanel.propTypes = {
 BasePanel.defaultProps = {
   focusOnMount: true,
 };
+
+export default BasePanel;

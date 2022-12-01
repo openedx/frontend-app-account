@@ -17,28 +17,24 @@ import LogoSVG from '../../logo.svg';
 import { fetchSettings } from '../data/actions';
 import { coachingConsentPageSelector } from '../data/selectors';
 
-function Logo({ src, alt, ...attributes }) {
-  return <img src={src} alt={alt} {...attributes} />;
-}
+const Logo = ({ src, alt, ...attributes }) => <img src={src} alt={alt} {...attributes} />;
 
-function SuccessMessage(props) {
-  return (
-    <div className="col-12 col-lg-6 shadow-lg mx-auto mt-4 p-5">
-      <FontAwesomeIcon className="text-success" icon={faCheck} size="5x" />
-      <div className="h3">{props.header}</div>
-      <div>{props.message}</div>
-      <Hyperlink destination={props.continueUrl} className="d-block p-2 my-3 text-center text-white bg-primary rounded">
-        {props.continue}
-      </Hyperlink>
-    </div>
-  );
-}
+const SuccessMessage = (props) => (
+  <div className="col-12 col-lg-6 shadow-lg mx-auto mt-4 p-5">
+    <FontAwesomeIcon className="text-success" icon={faCheck} size="5x" />
+    <div className="h3">{props.header}</div>
+    <div>{props.message}</div>
+    <Hyperlink destination={props.continueUrl} className="d-block p-2 my-3 text-center text-white bg-primary rounded">
+      {props.continue}
+    </Hyperlink>
+  </div>
+);
 
-function AutoRedirect(props) {
+const AutoRedirect = (props) => {
   window.location.href = props.redirectUrl;
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
-}
+};
 
 const VIEWS = {
   NOT_LOADED: 'NOT_LOADED',

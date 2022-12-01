@@ -5,7 +5,7 @@ import { ModalLayer, ModalCloseButton } from '@edx/paragon';
 
 import messages from './messages';
 
-export function SuccessModal(props) {
+export const SuccessModal = (props) => {
   const { status, intl, onClose } = props;
   return (
 
@@ -27,7 +27,7 @@ export function SuccessModal(props) {
     </ModalLayer>
 
   );
-}
+};
 
 SuccessModal.propTypes = {
   status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),

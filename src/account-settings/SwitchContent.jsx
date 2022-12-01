@@ -22,7 +22,7 @@ const onChildExit = (htmlNode) => {
   }
 };
 
-function SwitchContent({ expression, cases, className }) {
+const SwitchContent = ({ expression, cases, className }) => {
   const getContent = (caseKey) => {
     if (cases[caseKey]) {
       if (typeof cases[caseKey] === 'string') {
@@ -48,7 +48,7 @@ function SwitchContent({ expression, cases, className }) {
       {getContent(expression)}
     </TransitionReplace>
   );
-}
+};
 
 SwitchContent.propTypes = {
   expression: PropTypes.string,

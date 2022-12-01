@@ -18,7 +18,7 @@ import {
 import { editableFieldSelector } from './data/selectors';
 import CertificatePreference from './certificate-preference/CertificatePreference';
 
-const EditableField = (props) => {
+const EditableSelectField = (props) => {
   const {
     name,
     label,
@@ -26,6 +26,7 @@ const EditableField = (props) => {
     type,
     value,
     userSuppliedValue,
+    options,
     saveState,
     error,
     confirmationMessageDefinition,
@@ -73,6 +74,15 @@ const EditableField = (props) => {
     }
     let finalValue = rawValue;
 
+    if (options) {
+      // Use == instead of === to prevent issues when HTML casts numbers as strings
+      // eslint-disable-next-line eqeqeq
+      const selectedOption = options.find(option => option.value == rawValue);
+      if (selectedOption) {
+        finalValue = selectedOption.label;
+      }
+    }
+
     if (userSuppliedValue) {
       finalValue += `: ${userSuppliedValue}`;
     }
@@ -88,6 +98,9 @@ const EditableField = (props) => {
       value: confirmationValue,
     });
   };
+  const selectOptions = options.map(option => (
+    <option value={option.value} key={`${option.value}-${option.label}`}>{option.label}</option>
+  ));
 
   return (
     <SwitchContent
@@ -106,12 +119,15 @@ const EditableField = (props) => {
                   name={name}
                   id={id}
                   type={type}
+                  as={type}
                   value={value}
                   onChange={handleChange}
                   {...others}
-                />
+                >
+                  {options.length > 0 && selectOptions}
+                </Form.Control>
                 {!!helpText && <Form.Text>{helpText}</Form.Text>}
-                {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
+                {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
                 {others.children}
               </Form.Group>
               <p>
@@ -164,13 +180,17 @@ const EditableField = (props) => {
   );
 };
 
-EditableField.propTypes = {
+EditableSelectField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.node]),
   emptyLabel: PropTypes.node,
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userSuppliedValue: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
@@ -190,8 +210,9 @@ EditableField.propTypes = {
   intl: intlShape.isRequired,
 };
 
-EditableField.defaultProps = {
+EditableSelectField.defaultProps = {
   value: undefined,
+  options: [],
   saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
@@ -208,4 +229,4 @@ EditableField.defaultProps = {
 export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
-})(injectIntl(EditableField));
+})(injectIntl(EditableSelectField));

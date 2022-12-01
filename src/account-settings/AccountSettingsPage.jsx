@@ -31,6 +31,7 @@ import PageLoading from './PageLoading';
 import JumpNav from './JumpNav';
 import DeleteAccount from './delete-account';
 import EditableField from './EditableField';
+import EditableSelectField from './EditableSelectField';
 import ResetPassword from './reset-password';
 import NameChange from './name-change';
 import ThirdPartyAuth from './third-party-auth';
@@ -609,7 +610,7 @@ class AccountSettingsPage extends React.Component {
           <ResetPassword email={this.props.formValues.email} />
           {(!getConfig().ENABLE_COPPA_COMPLIANCE)
             && (
-            <EditableField
+            <EditableSelectField
               name="year_of_birth"
               type="select"
               label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
@@ -619,7 +620,7 @@ class AccountSettingsPage extends React.Component {
               {...editableFieldProps}
             />
             )}
-          <EditableField
+          <EditableSelectField
             name="country"
             type="select"
             value={this.props.formValues.country}
@@ -635,7 +636,7 @@ class AccountSettingsPage extends React.Component {
           />
           {showState
             && (
-            <EditableField
+            <EditableSelectField
               name="state"
               type="select"
               value={this.props.formValues.state}
@@ -657,16 +658,18 @@ class AccountSettingsPage extends React.Component {
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
-          <EditableField
+          <EditableSelectField
             name="level_of_education"
             type="select"
             value={this.props.formValues.level_of_education}
-            options={educationLevelOptions}
+            options={getConfig().ENABLE_COPPA_COMPLIANCE
+              ? educationLevelOptions.filter(option => option.value !== 'el')
+              : educationLevelOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.education.empty'])}
             {...editableFieldProps}
           />
-          <EditableField
+          <EditableSelectField
             name="gender"
             type="select"
             value={this.props.formValues.gender}
@@ -675,7 +678,7 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.gender.empty'])}
             {...editableFieldProps}
           />
-          <EditableField
+          <EditableSelectField
             name="language_proficiencies"
             type="select"
             value={this.props.formValues.language_proficiencies}
@@ -738,7 +741,7 @@ class AccountSettingsPage extends React.Component {
           </h2>
 
           <BetaLanguageBanner />
-          <EditableField
+          <EditableSelectField
             name="siteLanguage"
             type="select"
             options={this.props.siteLanguageOptions}
@@ -747,7 +750,7 @@ class AccountSettingsPage extends React.Component {
             helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
             {...editableFieldProps}
           />
-          <EditableField
+          <EditableSelectField
             name="time_zone"
             type="select"
             value={this.props.formValues.time_zone}
