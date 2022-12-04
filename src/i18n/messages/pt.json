@@ -57,6 +57,8 @@
   "account.settings.field.year_of_birth.options.empty": "Select a year of birth",
   "account.settings.field.dob.month": "Month",
   "account.settings.field.dob.year": "Year",
+  "account.settings.field.month.year.default": "Select month",
+  "account.settings.field.dob.year.default": "Select year",
   "account.settings.field.dob.form.button": "Please confirm your date of birth",
   "account.settings.field.dob.form.title": "Enter your birth month and year",
   "account.settings.field.dob.form.help.text": "We ask for birth month and year information to help us comply with our legal obligations.",
