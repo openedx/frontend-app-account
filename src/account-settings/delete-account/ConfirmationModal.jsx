@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Button, Modal, Form,
+  AlertModal,
+  Button, Input, ValidationFormGroup, ActionRow,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { getConfig } from '@edx/frontend-platform';
 import messages from './messages';
 import Alert from '../Alert';
@@ -74,61 +74,58 @@ export class ConfirmationModal extends Component {
       : 'account.settings.delete.account.modal.text.2';
 
     return (
-      <Modal
-        open={open}
+      <AlertModal
+        isOpen={open}
         title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
-        body={(
-          <div>
-            {this.renderError()}
-            <Alert
-              className="alert-warning mt-n2"
-              icon={<FontAwesomeIcon className="mr-2" icon={faExclamationTriangle} />}
-            >
-              <h6>
-                {intl.formatMessage(
-                  messages['account.settings.delete.account.modal.text.1'],
-                  { siteName: getConfig().SITE_NAME },
-                )}
-              </h6>
-              <p>
-                {intl.formatMessage(
-                  messages[deleteAccountModalText2MessageKey],
-                  { siteName: getConfig().SITE_NAME },
-                )}
-              </p>
-              <p>
-                <PrintingInstructions />
-              </p>
-            </Alert>
-            <Form.Group
-              controlId={passwordFieldId}
-              isInvalid={errorType !== null}
-            >
-              <Form.Label className="d-block" htmlFor={passwordFieldId}>
-                {intl.formatMessage(messages['account.settings.delete.account.modal.enter.password'])}
-              </Form.Label>
-              <Form.Control
-                name="password"
-                id={passwordFieldId}
-                type="password"
-                value={password}
-                onChange={onChange}
-              />
-              {errorType !== null && (
-                <Form.Control.Feedback>{intl.formatMessage(invalidMessage)}</Form.Control.Feedback>
-              )}
-            </Form.Group>
-          </div>
-        )}
-        buttons={[
-          <Button variant="danger" onClick={onSubmit}>
-            {intl.formatMessage(messages['account.settings.delete.account.modal.confirm.delete'])}
-          </Button>,
-        ]}
-        closeText={intl.formatMessage(messages['account.settings.delete.account.modal.confirm.cancel'])}
-        renderHeaderCloseButton={false}
         onClose={onCancel}
-      />
+        footerNode={(
+          <ActionRow>
+            <Button variant="link" onClick={onCancel}>Cancel</Button>
+            <Button variant="danger" onClick={onSubmit}>Yes, Delete</Button>
+          </ActionRow>
+        )}
+      >
+        <div className="p-3">
+          {this.renderError()}
+          <Alert
+            className="alert-warning mt-n2"
+            icon={<FontAwesomeIcon className="mr-2" icon={faExclamationTriangle} />}
+          >
+            <h6>
+              {intl.formatMessage(
+                messages['account.settings.delete.account.modal.text.1'],
+                { siteName: getConfig().SITE_NAME },
+              )}
+            </h6>
+            <p>
+              {intl.formatMessage(
+                messages[deleteAccountModalText2MessageKey],
+                { siteName: getConfig().SITE_NAME },
+              )}
+            </p>
+            <p>
+              <PrintingInstructions />
+            </p>
+          </Alert>
+          <ValidationFormGroup
+            for={passwordFieldId}
+            invalid={errorType !== null}
+            invalidMessage={intl.formatMessage(invalidMessage)}
+          >
+            <label className="d-block" htmlFor={passwordFieldId}>
+              {intl.formatMessage(messages['account.settings.delete.account.modal.enter.password'])}
+            </label>
+            <Input
+              name="password"
+              id={passwordFieldId}
+              type="password"
+              value={password}
+              onChange={onChange}
+            />
+          </ValidationFormGroup>
+        </div>
+
+      </AlertModal>
     );
   }
 }

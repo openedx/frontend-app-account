@@ -3,7 +3,7 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@edx/paragon';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import messages from './AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
@@ -22,13 +22,23 @@ const DOBModal = (props) => {
 
   // eslint-disable-next-line no-unused-vars
   const [isOpen, open, close, toggle] = useToggle(true, {});
+  const [monthValue, setMonthValue] = useState('');
+  const [yearValue, setYearValue] = useState('');
+
+  const handleChange = (e) => {
+    e.preventDefault();
+
+    if (e.target.name === 'month') {
+      setMonthValue(e.target.value);
+    } else if (e.target.name === 'year') {
+      setYearValue(e.target.value);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const month = e.target.month.value;
-    const year = e.target.year.value;
-    const data = month !== '' && year !== '' ? [{ field_name: 'DOB', field_value: `${year}-${month}` }] : [];
+    const data = monthValue !== '' && yearValue !== '' ? [{ field_name: 'DOB', field_value: `${yearValue}-${monthValue}` }] : [];
     onSubmit('extended_profile', data);
   };
 
@@ -58,7 +68,7 @@ const DOBModal = (props) => {
     if (saveState === 'complete' && isOpen) {
       handleComplete();
     }
-  }, [handleComplete, saveState, isOpen]);
+  }, [handleComplete, saveState, isOpen, monthValue, yearValue]);
 
   return (
     <>
@@ -89,7 +99,9 @@ const DOBModal = (props) => {
               <Form.Control
                 as="select"
                 name="month"
+                onChange={handleChange}
               >
+                <option value="">{intl.formatMessage(messages['account.settings.field.dob.month.default'])}</option>
                 {[...Array(12).keys()].map(month => (
                   <option key={month + 1} value={month + 1}>{month + 1}</option>
                 ))}
@@ -102,7 +114,9 @@ const DOBModal = (props) => {
               <Form.Control
                 as="select"
                 name="year"
+                onChange={handleChange}
               >
+                <option value="">{intl.formatMessage(messages['account.settings.field.dob.year.default'])}</option>
                 {YEAR_OF_BIRTH_OPTIONS.map(year => (
                   <option key={year.value} value={year.value}>{year.label}</option>
                 ))}
@@ -118,11 +132,11 @@ const DOBModal = (props) => {
               </ModalDialog.CloseButton>
               <StatefulButton
                 type="submit"
-                state={saveState}
+                state={!(monthValue && yearValue) ? 'unedited' : saveState}
                 labels={{
                   default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
                 }}
-                disabledStates={[]}
+                disabledStates={['unedited']}
               />
             </ActionRow>
           </ModalDialog.Footer>

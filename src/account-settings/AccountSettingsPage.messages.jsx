@@ -276,6 +276,16 @@ const messages = defineMessages({
     defaultMessage: 'Year',
     description: 'Label for account settings year of birth field.',
   },
+  'account.settings.field.dob.month.default': {
+    id: 'account.settings.field.month.year.default',
+    defaultMessage: 'Select month',
+    description: 'Default label for account settings month of birth field.',
+  },
+  'account.settings.field.dob.year.default': {
+    id: 'account.settings.field.dob.year.default',
+    defaultMessage: 'Select year',
+    description: 'Default label for account settings year of birth field.',
+  },
   'account.settings.field.dob.form.button': {
     id: 'account.settings.field.dob.form.button',
     defaultMessage: 'Please confirm your date of birth',

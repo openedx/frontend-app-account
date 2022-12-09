@@ -1,218 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ConfirmationModal should match default closed confirmation modal snapshot 1`] = `
-Array [
-  <div
-    className="fade"
-    role="presentation"
-  />,
-  <div
-    className="modal fade"
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id1"
-      aria-modal={true}
-      className=""
-      role="dialog"
-    >
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
-      >
-        <div
-          className="modal-content"
-        >
-          <div
-            className="modal-header"
-          >
-            <h2
-              className="modal-title"
-              id="id1"
-            >
-              Are you sure?
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <div
-                className="alert d-flex align-items-start alert-warning mt-n2"
-              >
-                <div>
-                  <svg
-                    aria-hidden="true"
-                    className="svg-inline--fa fa-exclamation-triangle fa-w-18 mr-2"
-                    data-icon="exclamation-triangle"
-                    data-prefix="fas"
-                    focusable="false"
-                    role="img"
-                    style={Object {}}
-                    viewBox="0 0 576 512"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                      fill="currentColor"
-                      style={Object {}}
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h6>
-                    You have selected "Delete My Account". Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
-                  </h6>
-                  <p>
-                    If you proceed, you will be unable to use this account to take courses on localhost.
-                  </p>
-                  <p>
-                    You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
-                  </p>
-                </div>
-              </div>
-              <div
-                className="pgn__form-group"
-              >
-                <label
-                  className="pgn__form-label d-block"
-                  htmlFor="passwordFieldId"
-                >
-                  If you still wish to continue and delete your account, please enter your account password:
-                </label>
-                <div
-                  className="pgn__form-control-decorator-group"
-                >
-                  <input
-                    className="has-value form-control"
-                    id="passwordFieldId"
-                    name="password"
-                    onBlur={[Function]}
-                    onChange={[MockFunction]}
-                    type="password"
-                    value="fluffy bunnies"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn-danger"
-              disabled={false}
-              onClick={[MockFunction]}
-              type="button"
-            >
-              Yes, Delete
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-    </div>
-  </div>,
-]
-`;
+exports[`ConfirmationModal should match default closed confirmation modal snapshot 1`] = `null`;
 
 exports[`ConfirmationModal should match empty password confirmation modal snapshot 1`] = `
 Array [
   <div
-    className="modal-backdrop show"
-    role="presentation"
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={0}
   />,
   <div
-    className="modal show d-block"
-    role="presentation"
+    className="pgn__modal-layer"
+    data-focus-lock-disabled={false}
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseDown={[Function]}
+    onScrollCapture={[Function]}
+    onTouchMoveCapture={[Function]}
+    onTouchStart={[Function]}
+    onWheelCapture={[Function]}
   >
     <div
-      aria-labelledby="id5"
-      aria-modal={true}
-      className="modal-dialog"
-      role="dialog"
+      className="pgn__modal-content-container"
     >
       <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
+        className="pgn__modal-backdrop"
+        onClick={[MockFunction]}
       />
       <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
+        aria-label="Are you sure?"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        role="dialog"
       >
         <div
-          className="modal-content"
+          className="pgn__modal-header"
         >
-          <div
-            className="modal-header"
+          <h2
+            className="pgn__modal-title"
           >
-            <h2
-              className="modal-title"
-              id="id5"
+            Are you sure?
+          </h2>
+        </div>
+        <div
+          className="pgn__modal-body pgn__modal-body-scroll-top pgn__modal-body-scroll-bottom"
+        >
+          <div />
+          <div
+            className="pgn__modal-body-content"
+          >
+            <div
+              className="p-3"
             >
-              Are you sure?
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
               <div
                 className="alert d-flex align-items-start alert-danger mt-n2"
               >
@@ -281,61 +129,44 @@ Array [
                 </div>
               </div>
               <div
-                className="pgn__form-group"
+                className="form-group"
               >
                 <label
-                  className="pgn__form-label d-block"
+                  className="d-block"
                   htmlFor="passwordFieldId"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <div
-                  className="pgn__form-control-decorator-group"
+                <input
+                  aria-describedby="passwordFieldId-invalid-feedback"
+                  className="form-control is-invalid"
+                  id="passwordFieldId"
+                  name="password"
+                  onChange={[MockFunction]}
+                  type="password"
+                  value="fluffy bunnies"
+                />
+                <strong
+                  className="invalid-feedback"
+                  id="passwordFieldId-invalid-feedback"
                 >
-                  <input
-                    className="has-value form-control is-invalid"
-                    id="passwordFieldId"
-                    name="password"
-                    onBlur={[Function]}
-                    onChange={[MockFunction]}
-                    type="password"
-                    value="fluffy bunnies"
-                  />
-                </div>
-                <div
-                  className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
-                >
-                  <span
-                    className="pgn__icon"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      fill="none"
-                      focusable={false}
-                      height={24}
-                      role="img"
-                      viewBox="0 0 24 24"
-                      width={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </span>
                   A password is required
-                </div>
+                </strong>
               </div>
             </div>
           </div>
+          <div />
+        </div>
+        <div
+          className="pgn__modal-footer"
+        >
           <div
-            className="modal-footer"
+            className="pgn__action-row"
           >
             <button
               className="btn btn-link"
               disabled={false}
-              onClick={[Function]}
+              onClick={[MockFunction]}
               type="button"
             >
               Cancel
@@ -351,84 +182,83 @@ Array [
           </div>
         </div>
       </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
     </div>
   </div>,
+  <div
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={0}
+  />,
 ]
 `;
 
 exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
 Array [
   <div
-    className="modal-backdrop show"
-    role="presentation"
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={-1}
   />,
   <div
-    className="modal show d-block"
-    role="presentation"
+    className="pgn__modal-layer"
+    data-focus-lock-disabled="disabled"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onScrollCapture={[Function]}
+    onTouchMoveCapture={[Function]}
+    onWheelCapture={[Function]}
   >
     <div
-      aria-labelledby="id3"
-      aria-modal={true}
-      className="modal-dialog"
-      role="dialog"
+      className="pgn__modal-content-container"
     >
       <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={0}
+        className="pgn__modal-backdrop"
+        onClick={[MockFunction]}
       />
       <div
-        data-focus-lock-disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onTouchStart={[Function]}
-        onWheelCapture={[Function]}
+        aria-label="Are you sure?"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        role="dialog"
       >
         <div
-          className="modal-content"
+          className="pgn__modal-header"
         >
-          <div
-            className="modal-header"
+          <h2
+            className="pgn__modal-title"
           >
-            <h2
-              className="modal-title"
-              id="id3"
+            Are you sure?
+          </h2>
+        </div>
+        <div
+          className="pgn__modal-body pgn__modal-body-scroll-top pgn__modal-body-scroll-bottom"
+        >
+          <div />
+          <div
+            className="pgn__modal-body-content"
+          >
+            <div
+              className="p-3"
             >
-              Are you sure?
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
               <div
                 className="alert d-flex align-items-start alert-warning mt-n2"
               >
@@ -464,37 +294,44 @@ Array [
                 </div>
               </div>
               <div
-                className="pgn__form-group"
+                className="form-group"
               >
                 <label
-                  className="pgn__form-label d-block"
+                  className="d-block"
                   htmlFor="passwordFieldId"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <div
-                  className="pgn__form-control-decorator-group"
+                <input
+                  aria-describedby=""
+                  className="form-control"
+                  id="passwordFieldId"
+                  name="password"
+                  onChange={[MockFunction]}
+                  type="password"
+                  value="fluffy bunnies"
+                />
+                <strong
+                  className="invalid-feedback"
+                  id="passwordFieldId-invalid-feedback"
                 >
-                  <input
-                    className="has-value form-control"
-                    id="passwordFieldId"
-                    name="password"
-                    onBlur={[Function]}
-                    onChange={[MockFunction]}
-                    type="password"
-                    value="fluffy bunnies"
-                  />
-                </div>
+                  Unable to delete account
+                </strong>
               </div>
             </div>
           </div>
+          <div />
+        </div>
+        <div
+          className="pgn__modal-footer"
+        >
           <div
-            className="modal-footer"
+            className="pgn__action-row"
           >
             <button
               className="btn btn-link"
               disabled={false}
-              onClick={[Function]}
+              onClick={[MockFunction]}
               type="button"
             >
               Cancel
@@ -510,22 +347,22 @@ Array [
           </div>
         </div>
       </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={0}
-      />
     </div>
   </div>,
+  <div
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={-1}
+  />,
 ]
 `;

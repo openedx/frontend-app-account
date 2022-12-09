@@ -1,486 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SuccessModal should match default closed success modal snapshot 1`] = `
-Array [
-  <div
-    className="fade"
-    role="presentation"
-  />,
-  <div
-    className="modal fade"
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id1"
-      aria-modal={true}
-      className=""
-      role="dialog"
-    >
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
-      >
-        <div
-          className="modal-content"
-        >
-          <div
-            className="modal-header"
-          >
-            <h2
-              className="modal-title"
-              id="id1"
-            >
-              We're sorry to see you go!  Your account will be deleted shortly.
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <p
-                className="h6"
-              >
-                Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-              </p>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-    </div>
-  </div>,
-]
-`;
+exports[`SuccessModal should match default closed success modal snapshot 1`] = `null`;
 
-exports[`SuccessModal should match default closed success modal snapshot 2`] = `
-Array [
-  <div
-    className="fade"
-    role="presentation"
-  />,
-  <div
-    className="modal fade"
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id2"
-      aria-modal={true}
-      className=""
-      role="dialog"
-    >
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
-      >
-        <div
-          className="modal-content"
-        >
-          <div
-            className="modal-header"
-          >
-            <h2
-              className="modal-title"
-              id="id2"
-            >
-              We're sorry to see you go!  Your account will be deleted shortly.
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <p
-                className="h6"
-              >
-                Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-              </p>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-    </div>
-  </div>,
-]
-`;
+exports[`SuccessModal should match default closed success modal snapshot 2`] = `null`;
 
-exports[`SuccessModal should match default closed success modal snapshot 3`] = `
-Array [
-  <div
-    className="fade"
-    role="presentation"
-  />,
-  <div
-    className="modal fade"
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id3"
-      aria-modal={true}
-      className=""
-      role="dialog"
-    >
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
-      >
-        <div
-          className="modal-content"
-        >
-          <div
-            className="modal-header"
-          >
-            <h2
-              className="modal-title"
-              id="id3"
-            >
-              We're sorry to see you go!  Your account will be deleted shortly.
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <p
-                className="h6"
-              >
-                Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-              </p>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-    </div>
-  </div>,
-]
-`;
+exports[`SuccessModal should match default closed success modal snapshot 3`] = `null`;
 
-exports[`SuccessModal should match default closed success modal snapshot 4`] = `
-Array [
-  <div
-    className="fade"
-    role="presentation"
-  />,
-  <div
-    className="modal fade"
-    role="presentation"
-  >
-    <div
-      aria-labelledby="id4"
-      aria-modal={true}
-      className=""
-      role="dialog"
-    >
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-      <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
-      >
-        <div
-          className="modal-content"
-        >
-          <div
-            className="modal-header"
-          >
-            <h2
-              className="modal-title"
-              id="id4"
-            >
-              We're sorry to see you go!  Your account will be deleted shortly.
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <p
-                className="h6"
-              >
-                Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-              </p>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
-    </div>
-  </div>,
-]
-`;
+exports[`SuccessModal should match default closed success modal snapshot 4`] = `null`;
 
 exports[`SuccessModal should match open success modal snapshot 1`] = `
 Array [
   <div
-    className="modal-backdrop show"
-    role="presentation"
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={-1}
   />,
   <div
-    className="modal show d-block"
-    role="presentation"
+    className="pgn__modal-layer"
+    data-focus-lock-disabled="disabled"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onScrollCapture={[Function]}
+    onTouchMoveCapture={[Function]}
+    onWheelCapture={[Function]}
   >
     <div
-      aria-labelledby="id5"
-      aria-modal={true}
-      className="modal-dialog"
-      role="dialog"
+      className="pgn__modal-content-container"
     >
       <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
+        className="pgn__modal-backdrop"
+        onClick={[MockFunction]}
       />
       <div
-        data-focus-lock-disabled="disabled"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onScrollCapture={[Function]}
-        onTouchMoveCapture={[Function]}
-        onWheelCapture={[Function]}
+        className="mw-sm p-5 bg-white mx-auto my-3"
       >
+        <h3>
+          We're sorry to see you go!  Your account will be deleted shortly.
+        </h3>
         <div
-          className="modal-content"
+          className="p-3"
         >
-          <div
-            className="modal-header"
+          <p
+            className="h6"
           >
-            <h2
-              className="modal-title"
-              id="id5"
-            >
-              We're sorry to see you go!  Your account will be deleted shortly.
-            </h2>
-          </div>
-          <div
-            className="modal-body"
-          >
-            <div>
-              <p
-                className="h6"
-              >
-                Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
-              </p>
-            </div>
-          </div>
-          <div
-            className="modal-footer"
-          >
-            <button
-              className="btn btn-link"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
+            Account deletion, including removal from email lists, may take a few weeks to fully process through our system. If you want to opt-out of emails before then, please unsubscribe from the footer of any email.
+          </p>
         </div>
+        <p>
+          <button
+            className="pgn__modal-close-button float-right btn btn-link"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Close
+          </button>
+        </p>
       </div>
-      <div
-        data-focus-guard={true}
-        style={
-          Object {
-            "height": "0px",
-            "left": "1px",
-            "overflow": "hidden",
-            "padding": 0,
-            "position": "fixed",
-            "top": "1px",
-            "width": "1px",
-          }
-        }
-        tabIndex={-1}
-      />
     </div>
   </div>,
+  <div
+    data-focus-guard={true}
+    style={
+      Object {
+        "height": "0px",
+        "left": "1px",
+        "overflow": "hidden",
+        "padding": 0,
+        "position": "fixed",
+        "top": "1px",
+        "width": "1px",
+      }
+    }
+    tabIndex={-1}
+  />,
 ]
 `;
