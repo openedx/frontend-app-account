@@ -40,6 +40,7 @@ Array [
       <div
         className="pgn__modal-backdrop"
         onClick={[MockFunction]}
+        onKeyDown={[MockFunction]}
       />
       <div
         className="mw-sm p-5 bg-white mx-auto my-3"
