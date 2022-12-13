@@ -62,6 +62,7 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
               id="fullName"
               name="full-name"
               onBlur={[Function]}
+              onChange={[Function]}
               type="text"
             />
           </div>
@@ -89,6 +90,7 @@ exports[`CoachingConsent disables name field on enterprise user 1`] = `
               id="phoneNumber"
               name="phone_number"
               onBlur={[Function]}
+              onChange={[Function]}
               type="text"
             />
           </div>
@@ -221,6 +223,7 @@ exports[`CoachingConsent should render 1`] = `
               id="fullName"
               name="full-name"
               onBlur={[Function]}
+              onChange={[Function]}
               type="text"
             />
           </div>
@@ -248,6 +251,7 @@ exports[`CoachingConsent should render 1`] = `
               id="phoneNumber"
               name="phone_number"
               onBlur={[Function]}
+              onChange={[Function]}
               type="text"
             />
           </div>

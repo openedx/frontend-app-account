@@ -36,6 +36,7 @@ Array [
       <div
         className="pgn__modal-backdrop"
         onClick={[MockFunction]}
+        onKeyDown={[MockFunction]}
       />
       <div
         aria-label="Are you sure?"
@@ -234,6 +235,7 @@ Array [
       <div
         className="pgn__modal-backdrop"
         onClick={[MockFunction]}
+        onKeyDown={[MockFunction]}
       />
       <div
         aria-label="Are you sure?"
