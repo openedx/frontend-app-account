@@ -19,7 +19,7 @@ jobs:
       - run: npm install -g npm@${{ matrix.npm }}
       - run: make requirements
       - name: Update dependencies
-        run: npx browserslist@latest --update-db
+        run: npx update-browserslist-db@latest
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4.1.1
