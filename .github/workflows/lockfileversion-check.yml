@@ -10,7 +10,5 @@ on:
 
 jobs:
   version-check:
-    secrets:
-      requirements_bot_github_token: ${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }}
-      requirements_bot_github_email: ${{ secrets.REQUIREMENTS_BOT_GITHUB_EMAIL }}
-    uses: openedx/.github/.github/workflows/lockfileversion-check.yml@master    
+    uses: openedx/.github/.github/workflows/lockfileversion-check.yml@master
+    
