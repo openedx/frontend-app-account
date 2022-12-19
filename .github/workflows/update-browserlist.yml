@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-browserslist:
+  update-browserslist-db:
     secrets:
       requirements_bot_github_token: ${{ secrets.requirements_bot_github_token }}
-      requirements_bot_github_email: ${{ secrets.requirements_bot_github_email }}
+
     uses: openedx/.github/.github/workflows/update-browserslist-db.yml@master
