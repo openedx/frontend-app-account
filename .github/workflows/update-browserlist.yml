@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-browserslist-db:
-    uses: openedx/.github/.github/workflows/update-browserslist-db.yml@master
+    uses: abdullahwaheed/.github/.github/workflows/update-browserslist-db.yml@abdullahwaheed/shared-browserslist-update-worklow-fixes
 
     secrets:
         requirements_bot_github_token: ${{ secrets.requirements_bot_github_token }}
