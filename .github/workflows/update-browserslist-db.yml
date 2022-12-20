@@ -7,3 +7,6 @@ on:
 jobs:
   update-browserslist:
     uses: openedx/.github/.github/workflows/update-browserslist-db.yml@master
+
+    secrets:
+        requirements_bot_github_token: ${{ secrets.requirements_bot_github_token }}
