@@ -59,7 +59,7 @@
     "lodash.pickby": "4.6.0",
     "long": "5.2.1",
     "memoize-one": "5.2.1",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "qs": "6.10.3",
     "react": "16.14.0",
     "react-dom": "16.14.0",
