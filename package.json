@@ -27,7 +27,7 @@
     "extends @edx/browserslist-config"
   ],
   "dependencies": {
-    "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
+    "@edx/brand": "npm:@edx/brand-openedx@1.2.0",
     "@edx/frontend-component-footer": "11.6.0",
     "@edx/frontend-component-header": "3.6.0",
     "@edx/frontend-platform": "2.6.2",
