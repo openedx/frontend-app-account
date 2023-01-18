@@ -20,6 +20,11 @@ const siteLanguageList = [
     released: true,
   },
   {
+    code: 'fa-ir',
+    name: 'فارسی',
+    released: true,
+  },
+  {
     code: 'fr',
     name: 'Français',
     released: true,
