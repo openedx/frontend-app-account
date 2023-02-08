@@ -52,7 +52,7 @@ const siteLanguageList = [
   {
     code: 'pt-br',
     name: 'Português (Brasil)',
-    released: false,
+    released: true,
   },
   {
     code: 'ru',
