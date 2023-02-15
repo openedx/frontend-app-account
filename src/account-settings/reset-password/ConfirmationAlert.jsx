@@ -13,7 +13,7 @@ const ConfirmationAlert = (props) => {
 
   const technicalSupportLink = (
     <Hyperlink
-      destination={ getConfig().PASSWORD_RESET_SUPPORT_LINK }
+      destination={getConfig().PASSWORD_RESET_SUPPORT_LINK}
     >
       <FormattedMessage
         id="account.settings.editable.field.password.reset.button.confirmation.support.link"
