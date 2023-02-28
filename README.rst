@@ -3,8 +3,6 @@
 frontend-app-account
 ====================
 
-Please tag **@edx/community-engineering** on any PRs or issues.  Thanks!
-
 Introduction
 ------------
 
