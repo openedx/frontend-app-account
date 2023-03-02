@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getConfig } from '@edx/frontend-platform';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Hyperlink } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +13,7 @@ const ConfirmationAlert = (props) => {
 
   const technicalSupportLink = (
     <Hyperlink
-      destination="https://support.edx.org/hc/en-us/articles/206212088-What-if-I-did-not-receive-a-password-reset-message-"
+      destination={getConfig().PASSWORD_RESET_SUPPORT_LINK}
     >
       <FormattedMessage
         id="account.settings.editable.field.password.reset.button.confirmation.support.link"

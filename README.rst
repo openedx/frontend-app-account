@@ -53,6 +53,16 @@ Example: ``https://support.example.com``
 
 The fully-qualified URL to the support page in the target environment.
 
+``PASSWORD_RESET_SUPPORT_LINK``
+
+Examples:
+
+- ``https://support.edx.org/hc/en-us/articles/206212088-What-if-I-did-not-receive-a-password-reset-message-``
+
+- ``mailto:support@example.com``
+
+The fully-qualified URL to the support page or email to request the support from in the target environment.
+
 edX-specific Environment Variables
 **********************************
 
