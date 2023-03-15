@@ -9,18 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [16]
-        npm: [8.5.0]
         npm-test:
         - i18n_extract
         - lint
         - test
     steps:
     - uses: actions/checkout@v2
+    - name: Setup Nodejs Env
+      run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV
     - uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node }}
-    - run: npm install -g npm@${{ matrix.npm }}
+        node-version: ${{ env.NODE_VER }}
     - run: make requirements
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
