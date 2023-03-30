@@ -1,0 +1,14 @@
+name: Build and deploy tutor
+on: push
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout to community-tutor repo
+        run: |
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: Bearer ${{ secrets.ORG_ACCESS_TOKEN }}" \
+          https://api.github.com/repos/Abstract-Tech/community-theme-tutor/actions/workflows/tutor.yml/dispatches -d '{"ref":"main"}'
