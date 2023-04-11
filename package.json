@@ -29,7 +29,7 @@
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.2.0",
     "@edx/frontend-component-footer": "11.7.1",
-    "@edx/frontend-component-header": "3.7.1",
+    "@edx/frontend-component-header": "3.7.2",
     "@edx/frontend-platform": "4.0.2",
     "@edx/paragon": "20.28.5",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
