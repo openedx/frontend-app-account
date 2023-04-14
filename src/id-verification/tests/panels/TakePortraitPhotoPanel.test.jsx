@@ -13,7 +13,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../Camera', () => function () {
+jest.mock('../../Camera', () => function CameraMock() {
   return <></>;
 });
 
