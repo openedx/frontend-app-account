@@ -80,7 +80,7 @@
     "universal-cookie": "4.0.4"
   },
   "devDependencies": {
-    "@edx/browserslist-config": "1.1.1",
+    "@edx/browserslist-config": "1.2.0",
     "@edx/frontend-build": "12.8.16",
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.16.5",
