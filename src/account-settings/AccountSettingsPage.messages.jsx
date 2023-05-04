@@ -565,6 +565,11 @@ const messages = defineMessages({
     defaultMessage: 'No value set.',
     description: 'The placeholder for an empty but uneditable field when there is no administrator',
   },
+  'notification.preferences.notifications.label': {
+    id: 'notification.preferences.notifications.label',
+    defaultMessage: 'Notifications',
+    description: 'Label for Notifications',
+  },
 });
 
 export default messages;
