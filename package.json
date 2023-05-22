@@ -60,7 +60,7 @@
     "long": "5.2.3",
     "memoize-one": "5.2.1",
     "prop-types": "15.8.1",
-    "qs": "6.11.1",
+    "qs": "6.11.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-helmet": "6.1.0",
