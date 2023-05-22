@@ -1,11 +1,13 @@
 import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { breakpoints, useWindowSize } from '@edx/paragon';
+import { breakpoints, useWindowSize, Icon } from '@edx/paragon';
+import { OpenInNew } from '@edx/paragon/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
+import { Link } from 'react-router-dom';
 import messages from './AccountSettingsPage.messages';
 
 const JumpNav = ({
@@ -13,8 +15,9 @@ const JumpNav = ({
   displayDemographicsLink,
 }) => {
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
+  const showNotificationMenu = false;
   return (
-    <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
+    <div className={classNames('jump-nav px-2.25', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
       <Scrollspy
         items={[
           'basic-information',
@@ -67,6 +70,22 @@ const JumpNav = ({
           </NavHashLink>
         </li>
       </Scrollspy>
+      {showNotificationMenu
+        && (
+        <>
+          <hr />
+          <Scrollspy
+            className="list-unstyled"
+          >
+            <li>
+              <Link to="/notifications" target="_blank" rel="noopener noreferrer">
+                <span>{intl.formatMessage(messages['notification.preferences.notifications.label'])}</span>
+                <Icon className="d-inline-block align-bottom ml-1" src={OpenInNew} />
+              </Link>
+            </li>
+          </Scrollspy>
+        </>
+        )}
     </div>
   );
 };

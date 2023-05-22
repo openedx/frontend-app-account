@@ -62,3 +62,27 @@ $fa-font-path: "~font-awesome/fonts";
     font-weight: normal;
   }
 }
+
+.notification-heading {
+  line-height: 36px;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.notification-course-title {
+  line-height: 28px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.px-2\.25 {
+  padding-left: 0.625rem;
+}
+
+.notification-help-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 28px;
+  height: 28px;
+  color: #707070;
+}

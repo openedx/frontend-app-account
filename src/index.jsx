@@ -21,8 +21,11 @@ import messages from './i18n';
 
 import './index.scss';
 import Head from './head/Head';
+import NotificationCourses from './notification-preferences/NotificationCourses';
+import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 subscribe(APP_READY, () => {
+  const allowNotificationRoutes = false;
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Head />
@@ -32,6 +35,12 @@ subscribe(APP_READY, () => {
           <Header />
           <main className="flex-grow-1">
             <Switch>
+              {allowNotificationRoutes && (
+                <>
+                  <Route path="/notifications/:courseId" component={NotificationPreferences} />
+                  <Route path="/notifications" component={NotificationCourses} />
+                </>
+              )}
               <Route path="/id-verification" component={IdVerificationPage} />
               <Route exact path="/" component={AccountSettingsPage} />
               <Route path="/notfound" component={NotFoundPage} />
