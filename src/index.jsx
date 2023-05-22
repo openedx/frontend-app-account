@@ -8,7 +8,7 @@ import {
 } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
@@ -26,21 +26,21 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Head />
-      <Switch>
-        <Route path="/coaching_consent" component={CoachingConsent} />
+      <Routes>
+        <Route path="/coaching_consent" element={<CoachingConsent />} />
         <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
           <Header />
           <main className="flex-grow-1">
-            <Switch>
-              <Route path="/id-verification" component={IdVerificationPage} />
-              <Route exact path="/" component={AccountSettingsPage} />
-              <Route path="/notfound" component={NotFoundPage} />
-              <Route path="*" component={NotFoundPage} />
-            </Switch>
+            <Routes>
+              <Route path="/id-verification/*" element={<IdVerificationPage />} />
+              <Route path="/" element={<AccountSettingsPage />} />
+              <Route path="/notfound" element={<NotFoundPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
           </main>
           <Footer />
         </div>
-      </Switch>
+      </Routes>
     </AppProvider>,
     document.getElementById('root'),
   );
