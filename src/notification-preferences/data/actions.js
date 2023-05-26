@@ -7,7 +7,7 @@ export const Actions = {
   FAILED_COURSE_LIST: 'failedCourseList',
   UPDATE_SELECTED_COURSE: 'updateSelectedCourse',
   UPDATE_PREFERENCE: 'updatePreference',
-  UPDATE_GROUP_PREFERENCE: 'updateGroupValue',
+  UPDATE_APP_PREFERENCE: 'updateAppValue',
 };
 
 export const fetchNotificationPreferenceSuccess = (courseId, payload) => dispatch => (
@@ -38,21 +38,21 @@ export const updateSelectedCourse = courseId => dispatch => (
   dispatch({ type: Actions.UPDATE_SELECTED_COURSE, courseId })
 );
 
-export const updatePreferenceValue = (groupName, preferenceName, notificationChannel, value) => dispatch => (
+export const updatePreferenceValue = (appId, preferenceName, notificationChannel, value) => dispatch => (
   dispatch({
     type: Actions.UPDATE_PREFERENCE,
-    groupName,
+    appId,
     preferenceName,
     notificationChannel,
     value,
   })
 );
 
-export const updateGroupValue = (courseId, groupName, value) => dispatch => (
+export const updateAppToggle = (courseId, appId, value) => dispatch => (
   dispatch({
-    type: Actions.UPDATE_GROUP_PREFERENCE,
+    type: Actions.UPDATE_APP_PREFERENCE,
     courseId,
-    groupName,
+    appId,
     value,
   })
 );

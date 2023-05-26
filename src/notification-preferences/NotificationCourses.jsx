@@ -5,21 +5,32 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Container, Icon, Spinner } from '@edx/paragon';
 import { ArrowForwardIos } from '@edx/paragon/icons';
 import { fetchCourseList } from './data/thunks';
-import { courseListStatus, getCourseList } from './data/selectors';
-import { IDLE_STATUS, LOADING_STATUS } from '../constants';
+import { selectCourseListStatus, selectCourseList } from './data/selectors';
+import {
+  IDLE_STATUS,
+  LOADING_STATUS,
+  SUCCESS_STATUS,
+} from '../constants';
 import { messages } from './messages';
+import { NotFoundPage } from '../account-settings';
 
 const NotificationCourses = ({ intl }) => {
   const dispatch = useDispatch();
-  const courseStatus = useSelector(courseListStatus());
-  const coursesList = useSelector(getCourseList());
+  const coursesList = useSelector(selectCourseList());
+  const courseListStatus = useSelector(selectCourseListStatus());
+
   useEffect(() => {
-    if (courseStatus === IDLE_STATUS || coursesList.length === 0) {
+    if (courseListStatus === IDLE_STATUS) {
       dispatch(fetchCourseList());
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseStatus]);
-  if (courseStatus === LOADING_STATUS) {
+  }, []);
+
+  if (courseListStatus === SUCCESS_STATUS && coursesList.length === 0) {
+    return <NotFoundPage />;
+  }
+
+  if (courseListStatus === LOADING_STATUS) {
     return (
       <div className="d-flex h-100">
         <Spinner
@@ -40,6 +51,7 @@ const NotificationCourses = ({ intl }) => {
         {
           coursesList.map(course => (
             <Link
+              key={course.id}
               to={`/notifications/${course.id}`}
             >
               <div className="mb-4 d-flex text-gray-700">
