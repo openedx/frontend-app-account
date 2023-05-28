@@ -114,6 +114,7 @@
   "account.settings.editable.field.action.edit": "Edit",
   "account.settings.static.field.empty": "No value set. Contact your {enterprise} administrator to make changes.",
   "account.settings.static.field.empty.no.admin": "No value set.",
+  "notification.preferences.notifications.label": "Notifications",
   "account.settings.field.name.certificate.select": "If checked, this name will appear on your certificates and public-facing records.",
   "account.settings.field.name.modal.certificate.title": "Choose a preferred name for certificates and public-facing records",
   "account.settings.field.name.modal.certificate.select": "Select a name",
@@ -357,5 +358,12 @@
   "id.verification.requirements.card.device.text": "You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click {allow}.",
   "id.verification.account.name.summary.alert": "Your account settings are managed by {managerTitle}. If the name on your photo ID does not match the name on your account, please contact your {profileDataManager} administrator or {support} for help.",
   "idv.submission.alert.error": "\n          We encountered a technical error while trying to submit ID verification.\n          This might be a temporary issue, so please try again in a few minutes.\n          If the problem persists, please go to {support_link} for help.\n        ",
-  "id.verification.account.name.edit": "Edit {sr}"
+  "id.verification.account.name.edit": "Edit {sr}",
+  "notification.preference.heading": "Notifications",
+  "notification.preference.group.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
+  "notification.preference.title": "{\n        text, select,\n        newPost {New Post}\n        newComment {New Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
+  "notification.preference.help.type": "Type",
+  "notification.preference.help.web": "Web",
+  "notification.preference.help.email": "Email",
+  "notification.preference.help.push": "Push"
 }

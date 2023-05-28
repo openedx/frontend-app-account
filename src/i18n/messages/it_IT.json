@@ -114,6 +114,7 @@
   "account.settings.editable.field.action.edit": "Modifica",
   "account.settings.static.field.empty": "Nessun valore impostato. Contatta il tuo amministratore {enterprise} per apportare modifiche. ",
   "account.settings.static.field.empty.no.admin": "Nessun valore impostato. ",
+  "notification.preferences.notifications.label": "Notifications",
   "account.settings.field.name.certificate.select": "Se selezionato, questo nome apparirà sui tuoi certificati e record pubblici.",
   "account.settings.field.name.modal.certificate.title": "Scegli un nome preferito per certificati e record pubblici",
   "account.settings.field.name.modal.certificate.select": "Seleziona un nome",
@@ -357,5 +358,12 @@
   "id.verification.requirements.card.device.text": "Hai bisogno di un dispositivo dotato di fotocamera. Se ricevi una richiesta del browser per l'accesso alla fotocamera, assicurati di fare clic su {allow}. ",
   "id.verification.account.name.summary.alert": "Le impostazioni del tuo account sono gestite da {managerTitle}. Se il nome riportato sul tuo documento d'identità con foto non corrisponde al nome nel tuo account, contatta il tuo amministratore di {profileDataManager} o {support} per assistenza. ",
   "idv.submission.alert.error": "\n          Si è verificato un errore tecnico durante il tentativo di inviare la verifica del documento d'identità.\nÈ possibile che ciò sia dovuto ad un problema temporaneo, quindi riprova tra qualche minuto.\nSe il problema persiste, accedi alla pagina {support_link} per assistenza.",
-  "id.verification.account.name.edit": "Modifica {sr}"
+  "id.verification.account.name.edit": "Modifica {sr}",
+  "notification.preference.heading": "Notifications",
+  "notification.preference.group.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
+  "notification.preference.title": "{\n        text, select,\n        newPost {New Post}\n        newComment {New Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
+  "notification.preference.help.type": "Type",
+  "notification.preference.help.web": "Web",
+  "notification.preference.help.email": "Email",
+  "notification.preference.help.push": "Push"
 }

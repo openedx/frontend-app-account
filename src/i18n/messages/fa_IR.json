@@ -114,6 +114,7 @@
   "account.settings.editable.field.action.edit": " ویرایش",
   "account.settings.static.field.empty": "مقداری برای آن تعیین نشده است. برای ایجاد تغییرات با مدیر {enterprise} خود تماس بگیرید.",
   "account.settings.static.field.empty.no.admin": "هیچ مقداری تنظیم نشده است.",
+  "notification.preferences.notifications.label": "Notifications",
   "account.settings.field.name.certificate.select": "اگر علامت زده شود، این نام در گواهی‌ها و سوابق عمومی شما درج می‌شود.",
   "account.settings.field.name.modal.certificate.title": "نامی مرجح برای گواهی‌ها و سوابق عمومی انتخاب کنید",
   "account.settings.field.name.modal.certificate.select": "یک نام انتخاب کنید",
@@ -357,5 +358,12 @@
   "id.verification.requirements.card.device.text": "شما به دستگاهی نیاز دارید که دوربین داشته باشد. اگر درخواست مرورگر برای دسترسی به دوربین خود دریافت کردید، لطفاً روی {allow} کلیک کنید.",
   "id.verification.account.name.summary.alert": "تنظیمات حساب کاربری شما توسط {manager Title} مدیریت می‌شود. نام روی تصویر کارت شناسایی شما با نام حساب کاربری شما مطابقت ندارد، لطفاً برای راهنمایی با مدیر {profile DataManager} یا {support} خود تماس بگیرید.",
   "idv.submission.alert.error": "\nهنگام تلاش برای ارسال تأیید هویت با خطای فنی مواجه شدیم. \nاین مشکل ممکن است موقتی باشد، پس لطفاً چند دقیقه دیگر دوباره امتحان کنید. \nاگر مشکل همچنان ادامه داشت، لطفاً برای راهنمایی به {support_link} بروید.",
-  "id.verification.account.name.edit": "ویرایش {sr}"
+  "id.verification.account.name.edit": "ویرایش {sr}",
+  "notification.preference.heading": "Notifications",
+  "notification.preference.group.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
+  "notification.preference.title": "{\n        text, select,\n        newPost {New Post}\n        newComment {New Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
+  "notification.preference.help.type": "Type",
+  "notification.preference.help.web": "Web",
+  "notification.preference.help.email": "Email",
+  "notification.preference.help.push": "Push"
 }

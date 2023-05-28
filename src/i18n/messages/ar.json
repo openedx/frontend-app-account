@@ -114,6 +114,7 @@
   "account.settings.editable.field.action.edit": "تعديل",
   "account.settings.static.field.empty": "لا قيمة محددة. رجاءً اتصل بمديرك في {enterprise} ليقوم بالتعديلات.",
   "account.settings.static.field.empty.no.admin": "لا قيمة محددة.",
+  "notification.preferences.notifications.label": "Notifications",
   "account.settings.field.name.certificate.select": "في حال التأشير، سيظهر هذا الاسم في شهاداتك و سجلاتك العامة.",
   "account.settings.field.name.modal.certificate.title": "اختر اسمًا مفضلًا للشهادات والسجلات العامة",
   "account.settings.field.name.modal.certificate.select": "اختر اسمًا",
@@ -357,5 +358,12 @@
   "id.verification.requirements.card.device.text": "أنت بحاجة إلى جهاز مزود بكاميرا. إذا تلقيت طلبًا من المتصفح للوصول إلى كاميرا جهازك، فتأكد رجاءً من النقر على {السماح}.",
   "id.verification.account.name.summary.alert": "إعدادات حسابك يديرها {managerTitle}. إن لم يكن الاسم في بطاقة هويتك ذات الصورة. مطابقًا للاسم الذي في حسابك، فيرجى الاتصال بالمسؤول {profileDataManager} أو ب{support} للحصول على المساعدة قبل إتمام عملية التحقق من الصورة..",
   "idv.submission.alert.error": "\nواجهنا خطأ فني أثناء محاولة رفع طلب التحقق من الهوية\nقد تكون هذه مشكلة مؤقتة، لذا يرجى المحاولة مجددًا بعد بضع دقائق\nإن استمرت المشكلة، فيرجى الذهاب إلى {support_link} للحصول على المساعدة.",
-  "id.verification.account.name.edit": "تعديل {sr}"
+  "id.verification.account.name.edit": "تعديل {sr}",
+  "notification.preference.heading": "Notifications",
+  "notification.preference.group.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
+  "notification.preference.title": "{\n        text, select,\n        newPost {New Post}\n        newComment {New Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
+  "notification.preference.help.type": "Type",
+  "notification.preference.help.web": "Web",
+  "notification.preference.help.email": "Email",
+  "notification.preference.help.push": "Push"
 }
