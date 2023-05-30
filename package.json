@@ -29,8 +29,8 @@
   "dependencies": {
     "@edx/brand": "npm:@edx/brand-openedx@1.2.0",
     "@edx/frontend-component-footer": "12.0.0",
-    "@edx/frontend-component-header": "4.0.2",
-    "@edx/frontend-platform": "4.2.0",
+    "@edx/frontend-component-header": "4.0.3",
+    "@edx/frontend-platform": "4.5.0",
     "@edx/paragon": "20.36.0",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
@@ -60,7 +60,7 @@
     "long": "5.2.3",
     "memoize-one": "5.2.1",
     "prop-types": "15.8.1",
-    "qs": "6.11.1",
+    "qs": "6.11.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-helmet": "6.1.0",
@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
-    "@edx/frontend-build": "12.8.27",
+    "@edx/frontend-build": "12.8.38",
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
