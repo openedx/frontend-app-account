@@ -2,14 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import {
   fireEvent,
   render,
   screen,
 } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
@@ -28,8 +27,6 @@ jest.mock('react-redux', () => ({
 jest.mock('@edx/frontend-platform/auth');
 jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
 
-const history = createMemoryHistory();
-
 const IntlCertificatePreference = injectIntl(CertificatePreference);
 
 const mockStore = configureStore();
@@ -42,7 +39,7 @@ describe('NameChange', () => {
   const labelText = 'If checked, this name will appear on your certificates and public-facing records.';
 
   const reduxWrapper = children => (
-    <Router history={history}>
+    <Router>
       <IntlProvider locale="en">
         <Provider store={store}>{children}</Provider>
       </IntlProvider>

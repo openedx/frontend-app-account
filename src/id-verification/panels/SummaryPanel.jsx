@@ -172,10 +172,8 @@ const SummaryPanel = (props) => {
           />
           <Link
             className="btn btn-outline-primary"
-            to={{
-              pathname: '/id-verification/take-portrait-photo',
-              state: { fromSummary: true },
-            }}
+            to="/id-verification/take-portrait-photo"
+            state={{ fromSummary: true }}
             data-testid="portrait-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.portrait.retake'])}
@@ -192,10 +190,8 @@ const SummaryPanel = (props) => {
           />
           <Link
             className="btn btn-outline-primary"
-            to={{
-              pathname: '/id-verification/take-id-photo',
-              state: { fromSummary: true },
-            }}
+            to="/id-verification/take-id-photo"
+            state={{ fromSummary: true }}
             data-testid="id-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.id.retake'])}
@@ -220,10 +216,8 @@ const SummaryPanel = (props) => {
           {!profileDataManager && (
             <Link
               className="btn btn-link ml-3 px-0"
-              to={{
-                pathname: '/id-verification/get-name-id',
-                state: { fromSummary: true },
-              }}
+              to="/id-verification/get-name-id"
+              state={{ fromSummary: true }}
             >
               <FormattedMessage
                 id="id.verification.account.name.edit"

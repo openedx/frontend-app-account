@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
@@ -15,8 +14,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 const IntlGetNameIdPanel = injectIntl(GetNameIdPanel);
-
-const history = createMemoryHistory();
 
 describe('GetNameIdPanel', () => {
   const defaultProps = {
@@ -36,7 +33,7 @@ describe('GetNameIdPanel', () => {
 
   const getPanel = async (idVerificationContextValue = IDVerificationContextValue) => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <VerifiedNameContext.Provider value={verifiedNameContextValue}>
             <IdVerificationContext.Provider value={idVerificationContextValue}>
@@ -82,6 +79,6 @@ describe('GetNameIdPanel', () => {
     const button = await screen.findByTestId('next-button');
 
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(window.location.pathname).toEqual('/id-verification/summary');
   });
 });

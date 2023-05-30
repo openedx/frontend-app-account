@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
@@ -13,8 +12,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 jest.mock('../../Camera');
-
-const history = createMemoryHistory();
 
 const IntlTakeIdPhotoPanel = injectIntl(TakeIdPhotoPanel);
 
@@ -37,7 +34,7 @@ describe('TakeIdPhotoPanel', () => {
 
   it('doesn\'t show next button before photo is taken', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakeIdPhotoPanel {...defaultProps} />
@@ -52,7 +49,7 @@ describe('TakeIdPhotoPanel', () => {
   it('shows next button after photo is taken and routes to GetNameIdPanel', async () => {
     contextValue.idPhotoFile = 'test.jpg';
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakeIdPhotoPanel {...defaultProps} />
@@ -63,14 +60,14 @@ describe('TakeIdPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/get-name-id');
+    expect(window.location.pathname).toEqual('/id-verification/get-name-id');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
     contextValue.idPhotoFile = 'test.jpg';
     contextValue.reachedSummary = true;
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakeIdPhotoPanel {...defaultProps} />
@@ -80,12 +77,12 @@ describe('TakeIdPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(window.location.pathname).toEqual('/id-verification/summary');
   });
 
   it('shows correct text if user should use upload', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakeIdPhotoPanel {...defaultProps} />

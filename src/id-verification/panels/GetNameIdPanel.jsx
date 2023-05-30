@@ -34,7 +34,7 @@ const GetNameIdPanel = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
-      navigate(nextPanelSlug, { replace: true });
+      navigate(nextPanelSlug);
     }
   };
 

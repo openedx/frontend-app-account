@@ -1,7 +1,6 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Bowser from 'bowser';
-import { createMemoryHistory } from 'history';
 import {
   render, screen, cleanup, act, fireEvent,
 } from '@testing-library/react';
@@ -15,8 +14,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 jest.mock('bowser');
-
-const history = createMemoryHistory();
 
 const IntlRequestCameraAccessPanel = injectIntl(RequestCameraAccessPanel);
 
@@ -38,7 +35,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'pending';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -54,7 +51,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'granted';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -66,14 +63,14 @@ describe('RequestCameraAccessPanel', () => {
     expect(text).toHaveTextContent(/Looks like your camera is working and ready./);
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/portrait-photo-context');
+    expect(window.location.pathname).toEqual('/id-verification/portrait-photo-context');
   });
 
   it('renders correctly with media access denied', async () => {
     contextValue.mediaAccess = 'denied';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -89,7 +86,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'unsupported';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Chrome' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -106,7 +103,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'unsupported';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -123,7 +120,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'denied';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Chrome' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -139,7 +136,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'denied';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Firefox' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -155,7 +152,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'denied';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Safari' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -171,7 +168,7 @@ describe('RequestCameraAccessPanel', () => {
     contextValue.mediaAccess = 'denied';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: 'Internet Explorer' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -188,7 +185,7 @@ describe('RequestCameraAccessPanel', () => {
 
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -205,7 +202,7 @@ describe('RequestCameraAccessPanel', () => {
 
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlRequestCameraAccessPanel {...defaultProps} />
@@ -215,6 +212,6 @@ describe('RequestCameraAccessPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/portrait-photo-context');
+    expect(window.location.pathname).toEqual('/id-verification/portrait-photo-context');
   });
 });

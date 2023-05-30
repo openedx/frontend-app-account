@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
@@ -11,8 +10,6 @@ import { ERROR_REASONS } from '../IdVerificationContext';
 import AccessBlocked from '../AccessBlocked';
 
 const IntlAccessBlocked = injectIntl(AccessBlocked);
-
-const history = createMemoryHistory();
 
 describe('AccessBlocked', () => {
   const defaultProps = {
@@ -28,7 +25,7 @@ describe('AccessBlocked', () => {
     defaultProps.error = ERROR_REASONS.EXISTING_REQUEST;
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IntlAccessBlocked {...defaultProps} />
         </IntlProvider>
@@ -44,7 +41,7 @@ describe('AccessBlocked', () => {
     defaultProps.error = ERROR_REASONS.COURSE_ENROLLMENT;
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IntlAccessBlocked {...defaultProps} />
         </IntlProvider>
@@ -60,7 +57,7 @@ describe('AccessBlocked', () => {
     defaultProps.error = ERROR_REASONS.CANNOT_VERIFY;
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IntlAccessBlocked {...defaultProps} />
         </IntlProvider>

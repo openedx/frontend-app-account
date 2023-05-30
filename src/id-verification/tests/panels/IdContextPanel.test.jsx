@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
@@ -14,8 +13,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 const IntlIdContextPanel = injectIntl(IdContextPanel);
-
-const history = createMemoryHistory();
 
 describe('IdContextPanel', () => {
   const defaultProps = {
@@ -33,7 +30,7 @@ describe('IdContextPanel', () => {
 
   it('routes to TakeIdPhotoPanel normally', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlIdContextPanel {...defaultProps} />
@@ -43,13 +40,13 @@ describe('IdContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/take-id-photo');
+    expect(window.location.pathname).toEqual('/id-verification/take-id-photo');
   });
 
   it('routes to TakeIdPhotoPanel if reachedSummary is true', async () => {
     contextValue.reachedSummary = true;
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlIdContextPanel {...defaultProps} />
@@ -59,6 +56,6 @@ describe('IdContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/take-id-photo');
+    expect(window.location.pathname).toEqual('/id-verification/take-id-photo');
   });
 });
