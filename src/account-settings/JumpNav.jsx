@@ -13,6 +13,7 @@ import messages from './AccountSettingsPage.messages';
 const JumpNav = ({
   intl,
   displayDemographicsLink,
+  displayAccountDeletion
 }) => {
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
   const showNotificationMenu = false;
@@ -64,11 +65,14 @@ const JumpNav = ({
             {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
           </NavHashLink>
         </li>
-        <li>
-          <NavHashLink to="#delete-account">
-            {intl.formatMessage(messages['account.settings.jump.nav.delete.account'])}
-          </NavHashLink>
-        </li>
+        {displayAccountDeletion 
+          && (
+          <li>
+            <NavHashLink to="#delete-account">
+              {intl.formatMessage(messages['account.settings.jump.nav.delete.account'])}
+            </NavHashLink>
+          </li>
+          )}
       </Scrollspy>
       {showNotificationMenu
         && (

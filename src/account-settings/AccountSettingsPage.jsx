@@ -777,12 +777,15 @@ class AccountSettingsPage extends React.Component {
           <ThirdPartyAuth />
         </div>
 
-        <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
-          <DeleteAccount
-            isVerifiedAccount={this.props.isActive}
-            hasLinkedTPA={hasLinkedTPA}
-          />
-        </div>
+        {this.props.formValues.enable_account_deletion 
+          && (
+          <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
+            <DeleteAccount
+              isVerifiedAccount={this.props.isActive}
+              hasLinkedTPA={hasLinkedTPA}
+              />
+          </div>
+          )}
 
       </>
     );
@@ -822,6 +825,7 @@ class AccountSettingsPage extends React.Component {
             <div className="col-md-2">
               <JumpNav
                 displayDemographicsLink={this.props.formValues.shouldDisplayDemographicsSection}
+                displayAccountDeletion={this.props.formValues.enable_account_deletion}
               />
             </div>
             <div className="col-md-10">
@@ -871,6 +875,7 @@ AccountSettingsPage.propTypes = {
     shouldDisplayDemographicsSection: PropTypes.bool,
     useVerifiedNameForCerts: PropTypes.bool.isRequired,
     verified_name: PropTypes.string,
+    enable_account_deletion: PropTypes.bool,
   }).isRequired,
   committedValues: PropTypes.shape({
     name: PropTypes.string,

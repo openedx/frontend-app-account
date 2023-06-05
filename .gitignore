@@ -17,3 +17,4 @@ temp/babel-plugin-react-intl
 /temp
 /.vscode
 /module.config.js
+/src/account-settings/JumpNav.jsx
