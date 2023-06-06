@@ -38,13 +38,13 @@ const NotificationPreferenceApp = ({ appId }) => {
     return null;
   }
   return (
-    <Collapsible.Advanced open={appToggle}>
+    <Collapsible.Advanced open={appToggle} data-testid="notification-app">
       <Collapsible.Trigger>
         <div className="d-flex">
           <span className="ml-0 mr-auto">
             {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
           </span>
-          <span className="ml-auto mr-0">
+          <span id={`${appId}-app-toggle`} className="ml-auto mr-0">
             <ToggleSwitch
               name={appId}
               value={appToggle}
