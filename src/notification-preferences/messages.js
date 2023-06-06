@@ -7,8 +7,8 @@ export const messages = defineMessages({
     defaultMessage: 'Notifications',
     description: 'Notification title',
   },
-  notificationGroupTitle: {
-    id: 'notification.preference.group.title',
+  notificationAppTitle: {
+    id: 'notification.preference.app.title',
     defaultMessage: `{
         key, select,
         discussion {Discussions}
@@ -21,8 +21,12 @@ export const messages = defineMessages({
     id: 'notification.preference.title',
     defaultMessage: `{
         text, select,
+        core {Core}
         newPost {New Post}
         newComment {New Comment}
+        newCommentOnPost {New Comment On Post}
+        newResponseOnPost {New Response On Post}
+        newResponseOnComment {New Response On Comment}
         newAssignment {New Assignment}
         newGrade {New Grade}
         other {{text}}

@@ -6,40 +6,44 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Icon, Spinner } from '@edx/paragon';
 import { ArrowBack } from '@edx/paragon/icons';
 import {
-  courseListStatus,
-  getCourse,
-  getPreferenceGroupIds,
-  notificationPreferencesStatus,
+  selectCourseListStatus,
+  selectCourse,
+  selectPreferenceAppsId,
+  selectNotificationPreferencesStatus,
+  selectCourseList,
 } from './data/selectors';
 import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
 import { messages } from './messages';
-import NotificationPreferenceGroup from './NotificationPreferenceGroup';
-import { updateSelectedCourse } from './data/actions';
-import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import NotificationPreferenceApp from './NotificationPreferenceApp';
+import {
+  FAILURE_STATUS,
+  IDLE_STATUS,
+  LOADING_STATUS,
+  SUCCESS_STATUS,
+} from '../constants';
+import { NotFoundPage } from '../account-settings';
 
 const NotificationPreferences = () => {
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const intl = useIntl();
-  const courseStatus = useSelector(courseListStatus());
-  const notificationStatus = useSelector(notificationPreferencesStatus());
-  const course = useSelector(getCourse(courseId));
-  const preferenceGroups = useSelector(getPreferenceGroupIds());
+  const courseStatus = useSelector(selectCourseListStatus());
+  const coursesList = useSelector(selectCourseList());
+  const course = useSelector(selectCourse(courseId));
+  const notificationStatus = useSelector(selectNotificationPreferencesStatus());
+  const preferenceAppsIds = useSelector(selectPreferenceAppsId());
 
   const preferencesList = useMemo(() => (
-    preferenceGroups.map(key => (
-      <NotificationPreferenceGroup groupId={key} key={key} />
+    preferenceAppsIds.map(appId => (
+      <NotificationPreferenceApp appId={appId} key={appId} />
     ))
-  ), [preferenceGroups]);
+  ), [preferenceAppsIds]);
 
   useEffect(() => {
-    dispatch(updateSelectedCourse(courseId));
-    if (courseStatus !== SUCCESS_STATUS) {
+    if ([IDLE_STATUS, FAILURE_STATUS].includes(courseStatus)) {
       dispatch(fetchCourseList());
     }
-    if (notificationStatus !== SUCCESS_STATUS) {
-      dispatch(fetchCourseNotificationPreferences(courseId));
-    }
+    dispatch(fetchCourseNotificationPreferences(courseId));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId]);
 
@@ -55,6 +59,14 @@ const NotificationPreferences = () => {
       </div>
     );
   }
+
+  if (
+    (courseStatus === SUCCESS_STATUS && coursesList.length === 0)
+    || (notificationStatus === FAILURE_STATUS && coursesList.length !== 0)
+  ) {
+    return <NotFoundPage />;
+  }
+
   return (
     <Container size="md">
       <h2 className="notification-heading mt-6 mb-5.5">

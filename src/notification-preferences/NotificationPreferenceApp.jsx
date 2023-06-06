@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -6,46 +6,50 @@ import { Collapsible } from '@edx/paragon';
 import { messages } from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
-  getPreferenceGroup,
-  getSelectedCourse,
+  selectPreferenceAppToggleValue,
+  selectPreferencesOfApp,
+  selectSelectedCourseId,
 } from './data/selectors';
 import NotificationPreferenceRow from './NotificationPreferenceRow';
-import { updateGroupValue } from './data/actions';
+import { updateAppPreferenceToggle } from './data/thunks';
 
-const NotificationPreferenceGroup = ({ groupId }) => {
+const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const courseId = useSelector(getSelectedCourse());
-  const preferenceGroup = useSelector(getPreferenceGroup(groupId));
-  const [groupToggle, setGroupToggle] = useState(true);
+  const courseId = useSelector(selectSelectedCourseId());
+  const appPreferences = useSelector(selectPreferencesOfApp(appId));
+  const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
 
   const preferences = useMemo(() => (
-    preferenceGroup.map(preference => (
+    appPreferences.map(preference => (
       <NotificationPreferenceRow
         key={preference.id}
-        groupId={groupId}
+        appId={appId}
         preferenceName={preference.id}
       />
-    ))), [groupId, preferenceGroup]);
+    ))), [appId, appPreferences]);
 
-  const onChangeGroupSettings = useCallback((checked) => {
-    setGroupToggle(checked);
-    dispatch(updateGroupValue(courseId, groupId, checked));
+  const onChangeAppSettings = useCallback((event) => {
+    dispatch(updateAppPreferenceToggle(courseId, appId, event.target.checked));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupId]);
+  }, [appId]);
 
   if (!courseId) {
     return null;
   }
   return (
-    <Collapsible.Advanced open={groupToggle}>
+    <Collapsible.Advanced open={appToggle}>
       <Collapsible.Trigger>
         <div className="d-flex">
           <span className="ml-0 mr-auto">
-            {intl.formatMessage(messages.notificationGroupTitle, { key: groupId })}
+            {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
           </span>
           <span className="ml-auto mr-0">
-            <ToggleSwitch value={groupToggle} onChange={onChangeGroupSettings} />
+            <ToggleSwitch
+              name={appId}
+              value={appToggle}
+              onChange={onChangeAppSettings}
+            />
           </span>
         </div>
         <hr />
@@ -67,8 +71,8 @@ const NotificationPreferenceGroup = ({ groupId }) => {
   );
 };
 
-NotificationPreferenceGroup.propTypes = {
-  groupId: PropTypes.string.isRequired,
+NotificationPreferenceApp.propTypes = {
+  appId: PropTypes.string.isRequired,
 };
 
-export default React.memo(NotificationPreferenceGroup);
+export default React.memo(NotificationPreferenceApp);

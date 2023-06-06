@@ -15,13 +15,14 @@ export const defaultState = {
     status: IDLE_STATUS,
     selectedCourse: null,
     preferences: [],
-    groups: [],
+    apps: [],
+    notEditable: {},
   },
 };
 
 const notificationPreferencesReducer = (state = defaultState, action = {}) => {
   const {
-    courseId, groupName, notificationChannel, preferenceName, value,
+    courseId, appId, notificationChannel, preferenceName, value,
   } = action;
   switch (action.type) {
     case Actions.FETCHING_COURSE_LIST:
@@ -54,7 +55,9 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         preferences: {
           ...state.preferences,
           status: LOADING_STATUS,
-          preferences: {},
+          preferences: [],
+          apps: [],
+          notEditable: {},
         },
       };
     case Actions.FETCHED_PREFERENCES:
@@ -70,8 +73,11 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         preferences: {
+          ...state.preferences,
           status: FAILURE_STATUS,
-          preferences: {},
+          preferences: [],
+          apps: [],
+          notEditable: {},
         },
       };
     case Actions.UPDATE_SELECTED_COURSE:
@@ -87,27 +93,22 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         ...state,
         preferences: {
           ...state.preferences,
-          preferences: state.preferences.preferences.map((element) => (
-            element.id === preferenceName
-              ? { ...element, [notificationChannel]: value }
-              : element
+          preferences: state.preferences.preferences.map((preference) => (
+            preference.id === preferenceName
+              ? { ...preference, [notificationChannel]: value }
+              : preference
           )),
         },
       };
-    case Actions.UPDATE_GROUP_PREFERENCE:
+    case Actions.UPDATE_APP_PREFERENCE:
       return {
         ...state,
         preferences: {
           ...state.preferences,
-          preferences: state.preferences.preferences.map((element) => (
-            element.groupId === groupName
-              ? {
-                ...element,
-                web: value,
-                email: value,
-                push: value,
-              }
-              : element
+          apps: state.preferences.apps.map(app => (
+            app.id === appId
+              ? { ...app, enabled: value }
+              : app
           )),
         },
       };
