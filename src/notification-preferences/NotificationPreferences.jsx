@@ -55,6 +55,7 @@ const NotificationPreferences = () => {
           animation="border"
           className="mx-auto my-auto"
           style={{ width: '4rem', height: '4rem' }}
+          data-testid="loading-spinner"
         />
       </div>
     );
