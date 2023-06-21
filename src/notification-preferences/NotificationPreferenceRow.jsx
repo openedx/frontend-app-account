@@ -38,7 +38,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
 
   const tooltipId = `${preferenceName}-tooltip`;
   return (
-    <div className="d-flex flex-row mb-3">
+    <div className="d-flex flex-row mb-3" data-testid="notification-preference">
       <span className="d-flex align-items-center col-8 px-0">
         {intl.formatMessage(messages.notificationTitle, { text: preferenceName })}
         {
@@ -64,6 +64,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
         {
           ['web', 'email', 'push'].map((channel) => (
             <span
+              id={`${preferenceName}-${channel}`}
               className={classNames(
                 { 'ml-0 mr-auto': channel === 'web' },
                 { 'mx-auto': channel === 'email' },

@@ -37,6 +37,7 @@ const NotificationCourses = ({ intl }) => {
           variant="primary"
           animation="border"
           className="mx-auto my-auto"
+          data-testid="loading-spinner"
           style={{ width: '4rem', height: '4rem' }}
         />
       </div>
@@ -47,7 +48,7 @@ const NotificationCourses = ({ intl }) => {
       <h2 className="notification-heading mt-6 mb-5.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
-      <div>
+      <div data-testid="courses-list">
         {
           coursesList.map(course => (
             <Link
