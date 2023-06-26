@@ -49,6 +49,12 @@ describe('Notification Courses', () => {
     store = setupStore({
       courses: courseList,
       status: SUCCESS_STATUS,
+      pagination: {
+        count: 3,
+        currentPage: 1,
+        hasMore: false,
+        totalPages: 1,
+      },
     });
 
     auth.getAuthenticatedHttpClient = jest.fn(() => ({
@@ -77,5 +83,12 @@ describe('Notification Courses', () => {
     store = setupStore({ status: SUCCESS_STATUS, courses: [] });
     await renderComponent(store);
     expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
+  });
+
+  it('show load more courses button when hasMore True', async () => {
+    store = setupStore({ status: SUCCESS_STATUS, pagination: { ...store.pagination, hasMore: true, totalPages: 2 } });
+    await renderComponent(store);
+
+    expect(screen.queryByText('Load more courses')).toBeInTheDocument();
   });
 });
