@@ -53,3 +53,7 @@ export const selectPreferenceNonEditableChannels = (appId, name) => state => (
 export const selectSelectedCourseId = () => state => (
   state.notificationPreferences.preferences.selectedCourse
 );
+
+export const selectPagination = () => state => (
+  state.notificationPreferences.courses.pagination
+);

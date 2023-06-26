@@ -10,6 +10,7 @@ export const defaultState = {
   courses: {
     status: IDLE_STATUS,
     courses: [],
+    pagination: {},
   },
   preferences: {
     status: IDLE_STATUS,
@@ -29,8 +30,8 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         courses: {
+          ...state.courses,
           status: LOADING_STATUS,
-          courses: [],
         },
       };
     case Actions.FETCHED_COURSE_LIST:
@@ -38,15 +39,16 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         ...state,
         courses: {
           status: SUCCESS_STATUS,
-          courses: action.payload,
+          courses: [...state.courses.courses, ...action.payload.courseList],
+          pagination: action.payload.pagination,
         },
       };
     case Actions.FAILED_COURSE_LIST:
       return {
         ...state,
         courses: {
+          ...state.courses,
           status: FAILURE_STATUS,
-          courses: [],
         },
       };
     case Actions.FETCHING_PREFERENCES:
