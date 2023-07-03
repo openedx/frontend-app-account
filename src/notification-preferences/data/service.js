@@ -8,9 +8,10 @@ export const getCourseNotificationPreferences = async (courseId) => {
   return data;
 };
 
-export const getCourseList = async () => {
+export const getCourseList = async (page, pageSize) => {
+  const params = snakeCaseObject({ page, pageSize });
   const url = `${getConfig().LMS_BASE_URL}/api/notifications/enrollments/`;
-  const { data } = await getAuthenticatedHttpClient().get(url);
+  const { data } = await getAuthenticatedHttpClient().get(url, { params });
   return data;
 };
 

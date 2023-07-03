@@ -35,12 +35,8 @@ subscribe(APP_READY, () => {
           <Header />
           <main className="flex-grow-1">
             <Switch>
-              {allowNotificationRoutes && (
-                <>
-                  <Route path="/notifications/:courseId" component={NotificationPreferences} />
-                  <Route path="/notifications" component={NotificationCourses} />
-                </>
-              )}
+              {allowNotificationRoutes && (<Route path="/notifications/:courseId" component={NotificationPreferences} />)}
+              {allowNotificationRoutes && (<Route path="/notifications" component={NotificationCourses} />)}
               <Route path="/id-verification" component={IdVerificationPage} />
               <Route exact path="/" component={AccountSettingsPage} />
               <Route path="/notfound" component={NotFoundPage} />

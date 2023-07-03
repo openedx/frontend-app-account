@@ -17,12 +17,24 @@ import {
   patchPreferenceToggle,
 } from './service';
 
-const normalizeCourses = (responseData) => (
-  responseData.map((enrollment) => ({
+const normalizeCourses = (responseData) => {
+  const courseList = responseData.results?.map((enrollment) => ({
     id: enrollment.course.id,
     name: enrollment.course.displayName,
-  }))
-);
+  })) || [];
+
+  const pagination = {
+    count: responseData.count,
+    currentPage: responseData.currentPage,
+    hasMore: Boolean(responseData.next),
+    totalPages: responseData.numPages,
+  };
+
+  return {
+    courseList,
+    pagination,
+  };
+};
 
 const normalizePreferences = (responseData) => {
   const preferences = responseData.notificationPreferenceConfig;
@@ -60,11 +72,11 @@ const normalizePreferences = (responseData) => {
   return normalizedPreferences;
 };
 
-export const fetchCourseList = () => (
+export const fetchCourseList = (page, pageSize) => (
   async (dispatch) => {
     try {
       dispatch(fetchCourseListFetching());
-      const data = await getCourseList();
+      const data = await getCourseList(page, pageSize);
       const normalizedData = normalizeCourses(camelCaseObject(data));
       dispatch(fetchCourseListSuccess(normalizedData));
     } catch (errors) {

@@ -28,16 +28,25 @@ describe('notification-preferences reducer', () => {
   });
 
   it('updates course list when api call is successful', () => {
-    const data = [
-      { id: selectedCourseId, name: 'Selected Course' },
-    ];
+    const data = {
+      pagination: {
+        count: 1,
+        currentPage: 1,
+        hasMore: false,
+        totalPages: 1,
+      },
+      courseList: [
+        { id: selectedCourseId, name: 'Selected Course' },
+      ],
+    };
     const result = reducer(
       state,
       { type: Actions.FETCHED_COURSE_LIST, payload: data },
     );
     expect(result.courses).toEqual({
       status: SUCCESS_STATUS,
-      courses: data,
+      courses: data.courseList,
+      pagination: data.pagination,
     });
   });
 
@@ -52,6 +61,7 @@ describe('notification-preferences reducer', () => {
     expect(result.courses).toEqual({
       status,
       courses: [],
+      pagination: {},
     });
   });
 
