@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JumpNav should not render Optional Information link 1`] = `
+exports[`JumpNav should not render Optional Information or delete account link 1`] = `
 <div
   className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
 >
@@ -63,22 +63,11 @@ exports[`JumpNav should not render Optional Information link 1`] = `
         Linked Accounts
       </a>
     </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current={null}
-        href="/#delete-account"
-        onClick={[Function]}
-      >
-        Delete My Account
-      </a>
-    </li>
   </ul>
 </div>
 `;
 
-exports[`JumpNav should render Optional Information link 1`] = `
+exports[`JumpNav should render Optional Information and delete account link 1`] = `
 <div
   className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
 >
