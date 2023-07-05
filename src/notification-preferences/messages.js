@@ -53,4 +53,9 @@ export const messages = defineMessages({
     defaultMessage: 'Push',
     description: 'Display text for push',
   },
+  loadMoreCourses: {
+    id: 'notification.preference.load.more.courses',
+    defaultMessage: 'Load more courses',
+    description: 'Load more button to load more courses',
+  },
 });
