@@ -27,7 +27,7 @@ describe('JumpNav', () => {
     setConfig({
       ENABLE_ACCOUNT_DELETION: false,
     });
-    
+
     const tree = renderer.create((
       // Had to wrap the following in a router or I will receive an error stating:
       // "Invariant failed: You should not use <NavLink> outside a <Router>"
