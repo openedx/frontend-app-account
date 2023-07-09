@@ -365,5 +365,6 @@
   "notification.preference.help.type": "Type",
   "notification.preference.help.web": "Web",
   "notification.preference.help.email": "Courriel",
-  "notification.preference.help.push": "Pousser"
+  "notification.preference.help.push": "Pousser",
+  "notification.preference.load.more.courses": "Charger plus de cours"
 }

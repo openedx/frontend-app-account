@@ -365,5 +365,6 @@
   "notification.preference.help.type": "类型",
   "notification.preference.help.web": "网页",
   "notification.preference.help.email": "邮箱",
-  "notification.preference.help.push": "Push"
+  "notification.preference.help.push": "Push",
+  "notification.preference.load.more.courses": "Load more courses"
 }

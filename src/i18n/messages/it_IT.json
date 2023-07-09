@@ -365,5 +365,6 @@
   "notification.preference.help.type": "Type",
   "notification.preference.help.web": "Web",
   "notification.preference.help.email": "Email",
-  "notification.preference.help.push": "Push"
+  "notification.preference.help.push": "Push",
+  "notification.preference.load.more.courses": "Load more courses"
 }
