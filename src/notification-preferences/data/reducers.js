@@ -17,7 +17,7 @@ export const defaultState = {
     selectedCourse: null,
     preferences: [],
     apps: [],
-    notEditable: {},
+    nonEditable: {},
   },
 };
 
@@ -59,7 +59,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           status: LOADING_STATUS,
           preferences: [],
           apps: [],
-          notEditable: {},
+          nonEditable: {},
         },
       };
     case Actions.FETCHED_PREFERENCES:
@@ -79,7 +79,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           status: FAILURE_STATUS,
           preferences: [],
           apps: [],
-          notEditable: {},
+          nonEditable: {},
         },
       };
     case Actions.UPDATE_SELECTED_COURSE:
