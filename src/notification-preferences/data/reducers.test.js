@@ -20,7 +20,7 @@ describe('notification-preferences reducer', () => {
       push: false,
       mobile: false,
     }],
-    notEditable: {},
+    nonEditable: {},
   };
 
   beforeEach(() => {
@@ -98,7 +98,7 @@ describe('notification-preferences reducer', () => {
       selectedCourse: null,
       preferences: [],
       apps: [],
-      notEditable: {},
+      nonEditable: {},
     });
   });
 

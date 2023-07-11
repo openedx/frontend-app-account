@@ -58,7 +58,7 @@ const defaultPreferences = {
       mobile: false,
     },
   ],
-  notEditable: {},
+  nonEditable: {},
 };
 
 const setupStore = (override = {}) => {

@@ -24,8 +24,8 @@ export const messages = defineMessages({
         core {Core}
         newPost {New Post}
         newComment {New Comment}
+        newResponse {New Response}
         newCommentOnPost {New Comment On Post}
-        newResponseOnPost {New Response On Post}
         newResponseOnComment {New Response On Comment}
         newAssignment {New Assignment}
         newGrade {New Grade}
