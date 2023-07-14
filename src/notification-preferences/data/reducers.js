@@ -7,6 +7,7 @@ import {
 } from '../../constants';
 
 export const defaultState = {
+  showPreferences: false,
   courses: {
     status: IDLE_STATUS,
     courses: [],
@@ -42,6 +43,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           courses: [...state.courses.courses, ...action.payload.courseList],
           pagination: action.payload.pagination,
         },
+        showPreferences: action.payload.showPreferences,
       };
     case Actions.FAILED_COURSE_LIST:
       return {

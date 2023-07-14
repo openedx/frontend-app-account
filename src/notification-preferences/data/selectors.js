@@ -57,3 +57,7 @@ export const selectSelectedCourseId = () => state => (
 export const selectPagination = () => state => (
   state.notificationPreferences.courses.pagination
 );
+
+export const selectShowPreferences = () => state => (
+  state.notificationPreferences.showPreferences
+);

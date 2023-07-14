@@ -5,17 +5,20 @@ import { OpenInNew } from '@edx/paragon/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 import { Link } from 'react-router-dom';
 import messages from './AccountSettingsPage.messages';
+import { selectShowPreferences } from '../notification-preferences/data/selectors';
 
 const JumpNav = ({
   intl,
   displayDemographicsLink,
 }) => {
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
-  const showNotificationMenu = false;
+  const showPreferences = useSelector(selectShowPreferences());
+
   return (
     <div className={classNames('jump-nav px-2.25', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
       <Scrollspy
@@ -70,8 +73,7 @@ const JumpNav = ({
           </NavHashLink>
         </li>
       </Scrollspy>
-      {showNotificationMenu
-        && (
+      {showPreferences && (
         <>
           <hr />
           <Scrollspy
@@ -85,7 +87,7 @@ const JumpNav = ({
             </li>
           </Scrollspy>
         </>
-        )}
+      )}
     </div>
   );
 };

@@ -33,6 +33,7 @@ const normalizeCourses = (responseData) => {
   return {
     courseList,
     pagination,
+    showPreferences: responseData.showPreferences,
   };
 };
 
