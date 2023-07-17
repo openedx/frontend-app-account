@@ -114,7 +114,7 @@
   "account.settings.editable.field.action.edit": "Editar",
   "account.settings.static.field.empty": "No hay valor establecido. Contacte su administrador {enterprise} para hacer cambios.",
   "account.settings.static.field.empty.no.admin": "No hay valor establecido.",
-  "notification.preferences.notifications.label": "Notifications",
+  "notification.preferences.notifications.label": "Notificaciones",
   "account.settings.field.name.certificate.select": "En caso de ser seleccionado, este nombre aparecerá en tus certificados y registros públicos. ",
   "account.settings.field.name.modal.certificate.title": "Escoge un nombre de preferencia para tus certificados y registros públicos.",
   "account.settings.field.name.modal.certificate.select": "Selecciona un nombre",
@@ -359,11 +359,12 @@
   "id.verification.account.name.summary.alert": "La configuración de tu perfil es administrada por {managerTitle}. Por lo tanto si el nombre en tu ID de foto coincide con tu nombre de cuenta por favor ponte en contacto con tu administrador de {profileDataManager} o con {soporte} para solicitar ayuda.",
   "idv.submission.alert.error": "\n          Se produjo un error técnico al intentar enviar la verificación de ID.\n          Es posible que sea una cuestión temporal, así que inténtalo de nuevo en unos minutos.\n          Si el problema continúa, dirígete a {support_link} para obtener ayuda.\n        ",
   "id.verification.account.name.edit": "Editar {sr}",
-  "notification.preference.heading": "Notifications",
-  "notification.preference.app.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
-  "notification.preference.title": "{\n        text, select,\n        core {Core}\n        newPost {New Post}\n        newComment {New Comment}\n        newCommentOnPost {New Comment On Post}\n        newResponseOnPost {New Response On Post}\n        newResponseOnComment {New Response On Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
-  "notification.preference.help.type": "Type",
-  "notification.preference.help.web": "Web",
-  "notification.preference.help.email": "Email",
-  "notification.preference.help.push": "Push"
+  "notification.preference.heading": "Notificaciones",
+  "notification.preference.app.title": "{ clave, seleccionar, discusión {Debates} trabajo del curso {Trabajo del curso} otro {{clave}} }",
+  "notification.preference.title": "{ text, select, core {Core} newPost {Nueva publicación} newComment {Nuevo comentario} newResponse {Nueva respuesta} newCommentOnPost {Nuevo comentario en publicación} newResponseOnComment {Nueva respuesta en comentario} newAssignment {Nueva tarea} newGrade {Nueva calificación} otro { {texto}} }",
+  "notification.preference.help.type": "Tipo",
+  "notification.preference.help.web": "Sitio Web",
+  "notification.preference.help.email": "Correo electrónico",
+  "notification.preference.help.push": "Empujar",
+  "notification.preference.load.more.courses": "Cargar más cursos"
 }
