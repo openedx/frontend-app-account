@@ -7,6 +7,7 @@ import {
 } from '../../constants';
 
 export const defaultState = {
+  showPreferences: false,
   courses: {
     status: IDLE_STATUS,
     courses: [],
@@ -17,7 +18,7 @@ export const defaultState = {
     selectedCourse: null,
     preferences: [],
     apps: [],
-    notEditable: {},
+    nonEditable: {},
   },
 };
 
@@ -42,6 +43,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           courses: [...state.courses.courses, ...action.payload.courseList],
           pagination: action.payload.pagination,
         },
+        showPreferences: action.payload.showPreferences,
       };
     case Actions.FAILED_COURSE_LIST:
       return {
@@ -59,7 +61,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           status: LOADING_STATUS,
           preferences: [],
           apps: [],
-          notEditable: {},
+          nonEditable: {},
         },
       };
     case Actions.FETCHED_PREFERENCES:
@@ -79,7 +81,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           status: FAILURE_STATUS,
           preferences: [],
           apps: [],
-          notEditable: {},
+          nonEditable: {},
         },
       };
     case Actions.UPDATE_SELECTED_COURSE:
