@@ -56,14 +56,14 @@ const NotificationPreferences = () => {
   }
 
   return (
-    <Container size="md">
+    <Container size="md" className="notification-preferences">
       <h2 className="notification-heading mt-6 mb-5.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
       <div className="h-100">
         <div className="d-flex mb-4">
           <Link to="/notifications">
-            <Icon className="d-inline-block align-bottom ml-1" src={ArrowBack} />
+            <Icon className="d-inline-block align-bottom" src={ArrowBack} />
           </Link>
           <span className="notification-course-title ml-auto mr-auto">
             {course?.name}

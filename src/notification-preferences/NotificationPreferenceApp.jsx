@@ -55,12 +55,10 @@ const NotificationPreferenceApp = ({ appId }) => {
         <hr />
       </Collapsible.Trigger>
       <Collapsible.Body>
-        <div className="d-flex flex-row notification-help-text">
-          <span className="col-8 px-0">{intl.formatMessage(messages.notificationHelpType)}</span>
+        <div className="d-flex flex-row header-label">
+          <span className="col-8 px-0">{intl.formatMessage(messages.typeLabel)}</span>
           <span className="d-flex col-4 px-0">
-            <span className="ml-0 mr-auto">{intl.formatMessage(messages.notificationHelpWeb)}</span>
-            <span className="mx-auto">{intl.formatMessage(messages.notificationHelpEmail)}</span>
-            <span className="ml-auto mr-0 pr-2.5">{intl.formatMessage(messages.notificationHelpPush)}</span>
+            <span className="ml-auto">{intl.formatMessage(messages.webLabel)}</span>
           </span>
         </div>
         <div className="mt-3 pb-5">

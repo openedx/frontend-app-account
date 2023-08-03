@@ -41,45 +41,41 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
     <div className="d-flex flex-row mb-3" data-testid="notification-preference">
       <span className="d-flex align-items-center col-8 px-0">
         {intl.formatMessage(messages.notificationTitle, { text: preferenceName })}
-        {
-          preference.info !== '' && (
-            <OverlayTrigger
-              id={tooltipId}
-              className="d-inline"
-              placement="top"
-              overlay={(
-                <Tooltip id={tooltipId}>
-                  {preference.info}
-                </Tooltip>
-              )}
-            >
-              <span className="ml-2">
-                <Icon src={InfoOutline} />
-              </span>
-            </OverlayTrigger>
-          )
-        }
+        {preference.info !== '' && (
+          <OverlayTrigger
+            id={tooltipId}
+            className="d-inline"
+            placement="top"
+            overlay={(
+              <Tooltip id={tooltipId}>
+                {preference.info}
+              </Tooltip>
+                )}
+          >
+            <span className="ml-2">
+              <Icon src={InfoOutline} />
+            </span>
+          </OverlayTrigger>
+        )}
       </span>
       <span className="d-flex col-4 px-0">
-        {
-          ['web', 'email', 'push'].map((channel) => (
-            <span
-              id={`${preferenceName}-${channel}`}
-              className={classNames(
-                { 'ml-0 mr-auto': channel === 'web' },
-                { 'mx-auto': channel === 'email' },
-                { 'ml-auto mr-0': channel === 'push' },
-              )}
-            >
-              <ToggleSwitch
-                name={channel}
-                value={preference[channel]}
-                onChange={onToggle}
-                disabled={nonEditable.includes(channel)}
-              />
-            </span>
-          ))
-        }
+        {['web'].map((channel) => (
+          <span
+            id={`${preferenceName}-${channel}`}
+            className={classNames(
+              { 'ml-auto': channel === 'web' },
+              { 'mx-auto': channel === 'email' },
+              { 'ml-auto mr-0': channel === 'push' },
+            )}
+          >
+            <ToggleSwitch
+              name={channel}
+              value={preference[channel]}
+              onChange={onToggle}
+              disabled={nonEditable.includes(channel)}
+            />
+          </span>
+        ))}
       </span>
     </div>
   );
