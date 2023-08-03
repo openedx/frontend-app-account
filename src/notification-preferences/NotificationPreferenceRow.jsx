@@ -38,8 +38,8 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
 
   const tooltipId = `${preferenceName}-tooltip`;
   return (
-    <div className="d-flex flex-row mb-3" data-testid="notification-preference">
-      <span className="d-flex align-items-center col-8 px-0">
+    <div className="d-flex mb-3" data-testid="notification-preference">
+      <div className="d-flex align-items-center mr-auto">
         {intl.formatMessage(messages.notificationTitle, { text: preferenceName })}
         {preference.info !== '' && (
           <OverlayTrigger
@@ -57,12 +57,13 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
             </span>
           </OverlayTrigger>
         )}
-      </span>
-      <span className="d-flex col-4 px-0">
+      </div>
+      <div className="d-flex align-items-center">
         {['web'].map((channel) => (
-          <span
+          <div
             id={`${preferenceName}-${channel}`}
             className={classNames(
+              'd-flex',
               { 'ml-auto': channel === 'web' },
               { 'mx-auto': channel === 'email' },
               { 'ml-auto mr-0': channel === 'push' },
@@ -74,9 +75,9 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               onChange={onToggle}
               disabled={nonEditable.includes(channel)}
             />
-          </span>
+          </div>
         ))}
-      </span>
+      </div>
     </div>
   );
 };
