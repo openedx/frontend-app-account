@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { logError } from '@edx/frontend-platform/logging';
 
 import {
   IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
@@ -52,4 +53,15 @@ export function useRedirect() {
   }, []);
 
   return redirect;
+}
+
+export function useFeedbackWrapper() {
+  useEffect(() => {
+    try {
+    // eslint-disable-next-line no-undef
+      window.usabilla_live = lightningjs?.require('usabilla_live', '//w.usabilla.com/2655de034958.js');
+    } catch (error) {
+      logError('Error loading usabilla_live', error);
+    }
+  }, []);
 }

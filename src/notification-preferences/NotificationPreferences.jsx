@@ -22,7 +22,7 @@ import {
   SUCCESS_STATUS,
 } from '../constants';
 import { NotFoundPage } from '../account-settings';
-import useFeedbackWrapper from './FeedbackWrapper';
+import { useFeedbackWrapper } from '../hooks';
 
 const NotificationPreferences = () => {
   useFeedbackWrapper();
