@@ -33,13 +33,13 @@ export const messages = defineMessages({
     }`,
     description: 'Display text for Notification Types',
   },
-  notificationHelpType: {
-    id: 'notification.preference.help.type',
+  typeLabel: {
+    id: 'notification.preference.type.label',
     defaultMessage: 'Type',
     description: 'Display text for type',
   },
-  notificationHelpWeb: {
-    id: 'notification.preference.help.web',
+  webLabel: {
+    id: 'notification.preference.web,label',
     defaultMessage: 'Web',
     description: 'Display text for web',
   },
