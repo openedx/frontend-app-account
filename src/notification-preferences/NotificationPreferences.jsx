@@ -58,7 +58,7 @@ const NotificationPreferences = () => {
   }
 
   return (
-    <Container size="md" className="notification-preferences">
+    <Container size="sm" className="notification-preferences">
       <h2 className="notification-heading mt-6 mb-5.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>

@@ -38,7 +38,7 @@ const NotificationPreferenceApp = ({ appId }) => {
     return null;
   }
   return (
-    <Collapsible.Advanced open={appToggle} data-testid="notification-app">
+    <Collapsible.Advanced open={appToggle} data-testid="notification-app" className="mb-5">
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
           <span className="mr-auto">
