@@ -92,3 +92,15 @@ $fa-font-path: "~font-awesome/fonts";
     font-size: 18px;
   }
 }
+
+.usabilla_live_button_container {
+  right: 0 !important;
+}
+
+@media (min-width: 768.98px) {
+  .usabilla_live_button_container {
+    right: -22px !important;
+    top: 50% !important;
+    transform: rotate(270deg) !important;
+  }
+}
