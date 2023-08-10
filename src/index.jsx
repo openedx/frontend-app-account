@@ -25,7 +25,6 @@ import NotificationCourses from './notification-preferences/NotificationCourses'
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 subscribe(APP_READY, () => {
-  const allowNotificationRoutes = false;
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Head />
@@ -35,12 +34,8 @@ subscribe(APP_READY, () => {
           <Header />
           <main className="flex-grow-1">
             <Routes>
-              {allowNotificationRoutes && (
-                <>
-                  <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
-                  <Route path="/notifications" element={<NotificationCourses />} />
-                </>
-              )}
+              <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
+              <Route path="/notifications" element={<NotificationCourses />} />
               <Route path="/id-verification/*" element={<IdVerificationPage />} />
               <Route path="/" element={<AccountSettingsPage />} />
               <Route path="/notfound" element={<NotFoundPage />} />

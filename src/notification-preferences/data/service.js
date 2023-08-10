@@ -1,46 +1,44 @@
-/* eslint-disable no-unused-vars */
+import { getConfig, snakeCaseObject } from '@edx/frontend-platform';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import snakeCase from 'lodash.snakecase';
 
-// import { getConfig } from '@edx/frontend-platform';
-// import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-
-export async function getCourseNotificationPreferences(courseId) {
-  // const url = `${getConfig().LMS_BASE_URL}/api/notifications/${courseId}`;
-  // const { data } = await getAuthenticatedHttpClient().get(url);
-  const data = {
-    discussion: {
-      new_post: {
-        web: true,
-        push: false,
-        email: false,
-      },
-      new_comment: {
-        web: true,
-        push: false,
-        email: false,
-      },
-    },
-    coursework: {
-      new_assignment: {
-        web: true,
-        push: false,
-        email: false,
-      },
-      new_grade: {
-        web: true,
-        push: false,
-        email: false,
-      },
-    },
-  };
+export const getCourseNotificationPreferences = async (courseId) => {
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  const { data } = await getAuthenticatedHttpClient().get(url);
   return data;
-}
+};
 
-export async function getCourseList() {
-  // const url = `${getConfig().LMS_BASE_URL}/api/notifications/${courseId}`;
-  // const { data } = await getAuthenticatedHttpClient().get(url);
-  return [
-    { id: 'course-v1:edX+Supply+Demo_Course', name: 'Supply Chain Analytics' },
-    { id: 'course-v1:edX+Happiness+At+Work_Course', name: 'The Foundation of Happiness At Work' },
-    { id: 'course-v1:edX+Empathy+At+Work_Course', name: 'Empathy and Emotional Intelligence At Work' },
-  ];
-}
+export const getCourseList = async (page, pageSize) => {
+  const params = snakeCaseObject({ page, pageSize });
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/enrollments/`;
+  const { data } = await getAuthenticatedHttpClient().get(url, { params });
+  return data;
+};
+
+export const patchAppPreferenceToggle = async (courseId, appId, value) => {
+  const patchData = snakeCaseObject({
+    notificationApp: appId,
+    value,
+  });
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
+  return data;
+};
+
+export const patchPreferenceToggle = async (
+  courseId,
+  notificationApp,
+  notificationType,
+  notificationChannel,
+  value,
+) => {
+  const patchData = snakeCaseObject({
+    notificationApp,
+    notificationType: snakeCase(notificationType),
+    notificationChannel,
+    value,
+  });
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
+  return data;
+};

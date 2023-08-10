@@ -5,70 +5,83 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Icon, Spinner } from '@edx/paragon';
 import { ArrowBack } from '@edx/paragon/icons';
 import {
-  courseListStatus,
-  getCourse,
-  getPreferenceGroupIds,
-  notificationPreferencesStatus,
+  selectCourseListStatus,
+  selectCourse,
+  selectPreferenceAppsId,
+  selectNotificationPreferencesStatus,
+  selectCourseList,
 } from './data/selectors';
 import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
 import { messages } from './messages';
-import NotificationPreferenceGroup from './NotificationPreferenceGroup';
-import { updateSelectedCourse } from './data/actions';
-import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import NotificationPreferenceApp from './NotificationPreferenceApp';
+import {
+  FAILURE_STATUS,
+  IDLE_STATUS,
+  LOADING_STATUS,
+  SUCCESS_STATUS,
+} from '../constants';
+import { NotFoundPage } from '../account-settings';
+import { useFeedbackWrapper } from '../hooks';
 
 const NotificationPreferences = () => {
+  useFeedbackWrapper();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const intl = useIntl();
-  const courseStatus = useSelector(courseListStatus());
-  const notificationStatus = useSelector(notificationPreferencesStatus());
-  const course = useSelector(getCourse(courseId));
-  const preferenceGroups = useSelector(getPreferenceGroupIds());
+  const courseStatus = useSelector(selectCourseListStatus());
+  const coursesList = useSelector(selectCourseList());
+  const course = useSelector(selectCourse(courseId));
+  const notificationStatus = useSelector(selectNotificationPreferencesStatus());
+  const preferenceAppsIds = useSelector(selectPreferenceAppsId());
+  const isLoading = notificationStatus === LOADING_STATUS || courseStatus === LOADING_STATUS;
 
   const preferencesList = useMemo(() => (
-    preferenceGroups.map(key => (
-      <NotificationPreferenceGroup groupId={key} key={key} />
+    preferenceAppsIds.map(appId => (
+      <NotificationPreferenceApp appId={appId} key={appId} />
     ))
-  ), [preferenceGroups]);
+  ), [preferenceAppsIds]);
 
   useEffect(() => {
-    dispatch(updateSelectedCourse(courseId));
-    if (courseStatus !== SUCCESS_STATUS) {
+    if ([IDLE_STATUS, FAILURE_STATUS].includes(courseStatus)) {
       dispatch(fetchCourseList());
     }
-    if (notificationStatus !== SUCCESS_STATUS) {
-      dispatch(fetchCourseNotificationPreferences(courseId));
-    }
+    dispatch(fetchCourseNotificationPreferences(courseId));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId]);
 
-  if (notificationStatus === LOADING_STATUS) {
-    return (
-      <div className="d-flex h-100">
-        <Spinner
-          variant="primary"
-          animation="border"
-          className="mx-auto my-auto"
-          style={{ width: '4rem', height: '4rem' }}
-        />
-      </div>
-    );
+  if (
+    (courseStatus === SUCCESS_STATUS && coursesList.length === 0)
+    || (notificationStatus === FAILURE_STATUS && coursesList.length !== 0)
+  ) {
+    return <NotFoundPage />;
   }
+
   return (
-    <Container size="md">
+    <Container size="sm" className="notification-preferences">
       <h2 className="notification-heading mt-6 mb-5.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
-      <div>
-        <div className="d-flex mb-4">
+      <div className="h-100">
+        <div className="d-flex mb-5">
           <Link to="/notifications">
-            <Icon className="d-inline-block align-bottom ml-1" src={ArrowBack} />
+            <Icon className="text-primary-500" src={ArrowBack} />
           </Link>
-          <span className="notification-course-title ml-auto mr-auto">
+          <span className="notification-course-title ml-auto mr-auto text-primary-500">
             {course?.name}
           </span>
         </div>
-        { preferencesList }
+        {preferencesList}
+        {isLoading && (
+        <div className="d-flex">
+          <Spinner
+            variant="primary"
+            animation="border"
+            className="mx-auto my-auto"
+            size="lg"
+            data-testid="loading-spinner"
+          />
+        </div>
+        )}
       </div>
     </Container>
   );

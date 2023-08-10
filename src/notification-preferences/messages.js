@@ -7,8 +7,8 @@ export const messages = defineMessages({
     defaultMessage: 'Notifications',
     description: 'Notification title',
   },
-  notificationGroupTitle: {
-    id: 'notification.preference.group.title',
+  notificationAppTitle: {
+    id: 'notification.preference.app.title',
     defaultMessage: `{
         key, select,
         discussion {Discussions}
@@ -21,21 +21,25 @@ export const messages = defineMessages({
     id: 'notification.preference.title',
     defaultMessage: `{
         text, select,
+        core {Core}
         newPost {New Post}
         newComment {New Comment}
+        newResponse {New Response}
+        newCommentOnPost {New Comment On Post}
+        newResponseOnComment {New Response On Comment}
         newAssignment {New Assignment}
         newGrade {New Grade}
         other {{text}}
     }`,
     description: 'Display text for Notification Types',
   },
-  notificationHelpType: {
-    id: 'notification.preference.help.type',
+  typeLabel: {
+    id: 'notification.preference.type.label',
     defaultMessage: 'Type',
     description: 'Display text for type',
   },
-  notificationHelpWeb: {
-    id: 'notification.preference.help.web',
+  webLabel: {
+    id: 'notification.preference.web,label',
     defaultMessage: 'Web',
     description: 'Display text for web',
   },
@@ -48,5 +52,10 @@ export const messages = defineMessages({
     id: 'notification.preference.help.push',
     defaultMessage: 'Push',
     description: 'Display text for push',
+  },
+  loadMoreCourses: {
+    id: 'notification.preference.load.more.courses',
+    defaultMessage: 'Load more courses',
+    description: 'Load more button to load more courses',
   },
 });

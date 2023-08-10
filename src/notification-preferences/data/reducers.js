@@ -7,29 +7,32 @@ import {
 } from '../../constants';
 
 export const defaultState = {
+  showPreferences: false,
   courses: {
     status: IDLE_STATUS,
     courses: [],
+    pagination: {},
   },
   preferences: {
     status: IDLE_STATUS,
     selectedCourse: null,
     preferences: [],
-    groups: [],
+    apps: [],
+    nonEditable: {},
   },
 };
 
 const notificationPreferencesReducer = (state = defaultState, action = {}) => {
   const {
-    courseId, groupName, notificationChannel, preferenceName, value,
+    courseId, appId, notificationChannel, preferenceName, value,
   } = action;
   switch (action.type) {
     case Actions.FETCHING_COURSE_LIST:
       return {
         ...state,
         courses: {
+          ...state.courses,
           status: LOADING_STATUS,
-          courses: [],
         },
       };
     case Actions.FETCHED_COURSE_LIST:
@@ -37,15 +40,17 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         ...state,
         courses: {
           status: SUCCESS_STATUS,
-          courses: action.payload,
+          courses: [...state.courses.courses, ...action.payload.courseList],
+          pagination: action.payload.pagination,
         },
+        showPreferences: action.payload.showPreferences,
       };
     case Actions.FAILED_COURSE_LIST:
       return {
         ...state,
         courses: {
+          ...state.courses,
           status: FAILURE_STATUS,
-          courses: [],
         },
       };
     case Actions.FETCHING_PREFERENCES:
@@ -54,7 +59,9 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         preferences: {
           ...state.preferences,
           status: LOADING_STATUS,
-          preferences: {},
+          preferences: [],
+          apps: [],
+          nonEditable: {},
         },
       };
     case Actions.FETCHED_PREFERENCES:
@@ -70,8 +77,11 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         preferences: {
+          ...state.preferences,
           status: FAILURE_STATUS,
-          preferences: {},
+          preferences: [],
+          apps: [],
+          nonEditable: {},
         },
       };
     case Actions.UPDATE_SELECTED_COURSE:
@@ -87,27 +97,22 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         ...state,
         preferences: {
           ...state.preferences,
-          preferences: state.preferences.preferences.map((element) => (
-            element.id === preferenceName
-              ? { ...element, [notificationChannel]: value }
-              : element
+          preferences: state.preferences.preferences.map((preference) => (
+            preference.id === preferenceName
+              ? { ...preference, [notificationChannel]: value }
+              : preference
           )),
         },
       };
-    case Actions.UPDATE_GROUP_PREFERENCE:
+    case Actions.UPDATE_APP_PREFERENCE:
       return {
         ...state,
         preferences: {
           ...state.preferences,
-          preferences: state.preferences.preferences.map((element) => (
-            element.groupId === groupName
-              ? {
-                ...element,
-                web: value,
-                email: value,
-                push: value,
-              }
-              : element
+          apps: state.preferences.apps.map(app => (
+            app.id === appId
+              ? { ...app, enabled: value }
+              : app
           )),
         },
       };
