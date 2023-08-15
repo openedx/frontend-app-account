@@ -22,10 +22,8 @@ import {
   SUCCESS_STATUS,
 } from '../constants';
 import { NotFoundPage } from '../account-settings';
-import { useFeedbackWrapper } from '../hooks';
 
 const NotificationPreferences = () => {
-  useFeedbackWrapper();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const intl = useIntl();

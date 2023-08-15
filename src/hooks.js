@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getConfig } from '@edx/frontend-platform';
 import { logError } from '@edx/frontend-platform/logging';
 
 import {
@@ -59,7 +60,7 @@ export function useFeedbackWrapper() {
   useEffect(() => {
     try {
     // eslint-disable-next-line no-undef
-      window.usabilla_live = lightningjs?.require('usabilla_live', '//w.usabilla.com/2655de034958.js');
+      window.usabilla_live = lightningjs?.require('usabilla_live', getConfig().LEARNER_FEEDBACK_URL);
     } catch (error) {
       logError('Error loading usabilla_live', error);
     }
