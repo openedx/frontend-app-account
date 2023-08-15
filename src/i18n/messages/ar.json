@@ -362,8 +362,8 @@
   "notification.preference.heading": "Notifications",
   "notification.preference.app.title": "{\n        key, select,\n        discussion {Discussions}\n        coursework {Course Work}\n        other {{key}}\n    }",
   "notification.preference.title": "{\n        text, select,\n        core {Core}\n        newPost {New Post}\n        newComment {New Comment}\n        newResponse {New Response}\n        newCommentOnPost {New Comment On Post}\n        newResponseOnComment {New Response On Comment}\n        newAssignment {New Assignment}\n        newGrade {New Grade}\n        other {{text}}\n    }",
-  "notification.preference.help.type": "Type",
-  "notification.preference.help.web": "Web",
+  "notification.preference.type.label": "Type",
+  "notification.preference.web,label": "Web",
   "notification.preference.help.email": "Email",
   "notification.preference.help.push": "Push",
   "notification.preference.load.more.courses": "Load more courses"
