@@ -31,7 +31,7 @@
     "@edx/frontend-component-footer": "12.2.0",
     "@edx/frontend-component-header": "4.6.0",
     "@edx/frontend-platform": "5.0.0",
-    "@edx/paragon": "20.44.0",
+    "@edx/paragon": "20.46.2",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
-    "@edx/frontend-build": "12.9.3",
+    "@edx/frontend-build": "12.9.4",
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
