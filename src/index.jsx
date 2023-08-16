@@ -8,7 +8,7 @@ import {
 } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
@@ -30,20 +30,23 @@ subscribe(APP_READY, () => {
       <Head />
       <Routes>
         <Route path="/coaching_consent" element={<CoachingConsent />} />
-        <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-          <Header />
-          <main className="flex-grow-1">
-            <Routes>
-              <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
-              <Route path="/notifications" element={<NotificationCourses />} />
-              <Route path="/id-verification/*" element={<IdVerificationPage />} />
-              <Route path="/" element={<AccountSettingsPage />} />
-              <Route path="/notfound" element={<NotFoundPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        <Route element={(
+          <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+            <Header />
+            <main className="flex-grow-1">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+        )}
+        >
+          <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
+          <Route path="/notifications" element={<NotificationCourses />} />
+          <Route path="/id-verification/*" element={<IdVerificationPage />} />
+          <Route path="/" element={<AccountSettingsPage />} />
+          <Route path="/notfound" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </AppProvider>,
     document.getElementById('root'),

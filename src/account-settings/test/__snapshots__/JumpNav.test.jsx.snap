@@ -2,193 +2,56 @@
 
 exports[`JumpNav should not render Optional Information link 1`] = `
 <div
-  className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+  className="py-5 justify-content-center align-items-start text-center container-fluid"
 >
-  <ul
-    className="list-unstyled"
-    style={Object {}}
+  <div
+    className="row"
   >
-    <li
-      className=""
+    <div
+      className="col"
     >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#basic-information"
-        isActive={[Function]}
-        onClick={[Function]}
+      <p
+        className="text-muted"
       >
-        Account Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#profile-information"
-        isActive={[Function]}
+        An unexpected error occurred. Please click the button below to refresh the page.
+      </p>
+      <button
+        className="btn btn-primary"
+        disabled={false}
         onClick={[Function]}
+        type="button"
       >
-        Profile Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#social-media"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Social Media Links
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#site-preferences"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Site Preferences
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#linked-accounts"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Linked Accounts
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#delete-account"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Delete My Account
-      </a>
-    </li>
-  </ul>
+        Try again
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`JumpNav should render Optional Information link 1`] = `
 <div
-  className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+  className="py-5 justify-content-center align-items-start text-center container-fluid"
 >
-  <ul
-    className="list-unstyled"
-    style={Object {}}
+  <div
+    className="row"
   >
-    <li
-      className=""
+    <div
+      className="col"
     >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#basic-information"
-        isActive={[Function]}
-        onClick={[Function]}
+      <p
+        className="text-muted"
       >
-        Account Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#profile-information"
-        isActive={[Function]}
+        An unexpected error occurred. Please click the button below to refresh the page.
+      </p>
+      <button
+        className="btn btn-primary"
+        disabled={false}
         onClick={[Function]}
+        type="button"
       >
-        Profile Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#demographics-information"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Optional Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#social-media"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Social Media Links
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#site-preferences"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Site Preferences
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#linked-accounts"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Linked Accounts
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#delete-account"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Delete My Account
-      </a>
-    </li>
-  </ul>
+        Try again
+      </button>
+    </div>
+  </div>
 </div>
 `;
