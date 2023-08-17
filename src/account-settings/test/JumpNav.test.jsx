@@ -4,7 +4,6 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 import { AppProvider } from '@edx/frontend-platform/react';
 import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
 
-import { BrowserRouter as Router } from 'react-router-dom';
 import JumpNav from '../JumpNav';
 import configureStore from '../../data/configureStore';
 
@@ -41,15 +40,11 @@ describe('JumpNav', () => {
 
   it('should not render Optional Information link', () => {
     const tree = renderer.create((
-      // Had to wrap the following in a router or I will receive an error stating:
-      // "Invariant failed: You should not use <NavLink> outside a <Router>"
-      <Router>
-        <IntlProvider locale="en">
-          <AppProvider store={store}>
-            <IntlJumpNav {...props} />
-          </AppProvider>
-        </IntlProvider>
-      </Router>
+      <IntlProvider locale="en">
+        <AppProvider store={store}>
+          <IntlJumpNav {...props} />
+        </AppProvider>
+      </IntlProvider>
     ))
       .toJSON();
 
@@ -67,14 +62,11 @@ describe('JumpNav', () => {
     };
 
     const tree = renderer.create((
-      // Same as previous test
-      <Router>
-        <IntlProvider locale="en">
-          <AppProvider store={store}>
-            <IntlJumpNav {...props} />
-          </AppProvider>
-        </IntlProvider>
-      </Router>
+      <IntlProvider locale="en">
+        <AppProvider store={store}>
+          <IntlJumpNav {...props} />
+        </AppProvider>
+      </IntlProvider>
     ))
       .toJSON();
 
