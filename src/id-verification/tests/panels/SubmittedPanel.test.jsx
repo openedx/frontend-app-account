@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
@@ -14,8 +13,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 }));
 
 const IntlSubmittedPanel = injectIntl(SubmittedPanel);
-
-const history = createMemoryHistory();
 
 describe('SubmittedPanel', () => {
   const defaultProps = {
@@ -43,7 +40,7 @@ describe('SubmittedPanel', () => {
 
   it('links to dashboard without courseId or next value', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlSubmittedPanel {...defaultProps} />
@@ -59,7 +56,7 @@ describe('SubmittedPanel', () => {
   it('links to course when courseId is stored', async () => {
     sessionStorage.setItem('courseId', 'course-v1:edX+DemoX+Demo_Course');
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlSubmittedPanel {...defaultProps} />
@@ -75,7 +72,7 @@ describe('SubmittedPanel', () => {
   it('links to specified page when `next` value is provided', async () => {
     sessionStorage.setItem('next', 'some_page');
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlSubmittedPanel {...defaultProps} />

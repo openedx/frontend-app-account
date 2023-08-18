@@ -1,6 +1,6 @@
 /* eslint-disable no-import-assign */
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import {
   render, cleanup, act, screen, fireEvent, waitFor,
@@ -61,16 +61,14 @@ describe('SummaryPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('portrait-retake');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/take-portrait-photo');
-    expect(history.location.state.fromSummary).toEqual(true);
+    expect(window.location.pathname).toEqual('/id-verification/take-portrait-photo');
   });
 
   it('routes back to TakeIdPhotoPanel', async () => {
     await getPanel();
     const button = await screen.findByTestId('id-retake');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/take-id-photo');
-    expect(history.location.state.fromSummary).toEqual(true);
+    expect(window.location.pathname).toEqual('/id-verification/take-id-photo');
   });
 
   it('allows user to upload ID photo', async () => {

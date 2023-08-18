@@ -1,7 +1,6 @@
 /* eslint-disable no-import-assign */
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
@@ -21,8 +20,6 @@ analytics.sendTrackEvent = jest.fn();
 window.HTMLMediaElement.prototype.play = () => {};
 
 const IntlCamera = injectIntl(Camera);
-
-const history = createMemoryHistory();
 
 describe('SubmittedPanel', () => {
   const defaultProps = {
@@ -45,7 +42,7 @@ describe('SubmittedPanel', () => {
 
   it('takes photo', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -61,7 +58,7 @@ describe('SubmittedPanel', () => {
 
   it('shows correct help text for portrait photo capture', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -75,7 +72,7 @@ describe('SubmittedPanel', () => {
 
   it('shows correct help text for id photo capture', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...idProps} />
@@ -90,7 +87,7 @@ describe('SubmittedPanel', () => {
   it('shows spinner when loading face detection', async () => {
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -108,7 +105,7 @@ describe('SubmittedPanel', () => {
   it('canvas is visible when detection is enabled', async () => {
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -128,7 +125,7 @@ describe('SubmittedPanel', () => {
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -147,7 +144,7 @@ describe('SubmittedPanel', () => {
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...defaultProps} />
@@ -168,7 +165,7 @@ describe('SubmittedPanel', () => {
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCamera {...idProps} />

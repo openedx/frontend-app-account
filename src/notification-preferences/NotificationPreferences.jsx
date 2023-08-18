@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Icon, Spinner } from '@edx/paragon';
 import { ArrowBack } from '@edx/paragon/icons';

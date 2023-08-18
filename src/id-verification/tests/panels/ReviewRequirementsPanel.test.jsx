@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
@@ -15,8 +14,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 
 const IntlReviewRequirementsPanel = injectIntl(ReviewRequirementsPanel);
 
-const history = createMemoryHistory();
-
 describe('ReviewRequirementsPanel', () => {
   const defaultProps = {
     intl: {},
@@ -26,7 +23,7 @@ describe('ReviewRequirementsPanel', () => {
 
   const getPanel = async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={context}>
             <IntlReviewRequirementsPanel {...defaultProps} />
@@ -44,7 +41,7 @@ describe('ReviewRequirementsPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/request-camera-access');
+    expect(window.location.pathname).toEqual('/id-verification/request-camera-access');
   });
 
   it('displays an alert if the user\'s account information is managed by a third party', async () => {

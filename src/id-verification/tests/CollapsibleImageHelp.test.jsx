@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act,
 } from '@testing-library/react';
@@ -20,8 +19,6 @@ window.HTMLMediaElement.prototype.play = () => {};
 
 const IntlCollapsible = injectIntl(CollapsibleImageHelp);
 
-const history = createMemoryHistory();
-
 describe('CollapsibleImageHelpPanel', () => {
   const defaultProps = { intl: {} };
 
@@ -36,7 +33,7 @@ describe('CollapsibleImageHelpPanel', () => {
 
   it('shows the correct text if user should switch to upload', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCollapsible {...defaultProps} />
@@ -56,7 +53,7 @@ describe('CollapsibleImageHelpPanel', () => {
   it('shows the correct text if user should switch to camera', async () => {
     contextValue.useCameraForId = false;
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlCollapsible {...defaultProps} />

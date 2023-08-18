@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router-dom';
 import { useVerificationRedirectSlug } from '../routing-utilities';
 
 const BasePanel = ({
@@ -20,7 +20,7 @@ const BasePanel = ({
 
   const redirectSlug = useVerificationRedirectSlug(name);
   if (redirectSlug) {
-    return <Redirect to={redirectSlug} />;
+    return <Navigate replace to={`/id-verification/${redirectSlug}`} />;
   }
 
   return (
