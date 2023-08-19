@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { getConfig, history } from '@edx/frontend-platform';
+import { getConfig } from '@edx/frontend-platform';
 import {
   Alert, Hyperlink, Form, Button, Spinner,
 } from '@edx/paragon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/service';
@@ -31,6 +31,7 @@ const SummaryPanel = (props) => {
   const nameToBeUsed = idPhotoName || nameOnAccount || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => setReachedSummary(true), [setReachedSummary]);
 
@@ -80,7 +81,7 @@ const SummaryPanel = (props) => {
       const result = await submitIdVerification(verificationData);
       if (result.success) {
         stopUserMedia();
-        history.push(nextPanelSlug);
+        navigate(`/id-verification/${nextPanelSlug}`);
       } else {
         stopUserMedia();
         setIsSubmitting(false);
@@ -171,10 +172,8 @@ const SummaryPanel = (props) => {
           />
           <Link
             className="btn btn-outline-primary"
-            to={{
-              pathname: 'take-portrait-photo',
-              state: { fromSummary: true },
-            }}
+            to="/id-verification/take-portrait-photo"
+            state={{ fromSummary: true }}
             data-testid="portrait-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.portrait.retake'])}
@@ -191,10 +190,8 @@ const SummaryPanel = (props) => {
           />
           <Link
             className="btn btn-outline-primary"
-            to={{
-              pathname: 'take-id-photo',
-              state: { fromSummary: true },
-            }}
+            to="/id-verification/take-id-photo"
+            state={{ fromSummary: true }}
             data-testid="id-retake"
           >
             {props.intl.formatMessage(messages['id.verification.review.id.retake'])}
@@ -219,10 +216,8 @@ const SummaryPanel = (props) => {
           {!profileDataManager && (
             <Link
               className="btn btn-link ml-3 px-0"
-              to={{
-                pathname: 'get-name-id',
-                state: { fromSummary: true },
-              }}
+              to="/id-verification/get-name-id"
+              state={{ fromSummary: true }}
             >
               <FormattedMessage
                 id="id.verification.account.name.edit"

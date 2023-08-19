@@ -2,7 +2,7 @@ import React, {
   useContext, useEffect, useRef,
 } from 'react';
 import { Form } from '@edx/paragon';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -12,7 +12,8 @@ import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 
 const GetNameIdPanel = (props) => {
-  const { push, location } = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
   const nameInputRef = useRef();
   const panelSlug = 'get-name-id';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
@@ -33,7 +34,7 @@ const GetNameIdPanel = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
-      push(nextPanelSlug);
+      navigate(`/id-verification/${nextPanelSlug}`);
     }
   };
 
@@ -79,7 +80,7 @@ const GetNameIdPanel = (props) => {
 
       <div className="action-row">
         <Link
-          to={nextPanelSlug}
+          to={`/id-verification/${nextPanelSlug}`}
           className={`btn btn-primary ${!idPhotoName && 'disabled'}`}
           data-testid="next-button"
           aria-disabled={!idPhotoName}

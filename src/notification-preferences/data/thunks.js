@@ -33,6 +33,7 @@ const normalizeCourses = (responseData) => {
   return {
     courseList,
     pagination,
+    showPreferences: responseData.showPreferences,
   };
 };
 
@@ -45,7 +46,7 @@ const normalizePreferences = (responseData) => {
     enabled: preferences[appId].enabled,
   }));
 
-  const notEditable = {};
+  const nonEditable = {};
   const preferenceList = appKeys.map(appId => {
     const preferencesKeys = Object.keys(preferences[appId].notificationTypes);
     const flatPreferences = preferencesKeys.map(preferenceId => (
@@ -58,8 +59,7 @@ const normalizePreferences = (responseData) => {
         info: preferences[appId].notificationTypes[preferenceId].info || '',
       }
     ));
-
-    notEditable[appId] = preferences[appId].notEditable;
+    nonEditable[appId] = preferences[appId].nonEditable;
 
     return flatPreferences;
   }).flat();
@@ -67,7 +67,7 @@ const normalizePreferences = (responseData) => {
   const normalizedPreferences = {
     apps,
     preferences: preferenceList,
-    notEditable,
+    nonEditable,
   };
   return normalizedPreferences;
 };

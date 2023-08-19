@@ -12,8 +12,10 @@ exports[`JumpNav should not render Optional Information or delete account link 1
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#basic-information"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Account Information
@@ -23,8 +25,10 @@ exports[`JumpNav should not render Optional Information or delete account link 1
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#profile-information"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Profile Information
@@ -34,8 +38,10 @@ exports[`JumpNav should not render Optional Information or delete account link 1
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#social-media"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Social Media Links
@@ -45,8 +51,10 @@ exports[`JumpNav should not render Optional Information or delete account link 1
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#site-preferences"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Site Preferences
@@ -56,8 +64,10 @@ exports[`JumpNav should not render Optional Information or delete account link 1
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#linked-accounts"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Linked Accounts
@@ -79,8 +89,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#basic-information"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Account Information
@@ -90,8 +102,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#profile-information"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Profile Information
@@ -101,8 +115,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#demographics-information"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Optional Information
@@ -112,8 +128,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#social-media"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Social Media Links
@@ -123,8 +141,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#site-preferences"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Site Preferences
@@ -134,8 +154,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#linked-accounts"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Linked Accounts
@@ -145,8 +167,10 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
       className=""
     >
       <a
-        aria-current={null}
+        aria-current="page"
+        className="active"
         href="/#delete-account"
+        isActive={[Function]}
         onClick={[Function]}
       >
         Delete My Account

@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Icon, Spinner } from '@edx/paragon';
 import { ArrowBack } from '@edx/paragon/icons';
@@ -22,8 +21,10 @@ import {
   SUCCESS_STATUS,
 } from '../constants';
 import { NotFoundPage } from '../account-settings';
+import { useFeedbackWrapper } from '../hooks';
 
 const NotificationPreferences = () => {
+  useFeedbackWrapper();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -56,16 +57,16 @@ const NotificationPreferences = () => {
   }
 
   return (
-    <Container size="md">
+    <Container size="sm" className="notification-preferences">
       <h2 className="notification-heading mt-6 mb-5.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
       <div className="h-100">
-        <div className="d-flex mb-4">
+        <div className="d-flex mb-5">
           <Link to="/notifications">
-            <Icon className="d-inline-block align-bottom ml-1" src={ArrowBack} />
+            <Icon className="text-primary-500" src={ArrowBack} />
           </Link>
-          <span className="notification-course-title ml-auto mr-auto">
+          <span className="notification-course-title ml-auto mr-auto text-primary-500">
             {course?.name}
           </span>
         </div>

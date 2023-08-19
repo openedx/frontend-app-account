@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
@@ -29,7 +29,7 @@ const NameChangeModal = ({
   saveState,
 }) => {
   const dispatch = useDispatch();
-  const { push } = useHistory();
+  const navigate = useNavigate();
   const { username } = getAuthenticatedUser();
   const [verifiedNameInput, setVerifiedNameInput] = useState(formValues.verified_name || '');
   const [confirmedWarning, setConfirmedWarning] = useState(false);
@@ -69,9 +69,9 @@ const NameChangeModal = ({
   useEffect(() => {
     if (saveState === 'complete') {
       handleClose();
-      push(`/id-verification?next=${encodeURIComponent('account/settings')}`);
+      navigate(`/id-verification?next=${encodeURIComponent('account/settings')}`);
     }
-  }, [handleClose, push, saveState]);
+  }, [handleClose, navigate, saveState]);
 
   function renderErrors() {
     if (Object.keys(errors).length > 0) {

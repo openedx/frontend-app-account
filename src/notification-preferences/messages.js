@@ -24,8 +24,8 @@ export const messages = defineMessages({
         core {Core}
         newPost {New Post}
         newComment {New Comment}
+        newResponse {New Response}
         newCommentOnPost {New Comment On Post}
-        newResponseOnPost {New Response On Post}
         newResponseOnComment {New Response On Comment}
         newAssignment {New Assignment}
         newGrade {New Grade}
@@ -33,13 +33,13 @@ export const messages = defineMessages({
     }`,
     description: 'Display text for Notification Types',
   },
-  notificationHelpType: {
-    id: 'notification.preference.help.type',
+  typeLabel: {
+    id: 'notification.preference.type.label',
     defaultMessage: 'Type',
     description: 'Display text for type',
   },
-  notificationHelpWeb: {
-    id: 'notification.preference.help.web',
+  webLabel: {
+    id: 'notification.preference.web,label',
     defaultMessage: 'Web',
     description: 'Display text for web',
   },

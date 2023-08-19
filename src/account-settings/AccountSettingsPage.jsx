@@ -50,6 +50,7 @@ import {
 import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
 import DemographicsSection from './demographics/DemographicsSection';
+import { fetchCourseList } from '../notification-preferences/data/thunks';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -79,6 +80,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.fetchCourseList();
     this.props.fetchSettings();
     this.props.fetchSiteLanguages();
     sendTrackingLogEvent('edx.user.settings.viewed', {
@@ -911,6 +913,7 @@ AccountSettingsPage.propTypes = {
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   beginNameChange: PropTypes.func.isRequired,
+  fetchCourseList: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
@@ -962,6 +965,7 @@ AccountSettingsPage.defaultProps = {
 };
 
 export default connect(accountSettingsPageSelector, {
+  fetchCourseList,
   fetchSettings,
   saveSettings,
   saveMultipleSettings,

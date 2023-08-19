@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
@@ -16,8 +15,6 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 jest.mock('../../Camera', () => function CameraMock() {
   return <></>;
 });
-
-const history = createMemoryHistory();
 
 const IntlTakePortraitPhotoPanel = injectIntl(TakePortraitPhotoPanel);
 
@@ -39,7 +36,7 @@ describe('TakePortraitPhotoPanel', () => {
 
   it('doesn\'t show next button before photo is taken', async () => {
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakePortraitPhotoPanel {...defaultProps} />
@@ -54,7 +51,7 @@ describe('TakePortraitPhotoPanel', () => {
   it('shows next button after photo is taken and routes to IdContextPanel', async () => {
     contextValue.facePhotoFile = 'test.jpg';
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakePortraitPhotoPanel {...defaultProps} />
@@ -65,7 +62,7 @@ describe('TakePortraitPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/id-context');
+    expect(window.location.pathname).toEqual('/id-verification/id-context');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
@@ -73,7 +70,7 @@ describe('TakePortraitPhotoPanel', () => {
     contextValue.idPhotoFile = 'test.jpg';
     contextValue.reachedSummary = true;
     await act(async () => render((
-      <Router history={history}>
+      <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
             <IntlTakePortraitPhotoPanel {...defaultProps} />
@@ -83,6 +80,6 @@ describe('TakePortraitPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(history.location.pathname).toEqual('/summary');
+    expect(window.location.pathname).toEqual('/id-verification/summary');
   });
 });
