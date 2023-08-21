@@ -15,8 +15,10 @@ import {
 } from '../constants';
 import { messages } from './messages';
 import { NotFoundPage } from '../account-settings';
+import { useFeedbackWrapper } from '../hooks';
 
 const NotificationCourses = ({ intl }) => {
+  useFeedbackWrapper();
   const dispatch = useDispatch();
   const coursesList = useSelector(selectCourseList());
   const courseListStatus = useSelector(selectCourseListStatus());
