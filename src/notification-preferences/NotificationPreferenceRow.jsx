@@ -45,7 +45,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
           <OverlayTrigger
             id={tooltipId}
             className="d-inline"
-            placement="top"
+            placement="right"
             overlay={(
               <Tooltip id={tooltipId}>
                 {preference.info}

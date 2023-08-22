@@ -21,14 +21,9 @@ export const messages = defineMessages({
     id: 'notification.preference.title',
     defaultMessage: `{
         text, select,
-        core {Core}
-        newPost {New Post}
-        newComment {New Comment}
-        newResponse {New Response}
-        newCommentOnPost {New Comment On Post}
-        newResponseOnComment {New Response On Comment}
-        newAssignment {New Assignment}
-        newGrade {New Grade}
+        core {Core notifications}
+        newDiscussionPost {New discussion posts}
+        newQuestionPost {New question posts}
         other {{text}}
     }`,
     description: 'Display text for Notification Types',
