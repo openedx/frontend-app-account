@@ -1,8 +1,7 @@
 import { put } from 'redux-saga/effects';
 import { logError } from '@edx/frontend-platform/logging';
-import { history } from '@edx/frontend-platform';
 
-export default function* handleFailure(error, failureAction = null, failureRedirectPath = null) {
+export default function* handleFailure(error, navigate, failureAction = null, failureRedirectPath = null) {
   if (error.fieldErrors && failureAction !== null) {
     yield put(failureAction({ fieldErrors: error.fieldErrors }));
   }
@@ -11,6 +10,6 @@ export default function* handleFailure(error, failureAction = null, failureRedir
     yield put(failureAction(error.message));
   }
   if (failureRedirectPath !== null) {
-    history.push(failureRedirectPath);
+    navigate(failureRedirectPath);
   }
 }

@@ -2,7 +2,6 @@
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { createMemoryHistory } from 'history';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
@@ -79,20 +78,15 @@ const setupStore = (override = {}) => {
   return store;
 };
 
-const renderComponent = (store = {}) => {
-  const history = createMemoryHistory();
-  history.push(`/notifications/${courseId}`);
-  return render(
-    <Router history={history}>
-      <IntlProvider locale="en">
-        <Provider store={store}>
-          <NotificationPreferences />
-        </Provider>
-      </IntlProvider>
-    </Router>,
-  );
-};
-
+const renderComponent = (store = {}) => render(
+  <Router>
+    <IntlProvider locale="en">
+      <Provider store={store}>
+        <NotificationPreferences />
+      </Provider>
+    </IntlProvider>
+  </Router>,
+);
 describe('Notification Preferences', () => {
   let store;
   beforeEach(() => {
