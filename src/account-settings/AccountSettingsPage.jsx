@@ -1,5 +1,5 @@
 import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig, history, getQueryParameters } from '@edx/frontend-platform';
+import { getConfig, getQueryParameters } from '@edx/frontend-platform';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -51,19 +51,13 @@ import { fetchSiteLanguages } from './site-language';
 import CoachingToggle from './coaching/CoachingToggle';
 import DemographicsSection from './demographics/DemographicsSection';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
+import { withLocation, withNavigate } from './hoc';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    // If there is a "duplicate_provider" query parameter, that's the backend's
-    // way of telling us that the provider account the user tried to link is already linked
-    // to another user account on the platform. We use this to display a message to that effect,
-    // and remove the parameter from the URL.
     const duplicateTpaProvider = getQueryParameters().duplicate_provider;
-    if (duplicateTpaProvider !== undefined) {
-      history.replace(history.location.pathname);
-    }
     this.state = {
       duplicateTpaProvider,
     };
@@ -82,7 +76,7 @@ class AccountSettingsPage extends React.Component {
   componentDidMount() {
     this.props.fetchCourseList();
     this.props.fetchSettings();
-    this.props.fetchSiteLanguages();
+    this.props.fetchSiteLanguages(this.props.navigate);
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -201,6 +195,12 @@ class AccountSettingsPage extends React.Component {
     if (!this.state.duplicateTpaProvider) {
       return null;
     }
+
+    // If there is a "duplicate_provider" query parameter, that's the backend's
+    // way of telling us that the provider account the user tried to link is already linked
+    // to another user account on the platform. We use this to display a message to that effect,
+    // and remove the parameter from the URL.
+    this.props.navigate(this.props.location, { replace: true });
 
     return (
       <div>
@@ -934,6 +934,8 @@ AccountSettingsPage.propTypes = {
       proctored_exam_attempt_id: PropTypes.number,
     }),
   ),
+  navigate: PropTypes.func.isRequired,
+  location: PropTypes.string.isRequired,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -961,7 +963,7 @@ AccountSettingsPage.defaultProps = {
   verifiedNameHistory: [],
 };
 
-export default connect(accountSettingsPageSelector, {
+export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
   fetchCourseList,
   fetchSettings,
   saveSettings,
@@ -969,4 +971,4 @@ export default connect(accountSettingsPageSelector, {
   updateDraft,
   fetchSiteLanguages,
   beginNameChange,
-})(injectIntl(AccountSettingsPage));
+})(injectIntl(AccountSettingsPage))));
