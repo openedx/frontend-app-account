@@ -2,8 +2,9 @@ import { AsyncActionType } from '../data/utils';
 
 export const FETCH_SITE_LANGUAGES = new AsyncActionType('SITE_LANGUAGE', 'FETCH_SITE_LANGUAGES');
 
-export const fetchSiteLanguages = () => ({
+export const fetchSiteLanguages = handleNavigation => ({
   type: FETCH_SITE_LANGUAGES.BASE,
+  payload: { handleNavigation },
 });
 
 export const fetchSiteLanguagesBegin = () => ({

@@ -64,6 +64,7 @@ describe('Notification Courses', () => {
       }),
     }));
     auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    window.lightningjs = null;
   });
 
   afterEach(() => jest.clearAllMocks());

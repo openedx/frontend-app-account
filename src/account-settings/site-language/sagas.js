@@ -10,13 +10,13 @@ import {
 import { getSiteLanguageList } from './service';
 import { handleFailure } from '../data/utils';
 
-function* handleFetchSiteLanguages() {
+function* handleFetchSiteLanguages(action) {
   try {
     yield put(fetchSiteLanguagesBegin());
     const siteLanguageList = yield call(getSiteLanguageList);
     yield put(fetchSiteLanguagesSuccess(siteLanguageList));
   } catch (e) {
-    yield call(handleFailure, e, fetchSiteLanguagesFailure);
+    yield call(handleFailure, e, action.payload.handleNavigation, fetchSiteLanguagesFailure);
   }
 }
 
