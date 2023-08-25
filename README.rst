@@ -63,6 +63,13 @@ Examples:
 
 The fully-qualified URL to the support page or email to request the support from in the target environment.
 
+``ENABLE_ACCOUNT_DELETION``
+
+Example: ``'false'`` | ``''`` (empty strings are true)
+
+Enable the account deletion option, defaults to true.
+To disable account deletion set ``ENABLE_ACCOUNT_DELETION`` to ``'false'`` (string), otherwise it will default to true.
+
 edX-specific Environment Variables
 **********************************
 
