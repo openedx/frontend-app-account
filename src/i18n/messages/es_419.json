@@ -361,7 +361,7 @@
   "id.verification.account.name.edit": "Editar {sr}",
   "notification.preference.heading": "Notificaciones",
   "notification.preference.app.title": "{ clave, seleccionar, discusión {Debates} trabajo del curso {Trabajo del curso} otro {{clave}} }",
-  "notification.preference.title": "{ text, select, core {Core} newPost {Nueva publicación} newComment {Nuevo comentario} newResponse {Nueva respuesta} newCommentOnPost {Nuevo comentario en publicación} newResponseOnComment {Nueva respuesta en comentario} newAssignment {Nueva tarea} newGrade {Nueva calificación} otro { {texto}} }",
+  "notification.preference.title": "{ text, select, core {Notificaciones principales} newDiscussionPost {Nuevas publicaciones de discusión} newQuestionPost {Nuevas publicaciones de preguntas} other { {text} } }",
   "notification.preference.type.label": "Tipo",
   "notification.preference.web,label": "Sitio Web",
   "notification.preference.help.email": "Correo electrónico",
