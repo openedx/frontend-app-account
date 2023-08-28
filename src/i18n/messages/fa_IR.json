@@ -361,7 +361,7 @@
   "id.verification.account.name.edit": "ویرایش {sr}",
   "notification.preference.heading": "اعلان‌ها",
   "notification.preference.app.title": "{\n        کلید, انتخاب,\n        بحث {Discussions}\n        کار دوره {Course Work}\n        سایر {{key}}\n    }",
-  "notification.preference.title": "{\n        متن, انتخاب,\n        هسته {Core}\n        پست جدید {New Post}\n        کامنت جدید {New Comment}\n        پاسخ جدید {New Response}\n        نظر جدید در پست {New Comment On Post}\n        پاسخ جدید در نظر {New Response On Comment}\n        تکلیف جدید {New Assignment}\n        رتبه جدید {New Grade}\n        سایر {{text}}\n    }",
+  "notification.preference.title": "{ متن، انتخاب، هسته {اعلان‌های اصلی} newDiscussionPost {پست‌های بحث جدید} newQuestionPost {پست‌های سؤال جدید} سایر { {text} } }",
   "notification.preference.type.label": "نوع",
   "notification.preference.web,label": "شبکه",
   "notification.preference.help.email": "نشانی رایانامه",
