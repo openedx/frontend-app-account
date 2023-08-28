@@ -27,11 +27,11 @@
     "extends @edx/browserslist-config"
   ],
   "dependencies": {
-    "@edx/brand": "npm:@edx/brand-openedx@1.2.0",
+    "@edx/brand": "npm:@edx/brand-edx.org@2.2.0-alpha.16",
     "@edx/frontend-component-footer": "12.2.0",
     "@edx/frontend-component-header": "4.6.0",
-    "@edx/frontend-platform": "5.1.0",
-    "@edx/paragon": "20.46.2",
+    "@edx/frontend-platform": "github:openedx/frontend-platform#ags/inject-theme-css",
+    "@edx/paragon": "21.0.0-alpha.41",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-brands-svg-icons": "5.15.4",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
-    "@edx/frontend-build": "12.9.10",
+    "@edx/frontend-build": "github:openedx/frontend-build#ags/2321",
     "@edx/reactifex": "1.1.0",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
