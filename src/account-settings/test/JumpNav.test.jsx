@@ -12,6 +12,7 @@ const IntlJumpNav = injectIntl(JumpNav);
 describe('JumpNav', () => {
   mergeConfig({
     ENABLE_DEMOGRAPHICS_COLLECTION: false,
+    ENABLE_ACCOUNT_DELETION: true,
   });
 
   let props = {};
@@ -38,7 +39,11 @@ describe('JumpNav', () => {
     });
   });
 
-  it('should not render Optional Information link', () => {
+  it('should not render Optional Information or delete account link', () => {
+    setConfig({
+      ENABLE_ACCOUNT_DELETION: false,
+    });
+
     const tree = renderer.create((
       <IntlProvider locale="en">
         <AppProvider store={store}>
@@ -51,9 +56,10 @@ describe('JumpNav', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should render Optional Information link', () => {
+  it('should render Optional Information and delete account link', () => {
     setConfig({
       ENABLE_DEMOGRAPHICS_COLLECTION: true,
+      ENABLE_ACCOUNT_DELETION: true,
     });
 
     props = {
