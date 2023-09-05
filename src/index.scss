@@ -78,10 +78,12 @@ $fa-font-path: "~font-awesome/fonts";
   line-height: 28px;
 }
 
-.notification-launch-icon {
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
+.pgn__hyperlink__external-icon{
+  margin-left: 4px;
 }
 
 .notification-preferences {

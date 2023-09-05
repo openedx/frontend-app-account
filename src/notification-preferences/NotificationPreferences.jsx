@@ -2,8 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Container, Icon, Spinner } from '@edx/paragon';
-import { ArrowBack, Launch } from '@edx/paragon/icons';
+import {
+  Container, Icon, Spinner, Hyperlink,
+} from '@edx/paragon';
+import { ArrowBack } from '@edx/paragon/icons';
 import {
   selectCourseListStatus,
   selectCourse,
@@ -60,15 +62,15 @@ const NotificationPreferences = () => {
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
       <div className="mb-6 text-gray-700">
-        Notifications for certain activities are enabled by default, {' '}
-        <a
-          className="w-100"
+        {intl.formatMessage(messages.notificationPreferenceGuideBody)}
+        <Hyperlink
+          destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"
           target="_blank"
-          href="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          className="text-decoration-underline"
         >
-          as detailed here <Icon className="d-inline-block notification-launch-icon" src={Launch} />
-        </a>
+          {intl.formatMessage(messages.notificationPreferenceGuideLink)}
+        </Hyperlink>
       </div>
       <div className="h-100">
         <div className="d-flex mb-5">
