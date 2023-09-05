@@ -73,6 +73,17 @@ $fa-font-path: "~font-awesome/fonts";
   padding-left: 0.625rem;
 }
 
+.notification-sub-heading {
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.notification-launch-icon {
+  vertical-align: middle;
+  height: 16px;
+  width: 16px;
+}
+
 .notification-preferences {
   input[type="checkbox"] {
     margin-right: 0;
