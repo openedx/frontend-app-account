@@ -2,7 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Container, Icon, Spinner } from '@edx/paragon';
+import {
+  Container, Icon, Spinner, Hyperlink,
+} from '@edx/paragon';
 import { ArrowBack } from '@edx/paragon/icons';
 import {
   selectCourseListStatus,
@@ -56,9 +58,20 @@ const NotificationPreferences = () => {
 
   return (
     <Container size="sm" className="notification-preferences">
-      <h2 className="notification-heading mt-6 mb-5.5">
+      <h2 className="notification-heading mt-6 mb-4.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
+      <div className="mb-6 text-gray-700">
+        {intl.formatMessage(messages.notificationPreferenceGuideBody)}
+        <Hyperlink
+          destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-decoration-underline"
+        >
+          {intl.formatMessage(messages.notificationPreferenceGuideLink)}
+        </Hyperlink>
+      </div>
       <div className="h-100">
         <div className="d-flex mb-5">
           <Link to="/notifications">

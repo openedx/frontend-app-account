@@ -53,4 +53,14 @@ export const messages = defineMessages({
     defaultMessage: 'Load more courses',
     description: 'Load more button to load more courses',
   },
+  notificationPreferenceGuideLink: {
+    id: 'notification.preference.guide.link',
+    defaultMessage: 'as detailed here',
+    description: 'Link of the notification preference for learner guide',
+  },
+  notificationPreferenceGuideBody: {
+    id: 'notification.preference.guide.body',
+    defaultMessage: 'Notifications for certain activities are enabled by default, ',
+    description: 'Body of the notification preferences for learner guide',
+  },
 });
