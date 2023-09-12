@@ -47,6 +47,7 @@ const NotificationCourses = ({ intl }) => {
           <Link
             key={course.id}
             to={`/notifications/${course.id}`}
+            className="text-decoration-none"
           >
             <div className="mb-4 d-flex text-gray-700">
               <span className="ml-0 mr-auto">
