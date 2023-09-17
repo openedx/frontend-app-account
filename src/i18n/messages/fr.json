@@ -366,5 +366,7 @@
   "notification.preference.web,label": "Web",
   "notification.preference.help.email": "Email",
   "notification.preference.help.push": "Push",
-  "notification.preference.load.more.courses": "Load more courses"
+  "notification.preference.load.more.courses": "Load more courses",
+  "notification.preference.guide.link": "as detailed here",
+  "notification.preference.guide.body": "Notifications for certain activities are enabled by default, "
 }

@@ -366,5 +366,7 @@
   "notification.preference.web,label": "Sitio Web",
   "notification.preference.help.email": "Correo electrónico",
   "notification.preference.help.push": "Empujar",
-  "notification.preference.load.more.courses": "Cargar más cursos"
+  "notification.preference.load.more.courses": "Cargar más cursos",
+  "notification.preference.guide.link": "como se detalla aquí",
+  "notification.preference.guide.body": "Las notificaciones para determinadas actividades están habilitadas de forma predeterminada,"
 }
