@@ -42,7 +42,7 @@
     "@tensorflow/tfjs-core": "3.21.0",
     "bowser": "2.11.0",
     "classnames": "2.3.2",
-    "core-js": "3.31.1",
+    "core-js": "3.32.2",
     "font-awesome": "4.7.0",
     "form-urlencoded": "6.1.2",
     "formdata-polyfill": "4.0.10",
