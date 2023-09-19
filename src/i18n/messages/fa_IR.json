@@ -366,5 +366,7 @@
   "notification.preference.web,label": "شبکه",
   "notification.preference.help.email": "نشانی رایانامه",
   "notification.preference.help.push": "فشار دادن",
-  "notification.preference.load.more.courses": "بارگیری دوره های بیشتر"
+  "notification.preference.load.more.courses": "بارگیری دوره های بیشتر",
+  "notification.preference.guide.link": "as detailed here",
+  "notification.preference.guide.body": "Notifications for certain activities are enabled by default, "
 }
