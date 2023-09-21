@@ -59,6 +59,7 @@ export class DeleteAccount extends React.Component {
       hasLinkedTPA, isVerifiedAccount, status, errorType, intl,
     } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
+    const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
@@ -122,7 +123,7 @@ export class DeleteAccount extends React.Component {
         {hasLinkedTPA ? (
           <BeforeProceedingBanner
             instructionMessageId="account.settings.delete.account.please.unlink"
-            supportArticleUrl="https://support.edx.org/hc/en-us/articles/207206067"
+            supportArticleUrl={supportArticleUrl}
           />
         ) : null}
 
