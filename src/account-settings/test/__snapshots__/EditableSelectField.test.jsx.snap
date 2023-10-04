@@ -1,0 +1,485 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditableSelectField renders EditableSelectField correctly with editing disabled 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          Main Label
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+            data-icon="pencil-alt"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        Test Field
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditableSelectField renders EditableSelectField correctly with editing enabled 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="pgn__form-group"
+      >
+        <label
+          className="pgn__form-label h6 d-block"
+          htmlFor="field-testField"
+          size="sm"
+        >
+          Main Label
+        </label>
+        <div
+          className="pgn__form-control-decorator-group"
+        >
+          <text
+            aria-describedby="field-testField-2"
+            className="has-value form-control is-invalid"
+            data-hj-suppress={true}
+            id="field-testField"
+            name="testField"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="text"
+            value="Test Field"
+          >
+            <option
+              value="defaultOption"
+            >
+              Default Option
+            </option>
+            <optgroup
+              label="User Options"
+            >
+              <option
+                value="suboption1"
+              >
+                Suboption 1
+              </option>
+            </optgroup>
+            <optgroup
+              label="Other Options"
+            >
+              <option
+                value="suboption2"
+              >
+                Suboption 2
+              </option>
+              <option
+                value="suboption3"
+              >
+                Suboption 3
+              </option>
+            </optgroup>
+          </text>
+        </div>
+        <div
+          className="pgn__form-text pgn__form-text-default"
+        >
+          <div>
+            Helpful Text
+          </div>
+        </div>
+        <div
+          className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
+          id="field-testField-2"
+        >
+          <span
+            className="pgn__icon"
+          >
+            <svg
+              aria-hidden={true}
+              fill="none"
+              focusable={false}
+              height={24}
+              role="img"
+              viewBox="0 0 24 24"
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+          <div>
+            
+          </div>
+        </div>
+      </div>
+      <p>
+        <button
+          aria-disabled={false}
+          aria-live="assertive"
+          className="pgn__stateful-btn pgn__stateful-btn-state-default mr-2 btn btn-primary"
+          disabled={false}
+          onClick={[Function]}
+          type="submit"
+        >
+          <span
+            className="d-flex align-items-center justify-content-center"
+          >
+            <span>
+              Save
+            </span>
+          </span>
+        </button>
+        <button
+          className="btn btn-outline-primary"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </p>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`EditableSelectField renders EditableSelectField with an error 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          Main Label
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+            data-icon="pencil-alt"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        Test Field
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditableSelectField renders selectOptions when option does not have a group 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          Main Label
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+            data-icon="pencil-alt"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        Test Field
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditableSelectField renders selectOptions when option has a group 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          Main Label
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+            data-icon="pencil-alt"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        Test Field
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditableSelectField renders selectOptions with multiple groups 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    Object {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          Main Label
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil-alt fa-w-16 mr-1"
+            data-icon="pencil-alt"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={Object {}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+              fill="currentColor"
+              style={Object {}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        Test Field
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
