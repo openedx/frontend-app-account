@@ -75,12 +75,6 @@ edX-specific Environment Variables
 
 Furthermore, there are several edX-specific environment variables that enable integrations with closed-source services private to the edX organization, and are unsupported in Open edX.  Enabling these environment variables will result in undefined behavior in Open edX installations:
 
-``COACHING_ENABLED``
-
-Example: ``true`` | ``''`` (empty strings are falsy)
-
-Enables support for a section of the micro-frontend that helps users arrange for coaching sessions.  Integrates with a private coaching plugin and is only used by edx.org.
-
 ``ENABLE_DEMOGRAPHICS_COLLECTION``
 
 Example: ``true`` | ``''`` (empty strings are falsy)

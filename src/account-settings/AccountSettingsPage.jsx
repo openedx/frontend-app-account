@@ -48,7 +48,6 @@ import {
   getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
-import CoachingToggle from './coaching/CoachingToggle';
 import DemographicsSection from './demographics/DemographicsSection';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
@@ -689,15 +688,6 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-          {getConfig().COACHING_ENABLED
-            && this.props.formValues.coaching.eligible_for_coaching
-            && (
-            <CoachingToggle
-              name="coaching"
-              phone_number={this.props.formValues.phone_number}
-              coaching={this.props.formValues.coaching}
-            />
-            )}
         </div>
         {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
         <div className="account-section pt-3 mb-5" id="social-media">
@@ -867,11 +857,6 @@ AccountSettingsPage.propTypes = {
     social_link_facebook: PropTypes.string,
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
-    coaching: PropTypes.shape({
-      coaching_consent: PropTypes.bool.isRequired,
-      user: PropTypes.number.isRequired,
-      eligible_for_coaching: PropTypes.bool.isRequired,
-    }),
     state: PropTypes.string,
     shouldDisplayDemographicsSection: PropTypes.bool,
     useVerifiedNameForCerts: PropTypes.bool.isRequired,
