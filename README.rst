@@ -123,16 +123,25 @@ Cloning and Startup
 ===================
 
 .. code-block::
+
+
   1. Clone your new repo:
-    ``git clone https://github.com/openedx/frontend-app-account.git``
+
+    ``git clone https://github.com/openedx/frontend-component-footer.git``
+
   2. Use node v18.x.
+
     The current version of the micro-frontend build scripts support node 18.
     Using other major versions of node *may* work, but this is unsupported.  For
     convenience, this repository includes an .nvmrc file to help in setting the
     correct node version via `nvm <https://github.com/nvm-sh/nvm>`_.
+
   3. Install npm dependencies:
+
     ``cd frontend-component-footer && npm ci``
+
   4. Start the dev server:
+
     ``npm start``
 
 Known Issues
