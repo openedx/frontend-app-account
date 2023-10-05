@@ -127,7 +127,7 @@ Cloning and Startup
 
   1. Clone your new repo:
 
-    ``git clone https://github.com/openedx/frontend-component-footer.git``
+    ``git clone https://github.com/openedx/frontend-app-account.git``
 
   2. Use node v18.x.
 
@@ -193,7 +193,7 @@ channel`_.
 For anything non-trivial, the best path is to open an issue in this repository
 with as many details about the issue you are facing as you can provide.
 
-https://github.com/openedx/frontend-component-footer/issues
+https://github.com/openedx/frontend-app-account/issues
 
 For more information about these options, see the `Getting Help`_ page.
 
