@@ -121,8 +121,6 @@
   "account.settings.field.name.modal.certificate.option.full": "全名",
   "account.settings.field.name.modal.certificate.option.verified": "验证名称",
   "account.settings.field.name.modal.certificate.button.choose": "选择名字",
-  "account.settings.field.phone_number": "电话号码",
-  "account.settings.field.phone_number.empty": "添加电话号码",
   "account.settings.delete.account.before.proceeding": "再进行下一步之前，请{actionLink}。",
   "account.settings.delete.account.header": "删除我的账号",
   "account.settings.delete.account.subheader": "很遗憾看到您要离开了！",
