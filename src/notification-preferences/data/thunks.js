@@ -126,7 +126,7 @@ export const updatePreferenceToggle = (
         notificationApp,
         notificationType,
         notificationChannel,
-        value,
+        !value,
       ));
       const data = await patchPreferenceToggle(
         courseId,

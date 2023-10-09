@@ -102,6 +102,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
               ? { ...preference, [notificationChannel]: value }
               : preference
           )),
+          status: LOADING_STATUS,
         },
       };
     case Actions.UPDATE_APP_PREFERENCE:
