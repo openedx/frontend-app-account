@@ -121,8 +121,6 @@
   "account.settings.field.name.modal.certificate.option.full": "نام و نام خانوادگی",
   "account.settings.field.name.modal.certificate.option.verified": "تغییر نام",
   "account.settings.field.name.modal.certificate.button.choose": "انتخاب نام",
-  "account.settings.field.phone_number": "شماره تلفن",
-  "account.settings.field.phone_number.empty": "افزودن شماره تلفن",
   "account.settings.delete.account.before.proceeding": "پیش از ادامه، لطفاً {actionLink}.",
   "account.settings.delete.account.header": "حذف حساب کاربری من",
   "account.settings.delete.account.subheader": "از رفتن شما متأسفیم. ",
