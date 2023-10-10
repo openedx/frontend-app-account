@@ -121,8 +121,6 @@
   "account.settings.field.name.modal.certificate.option.full": "Full Name",
   "account.settings.field.name.modal.certificate.option.verified": "Verified Name",
   "account.settings.field.name.modal.certificate.button.choose": "Choose name",
-  "account.settings.field.phone_number": "Phone Number",
-  "account.settings.field.phone_number.empty": "Add a phone number",
   "account.settings.delete.account.before.proceeding": "Before proceeding, please {actionLink}.",
   "account.settings.delete.account.header": "Delete My Account",
   "account.settings.delete.account.subheader": "We're sorry to see you go!",
