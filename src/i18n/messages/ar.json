@@ -121,8 +121,6 @@
   "account.settings.field.name.modal.certificate.option.full": "الاسم الكامل",
   "account.settings.field.name.modal.certificate.option.verified": "اسم متحقَّق منه",
   "account.settings.field.name.modal.certificate.button.choose": "اختيار الاسم",
-  "account.settings.field.phone_number": "رقم الهاتف",
-  "account.settings.field.phone_number.empty": "إضافة رقم هاتف",
   "account.settings.delete.account.before.proceeding": "قبل المتابعة، يرجى {actionLink}.",
   "account.settings.delete.account.header": "حذف حسابي",
   "account.settings.delete.account.subheader": "نأسف لذهابك!",
