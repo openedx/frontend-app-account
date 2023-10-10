@@ -106,11 +106,6 @@ const isEditingSelector = createSelector(
   (name, accountSettings) => accountSettings.openFormId === name,
 );
 
-const confirmationValuesSelector = createSelector(
-  accountSettingsSelector,
-  accountSettings => accountSettings.confirmationValues,
-);
-
 const errorSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.errors,
@@ -285,35 +280,6 @@ export const certPreferenceSelector = createSelector(
     originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name || '',
     useVerifiedNameForCerts: formValues.useVerifiedNameForCerts || false,
     saveState,
-    formErrors: errors,
-  }),
-);
-
-export const coachingConsentPageSelector = createSelector(
-  accountSettingsSelector,
-  formValuesSelector,
-  activeAccountSelector,
-  profileDataManagerSelector,
-  saveStateSelector,
-  confirmationValuesSelector,
-  errorSelector,
-  (
-    accountSettings,
-    formValues,
-    activeAccount,
-    profileDataManager,
-    saveState,
-    confirmationValues,
-    errors,
-  ) => ({
-    loading: accountSettings.loading,
-    loaded: accountSettings.loaded,
-    loadingError: accountSettings.loadingError,
-    isActive: activeAccount,
-    profileDataManager,
-    formValues,
-    saveState,
-    confirmationValues,
     formErrors: errors,
   }),
 );

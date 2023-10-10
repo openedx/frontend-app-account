@@ -8,7 +8,6 @@ import isEmpty from 'lodash.isempty';
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { postVerifiedNameConfig } from '../certificate-preference/data/service';
-import { getCoachingPreferences, patchCoachingPreferences } from '../coaching/data/service';
 import { getDemographics, getDemographicsOptions, patchDemographics } from '../demographics/data/service';
 import { DEMOGRAPHICS_FIELDS } from '../demographics/data/utils';
 
@@ -214,7 +213,7 @@ export async function postVerifiedName(data) {
 
 /**
  * A single function to GET everything considered a setting.
- * Currently encapsulates Account, Preferences, Coaching, ThirdPartyAuth, and Demographics
+ * Currently encapsulates Account, Preferences, ThirdPartyAuth, and Demographics
  */
 export async function getSettings(username, userRoles, userId) {
   const [
@@ -223,7 +222,6 @@ export async function getSettings(username, userRoles, userId) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
-    coaching,
     shouldDisplayDemographicsQuestionsResponse,
     demographics,
     demographicsOptions,
@@ -233,7 +231,6 @@ export async function getSettings(username, userRoles, userId) {
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
-    getConfig().COACHING_ENABLED && getCoachingPreferences(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
     getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
@@ -245,7 +242,6 @@ export async function getSettings(username, userRoles, userId) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
-    coaching,
     shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
     ...demographics,
     demographicsOptions,
@@ -254,26 +250,23 @@ export async function getSettings(username, userRoles, userId) {
 
 /**
  * A single function to PATCH everything considered a setting.
- * Currently encapsulates Account, Preferences, coaching and ThirdPartyAuth
+ * Currently encapsulates Account, Preferences, ThirdPartyAuth
  */
 export async function patchSettings(username, commitValues, userId) {
   // Note: time_zone exists in the return value from user/v1/accounts
   // but it is always null and won't update. It also exists in
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
-  const coachingKeys = ['coaching'];
   const demographicsKeys = DEMOGRAPHICS_FIELDS;
   const certificateKeys = ['useVerifiedNameForCerts'];
   const isDemographicsKey = (value, key) => key.includes('demographics');
   const accountCommitValues = omit(
     commitValues,
     preferenceKeys,
-    coachingKeys,
     demographicsKeys,
     certificateKeys,
   );
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
-  const coachingCommitValues = pick(commitValues, coachingKeys);
   const demographicsCommitValues = pickBy(commitValues, isDemographicsKey);
   const certCommitValues = pick(commitValues, certificateKeys);
   const patchRequests = [];
@@ -283,9 +276,6 @@ export async function patchSettings(username, commitValues, userId) {
   }
   if (!isEmpty(preferenceCommitValues)) {
     patchRequests.push(patchPreferences(username, preferenceCommitValues));
-  }
-  if (!isEmpty(coachingCommitValues)) {
-    patchRequests.push(patchCoachingPreferences(userId, coachingCommitValues));
   }
   if (!isEmpty(demographicsCommitValues)) {
     patchRequests.push(patchDemographics(userId, demographicsCommitValues));

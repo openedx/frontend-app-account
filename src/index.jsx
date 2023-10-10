@@ -16,7 +16,6 @@ import Footer from '@edx/frontend-component-footer';
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPage from './id-verification';
-import CoachingConsent from './account-settings/coaching/CoachingConsent';
 import messages from './i18n';
 
 import './index.scss';
@@ -29,7 +28,6 @@ subscribe(APP_READY, () => {
     <AppProvider store={configureStore()}>
       <Head />
       <Routes>
-        <Route path="/coaching_consent" element={<CoachingConsent />} />
         <Route element={(
           <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
             <Header />
@@ -65,7 +63,6 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
-        COACHING_ENABLED: (process.env.COACHING_ENABLED || false),
         ENABLE_DEMOGRAPHICS_COLLECTION: (process.env.ENABLE_DEMOGRAPHICS_COLLECTION || false),
         DEMOGRAPHICS_BASE_URL: process.env.DEMOGRAPHICS_BASE_URL,
         ENABLE_COPPA_COMPLIANCE: (process.env.ENABLE_COPPA_COMPLIANCE || false),
