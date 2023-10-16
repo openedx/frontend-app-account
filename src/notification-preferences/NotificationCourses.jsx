@@ -13,7 +13,7 @@ import {
   LOADING_STATUS,
   SUCCESS_STATUS,
 } from '../constants';
-import { messages } from './messages';
+import messages from './messages';
 import { NotFoundPage } from '../account-settings';
 import { useFeedbackWrapper } from '../hooks';
 

@@ -14,7 +14,7 @@ import {
   selectCourseList,
 } from './data/selectors';
 import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
-import { messages } from './messages';
+import messages from './messages';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
 import {
   FAILURE_STATUS,
@@ -67,7 +67,7 @@ const NotificationPreferences = () => {
           destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-decoration-underline"
+          className="text-decoration-underline ml-1"
         >
           {intl.formatMessage(messages.notificationPreferenceGuideLink)}
         </Hyperlink>
@@ -83,15 +83,15 @@ const NotificationPreferences = () => {
         </div>
         {preferencesList}
         {isLoading && (
-        <div className="d-flex">
-          <Spinner
-            variant="primary"
-            animation="border"
-            className="mx-auto my-auto"
-            size="lg"
-            data-testid="loading-spinner"
-          />
-        </div>
+          <div className="d-flex">
+            <Spinner
+              variant="primary"
+              animation="border"
+              className="mx-auto my-auto"
+              size="lg"
+              data-testid="loading-spinner"
+            />
+          </div>
         )}
       </div>
     </Container>
