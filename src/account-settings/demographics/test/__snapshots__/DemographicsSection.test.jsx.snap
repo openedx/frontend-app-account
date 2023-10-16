@@ -25,6 +25,7 @@ exports[`DemographicsSection should render 1`] = `
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -671,6 +672,7 @@ exports[`DemographicsSection should render an Alert if an error occurs 1`] = `
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -1329,6 +1331,7 @@ exports[`DemographicsSection should render an Alert when demographicsOptions pro
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -1400,6 +1403,7 @@ exports[`DemographicsSection should render ethnicity correctly when multiple opt
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -2039,6 +2043,7 @@ exports[`DemographicsSection should render ethnicity text correctly 1`] = `
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -2678,6 +2683,7 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",
@@ -3324,6 +3330,7 @@ exports[`DemographicsSection should set user input correctly when user provides 
       >
         <span
           className="pgn__icon"
+          data-testid="hyperlink-icon"
           style={
             Object {
               "height": "1em",

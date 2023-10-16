@@ -39,6 +39,7 @@ Array [
     >
       <div
         className="pgn__modal-backdrop"
+        data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
       />
