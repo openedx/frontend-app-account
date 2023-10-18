@@ -1,0 +1,3 @@
+const NOTIFICATION_CHANNELS = ['web'];
+
+export default NOTIFICATION_CHANNELS;

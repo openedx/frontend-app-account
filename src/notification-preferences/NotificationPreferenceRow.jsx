@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Icon, OverlayTrigger, Tooltip } from '@edx/paragon';
 import { InfoOutline } from '@edx/paragon/icons';
-import { messages } from './messages';
+import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
   selectPreference,
@@ -13,6 +13,7 @@ import {
   selectSelectedCourseId,
   selectNotificationPreferencesStatus,
 } from './data/selectors';
+import NOTIFICATION_CHANNELS from './data/constants';
 import { updatePreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 
@@ -53,7 +54,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               <Tooltip id={tooltipId}>
                 {preference.info}
               </Tooltip>
-                )}
+            )}
           >
             <span className="ml-2">
               <Icon src={InfoOutline} />
@@ -62,7 +63,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
         )}
       </div>
       <div className="d-flex align-items-center">
-        {['web'].map((channel) => (
+        {NOTIFICATION_CHANNELS.map((channel) => (
           <div
             id={`${preferenceName}-${channel}`}
             className={classNames(
