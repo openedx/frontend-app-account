@@ -2,6 +2,10 @@ export const selectNotificationPreferencesStatus = () => state => (
   state.notificationPreferences.preferences.status
 );
 
+export const selectUpdatePreferencesStatus = () => state => (
+  state.notificationPreferences.preferences.updatePreferenceStatus
+);
+
 export const selectPreferences = () => state => (
   state.notificationPreferences.preferences?.preferences
 );

@@ -5,6 +5,7 @@ import {
   FAILURE_STATUS,
   LOADING_STATUS,
   SUCCESS_STATUS,
+  IDLE_STATUS,
 } from '../../constants';
 
 describe('notification-preferences reducer', () => {
@@ -80,15 +81,16 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.preferences).toEqual({
       status: SUCCESS_STATUS,
+      updatePreferenceStatus: SUCCESS_STATUS,
       selectedCourse: null,
       ...preferenceData,
     });
   });
 
   test.each([
-    { action: Actions.FETCHING_PREFERENCES, status: LOADING_STATUS },
-    { action: Actions.FAILED_PREFERENCES, status: FAILURE_STATUS },
-  ])('preferences are empty when api call is %s', ({ action, status }) => {
+    { action: Actions.FETCHING_PREFERENCES, status: LOADING_STATUS, updatePreferenceStatus: IDLE_STATUS },
+    { action: Actions.FAILED_PREFERENCES, status: FAILURE_STATUS, updatePreferenceStatus: FAILURE_STATUS },
+  ])('preferences are empty when api call is %s', ({ action, status, updatePreferenceStatus }) => {
     const result = reducer(
       state,
       { type: action },
@@ -99,6 +101,7 @@ describe('notification-preferences reducer', () => {
       preferences: [],
       apps: [],
       nonEditable: {},
+      updatePreferenceStatus,
     });
   });
 

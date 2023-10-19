@@ -15,6 +15,7 @@ export const defaultState = {
   },
   preferences: {
     status: IDLE_STATUS,
+    updatePreferenceStatus: IDLE_STATUS,
     selectedCourse: null,
     preferences: [],
     apps: [],
@@ -70,6 +71,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         preferences: {
           ...state.preferences,
           status: SUCCESS_STATUS,
+          updatePreferenceStatus: SUCCESS_STATUS,
           ...action.payload,
         },
       };
@@ -79,6 +81,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         preferences: {
           ...state.preferences,
           status: FAILURE_STATUS,
+          updatePreferenceStatus: FAILURE_STATUS,
           preferences: [],
           apps: [],
           nonEditable: {},
@@ -102,7 +105,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
               ? { ...preference, [notificationChannel]: value }
               : preference
           )),
-          status: LOADING_STATUS,
+          updatePreferenceStatus: LOADING_STATUS,
         },
       };
     case Actions.UPDATE_APP_PREFERENCE:

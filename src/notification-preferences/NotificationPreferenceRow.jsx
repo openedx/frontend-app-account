@@ -11,7 +11,7 @@ import {
   selectPreference,
   selectPreferenceNonEditableChannels,
   selectSelectedCourseId,
-  selectNotificationPreferencesStatus,
+  selectUpdatePreferencesStatus,
 } from './data/selectors';
 import NOTIFICATION_CHANNELS from './data/constants';
 import { updatePreferenceToggle } from './data/thunks';
@@ -23,7 +23,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
   const courseId = useSelector(selectSelectedCourseId());
   const preference = useSelector(selectPreference(appId, preferenceName));
   const nonEditable = useSelector(selectPreferenceNonEditableChannels(appId, preferenceName));
-  const preferencesStatus = useSelector(selectNotificationPreferencesStatus());
+  const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
 
   const onToggle = useCallback((event) => {
     const {
@@ -77,7 +77,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               name={channel}
               value={preference[channel]}
               onChange={onToggle}
-              disabled={nonEditable.includes(channel) || preferencesStatus === LOADING_STATUS}
+              disabled={nonEditable.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
             />
           </div>
         ))}
