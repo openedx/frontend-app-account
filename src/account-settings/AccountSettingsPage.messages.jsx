@@ -412,7 +412,7 @@ const messages = defineMessages({
     description: 'Selected by the user to describe their education.',
   },
   'account.settings.field.education.levels.other': {
-    id: 'account.settings.field.education.levels.oother',
+    id: 'account.settings.field.education.levels.other',
     defaultMessage: 'Other education',
     description: 'Selected by the user if they have a type of education not described by the other choices.',
   },
