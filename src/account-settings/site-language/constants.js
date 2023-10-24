@@ -75,17 +75,17 @@ const siteLanguageList = [
     released: true,
   },
   {
-    code: 'pt',
+    code: 'pt-pt',
     name: 'Português',
     released: true,
   },
   {
-    code: 'it',
+    code: 'it-it',
     name: 'Italian',
     released: true,
   },
   {
-    code: 'de',
+    code: 'de-de',
     name: 'German',
     released: true,
   },
