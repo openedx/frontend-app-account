@@ -25,7 +25,7 @@ export const EDUCATION_LEVELS = [
   'jhs',
   'el',
   'none',
-  'o',
+  'other',
 ];
 
 export const GENDER_OPTIONS = [
