@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
-import { Hyperlink, StatefulButton } from '@edx/paragon';
+import { Hyperlink, StatefulButton } from '@openedx/paragon';
 
 import Alert from '../Alert';
 import { disconnectAuth } from './data/actions';

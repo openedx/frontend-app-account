@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Collapsible } from '@edx/paragon';
+import { Collapsible } from '@openedx/paragon';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {

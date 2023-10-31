@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, Collapsible } from '@edx/paragon';
+import { Button, Collapsible } from '@openedx/paragon';
 
 import IdVerificationContext from './IdVerificationContext';
 import messages from './IdVerification.messages';
