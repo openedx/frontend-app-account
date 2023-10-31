@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TransitionReplace } from '@edx/paragon';
+import { TransitionReplace } from '@openedx/paragon';
 
 const onChildExit = (htmlNode) => {
   // If the leaving child has focus, take control and redirect it

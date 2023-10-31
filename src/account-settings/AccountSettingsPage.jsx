@@ -15,8 +15,8 @@ import {
 } from '@edx/frontend-platform/i18n';
 import {
   Button, Hyperlink, Icon, Alert,
-} from '@edx/paragon';
-import { CheckCircle, Error, WarningFilled } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { connect } from 'react-redux';
-import { Button, Hyperlink } from '@edx/paragon';
+import { Button, Hyperlink } from '@openedx/paragon';
 
 import { betaLanguageBannerSelector } from './data/selectors';
 import messages from './AccountSettingsPage.messages';
