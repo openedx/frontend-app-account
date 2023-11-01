@@ -35,7 +35,6 @@ Array [
     >
       <div
         className="pgn__modal-backdrop"
-        data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
       />
@@ -132,7 +131,6 @@ Array [
               </div>
               <div
                 className="form-group"
-                data-testid="validation-form-group"
               >
                 <label
                   className="d-block"
@@ -236,7 +234,6 @@ Array [
     >
       <div
         className="pgn__modal-backdrop"
-        data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
       />
@@ -300,7 +297,6 @@ Array [
               </div>
               <div
                 className="form-group"
-                data-testid="validation-form-group"
               >
                 <label
                   className="d-block"
