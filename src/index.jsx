@@ -69,6 +69,8 @@ initialize({
         ENABLE_DOB_UPDATE: (process.env.ENABLE_DOB_UPDATE || false),
         MARKETING_EMAILS_OPT_IN: (process.env.MARKETING_EMAILS_OPT_IN || false),
         PASSWORD_RESET_SUPPORT_LINK: process.env.PASSWORD_RESET_SUPPORT_LINK,
+        AC_LANGUAGES_API_URL: process.env.AC_LANGUAGES_API_URL,
+        AC_INSTANCE_CONFIG_API_URL: process.env.AC_INSTANCE_CONFIG_API_URL,
       }, 'App loadConfig override handler');
     },
   },
