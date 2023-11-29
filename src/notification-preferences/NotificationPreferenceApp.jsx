@@ -9,9 +9,11 @@ import {
   selectPreferenceAppToggleValue,
   selectPreferencesOfApp,
   selectSelectedCourseId,
+  selectUpdatePreferencesStatus,
 } from './data/selectors';
 import NotificationPreferenceRow from './NotificationPreferenceRow';
 import { updateAppPreferenceToggle } from './data/thunks';
+import { LOADING_STATUS } from '../constants';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ const NotificationPreferenceApp = ({ appId }) => {
   const courseId = useSelector(selectSelectedCourseId());
   const appPreferences = useSelector(selectPreferencesOfApp(appId));
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
+  const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
 
   const preferences = useMemo(() => (
     appPreferences.map(preference => (
@@ -49,6 +52,7 @@ const NotificationPreferenceApp = ({ appId }) => {
               name={appId}
               value={appToggle}
               onChange={onChangeAppSettings}
+              disabled={updatePreferencesStatus === LOADING_STATUS}
             />
           </span>
         </div>
