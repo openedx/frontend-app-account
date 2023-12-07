@@ -118,6 +118,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
               ? { ...app, enabled: value }
               : app
           )),
+          updatePreferenceStatus: LOADING_STATUS,
         },
       };
     default:
