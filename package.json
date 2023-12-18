@@ -75,7 +75,7 @@
     "redux-logger": "3.0.6",
     "redux-saga": "1.2.3",
     "redux-thunk": "2.4.2",
-    "regenerator-runtime": "0.14.0",
+    "regenerator-runtime": "0.14.1",
     "reselect": "4.1.8",
     "universal-cookie": "4.0.4"
   },
