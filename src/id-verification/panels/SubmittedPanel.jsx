@@ -12,8 +12,9 @@ import BasePanel from './BasePanel';
 
 const SubmittedPanel = (props) => {
   const { userId } = useContext(IdVerificationContext);
-  const { location: returnUrl, text: returnText } = useRedirect();
+  const { location: returnUrl, text: returnText, isAccountMFERedirect } = useRedirect();
   const panelSlug = 'submitted';
+  const URL = isAccountMFERedirect ? returnUrl : `${getConfig().LMS_BASE_URL}/${returnUrl}`;
 
   useEffect(() => {
     sendTrackEvent('edx.id_verification.submitted', {
@@ -32,7 +33,7 @@ const SubmittedPanel = (props) => {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
+        href={URL}
         data-testid="return-button"
       >
         {props.intl.formatMessage(messages[returnText])}
