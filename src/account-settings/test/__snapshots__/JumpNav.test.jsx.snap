@@ -2,180 +2,196 @@
 
 exports[`JumpNav should not render Optional Information or delete account link 1`] = `
 <div
-  className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+  data-testid="redux-provider"
 >
-  <ul
-    className="list-unstyled"
-    style={Object {}}
+  <div
+    data-testid="browser-router"
   >
-    <li
-      className=""
+    <div
+      className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
     >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#basic-information"
-        isActive={[Function]}
-        onClick={[Function]}
+      <ul
+        className="list-unstyled"
+        style={Object {}}
       >
-        Account Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#profile-information"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Profile Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#social-media"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Social Media Links
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#site-preferences"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Site Preferences
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#linked-accounts"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Linked Accounts
-      </a>
-    </li>
-  </ul>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#basic-information"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Account Information
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#profile-information"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Profile Information
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#social-media"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Social Media Links
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#site-preferences"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Site Preferences
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#linked-accounts"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Linked Accounts
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`JumpNav should render Optional Information and delete account link 1`] = `
 <div
-  className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+  data-testid="redux-provider"
 >
-  <ul
-    className="list-unstyled"
-    style={Object {}}
+  <div
+    data-testid="browser-router"
   >
-    <li
-      className=""
+    <div
+      className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
     >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#basic-information"
-        isActive={[Function]}
-        onClick={[Function]}
+      <ul
+        className="list-unstyled"
+        style={Object {}}
       >
-        Account Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#profile-information"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Profile Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#demographics-information"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Optional Information
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#social-media"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Social Media Links
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#site-preferences"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Site Preferences
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#linked-accounts"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Linked Accounts
-      </a>
-    </li>
-    <li
-      className=""
-    >
-      <a
-        aria-current="page"
-        className="active"
-        href="/#delete-account"
-        isActive={[Function]}
-        onClick={[Function]}
-      >
-        Delete My Account
-      </a>
-    </li>
-  </ul>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#basic-information"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Account Information
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#profile-information"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Profile Information
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#demographics-information"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Optional Information
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#social-media"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Social Media Links
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#site-preferences"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Site Preferences
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#linked-accounts"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Linked Accounts
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#delete-account"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Delete My Account
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 `;
