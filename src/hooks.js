@@ -36,6 +36,7 @@ export function useAsyncCall(asyncFunc) {
 export function useRedirect() {
   const [redirect, setRedirect] = useState({
     location: 'dashboard',
+    isAccountMFERedirect: false,
     text: 'id.verification.return.dashboard',
   });
 
