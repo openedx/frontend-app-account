@@ -83,8 +83,8 @@ export function* handleSaveSettings(action) {
     yield put(saveSettingsBegin());
 
     const { username, userId } = getAuthenticatedUser();
-    const { commitValues, formId } = action.payload;
-    const commitData = { [formId]: commitValues };
+    const { commitValues, formId, extendedProfile } = action.payload;
+    const commitData = Object.keys(extendedProfile).length > 0 ? extendedProfile : { [formId]: commitValues };
     let savedValues = null;
     if (formId === 'siteLanguage') {
       const previousSiteLanguage = getLocale();
