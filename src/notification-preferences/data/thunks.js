@@ -13,7 +13,7 @@ import {
 import {
   getCourseList,
   getCourseNotificationPreferences,
-  patchAppPreferenceToggle,
+  patchAppPreferenceToggle, patchChannelPreferenceToggle,
   patchPreferenceToggle,
 } from './service';
 
@@ -144,6 +144,28 @@ export const updatePreferenceToggle = (
         notificationChannel,
         !value,
       ));
+      dispatch(fetchNotificationPreferenceFailed());
+    }
+  }
+);
+
+export const updateChannelPreferenceToggle = (
+  courseId,
+  notificationApp,
+  notificationChannel,
+  value,
+) => (
+  async (dispatch) => {
+    try {
+      const data = await patchChannelPreferenceToggle(
+        courseId,
+        notificationApp,
+        notificationChannel,
+        value,
+      );
+      const normalizedData = normalizePreferences(camelCaseObject(data));
+      dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
+    } catch (errors) {
       dispatch(fetchNotificationPreferenceFailed());
     }
   }
