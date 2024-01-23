@@ -7,7 +7,8 @@ import classNames from 'classnames';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
-  selectPreferenceAppToggleValue, selectPreferenceNonEditable,
+  selectPreferenceAppToggleValue,
+  selectNonEditablePreferences,
   selectPreferencesOfApp,
   selectSelectedCourseId,
   selectUpdatePreferencesStatus,
@@ -24,32 +25,19 @@ const NotificationPreferenceApp = ({ appId }) => {
   const appPreferences = useSelector(selectPreferencesOfApp(appId));
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
-  const nonEditable = useSelector(selectPreferenceNonEditable(appId));
+  const nonEditable = useSelector(selectNonEditablePreferences(appId));
 
-  const onColumnToggle = useCallback(
+  const onChannelToggle = useCallback(
     (event) => {
-      const {
-        id: notificationChannel,
-      } = event.target;
-      const truePreferences = appPreferences.filter((preference) => {
-        const isPreferenceNonEditable = nonEditable?.[preference.id]?.includes(notificationChannel) || false;
-        return preference[notificationChannel] === true && !isPreferenceNonEditable;
-      });
-      if (truePreferences.length > 0) {
-        dispatch(updateChannelPreferenceToggle(
-          courseId,
-          appId,
-          notificationChannel,
-          false,
-        ));
-      } else {
-        dispatch(updateChannelPreferenceToggle(
-          courseId,
-          appId,
-          notificationChannel,
-          true,
-        ));
-      }
+      const { id: notificationChannel } = event.target;
+      const activePreferences = appPreferences.filter((preference) => preference[notificationChannel] === true
+          && !nonEditable?.[preference.id]?.includes(notificationChannel));
+      dispatch(updateChannelPreferenceToggle(
+        courseId,
+        appId,
+        notificationChannel,
+        !(activePreferences.length > 0),
+      ));
     },
     [appId, appPreferences, courseId, dispatch, nonEditable],
   );
@@ -70,6 +58,7 @@ const NotificationPreferenceApp = ({ appId }) => {
   if (!courseId) {
     return null;
   }
+
   return (
     <Collapsible.Advanced open={appToggle} data-testid="notification-app" className="mb-5">
       <Collapsible.Trigger>
@@ -95,6 +84,7 @@ const NotificationPreferenceApp = ({ appId }) => {
             {NOTIFICATION_CHANNELS.map((channel) => (
               <NavItem
                 id={channel}
+                key={channel}
                 className={classNames(
                   'd-flex',
                   { 'ml-auto': channel === 'web' },
@@ -102,15 +92,9 @@ const NotificationPreferenceApp = ({ appId }) => {
                   { 'ml-auto mr-0': channel === 'push' },
                 )}
                 role="button"
-                onClick={onColumnToggle}
+                onClick={onChannelToggle}
               >
-                {
-                  // eslint-disable-next-line no-nested-ternary
-                  channel === 'web' ? intl.formatMessage(messages.webLabel)
-                  // eslint-disable-next-line no-nested-ternary
-                    : channel === 'email' ? intl.formatMessage(messages.notificationHelpEmail)
-                      : channel === 'push' ? intl.formatMessage(messages.notificationHelpPush) : null
-                }
+                {intl.formatMessage(messages.notificationChannel, { text: channel })}
               </NavItem>
             ))}
           </span>
