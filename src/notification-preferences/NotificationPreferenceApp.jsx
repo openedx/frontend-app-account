@@ -27,20 +27,16 @@ const NotificationPreferenceApp = ({ appId }) => {
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
 
-  const onChannelToggle = useCallback(
-    (event) => {
-      const { id: notificationChannel } = event.target;
-      const activePreferences = appPreferences.filter((preference) => preference[notificationChannel] === true
-          && !nonEditable?.[preference.id]?.includes(notificationChannel));
-      dispatch(updateChannelPreferenceToggle(
-        courseId,
-        appId,
-        notificationChannel,
-        !(activePreferences.length > 0),
-      ));
-    },
-    [appId, appPreferences, courseId, dispatch, nonEditable],
-  );
+  const onChannelToggle = useCallback((event) => {
+    const { id: notificationChannel } = event.target;
+    const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel)
+        || false;
+
+    const truePreferences = appPreferences.filter((preference) => preference[notificationChannel] === true
+        && !isPreferenceNonEditable(preference));
+
+    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, truePreferences.length === 0));
+  }, [appId, appPreferences, courseId, dispatch, nonEditable]);
 
   const preferences = useMemo(() => (
     appPreferences.map(preference => (
