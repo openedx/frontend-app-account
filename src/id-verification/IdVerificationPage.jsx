@@ -6,7 +6,7 @@ import {
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, ModalDialog, ActionRow } from '@edx/paragon';
+import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
 import { getConfig } from '@edx/frontend-platform';
 import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Container, Icon, Spinner, Button,
-} from '@edx/paragon';
-import { ArrowForwardIos } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { ArrowForwardIos } from '@openedx/paragon/icons';
 import { fetchCourseList } from './data/thunks';
 import { selectCourseListStatus, selectCourseList, selectPagination } from './data/selectors';
 import {

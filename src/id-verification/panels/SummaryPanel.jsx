@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import {
   Alert, Hyperlink, Form, Button, Spinner,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { Link, useNavigate } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 

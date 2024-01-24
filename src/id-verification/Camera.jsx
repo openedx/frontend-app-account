@@ -7,7 +7,7 @@ import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Form, Spinner } from '@edx/paragon';
+import { Form, Spinner } from '@openedx/paragon';
 
 import shutter from './data/camera-shutter.base64.json';
 import messages from './IdVerification.messages';
