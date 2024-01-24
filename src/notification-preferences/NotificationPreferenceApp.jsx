@@ -29,8 +29,7 @@ const NotificationPreferenceApp = ({ appId }) => {
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
-    const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel)
-        || false;
+    const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel);
 
     const activePreferences = appPreferences.filter(
       (preference) => preference[notificationChannel] && !isPreferenceNonEditable(preference),
