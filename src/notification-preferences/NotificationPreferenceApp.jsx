@@ -32,10 +32,11 @@ const NotificationPreferenceApp = ({ appId }) => {
     const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel)
         || false;
 
-    const truePreferences = appPreferences.filter((preference) => preference[notificationChannel] === true
-        && !isPreferenceNonEditable(preference));
+    const activePreferences = appPreferences.filter(
+      (preference) => preference[notificationChannel] && !isPreferenceNonEditable(preference),
+    );
 
-    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, truePreferences.length === 0));
+    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, activePreferences.length === 0));
   }, [appId, appPreferences, courseId, dispatch, nonEditable]);
 
   const preferences = useMemo(() => (
