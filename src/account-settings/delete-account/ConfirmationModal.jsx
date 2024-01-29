@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   AlertModal,
   Button, Input, ValidationFormGroup, ActionRow,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

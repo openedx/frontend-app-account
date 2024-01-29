@@ -1,7 +1,7 @@
 import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { breakpoints, useWindowSize, Icon } from '@edx/paragon';
-import { OpenInNew } from '@edx/paragon/icons';
+import { breakpoints, useWindowSize, Icon } from '@openedx/paragon';
+import { OpenInNew } from '@openedx/paragon/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';

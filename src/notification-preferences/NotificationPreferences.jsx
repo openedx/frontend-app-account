@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Container, Icon, Spinner, Hyperlink,
-} from '@edx/paragon';
-import { ArrowBack } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { ArrowBack } from '@openedx/paragon/icons';
 import {
   selectCourseListStatus,
   selectCourse,

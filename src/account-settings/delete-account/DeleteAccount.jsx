@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, Hyperlink } from '@edx/paragon';
+import { Button, Hyperlink } from '@openedx/paragon';
 
 // Actions
 import {

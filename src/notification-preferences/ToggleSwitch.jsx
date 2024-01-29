@@ -1,4 +1,4 @@
-import { Form } from '@edx/paragon';
+import { Form } from '@openedx/paragon';
 import React from 'react';
 import PropTypes from 'prop-types';
 
