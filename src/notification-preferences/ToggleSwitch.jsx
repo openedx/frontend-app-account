@@ -7,14 +7,14 @@ const ToggleSwitch = ({
   value,
   disabled,
   onChange,
-  dataTestId,
+  id,
 }) => (
   <Form.Switch
     name={name}
     checked={value}
     disabled={disabled}
     onChange={onChange}
-    data-testid={dataTestId}
+    data-testid={id}
   />
 );
 
@@ -23,13 +23,13 @@ ToggleSwitch.propTypes = {
   value: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  dataTestId: PropTypes.string,
+  id: PropTypes.string,
 };
 
 ToggleSwitch.defaultProps = {
   onChange: () => null,
   disabled: false,
-  dataTestId: '',
+  id: '',
 };
 
 export default React.memo(ToggleSwitch);

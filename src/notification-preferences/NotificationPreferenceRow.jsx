@@ -78,7 +78,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               value={preference[channel]}
               onChange={onToggle}
               disabled={nonEditable.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
-              dataTestId={`${preferenceName}-${channel}`}
+              id={`${preferenceName}-${channel}`}
             />
           </div>
         ))}

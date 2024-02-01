@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import {
-  fireEvent, render, screen, waitFor, act,
+  fireEvent, render, screen, waitFor, act, within,
 } from '@testing-library/react';
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
@@ -31,11 +31,11 @@ const defaultPreferences = {
   ],
   preferences: [
     {
-      id: 'newPost',
+      id: 'core',
       appId: 'discussion',
-      web: false,
-      push: false,
-      email: false,
+      web: true,
+      push: true,
+      email: true,
     },
     {
       id: 'newComment',
@@ -59,23 +59,20 @@ const defaultPreferences = {
       email: false,
     },
   ],
-  nonEditable: {},
+  nonEditable: {
+    discussion: {
+      core: [
+        'web',
+      ],
+    },
+  },
 };
 
 const updateChannelPreferences = (toggleVal = false) => ({
   preferences: [
-    {
-      id: 'newPost', appId: 'discussion', web: toggleVal, push: toggleVal, email: toggleVal,
-    },
-    {
-      id: 'newComment', appId: 'discussion', web: toggleVal, push: toggleVal, email: toggleVal,
-    },
-    {
-      id: 'newAssignment', appId: 'coursework', web: toggleVal, push: toggleVal, email: toggleVal,
-    },
-    {
-      id: 'newGrade', appId: 'coursework', web: toggleVal, push: toggleVal, email: toggleVal,
-    },
+    { id: 'core', appId: 'discussion', web: true },
+    { id: 'newComment', appId: 'discussion', web: toggleVal },
+    { id: 'newAssignment', appId: 'coursework', web: toggleVal },
   ],
 });
 
@@ -97,7 +94,7 @@ const setupStore = (override = {}) => {
   return store;
 };
 
-const renderComponent = (store = {}) => (
+const notificationPreferences = (store = {}) => (
   <Router>
     <IntlProvider locale="en">
       <Provider store={store}>
@@ -129,31 +126,32 @@ describe('Notification Preferences', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('tests if all notification apps are listed', async () => {
-    await render(renderComponent(store));
-    expect(screen.queryAllByTestId('notification-app')).toHaveLength(2);
+    await render(notificationPreferences(store));
+    expect(screen.queryByTestId('discussion-app')).toBeInTheDocument();
+    expect(screen.queryByTestId('coursework-app')).toBeInTheDocument();
   });
 
   it('show spinner if api call is in progress', async () => {
     store = setupStore({ status: LOADING_STATUS });
-    await render(renderComponent(store));
+    await render(notificationPreferences(store));
     expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
   });
 
   it('tests if all notification preferences are listed', async () => {
-    await render(renderComponent(store));
+    await render(notificationPreferences(store));
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
   });
 
   it('update group on click', async () => {
-    const wrapper = await render(renderComponent(store));
+    const wrapper = await render(notificationPreferences(store));
     const element = wrapper.container.querySelector('#discussion-app-toggle');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
   });
 
   it('update preference on click', async () => {
-    const wrapper = await render(renderComponent(store));
-    const element = wrapper.container.querySelector('#newPost-web');
+    const wrapper = await render(notificationPreferences(store));
+    const element = wrapper.container.querySelector('#core-web');
     expect(element).not.toBeChecked();
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
@@ -161,43 +159,43 @@ describe('Notification Preferences', () => {
 
   it('show not found page if invalid course id is entered in url', async () => {
     store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
-    await render(renderComponent(store));
+    await render(notificationPreferences(store));
     expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
   });
 
-  it.each([false, true])(
-    'updates all preferences in the column on web channel click when toggle state is - %s',
-    async (toggleState) => {
-      store = setupStore(updateChannelPreferences(toggleState));
-      const wrapper = render(renderComponent(store));
+  it('updates all preferences in the column on web channel click', async () => {
+    store = setupStore(updateChannelPreferences(true));
+    const wrapper = render(notificationPreferences(store));
 
-      const getCheckbox = (id) => screen.queryByTestId(`${id}-web`);
-      const checkboxes = ['newPost', 'newComment', 'newAssignment', 'newGrade'];
+    const getChannelSwitch = (id) => screen.queryByTestId(`${id}-web`);
+    const notificationTypes = ['newComment', 'newAssignment'];
 
-      const verifyState = (expectedState) => {
-        checkboxes.forEach((checkbox) => {
-          if (expectedState) {
-            expect(getCheckbox(checkbox)).toBeChecked();
-          } else {
-            expect(getCheckbox(checkbox)).not.toBeChecked();
-          }
-        });
-      };
-
-      verifyState(toggleState);
-
-      const element = screen.queryAllByText('Web')[0];
-
-      await act(async () => {
-        await fireEvent.click(element);
+    const verifyState = (toggleState) => {
+      notificationTypes.forEach((notificationType) => {
+        if (toggleState) {
+          expect(getChannelSwitch(notificationType)).toBeChecked();
+        } else {
+          expect(getChannelSwitch(notificationType)).not.toBeChecked();
+        }
       });
+    };
 
-      store = setupStore(updateChannelPreferences(!toggleState));
-      wrapper.rerender(renderComponent(store));
+    verifyState(true);
+    expect(getChannelSwitch('core')).toBeChecked();
 
-      await waitFor(() => {
-        verifyState(!toggleState);
-      });
-    },
-  );
+    const discussionApp = screen.queryByTestId('discussion-app');
+    const webChannel = within(discussionApp).queryByText('Web');
+
+    await act(async () => {
+      await fireEvent.click(webChannel);
+    });
+
+    store = setupStore(updateChannelPreferences(false));
+    wrapper.rerender(notificationPreferences(store));
+
+    await waitFor(() => {
+      verifyState(false);
+      expect(getChannelSwitch('core')).toBeChecked();
+    });
+  });
 });
