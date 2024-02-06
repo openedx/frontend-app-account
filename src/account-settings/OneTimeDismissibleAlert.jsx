@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert } from '@edx/paragon';
+import { Alert } from '@openedx/paragon';
 
 const OneTimeDismissibleAlert = (props) => {
   const [dismissed, setDismissed] = useState(localStorage.getItem(props.id) !== 'true');

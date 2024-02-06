@@ -23,6 +23,7 @@ const messages = defineMessages({
       core {Core notifications}
       newDiscussionPost {New discussion posts}
       newQuestionPost {New question posts}
+      contentReported {Reported content}
       other {{text}}
     }`,
     description: 'Display text for Notification Types',
