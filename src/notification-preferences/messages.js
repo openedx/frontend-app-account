@@ -28,6 +28,17 @@ const messages = defineMessages({
     }`,
     description: 'Display text for Notification Types',
   },
+  notificationChannel: {
+    id: 'notification.preference.channel',
+    defaultMessage: `{
+      text, select,
+      web {Web}
+      email {Email}
+      push {Push}
+      other {{text}}
+    }`,
+    description: 'Display text for Notification Channel',
+  },
   typeLabel: {
     id: 'notification.preference.type.label',
     defaultMessage: 'Type',
