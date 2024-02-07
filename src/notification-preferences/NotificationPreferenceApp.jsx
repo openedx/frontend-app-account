@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Collapsible, NavItem } from '@edx/paragon';
+import { Collapsible, NavItem } from '@openedx/paragon';
 import classNames from 'classnames';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
