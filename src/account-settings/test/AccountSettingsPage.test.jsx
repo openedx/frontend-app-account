@@ -98,4 +98,13 @@ describe('AccountSettingsPage', () => {
 
     fireEvent.click(submitButton);
   });
+
+  it('does not show the username field when auto_generated_username_enabled is true', () => {
+    props.formValues.auto_generated_username_enabled = true;
+    const { queryByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
+
+    // Check if the username field is not present in the DOM
+    const usernameField = queryByLabelText('Username');
+    expect(usernameField).toBeNull();
+  });
 });
