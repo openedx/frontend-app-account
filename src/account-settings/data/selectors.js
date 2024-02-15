@@ -128,6 +128,16 @@ export const editableFieldSelector = createStructuredSelector({
   isEditing: isEditingSelector,
 });
 
+export const nameFieldSelector = createSelector(
+  editableFieldSelector,
+  accountSettingsSelector,
+  (editableFieldSettings, accountSettings) => ({
+    ...editableFieldSettings,
+    firstNameError: accountSettings.errors?.first_name,
+    lastNameError: accountSettings.errors?.last_name,
+  }),
+);
+
 export const profileDataManagerSelector = createSelector(
   accountSettingsSelector,
   accountSettings => accountSettings.profileDataManager,

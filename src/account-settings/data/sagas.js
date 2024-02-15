@@ -124,14 +124,24 @@ export function* handleSaveMultipleSettings(action) {
   try {
     yield put(saveMultipleSettingsBegin());
     const { username, userId } = getAuthenticatedUser();
-    const { settingsArray, form } = action.payload;
-    for (let i = 0; i < settingsArray.length; i += 1) {
-      const { formId, commitValues } = settingsArray[i];
+    const { settingsArray, form, saveInSeparateCalls } = action.payload;
+    if (saveInSeparateCalls) {
+      for (let i = 0; i < settingsArray.length; i += 1) {
+        const { formId, commitValues } = settingsArray[i];
+        yield put(saveSettingsBegin());
+        const commitData = { [formId]: commitValues };
+        const savedSettings = yield call(patchSettings, username, commitData, userId);
+        yield put(saveSettingsSuccess(savedSettings, commitData));
+      }
+    } else {
+      const commitData = settingsArray.reduce((data, setting) => (
+        { ...data, [setting.formId]: setting.commitValues }
+      ), {});
       yield put(saveSettingsBegin());
-      const commitData = { [formId]: commitValues };
       const savedSettings = yield call(patchSettings, username, commitData, userId);
       yield put(saveSettingsSuccess(savedSettings, commitData));
     }
+
     yield put(saveMultipleSettingsSuccess(action));
     if (form) {
       yield delay(1000);

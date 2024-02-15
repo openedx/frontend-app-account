@@ -99,6 +99,8 @@ describe('NameChange', () => {
     const dispatchData = {
       payload: {
         profileName: null,
+        firstName: null,
+        lastName: null,
         username: 'edx',
         verifiedName: 'Verified Name',
       },
@@ -167,4 +169,41 @@ describe('NameChange', () => {
     render(reduxWrapper(<IntlNameChange {...props} />));
     expect(window.location.pathname).toEqual('/id-verification');
   });
+
+  it(
+    'dispatches profileName with first and last name if first_name and last_name are available in settings',
+    async () => {
+      const dispatchData = {
+        payload: {
+          profileName: 'edx edx',
+          username: 'edx',
+          verifiedName: 'Verified Name',
+          firstName: 'first',
+          lastName: 'last',
+        },
+        type: 'ACCOUNT_SETTINGS__REQUEST_NAME_CHANGE',
+      };
+      const formProps = {
+        ...props,
+        targetFormId: 'name',
+        formValues: {
+          ...props.formValues,
+          first_name: 'first',
+          last_name: 'last',
+        },
+      };
+
+      render(reduxWrapper(<IntlNameChange {...formProps} />));
+
+      const continueButton = screen.getByText('Continue');
+      fireEvent.click(continueButton);
+
+      const input = screen.getByPlaceholderText('Enter the name on your photo ID');
+      fireEvent.change(input, { target: { value: 'Verified Name' } });
+
+      const submitButton = screen.getByText('Continue');
+      fireEvent.click(submitButton);
+      expect(mockDispatch).toHaveBeenCalledWith(dispatchData);
+    },
+  );
 });

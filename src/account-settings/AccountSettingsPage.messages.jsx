@@ -81,6 +81,16 @@ const messages = defineMessages({
     defaultMessage: 'Full name',
     description: 'Label for account settings name field.',
   },
+  'account.settings.field.first.name': {
+    id: 'account.settings.field.first.name',
+    defaultMessage: 'First name',
+    description: 'Label for account settings first name field.',
+  },
+  'account.settings.field.last.name': {
+    id: 'account.settings.field.last.name',
+    defaultMessage: 'Last name',
+    description: 'Label for account settings last name field.',
+  },
   'account.settings.field.full.name.empty': {
     id: 'account.settings.field.full.name.empty',
     defaultMessage: 'Add name',

@@ -62,7 +62,10 @@ const NameChangeModal = ({
       }));
     } else {
       const draftProfileName = targetFormId === 'name' ? formValues.name : null;
-      dispatch(requestNameChange(username, draftProfileName, verifiedNameInput));
+      const draftFirstName = targetFormId === 'name' ? formValues?.first_name : null;
+      const draftLastName = targetFormId === 'name' ? formValues?.last_name : null;
+
+      dispatch(requestNameChange(username, draftProfileName, verifiedNameInput, draftFirstName, draftLastName));
     }
   };
 
@@ -190,6 +193,8 @@ NameChangeModal.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   formValues: PropTypes.shape({
     name: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
     verified_name: PropTypes.string,
   }).isRequired,
   saveState: PropTypes.string,

@@ -52,6 +52,7 @@ import { fetchSiteLanguages } from './site-language';
 import DemographicsSection from './demographics/DemographicsSection';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
+import NameField from './NameField';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -165,6 +166,34 @@ class AccountSettingsPage extends React.Component {
       };
     }
     this.props.saveSettings(formId, values, extendedProfileObject);
+  };
+
+  handleSubmitFirstAndLastName = (formId, fullName, firstName, lastName) => {
+    const settingsToBeSaved = [];
+
+    if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
+      settingsToBeSaved.push({
+        formId: 'useVerifiedNameForCerts',
+        commitValues: this.props.formValues.useVerifiedNameForCerts,
+      });
+    }
+
+    settingsToBeSaved.push({
+      formId: 'first_name',
+      commitValues: firstName,
+    });
+
+    settingsToBeSaved.push({
+      formId: 'last_name',
+      commitValues: lastName,
+    });
+
+    settingsToBeSaved.push({
+      formId: 'name',
+      commitValues: fullName,
+    });
+
+    this.props.saveMultipleSettings(settingsToBeSaved, formId, false);
   };
 
   handleSubmitProfileName = (formId, values) => {
@@ -552,37 +581,71 @@ class AccountSettingsPage extends React.Component {
             isEditable={false}
             {...editableFieldProps}
           />
-          <EditableField
-            name="name"
-            type="text"
-            value={
+          {(this.props.formValues?.are_first_and_last_name_required_in_registration === true) ? (
+            <NameField
+              name="name"
+              type="text"
+              verifiedName={verifiedName}
+              pendingNameChange={this.props.formValues.pending_name_change}
+              fullNameValue={this.props.formValues.name}
+              firstNameValue={this.props.formValues.first_name}
+              lastNameValue={this.props.formValues.last_name}
+              label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+              emptyLabel={
+              this.isEditable('name')
+                ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
+                : this.renderEmptyStaticFieldMessage()
+            }
+              helpText={
+              verifiedName
+                ? this.renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
+                : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
+            }
+              isEditable={
+              verifiedName
+                ? this.isEditable('verifiedName') && this.isEditable('name')
+                : this.isEditable('name')
+            }
+              isGrayedOut={
+              verifiedName && !this.isEditable('verifiedName')
+            }
+              onChange={this.handleEditableFieldChange}
+              onSubmit={this.handleSubmitFirstAndLastName}
+            />
+          ) : (
+            <EditableField
+              name="name"
+              type="text"
+              value={
               verifiedName?.status === 'submitted'
               && this.props.formValues.pending_name_change
                 ? this.props.formValues.pending_name_change
                 : this.props.formValues.name
               }
-            label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
-            emptyLabel={
+              label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+              emptyLabel={
               this.isEditable('name')
                 ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
                 : this.renderEmptyStaticFieldMessage()
             }
-            helpText={
+              helpText={
               verifiedName
                 ? this.renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
                 : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
-            isEditable={
+              isEditable={
               verifiedName
                 ? this.isEditable('verifiedName') && this.isEditable('name')
                 : this.isEditable('name')
             }
-            isGrayedOut={
+              isGrayedOut={
               verifiedName && !this.isEditable('verifiedName')
             }
-            onChange={this.handleEditableFieldChange}
-            onSubmit={this.handleSubmitProfileName}
-          />
+              onChange={this.handleEditableFieldChange}
+              onSubmit={this.handleSubmitProfileName}
+            />
+          )}
+
           {verifiedName
             && (
             <EditableField
@@ -872,10 +935,13 @@ AccountSettingsPage.propTypes = {
   formValues: PropTypes.shape({
     username: PropTypes.string,
     name: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
     email: PropTypes.string,
     secondary_email: PropTypes.string,
     secondary_email_enabled: PropTypes.bool,
     year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    are_first_and_last_name_required_in_registration: PropTypes.bool,
     country: PropTypes.string,
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
