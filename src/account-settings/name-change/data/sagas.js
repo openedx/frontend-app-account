@@ -17,7 +17,7 @@ export function* handleRequestNameChange(action) {
   try {
     yield put(requestNameChangeBegin());
     if (action.payload.profileName) {
-      yield call(postNameChange, action.payload.profileName);
+      yield call(postNameChange, action.payload.profileName, action.payload.firstName, action.payload.lastName);
       profileName = action.payload.profileName;
     }
     yield call(postVerifiedName, {

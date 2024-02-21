@@ -11,6 +11,7 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
+import { saveMultipleSettings, saveSettings } from '../data/actions';
 
 const mockDispatch = jest.fn();
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -63,7 +64,6 @@ describe('AccountSettingsPage', () => {
             field_value: '',
           },
         ],
-
       },
       fetchSettings: jest.fn(),
     };
@@ -98,4 +98,105 @@ describe('AccountSettingsPage', () => {
 
     fireEvent.click(submitButton);
   });
+
+  it(
+    'renders NameField for full name if first_name and last_name are required in registration',
+    async () => {
+      const { getByText, rerender, getByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
+
+      const fullNameText = getByText('Full name');
+      const fullNameEditButton = fullNameText.parentElement.querySelector('button');
+
+      expect(fullNameEditButton).toBeInTheDocument();
+
+      store = mockStore({
+        ...mockData,
+        accountSettings: {
+          ...mockData.accountSettings,
+          openFormId: 'name',
+          values: {
+            ...mockData.accountSettings.values,
+            first_name: 'John',
+            last_name: 'Doe',
+            are_first_and_last_name_required_in_registration: true,
+          },
+        },
+      });
+      store.dispatch = jest.fn(store.dispatch);
+
+      rerender(reduxWrapper(<IntlAccountSettingsPage {...props} />));
+
+      const submitButton = screen.getByText('Save');
+      expect(submitButton).toBeInTheDocument();
+
+      const firstNameField = getByLabelText('First name');
+      const lastNameField = getByLabelText('Last name');
+
+      // Use fireEvent.change to simulate changing the selected value
+      fireEvent.change(firstNameField, { target: { value: 'John' } });
+      fireEvent.change(lastNameField, { target: { value: 'Doe' } });
+
+      fireEvent.click(submitButton);
+
+      expect(store.dispatch).toHaveBeenCalledWith(saveMultipleSettings(
+        [
+          {
+            commitValues: 'John',
+            formId: 'first_name',
+          },
+          {
+            commitValues: 'Doe',
+            formId: 'last_name',
+          },
+          {
+            commitValues: 'John Doe',
+            formId: 'name',
+          },
+        ],
+        'name',
+        false,
+      ));
+    },
+  );
+
+  it(
+    'renders EditableField for full name if first_name and last_name are not available in account settings',
+    async () => {
+      const { getByText, rerender, getByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
+
+      const fullNameText = getByText('Full name');
+      const fullNameEditButton = fullNameText.parentElement.querySelector('button');
+
+      expect(fullNameEditButton).toBeInTheDocument();
+
+      store = mockStore({
+        ...mockData,
+        accountSettings: {
+          ...mockData.accountSettings,
+          openFormId: 'name',
+          values: {
+            ...mockData.accountSettings.values,
+          },
+        },
+      });
+      store.dispatch = jest.fn(store.dispatch);
+
+      rerender(reduxWrapper(<IntlAccountSettingsPage {...props} />));
+
+      const submitButton = screen.getByText('Save');
+      expect(submitButton).toBeInTheDocument();
+
+      const fullName = getByLabelText('Full name');
+
+      // Use fireEvent.change to simulate changing the selected value
+      fireEvent.change(fullName, { target: { value: 'test_name' } });
+
+      fireEvent.click(submitButton);
+
+      expect(store.dispatch).toHaveBeenCalledWith(saveSettings(
+        'name',
+        'test_name',
+      ));
+    },
+  );
 });

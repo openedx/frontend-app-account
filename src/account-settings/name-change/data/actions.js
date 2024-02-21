@@ -2,9 +2,11 @@ import { AsyncActionType } from '../../data/utils';
 
 export const REQUEST_NAME_CHANGE = new AsyncActionType('ACCOUNT_SETTINGS', 'REQUEST_NAME_CHANGE');
 
-export const requestNameChange = (username, profileName, verifiedName) => ({
+export const requestNameChange = (username, profileName, verifiedName, firstName, lastName) => ({
   type: REQUEST_NAME_CHANGE.BASE,
-  payload: { username, profileName, verifiedName },
+  payload: {
+    username, profileName, verifiedName, firstName, lastName,
+  },
 });
 
 export const requestNameChangeBegin = () => ({
