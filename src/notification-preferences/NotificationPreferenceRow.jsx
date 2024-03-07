@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
-import { InfoOutline } from '@openedx/paragon/icons';
+import {
+  Icon, OverlayTrigger, Tooltip, Dropdown, ModalPopup, Button, useToggle,
+} from '@openedx/paragon';
+import { InfoOutline, ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
@@ -24,6 +26,8 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
   const preference = useSelector(selectPreference(appId, preferenceName));
   const nonEditable = useSelector(selectPreferenceNonEditableChannels(appId, preferenceName));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  const [isOpen, open, close] = useToggle(false);
+  const [target, setTarget] = useState(null);
 
   const onToggle = useCallback((event) => {
     const {
@@ -46,8 +50,8 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
   }
 
   return (
-    <div className="d-flex mb-3" data-testid="notification-preference">
-      <div className="d-flex align-items-center mr-auto">
+    <div className="d-flex mb-3.5 height-28px" data-testid="notification-preference">
+      <div className="d-flex align-items-center col-5 px-0">
         {intl.formatMessage(messages.notificationTitle, { text: preferenceName })}
         {preference.info !== '' && (
           <OverlayTrigger
@@ -66,24 +70,87 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
           </OverlayTrigger>
         )}
       </div>
-      <div className="d-flex align-items-center">
+      <div className="d-flex flex-row  align-items-center">
         {NOTIFICATION_CHANNELS.map((channel) => (
           <div
             id={`${preferenceName}-${channel}`}
             className={classNames(
               'd-flex',
-              { 'ml-auto': channel === 'web' },
-              { 'mx-auto': channel === 'email' },
-              { 'ml-auto mr-0': channel === 'push' },
+              { 'pl-4.5 mt-2': channel === 'email' },
+              { 'px-4.5 mt-2': channel !== 'email' },
             )}
           >
-            <ToggleSwitch
-              name={channel}
-              value={preference[channel]}
-              onChange={onToggle}
-              disabled={nonEditable.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
-              id={`${preferenceName}-${channel}`}
-            />
+            <span className={classNames({ 'margin-left-7px': channel === 'push' })}>
+              <ToggleSwitch
+                name={channel}
+                value={preference[channel]}
+                onChange={onToggle}
+                disabled={nonEditable.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
+                id={`${preferenceName}-${channel}`}
+              />
+            </span>
+
+            {channel === 'email' && (
+              <>
+                <div className="ml-3.5">
+                  <Button
+                  // alt={intl.formatMessage(messages.actionsAlt)}
+                    ref={setTarget}
+                    variant="outline-primary"
+                    onClick={open}
+                    size="sm"
+                    iconAfter={isOpen ? ExpandLess : ExpandMore}
+                    className="border-light-300 text-primary-500 font-weight-500 justify-content-between "
+                    style={{
+                      width: '134px',
+                      marginTop: '-0.8rem',
+                    }}
+                  >
+                    Daily
+                  </Button>
+                </div>
+                <div className="actions-dropdown">
+                  <ModalPopup
+                    onClose={close}
+                    positionRef={target}
+                    isOpen={isOpen}
+                  >
+                    <div
+                      className="bg-white p-1 shadow d-flex flex-column"
+                      data-testid="comment-sort-dropdown-modal-popup"
+                    >
+                      <Dropdown.Item
+                        className="d-flex justify-content-start py-1.5 mb-1"
+                        as={Button}
+                        variant="tertiary"
+                        size="inline"
+                        onClick={() => console.log('click')}
+                      >
+                        daily
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className="d-flex justify-content-start py-1.5"
+                        as={Button}
+                        variant="tertiary"
+                        size="inline"
+                        onClick={() => console.log('click')}
+                      >
+                        weekly
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className="d-flex justify-content-start py-1.5"
+                        as={Button}
+                        variant="tertiary"
+                        size="inline"
+                        onClick={() => console.log('click')}
+                      >
+                        Imidiately
+                      </Dropdown.Item>
+                    </div>
+                  </ModalPopup>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
