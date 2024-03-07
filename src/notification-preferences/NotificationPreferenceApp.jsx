@@ -1,4 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, {
+  useCallback, useMemo, useEffect, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -26,6 +28,16 @@ const NotificationPreferenceApp = ({ appId }) => {
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
+  const verticalLinesRef = useRef(null);
+  useEffect(() => {
+    const verticalLines = verticalLinesRef.current.querySelectorAll('.vertical-line');
+    let margin = verticalLinesRef.current.offsetWidth / 4.35;
+
+    verticalLines.forEach(line => {
+      line.style.marginLeft = `${margin}px`;
+      margin += margin;
+    });
+  }, [appId]);
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
@@ -73,31 +85,37 @@ const NotificationPreferenceApp = ({ appId }) => {
         </div>
         <hr className="border-light-400 my-3" />
       </Collapsible.Trigger>
-      <Collapsible.Body>
-        <div className="d-flex flex-row header-label">
-          <span className="col-8 px-0">{intl.formatMessage(messages.typeLabel)}</span>
-          <span className="d-flex col-4 px-0">
+      <Collapsible.Body className="position-relative">
+        <div className="d-flex flex-row align-items-center header-label">
+          <span className="col-5 px-0">{intl.formatMessage(messages.typeLabel)}</span>
+          <span className="d-flex flex-grow-1 px-0 " ref={verticalLinesRef} key={appId}>
             {NOTIFICATION_CHANNELS.map((channel) => (
-              <NavItem
-                id={channel}
-                key={channel}
-                className={classNames(
-                  'd-flex',
-                  { 'ml-auto': channel === 'web' },
-                  { 'mx-auto': channel === 'email' },
-                  { 'ml-auto mr-0': channel === 'push' },
+              <>
+                <NavItem
+                  id={channel}
+                  key={channel}
+                  className={classNames(
+                    'd-flex px-4.5',
+                    { '': channel === 'email' },
+                  // { 'ml-4 ': channel === 'push' },
+                  )}
+                  role="button"
+                  onClick={onChannelToggle}
+                >
+                  {intl.formatMessage(messages.notificationChannel, { text: channel })}
+                </NavItem>
+                {channel !== 'email' && (
+                <div className="border-left h-100 vertical-line" />
                 )}
-                role="button"
-                onClick={onChannelToggle}
-              >
-                {intl.formatMessage(messages.notificationChannel, { text: channel })}
-              </NavItem>
+              </>
             ))}
+
           </span>
         </div>
-        <div className="my-3">
+        <div className="mt-3 preference-row">
           { preferences }
         </div>
+
       </Collapsible.Body>
     </Collapsible.Advanced>
   );
