@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
   Button, StatefulButton, Form,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 

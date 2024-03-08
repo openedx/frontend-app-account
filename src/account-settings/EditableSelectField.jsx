@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Button, Form, StatefulButton,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -98,9 +98,28 @@ const EditableSelectField = (props) => {
       value: confirmationValue,
     });
   };
-  const selectOptions = options.map(option => (
-    <option value={option.value} key={`${option.value}-${option.label}`}>{option.label}</option>
-  ));
+  const selectOptions = options.map((option) => {
+    if (option.group) {
+      // If the option has a 'group' property, it represents an element with sub-options.
+      return (
+        <optgroup label={option.label} key={option.label}>
+          {option.group.map((subOption) => (
+            <option
+              value={subOption.value}
+              key={`${subOption.value}-${subOption.label}`}
+            >
+              {subOption.label}
+            </option>
+          ))}
+        </optgroup>
+      );
+    }
+    return (
+      <option value={option.value} key={`${option.value}-${option.label}`}>
+        {option.label}
+      </option>
+    );
+  });
 
   return (
     <SwitchContent

@@ -156,7 +156,7 @@ function chooseFormValue(draft, committed) {
   return draft !== undefined ? draft : committed;
 }
 
-const formValuesSelector = createSelector(
+export const formValuesSelector = createSelector(
   valuesSelector,
   draftsSelector,
   (values, drafts) => {
@@ -164,6 +164,20 @@ const formValuesSelector = createSelector(
     Object.entries(values).forEach(([name, value]) => {
       if (typeof value === 'boolean') {
         formValues[name] = chooseFormValue(drafts[name], value);
+      } else if (typeof value === 'object' && name === 'extended_profile' && value !== null) {
+        const extendedProfile = value.slice();
+        const draftsKeys = Object.keys(drafts);
+
+        if (draftsKeys.length !== 0) {
+          const draftFieldName = draftsKeys[0];
+          const index = extendedProfile.findIndex((profile) => profile.field_name === draftFieldName);
+
+          if (index !== -1) {
+            extendedProfile[index] = { field_name: draftFieldName, field_value: drafts[draftFieldName] };
+          }
+        }
+
+        formValues.extended_profile = [...extendedProfile];
       } else {
         formValues[name] = chooseFormValue(drafts[name], value) || '';
       }

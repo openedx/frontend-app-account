@@ -12,6 +12,7 @@ const messages = defineMessages({
       key, select,
       discussion {Discussions}
       coursework {Course Work}
+      updates {Updates}
       other {{key}}
     }`,
     description: 'Display text for Notification Types',
@@ -23,9 +24,22 @@ const messages = defineMessages({
       core {Core notifications}
       newDiscussionPost {New discussion posts}
       newQuestionPost {New question posts}
+      contentReported {Reported content}
+      courseUpdate {Course updates}
       other {{text}}
     }`,
     description: 'Display text for Notification Types',
+  },
+  notificationChannel: {
+    id: 'notification.preference.channel',
+    defaultMessage: `{
+      text, select,
+      web {Web}
+      email {Email}
+      push {Push}
+      other {{text}}
+    }`,
+    description: 'Display text for Notification Channel',
   },
   typeLabel: {
     id: 'notification.preference.type.label',

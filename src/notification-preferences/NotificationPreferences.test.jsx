@@ -2,7 +2,9 @@
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor, act, within,
+} from '@testing-library/react';
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import NotificationPreferences from './NotificationPreferences';
@@ -29,36 +31,50 @@ const defaultPreferences = {
   ],
   preferences: [
     {
-      id: 'newPost',
+      id: 'core',
       appId: 'discussion',
-      web: false,
-      push: false,
-      mobile: false,
+      web: true,
+      push: true,
+      email: true,
     },
     {
       id: 'newComment',
       appId: 'discussion',
       web: false,
       push: false,
-      mobile: false,
+      email: false,
     },
     {
       id: 'newAssignment',
       appId: 'coursework',
       web: false,
       push: false,
-      mobile: false,
+      email: false,
     },
     {
       id: 'newGrade',
       appId: 'coursework',
       web: false,
       push: false,
-      mobile: false,
+      email: false,
     },
   ],
-  nonEditable: {},
+  nonEditable: {
+    discussion: {
+      core: [
+        'web',
+      ],
+    },
+  },
 };
+
+const updateChannelPreferences = (toggleVal = false) => ({
+  preferences: [
+    { id: 'core', appId: 'discussion', web: true },
+    { id: 'newComment', appId: 'discussion', web: toggleVal },
+    { id: 'newAssignment', appId: 'coursework', web: toggleVal },
+  ],
+});
 
 const setupStore = (override = {}) => {
   const storeState = defaultState;
@@ -78,17 +94,19 @@ const setupStore = (override = {}) => {
   return store;
 };
 
-const renderComponent = (store = {}) => render(
+const notificationPreferences = (store = {}) => (
   <Router>
     <IntlProvider locale="en">
       <Provider store={store}>
         <NotificationPreferences />
       </Provider>
     </IntlProvider>
-  </Router>,
+  </Router>
 );
+
 describe('Notification Preferences', () => {
   let store;
+
   beforeEach(() => {
     store = setupStore({
       ...defaultPreferences,
@@ -108,30 +126,32 @@ describe('Notification Preferences', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('tests if all notification apps are listed', async () => {
-    await renderComponent(store);
-    expect(screen.queryAllByTestId('notification-app')).toHaveLength(2);
+    await render(notificationPreferences(store));
+    expect(screen.queryByTestId('discussion-app')).toBeInTheDocument();
+    expect(screen.queryByTestId('coursework-app')).toBeInTheDocument();
   });
+
   it('show spinner if api call is in progress', async () => {
     store = setupStore({ status: LOADING_STATUS });
-    await renderComponent(store);
+    await render(notificationPreferences(store));
     expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
   });
 
   it('tests if all notification preferences are listed', async () => {
-    await renderComponent(store);
+    await render(notificationPreferences(store));
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
   });
 
   it('update group on click', async () => {
-    const wrapper = await renderComponent(store);
+    const wrapper = await render(notificationPreferences(store));
     const element = wrapper.container.querySelector('#discussion-app-toggle');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
   });
 
   it('update preference on click', async () => {
-    const wrapper = await renderComponent(store);
-    const element = wrapper.container.querySelector('#newPost-web');
+    const wrapper = await render(notificationPreferences(store));
+    const element = wrapper.container.querySelector('#core-web');
     expect(element).not.toBeChecked();
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
@@ -139,7 +159,43 @@ describe('Notification Preferences', () => {
 
   it('show not found page if invalid course id is entered in url', async () => {
     store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
-    await renderComponent(store);
+    await render(notificationPreferences(store));
     expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
+  });
+
+  it('updates all preferences in the column on web channel click', async () => {
+    store = setupStore(updateChannelPreferences(true));
+    const wrapper = render(notificationPreferences(store));
+
+    const getChannelSwitch = (id) => screen.queryByTestId(`${id}-web`);
+    const notificationTypes = ['newComment', 'newAssignment'];
+
+    const verifyState = (toggleState) => {
+      notificationTypes.forEach((notificationType) => {
+        if (toggleState) {
+          expect(getChannelSwitch(notificationType)).toBeChecked();
+        } else {
+          expect(getChannelSwitch(notificationType)).not.toBeChecked();
+        }
+      });
+    };
+
+    verifyState(true);
+    expect(getChannelSwitch('core')).toBeChecked();
+
+    const discussionApp = screen.queryByTestId('discussion-app');
+    const webChannel = within(discussionApp).queryByText('Web');
+
+    await act(async () => {
+      await fireEvent.click(webChannel);
+    });
+
+    store = setupStore(updateChannelPreferences(false));
+    wrapper.rerender(notificationPreferences(store));
+
+    await waitFor(() => {
+      verifyState(false);
+      expect(getChannelSwitch('core')).toBeChecked();
+    });
   });
 });

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Icon, OverlayTrigger, Tooltip } from '@edx/paragon';
-import { InfoOutline } from '@edx/paragon/icons';
+import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
+import { InfoOutline } from '@openedx/paragon/icons';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
@@ -78,6 +78,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               value={preference[channel]}
               onChange={onToggle}
               disabled={nonEditable.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
+              id={`${preferenceName}-${channel}`}
             />
           </div>
         ))}

@@ -15,8 +15,8 @@ import {
 } from '@edx/frontend-platform/i18n';
 import {
   Button, Hyperlink, Icon, Alert,
-} from '@edx/paragon';
-import { CheckCircle, Error, WarningFilled } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
 import {
@@ -45,6 +45,7 @@ import {
   GENDER_OPTIONS,
   COUNTRY_WITH_STATES,
   COPPA_COMPLIANCE_YEAR,
+  WORK_EXPERIENCE_OPTIONS,
   getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
@@ -142,6 +143,10 @@ class AccountSettingsPage extends React.Component {
       value: key,
       label: this.props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
     })),
+    workExperienceOptions: WORK_EXPERIENCE_OPTIONS.map(key => ({
+      value: key,
+      label: key === '' ? this.props.intl.formatMessage(messages['account.settings.field.work.experience.options.empty']) : key,
+    })),
   }));
 
   handleEditableFieldChange = (name, value) => {
@@ -149,7 +154,17 @@ class AccountSettingsPage extends React.Component {
   };
 
   handleSubmit = (formId, values) => {
-    this.props.saveSettings(formId, values);
+    const { formValues } = this.props;
+    let extendedProfileObject = {};
+
+    if ('extended_profile' in formValues && formValues.extended_profile.some((field) => field.field_name === formId)) {
+      extendedProfileObject = {
+        extended_profile: formValues.extended_profile.map(field => (field.field_name === formId
+          ? { ...field, field_value: values }
+          : field)),
+      };
+    }
+    this.props.saveSettings(formId, values, extendedProfileObject);
   };
 
   handleSubmitProfileName = (formId, values) => {
@@ -469,12 +484,14 @@ class AccountSettingsPage extends React.Component {
       yearOfBirthOptions,
       educationLevelOptions,
       genderOptions,
+      workExperienceOptions,
     } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
     const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
-
     const { verifiedName } = this.props;
+
+    const hasWorkExperience = !!this.props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
 
     const timeZoneOptions = this.getLocalizedTimeZoneOptions(
       this.props.timeZoneOptions,
@@ -679,6 +696,18 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.gender.empty'])}
             {...editableFieldProps}
           />
+          {hasWorkExperience
+          && (
+          <EditableSelectField
+            name="work_experience"
+            type="select"
+            value={this.props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
+            options={workExperienceOptions}
+            label={this.props.intl.formatMessage(messages['account.settings.field.work.experience'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
+            {...editableFieldProps}
+          />
+          )}
           <EditableSelectField
             name="language_proficiencies"
             type="select"
@@ -850,6 +879,7 @@ AccountSettingsPage.propTypes = {
     country: PropTypes.string,
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
+    extended_profile: PropTypes.string,
     language_proficiencies: PropTypes.string,
     pending_name_change: PropTypes.string,
     phone_number: PropTypes.string,

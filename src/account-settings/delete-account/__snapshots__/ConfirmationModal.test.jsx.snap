@@ -35,6 +35,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
     >
       <div
         className="pgn__modal-backdrop"
+        data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
       />
@@ -131,6 +132,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
               </div>
               <div
                 className="form-group"
+                data-testid="validation-form-group"
               >
                 <label
                   className="d-block"
@@ -234,6 +236,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
     >
       <div
         className="pgn__modal-backdrop"
+        data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
       />
@@ -297,6 +300,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
               </div>
               <div
                 className="form-group"
+                data-testid="validation-form-group"
               >
                 <label
                   className="d-block"

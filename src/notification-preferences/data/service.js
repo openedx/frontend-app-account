@@ -42,3 +42,10 @@ export const patchPreferenceToggle = async (
   const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
   return data;
 };
+
+export const patchChannelPreferenceToggle = async (courseId, notificationApp, notificationChannel, value) => {
+  const patchData = snakeCaseObject({ notificationApp, notificationChannel, value });
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/channel/configurations/${courseId}`;
+  const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
+  return data;
+};

@@ -570,6 +570,21 @@ const messages = defineMessages({
     defaultMessage: 'Notifications',
     description: 'Label for Notifications',
   },
+  'account.settings.field.work.experience': {
+    id: 'account.settings.work.experience',
+    defaultMessage: 'Work Experience',
+    description: 'Label for account settings Work experience field.',
+  },
+  'account.settings.field.work.experience.empty': {
+    id: 'account.settings.field.work.experience.empty',
+    defaultMessage: 'Add work experience',
+    description: 'Placeholder for empty account settings work experience field.',
+  },
+  'account.settings.field.work.experience.options.empty': {
+    id: 'account.settings.field.work.experience.options.empty',
+    defaultMessage: 'Select work experience',
+    description: 'Placeholder for the work experience levels dropdown.',
+  },
 });
 
 export default messages;
