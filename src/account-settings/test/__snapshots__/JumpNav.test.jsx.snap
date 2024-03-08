@@ -12,7 +12,7 @@ exports[`JumpNav should not render Optional Information or delete account link 1
     >
       <ul
         className="list-unstyled"
-        style={Object {}}
+        style={{}}
       >
         <li
           className=""
@@ -89,21 +89,15 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
 <div
   data-testid="redux-provider"
 >
-<<<<<<< HEAD
-  <ul
-    className="list-unstyled"
-    style={{}}
-=======
   <div
     data-testid="browser-router"
->>>>>>> 891e28ec59f7462f010d85e5f6b6e1d36a3e0625
   >
     <div
       className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
     >
       <ul
         className="list-unstyled"
-        style={Object {}}
+        style={{}}
       >
         <li
           className=""
