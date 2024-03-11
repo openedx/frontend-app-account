@@ -89,5 +89,16 @@
     "react-test-renderer": "17.0.2",
     "reactifex": "1.1.1",
     "redux-mock-store": "1.5.4"
+  },
+  "overrides": {
+    "@edx/frontend-platform": {
+      "@openedx/frontend-build": "1.0.0-semantically-released"
+    },
+    "@edx/frontend-component-footer": {
+      "@openedx/frontend-build": "1.0.0-semantically-released"
+    },
+    "@edx/frontend-component-header": {
+      "@openedx/frontend-build": "1.0.0-semantically-released"
+    }
   }
 }
