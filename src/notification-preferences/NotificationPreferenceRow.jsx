@@ -15,7 +15,7 @@ import {
   selectSelectedCourseId,
   selectUpdatePreferencesStatus,
 } from './data/selectors';
-import NOTIFICATION_CHANNELS from './data/constants';
+import { NOTIFICATION_CHANNELS, EMAIL_CADENCE } from './data/constants';
 import { updatePreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 
@@ -30,16 +30,20 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
   const [target, setTarget] = useState(null);
 
   const onToggle = useCallback((event) => {
-    const {
-      checked,
-      name: notificationChannel,
-    } = event.target;
+    const { name: notificationChannel } = event.target;
+    let value;
+    if (notificationChannel !== 'email_cadence') {
+      value = event.target.checked;
+    } else {
+      value = event.target.innerText;
+    }
+
     dispatch(updatePreferenceToggle(
       courseId,
       appId,
       preferenceName,
       notificationChannel,
-      checked,
+      value,
     ));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId, preferenceName]);
@@ -70,8 +74,8 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
           </OverlayTrigger>
         )}
       </div>
-      <div className="d-flex flex-row  align-items-center">
-        {NOTIFICATION_CHANNELS.map((channel) => (
+      <div className="d-flex flex-row  align-items-center padding-left-1px">
+        {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
           <div
             id={`${preferenceName}-${channel}`}
             className={classNames(
@@ -94,10 +98,10 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
               <>
                 <div className="ml-3.5">
                   <Button
-                  // alt={intl.formatMessage(messages.actionsAlt)}
                     ref={setTarget}
                     variant="outline-primary"
                     onClick={open}
+                    disabled={preference.email}
                     size="sm"
                     iconAfter={isOpen ? ExpandLess : ExpandMore}
                     className="border-light-300 text-primary-500 font-weight-500 justify-content-between "
@@ -119,33 +123,18 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
                       className="bg-white p-1 shadow d-flex flex-column"
                       data-testid="comment-sort-dropdown-modal-popup"
                     >
-                      <Dropdown.Item
-                        className="d-flex justify-content-start py-1.5 mb-1"
-                        as={Button}
-                        variant="tertiary"
-                        size="inline"
-                        onClick={() => console.log('click')}
-                      >
-                        daily
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        className="d-flex justify-content-start py-1.5"
-                        as={Button}
-                        variant="tertiary"
-                        size="inline"
-                        onClick={() => console.log('click')}
-                      >
-                        weekly
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        className="d-flex justify-content-start py-1.5"
-                        as={Button}
-                        variant="tertiary"
-                        size="inline"
-                        onClick={() => console.log('click')}
-                      >
-                        Imidiately
-                      </Dropdown.Item>
+                      {Object.values(EMAIL_CADENCE).map((cadence) => (
+                        <Dropdown.Item
+                          name="email_cadence"
+                          className="d-flex justify-content-start py-1.5 mb-1 margin-left-2px"
+                          as={Button}
+                          variant="tertiary"
+                          size="inline"
+                          onClick={onToggle}
+                        >
+                          {intl.formatMessage(messages.emailCadence, { text: cadence })}
+                        </Dropdown.Item>
+                      ))}
                     </div>
                   </ModalPopup>
                 </div>

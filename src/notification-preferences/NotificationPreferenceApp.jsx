@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Collapsible, NavItem } from '@openedx/paragon';
-import classNames from 'classnames';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
@@ -18,7 +17,7 @@ import {
 import NotificationPreferenceRow from './NotificationPreferenceRow';
 import { updateAppPreferenceToggle, updateChannelPreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
-import NOTIFICATION_CHANNELS from './data/constants';
+import { NOTIFICATION_CHANNELS } from './data/constants';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();
@@ -29,11 +28,13 @@ const NotificationPreferenceApp = ({ appId }) => {
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const verticalLinesRef = useRef(null);
+
   useEffect(() => {
     const verticalLines = verticalLinesRef.current.querySelectorAll('.vertical-line');
     let margin = verticalLinesRef.current.offsetWidth / 4.35;
 
     verticalLines.forEach(line => {
+      // eslint-disable-next-line no-param-reassign
       line.style.marginLeft = `${margin}px`;
       margin += margin;
     });
@@ -89,16 +90,12 @@ const NotificationPreferenceApp = ({ appId }) => {
         <div className="d-flex flex-row align-items-center header-label">
           <span className="col-5 px-0">{intl.formatMessage(messages.typeLabel)}</span>
           <span className="d-flex flex-grow-1 px-0 " ref={verticalLinesRef} key={appId}>
-            {NOTIFICATION_CHANNELS.map((channel) => (
+            {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
               <>
                 <NavItem
                   id={channel}
                   key={channel}
-                  className={classNames(
-                    'd-flex px-4.5',
-                    { '': channel === 'email' },
-                  // { 'ml-4 ': channel === 'push' },
-                  )}
+                  className="d-flex px-4.5"
                   role="button"
                   onClick={onChannelToggle}
                 >
