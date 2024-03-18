@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Collapsible, NavItem } from '@openedx/paragon';
+import classNames from 'classnames';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
@@ -30,12 +31,12 @@ const NotificationPreferenceApp = ({ appId }) => {
   const verticalLinesRef = useRef(null);
 
   useEffect(() => {
-    const verticalLines = verticalLinesRef.current.querySelectorAll('.vertical-line');
-    let margin = verticalLinesRef.current.offsetWidth / 4.35;
+    const verticalLines = verticalLinesRef?.current?.querySelectorAll('.vertical-line');
+    let margin = 1;
 
-    verticalLines.forEach(line => {
+    verticalLines?.forEach(line => {
       // eslint-disable-next-line no-param-reassign
-      line.style.marginLeft = `${margin}px`;
+      line.style.marginLeft = `${margin * 94}px`;
       margin += margin;
     });
   }, [appId]);
@@ -69,7 +70,7 @@ const NotificationPreferenceApp = ({ appId }) => {
   }
 
   return (
-    <Collapsible.Advanced open={appToggle} data-testid={`${appId}-app`} className="mb-5">
+    <Collapsible.Advanced open={appToggle} data-testid={`${appId}-app`} className={classNames({ 'mb-5': appToggle })}>
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
           <span className="mr-auto">
@@ -89,7 +90,7 @@ const NotificationPreferenceApp = ({ appId }) => {
       <Collapsible.Body className="position-relative">
         <div className="d-flex flex-row align-items-center header-label">
           <span className="col-5 px-0">{intl.formatMessage(messages.typeLabel)}</span>
-          <span className="d-flex flex-grow-1 px-0 " ref={verticalLinesRef} key={appId}>
+          <span className="d-flex flex-grow-1 px-0" ref={verticalLinesRef} key={appId}>
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
               <>
                 <NavItem

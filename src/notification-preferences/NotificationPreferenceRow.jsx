@@ -55,7 +55,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
 
   return (
     <div className="d-flex mb-3.5 height-28px" data-testid="notification-preference">
-      <div className="d-flex align-items-center col-5 px-0">
+      <div className="d-flex align-items-center preference col-5 px-0">
         {intl.formatMessage(messages.notificationTitle, { text: preferenceName })}
         {preference.info !== '' && (
           <OverlayTrigger
@@ -74,7 +74,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
           </OverlayTrigger>
         )}
       </div>
-      <div className="d-flex flex-row  align-items-center padding-left-1px">
+      <div className="d-flex flex-row  align-items-center">
         {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
           <div
             id={`${preferenceName}-${channel}`}
@@ -113,31 +113,30 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
                     Daily
                   </Button>
                 </div>
-                <div className="actions-dropdown">
-                  <ModalPopup
-                    onClose={close}
-                    positionRef={target}
-                    isOpen={isOpen}
+
+                <ModalPopup
+                  onClose={close}
+                  positionRef={target}
+                  isOpen={isOpen}
+                >
+                  <div
+                    className="bg-white shadow d-flex flex-column margin-left-2px"
+                    data-testid="comment-sort-dropdown-modal-popup"
                   >
-                    <div
-                      className="bg-white p-1 shadow d-flex flex-column"
-                      data-testid="comment-sort-dropdown-modal-popup"
-                    >
-                      {Object.values(EMAIL_CADENCE).map((cadence) => (
-                        <Dropdown.Item
-                          name="email_cadence"
-                          className="d-flex justify-content-start py-1.5 mb-1 margin-left-2px"
-                          as={Button}
-                          variant="tertiary"
-                          size="inline"
-                          onClick={onToggle}
-                        >
-                          {intl.formatMessage(messages.emailCadence, { text: cadence })}
-                        </Dropdown.Item>
-                      ))}
-                    </div>
-                  </ModalPopup>
-                </div>
+                    {Object.values(EMAIL_CADENCE).map((cadence) => (
+                      <Dropdown.Item
+                        name="email_cadence"
+                        className="d-flex justify-content-start py-1.5"
+                        as={Button}
+                        variant="primary"
+                        size="inline"
+                        onClick={onToggle}
+                      >
+                        {intl.formatMessage(messages.emailCadence, { text: cadence })}
+                      </Dropdown.Item>
+                    ))}
+                  </div>
+                </ModalPopup>
               </>
             )}
           </div>

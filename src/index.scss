@@ -95,9 +95,9 @@ $fa-font-path: "~font-awesome/fonts";
   height: 28px !important;
 }
 
-.vertical-line{
-  position: absolute;
-}
+  .vertical-line{
+    position: absolute;
+    }
 
 .font-weight-500{
   font-weight: 500;
@@ -105,6 +105,10 @@ $fa-font-path: "~font-awesome/fonts";
 
 .margin-left-7px{
   margin-left: -7px !important;
+}
+
+.preference{
+  white-space: pre-wrap;
 }
 
 .margin-left-2px{
@@ -130,3 +134,21 @@ $fa-font-path: "~font-awesome/fonts";
     transform: rotate(270deg) !important;
   }
 }
+
+@media screen and (max-width: 425px) {
+  .preference {
+    font-size: 12px !important;
+  }
+  .pgn__icon{
+    height:16px;
+    width:16px;
+  }
+  .pgn__form-checkbox {
+    width:30px;
+    height:18px;
+  }
+  .pgn-transition-replace-group{
+    overflow-x: scroll;
+  }
+}
+
