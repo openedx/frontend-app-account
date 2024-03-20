@@ -1,51 +1,27 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Collapsible, NavItem } from '@openedx/paragon';
-import classNames from 'classnames';
+import { Collapsible } from '@openedx/paragon';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
   selectPreferenceAppToggleValue,
-  selectNonEditablePreferences,
-  selectPreferencesOfApp,
   selectSelectedCourseId,
   selectUpdatePreferencesStatus,
 } from './data/selectors';
-import NotificationPreferenceRow from './NotificationPreferenceRow';
-import { updateAppPreferenceToggle, updateChannelPreferenceToggle } from './data/thunks';
+import NotificationPreferenceColumn from './NotificationPreferenceColumn';
+import { updateAppPreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 import { NOTIFICATION_CHANNELS } from './data/constants';
+import NotificationTypes from './NotificationTypes';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
   const courseId = useSelector(selectSelectedCourseId());
-  const appPreferences = useSelector(selectPreferencesOfApp(appId));
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
-  const nonEditable = useSelector(selectNonEditablePreferences(appId));
-
-  const onChannelToggle = useCallback((event) => {
-    const { id: notificationChannel } = event.target;
-    const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel);
-
-    const hasActivePreferences = appPreferences.some(
-      (preference) => preference[notificationChannel] && !isPreferenceNonEditable(preference),
-    );
-
-    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, !hasActivePreferences));
-  }, [appId, appPreferences, courseId, dispatch, nonEditable]);
-
-  const preferences = useMemo(() => (
-    appPreferences.map(preference => (
-      <NotificationPreferenceRow
-        key={preference.id}
-        appId={appId}
-        preferenceName={preference.id}
-      />
-    ))), [appId, appPreferences]);
 
   const onChangeAppSettings = useCallback((event) => {
     dispatch(updateAppPreferenceToggle(courseId, appId, event.target.checked));
@@ -75,27 +51,13 @@ const NotificationPreferenceApp = ({ appId }) => {
         <hr className="border-light-400 my-3" />
       </Collapsible.Trigger>
       <Collapsible.Body>
-        <div className="d-flex flex-row align-items-center header-label">
-          <span className="col-5 px-0">{intl.formatMessage(messages.typeLabel)}</span>
-          <di className="col-7 d-flex flex-row align-items-center px-0 justify-content-end" key={appId}>
+        <div className="d-flex flex-row justify-content-between">
+          <NotificationTypes appId={appId} />
+          <div className="d-flex">
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
-              <NavItem
-                id={channel}
-                key={channel}
-                role="button"
-                onClick={onChannelToggle}
-                className={classNames({
-                  'pl-4.5 col-6 ': channel === 'email',
-                  'px-4.5 col-3': channel !== 'email',
-                })}
-              >
-                {intl.formatMessage(messages.notificationChannel, { text: channel })}
-              </NavItem>
+              <NotificationPreferenceColumn key={channel} appId={appId} channel={channel} />
             ))}
-          </di>
-        </div>
-        <div className="mt-3 preference-row">
-          { preferences }
+          </div>
         </div>
       </Collapsible.Body>
     </Collapsible.Advanced>

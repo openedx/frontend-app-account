@@ -37,6 +37,7 @@ const EmailCadences = ({ email, onToggle }) => {
         >
           {Object.values(EMAIL_CADENCE).map((cadence) => (
             <Dropdown.Item
+              key={cadence}
               name="email_cadence"
               className="d-flex justify-content-start py-1.5"
               as={Button}
