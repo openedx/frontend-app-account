@@ -1,6 +1,5 @@
 export const NOTIFICATION_CHANNELS = {
   WEB: 'web',
-  PUSH: 'push',
   EMAIL: 'email',
 };
 

@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useMemo, useEffect, useRef,
-} from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -28,18 +26,6 @@ const NotificationPreferenceApp = ({ appId }) => {
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
-  const verticalLinesRef = useRef(null);
-
-  useEffect(() => {
-    const verticalLines = verticalLinesRef?.current?.querySelectorAll('.vertical-line');
-    let margin = 1;
-
-    verticalLines?.forEach(line => {
-      // eslint-disable-next-line no-param-reassign
-      line.style.marginLeft = `${margin * 94}px`;
-      margin += margin;
-    });
-  }, [appId]);
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
@@ -65,12 +51,13 @@ const NotificationPreferenceApp = ({ appId }) => {
     dispatch(updateAppPreferenceToggle(courseId, appId, event.target.checked));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId]);
+
   if (!courseId) {
     return null;
   }
 
   return (
-    <Collapsible.Advanced open={appToggle} data-testid={`${appId}-app`} className={classNames({ 'mb-5': appToggle })}>
+    <Collapsible.Advanced open={appToggle} data-testid={`${appId}-app`} className="mb-5">
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
           <span className="mr-auto">
@@ -87,33 +74,29 @@ const NotificationPreferenceApp = ({ appId }) => {
         </div>
         <hr className="border-light-400 my-3" />
       </Collapsible.Trigger>
-      <Collapsible.Body className="position-relative">
+      <Collapsible.Body>
         <div className="d-flex flex-row align-items-center header-label">
           <span className="col-5 px-0">{intl.formatMessage(messages.typeLabel)}</span>
-          <span className="d-flex flex-grow-1 px-0" ref={verticalLinesRef} key={appId}>
+          <di className="col-7 d-flex flex-row align-items-center px-0 justify-content-end" key={appId}>
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
-              <>
-                <NavItem
-                  id={channel}
-                  key={channel}
-                  className="d-flex px-4.5"
-                  role="button"
-                  onClick={onChannelToggle}
-                >
-                  {intl.formatMessage(messages.notificationChannel, { text: channel })}
-                </NavItem>
-                {channel !== 'email' && (
-                <div className="border-left h-100 vertical-line" />
-                )}
-              </>
+              <NavItem
+                id={channel}
+                key={channel}
+                role="button"
+                onClick={onChannelToggle}
+                className={classNames({
+                  'pl-4.5 col-6 ': channel === 'email',
+                  'px-4.5 col-3': channel !== 'email',
+                })}
+              >
+                {intl.formatMessage(messages.notificationChannel, { text: channel })}
+              </NavItem>
             ))}
-
-          </span>
+          </di>
         </div>
         <div className="mt-3 preference-row">
           { preferences }
         </div>
-
       </Collapsible.Body>
     </Collapsible.Advanced>
   );

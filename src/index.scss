@@ -89,38 +89,12 @@ $fa-font-path: "~font-awesome/fonts";
     font-weight: 700;
     font-size: 18px;
   }
-}
 
-.height-28px{
-  height: 28px !important;
-}
-
-  .vertical-line{
-    position: absolute;
-    }
-
-.font-weight-500{
-  font-weight: 500;
-}
-
-.margin-left-7px{
-  margin-left: -7px !important;
-}
-
-.preference{
-  white-space: pre-wrap;
-}
-
-.margin-left-2px{
-  margin-left: 2px !important;
-}
-
-.padding-left-1px{
-  padding-left: 1px !important;
-}
-
-.preference-row div:last-child {
-  margin-bottom: 0 !important;
+  .cadence-button {
+    width: 134px;
+    height: 36px;
+    font-weight: 500;
+  }
 }
 
 .usabilla_live_button_container {
@@ -136,19 +110,24 @@ $fa-font-path: "~font-awesome/fonts";
 }
 
 @media screen and (max-width: 425px) {
-  .preference {
-    font-size: 12px !important;
-  }
-  .pgn__icon{
-    height:16px;
-    width:16px;
-  }
-  .pgn__form-checkbox {
-    width:30px;
-    height:18px;
-  }
-  .pgn-transition-replace-group{
-    overflow-x: scroll;
+  .notification-preferences{
+    .preference {
+      font-size: 12px !important;
+    }
+
+    .pgn__icon{
+      height:16px;
+      width:16px;
+    }
+
+    .pgn__form-checkbox {
+      width:30px;
+      height:18px;
+    }
+
+    .pgn-transition-replace-group{
+      overflow-x: scroll;
+    }
   }
 }
 
