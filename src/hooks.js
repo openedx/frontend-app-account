@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import { logError } from '@edx/frontend-platform/logging';
+import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
   IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
@@ -65,4 +66,9 @@ export function useFeedbackWrapper() {
       logError('Error loading usabilla_live', error);
     }
   }, []);
+}
+
+export function useIsOnMobile() {
+  const windowSize = useWindowSize();
+  return windowSize.width <= breakpoints.small.minWidth;
 }
