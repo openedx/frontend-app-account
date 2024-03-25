@@ -24,6 +24,6 @@ jobs:
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
     - name: upload coverage
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         fail_ci_if_error: false
