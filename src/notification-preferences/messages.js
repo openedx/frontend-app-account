@@ -45,9 +45,9 @@ const messages = defineMessages({
     id: 'notification.preference.emailCadence',
     defaultMessage: `{
       text, select,
-      daily {Daily}
-      weekly {Weekly}
-      immediately {Immediately}
+      Daily {Daily}
+      Weekly {Weekly}
+      Immediately {Immediately}
       other {{text}}
     }`,
     description: 'Display text for Email Cadence',

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Collapsible } from '@openedx/paragon';
+import classNames from 'classnames';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 import {
@@ -15,6 +16,7 @@ import { updateAppPreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 import { NOTIFICATION_CHANNELS } from './data/constants';
 import NotificationTypes from './NotificationTypes';
+import { useIsOnMobile } from '../hooks';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ const NotificationPreferenceApp = ({ appId }) => {
   const courseId = useSelector(selectSelectedCourseId());
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  const mobileView = useIsOnMobile();
 
   const onChangeAppSettings = useCallback((event) => {
     dispatch(updateAppPreferenceToggle(courseId, appId, event.target.checked));
@@ -33,10 +36,14 @@ const NotificationPreferenceApp = ({ appId }) => {
   }
 
   return (
-    <Collapsible.Advanced open={appToggle} data-testid={`${appId}-app`} className="mb-5">
+    <Collapsible.Advanced
+      open={appToggle}
+      data-testid={`${appId}-app`}
+      className={classNames({ 'mb-5': !mobileView && appToggle })}
+    >
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
-          <span className="mr-auto">
+          <span className="mr-auto preference-app">
             {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
           </span>
           <span className="d-flex" id={`${appId}-app-toggle`}>
@@ -48,17 +55,20 @@ const NotificationPreferenceApp = ({ appId }) => {
             />
           </span>
         </div>
-        <hr className="border-light-400 my-3" />
+        {!mobileView && <hr className="border-light-400 my-4" />}
       </Collapsible.Trigger>
       <Collapsible.Body>
         <div className="d-flex flex-row justify-content-between">
           <NotificationTypes appId={appId} />
+          {!mobileView && (
           <div className="d-flex">
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
               <NotificationPreferenceColumn key={channel} appId={appId} channel={channel} />
             ))}
           </div>
+          )}
         </div>
+        {mobileView && <hr className="border-light-400 my-4.5" />}
       </Collapsible.Body>
     </Collapsible.Advanced>
   );

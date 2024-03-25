@@ -8,7 +8,9 @@ import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import messages from './messages';
 import { EMAIL_CADENCE } from './data/constants';
 
-const EmailCadences = ({ email, onToggle }) => {
+const EmailCadences = ({
+  email, onToggle, emailCadence, notificationType,
+}) => {
   const intl = useIntl();
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = useState(null);
@@ -24,7 +26,7 @@ const EmailCadences = ({ email, onToggle }) => {
         iconAfter={isOpen ? ExpandLess : ExpandMore}
         className="border-light-300 text-primary-500 justify-content-between ml-3.5 cadence-button"
       >
-        {intl.formatMessage(messages.emailCadence, { text: 'daily' })}
+        {intl.formatMessage(messages.emailCadence, { text: emailCadence })}
       </Button>
       <ModalPopup
         onClose={close}
@@ -33,7 +35,7 @@ const EmailCadences = ({ email, onToggle }) => {
       >
         <div
           className="bg-white shadow d-flex flex-column"
-          data-testid="comment-sort-dropdown-modal-popup"
+          data-testid="email-cadence-dropdown"
         >
           {Object.values(EMAIL_CADENCE).map((cadence) => (
             <Dropdown.Item
@@ -43,7 +45,8 @@ const EmailCadences = ({ email, onToggle }) => {
               as={Button}
               variant="primary"
               size="inline"
-              onClick={onToggle}
+              autoFocus={cadence === emailCadence}
+              onClick={(event) => onToggle(event, notificationType)}
             >
               {intl.formatMessage(messages.emailCadence, { text: cadence })}
             </Dropdown.Item>
@@ -57,6 +60,8 @@ const EmailCadences = ({ email, onToggle }) => {
 EmailCadences.propTypes = {
   email: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
+  emailCadence: PropTypes.oneOf(Object.values(EMAIL_CADENCE)).isRequired,
+  notificationType: PropTypes.string.isRequired,
 };
 
 export default React.memo(EmailCadences);
