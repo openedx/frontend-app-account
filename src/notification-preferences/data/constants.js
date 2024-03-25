@@ -4,7 +4,7 @@ export const NOTIFICATION_CHANNELS = {
 };
 
 export const EMAIL_CADENCE = {
-  DAILY: 'daily',
-  WEEKLY: 'weekly',
-  IMMEDIATELY: 'immediately',
+  DAILY: 'Daily',
+  WEEKLY: 'Weekly',
+  IMMEDIATELY: 'Immediately',
 };

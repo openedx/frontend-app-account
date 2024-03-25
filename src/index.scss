@@ -84,10 +84,24 @@ $fa-font-path: "~font-awesome/fonts";
     color: #707070;
   }
 
+  .preference-app {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .column-padding{
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
   .notification-course-title {
     line-height: 28px;
     font-weight: 700;
     font-size: 18px;
+  }
+
+  .font-size-14{
+    font-size: 14px !important;
   }
 
   .cadence-button {
@@ -118,24 +132,13 @@ $fa-font-path: "~font-awesome/fonts";
 }
 
 @media screen and (max-width: 425px) {
-  .notification-preferences{
-    .preference {
-      font-size: 12px !important;
-    }
+   .column-padding{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-    .pgn__icon{
-      height:16px;
-      width:16px;
-    }
-
-    .pgn__form-checkbox {
-      width:30px;
-      height:18px;
-    }
-
-    .pgn-transition-replace-group{
-      overflow-x: scroll;
-    }
+  .margin-bottom-32{
+    margin-bottom: 32px !important;
   }
 }
 
