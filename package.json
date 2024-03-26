@@ -37,7 +37,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.4",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "@openedx/paragon": "22.0.0",
+    "@openedx/paragon": "22.2.1",
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs-converter": "3.21.0",
     "@tensorflow/tfjs-core": "3.21.0",
