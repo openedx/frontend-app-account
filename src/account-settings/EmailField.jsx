@@ -162,7 +162,7 @@ const EmailField = (props) => {
                 </Button>
               ) : null}
             </div>
-            <p data-hj-suppress>{renderValue()}</p>
+            <p data-hj-suppress className="text-truncate">{renderValue()}</p>
             {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
           </div>
         ),
