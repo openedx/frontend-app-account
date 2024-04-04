@@ -13,6 +13,8 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import Header from '@edx/frontend-component-header';
 import Footer from '@edx/frontend-component-footer';
 
+import { datadogRum } from '@datadog/browser-rum';
+
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPage from './id-verification';
@@ -24,6 +26,21 @@ import NotificationCourses from './notification-preferences/NotificationCourses'
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 subscribe(APP_READY, () => {
+  datadogRum.init({
+    applicationId: 'a3f99dcb-4955-4baa-8341-39a88603ab08',
+    clientToken: 'pubf2e79d946cec4c4413965620ba0e0b72',
+    site: 'datadoghq.com',
+    service: 'edx-frontend-sandbox',
+    env: 'staging',
+    // Specify a version number to identify the deployed version of your application in Datadog
+    version: '1.0.0',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  });
   ReactDOM.render(
     <AppProvider store={configureStore()}>
       <Head />
