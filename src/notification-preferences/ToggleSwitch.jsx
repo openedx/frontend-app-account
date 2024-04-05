@@ -8,7 +8,6 @@ const ToggleSwitch = ({
   disabled,
   onChange,
   id,
-  className,
 }) => (
   <Form.Switch
     name={name}
@@ -16,7 +15,6 @@ const ToggleSwitch = ({
     disabled={disabled}
     onChange={onChange}
     data-testid={id}
-    className={className}
   />
 );
 
@@ -26,14 +24,12 @@ ToggleSwitch.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   id: PropTypes.string,
-  className: PropTypes.string,
 };
 
 ToggleSwitch.defaultProps = {
   onChange: () => null,
   disabled: false,
   id: '',
-  className: '',
 };
 
 export default React.memo(ToggleSwitch);
