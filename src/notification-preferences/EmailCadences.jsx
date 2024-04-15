@@ -21,7 +21,7 @@ const EmailCadences = ({
         ref={setTarget}
         variant="outline-primary"
         onClick={open}
-        disabled={email}
+        disabled={!email}
         size="sm"
         iconAfter={isOpen ? ExpandLess : ExpandMore}
         className="border-light-300 text-primary-500 justify-content-between ml-3.5 cadence-button"
@@ -34,7 +34,7 @@ const EmailCadences = ({
         isOpen={isOpen}
       >
         <div
-          className="bg-white shadow d-flex flex-column"
+          className="bg-white shadow d-flex flex-column margin-left-2"
           data-testid="email-cadence-dropdown"
         >
           {Object.values(EMAIL_CADENCE).map((cadence) => (
@@ -46,7 +46,10 @@ const EmailCadences = ({
               variant="primary"
               size="inline"
               autoFocus={cadence === emailCadence}
-              onClick={(event) => onToggle(event, notificationType)}
+              onClick={(event) => {
+                onToggle(event, notificationType);
+                close();
+              }}
             >
               {intl.formatMessage(messages.emailCadence, { text: cadence })}
             </Dropdown.Item>
