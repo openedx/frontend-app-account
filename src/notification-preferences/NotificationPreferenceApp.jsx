@@ -14,7 +14,7 @@ import {
   selectUpdatePreferencesStatus,
 } from './data/selectors';
 import NotificationPreferenceRow from './NotificationPreferenceRow';
-import { updateAppPreferenceToggle, updateChannelPreferenceToggle } from './data/thunks';
+import { updatePreferenceToggle } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 import NOTIFICATION_CHANNELS from './data/constants';
 
@@ -35,7 +35,7 @@ const NotificationPreferenceApp = ({ appId }) => {
       (preference) => preference[notificationChannel] && !isPreferenceNonEditable(preference),
     );
 
-    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, !hasActivePreferences));
+    dispatch(updatePreferenceToggle(courseId, appId, notificationChannel, !hasActivePreferences));
   }, [appId, appPreferences, courseId, dispatch, nonEditable]);
 
   const preferences = useMemo(() => (
