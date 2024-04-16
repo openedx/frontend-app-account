@@ -92,13 +92,13 @@
   },
   "overrides": {
     "@edx/frontend-platform": {
-      "@openedx/frontend-build": "1.0.0-semantically-released"
+      "@openedx/frontend-build": "14.0.0-alpha.3"
     },
     "@edx/frontend-component-footer": {
-      "@openedx/frontend-build": "1.0.0-semantically-released"
+      "@openedx/frontend-build": "14.0.0-alpha.3"
     },
     "@edx/frontend-component-header": {
-      "@openedx/frontend-build": "1.0.0-semantically-released"
+      "@openedx/frontend-build": "14.0.0-alpha.3"
     }
   }
 }
