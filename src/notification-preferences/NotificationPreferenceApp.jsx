@@ -43,7 +43,7 @@ const NotificationPreferenceApp = ({ appId }) => {
     >
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
-          <span className="mr-auto preference-app">
+          <span className="mr-auto preference-app font-weight-bold">
             {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
           </span>
           <span className="d-flex" id={`${appId}-app-toggle`}>
