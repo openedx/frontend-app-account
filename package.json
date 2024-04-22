@@ -83,7 +83,7 @@
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
     "@edx/reactifex": "1.1.0",
-    "@openedx/frontend-build": "13.0.27",
+    "@openedx/frontend-build": "13.1.4",
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "12.1.5",
     "react-test-renderer": "17.0.2",
