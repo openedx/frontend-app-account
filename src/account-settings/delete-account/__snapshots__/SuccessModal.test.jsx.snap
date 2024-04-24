@@ -9,11 +9,11 @@ exports[`SuccessModal should match default closed success modal snapshot 3`] = `
 exports[`SuccessModal should match default closed success modal snapshot 4`] = `null`;
 
 exports[`SuccessModal should match open success modal snapshot 1`] = `
-Array [
+[
   <div
     data-focus-guard={true}
     style={
-      Object {
+      {
         "height": "0px",
         "left": "1px",
         "overflow": "hidden",
@@ -74,7 +74,7 @@ Array [
   <div
     data-focus-guard={true}
     style={
-      Object {
+      {
         "height": "0px",
         "left": "1px",
         "overflow": "hidden",

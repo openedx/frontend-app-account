@@ -12,7 +12,7 @@ exports[`JumpNav should not render Optional Information or delete account link 1
     >
       <ul
         className="list-unstyled"
-        style={Object {}}
+        style={{}}
       >
         <li
           className=""
@@ -97,7 +97,7 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
     >
       <ul
         className="list-unstyled"
-        style={Object {}}
+        style={{}}
       >
         <li
           className=""
