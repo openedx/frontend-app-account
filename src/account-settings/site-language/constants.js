@@ -99,6 +99,36 @@ const siteLanguageList = [
     name: 'French (CA)',
     released: true,
   },
+  {
+    code: 'te',
+    name: 'తెలుగు',
+    released: true,
+  },
+  {
+    code: 'da',
+    name: 'dansk',
+    released: true,
+  },
+  {
+    code: 'el',
+    name: 'Ελληνικά',
+    released: true,
+  },
+  {
+    code: 'es-es',
+    name: 'Español (España)',
+    released: true,
+  },
+  {
+    code: 'sw',
+    name: 'Kiswahili',
+    released: true,
+  },
+  {
+    code: 'tr-tr',
+    name: 'Türkçe (Türkiye)',
+    released: true,
+  },
 ];
 
 export default siteLanguageList;
