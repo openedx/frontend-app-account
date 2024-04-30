@@ -39,8 +39,12 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
     ));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId, preferenceName]);
-
   const tooltipId = `${preferenceName}-tooltip`;
+
+  if (appId === 'ora' && preferenceName === 'core') {
+    return null;
+  }
+
   return (
     <div className="d-flex mb-3" data-testid="notification-preference">
       <div className="d-flex align-items-center mr-auto">
