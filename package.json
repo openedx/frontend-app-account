@@ -84,7 +84,7 @@
     "@edx/browserslist-config": "1.2.0",
     "@edx/reactifex": "1.1.0",
     "@openedx/frontend-build": "14.0.3",
-    "@testing-library/jest-dom": "6.4.2",
+    "@testing-library/jest-dom": "6.4.5",
     "@testing-library/react": "12.1.5",
     "react-test-renderer": "17.0.2",
     "reactifex": "1.1.1",
