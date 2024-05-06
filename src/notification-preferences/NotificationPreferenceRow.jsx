@@ -41,7 +41,7 @@ const NotificationPreferenceRow = ({ appId, preferenceName }) => {
   }, [appId, preferenceName]);
   const tooltipId = `${preferenceName}-tooltip`;
 
-  if (appId === 'ora' && preferenceName === 'core') {
+  if (appId === 'grading' && preferenceName === 'core') {
     return null;
   }
 
