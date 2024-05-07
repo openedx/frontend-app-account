@@ -58,6 +58,10 @@ $fa-font-path: "~font-awesome/fonts";
   padding-left: 0.625rem;
 }
 
+.margin-left-2 {
+  margin-left: 2px !important;
+}
+
 .notification-sub-heading {
   font-size: 14px;
   line-height: 28px;
@@ -84,10 +88,37 @@ $fa-font-path: "~font-awesome/fonts";
     color: #707070;
   }
 
+  .preference-app {
+    font-size: 18px;
+  }
+
+  .column-padding {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
   .notification-course-title {
     line-height: 28px;
     font-weight: 700;
     font-size: 18px;
+  }
+
+  .font-size-14 {
+    font-size: 14px !important;
+  }
+
+  .cadence-button {
+    width: 134px;
+    height: 36px;
+    font-weight: 500;
+  }
+
+  .line-height-36 {
+    line-height: 36px;
+  }
+
+  .h-4\.5 {
+    height: 36px;
   }
 }
 
@@ -102,3 +133,15 @@ $fa-font-path: "~font-awesome/fonts";
     transform: rotate(270deg) !important;
   }
 }
+
+@media screen and (max-width: 425px) {
+   .column-padding{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .margin-bottom-32{
+    margin-bottom: 32px !important;
+  }
+}
+

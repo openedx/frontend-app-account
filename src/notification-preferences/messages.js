@@ -43,6 +43,17 @@ const messages = defineMessages({
     }`,
     description: 'Display text for Notification Channel',
   },
+  emailCadence: {
+    id: 'notification.preference.emailCadence',
+    defaultMessage: `{
+      text, select,
+      Daily {Daily}
+      Weekly {Weekly}
+      Immediately {Immediately}
+      other {{text}}
+    }`,
+    description: 'Display text for Email Cadence',
+  },
   typeLabel: {
     id: 'notification.preference.type.label',
     defaultMessage: 'Type',

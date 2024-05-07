@@ -61,7 +61,7 @@ const NotificationPreferences = () => {
       <h2 className="notification-heading mt-6 mb-4.5">
         {intl.formatMessage(messages.notificationHeading)}
       </h2>
-      <div className="mb-6 text-gray-700">
+      <div className="mb-6 text-gray-700 font-size-14 margin-bottom-32">
         {intl.formatMessage(messages.notificationPreferenceGuideBody)}
         <Hyperlink
           destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"

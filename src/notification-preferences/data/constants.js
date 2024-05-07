@@ -1,3 +1,11 @@
-const NOTIFICATION_CHANNELS = ['web'];
+export const NOTIFICATION_CHANNELS = {
+  WEB: 'web',
+  EMAIL: 'email',
+};
 
-export default NOTIFICATION_CHANNELS;
+export const EMAIL_CADENCE = {
+  DAILY: 'Daily',
+  WEEKLY: 'Weekly',
+  IMMEDIATELY: 'Immediately',
+  NEVER: 'Never',
+};
