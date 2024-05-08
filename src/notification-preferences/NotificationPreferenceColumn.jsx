@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { getConfig } from '@edx/frontend-platform';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -25,6 +26,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
+  const showEmailChannel = getConfig().SHOW_EMAIL_CHANNEL;
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
@@ -82,24 +84,25 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
     </div>
   );
 
-  return (
-    <div className={classNames('d-flex flex-column', { 'border-right': channel !== 'email' })}>
-      <NavItem
-        id={channel}
-        key={channel}
-        role="button"
-        onClick={onChannelToggle}
-        className={classNames('mb-3 header-label column-padding', {
-          'pr-0': channel === 'email',
-          'pl-0': channel === 'web' && mobileView,
-        })}
-      >
-        {intl.formatMessage(messages.notificationChannel, { text: channel })}
-      </NavItem>
-      {appPreference
-        ? renderPreference(appPreference)
-        : appPreferences.map((preference) => (renderPreference(preference)))}
-    </div>
+  return ((showEmailChannel === 'true' || channel === 'web') && (
+  <div className={classNames('d-flex flex-column', { 'border-right': channel !== 'email' && showEmailChannel === 'true' })}>
+    <NavItem
+      id={channel}
+      key={channel}
+      role="button"
+      onClick={onChannelToggle}
+      className={classNames('mb-3 header-label column-padding', {
+        'pr-0': channel === 'email',
+        'pl-0': channel === 'web' && mobileView,
+      })}
+    >
+      {intl.formatMessage(messages.notificationChannel, { text: channel })}
+    </NavItem>
+    {appPreference
+      ? renderPreference(appPreference)
+      : appPreferences.map((preference) => (renderPreference(preference)))}
+  </div>
+  )
   );
 };
 
