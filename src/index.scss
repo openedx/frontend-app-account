@@ -58,10 +58,6 @@ $fa-font-path: "~font-awesome/fonts";
   padding-left: 0.625rem;
 }
 
-.margin-left-2 {
-  margin-left: 2px !important;
-}
-
 .notification-sub-heading {
   font-size: 14px;
   line-height: 28px;
@@ -111,6 +107,23 @@ $fa-font-path: "~font-awesome/fonts";
     width: 134px;
     height: 36px;
     font-weight: 500;
+  }
+
+  button[name="email_cadence"] {
+    width: 134px;
+  }
+
+  .cadence-button:hover,
+  button[name="email_cadence"]:focus {
+    color: #FFFFFF !important;
+  }
+
+  button[name="email_cadence"]:hover {
+    background: #00262B !important
+  }
+
+  button[disabled]:hover {
+  color: black !important;
   }
 
   .line-height-36 {

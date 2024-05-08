@@ -41,7 +41,7 @@ const EmailCadences = ({
             <Dropdown.Item
               key={cadence}
               name="email_cadence"
-              className="d-flex justify-content-start py-1.5"
+              className="d-flex justify-content-start py-1.5 font-size-14"
               as={Button}
               variant="primary"
               size="inline"
