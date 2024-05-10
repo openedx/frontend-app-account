@@ -1,21 +1,20 @@
-import React, { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { ArrowForwardIos } from '@openedx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
-  Container, Icon, Spinner, Button,
+  Button, Container, Icon, Spinner,
 } from '@openedx/paragon';
-import { ArrowForwardIos } from '@openedx/paragon/icons';
-import { fetchCourseList } from './data/thunks';
-import { selectCourseListStatus, selectCourseList, selectPagination } from './data/selectors';
-import {
-  IDLE_STATUS,
-  LOADING_STATUS,
-  SUCCESS_STATUS,
-} from '../constants';
+
 import messages from './messages';
-import { NotFoundPage } from '../account-settings';
 import { useFeedbackWrapper } from '../hooks';
+import { fetchCourseList } from './data/thunks';
+import { NotFoundPage } from '../account-settings';
+import { IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { selectCourseList, selectCourseListStatus, selectPagination } from './data/selectors';
 
 const NotificationCourses = ({ intl }) => {
   useFeedbackWrapper();

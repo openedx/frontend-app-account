@@ -1,22 +1,21 @@
 import React, { useCallback } from 'react';
+
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from '@edx/frontend-platform/i18n';
-import { Collapsible } from '@openedx/paragon';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Collapsible } from '@openedx/paragon';
+import { useIntl } from '@edx/frontend-platform/i18n';
+
 import messages from './messages';
-import ToggleSwitch from './ToggleSwitch';
-import {
-  selectPreferenceAppToggleValue,
-  selectSelectedCourseId,
-  selectUpdatePreferencesStatus,
-} from './data/selectors';
-import NotificationPreferenceColumn from './NotificationPreferenceColumn';
-import { updateAppPreferenceToggle } from './data/thunks';
-import { LOADING_STATUS } from '../constants';
-import { NOTIFICATION_CHANNELS } from './data/constants';
-import NotificationTypes from './NotificationTypes';
 import { useIsOnMobile } from '../hooks';
+import ToggleSwitch from './ToggleSwitch';
+import { LOADING_STATUS } from '../constants';
+import NotificationTypes from './NotificationTypes';
+import { NOTIFICATION_CHANNELS } from './data/constants';
+import { updateAppPreferenceToggle } from './data/thunks';
+import NotificationPreferenceColumn from './NotificationPreferenceColumn';
+import { selectPreferenceAppToggleValue, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const dispatch = useDispatch();

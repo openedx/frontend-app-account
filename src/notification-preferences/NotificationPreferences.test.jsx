@@ -1,14 +1,16 @@
 /* eslint-disable no-import-assign */
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import {
-  fireEvent, render, screen, waitFor, act, within,
-} from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import NotificationPreferences from './NotificationPreferences';
+import {
+  act, fireEvent, render, screen, waitFor, within,
+} from '@testing-library/react';
+
 import { defaultState } from './data/reducers';
+import NotificationPreferences from './NotificationPreferences';
 import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 const courseId = 'selected-course-id';
