@@ -109,21 +109,8 @@ $fa-font-path: "~font-awesome/fonts";
     font-weight: 500;
   }
 
-  button[name="email_cadence"] {
-    width: 134px;
-  }
-
-  .cadence-button:hover,
-  button[name="email_cadence"]:focus {
-    color: #FFFFFF !important;
-  }
-
-  button[name="email_cadence"]:hover {
-    background: #00262B !important
-  }
-
-  button[disabled]:hover {
-  color: black !important;
+  .channel-column:last-child {
+    border-right: 0px !important;
   }
 
   .line-height-36 {
