@@ -1,10 +1,6 @@
-import { getConfig } from '@edx/frontend-platform';
+import showEmailChannel from './utils';
 
-const showEmailChannel = getConfig().SHOW_EMAIL_CHANNEL === 'true' || false;
-
-export const NOTIFICATION_CHANNELS = showEmailChannel
-  ? { WEB: 'web', EMAIL: 'email' }
-  : { WEB: 'web' };
+export const NOTIFICATION_CHANNELS = showEmailChannel();
 
 export const EMAIL_CADENCE = {
   DAILY: 'Daily',
