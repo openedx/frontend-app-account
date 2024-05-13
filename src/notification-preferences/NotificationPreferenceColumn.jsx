@@ -52,6 +52,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   }, [appId]);
 
   const renderPreference = (preference) => (
+    (preference.coreNotificationTypes.length > 0 || preference.id !== 'core') && (
     <div
       key={`${preference.id}-${channel}`}
       id={`${preference.id}-${channel}`}
@@ -80,6 +81,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       />
       )}
     </div>
+    )
   );
 
   return (

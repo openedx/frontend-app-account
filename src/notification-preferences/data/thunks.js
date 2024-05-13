@@ -60,6 +60,7 @@ const normalizePreferences = (responseData) => {
         email: preferences[appId].notificationTypes[preferenceId].email,
         info: preferences[appId].notificationTypes[preferenceId].info || '',
         emailCadence: preferences[appId].notificationTypes[preferenceId].emailCadence || EMAIL_CADENCE.DAILY,
+        coreNotificationTypes: preferences[appId].coreNotificationTypes || [],
       }
     ));
     nonEditable[appId] = preferences[appId].nonEditable;
