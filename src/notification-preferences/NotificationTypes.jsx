@@ -21,7 +21,7 @@ const NotificationTypes = ({ appId }) => {
     <div className="d-flex flex-column mr-auto px-0">
       {!mobileView && <span className="mb-3 header-label">{intl.formatMessage(messages.typeLabel)}</span>}
       {preferences.map(preference => (
-        (preference.coreNotificationTypes.length > 0 || preference.id !== 'core') && (
+        (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
         <>
           <div
             key={preference.id}

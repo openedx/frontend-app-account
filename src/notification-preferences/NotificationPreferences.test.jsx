@@ -36,6 +36,7 @@ const defaultPreferences = {
       web: true,
       push: true,
       email: true,
+      coreNotificationTypes: ['new_comment'],
     },
     {
       id: 'newComment',
@@ -43,6 +44,7 @@ const defaultPreferences = {
       web: false,
       push: false,
       email: false,
+      coreNotificationTypes: [],
     },
     {
       id: 'newAssignment',
@@ -50,6 +52,7 @@ const defaultPreferences = {
       web: false,
       push: false,
       email: false,
+      coreNotificationTypes: [],
     },
     {
       id: 'newGrade',
@@ -57,6 +60,7 @@ const defaultPreferences = {
       web: false,
       push: false,
       email: false,
+      coreNotificationTypes: [],
     },
   ],
   nonEditable: {
@@ -70,9 +74,15 @@ const defaultPreferences = {
 
 const updateChannelPreferences = (toggleVal = false) => ({
   preferences: [
-    { id: 'core', appId: 'discussion', web: true },
-    { id: 'newComment', appId: 'discussion', web: toggleVal },
-    { id: 'newAssignment', appId: 'coursework', web: toggleVal },
+    {
+      id: 'core', appId: 'discussion', web: true, coreNotificationTypes: ['new_comment'],
+    },
+    {
+      id: 'newComment', appId: 'discussion', web: toggleVal, coreNotificationTypes: [],
+    },
+    {
+      id: 'newAssignment', appId: 'coursework', web: toggleVal, coreNotificationTypes: [],
+    },
   ],
 });
 
