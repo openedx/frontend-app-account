@@ -43,9 +43,12 @@ const EmailCadences = ({
           {Object.values(EMAIL_CADENCE).map((cadence) => (
             <Dropdown.Item
               key={cadence}
+              as={Button}
+              variant="tertiary"
               name="email_cadence"
               className="d-flex justify-content-start py-1.5 font-size-14 cadence-button"
               size="inline"
+              active={cadence === emailCadence}
               autoFocus={cadence === emailCadence}
               onClick={(event) => {
                 onToggle(event, notificationType);
