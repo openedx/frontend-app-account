@@ -114,9 +114,11 @@ $fa-font-path: "~font-awesome/fonts";
   }
 
   .dropdown-item:active,
-  .dropdown-item:focus {
-    background-color: #F2F0EF !important;
+  .dropdown-item:focus, 
+  .btn-tertiary:not(:disabled):not(.disabled).active {
+    background-color: $light-300 !important;
   }
+
 
   .line-height-36 {
     line-height: 36px;
