@@ -1,21 +1,21 @@
 import React, { useCallback } from 'react';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIntl } from '@edx/frontend-platform/i18n';
+
 import { NavItem } from '@openedx/paragon';
+import { useIntl } from '@edx/frontend-platform/i18n';
+
 import messages from './messages';
-import ToggleSwitch from './ToggleSwitch';
-import {
-  selectNonEditablePreferences,
-  selectSelectedCourseId,
-  selectUpdatePreferencesStatus,
-  selectPreferencesOfApp,
-} from './data/selectors';
-import { updatePreferenceToggle, updateChannelPreferenceToggle } from './data/thunks';
-import { LOADING_STATUS } from '../constants';
-import EmailCadences from './EmailCadences';
 import { useIsOnMobile } from '../hooks';
+import ToggleSwitch from './ToggleSwitch';
+import EmailCadences from './EmailCadences';
+import { LOADING_STATUS } from '../constants';
+import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/thunks';
+import {
+  selectNonEditablePreferences, selectPreferencesOfApp, selectSelectedCourseId, selectUpdatePreferencesStatus,
+} from './data/selectors';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   );
 
   return (
-    <div className={classNames('d-flex flex-column', { 'border-right': channel !== 'email' })}>
+    <div className={classNames('d-flex flex-column border-right channel-column')}>
       <NavItem
         id={channel}
         key={channel}

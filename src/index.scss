@@ -58,10 +58,6 @@ $fa-font-path: "~font-awesome/fonts";
   padding-left: 0.625rem;
 }
 
-.margin-left-2 {
-  margin-left: 2px !important;
-}
-
 .notification-sub-heading {
   font-size: 14px;
   line-height: 28px;
@@ -112,6 +108,17 @@ $fa-font-path: "~font-awesome/fonts";
     height: 36px;
     font-weight: 500;
   }
+
+  .channel-column:last-child {
+    border-right: 0px !important;
+  }
+
+  .dropdown-item:active,
+  .dropdown-item:focus, 
+  .btn-tertiary:not(:disabled):not(.disabled).active {
+    background-color: $light-300 !important;
+  }
+
 
   .line-height-36 {
     line-height: 36px;

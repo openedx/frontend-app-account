@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { getConfig } from '@edx/frontend-platform';
 import { logError } from '@edx/frontend-platform/logging';
 import { breakpoints, useWindowSize } from '@openedx/paragon';

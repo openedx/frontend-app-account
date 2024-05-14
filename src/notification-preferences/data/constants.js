@@ -1,7 +1,6 @@
-export const NOTIFICATION_CHANNELS = {
-  WEB: 'web',
-  EMAIL: 'email',
-};
+import showEmailChannel from './utils';
+
+export const NOTIFICATION_CHANNELS = showEmailChannel();
 
 export const EMAIL_CADENCE = {
   DAILY: 'Daily',

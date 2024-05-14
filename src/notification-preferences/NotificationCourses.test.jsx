@@ -1,12 +1,14 @@
 /* eslint-disable no-import-assign */
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { render, screen } from '@testing-library/react';
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { BrowserRouter as Router } from 'react-router-dom';
-import NotificationCourses from './NotificationCourses';
+
+import * as auth from '@edx/frontend-platform/auth';
+import { render, screen } from '@testing-library/react';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
+
 import { defaultState } from './data/reducers';
+import NotificationCourses from './NotificationCourses';
 import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 const mockStore = configureStore();

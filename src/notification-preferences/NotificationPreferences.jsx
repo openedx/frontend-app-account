@@ -1,28 +1,24 @@
 import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { ArrowBack } from '@openedx/paragon/icons';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
-  Container, Icon, Spinner, Hyperlink,
+  Container, Hyperlink, Icon, Spinner,
 } from '@openedx/paragon';
-import { ArrowBack } from '@openedx/paragon/icons';
-import {
-  selectCourseListStatus,
-  selectCourse,
-  selectPreferenceAppsId,
-  selectNotificationPreferencesStatus,
-  selectCourseList,
-} from './data/selectors';
-import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
+
 import messages from './messages';
-import NotificationPreferenceApp from './NotificationPreferenceApp';
-import {
-  FAILURE_STATUS,
-  IDLE_STATUS,
-  LOADING_STATUS,
-  SUCCESS_STATUS,
-} from '../constants';
 import { NotFoundPage } from '../account-settings';
+import NotificationPreferenceApp from './NotificationPreferenceApp';
+import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
+import {
+  FAILURE_STATUS, IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS,
+} from '../constants';
+import {
+  selectCourse, selectCourseList, selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId,
+} from './data/selectors';
 
 const NotificationPreferences = () => {
   const { courseId } = useParams();

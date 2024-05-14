@@ -1,6 +1,8 @@
-import { Form } from '@openedx/paragon';
 import React from 'react';
+
 import PropTypes from 'prop-types';
+
+import { Form } from '@openedx/paragon';
 
 const ToggleSwitch = ({
   name,

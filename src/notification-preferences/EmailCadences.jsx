@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
+
 import { useIntl } from '@edx/frontend-platform/i18n';
-import {
-  Dropdown, ModalPopup, Button, useToggle,
-} from '@openedx/paragon';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
+import {
+  Button, Dropdown, ModalPopup, useToggle,
+} from '@openedx/paragon';
+
 import messages from './messages';
 import { EMAIL_CADENCE } from './data/constants';
 
@@ -24,7 +27,7 @@ const EmailCadences = ({
         disabled={!email}
         size="sm"
         iconAfter={isOpen ? ExpandLess : ExpandMore}
-        className="border-light-300 text-primary-500 justify-content-between ml-3.5 cadence-button"
+        className="border-light-300 justify-content-between ml-3.5 cadence-button"
       >
         {intl.formatMessage(messages.emailCadence, { text: emailCadence })}
       </Button>
@@ -40,11 +43,12 @@ const EmailCadences = ({
           {Object.values(EMAIL_CADENCE).map((cadence) => (
             <Dropdown.Item
               key={cadence}
-              name="email_cadence"
-              className="d-flex justify-content-start py-1.5"
               as={Button}
-              variant="primary"
+              variant="tertiary"
+              name="email_cadence"
+              className="d-flex justify-content-start py-1.5 font-size-14 cadence-button"
               size="inline"
+              active={cadence === emailCadence}
               autoFocus={cadence === emailCadence}
               onClick={(event) => {
                 onToggle(event, notificationType);

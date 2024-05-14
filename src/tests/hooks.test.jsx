@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
+
 import { render, waitFor } from '@testing-library/react';
 
 import { useAsyncCall } from '../hooks';
-import { LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS } from '../constants';
+import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 const TestUseAsyncCallHookComponent = ({ asyncFunc }) => {
   const { status, data } = useAsyncCall(asyncFunc);
