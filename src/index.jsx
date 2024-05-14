@@ -11,7 +11,8 @@ import ReactDOM from 'react-dom';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
-import { FooterSlot } from '@edx/frontend-component-footer';
+// Reverting this since footer-edx overrite doesn't support FooterPlugin
+import Footer from '@edx/frontend-component-footer';
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
@@ -34,7 +35,7 @@ subscribe(APP_READY, () => {
             <main className="flex-grow-1" id="main">
               <Outlet />
             </main>
-            <FooterSlot />
+            <Footer />
           </div>
         )}
         >
