@@ -16,7 +16,7 @@ import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/th
 import {
   selectNonEditablePreferences, selectPreferencesOfApp, selectSelectedCourseId, selectUpdatePreferencesStatus,
 } from './data/selectors';
-import notificationChannels from './data/utils';
+import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
+  const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
@@ -88,6 +89,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
 
   return (
     <div className={classNames('d-flex flex-column border-right channel-column')}>
+      {!hideAppPreferences && (
       <NavItem
         id={channel}
         key={channel}
@@ -100,6 +102,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       >
         {intl.formatMessage(messages.notificationChannel, { text: channel })}
       </NavItem>
+      )}
       {appPreference
         ? renderPreference(appPreference)
         : appPreferences.map((preference) => (renderPreference(preference)))}

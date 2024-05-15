@@ -12,7 +12,7 @@ import { useIsOnMobile } from '../hooks';
 import ToggleSwitch from './ToggleSwitch';
 import { LOADING_STATUS } from '../constants';
 import NotificationTypes from './NotificationTypes';
-import notificationChannels from './data/utils';
+import { notificationChannels } from './data/utils';
 import { updateAppPreferenceToggle } from './data/thunks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 import { selectPreferenceAppToggleValue, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
