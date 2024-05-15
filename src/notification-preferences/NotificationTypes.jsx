@@ -9,7 +9,7 @@ import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
 
 import messages from './messages';
 import { useIsOnMobile } from '../hooks';
-import showNotificationChannels from './data/utils';
+import notificationChannels from './data/utils';
 
 import { selectPreferencesOfApp } from './data/selectors';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
@@ -18,7 +18,7 @@ const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
   const preferences = useSelector(selectPreferencesOfApp(appId));
   const mobileView = useIsOnMobile();
-  const NOTIFICATION_CHANNELS = showNotificationChannels();
+  const NOTIFICATION_CHANNELS = notificationChannels();
 
   return (
     <div className="d-flex flex-column mr-auto px-0">
