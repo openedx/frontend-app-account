@@ -5,5 +5,11 @@ export const notificationChannels = () => ({ WEB: 'web', ...(getConfig().SHOW_EM
 export const shouldHideAppPreferences = (preferences, appId) => {
   const appPreferences = preferences.filter(pref => pref.appId === appId);
 
-  return appPreferences.length === 1 && appPreferences[0].id === 'core' && !appPreferences[0].coreNotificationTypes.length;
+  if (appPreferences.length !== 1) {
+    return false;
+  }
+
+  const firstPreference = appPreferences[0];
+
+  return firstPreference?.id === 'core' && (!firstPreference.coreNotificationTypes?.length);
 };
