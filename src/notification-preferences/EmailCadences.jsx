@@ -9,7 +9,7 @@ import {
 } from '@openedx/paragon';
 
 import messages from './messages';
-import { EMAIL_CADENCE } from './data/constants';
+import EMAIL_CADENCE from './data/constants';
 
 const EmailCadences = ({
   email, onToggle, emailCadence, notificationType,

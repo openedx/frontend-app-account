@@ -16,6 +16,7 @@ import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/th
 import {
   selectNonEditablePreferences, selectPreferencesOfApp, selectSelectedCourseId, selectUpdatePreferencesStatus,
 } from './data/selectors';
+import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
+  const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
+  const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
   const onChannelToggle = useCallback((event) => {
     const { id: notificationChannel } = event.target;
@@ -59,7 +62,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       className={classNames(
         'd-flex align-items-center justify-content-center mb-2 h-4.5 column-padding',
         {
-          'pr-0': channel === 'email',
+          'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
           'pl-0': channel === 'web' && mobileView,
         },
       )}
@@ -86,18 +89,20 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
 
   return (
     <div className={classNames('d-flex flex-column border-right channel-column')}>
+      {!hideAppPreferences && (
       <NavItem
         id={channel}
         key={channel}
         role="button"
         onClick={onChannelToggle}
         className={classNames('mb-3 header-label column-padding', {
-          'pr-0': channel === 'email',
+          'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
           'pl-0': channel === 'web' && mobileView,
         })}
       >
         {intl.formatMessage(messages.notificationChannel, { text: channel })}
       </NavItem>
+      )}
       {appPreference
         ? renderPreference(appPreference)
         : appPreferences.map((preference) => (renderPreference(preference)))}

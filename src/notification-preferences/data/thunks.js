@@ -1,5 +1,5 @@
 import { camelCaseObject } from '@edx/frontend-platform';
-import { EMAIL_CADENCE } from './constants';
+import EMAIL_CADENCE from './constants';
 import {
   fetchCourseListSuccess,
   fetchCourseListFetching,

@@ -12,7 +12,7 @@ import { useIsOnMobile } from '../hooks';
 import ToggleSwitch from './ToggleSwitch';
 import { LOADING_STATUS } from '../constants';
 import NotificationTypes from './NotificationTypes';
-import { NOTIFICATION_CHANNELS } from './data/constants';
+import { notificationChannels } from './data/utils';
 import { updateAppPreferenceToggle } from './data/thunks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 import { selectPreferenceAppToggleValue, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
@@ -24,6 +24,7 @@ const NotificationPreferenceApp = ({ appId }) => {
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
+  const NOTIFICATION_CHANNELS = notificationChannels();
 
   const onChangeAppSettings = useCallback((event) => {
     dispatch(updateAppPreferenceToggle(courseId, appId, event.target.checked));
