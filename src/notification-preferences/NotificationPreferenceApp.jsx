@@ -39,23 +39,15 @@ const NotificationPreferenceApp = ({ appId }) => {
     <Collapsible.Advanced
       open={appToggle}
       data-testid={`${appId}-app`}
-      className={classNames({ 'mb-5': !mobileView && appToggle })}
+      className={classNames({ 'mb-1': !mobileView && appToggle })}
     >
       <Collapsible.Trigger>
         <div className="d-flex align-items-center">
           <span className="mr-auto preference-app font-weight-bold">
             {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
           </span>
-          <span className="d-flex" id={`${appId}-app-toggle`}>
-            <ToggleSwitch
-              name={appId}
-              value={appToggle}
-              onChange={onChangeAppSettings}
-              disabled={updatePreferencesStatus === LOADING_STATUS}
-            />
-          </span>
+
         </div>
-        {!mobileView && <hr className="border-light-400 my-4" />}
       </Collapsible.Trigger>
       <Collapsible.Body>
         <div className="d-flex flex-row justify-content-between">
