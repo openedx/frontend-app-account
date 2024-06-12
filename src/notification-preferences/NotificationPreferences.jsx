@@ -93,7 +93,7 @@ const NotificationPreferences = () => {
                   role="button"
                   className={classNames('mb-3 header-label column-padding', {
                     'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
-                    'mr-2': channel === 'web' && !mobileView,
+                    'mr-2': channel === 'web',
                     'email-channel ': channel === 'email',
 
                   })}
