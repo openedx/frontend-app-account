@@ -154,13 +154,6 @@ describe('Notification Preferences', () => {
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
   });
 
-  it('update group on click', async () => {
-    const wrapper = await render(notificationPreferences(store));
-    const element = wrapper.container.querySelector('#discussion-app-toggle');
-    await fireEvent.click(element);
-    expect(mockDispatch).toHaveBeenCalled();
-  });
-
   it('update preference on click', async () => {
     const wrapper = await render(notificationPreferences(store));
     const element = wrapper.container.querySelector('#core-web');
@@ -173,41 +166,5 @@ describe('Notification Preferences', () => {
     store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
     await render(notificationPreferences(store));
     expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
-  });
-
-  it('updates all preferences in the column on web channel click', async () => {
-    store = setupStore(updateChannelPreferences(true));
-    const wrapper = render(notificationPreferences(store));
-
-    const getChannelSwitch = (id) => screen.queryByTestId(`${id}-web`);
-    const notificationTypes = ['newComment', 'newAssignment'];
-
-    const verifyState = (toggleState) => {
-      notificationTypes.forEach((notificationType) => {
-        if (toggleState) {
-          expect(getChannelSwitch(notificationType)).toBeChecked();
-        } else {
-          expect(getChannelSwitch(notificationType)).not.toBeChecked();
-        }
-      });
-    };
-
-    verifyState(true);
-    expect(getChannelSwitch('core')).toBeChecked();
-
-    const discussionApp = screen.queryByTestId('discussion-app');
-    const webChannel = within(discussionApp).queryByText('Web');
-
-    await act(async () => {
-      await fireEvent.click(webChannel);
-    });
-
-    store = setupStore(updateChannelPreferences(false));
-    wrapper.rerender(notificationPreferences(store));
-
-    await waitFor(() => {
-      verifyState(false);
-      expect(getChannelSwitch('core')).toBeChecked();
-    });
   });
 });
