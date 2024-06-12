@@ -15,16 +15,6 @@ export const getCourseList = async (page, pageSize) => {
   return data;
 };
 
-export const patchAppPreferenceToggle = async (courseId, appId, value) => {
-  const patchData = snakeCaseObject({
-    notificationApp: appId,
-    value,
-  });
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
-  const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
-  return data;
-};
-
 export const patchPreferenceToggle = async (
   courseId,
   notificationApp,

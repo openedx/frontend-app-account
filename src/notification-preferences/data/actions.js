@@ -47,12 +47,3 @@ export const updatePreferenceValue = (appId, preferenceName, notificationChannel
     value,
   })
 );
-
-export const updateAppToggle = (courseId, appId, value) => dispatch => (
-  dispatch({
-    type: Actions.UPDATE_APP_PREFERENCE,
-    courseId,
-    appId,
-    value,
-  })
-);
