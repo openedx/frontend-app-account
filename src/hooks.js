@@ -38,17 +38,20 @@ export function useAsyncCall(asyncFunc) {
 export function useRedirect() {
   const [redirect, setRedirect] = useState({
     location: 'dashboard',
+    isAccountMFERedirect: false,
     text: 'id.verification.return.dashboard',
   });
 
   useEffect(() => {
     if (sessionStorage.getItem('courseId')) {
       setRedirect({
+        isAccountMFERedirect: false,
         location: `courses/${sessionStorage.getItem('courseId')}`,
         text: 'id.verification.return.course',
       });
     } else if (sessionStorage.getItem('next')) {
       setRedirect({
+        isAccountMFERedirect: true,
         location: sessionStorage.getItem('next'),
         text: 'id.verification.return.generic',
       });

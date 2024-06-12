@@ -82,6 +82,6 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return/);
-    expect(button).toHaveAttribute('href', `${process.env.LMS_BASE_URL}/some_page`);
+    expect(button).toHaveAttribute('href', 'some_page');
   });
 });
