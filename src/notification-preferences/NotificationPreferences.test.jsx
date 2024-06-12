@@ -5,9 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import {
-  act, fireEvent, render, screen, waitFor, within,
-} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
@@ -73,20 +71,6 @@ const defaultPreferences = {
     },
   },
 };
-
-const updateChannelPreferences = (toggleVal = false) => ({
-  preferences: [
-    {
-      id: 'core', appId: 'discussion', web: true, coreNotificationTypes: ['new_comment'],
-    },
-    {
-      id: 'newComment', appId: 'discussion', web: toggleVal, coreNotificationTypes: [],
-    },
-    {
-      id: 'newAssignment', appId: 'coursework', web: toggleVal, coreNotificationTypes: [],
-    },
-  ],
-});
 
 const setupStore = (override = {}) => {
   const storeState = defaultState;
