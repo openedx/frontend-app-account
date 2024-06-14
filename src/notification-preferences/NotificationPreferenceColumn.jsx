@@ -14,7 +14,7 @@ import EmailCadences from './EmailCadences';
 import { LOADING_STATUS } from '../constants';
 import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/thunks';
 import {
-  selectNonEditablePreferences, selectPreferencesOfApp, selectSelectedCourseId, selectUpdatePreferencesStatus,
+  selectNonEditablePreferences, selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus,
 } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 
@@ -22,7 +22,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
   const courseId = useSelector(selectSelectedCourseId());
-  const appPreferences = useSelector(selectPreferencesOfApp(appId));
+  const appPreferences = useSelector(selectAppPreferences(appId));
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();

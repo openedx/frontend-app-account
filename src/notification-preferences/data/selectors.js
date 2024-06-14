@@ -28,7 +28,7 @@ export const selectPreferenceAppsId = () => state => (
   state.notificationPreferences.preferences.apps.map(app => app.id)
 );
 
-export const selectPreferencesOfApp = appId => state => (
+export const selectAppPreferences = appId => state => (
   selectPreferences()(state).filter(preference => (
     preference.appId === appId
   ))

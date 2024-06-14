@@ -11,12 +11,12 @@ import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
 
-import { selectPreferencesOfApp } from './data/selectors';
+import { selectAppPreferences } from './data/selectors';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
-  const preferences = useSelector(selectPreferencesOfApp(appId));
+  const preferences = useSelector(selectAppPreferences(appId));
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
 

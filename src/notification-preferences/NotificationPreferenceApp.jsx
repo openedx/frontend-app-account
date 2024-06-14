@@ -11,13 +11,13 @@ import { useIsOnMobile } from '../hooks';
 import NotificationTypes from './NotificationTypes';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
-import { selectPreferenceAppToggleValue, selectSelectedCourseId, selectPreferencesOfApp } from './data/selectors';
+import { selectPreferenceAppToggleValue, selectSelectedCourseId, selectAppPreferences } from './data/selectors';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const intl = useIntl();
   const courseId = useSelector(selectSelectedCourseId());
   const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
-  const appPreferences = useSelector(selectPreferencesOfApp(appId));
+  const appPreferences = useSelector(selectAppPreferences(appId));
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
