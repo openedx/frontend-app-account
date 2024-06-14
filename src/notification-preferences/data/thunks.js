@@ -7,14 +7,12 @@ import {
   fetchNotificationPreferenceFailed,
   fetchNotificationPreferenceFetching,
   fetchNotificationPreferenceSuccess,
-  updateAppToggle,
   updatePreferenceValue,
   updateSelectedCourse,
 } from './actions';
 import {
   getCourseList,
   getCourseNotificationPreferences,
-  patchAppPreferenceToggle,
   patchChannelPreferenceToggle,
   patchPreferenceToggle,
 } from './service';
@@ -98,20 +96,6 @@ export const fetchCourseNotificationPreferences = (courseId) => (
       const normalizedData = normalizePreferences(camelCaseObject(data));
       dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
     } catch (errors) {
-      dispatch(fetchNotificationPreferenceFailed());
-    }
-  }
-);
-
-export const updateAppPreferenceToggle = (courseId, appId, value) => (
-  async (dispatch) => {
-    try {
-      dispatch(updateAppToggle(courseId, appId, value));
-      const data = await patchAppPreferenceToggle(courseId, appId, value);
-      const normalizedData = normalizePreferences(camelCaseObject(data));
-      dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
-    } catch (errors) {
-      dispatch(updateAppToggle(courseId, appId, !value));
       dispatch(fetchNotificationPreferenceFailed());
     }
   }

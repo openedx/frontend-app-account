@@ -22,7 +22,7 @@ const messages = defineMessages({
     id: 'notification.preference.title',
     defaultMessage: `{
       text, select,
-      core {Core notifications}
+      core {Activity notifications}
       newDiscussionPost {New discussion posts}
       newQuestionPost {New question posts}
       contentReported {Reported content}

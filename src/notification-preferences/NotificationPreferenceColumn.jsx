@@ -14,7 +14,7 @@ import EmailCadences from './EmailCadences';
 import { LOADING_STATUS } from '../constants';
 import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/thunks';
 import {
-  selectNonEditablePreferences, selectPreferencesOfApp, selectSelectedCourseId, selectUpdatePreferencesStatus,
+  selectNonEditablePreferences, selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus,
 } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 
@@ -22,7 +22,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
   const courseId = useSelector(selectSelectedCourseId());
-  const appPreferences = useSelector(selectPreferencesOfApp(appId));
+  const appPreferences = useSelector(selectAppPreferences(appId));
   const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
@@ -62,7 +62,6 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       className={classNames(
         'd-flex align-items-center justify-content-center mb-2 h-4.5 column-padding',
         {
-          'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
           'pl-0': channel === 'web' && mobileView,
         },
       )}
@@ -71,7 +70,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         name={channel}
         value={preference[channel]}
         onChange={(event) => onToggle(event, preference.id)}
-        disabled={nonEditable?.[preference.id]?.includes(channel) || updatePreferencesStatus === LOADING_STATUS}
+        disabled={updatePreferencesStatus === LOADING_STATUS}
         id={`${preference.id}-${channel}`}
         className="my-1"
       />
@@ -89,7 +88,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
 
   return (
     <div className={classNames('d-flex flex-column border-right channel-column')}>
-      {!hideAppPreferences && (
+      {!hideAppPreferences && mobileView && (
       <NavItem
         id={channel}
         key={channel}
@@ -97,7 +96,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         onClick={onChannelToggle}
         className={classNames('mb-3 header-label column-padding', {
           'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
-          'pl-0': channel === 'web' && mobileView,
+          'pl-0': channel === 'web',
         })}
       >
         {intl.formatMessage(messages.notificationChannel, { text: channel })}

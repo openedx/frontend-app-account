@@ -5,9 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import {
-  act, fireEvent, render, screen, waitFor, within,
-} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
@@ -73,20 +71,6 @@ const defaultPreferences = {
     },
   },
 };
-
-const updateChannelPreferences = (toggleVal = false) => ({
-  preferences: [
-    {
-      id: 'core', appId: 'discussion', web: true, coreNotificationTypes: ['new_comment'],
-    },
-    {
-      id: 'newComment', appId: 'discussion', web: toggleVal, coreNotificationTypes: [],
-    },
-    {
-      id: 'newAssignment', appId: 'coursework', web: toggleVal, coreNotificationTypes: [],
-    },
-  ],
-});
 
 const setupStore = (override = {}) => {
   const storeState = defaultState;
@@ -154,13 +138,6 @@ describe('Notification Preferences', () => {
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
   });
 
-  it('update group on click', async () => {
-    const wrapper = await render(notificationPreferences(store));
-    const element = wrapper.container.querySelector('#discussion-app-toggle');
-    await fireEvent.click(element);
-    expect(mockDispatch).toHaveBeenCalled();
-  });
-
   it('update preference on click', async () => {
     const wrapper = await render(notificationPreferences(store));
     const element = wrapper.container.querySelector('#core-web');
@@ -173,41 +150,5 @@ describe('Notification Preferences', () => {
     store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
     await render(notificationPreferences(store));
     expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
-  });
-
-  it('updates all preferences in the column on web channel click', async () => {
-    store = setupStore(updateChannelPreferences(true));
-    const wrapper = render(notificationPreferences(store));
-
-    const getChannelSwitch = (id) => screen.queryByTestId(`${id}-web`);
-    const notificationTypes = ['newComment', 'newAssignment'];
-
-    const verifyState = (toggleState) => {
-      notificationTypes.forEach((notificationType) => {
-        if (toggleState) {
-          expect(getChannelSwitch(notificationType)).toBeChecked();
-        } else {
-          expect(getChannelSwitch(notificationType)).not.toBeChecked();
-        }
-      });
-    };
-
-    verifyState(true);
-    expect(getChannelSwitch('core')).toBeChecked();
-
-    const discussionApp = screen.queryByTestId('discussion-app');
-    const webChannel = within(discussionApp).queryByText('Web');
-
-    await act(async () => {
-      await fireEvent.click(webChannel);
-    });
-
-    store = setupStore(updateChannelPreferences(false));
-    wrapper.rerender(notificationPreferences(store));
-
-    await waitFor(() => {
-      verifyState(false);
-      expect(getChannelSwitch('core')).toBeChecked();
-    });
   });
 });

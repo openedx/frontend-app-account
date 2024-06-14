@@ -2,13 +2,15 @@ import React, { useEffect, useMemo } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 import { ArrowBack } from '@openedx/paragon/icons';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
-  Container, Hyperlink, Icon, Spinner,
+  Container, Hyperlink, Icon, Spinner, NavItem,
 } from '@openedx/paragon';
 
+import { useIsOnMobile } from '../hooks';
 import messages from './messages';
 import { NotFoundPage } from '../account-settings';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
@@ -19,6 +21,7 @@ import {
 import {
   selectCourse, selectCourseList, selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId,
 } from './data/selectors';
+import { notificationChannels } from './data/utils';
 
 const NotificationPreferences = () => {
   const { courseId } = useParams();
@@ -29,6 +32,8 @@ const NotificationPreferences = () => {
   const course = useSelector(selectCourse(courseId));
   const notificationStatus = useSelector(selectNotificationPreferencesStatus());
   const preferenceAppsIds = useSelector(selectPreferenceAppsId());
+  const mobileView = useIsOnMobile();
+  const NOTIFICATION_CHANNELS = notificationChannels();
   const isLoading = notificationStatus === LOADING_STATUS || courseStatus === LOADING_STATUS;
 
   const preferencesList = useMemo(() => (
@@ -77,6 +82,28 @@ const NotificationPreferences = () => {
             {course?.name}
           </span>
         </div>
+        {!mobileView && (
+        <div className="d-flex flex-row justify-content-between float-right">
+          <div className="d-flex">
+            {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
+              <div className={classNames('d-flex flex-column channel-column')}>
+                <NavItem
+                  id={channel}
+                  key={channel}
+                  className={classNames('mb-3 header-label column-padding', {
+                    'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
+                    'mr-2': channel === 'web',
+                    'email-channel ': channel === 'email',
+
+                  })}
+                >
+                  {intl.formatMessage(messages.notificationChannel, { text: channel })}
+                </NavItem>
+              </div>
+            ))}
+          </div>
+        </div>
+        )}
         {preferencesList}
         {isLoading && (
           <div className="d-flex">
