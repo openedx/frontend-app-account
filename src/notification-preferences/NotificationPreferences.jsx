@@ -82,7 +82,7 @@ const NotificationPreferences = () => {
             {course?.name}
           </span>
         </div>
-        {!mobileView && (
+        {!mobileView && !isLoading && (
         <div className="d-flex flex-row justify-content-between float-right">
           <div className="d-flex">
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
@@ -90,7 +90,7 @@ const NotificationPreferences = () => {
                 <NavItem
                   id={channel}
                   key={channel}
-                  className={classNames('mb-3 header-label column-padding', {
+                  className={classNames('header-label column-padding', {
                     'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
                     'mr-2': channel === 'web',
                     'email-channel ': channel === 'email',
