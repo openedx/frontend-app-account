@@ -298,21 +298,6 @@ export const certPreferenceSelector = createSelector(
   }),
 );
 
-export const demographicsSectionSelector = createSelector(
-  formValuesSelector,
-  draftsSelector,
-  errorSelector,
-  (
-    formValues,
-    drafts,
-    errors,
-  ) => ({
-    formValues,
-    drafts,
-    formErrors: errors,
-  }),
-);
-
 export const nameChangeSelector = createSelector(
   accountSettingsSelector,
   formValuesSelector,

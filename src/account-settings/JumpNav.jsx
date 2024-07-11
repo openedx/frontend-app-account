@@ -3,7 +3,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { breakpoints, useWindowSize, Icon } from '@openedx/paragon';
 import { OpenInNew } from '@openedx/paragon/icons';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavHashLink } from 'react-router-hash-link';
@@ -14,7 +13,6 @@ import { selectShowPreferences } from '../notification-preferences/data/selector
 
 const JumpNav = ({
   intl,
-  displayDemographicsLink,
 }) => {
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
   const showPreferences = useSelector(selectShowPreferences());
@@ -25,7 +23,6 @@ const JumpNav = ({
         items={[
           'basic-information',
           'profile-information',
-          'demographics-information',
           'social-media',
           'site-preferences',
           'linked-accounts',
@@ -44,14 +41,6 @@ const JumpNav = ({
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </NavHashLink>
         </li>
-        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && displayDemographicsLink
-          && (
-          <li>
-            <NavHashLink to="#demographics-information">
-              {intl.formatMessage(messages['account.settings.section.demographics.information'])}
-            </NavHashLink>
-          </li>
-          )}
         <li>
           <NavHashLink to="#social-media">
             {intl.formatMessage(messages['account.settings.section.social.media'])}
@@ -97,7 +86,6 @@ const JumpNav = ({
 
 JumpNav.propTypes = {
   intl: intlShape.isRequired,
-  displayDemographicsLink: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(JumpNav);

@@ -131,19 +131,6 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
           <a
             aria-current="page"
             className="active"
-            href="/#demographics-information"
-            isActive={[Function]}
-            onClick={[Function]}
-          >
-            Optional Information
-          </a>
-        </li>
-        <li
-          className=""
-        >
-          <a
-            aria-current="page"
-            className="active"
             href="/#social-media"
             isActive={[Function]}
             onClick={[Function]}

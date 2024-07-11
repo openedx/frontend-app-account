@@ -49,7 +49,6 @@ import {
   getStatesList,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
-import DemographicsSection from './demographics/DemographicsSection';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
 
@@ -65,7 +64,6 @@ class AccountSettingsPage extends React.Component {
     this.navLinkRefs = {
       '#basic-information': React.createRef(),
       '#profile-information': React.createRef(),
-      '#demographics-information': React.createRef(),
       '#social-media': React.createRef(),
       '#site-preferences': React.createRef(),
       '#linked-accounts': React.createRef(),
@@ -460,16 +458,6 @@ class AccountSettingsPage extends React.Component {
     );
   }
 
-  renderDemographicsSection() {
-    // check the result of an LMS API call to determine if we should render the DemographicsSection component
-    if (this.props.formValues.shouldDisplayDemographicsSection) {
-      return (
-        <DemographicsSection forwardRef={this.navLinkRefs['#demographics-information']} />
-      );
-    }
-    return null;
-  }
-
   renderContent() {
     const editableFieldProps = {
       onChange: this.handleEditableFieldChange,
@@ -718,7 +706,6 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        {getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && this.renderDemographicsSection()}
         <div className="account-section pt-3 mb-5" id="social-media">
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
@@ -844,9 +831,7 @@ class AccountSettingsPage extends React.Component {
         <div>
           <div className="row">
             <div className="col-md-2">
-              <JumpNav
-                displayDemographicsLink={this.props.formValues.shouldDisplayDemographicsSection}
-              />
+              <JumpNav />
             </div>
             <div className="col-md-10">
               {loading ? this.renderLoading() : null}
@@ -888,7 +873,6 @@ AccountSettingsPage.propTypes = {
     social_link_twitter: PropTypes.string,
     time_zone: PropTypes.string,
     state: PropTypes.string,
-    shouldDisplayDemographicsSection: PropTypes.bool,
     useVerifiedNameForCerts: PropTypes.bool.isRequired,
     verified_name: PropTypes.string,
   }).isRequired,
