@@ -8,8 +8,6 @@ import isEmpty from 'lodash.isempty';
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { postVerifiedNameConfig } from '../certificate-preference/data/service';
-import { getDemographics, getDemographicsOptions, patchDemographics } from '../demographics/data/service';
-import { DEMOGRAPHICS_FIELDS } from '../demographics/data/utils';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
@@ -154,28 +152,6 @@ export async function getProfileDataManager(username, userRoles) {
   return null;
 }
 
-/**
- * A function to determine if the Demographics questions should be displayed to the user. For the
- * MVP release of Demographics we are limiting the Demographics question visibility only to
- * MicroBachelors learners.
- */
-export async function shouldDisplayDemographicsQuestions() {
-  const requestUrl = `${getConfig().LMS_BASE_URL}/api/demographics/v1/demographics/status/`;
-  let data = {};
-
-  try {
-    ({ data } = await getAuthenticatedHttpClient().get(requestUrl));
-    if (data.display) {
-      return data.display;
-    }
-  } catch (error) {
-    // if there was an error then we just hide the section
-    return false;
-  }
-
-  return false;
-}
-
 export async function getVerifiedName() {
   let data;
   const client = getAuthenticatedHttpClient();
@@ -212,8 +188,8 @@ export async function postVerifiedName(data) {
 }
 
 /**
- * A single function to GET everything considered a setting.
- * Currently encapsulates Account, Preferences, ThirdPartyAuth, and Demographics
+ * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, and
+ * ThirdPartyAuth.
  */
 export async function getSettings(username, userRoles, userId) {
   const [
@@ -222,18 +198,12 @@ export async function getSettings(username, userRoles, userId) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
-    shouldDisplayDemographicsQuestionsResponse,
-    demographics,
-    demographicsOptions,
   ] = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
-    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && shouldDisplayDemographicsQuestions(),
-    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographics(userId),
-    getConfig().ENABLE_DEMOGRAPHICS_COLLECTION && getDemographicsOptions(),
   ]);
 
   return {
@@ -242,9 +212,6 @@ export async function getSettings(username, userRoles, userId) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
-    shouldDisplayDemographicsSection: shouldDisplayDemographicsQuestionsResponse,
-    ...demographics,
-    demographicsOptions,
   };
 }
 
@@ -257,17 +224,13 @@ export async function patchSettings(username, commitValues, userId) {
   // but it is always null and won't update. It also exists in
   // user/v1/preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
-  const demographicsKeys = DEMOGRAPHICS_FIELDS;
   const certificateKeys = ['useVerifiedNameForCerts'];
-  const isDemographicsKey = (value, key) => key.includes('demographics');
   const accountCommitValues = omit(
     commitValues,
     preferenceKeys,
-    demographicsKeys,
     certificateKeys,
   );
   const preferenceCommitValues = pick(commitValues, preferenceKeys);
-  const demographicsCommitValues = pickBy(commitValues, isDemographicsKey);
   const certCommitValues = pick(commitValues, certificateKeys);
   const patchRequests = [];
 
@@ -276,9 +239,6 @@ export async function patchSettings(username, commitValues, userId) {
   }
   if (!isEmpty(preferenceCommitValues)) {
     patchRequests.push(patchPreferences(username, preferenceCommitValues));
-  }
-  if (!isEmpty(demographicsCommitValues)) {
-    patchRequests.push(patchDemographics(userId, demographicsCommitValues));
   }
   if (!isEmpty(certCommitValues)) {
     patchRequests.push(postVerifiedNameConfig(username, certCommitValues));

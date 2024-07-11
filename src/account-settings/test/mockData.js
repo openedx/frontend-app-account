@@ -19,10 +19,7 @@ const mockData = {
         },
       ],
       gender: null,
-
       'pref-lang': 'en',
-      shouldDisplayDemographicsSection: false,
-      demographicsOptions: false,
     },
     errors: {},
     confirmationValues: {},

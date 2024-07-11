@@ -16,9 +16,6 @@ What is the domain of this MFE?
 In this MFE: Private user settings UIs. Public facing profile is in a `separate MFE (Profile) <https://github.com/openedx/frontend-app-profile>`_
 
 - Account settings page
-
-- Demographics collection
-
 - IDV (Identity Verification)
 
 ***************
@@ -99,23 +96,6 @@ Example: ``'false'`` | ``''`` (empty strings are true)
 Enable the account deletion option, defaults to true.
 To disable account deletion set ``ENABLE_ACCOUNT_DELETION`` to ``'false'`` (string), otherwise it will default to true.
 
-edX-specific Environment Variables
-==================================
-
-Furthermore, there are several edX-specific environment variables that enable integrations with closed-source services private to the edX organization, and are unsupported in Open edX.  Enabling these environment variables will result in undefined behavior in Open edX installations:
-
-``ENABLE_DEMOGRAPHICS_COLLECTION``
-
-Example: ``true`` | ``''`` (empty strings are falsy)
-
-Enables support for a section of the account settings page where a user can enter demographics information.  Integrates with a private demographics service and is only used by edx.org.
-
-``DEMOGRAPHICS_BASE_URL``
-
-Example: ``https://demographics.example.com``
-
-Required only if ``ENABLE_DEMOGRAPHICS_COLLECTION`` is true.  The fully-qualified URL to the private demographics service in the target environment.
-
 Example build syntax with a single environment variable:
 
 .. code:: bash
@@ -160,7 +140,6 @@ Development Roadmap
 
 We don't have anything planned for the core of the MFE (the account settings page) - this MFE is currently in maintenance mode.
 There may be a replacement for IDV coming down the pipe, so that may be DEPRed.
-In the future, it's possible that demographics could be modeled as a plugin rather than being hard-coded into this MFE.
 
 License
 =======

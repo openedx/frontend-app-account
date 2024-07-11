@@ -11,7 +11,6 @@ const IntlJumpNav = injectIntl(JumpNav);
 
 describe('JumpNav', () => {
   mergeConfig({
-    ENABLE_DEMOGRAPHICS_COLLECTION: false,
     ENABLE_ACCOUNT_DELETION: true,
   });
 
@@ -30,7 +29,6 @@ describe('JumpNav', () => {
 
     props = {
       intl: {},
-      displayDemographicsLink: false,
     };
     store = configureStore({
       notificationPreferences: {
@@ -58,13 +56,11 @@ describe('JumpNav', () => {
 
   it('should render Optional Information and delete account link', () => {
     setConfig({
-      ENABLE_DEMOGRAPHICS_COLLECTION: true,
       ENABLE_ACCOUNT_DELETION: true,
     });
 
     props = {
       ...props,
-      displayDemographicsLink: true,
     };
 
     const tree = renderer.create((
