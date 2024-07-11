@@ -3,7 +3,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { breakpoints, useWindowSize, Icon } from '@openedx/paragon';
 import { OpenInNew } from '@openedx/paragon/icons';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavHashLink } from 'react-router-hash-link';

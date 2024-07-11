@@ -1,7 +1,6 @@
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import pick from 'lodash.pick';
-import pickBy from 'lodash.pickby';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
@@ -191,7 +190,7 @@ export async function postVerifiedName(data) {
  * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, and
  * ThirdPartyAuth.
  */
-export async function getSettings(username, userRoles, userId) {
+export async function getSettings(username, userRoles) {
   const [
     account,
     preferences,
@@ -219,7 +218,7 @@ export async function getSettings(username, userRoles, userId) {
  * A single function to PATCH everything considered a setting.
  * Currently encapsulates Account, Preferences, ThirdPartyAuth
  */
-export async function patchSettings(username, commitValues, userId) {
+export async function patchSettings(username, commitValues) {
   // Note: time_zone exists in the return value from user/v1/accounts
   // but it is always null and won't update. It also exists in
   // user/v1/preferences where it does update. This is the one we use.
