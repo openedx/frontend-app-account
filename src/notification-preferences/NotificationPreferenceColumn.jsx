@@ -12,10 +12,8 @@ import { useIsOnMobile } from '../hooks';
 import ToggleSwitch from './ToggleSwitch';
 import EmailCadences from './EmailCadences';
 import { LOADING_STATUS } from '../constants';
-import { updateChannelPreferenceToggle, updatePreferenceToggle } from './data/thunks';
-import {
-  selectNonEditablePreferences, selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus,
-} from './data/selectors';
+import { updatePreferenceToggle } from './data/thunks';
+import { selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
@@ -23,22 +21,10 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const intl = useIntl();
   const courseId = useSelector(selectSelectedCourseId());
   const appPreferences = useSelector(selectAppPreferences(appId));
-  const nonEditable = useSelector(selectNonEditablePreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
-
-  const onChannelToggle = useCallback((event) => {
-    const { id: notificationChannel } = event.target;
-    const isPreferenceNonEditable = (preference) => nonEditable?.[preference.id]?.includes(notificationChannel);
-
-    const hasActivePreferences = appPreferences.some(
-      (preference) => preference[notificationChannel] && !isPreferenceNonEditable(preference),
-    );
-
-    dispatch(updateChannelPreferenceToggle(courseId, appId, notificationChannel, !hasActivePreferences));
-  }, [appId, appPreferences, courseId, dispatch, nonEditable]);
 
   const onToggle = useCallback((event, notificationType) => {
     const { name: notificationChannel } = event.target;
@@ -93,7 +79,6 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         id={channel}
         key={channel}
         role="button"
-        onClick={onChannelToggle}
         className={classNames('mb-3 header-label column-padding', {
           'pr-0': channel === NOTIFICATION_CHANNELS[NOTIFICATION_CHANNELS.length - 1],
           'pl-0': channel === 'web',
