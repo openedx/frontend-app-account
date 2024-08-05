@@ -195,6 +195,10 @@ All community members are expected to follow the `Open edX Code of Conduct`_.
 
 .. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
 
+People
+======
+The assigned maintainers for this component and other project details may be found in Backstage or from inspecting catalog-info.yaml.
+
 Reporting Security Issues
 =========================
 
