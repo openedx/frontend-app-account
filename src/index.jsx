@@ -12,6 +12,7 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
 import FooterSlot from '@openedx/frontend-slot-footer';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
@@ -40,7 +41,14 @@ subscribe(APP_READY, () => {
         >
           <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
           <Route path="/notifications" element={<NotificationCourses />} />
-          <Route path="/id-verification/*" element={<IdVerificationPage />} />
+          <Route
+            path="/id-verification/*"
+            element={(
+              <PluginSlot id="id_verification_page_plugin">
+                <IdVerificationPage />
+              </PluginSlot>
+          )}
+          />
           <Route path="/" element={<AccountSettingsPage />} />
           <Route path="/notfound" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
