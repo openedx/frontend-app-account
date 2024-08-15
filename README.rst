@@ -130,6 +130,34 @@ Cloning and Startup
 
     ``npm start``
 
+Local module development
+=========================
+
+To develop locally on modules that are installed into this app, you'll need to create a ``module.config.js``
+file (which is git-ignored) that defines where to find your local modules, for instance:
+
+.. code-block:: js
+
+   module.exports = {
+     /*
+     Modules you want to use from local source code.  Adding a module here means that when this app
+     runs its build, it'll resolve the source from peer directories of this app.
+
+     moduleName: the name you use to import code from the module.
+     dir: The relative path to the module's source code.
+     dist: The sub-directory of the source code where it puts its build artifact.  Often "dist", though you
+       may want to use "src" if the module installs React as a peer/dev dependency.
+     */
+     localModules: [
+        { moduleName: '@openedx/paragon/scss', dir: '../paragon', dist: 'scss' },
+        { moduleName: '@openedx/paragon', dir: '../paragon', dist: 'dist' },
+        { moduleName: '@openedx/frontend-enterprise', dir: '../frontend-enterprise', dist: 'src' },
+        { moduleName: '@openedx/frontend-platform', dir: '../frontend-platform', dist: 'dist' },
+     ],
+   };
+
+See https://github.com/openedx/frontend-build#local-module-configuration-for-webpack for more details.
+
 Known Issues
 ===========
 
