@@ -23,7 +23,7 @@ const messages = defineMessages({
   },
   'account.settings.name.change.id.name.label': {
     id: 'account.settings.name.change.id.name.label',
-    defaultMessage: 'Enter your name as it appears on your unexpired student, work, or government-issued identification card.',
+    defaultMessage: 'Enter your name as it appears on your identification card.',
     description: 'Form label instructing the user to enter the name on their ID.',
   },
   'account.settings.name.change.id.name.placeholder': {

@@ -143,7 +143,7 @@ const messages = defineMessages({
   },
   'account.settings.field.name.verified.verification.alert': {
     id: 'account.settings.field.name.verified.verification.help',
-    defaultMessage: 'Enter your name as it appears on your unexpired student, work, or government-issued identification card.',
+    defaultMessage: 'Enter your name as it appears on your identification card.',
     description: 'Form label instructing the user to enter the name on their ID.',
   },
   'account.settings.field.full.name.help.text.submitted': {
