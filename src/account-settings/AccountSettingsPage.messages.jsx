@@ -141,11 +141,6 @@ const messages = defineMessages({
     defaultMessage: 'Once your proctored exam passes review, this name will appear on your certificate and public-facing records. Verified Name cannot be changed at this time.',
     description: 'Help text for the account settings verified name field when a verified name has been submitted through proctoring and will appear on certificates.',
   },
-  'account.settings.field.name.verified.verification.alert': {
-    id: 'account.settings.field.name.verified.verification.help',
-    defaultMessage: 'Enter your name as it appears on your unexpired student, work, or government-issued identification card.',
-    description: 'Form label instructing the user to enter the name on their ID.',
-  },
   'account.settings.field.full.name.help.text.submitted': {
     id: 'account.settings.field.full.name.help.text.submitted',
     defaultMessage: 'Verification has been submitted. This usually takes 48 hours or less. Full name cannot be changed at this time.',
