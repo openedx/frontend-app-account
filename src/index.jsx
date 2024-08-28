@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
-import { FooterSlot } from '@edx/frontend-component-footer';
+import FooterSlot from '@openedx/frontend-slot-footer';
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
