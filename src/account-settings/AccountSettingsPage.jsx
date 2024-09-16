@@ -162,11 +162,9 @@ class AccountSettingsPage extends React.Component {
       return countryList;
     }
 
-    return countryList.filter(({ value }) => {
-      const isDisabled = this.isDisabledCountry(value);
+    return countryList.filter(({ value, disabled }) => {
       const isUserCountry = value === committedValues.country;
-
-      return !isDisabled || isUserCountry;
+      return !disabled || isUserCountry;
     });
   };
 
