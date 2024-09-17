@@ -120,7 +120,15 @@ class AccountSettingsPage extends React.Component {
     countryOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
-    }].concat(getCountryList(locale).map(({ code, name }) => ({ value: code, label: name }))),
+    }].concat(
+      this.removeDisabledCountries(
+        getCountryList(locale).map(({ code, name }) => ({
+          value: code,
+          label: name,
+          disabled: this.isDisabledCountry(code),
+        })),
+      ),
+    ),
     stateOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.state.options.empty']),
@@ -147,11 +155,28 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  removeDisabledCountries = (countryList) => {
+    const { disabledCountries, committedValues } = this.props;
+
+    if (!disabledCountries.length) {
+      return countryList;
+    }
+
+    return countryList.filter(({ value, disabled }) => {
+      const isUserCountry = value === committedValues.country;
+      return !disabled || isUserCountry;
+    });
+  };
+
   handleEditableFieldChange = (name, value) => {
     this.props.updateDraft(name, value);
   };
 
   handleSubmit = (formId, values) => {
+    if (formId === 'country' && this.isDisabledCountry(values)) {
+      return;
+    }
+
     const { formValues } = this.props;
     let extendedProfileObject = {};
 
@@ -191,6 +216,11 @@ class AccountSettingsPage extends React.Component {
     } else {
       this.props.saveSettings(formId, values);
     }
+  };
+
+  isDisabledCountry = (country) => {
+    const { disabledCountries } = this.props;
+    return disabledCountries.includes(country);
   };
 
   isEditable(fieldName) {
@@ -476,7 +506,8 @@ class AccountSettingsPage extends React.Component {
     } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
-    const showState = this.props.formValues.country === COUNTRY_WITH_STATES;
+    const { country } = this.props.formValues;
+    const showState = country === COUNTRY_WITH_STATES && !this.isDisabledCountry(country);
     const { verifiedName } = this.props;
 
     const hasWorkExperience = !!this.props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
@@ -880,6 +911,7 @@ AccountSettingsPage.propTypes = {
     name: PropTypes.string,
     useVerifiedNameForCerts: PropTypes.bool,
     verified_name: PropTypes.string,
+    country: PropTypes.string,
   }),
   drafts: PropTypes.shape({}),
   formErrors: PropTypes.shape({
@@ -938,6 +970,7 @@ AccountSettingsPage.propTypes = {
   ),
   navigate: PropTypes.func.isRequired,
   location: PropTypes.string.isRequired,
+  disabledCountries: PropTypes.arrayOf(PropTypes.string),
 };
 
 AccountSettingsPage.defaultProps = {
@@ -947,6 +980,7 @@ AccountSettingsPage.defaultProps = {
   committedValues: {
     useVerifiedNameForCerts: false,
     verified_name: null,
+    country: '',
   },
   drafts: {},
   formErrors: {},
@@ -963,6 +997,7 @@ AccountSettingsPage.defaultProps = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
+  disabledCountries: [],
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
