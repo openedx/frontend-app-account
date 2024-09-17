@@ -39,6 +39,7 @@ export const defaultState = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: {},
+  disabledCountries: ['RU'],
 };
 
 const reducer = (state = defaultState, action = {}) => {
