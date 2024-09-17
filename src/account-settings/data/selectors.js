@@ -206,6 +206,11 @@ const activeAccountSelector = createSelector(
   accountSettings => accountSettings.values.is_active,
 );
 
+const disabledCountriesSelector = createSelector(
+  accountSettingsSelector,
+  accountSettings => accountSettings.disabledCountries,
+);
+
 export const siteLanguageSelector = createSelector(
   previousSiteLanguageSelector,
   draftsSelector,
@@ -237,6 +242,7 @@ export const accountSettingsPageSelector = createSelector(
   mostRecentApprovedVerifiedNameValueSelector,
   mostRecentVerifiedNameSelector,
   sortedVerifiedNameHistorySelector,
+  disabledCountriesSelector,
   (
     accountSettings,
     siteLanguageOptions,
@@ -254,6 +260,7 @@ export const accountSettingsPageSelector = createSelector(
     verifiedName,
     mostRecentVerifiedName,
     verifiedNameHistory,
+    disabledCountries,
   ) => ({
     siteLanguageOptions,
     siteLanguage,
@@ -274,6 +281,7 @@ export const accountSettingsPageSelector = createSelector(
     verifiedName,
     mostRecentVerifiedName,
     verifiedNameHistory,
+    disabledCountries,
   }),
 );
 
