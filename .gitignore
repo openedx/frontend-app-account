@@ -18,3 +18,5 @@ temp/babel-plugin-react-intl
 /.vscode
 /module.config.js
 src/i18n/messages/
+
+env.config.jsx
