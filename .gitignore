@@ -19,4 +19,4 @@ temp/babel-plugin-react-intl
 /module.config.js
 src/i18n/messages/
 
-env.config.jsx
+env.config.js
