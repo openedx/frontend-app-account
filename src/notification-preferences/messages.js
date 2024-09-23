@@ -28,6 +28,7 @@ const messages = defineMessages({
       contentReported {Reported content}
       courseUpdates {Course updates}
       oraStaffNotification {ORA new submissions}
+      oraGradeAssigned {ORA grade received}
       other {{text}}
     }`,
     description: 'Display text for Notification Types',
