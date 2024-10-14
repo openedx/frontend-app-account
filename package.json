@@ -42,7 +42,7 @@
     "@openedx/paragon": "22.0.0",
     "@tensorflow-models/blazeface": "0.0.7",
     "@tensorflow/tfjs-converter": "3.21.0",
-    "@tensorflow/tfjs-core": "3.21.0",
+    "@tensorflow/tfjs-core": "4.21.0",
     "bowser": "2.11.0",
     "classnames": "2.5.1",
     "core-js": "3.38.1",
