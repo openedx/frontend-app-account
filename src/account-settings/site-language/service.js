@@ -27,7 +27,7 @@ export async function postSetLang(code) {
     headers: {
       Accept: 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
-    }
+    },
   };
   const url = `${getConfig().LMS_BASE_URL}/i18n/setlang/`;
   formData.append('language', code);
