@@ -16,8 +16,9 @@ export async function getThirdPartyAuthProviders() {
 }
 
 export async function postDisconnectAuth(url) {
+  const requestConfig = { headers: { Accept: 'application/json' } };
   const { data } = await getAuthenticatedHttpClient()
-    .post(url)
+    .post(url, {}, requestConfig)
     .catch(handleRequestError);
   return data;
 }
