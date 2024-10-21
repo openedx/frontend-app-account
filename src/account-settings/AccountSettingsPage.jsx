@@ -14,7 +14,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
 import {
-  Button, Hyperlink, Icon, Alert,
+  Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
@@ -311,19 +311,9 @@ class AccountSettingsPage extends React.Component {
         header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.header'])}
         body={
           (
-            <>
-              <div className="d-flex flex-row">
-                {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
-              </div>
-              <div className="d-flex flex-row-reverse mt-3">
-                <Button
-                  variant="primary"
-                  href="https://support.edx.org/hc/en-us/articles/360004381594-Why-was-my-ID-verification-denied"
-                >
-                  {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.help.link'])}
-                </Button>{' '}
-              </div>
-            </>
+            <div className="d-flex flex-row">
+              {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
+            </div>
           )
         }
       />
