@@ -41,7 +41,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
       />
       <div
         aria-label="Are you sure?"
-        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__modal-visible-overflow pgn__alert-modal"
         role="dialog"
       >
         <div
@@ -242,7 +242,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
       />
       <div
         aria-label="Are you sure?"
-        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__modal-visible-overflow pgn__alert-modal"
         role="dialog"
       >
         <div
