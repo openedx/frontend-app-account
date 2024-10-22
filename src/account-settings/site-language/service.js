@@ -23,10 +23,15 @@ export async function patchPreferences(username, params) {
 
 export async function postSetLang(code) {
   const formData = new FormData();
+  const requestConfig = {
+    headers: {
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  };
+  const url = `${getConfig().LMS_BASE_URL}/i18n/setlang/`;
   formData.append('language', code);
 
   await getAuthenticatedHttpClient()
-    .post(`${getConfig().LMS_BASE_URL}/i18n/setlang/`, formData, {
-      headers: { 'X-Requested-With': 'XMLHttpRequest' },
-    });
+    .post(url, formData, requestConfig);
 }
