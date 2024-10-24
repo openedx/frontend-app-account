@@ -13,12 +13,11 @@ jobs:
         - i18n_extract
         - lint
         - test
-        node: [18, 20]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node }}
+        node-version-file: '.nvmrc'
     - run: make requirements
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
