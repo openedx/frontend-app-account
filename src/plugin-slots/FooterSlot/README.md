@@ -18,7 +18,7 @@ with a simple custom footer
 
 ![Screenshot of Custom Footer](./images/custom_footer.png)
 
-```js
+```jsx
 import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-framework';
 
 const config = {
