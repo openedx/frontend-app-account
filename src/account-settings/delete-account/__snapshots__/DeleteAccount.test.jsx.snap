@@ -27,7 +27,7 @@ exports[`DeleteAccount should match default section snapshot 1`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings"
+      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       onClick={[Function]}
       target="_self"
     >
@@ -74,7 +74,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings"
+      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       onClick={[Function]}
       target="_self"
     >
@@ -117,7 +117,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
       Before proceeding, please 
       <a
         className="pgn__hyperlink default-link standalone-link"
-        href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email-"
+        href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
         onClick={[Function]}
         target="_self"
       >
@@ -156,7 +156,7 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://support.edx.org/hc/en-us/sections/115004139268-Manage-Your-Account-Settings"
+      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       onClick={[Function]}
       target="_self"
     >
@@ -199,7 +199,7 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
       Before proceeding, please 
       <a
         className="pgn__hyperlink default-link standalone-link"
-        href="https://support.edx.org/hc/en-us/articles/207206067"
+        href="https://help.edx.org/edxlearner/s/article/How-do-I-link-or-unlink-my-edX-account-to-a-social-media-account"
         onClick={[Function]}
         target="_self"
       >
