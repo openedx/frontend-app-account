@@ -10,13 +10,13 @@ export const defaultState = {
   showPreferences: false,
   courses: {
     status: IDLE_STATUS,
-    courses: [],
+    courses: [{ id: 'account', name: 'Account' }],
     pagination: {},
   },
   preferences: {
     status: IDLE_STATUS,
     updatePreferenceStatus: IDLE_STATUS,
-    selectedCourse: null,
+    selectedCourse: 'account',
     preferences: [],
     apps: [],
     nonEditable: {},
