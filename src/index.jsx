@@ -20,8 +20,6 @@ import messages from './i18n';
 
 import './index.scss';
 import Head from './head/Head';
-import NotificationCourses from './notification-preferences/NotificationCourses';
-import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -38,8 +36,6 @@ subscribe(APP_READY, () => {
           </div>
         )}
         >
-          <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
-          <Route path="/notifications" element={<NotificationCourses />} />
           <Route
             path="/id-verification/*"
             element={<IdVerificationPageSlot />}

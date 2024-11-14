@@ -100,6 +100,12 @@ export const fetchCourseNotificationPreferences = (courseId) => (
   }
 );
 
+export const setSelectedCourse = courseId => (
+  async (dispatch) => {
+    dispatch(updateSelectedCourse(courseId));
+  }
+);
+
 export const updatePreferenceToggle = (
   courseId,
   notificationApp,
