@@ -98,7 +98,7 @@ const mockData = {
     preferences: {
       status: 'idle',
       updatePreferenceStatus: 'idle',
-      selectedCourse: null,
+      selectedCourse: 'account',
       preferences: [],
       apps: [],
       nonEditable: {},

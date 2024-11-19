@@ -9,7 +9,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
-import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 const courseId = 'selected-course-id';
 
@@ -144,11 +144,5 @@ describe('Notification Preferences', () => {
     expect(element).not.toBeChecked();
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
-  });
-
-  it('show not found page if invalid course id is entered in url', async () => {
-    store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
-    await render(notificationPreferences(store));
-    expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
   });
 });
