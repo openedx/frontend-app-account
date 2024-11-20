@@ -5,18 +5,19 @@ import {
   SUCCESS_STATUS,
   FAILURE_STATUS,
 } from '../../constants';
+import { normalizeAccountPreferences } from './thunks';
 
 export const defaultState = {
   showPreferences: false,
   courses: {
     status: IDLE_STATUS,
-    courses: [{ id: 'account', name: 'Account' }],
+    courses: [{ id: '', name: 'Account' }],
     pagination: {},
   },
   preferences: {
     status: IDLE_STATUS,
     updatePreferenceStatus: IDLE_STATUS,
-    selectedCourse: 'account',
+    selectedCourse: '',
     preferences: [],
     apps: [],
     nonEditable: {},
@@ -66,15 +67,22 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
         },
       };
     case Actions.FETCHED_PREFERENCES:
+    {
+      const { preferences } = state;
+      if (action.isAccountPreference) {
+        normalizeAccountPreferences(preferences, action.payload);
+      }
+
       return {
         ...state,
         preferences: {
-          ...state.preferences,
+          ...preferences,
           status: SUCCESS_STATUS,
           updatePreferenceStatus: SUCCESS_STATUS,
           ...action.payload,
         },
       };
+    }
     case Actions.FAILED_PREFERENCES:
       return {
         ...state,
