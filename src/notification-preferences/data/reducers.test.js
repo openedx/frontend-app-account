@@ -44,7 +44,7 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.courses).toEqual({
       status: SUCCESS_STATUS,
-      courses: [{ id: 'account', name: 'Account' }],
+      courses: [{ id: '', name: 'Account' }],
       pagination: data.pagination,
     });
   });
@@ -60,7 +60,7 @@ describe('notification-preferences reducer', () => {
     expect(result.courses).toEqual({
       status,
       courses: [{
-        id: 'account',
+        id: '',
         name: 'Account',
       }],
       pagination: {},
@@ -83,7 +83,7 @@ describe('notification-preferences reducer', () => {
     expect(result.preferences).toEqual({
       status: SUCCESS_STATUS,
       updatePreferenceStatus: SUCCESS_STATUS,
-      selectedCourse: 'account',
+      selectedCourse: '',
       ...preferenceData,
     });
   });
@@ -98,7 +98,7 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.preferences).toEqual({
       status,
-      selectedCourse: 'account',
+      selectedCourse: '',
       preferences: [],
       apps: [],
       nonEditable: {},
