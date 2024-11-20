@@ -43,7 +43,7 @@ const NotificationSettings = () => {
           </Hyperlink>
         </div>
         <NotificationCoursesDropdown />
-        {courseId && <NotificationPreferences courseId={courseId} />}
+        <NotificationPreferences courseId={courseId} />
       </Container>
     )
   );

@@ -1,4 +1,5 @@
 import { camelCaseObject } from '@edx/frontend-platform';
+import camelCase from 'lodash.camelcase';
 import EMAIL_CADENCE from './constants';
 import {
   fetchCourseListSuccess,
@@ -14,6 +15,7 @@ import {
   getCourseList,
   getCourseNotificationPreferences,
   patchPreferenceToggle,
+  postPreferenceToggle,
 } from './service';
 
 const normalizeCourses = (responseData) => {
@@ -36,8 +38,29 @@ const normalizeCourses = (responseData) => {
   };
 };
 
-const normalizePreferences = (responseData) => {
-  const preferences = responseData.notificationPreferenceConfig;
+export const normalizeAccountPreferences = (originalData, updateInfo) => {
+  const {
+    app, notificationType, channel, updatedValue,
+  } = updateInfo.data;
+
+  const preferenceToUpdate = originalData.preferences.find(
+    (preference) => preference.appId === app && preference.id === camelCase(notificationType),
+  );
+
+  if (preferenceToUpdate) {
+    preferenceToUpdate[channel] = updatedValue;
+  }
+
+  return originalData;
+};
+
+const normalizePreferences = (responseData, courseId) => {
+  let preferences;
+  if (courseId) {
+    preferences = responseData.notificationPreferenceConfig;
+  } else {
+    preferences = responseData.data;
+  }
 
   const appKeys = Object.keys(preferences);
   const apps = appKeys.map((appId) => ({
@@ -92,7 +115,7 @@ export const fetchCourseNotificationPreferences = (courseId) => (
       dispatch(updateSelectedCourse(courseId));
       dispatch(fetchNotificationPreferenceFetching());
       const data = await getCourseNotificationPreferences(courseId);
-      const normalizedData = normalizePreferences(camelCaseObject(data));
+      const normalizedData = normalizePreferences(camelCaseObject(data), courseId);
       dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
     } catch (errors) {
       dispatch(fetchNotificationPreferenceFailed());
@@ -121,15 +144,26 @@ export const updatePreferenceToggle = (
         notificationChannel,
         !value,
       ));
-      const data = await patchPreferenceToggle(
-        courseId,
-        notificationApp,
-        notificationType,
-        notificationChannel,
-        value,
-      );
-      const normalizedData = normalizePreferences(camelCaseObject(data));
-      dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
+      let data = null;
+      if (courseId) {
+        data = await patchPreferenceToggle(
+          courseId,
+          notificationApp,
+          notificationType,
+          notificationChannel,
+          value,
+        );
+        const normalizedData = normalizePreferences(camelCaseObject(data), courseId);
+        dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
+      } else {
+        data = await postPreferenceToggle(
+          notificationApp,
+          notificationType,
+          notificationChannel,
+          value,
+        );
+        dispatch(fetchNotificationPreferenceSuccess(courseId, camelCaseObject(data), true));
+      }
     } catch (errors) {
       dispatch(updatePreferenceValue(
         notificationApp,
