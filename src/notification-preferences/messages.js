@@ -115,6 +115,11 @@ const messages = defineMessages({
     defaultMessage: 'Applies to all courses',
     description: 'Dropdown applies to all courses',
   },
+  notificationCourseDropdownApplies: {
+    id: 'notification.dropdown.course.applies',
+    defaultMessage: 'Overrides account-wide settings',
+    description: 'Dropdown applies to specific course',
+  },
 });
 
 export default messages;
