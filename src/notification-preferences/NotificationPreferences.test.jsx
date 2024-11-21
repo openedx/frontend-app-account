@@ -77,6 +77,7 @@ const setupStore = (override = {}) => {
   storeState.courses = {
     status: SUCCESS_STATUS,
     courses: [
+      { id: '', name: 'Account' },
       { id: 'selected-course-id', name: 'Selected Course' },
     ],
   };
@@ -142,6 +143,18 @@ describe('Notification Preferences', () => {
     const wrapper = await render(notificationPreferences(store));
     const element = wrapper.container.querySelector('#core-web');
     expect(element).not.toBeChecked();
+    await fireEvent.click(element);
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+
+  it('update account preference on click', async () => {
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+    const element = screen.getByTestId('core-web');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
   });

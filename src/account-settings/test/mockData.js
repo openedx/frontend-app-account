@@ -84,7 +84,7 @@ const mockData = {
     profileDataManager: null,
   },
   notificationPreferences: {
-    showPreferences: false,
+    showPreferences: true,
     courses: {
       status: 'success',
       courses: [],
