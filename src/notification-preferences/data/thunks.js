@@ -48,7 +48,7 @@ export const normalizeAccountPreferences = (originalData, updateInfo) => {
   );
 
   if (preferenceToUpdate) {
-    preferenceToUpdate[channel] = updatedValue;
+    preferenceToUpdate[camelCase(channel)] = updatedValue;
   }
 
   return originalData;
@@ -135,6 +135,7 @@ export const updatePreferenceToggle = (
   notificationType,
   notificationChannel,
   value,
+  emailCadence,
 ) => (
   async (dispatch) => {
     try {
@@ -161,6 +162,7 @@ export const updatePreferenceToggle = (
           notificationType,
           notificationChannel,
           value,
+          emailCadence,
         );
         dispatch(fetchNotificationPreferenceSuccess(courseId, camelCaseObject(data), true));
       }
