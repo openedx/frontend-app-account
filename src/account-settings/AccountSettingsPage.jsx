@@ -880,12 +880,15 @@ AccountSettingsPage.propTypes = {
     name: PropTypes.string,
     email: PropTypes.string,
     secondary_email: PropTypes.string,
-    secondary_email_enabled: PropTypes.bool,
+    secondary_email_enabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     country: PropTypes.string,
     level_of_education: PropTypes.string,
     gender: PropTypes.string,
-    extended_profile: PropTypes.string,
+    extended_profile: PropTypes.arrayOf(PropTypes.shape({
+      field_name: PropTypes.string,
+      field_value: PropTypes.string,
+    })),
     language_proficiencies: PropTypes.string,
     pending_name_change: PropTypes.string,
     phone_number: PropTypes.string,
@@ -938,9 +941,12 @@ AccountSettingsPage.propTypes = {
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
-  nameChangeModal: PropTypes.shape({
-    formId: PropTypes.string,
-  }),
+  nameChangeModal: PropTypes.oneOfType([
+    PropTypes.shape({
+      formId: PropTypes.string,
+    }),
+    PropTypes.bool,
+  ]),
   verifiedName: PropTypes.shape({
     verified_name: PropTypes.string,
     status: PropTypes.string,
@@ -983,7 +989,7 @@ AccountSettingsPage.defaultProps = {
   tpaProviders: [],
   isActive: true,
   secondary_email_enabled: false,
-  nameChangeModal: {},
+  nameChangeModal: {} || false,
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
