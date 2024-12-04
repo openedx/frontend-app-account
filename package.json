@@ -39,7 +39,7 @@
     "@fortawesome/react-fontawesome": "0.2.2",
     "@openedx/frontend-plugin-framework": "^1.2.2",
     "@openedx/frontend-slot-footer": "^1.0.2",
-    "@openedx/paragon": "22.9.0",
+    "@openedx/paragon": "^22.10.0",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs-converter": "4.22.0",
     "@tensorflow/tfjs-core": "4.22.0",
@@ -88,9 +88,9 @@
     "@openedx/frontend-build": "14.1.5",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "12.1.5",
+    "babel-plugin-react-intl": "8.2.25",
     "react-test-renderer": "17.0.2",
     "reactifex": "1.1.1",
-    "redux-mock-store": "1.5.5",
-    "babel-plugin-react-intl": "8.2.25"
+    "redux-mock-store": "1.5.5"
   }
 }
