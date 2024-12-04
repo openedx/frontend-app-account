@@ -90,6 +90,36 @@ const messages = defineMessages({
     defaultMessage: 'Notifications for certain activities are enabled by default,',
     description: 'Body of the notification preferences for learner guide',
   },
+  accountNotificationDescription: {
+    id: 'account.notification.description',
+    defaultMessage: 'Account-level settings apply to all courses. Notifications for individual courses can be changed within each course and will override account-level settings.',
+    description: 'Account notification description',
+  },
+  notificationCadenceDescription: {
+    id: 'notification.cadence.description',
+    defaultMessage: 'Daily notifications are delivered at {dailyTime}. Weekly notifications are delivered at {weeklyTime}.',
+    description: 'Notification cadence description',
+  },
+  notificationDefaultInfo: {
+    id: 'notification.default.info',
+    defaultMessage: 'Notifications for certain activities are enabled by default, as detailed here',
+    description: 'Default notification info',
+  },
+  notificationDropdownlabel: {
+    id: 'notification.dropdown.label',
+    defaultMessage: 'Select notifications for',
+    description: 'Dropdown label',
+  },
+  notificationDropdownApplies: {
+    id: 'notification.dropdown.applies',
+    defaultMessage: 'Applies to all courses',
+    description: 'Dropdown applies to all courses',
+  },
+  notificationCourseDropdownApplies: {
+    id: 'notification.dropdown.course.applies',
+    defaultMessage: 'Overrides account-wide settings',
+    description: 'Dropdown applies to specific course',
+  },
 });
 
 export default messages;
