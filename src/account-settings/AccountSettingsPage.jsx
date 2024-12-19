@@ -155,6 +155,11 @@ class AccountSettingsPage extends React.Component {
     })),
   }));
 
+  canDeleteAccount = () => {
+    const { committedValues } = this.props;
+    return !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
+  };
+
   removeDisabledCountries = (countryList) => {
     const { disabledCountries, committedValues } = this.props;
 
@@ -806,16 +811,20 @@ class AccountSettingsPage extends React.Component {
           <ThirdPartyAuth />
         </div>
 
-        {getConfig().ENABLE_ACCOUNT_DELETION
-          && (
+        {getConfig().ENABLE_ACCOUNT_DELETION && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
-            <DeleteAccount
-              isVerifiedAccount={this.props.isActive}
-              hasLinkedTPA={hasLinkedTPA}
-            />
+            {
+              this.canDeleteAccount()
+                ? (
+                  <DeleteAccount
+                    isVerifiedAccount={this.props.isActive}
+                    hasLinkedTPA={hasLinkedTPA}
+                  />
+                )
+                : this.props.intl.formatMessage(messages['account.settings.cannot.delete.account.text'])
+            }
           </div>
-          )}
-
+        )}
       </>
     );
   }
