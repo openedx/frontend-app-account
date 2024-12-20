@@ -813,16 +813,11 @@ class AccountSettingsPage extends React.Component {
 
         {getConfig().ENABLE_ACCOUNT_DELETION && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
-            {
-              this.canDeleteAccount()
-                ? (
-                  <DeleteAccount
-                    isVerifiedAccount={this.props.isActive}
-                    hasLinkedTPA={hasLinkedTPA}
-                  />
-                )
-                : this.props.intl.formatMessage(messages['account.settings.cannot.delete.account.text'])
-            }
+            <DeleteAccount
+              isVerifiedAccount={this.props.isActive}
+              hasLinkedTPA={hasLinkedTPA}
+              canDeleteAccount={this.canDeleteAccount()}
+            />
           </div>
         )}
       </>
