@@ -1,6 +1,11 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
+  'account.settings.cannot.delete.account.text': {
+    id: 'account.settings.cannot.delete.account.text',
+    defaultMessage: 'Please note that, for legal and regulatory compliance purposes, account deletion is currently unavailable.',
+    description: 'This text is visible when user is not allowed to delete account',
+  },
   'account.settings.delete.account.header': {
     id: 'account.settings.delete.account.header',
     defaultMessage: 'Delete My Account',
