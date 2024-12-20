@@ -1,11 +1,6 @@
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 const messages = defineMessages({
-  'account.settings.cannot.delete.account.text': {
-    id: 'account.settings.cannot.delete.account.text',
-    defaultMessage: 'Please contact support to delete your account.',
-    description: 'This text is visible when useris not allowed to delete account',
-  },
   'account.settings.page.heading': {
     id: 'account.settings.page.heading',
     defaultMessage: 'Account Settings',
