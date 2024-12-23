@@ -71,6 +71,16 @@ describe('AccountSettingsPage', () => {
 
   afterEach(() => jest.clearAllMocks());
 
+  beforeAll(() => {
+    global.lightningjs = {
+      require: jest.fn().mockImplementation((module, url) => ({ moduleName: module, url })),
+    };
+  });
+
+  afterAll(() => {
+    delete global.lightningjs;
+  });
+
   it('renders AccountSettingsPage correctly with editing enabled', async () => {
     const { getByText, rerender, getByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
 

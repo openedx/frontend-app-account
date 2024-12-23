@@ -9,7 +9,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
-import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 const courseId = 'selected-course-id';
 
@@ -77,6 +77,7 @@ const setupStore = (override = {}) => {
   storeState.courses = {
     status: SUCCESS_STATUS,
     courses: [
+      { id: '', name: 'Account' },
       { id: 'selected-course-id', name: 'Selected Course' },
     ],
   };
@@ -146,9 +147,15 @@ describe('Notification Preferences', () => {
     expect(mockDispatch).toHaveBeenCalled();
   });
 
-  it('show not found page if invalid course id is entered in url', async () => {
-    store = setupStore({ status: FAILURE_STATUS, selectedCourse: 'invalid-course-id' });
+  it('update account preference on click', async () => {
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
     await render(notificationPreferences(store));
-    expect(screen.queryByTestId('not-found-page')).toBeInTheDocument();
+    const element = screen.getByTestId('core-web');
+    await fireEvent.click(element);
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });
