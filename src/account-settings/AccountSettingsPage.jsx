@@ -766,7 +766,7 @@ class AccountSettingsPage extends React.Component {
         </div>
         <div className="border border-light-700 my-6" />
         <NotificationSettings />
-        <div className="border border-light-700 my-6" />
+        {this.props.showPreferences && <div className="border border-light-700 my-6" />}
         <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
@@ -970,6 +970,7 @@ AccountSettingsPage.propTypes = {
   navigate: PropTypes.func.isRequired,
   location: PropTypes.string.isRequired,
   disabledCountries: PropTypes.arrayOf(PropTypes.string),
+  showPreferences: PropTypes.bool,
 };
 
 AccountSettingsPage.defaultProps = {
@@ -997,6 +998,7 @@ AccountSettingsPage.defaultProps = {
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
   disabledCountries: [],
+  showPreferences: false,
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
