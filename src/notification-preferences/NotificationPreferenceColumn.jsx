@@ -38,7 +38,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       notificationType,
       notificationChannel,
       value,
-      emailCadence,
+      emailCadence !== 'Mixed' ? emailCadence : undefined,
     ));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId, appPreferences]);
