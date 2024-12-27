@@ -28,7 +28,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
 
   const onToggle = useCallback((event, notificationType) => {
     const { name: notificationChannel } = event.target;
-    const appNotificationPreference = appPreferences.find(x => x.id === notificationType);
+    const appNotificationPreference = appPreferences.find(preference => preference.id === notificationType);
     const value = notificationChannel === 'email_cadence' && courseId ? event.target.innerText : event.target.checked;
     const emailCadence = notificationChannel === 'email_cadence' ? event.target.innerText : appNotificationPreference.emailCadence;
 

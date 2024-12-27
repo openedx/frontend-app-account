@@ -44,6 +44,7 @@ const NotificationSettings = () => {
         </div>
         <NotificationCoursesDropdown />
         <NotificationPreferences courseId={courseId} />
+        <div className="border border-light-700 my-6" />
       </Container>
     )
   );
