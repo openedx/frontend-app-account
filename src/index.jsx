@@ -20,37 +20,34 @@ import messages from './i18n';
 
 import './index.scss';
 import Head from './head/Head';
-import NotificationCourses from './notification-preferences/NotificationCourses';
-import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 subscribe(APP_READY, () => {
-  ReactDOM.render(
-    <AppProvider store={configureStore()}>
-      <Head />
-      <Routes>
-        <Route element={(
-          <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-            <Header />
-            <main className="flex-grow-1" id="main">
-              <Outlet />
-            </main>
-            <FooterSlot />
-          </div>
+  rootNode.render(
+    <StrictMode>
+      <AppProvider store={configureStore()}>
+        <Head />
+        <Routes>
+          <Route element={(
+            <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+              <Header />
+              <main className="flex-grow-1" id="main">
+                <Outlet />
+              </main>
+              <FooterSlot />
+            </div>
         )}
-        >
-          <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
-          <Route path="/notifications" element={<NotificationCourses />} />
-          <Route
-            path="/id-verification/*"
-            element={<IdVerificationPageSlot />}
-          />
-          <Route path="/" element={<AccountSettingsPage />} />
-          <Route path="/notfound" element={<NotFoundPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </AppProvider>,
-    document.getElementById('root'),
+          >
+            <Route
+              path="/id-verification/*"
+              element={<IdVerificationPageSlot />}
+            />
+            <Route path="/" element={<AccountSettingsPage />} />
+            <Route path="/notfound" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </AppProvider>
+    </StrictMode>,
   );
 });
 

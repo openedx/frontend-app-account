@@ -50,6 +50,7 @@ import {
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
+import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
 
 class AccountSettingsPage extends React.Component {
@@ -732,7 +733,7 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        <div className="account-section pt-3 mb-5" id="social-media">
+        <div className="account-section pt-3" id="social-media">
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
@@ -768,8 +769,9 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-
-        <div className="account-section pt-3 mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
+        <div className="border border-light-700 my-6" />
+        <NotificationSettings />
+        <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>

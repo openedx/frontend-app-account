@@ -84,7 +84,7 @@ const mockData = {
     profileDataManager: null,
   },
   notificationPreferences: {
-    showPreferences: false,
+    showPreferences: true,
     courses: {
       status: 'success',
       courses: [],
@@ -98,7 +98,7 @@ const mockData = {
     preferences: {
       status: 'idle',
       updatePreferenceStatus: 'idle',
-      selectedCourse: null,
+      selectedCourse: 'account',
       preferences: [],
       apps: [],
       nonEditable: {},

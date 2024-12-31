@@ -1,35 +1,26 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { ArrowBack } from '@openedx/paragon/icons';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import {
-  Container, Hyperlink, Icon, Spinner, NavItem,
-} from '@openedx/paragon';
+import { Spinner, NavItem } from '@openedx/paragon';
 
 import { useIsOnMobile } from '../hooks';
 import messages from './messages';
-import { NotFoundPage } from '../account-settings';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
-import { fetchCourseList, fetchCourseNotificationPreferences } from './data/thunks';
+import { fetchCourseNotificationPreferences } from './data/thunks';
+import { LOADING_STATUS } from '../constants';
 import {
-  FAILURE_STATUS, IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS,
-} from '../constants';
-import {
-  selectCourse, selectCourseList, selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId,
+  selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId, selectSelectedCourseId,
 } from './data/selectors';
 import { notificationChannels } from './data/utils';
 
 const NotificationPreferences = () => {
-  const { courseId } = useParams();
   const dispatch = useDispatch();
   const intl = useIntl();
   const courseStatus = useSelector(selectCourseListStatus());
-  const coursesList = useSelector(selectCourseList());
-  const course = useSelector(selectCourse(courseId));
+  const courseId = useSelector(selectSelectedCourseId());
   const notificationStatus = useSelector(selectNotificationPreferencesStatus());
   const preferenceAppsIds = useSelector(selectPreferenceAppsId());
   const mobileView = useIsOnMobile();
@@ -43,21 +34,15 @@ const NotificationPreferences = () => {
   ), [preferenceAppsIds]);
 
   useEffect(() => {
-    if ([IDLE_STATUS, FAILURE_STATUS].includes(courseStatus)) {
-      dispatch(fetchCourseList());
-    }
     dispatch(fetchCourseNotificationPreferences(courseId));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseId]);
+  }, [courseId, dispatch]);
 
-  if (
-    (courseStatus === SUCCESS_STATUS && coursesList.length === 0)
-    || (notificationStatus === FAILURE_STATUS && coursesList.length !== 0)
-  ) {
-    return <NotFoundPage />;
+  if (preferenceAppsIds.length === 0) {
+    return null;
   }
 
   return (
+<<<<<<< HEAD
     <Container size="sm" className="notification-preferences">
       <h2 className="notification-heading mt-6 mb-4.5">
         {intl.formatMessage(messages.notificationHeading)}
@@ -83,6 +68,10 @@ const NotificationPreferences = () => {
           </span>
         </div>
         {!mobileView && !isLoading && (
+=======
+    <div className="h-100">
+      {!mobileView && !isLoading && (
+>>>>>>> 8b96e67 (feat: added notification preferences settings at account level (#1159))
         <div className="d-flex flex-row justify-content-between float-right">
           <div className="d-flex">
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
@@ -103,21 +92,20 @@ const NotificationPreferences = () => {
             ))}
           </div>
         </div>
-        )}
-        {preferencesList}
-        {isLoading && (
-          <div className="d-flex">
-            <Spinner
-              variant="primary"
-              animation="border"
-              className="mx-auto my-auto"
-              size="lg"
-              data-testid="loading-spinner"
-            />
-          </div>
-        )}
-      </div>
-    </Container>
+      )}
+      {preferencesList}
+      {isLoading && (
+        <div className="d-flex">
+          <Spinner
+            variant="primary"
+            animation="border"
+            className="mx-auto my-auto"
+            size="lg"
+            data-testid="loading-spinner"
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

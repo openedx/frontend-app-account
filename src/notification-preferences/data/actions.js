@@ -10,8 +10,10 @@ export const Actions = {
   UPDATE_APP_PREFERENCE: 'updateAppValue',
 };
 
-export const fetchNotificationPreferenceSuccess = (courseId, payload) => dispatch => (
-  dispatch({ type: Actions.FETCHED_PREFERENCES, courseId, payload })
+export const fetchNotificationPreferenceSuccess = (courseId, payload, isAccountPreference) => dispatch => (
+  dispatch({
+    type: Actions.FETCHED_PREFERENCES, courseId, payload, isAccountPreference,
+  })
 );
 
 export const fetchNotificationPreferenceFetching = () => dispatch => (
