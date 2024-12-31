@@ -32,3 +32,22 @@ export const patchPreferenceToggle = async (
   const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
   return data;
 };
+
+export const postPreferenceToggle = async (
+  notificationApp,
+  notificationType,
+  notificationChannel,
+  value,
+  emailCadence,
+) => {
+  const patchData = snakeCaseObject({
+    notificationApp,
+    notificationType: snakeCase(notificationType),
+    notificationChannel,
+    value,
+    emailCadence,
+  });
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/preferences/update-all/`;
+  const { data } = await getAuthenticatedHttpClient().post(url, patchData);
+  return data;
+};

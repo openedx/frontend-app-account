@@ -36,9 +36,7 @@ describe('notification-preferences reducer', () => {
         hasMore: false,
         totalPages: 1,
       },
-      courseList: [
-        { id: selectedCourseId, name: 'Selected Course' },
-      ],
+      courseList: [],
     };
     const result = reducer(
       state,
@@ -46,7 +44,7 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.courses).toEqual({
       status: SUCCESS_STATUS,
-      courses: data.courseList,
+      courses: [{ id: '', name: 'Account' }],
       pagination: data.pagination,
     });
   });
@@ -61,7 +59,10 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.courses).toEqual({
       status,
-      courses: [],
+      courses: [{
+        id: '',
+        name: 'Account',
+      }],
       pagination: {},
     });
   });
@@ -82,7 +83,7 @@ describe('notification-preferences reducer', () => {
     expect(result.preferences).toEqual({
       status: SUCCESS_STATUS,
       updatePreferenceStatus: SUCCESS_STATUS,
-      selectedCourse: null,
+      selectedCourse: '',
       ...preferenceData,
     });
   });
@@ -97,7 +98,7 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.preferences).toEqual({
       status,
-      selectedCourse: null,
+      selectedCourse: '',
       preferences: [],
       apps: [],
       nonEditable: {},
