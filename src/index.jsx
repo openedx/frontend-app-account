@@ -21,8 +21,6 @@ import messages from './i18n';
 
 import './index.scss';
 import Head from './head/Head';
-import NotificationCourses from './notification-preferences/NotificationCourses';
-import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
 const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
@@ -39,10 +37,8 @@ subscribe(APP_READY, () => {
               </main>
               <FooterSlot />
             </div>
-          )}
+        )}
           >
-            <Route path="/notifications/:courseId" element={<NotificationPreferences />} />
-            <Route path="/notifications" element={<NotificationCourses />} />
             <Route
               path="/id-verification/*"
               element={<IdVerificationPageSlot />}

@@ -28,7 +28,9 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
 
   const onToggle = useCallback((event, notificationType) => {
     const { name: notificationChannel } = event.target;
-    const value = notificationChannel === 'email_cadence' ? event.target.innerText : event.target.checked;
+    const appNotificationPreference = appPreferences.find(preference => preference.id === notificationType);
+    const value = notificationChannel === 'email_cadence' && courseId ? event.target.innerText : event.target.checked;
+    const emailCadence = notificationChannel === 'email_cadence' ? event.target.innerText : appNotificationPreference.emailCadence;
 
     dispatch(updatePreferenceToggle(
       courseId,
@@ -36,9 +38,10 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       notificationType,
       notificationChannel,
       value,
+      emailCadence !== 'Mixed' ? emailCadence : undefined,
     ));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appId]);
+  }, [appId, appPreferences]);
 
   const renderPreference = (preference) => (
     (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
