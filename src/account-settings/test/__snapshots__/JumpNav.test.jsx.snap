@@ -59,6 +59,19 @@ exports[`JumpNav should not render Optional Information or delete account link 1
           <a
             aria-current="page"
             className="active"
+            href="/#notifications"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Notifications
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
             href="/#site-preferences"
             isActive={[Function]}
             onClick={[Function]}
@@ -136,6 +149,19 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
             onClick={[Function]}
           >
             Social Media Links
+          </a>
+        </li>
+        <li
+          className=""
+        >
+          <a
+            aria-current="page"
+            className="active"
+            href="/#notifications"
+            isActive={[Function]}
+            onClick={[Function]}
+          >
+            Notifications
           </a>
         </li>
         <li
