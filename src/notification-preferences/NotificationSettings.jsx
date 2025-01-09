@@ -19,6 +19,7 @@ const NotificationSettings = () => {
   return (
     showPreferences && (
       <Container className="notification-preferences px-0">
+        <div className="border border-light-700 my-6" />
         <h2 className="notification-heading mb-3">
           {intl.formatMessage(messages.notificationHeading)}
         </h2>
