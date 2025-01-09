@@ -66,6 +66,7 @@ class AccountSettingsPage extends React.Component {
       '#basic-information': React.createRef(),
       '#profile-information': React.createRef(),
       '#social-media': React.createRef(),
+      '#notifications': React.createRef(),
       '#site-preferences': React.createRef(),
       '#linked-accounts': React.createRef(),
       '#delete-account': React.createRef(),
@@ -769,8 +770,9 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        <div className="border border-light-700 my-6" />
-        <NotificationSettings />
+        <div id="notifications" ref={this.navLinkRefs['#notifications']}>
+          <NotificationSettings />
+        </div>
         <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
