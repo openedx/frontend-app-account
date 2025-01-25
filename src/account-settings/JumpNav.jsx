@@ -13,7 +13,7 @@ const JumpNav = ({
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
 
   return (
-    <div className={classNames('jump-nav px-2.25', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
+    <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
       <Scrollspy
         items={[
           'basic-information',
