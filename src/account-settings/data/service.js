@@ -267,7 +267,7 @@ export async function getExtendedProfileFields(urlParams) {
     });
   return {
     fields: data.optionalFields.extended_profile.map(
-      (fieldName) => data.registrationFields.fields[fieldName],
+      (fieldName) => data.optionalFields.fields[fieldName],
     ) || [],
   };
 }
