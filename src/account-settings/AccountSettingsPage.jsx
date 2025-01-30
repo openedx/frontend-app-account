@@ -25,6 +25,7 @@ import {
   saveSettings,
   updateDraft,
   beginNameChange,
+  getExtendedProfileFields as fetchExtraFieldsInfo,
 } from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
@@ -51,6 +52,7 @@ import {
 import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
+import ExtraFieldsSlot from '../plugin-slots/ExtraFieldsSlot';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -75,6 +77,7 @@ class AccountSettingsPage extends React.Component {
     this.props.fetchCourseList();
     this.props.fetchSettings();
     this.props.fetchSiteLanguages(this.props.navigate);
+    this.props.fetchExtraFieldsInfo({ is_register_page: true });
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -647,6 +650,26 @@ class AccountSettingsPage extends React.Component {
               {...editableFieldProps}
             />
             )}
+
+          <ExtraFieldsSlot />
+
+          {this.props.formValues.extended_profile.map((field) => {
+            console.log(field);
+            return (
+              <EditableField
+                name={field.field_name}
+                type="text"
+                value={field.field_value}
+                label={field.field_name}
+                    // helpText={this.props.intl.formatMessage(
+                    // messages['account.settings.field.username.help.text'],
+                    // { siteName: getConfig().SITE_NAME },
+                    // )}
+                isEditable
+                {...editableFieldProps}
+              />
+            );
+          })}
         </div>
 
         <div className="account-section pt-3 mb-5" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
@@ -903,6 +926,7 @@ AccountSettingsPage.propTypes = {
   fetchSettings: PropTypes.func.isRequired,
   beginNameChange: PropTypes.func.isRequired,
   fetchCourseList: PropTypes.func.isRequired,
+  fetchExtraFieldsInfo: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
@@ -963,4 +987,5 @@ export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
   updateDraft,
   fetchSiteLanguages,
   beginNameChange,
+  fetchExtraFieldsInfo,
 })(injectIntl(AccountSettingsPage))));

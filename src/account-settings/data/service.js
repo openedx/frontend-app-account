@@ -249,3 +249,25 @@ export async function patchSettings(username, commitValues) {
   const combinedResults = Object.assign({}, ...results);
   return combinedResults;
 }
+
+export async function getExtendedProfileFields(urlParams) {
+  const requestConfig = {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    params: urlParams,
+    isPublic: true,
+  };
+
+  const { data } = await getAuthenticatedHttpClient()
+    .get(
+      `${getConfig().LMS_BASE_URL}/api/mfe_context`,
+      requestConfig,
+    )
+    .catch((e) => {
+      throw (e);
+    });
+  return {
+    fields: data.optionalFields.extended_profile.map(
+      (fieldName) => data.registrationFields.fields[fieldName],
+    ) || [],
+  };
+}
