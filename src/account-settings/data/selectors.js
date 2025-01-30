@@ -282,6 +282,7 @@ export const accountSettingsPageSelector = createSelector(
     mostRecentVerifiedName,
     verifiedNameHistory,
     countriesCodesList,
+    extendedProfileFields: accountSettings.extendedProfileFields,
   }),
 );
 

@@ -54,7 +54,7 @@ import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
-import ExtraFieldsSlot from '../plugin-slots/ExtraFieldsSlot';
+import ExtendedProfileField from './ExtendedProfileField';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -687,26 +687,6 @@ class AccountSettingsPage extends React.Component {
               {...editableFieldProps}
             />
             )}
-
-          <ExtraFieldsSlot />
-
-          {this.props.formValues.extended_profile.map((field) => {
-            console.log(field);
-            return (
-              <EditableField
-                name={field.field_name}
-                type="text"
-                value={field.field_value}
-                label={field.field_name}
-                    // helpText={this.props.intl.formatMessage(
-                    // messages['account.settings.field.username.help.text'],
-                    // { siteName: getConfig().SITE_NAME },
-                    // )}
-                isEditable
-                {...editableFieldProps}
-              />
-            );
-          })}
         </div>
 
         <div className="account-section pt-3 mb-5" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
@@ -755,6 +735,13 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+          {this.props.formValues.extended_profile.map((field) => {
+            const fieldDescription = this.props.extendedProfileFields.find(
+              (description) => description.name === field.field_name,
+            );
+
+            return <ExtendedProfileField field={{ ...fieldDescription, ...field }} {...editableFieldProps} />;
+          })}
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
@@ -945,6 +932,25 @@ AccountSettingsPage.propTypes = {
     previousValue: PropTypes.string,
     draft: PropTypes.string,
   }),
+  extendedProfileFields: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    default: PropTypes.unknown,
+    placeholder: PropTypes.string,
+    instructions: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })),
+    error_message: PropTypes.shape({
+      required: PropTypes.string,
+      invalid: PropTypes.string,
+    }),
+    restrictions: PropTypes.shape({
+      max_length: PropTypes.number,
+    }),
+    type: PropTypes.string.isRequired,
+  })),
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -1031,6 +1037,7 @@ AccountSettingsPage.defaultProps = {
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
   countriesCodesList: [],
+  extendedProfileFields: [],
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
