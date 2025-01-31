@@ -53,6 +53,7 @@ import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
 import ExtendedProfileField from './ExtendedProfileField';
+import { moveCheckboxFieldsToEnd } from '../utils';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -698,13 +699,14 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
-          {this.props.formValues.extended_profile.map((field) => {
-            const fieldDescription = this.props.extendedProfileFields.find(
-              (description) => description.name === field.field_name,
-            );
+          {this.props.extendedProfileFields
+            .sort(moveCheckboxFieldsToEnd).map((fieldDescription) => {
+              const fieldValue = this.props.formValues.extended_profile.find(
+                (field) => field.field_name === fieldDescription.name,
+              );
 
-            return <ExtendedProfileField field={{ ...fieldDescription, ...field }} {...editableFieldProps} />;
-          })}
+              return <ExtendedProfileField field={{ ...fieldDescription, ...fieldValue }} {...editableFieldProps} />;
+            })}
         </div>
         <div className="account-section pt-3 mb-5" id="social-media">
           <h2 className="section-heading h4 mb-3">
