@@ -1,51 +1,43 @@
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import EditableSelectField from './EditableSelectField';
 import EditableField from './EditableField';
 import EditableCheckboxField from './EditableCheckboxField';
 
+import messages from './AccountSettingsPage.messages';
+
 const ExtendedProfileField = (props) => {
   const { field, ...editableFieldProps } = props;
 
-  if (field.type === 'select') {
-    return (
-      <EditableSelectField
-        name={field.name}
-        type="select"
-        value={field.field_value}
-        options={field.options?.map((option) => ({ label: option[1], value: option[0] })) ?? []}
-        label={field.label}
-        emptyLabel={`Add a ${field.label}`}
-        helpText={field.instructions}
-        {...editableFieldProps}
-      />
-    );
-  }
+  const commonProps = {
+    name: field.name,
+    type: field.type,
+    value: field.field_value,
+    label: field.label,
+    helpText: field.instructions,
+    isEditable: true,
+    emptyLabel: props.intl.formatMessage(messages['account.settings.dynamic.field.empty'], {
+      field: field.label,
+    }),
+    ...editableFieldProps,
+  };
 
-  if (field.type === 'checkbox') {
-    return (
-      <EditableCheckboxField
-        name={field.name}
-        value={field.field_value}
-        label={field.label}
-        emptyLabel={`Add a ${field.label}`}
-        helpText={field.instructions}
-        isEditable
-        {...editableFieldProps}
-      />
-    );
-  }
+  switch (field.type) {
+    case 'select':
+      return (
+        <EditableSelectField
+          options={field.options?.map((option) => ({ label: option[1], value: option[0] })) ?? []}
+          {...commonProps}
 
-  return (
-    <EditableField
-      name={field.name}
-      value={field.field_value}
-      label={field.label}
-      emptyLabel={`Add a ${field.label}`}
-      helpText={field.instructions}
-      isEditable
-      {...editableFieldProps}
-    />
-  );
+        />
+      );
+
+    case 'checkbox':
+      return <EditableCheckboxField {...commonProps} />;
+
+    default:
+      return <EditableField {...commonProps} />;
+  }
 };
 
 ExtendedProfileField.propTypes = {
@@ -61,6 +53,7 @@ ExtendedProfileField.propTypes = {
     options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     field_value: PropTypes.string,
   }).isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default ExtendedProfileField;
+export default injectIntl(ExtendedProfileField);

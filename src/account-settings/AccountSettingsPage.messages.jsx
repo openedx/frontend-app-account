@@ -545,6 +545,11 @@ const messages = defineMessages({
     defaultMessage: 'Edit',
     description: 'The edit button on an editable field',
   },
+  'account.settings.dynamic.field.empty': {
+    id: 'account.settings.dynamic.field.empty',
+    defaultMessage: 'Add a value for "{field}".',
+    description: 'The placeholder for an empty editable field',
+  },
   'account.settings.static.field.empty': {
     id: 'account.settings.static.field.empty',
     defaultMessage: 'No value set. Contact your {enterprise} administrator to make changes.',
