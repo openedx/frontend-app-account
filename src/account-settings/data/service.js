@@ -265,9 +265,10 @@ export async function getExtendedProfileFields(urlParams) {
     .catch((e) => {
       throw (e);
     });
-  return {
-    fields: data.optionalFields.extended_profile.map(
-      (fieldName) => data.optionalFields.fields[fieldName],
-    ) || [],
-  };
+
+  const extendedProfileFields = data.optionalFields.extended_profile
+    .map((fieldName) => (data.optionalFields.fields[fieldName] ?? data.registrationFields.fields[fieldName]))
+    .filter(Boolean);
+
+  return { fields: extendedProfileFields };
 }
