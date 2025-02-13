@@ -46,7 +46,7 @@ const EditableCheckboxField = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(name, new FormData(e.target).get(name));
+    onSubmit(name, e.target[name].checked);
   };
 
   const handleChange = (e) => {
@@ -68,7 +68,7 @@ const EditableCheckboxField = (props) => {
       finalValue += `: ${userSuppliedValue}`;
     }
 
-    return finalValue === 'on' ? 'Yes' : 'No';
+    return finalValue ? 'Yes' : 'No';
   };
 
   const renderConfirmationMessage = () => {
