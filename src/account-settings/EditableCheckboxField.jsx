@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,7 +8,7 @@ import {
 } from '@openedx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Parser } from 'html-to-react';
+import DOMPurify from 'dompurify';
 
 import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
@@ -17,8 +18,6 @@ import {
   closeForm,
 } from './data/actions';
 import { editableFieldSelector } from './data/selectors';
-
-const htmlToReactParser = new Parser();
 
 const EditableCheckboxField = (props) => {
   const {
@@ -99,7 +98,7 @@ const EditableCheckboxField = (props) => {
                 onChange={handleChange}
                 {...others}
               >
-                {htmlToReactParser.parse(label)}
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(label) }} />
               </Form.Checkbox>
               {!!helpText && <Form.Text>{helpText}</Form.Text>}
               {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
@@ -137,7 +136,7 @@ const EditableCheckboxField = (props) => {
         default: (
           <div className="form-group">
             <div className="d-flex align-items-start">
-              <h6 aria-level="3">{htmlToReactParser.parse(label)}</h6>
+              <h6 aria-level="3"><div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(label) }} /></h6>
               {isEditable ? (
                 <Button variant="link" onClick={handleEdit} className="ml-3">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
