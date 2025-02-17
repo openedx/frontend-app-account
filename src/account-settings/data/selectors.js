@@ -274,6 +274,7 @@ export const accountSettingsPageSelector = createSelector(
     verifiedName,
     mostRecentVerifiedName,
     verifiedNameHistory,
+    extendedProfileFields: accountSettings.extendedProfileFields,
   }),
 );
 
