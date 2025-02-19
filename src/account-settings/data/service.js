@@ -186,9 +186,18 @@ export async function postVerifiedName(data) {
     .catch(error => handleRequestError(error));
 }
 
+export async function getCountryList() {
+  const { data } = await getAuthenticatedHttpClient()
+    .get(`${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`);
+
+  return data?.fields
+    .find(({ name }) => name === 'country')
+    ?.options?.map(({ value, name }) => ({ value, label: name })) || [];
+}
+
 /**
- * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, and
- * ThirdPartyAuth.
+ * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, countriesList
+ * and ThirdPartyAuth.
  */
 export async function getSettings(username, userRoles) {
   const [
@@ -197,12 +206,14 @@ export async function getSettings(username, userRoles) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
+    countries,
   ] = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
+    getCountryList(),
   ]);
 
   return {
@@ -211,6 +222,7 @@ export async function getSettings(username, userRoles) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
+    countries,
   };
 }
 

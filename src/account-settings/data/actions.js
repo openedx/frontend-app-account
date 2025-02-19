@@ -27,6 +27,7 @@ export const fetchSettingsSuccess = ({
   profileDataManager,
   timeZones,
   verifiedNameHistory,
+  countries,
 }) => ({
   type: FETCH_SETTINGS.SUCCESS,
   payload: {
@@ -35,6 +36,7 @@ export const fetchSettingsSuccess = ({
     profileDataManager,
     timeZones,
     verifiedNameHistory,
+    countries,
   },
 });
 
