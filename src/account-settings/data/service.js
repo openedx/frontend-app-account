@@ -189,7 +189,6 @@ export async function postVerifiedName(data) {
 }
 
 function extractCountryList(data) {
-  console.log(FIELD_LABELS);
   return data?.fields
     .find(({ name }) => name === FIELD_LABELS.COUNTRY)
     ?.options?.map(({ value, name }) => ({ code: value, name })) || [];

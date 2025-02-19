@@ -152,14 +152,16 @@ class AccountSettingsPage extends React.Component {
   }));
 
   removeDisabledCountries = (countryList) => {
-    const { countries } = this.props;
+    const { countries, committedValues } = this.props;
 
     if (!countries.length) {
       return countryList;
     }
 
-    return countryList.filter(({ value }) => value === this.props?.committedValues?.country
-    || new Set(countries.map(({ code }) => code)).has(value));
+    const allowedCountries = new Set(countries.map(({ code }) => code));
+    const committedCountry = committedValues?.country;
+
+    return countryList.filter(({ value }) => value === committedCountry || allowedCountries.has(value));
   };
 
   handleEditableFieldChange = (name, value) => {
@@ -214,8 +216,9 @@ class AccountSettingsPage extends React.Component {
 
   isDisabledCountry = (country) => {
     const { countries } = this.props;
+    const allowedCountries = new Set(countries.map(({ code }) => code));
 
-    return countries.length > 0 && !new Set(countries.map(({ code }) => code)).has(country);
+    return countries.length > 0 && !allowedCountries.has(country);
   };
 
   isEditable(fieldName) {
