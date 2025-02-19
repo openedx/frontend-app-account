@@ -47,6 +47,7 @@ import {
   COPPA_COMPLIANCE_YEAR,
   WORK_EXPERIENCE_OPTIONS,
   getStatesList,
+  FIELD_LABELS,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
@@ -157,9 +158,8 @@ class AccountSettingsPage extends React.Component {
       return countryList;
     }
 
-    return countryList.filter(({ value }) => {
-      return value === this.props?.committedValues?.country || new Set(countries.map(({value}) => value)).has(value);
-    });
+    return countryList.filter(({ value }) => value === this.props?.committedValues?.country
+    || new Set(countries.map(({ code }) => code)).has(value));
   };
 
   handleEditableFieldChange = (name, value) => {
@@ -167,10 +167,10 @@ class AccountSettingsPage extends React.Component {
   };
 
   handleSubmit = (formId, values) => {
-    if (formId === 'country' && this.isDisabledCountry(values)) {
+    if (formId === FIELD_LABELS.COUNTRY && this.isDisabledCountry(values)) {
       return;
     }
-    
+
     const { formValues } = this.props;
     let extendedProfileObject = {};
 
@@ -213,9 +213,9 @@ class AccountSettingsPage extends React.Component {
   };
 
   isDisabledCountry = (country) => {
-    const {countries} = this.props;
-    
-    return countries.length > 0 && !new Set(countries.map(({value}) => value)).has(country);
+    const { countries } = this.props;
+
+    return countries.length > 0 && !new Set(countries.map(({ code }) => code)).has(country);
   };
 
   isEditable(fieldName) {
