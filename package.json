@@ -28,7 +28,7 @@
     "extends @edx/browserslist-config"
   ],
   "dependencies": {
-    "brand-openedx-zeit": "git+https://github.com/zeit-labs/brand-openedx.git",
+    "brand-openedx-zeit": "github:zeit-labs/brand-openedx#new-styles-brand",
     "@edx/brand": "npm:@openedx/brand-openedx@^1.2.2",
     "@edx/frontend-component-footer": "^13.2.0",
     "@edx/frontend-component-header": "5.3.0",
