@@ -25,7 +25,7 @@ import NotificationPreferences from './notification-preferences/NotificationPref
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
-    <div className='mfe-account'>
+    <div className='mfe-account '>
 	    <AppProvider store={configureStore()}>
 		    <Head />
 		    <Routes>
