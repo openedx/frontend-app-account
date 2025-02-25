@@ -202,3 +202,5 @@ export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
 })(injectIntl(EditableCheckboxField));
+
+export const TestableEditableCheckboxField = injectIntl(EditableCheckboxField);
