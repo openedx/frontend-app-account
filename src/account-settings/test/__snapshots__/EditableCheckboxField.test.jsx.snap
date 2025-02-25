@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditableCheckboxField renders correctly when editing is enabled 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="pgn__form-group"
+      >
+        <div
+          aria-describedby="field-testCheckbox-2"
+          className="pgn__form-checkbox"
+          id="field-testCheckbox"
+          role="group"
+        >
+          <input
+            checked={false}
+            className="pgn__form-checkbox-input"
+            data-hj-suppress={true}
+            disabled={false}
+            id="field-testCheckbox"
+            name="testCheckbox"
+            onChange={[Function]}
+            options={[]}
+            type="checkbox"
+          />
+          <div>
+            <label
+              className="pgn__form-label"
+              htmlFor="field-testCheckbox"
+            >
+              <div
+                dangerouslySetInnerHTML={
+                  {
+                    "__html": "Checkbox Label",
+                  }
+                }
+              />
+            </label>
+          </div>
+        </div>
+        <div
+          className="pgn__form-text pgn__form-text-default"
+        >
+          <div>
+            Helpful Text
+          </div>
+        </div>
+        <div
+          className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
+          id="field-testCheckbox-2"
+        >
+          <span
+            className="pgn__icon"
+          >
+            <svg
+              aria-hidden={true}
+              fill="none"
+              focusable={false}
+              height={24}
+              role="img"
+              viewBox="0 0 24 24"
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+          <div>
+            
+          </div>
+        </div>
+      </div>
+      <p>
+        <button
+          aria-disabled={false}
+          aria-live="assertive"
+          className="pgn__stateful-btn pgn__stateful-btn-state-default mr-2 btn btn-primary"
+          disabled={false}
+          onClick={[Function]}
+          type="submit"
+        >
+          <span
+            className="d-flex align-items-center justify-content-center"
+          >
+            <span>
+              Save
+            </span>
+          </span>
+        </button>
+        <button
+          className="btn btn-outline-primary"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </p>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`EditableCheckboxField renders correctly with editing disabled 1`] = `
+<div
+  className="pgn-transition-replace-group position-relative"
+  style={
+    {
+      "height": null,
+    }
+  }
+>
+  <div
+    style={
+      {
+        "padding": ".1px 0",
+      }
+    }
+  >
+    <div
+      className="form-group"
+    >
+      <div
+        className="d-flex align-items-start"
+      >
+        <h6
+          aria-level="3"
+        >
+          <div
+            dangerouslySetInnerHTML={
+              {
+                "__html": "Checkbox Label",
+              }
+            }
+          />
+        </h6>
+        <button
+          className="ml-3 btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-inline--fa fa-pencil mr-1"
+            data-icon="pencil"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            style={{}}
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+              fill="currentColor"
+              style={{}}
+            />
+          </svg>
+          Edit
+        </button>
+      </div>
+      <p
+        className={null}
+        data-hj-suppress={true}
+      >
+        No
+      </p>
+      <p
+        className="small text-muted mt-n2"
+      >
+        Default Confirmation Message
+      </p>
+    </div>
+  </div>
+</div>
+`;
