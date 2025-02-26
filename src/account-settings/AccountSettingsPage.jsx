@@ -25,6 +25,7 @@ import {
   saveSettings,
   updateDraft,
   beginNameChange,
+  getExtendedProfileFields as fetchExtraFieldsInfo,
 } from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
@@ -51,6 +52,8 @@ import {
 import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
 import { withLocation, withNavigate } from './hoc';
+import ExtendedProfileField from './ExtendedProfileField';
+import { moveCheckboxFieldsToEnd } from '../utils';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -75,6 +78,7 @@ class AccountSettingsPage extends React.Component {
     this.props.fetchCourseList();
     this.props.fetchSettings();
     this.props.fetchSiteLanguages(this.props.navigate);
+    this.props.fetchExtraFieldsInfo({ is_register_page: true });
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -695,6 +699,14 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+          {this.props.extendedProfileFields
+            .sort(moveCheckboxFieldsToEnd).map((fieldDescription) => {
+              const fieldValue = this.props.formValues.extended_profile?.find(
+                (field) => field.field_name === fieldDescription.name,
+              );
+
+              return <ExtendedProfileField field={{ ...fieldDescription, ...fieldValue }} {...editableFieldProps} />;
+            })}
         </div>
         <div className="account-section pt-3 mb-5" id="social-media">
           <h2 className="section-heading h4 mb-3">
@@ -879,6 +891,25 @@ AccountSettingsPage.propTypes = {
     previousValue: PropTypes.string,
     draft: PropTypes.string,
   }),
+  extendedProfileFields: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    default: PropTypes.unknown,
+    placeholder: PropTypes.string,
+    instructions: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })),
+    error_message: PropTypes.shape({
+      required: PropTypes.string,
+      invalid: PropTypes.string,
+    }),
+    restrictions: PropTypes.shape({
+      max_length: PropTypes.number,
+    }),
+    type: PropTypes.string.isRequired,
+  })),
   siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -903,6 +934,7 @@ AccountSettingsPage.propTypes = {
   fetchSettings: PropTypes.func.isRequired,
   beginNameChange: PropTypes.func.isRequired,
   fetchCourseList: PropTypes.func.isRequired,
+  fetchExtraFieldsInfo: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
@@ -953,6 +985,7 @@ AccountSettingsPage.defaultProps = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
+  extendedProfileFields: [],
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
@@ -963,4 +996,5 @@ export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
   updateDraft,
   fetchSiteLanguages,
   beginNameChange,
+  fetchExtraFieldsInfo,
 })(injectIntl(AccountSettingsPage))));

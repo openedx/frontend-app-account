@@ -9,6 +9,7 @@ import {
   RESET_DRAFTS,
   SAVE_MULTIPLE_SETTINGS,
   BEGIN_NAME_CHANGE,
+  EXTENDED_PROFILE_FIELDS,
 } from './actions';
 
 import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
@@ -39,6 +40,7 @@ export const defaultState = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: {},
+  extendedProfileFields: [],
 };
 
 const reducer = (state = defaultState, action = {}) => {
@@ -231,6 +233,15 @@ const reducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         thirdPartyAuth: thirdPartyAuthReducer(state.thirdPartyAuth, action),
+      };
+
+    case EXTENDED_PROFILE_FIELDS.BEGIN:
+    case EXTENDED_PROFILE_FIELDS.FAILURE:
+    case EXTENDED_PROFILE_FIELDS.SUCCESS:
+      if (!action.payload) { return state; }
+      return {
+        ...state,
+        extendedProfileFields: action.payload,
       };
 
     default:
