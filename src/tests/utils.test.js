@@ -1,4 +1,4 @@
-import { compareVerifiedNamesByCreatedDate, getMostRecentApprovedOrPendingVerifiedName } from '../utils';
+import { compareVerifiedNamesByCreatedDate, getMostRecentApprovedOrPendingVerifiedName, moveCheckboxFieldsToEnd } from '../utils';
 
 describe('getMostRecentApprovedOrPendingVerifiedName', () => {
   it('returns correct verified name if one exists', () => {
@@ -79,5 +79,35 @@ describe('compareVerifiedNamesByCreatedDate', () => {
     };
 
     expect(compareVerifiedNamesByCreatedDate(a, b)).toBeGreaterThan(0);
+  });
+
+  describe('moveCheckboxFieldsToEnd', () => {
+    it('returns 1 when first field is checkbox and second field is not', () => {
+      const a = { type: 'checkbox' };
+      const b = { type: 'text' };
+
+      expect(moveCheckboxFieldsToEnd(a, b)).toEqual(1);
+    });
+
+    it('returns -1 when first field is not checkbox and second field is', () => {
+      const a = { type: 'text' };
+      const b = { type: 'checkbox' };
+
+      expect(moveCheckboxFieldsToEnd(a, b)).toEqual(-1);
+    });
+
+    it('returns 0 when both fields are checkboxes', () => {
+      const a = { type: 'checkbox' };
+      const b = { type: 'checkbox' };
+
+      expect(moveCheckboxFieldsToEnd(a, b)).toEqual(0);
+    });
+
+    it('returns 0 when neither field is a checkbox', () => {
+      const a = { type: 'text' };
+      const b = { type: 'text' };
+
+      expect(moveCheckboxFieldsToEnd(a, b)).toEqual(0);
+    });
   });
 });
