@@ -25,7 +25,7 @@ import {
 } from './sagas';
 
 jest.mock('@edx/frontend-platform/auth', () => ({
-  getAuthenticatedUser: jest.fn(), // Mock de la función
+  getAuthenticatedUser: jest.fn(),
 }));
 
 jest.mock('./service', () => ({
@@ -33,7 +33,7 @@ jest.mock('./service', () => ({
   patchSettings: jest.fn(),
   getTimeZones: jest.fn(),
   getVerifiedNameHistory: jest.fn(),
-  getExtendedProfileFields: jest.fn(), // Asegurar que está incluido aquí
+  getExtendedProfileFields: jest.fn(),
 }));
 
 describe('Saga Tests', () => {
@@ -93,7 +93,7 @@ describe('Saga Tests', () => {
       payload: {
         commitValues: { exampleKey: 'exampleValue' },
         formId: 'someForm',
-        extendedProfile: {}, // Asegura que no sea undefined
+        extendedProfile: {},
       },
     };
     const mockSavedValues = {};
