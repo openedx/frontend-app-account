@@ -701,7 +701,7 @@ class AccountSettingsPage extends React.Component {
           />
           {this.props.extendedProfileFields
             .sort(moveCheckboxFieldsToEnd).map((fieldDescription) => {
-              const fieldValue = this.props.formValues.extended_profile.find(
+              const fieldValue = this.props.formValues.extended_profile?.find(
                 (field) => field.field_name === fieldDescription.name,
               );
 
