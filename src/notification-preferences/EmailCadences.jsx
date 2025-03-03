@@ -10,7 +10,7 @@ import {
 } from '@openedx/paragon';
 
 import messages from './messages';
-import EMAIL_CADENCE from './data/constants';
+import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from './data/constants';
 import { selectUpdatePreferencesStatus } from './data/selectors';
 import { LOADING_STATUS } from '../constants';
 
@@ -44,12 +44,12 @@ const EmailCadences = ({
           className="bg-white shadow d-flex flex-column margin-left-2"
           data-testid="email-cadence-dropdown"
         >
-          {Object.values(EMAIL_CADENCE).map((cadence) => (
+          {Object.values(EMAIL_CADENCE_PREFERENCES).map((cadence) => (
             <Dropdown.Item
               key={cadence}
               as={Button}
               variant="tertiary"
-              name="email_cadence"
+              name={EMAIL_CADENCE}
               className="d-flex justify-content-start py-1.5 font-size-14 cadence-button"
               size="inline"
               active={cadence === emailCadence}
@@ -71,7 +71,7 @@ const EmailCadences = ({
 EmailCadences.propTypes = {
   email: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
-  emailCadence: PropTypes.oneOf(Object.values(EMAIL_CADENCE)).isRequired,
+  emailCadence: PropTypes.oneOf(Object.values(EMAIL_CADENCE_PREFERENCES)).isRequired,
   notificationType: PropTypes.string.isRequired,
 };
 
