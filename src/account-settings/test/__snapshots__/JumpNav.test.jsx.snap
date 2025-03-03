@@ -8,7 +8,7 @@ exports[`JumpNav should not render Optional Information or delete account link 1
     data-testid="browser-router"
   >
     <div
-      className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+      className="jump-nav jump-nav-sm position-sticky pt-3"
     >
       <ul
         className="list-unstyled"
@@ -93,7 +93,7 @@ exports[`JumpNav should render Optional Information and delete account link 1`] 
     data-testid="browser-router"
   >
     <div
-      className="jump-nav px-2.25 jump-nav-sm position-sticky pt-3"
+      className="jump-nav jump-nav-sm position-sticky pt-3"
     >
       <ul
         className="list-unstyled"
