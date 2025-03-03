@@ -1,6 +1,6 @@
 import { camelCaseObject } from '@edx/frontend-platform';
 import camelCase from 'lodash.camelcase';
-import EMAIL_CADENCE from './constants';
+import { EMAIL_CADENCE_PREFERENCES } from './constants';
 import {
   fetchCourseListSuccess,
   fetchCourseListFetching,
@@ -79,7 +79,8 @@ const normalizePreferences = (responseData, courseId) => {
         push: preferences[appId].notificationTypes[preferenceId].push,
         email: preferences[appId].notificationTypes[preferenceId].email,
         info: preferences[appId].notificationTypes[preferenceId].info || '',
-        emailCadence: preferences[appId].notificationTypes[preferenceId].emailCadence || EMAIL_CADENCE.DAILY,
+        emailCadence: preferences[appId].notificationTypes[preferenceId].emailCadence
+        || EMAIL_CADENCE_PREFERENCES.DAILY,
         coreNotificationTypes: preferences[appId].coreNotificationTypes || [],
       }
     ));
