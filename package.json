@@ -39,7 +39,7 @@
     "@fortawesome/react-fontawesome": "0.2.2",
     "@openedx/frontend-plugin-framework": "^1.2.2",
     "@openedx/frontend-slot-footer": "^1.0.2",
-    "@openedx/paragon": "22.13.0",
+    "@openedx/paragon": "22.16.0",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs-converter": "4.22.0",
     "@tensorflow/tfjs-core": "4.22.0",
