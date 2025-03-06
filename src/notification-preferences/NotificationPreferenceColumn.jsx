@@ -46,7 +46,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
     return emailCadence;
   }, []);
 
-  const onToggle = useCallback(async (event, notificationType) => {
+  const onToggle = useCallback((event, notificationType) => {
     const { name: notificationChannel, checked, innerText } = event.target;
     const appNotificationPreference = appPreferences.find(preference => preference.id === notificationType);
 
@@ -58,24 +58,14 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       appNotificationPreference.emailCadence,
     );
 
-    const updatePreference = async (appChannel, appValue, cadence) => {
-      await dispatch(updatePreferenceToggle(
-        courseId,
-        appId,
-        notificationType,
-        appChannel,
-        appValue,
-        cadence !== MIXED ? cadence : undefined,
-      ));
-    };
-
-    // Update the main preference
-    await updatePreference(notificationChannel, value, emailCadence);
-
-    // Handle the special case for EMAIL and checked
-    if (notificationChannel === EMAIL && checked) {
-      await updatePreference(EMAIL_CADENCE, undefined, emailCadence);
-    }
+    dispatch(updatePreferenceToggle(
+      courseId,
+      appId,
+      notificationType,
+      notificationChannel,
+      value,
+      emailCadence !== MIXED ? emailCadence : undefined,
+    ));
   }, [appPreferences, getValue, getEmailCadence, dispatch, courseId, appId]);
 
   const renderPreference = (preference) => (
