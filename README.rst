@@ -42,7 +42,8 @@ The parts of this MFE that can be customized in that manner are documented `here
 Environment Variables/Setup Notes
 =================================
 
-This MFE is configured via environment variables supplied at build time.  All micro-frontends have a shared set of required environment variables, as documented in the Open edX Developer Guide under `Required Environment Variables <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
+This MFE is configured via environment variables supplied at build time.  All micro-frontends have a shared set of required environment
+variables, as documented in the `Configuration documentation`_.
 
 The account settings micro-frontend also supports the following additional variable:
 
@@ -75,8 +76,9 @@ Example build syntax with a single environment variable:
 
    NODE_ENV=development ACCESS_TOKEN_COOKIE_NAME='edx-jwt-cookie-header-payload' npm run build
 
-For more information see the document: `Micro-frontend applications in Open
-edX <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
+For more information see the document: `Configuration documentation`_
+
+.. _Configuration documentation: https://openedx.github.io/frontend-platform/module-Config.html
 
 Cloning and Startup
 ===================
