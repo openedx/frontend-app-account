@@ -137,56 +137,43 @@ export const updatePreferenceToggle = (
   notificationChannel,
   value,
   emailCadence,
-) => (
-  async (dispatch) => {
-    try {
-      dispatch(updatePreferenceValue(
-        notificationApp,
-        notificationType,
-        notificationChannel,
-        !value,
-      ));
-      let data = null;
-      if (courseId) {
-        data = await patchPreferenceToggle(
+) => async (dispatch) => {
+  try {
+    dispatch(updatePreferenceValue(notificationApp, notificationType, notificationChannel, !value));
+
+    const togglePreference = courseId
+      ? (cId, app, type, channel, val) => patchPreferenceToggle(cId, app, type, channel, val)
+      : (app, type, channel, val, cadence) => postPreferenceToggle(app, type, channel, val, cadence);
+
+    let data = courseId
+      ? await togglePreference(courseId, notificationApp, notificationType, notificationChannel, value)
+      : await togglePreference(notificationApp, notificationType, notificationChannel, value, emailCadence);
+
+    let normalizedData = courseId ? normalizePreferences(camelCaseObject(data), courseId) : camelCaseObject(data);
+    dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData, !courseId));
+
+    if (notificationChannel === EMAIL && value) {
+      data = courseId
+        ? await togglePreference(
           courseId,
           notificationApp,
           notificationType,
-          notificationChannel,
-          value,
-        );
-        const normalizedData = normalizePreferences(camelCaseObject(data), courseId);
-        dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData));
-      } else {
-        data = await postPreferenceToggle(
+          EMAIL_CADENCE,
+          EMAIL_CADENCE_PREFERENCES.DAILY,
+        )
+        : await togglePreference(
           notificationApp,
           notificationType,
-          notificationChannel,
-          value,
-          emailCadence,
+          EMAIL_CADENCE,
+          undefined,
+          EMAIL_CADENCE_PREFERENCES.DAILY,
         );
-        dispatch(fetchNotificationPreferenceSuccess(courseId, camelCaseObject(data), true));
 
-        if (notificationChannel === EMAIL && value) {
-          data = await postPreferenceToggle(
-            notificationApp,
-            notificationType,
-            EMAIL_CADENCE,
-            undefined,
-            EMAIL_CADENCE_PREFERENCES.DAILY,
-          );
-
-          dispatch(fetchNotificationPreferenceSuccess(courseId, camelCaseObject(data), true));
-        }
-      }
-    } catch (errors) {
-      dispatch(updatePreferenceValue(
-        notificationApp,
-        notificationType,
-        notificationChannel,
-        !value,
-      ));
-      dispatch(fetchNotificationPreferenceFailed());
+      normalizedData = courseId ? normalizePreferences(camelCaseObject(data), courseId) : camelCaseObject(data);
+      dispatch(fetchNotificationPreferenceSuccess(courseId, normalizedData, !courseId));
     }
+  } catch (errors) {
+    dispatch(updatePreferenceValue(notificationApp, notificationType, notificationChannel, !value));
+    dispatch(fetchNotificationPreferenceFailed());
   }
-);
+};
