@@ -60,7 +60,7 @@
     "lodash.pick": "4.4.0",
     "lodash.pickby": "4.6.0",
     "lodash.snakecase": "4.1.1",
-    "long": "5.2.4",
+    "long": "5.3.1",
     "memoize-one": "^6.0.0",
     "prop-types": "15.8.1",
     "qs": "6.13.1",
