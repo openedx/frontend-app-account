@@ -206,11 +206,6 @@ const activeAccountSelector = createSelector(
   accountSettings => accountSettings.values.is_active,
 );
 
-const disabledCountriesSelector = createSelector(
-  accountSettingsSelector,
-  accountSettings => accountSettings.disabledCountries,
-);
-
 export const siteLanguageSelector = createSelector(
   previousSiteLanguageSelector,
   draftsSelector,
