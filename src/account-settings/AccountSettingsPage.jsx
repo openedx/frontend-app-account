@@ -47,6 +47,7 @@ import {
   COPPA_COMPLIANCE_YEAR,
   WORK_EXPERIENCE_OPTIONS,
   getStatesList,
+  FIELD_LABELS,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
 import { fetchCourseList } from '../notification-preferences/data/thunks';
@@ -163,16 +164,13 @@ class AccountSettingsPage extends React.Component {
   };
 
   removeDisabledCountries = (countryList) => {
-    const { disabledCountries, committedValues } = this.props;
+    const { countriesCodesList, committedValues } = this.props;
+    const committedCountry = committedValues?.country;
 
-    if (!disabledCountries.length) {
+    if (!countriesCodesList.length) {
       return countryList;
     }
-
-    return countryList.filter(({ value, disabled }) => {
-      const isUserCountry = value === committedValues.country;
-      return !disabled || isUserCountry;
-    });
+    return countryList.filter(({ value }) => value === committedCountry || countriesCodesList.find(x => x === value));
   };
 
   handleEditableFieldChange = (name, value) => {
@@ -180,7 +178,7 @@ class AccountSettingsPage extends React.Component {
   };
 
   handleSubmit = (formId, values) => {
-    if (formId === 'country' && this.isDisabledCountry(values)) {
+    if (formId === FIELD_LABELS.COUNTRY && this.isDisabledCountry(values)) {
       return;
     }
 
@@ -226,8 +224,9 @@ class AccountSettingsPage extends React.Component {
   };
 
   isDisabledCountry = (country) => {
-    const { disabledCountries } = this.props;
-    return disabledCountries.includes(country);
+    const { countriesCodesList } = this.props;
+
+    return countriesCodesList.length > 0 && !countriesCodesList.find(x => x === country);
   };
 
   isEditable(fieldName) {
@@ -974,7 +973,12 @@ AccountSettingsPage.propTypes = {
   ),
   navigate: PropTypes.func.isRequired,
   location: PropTypes.string.isRequired,
-  disabledCountries: PropTypes.arrayOf(PropTypes.string),
+  countriesCodesList: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 AccountSettingsPage.defaultProps = {
@@ -1001,7 +1005,7 @@ AccountSettingsPage.defaultProps = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: [],
-  disabledCountries: [],
+  countriesCodesList: [],
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
