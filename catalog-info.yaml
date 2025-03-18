@@ -12,7 +12,8 @@ metadata:
       icon: "Web"
   annotations:
     openedx.org/arch-interest-groups: ""
+    openedx.org/release: "master"
 spec:
-  owner: group:edx-infinity
+  owner: group:2u-infinity
   type: 'website'
   lifecycle: 'production'
