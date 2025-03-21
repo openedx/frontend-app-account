@@ -9,3 +9,8 @@ jest.mock('@openedx/frontend-plugin-framework', () => ({
   Plugin: () => 'Plugin',
   PluginSlot: MockedPluginSlot,
 }));
+
+jest.mock('@edx/frontend-platform/react/hooks', () => ({
+  ...jest.requireActual('@edx/frontend-platform/react/hooks'),
+  useParagonTheme: () => [{ isThemeLoaded: true }, jest.fn()],
+}));

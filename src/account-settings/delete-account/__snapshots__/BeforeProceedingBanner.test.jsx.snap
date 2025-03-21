@@ -57,7 +57,6 @@ exports[`BeforeProceedingBanner should match the snapshot when SUPPORT_URL_TO_UN
     <a
       className="pgn__hyperlink default-link standalone-link"
       href="http://test-support.edx"
-      onClick={[Function]}
       target="_self"
     >
       unlink all social media accounts
