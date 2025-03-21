@@ -42,8 +42,7 @@ The parts of this MFE that can be customized in that manner are documented `here
 Environment Variables/Setup Notes
 =================================
 
-This MFE is configured via environment variables supplied at build time.  All micro-frontends have a shared set of required environment
-variables, as documented in the `Configuration documentation`_.
+This MFE is configured via the ``frontend-platform`` configuration module. For more information on MFE configuration see the `Configuration documentation`_.
 
 The account settings micro-frontend also supports the following additional variable:
 
