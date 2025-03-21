@@ -65,7 +65,7 @@ const NotificationPreferences = () => {
       <div className="mb-6 text-gray-700 font-size-14 margin-bottom-32">
         {intl.formatMessage(messages.notificationPreferenceGuideBody)}
         <Hyperlink
-          destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/index.html"
+          destination="https://docs.openedx.org/en/latest/learners/sfd_notifications/index.html"
           target="_blank"
           rel="noopener noreferrer"
           className="text-decoration-underline ml-1"
