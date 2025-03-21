@@ -1,5 +1,6 @@
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { logError } from '@edx/frontend-platform/logging';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
@@ -7,6 +8,7 @@ import isEmpty from 'lodash.isempty';
 import { handleRequestError, unpackFieldErrors } from './utils';
 import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { postVerifiedNameConfig } from '../certificate-preference/data/service';
+import { FIELD_LABELS } from './constants';
 
 const SOCIAL_PLATFORMS = [
   { id: 'twitter', key: 'social_link_twitter' },
@@ -186,9 +188,26 @@ export async function postVerifiedName(data) {
     .catch(error => handleRequestError(error));
 }
 
+function extractCountryList(data) {
+  return data?.fields
+    .find(({ name }) => name === FIELD_LABELS.COUNTRY)
+    ?.options?.map(({ value, name }) => ({ code: value, name })) || [];
+}
+
+export async function getCountryList() {
+  const url = `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`;
+
+  try {
+    const { data } = await getAuthenticatedHttpClient().get(url);
+    return extractCountryList(data);
+  } catch (e) {
+    logError(e);
+    return [];
+  }
+}
 /**
- * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, and
- * ThirdPartyAuth.
+ * A single function to GET everything considered a setting. Currently encapsulates Account, Preferences, countriesList
+ * and ThirdPartyAuth.
  */
 export async function getSettings(username, userRoles) {
   const [
@@ -197,12 +216,14 @@ export async function getSettings(username, userRoles) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
+    countries,
   ] = await Promise.all([
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
+    getCountryList(),
   ]);
 
   return {
@@ -211,6 +232,7 @@ export async function getSettings(username, userRoles) {
     thirdPartyAuthProviders,
     profileDataManager,
     timeZones,
+    countries,
   };
 }
 

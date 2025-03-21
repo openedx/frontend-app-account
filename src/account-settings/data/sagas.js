@@ -53,7 +53,7 @@ export function* handleFetchSettings() {
     const { username, userId, roles: userRoles } = getAuthenticatedUser();
 
     const {
-      thirdPartyAuthProviders, profileDataManager, timeZones, ...values
+      thirdPartyAuthProviders, profileDataManager, timeZones, countries, ...values
     } = yield call(
       getSettings,
       username,
@@ -71,6 +71,7 @@ export function* handleFetchSettings() {
       profileDataManager,
       timeZones,
       verifiedNameHistory,
+      countries,
     }));
   } catch (e) {
     yield put(fetchSettingsFailure(e.message));
