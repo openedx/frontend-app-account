@@ -47,10 +47,10 @@ describe('JumpNav', () => {
         <AppProvider store={store}>
           <IntlJumpNav {...props} />
         </AppProvider>
-      </IntlProvider>
+      </IntlProvider>,
     );
 
-    expect(await screen.queryByText("Delete My Account")).toBeNull();
+    expect(await screen.queryByText('Delete My Account')).toBeNull();
   });
 
   it('should render delete account link', async () => {
@@ -67,9 +67,9 @@ describe('JumpNav', () => {
         <AppProvider store={store}>
           <IntlJumpNav {...props} />
         </AppProvider>
-      </IntlProvider>
+      </IntlProvider>,
     );
 
-    expect(await screen.findByText("Delete My Account")).toBeVisible();
+    expect(await screen.findByText('Delete My Account')).toBeVisible();
   });
 });
