@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 import { AppProvider } from '@edx/frontend-platform/react';
 import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
@@ -37,24 +37,23 @@ describe('JumpNav', () => {
     });
   });
 
-  it('should not render Optional Information or delete account link', () => {
+  it('should not render delete account link', async () => {
     setConfig({
       ENABLE_ACCOUNT_DELETION: false,
     });
 
-    const tree = renderer.create((
+    render(
       <IntlProvider locale="en">
         <AppProvider store={store}>
           <IntlJumpNav {...props} />
         </AppProvider>
-      </IntlProvider>
-    ))
-      .toJSON();
+      </IntlProvider>,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(await screen.queryByText('Delete My Account')).toBeNull();
   });
 
-  it('should render Optional Information and delete account link', () => {
+  it('should render delete account link', async () => {
     setConfig({
       ENABLE_ACCOUNT_DELETION: true,
     });
@@ -63,15 +62,14 @@ describe('JumpNav', () => {
       ...props,
     };
 
-    const tree = renderer.create((
+    render(
       <IntlProvider locale="en">
         <AppProvider store={store}>
           <IntlJumpNav {...props} />
         </AppProvider>
-      </IntlProvider>
-    ))
-      .toJSON();
+      </IntlProvider>,
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(await screen.findByText('Delete My Account')).toBeVisible();
   });
 });
