@@ -107,6 +107,7 @@ const EditableSelectField = (props) => {
             <option
               value={subOption.value}
               key={`${subOption.value}-${subOption.label}`}
+              disabled={subOption?.disabled}
             >
               {subOption.label}
             </option>
@@ -115,7 +116,7 @@ const EditableSelectField = (props) => {
       );
     }
     return (
-      <option value={option.value} key={`${option.value}-${option.label}`}>
+      <option value={option.value} key={`${option.value}-${option.label}`} disabled={option?.disabled}>
         {option.label}
       </option>
     );
