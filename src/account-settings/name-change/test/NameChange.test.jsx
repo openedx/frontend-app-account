@@ -1,6 +1,5 @@
 /* eslint-disable no-import-assign */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -13,8 +12,11 @@ import {
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
-// Modal creates a portal.  Overriding ReactDOM.createPortal allows portals to be tested in jest.
-ReactDOM.createPortal = node => node;
+// Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
+jest.mock('react-dom', () => ({
+  ...jest.requireActual('react-dom'),
+  createPortal: jest.fn(node => node), // Mock portal behavior
+}));
 
 import NameChange from '../NameChange'; // eslint-disable-line import/first
 

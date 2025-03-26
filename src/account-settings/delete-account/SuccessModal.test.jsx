@@ -1,10 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
+import renderer, { act } from 'react-test-renderer';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
-// Modal creates a portal.  Overriding ReactDOM.createPortal allows portals to be tested in jest.
-ReactDOM.createPortal = node => node;
+// Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
+jest.mock('react-dom', () => ({
+  ...jest.requireActual('react-dom'),
+  createPortal: jest.fn(node => node), // Mock portal behavior
+}));
 
 import { SuccessModal } from './SuccessModal'; // eslint-disable-line import/first
 
@@ -42,9 +44,10 @@ describe('SuccessModal', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should match open success modal snapshot', () => {
-    const tree = renderer
-      .create((
+  it('should match open success modal snapshot', async () => {
+    let tree;
+    await act(async () => {
+      renderer.create((
         <IntlProvider locale="en">
           <IntlSuccessModal
             {...props}
@@ -52,7 +55,8 @@ describe('SuccessModal', () => {
           />
         </IntlProvider>
       ))
-      .toJSON();
+        .toJSON();
+    });
     expect(tree).toMatchSnapshot();
   });
 });

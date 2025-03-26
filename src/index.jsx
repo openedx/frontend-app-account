@@ -7,7 +7,8 @@ import {
   subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig,
 } from '@edx/frontend-platform';
 import React from 'react';
-import ReactDOM from 'react-dom';
+// eslint-disable-next-line import/no-unresolved
+import { createRoot } from 'react-dom/client';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from '@edx/frontend-component-header';
@@ -23,8 +24,9 @@ import Head from './head/Head';
 import NotificationCourses from './notification-preferences/NotificationCourses';
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 
+const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
-  ReactDOM.render(
+  rootNode.render(
     <AppProvider store={configureStore()}>
       <Head />
       <Routes>
@@ -50,12 +52,11 @@ subscribe(APP_READY, () => {
         </Route>
       </Routes>
     </AppProvider>,
-    document.getElementById('root'),
   );
 });
 
 subscribe(APP_INIT_ERROR, (error) => {
-  ReactDOM.render(<ErrorPage message={error.message} />, document.getElementById('root'));
+  rootNode.render(<ErrorPage message={error.message} />);
 });
 
 initialize({
