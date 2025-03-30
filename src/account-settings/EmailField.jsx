@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
-  Button, StatefulButton, Form,
+  Button, StatefulButton, Form, Tooltip, OverlayTrigger,
 } from '@openedx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -162,7 +162,16 @@ const EmailField = (props) => {
                 </Button>
               ) : null}
             </div>
-            <p data-hj-suppress className="text-truncate">{renderValue()}</p>
+            <OverlayTrigger
+              placement="top"
+              overlay={(
+                <Tooltip id={`tooltip-${name}`} variant="light" className="d-sm-none">
+                  {renderValue()}
+                </Tooltip>
+              )}
+            >
+              <p data-hj-suppress className="text-truncate">{renderValue()}</p>
+            </OverlayTrigger>
             {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
           </div>
         ),
