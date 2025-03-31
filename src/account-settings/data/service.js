@@ -9,7 +9,7 @@ import { getThirdPartyAuthProviders } from '../third-party-auth';
 import { postVerifiedNameConfig } from '../certificate-preference/data/service';
 
 const SOCIAL_PLATFORMS = [
-  { id: 'twitter', key: 'social_link_twitter' },
+  { id: 'xTwitter', key: 'social_link_x' },
   { id: 'facebook', key: 'social_link_facebook' },
   { id: 'linkedin', key: 'social_link_linkedin' },
 ];
