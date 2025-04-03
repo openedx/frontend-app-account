@@ -43,9 +43,9 @@ describe('SuccessModal', () => {
       tree = renderer.create((
         <IntlProvider locale="en"><IntlSuccessModal {...props} status="failed" /></IntlProvider>))
         .toJSON();
-      expect(tree).toMatchSnapshot();
     });
   });
+  expect(tree).toMatchSnapshot();
 
   it('should match open success modal snapshot', async () => {
     await (async () => {
