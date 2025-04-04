@@ -1,9 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `undefined`;
-
-exports[` 2`] = `undefined`;
-
 exports[`SuccessModal should match default closed success modal snapshot 1`] = `null`;
 
 exports[`SuccessModal should match default closed success modal snapshot 2`] = `null`;
