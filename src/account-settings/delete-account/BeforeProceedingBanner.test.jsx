@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import { IntlProvider, injectIntl, createIntl } from '@edx/frontend-platform/i18n';
 
-ReactDOM.createPortal = node => node;
+jest.mock('react-dom', () => ({
+  ...jest.requireActual('react-dom'),
+  createPortal: jest.fn(node => node), // Mock portal behavior
+}));
 
 import BeforeProceedingBanner from './BeforeProceedingBanner'; // eslint-disable-line import/first
 

@@ -172,9 +172,7 @@ exports[`EditableSelectField renders EditableSelectField correctly with editing 
               />
             </svg>
           </span>
-          <div>
-            
-          </div>
+          <div />
         </div>
       </div>
       <p>
