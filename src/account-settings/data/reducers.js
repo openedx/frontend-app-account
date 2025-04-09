@@ -39,6 +39,7 @@ export const defaultState = {
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: {},
+  countries: [],
 };
 
 const reducer = (state = defaultState, action = {}) => {
@@ -64,6 +65,7 @@ const reducer = (state = defaultState, action = {}) => {
         loaded: true,
         loadingError: null,
         verifiedNameHistory: action.payload.verifiedNameHistory,
+        countries: action.payload.countries,
       };
     case FETCH_SETTINGS.FAILURE:
       return {
