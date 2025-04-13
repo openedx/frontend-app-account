@@ -23,7 +23,7 @@ describe('MockedPluginSlot', () => {
     expect(component).toBeInTheDocument();
 
     // Direct children
-    const quote = component.querySelector(':scope > q');
+    const quote = component.querySelector(':scope  q');
     expect(quote.getAttribute('role')).toBe('note');
   });
 
