@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   AlertModal,
-  Button, Input, ValidationFormGroup, ActionRow,
+  Button, Form, ActionRow,
 } from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
@@ -107,22 +107,26 @@ export class ConfirmationModal extends Component {
               <PrintingInstructions />
             </p>
           </Alert>
-          <ValidationFormGroup
+          <Form.Group
             for={passwordFieldId}
-            invalid={errorType !== null}
-            invalidMessage={intl.formatMessage(invalidMessage)}
+            isInvalid={errorType !== null}
           >
-            <label className="d-block" htmlFor={passwordFieldId}>
+            <Form.Label className="d-block" htmlFor={passwordFieldId}>
               {intl.formatMessage(messages['account.settings.delete.account.modal.enter.password'])}
-            </label>
-            <Input
+            </Form.Label>
+            <Form.Control
               name="password"
               id={passwordFieldId}
               type="password"
               value={password}
               onChange={onChange}
             />
-          </ValidationFormGroup>
+            {errorType !== null && (
+              <Form.Control.Feedback type="invalid" feedback-for={passwordFieldId}>
+                {intl.formatMessage(invalidMessage)}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
         </div>
 
       </AlertModal>
