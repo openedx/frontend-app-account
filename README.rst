@@ -25,40 +25,13 @@ Getting Started
 Prerequisites
 =============
 
-The `devstack`_ is currently recommended as a development environment for your
-new MFE.  If you start it with ``make dev.up.lms`` that should give you
-everything you need as a companion to this frontend.
-
-Note that it is also possible to use `Tutor`_ to develop an MFE.  You can refer
+`Tutor`_ is currently recommended as a development environment for your
+new MFE. Please refer
 to the `relevant tutor-mfe documentation`_ to get started using it.
-
-.. _Devstack: https://github.com/openedx/devstack
 
 .. _Tutor: https://github.com/overhangio/tutor
 
-.. _relevant tutor-mfe documentation: https://github.com/overhangio/tutor-mfe#mfe-development
-
-Installation
-============
-
-This MFE is bundled with `Devstack <https://github.com/openedx/devstack>`_, see the `Getting Started <https://github.com/openedx/devstack#getting-started>`_ section for setup instructions.
-
-1. Install Devstack using the `Getting Started <https://github.com/openedx/devstack#getting-started>`_ instructions.
-
-2. Start up Devstack, if it's not already started.
-
-3. Log in to Devstack (http://localhost:18000/login )
-
-4. Within this project, install requirements and start the development server:
-
-   .. code-block::
-
-      npm install
-      npm start # The server will run on port 1997
-
-5. Once the dev server is up, visit http://localhost:1997 to access the MFE
-
-   .. image:: ./docs/images/localhost_preview.png
+.. _relevant tutor-mfe documentation: https://github.com/overhangio/tutor-mfe?tab=readme-ov-file#mfe-development
 
 Plugins
 =======
@@ -69,7 +42,7 @@ The parts of this MFE that can be customized in that manner are documented `here
 Environment Variables/Setup Notes
 =================================
 
-This MFE is configured via environment variables supplied at build time.  All micro-frontends have a shared set of required environment variables, as documented in the Open edX Developer Guide under `Required Environment Variables <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
+This MFE is configured via the ``frontend-platform`` configuration module. For more information on MFE configuration see the `Configuration documentation`_.
 
 The account settings micro-frontend also supports the following additional variable:
 
@@ -102,8 +75,9 @@ Example build syntax with a single environment variable:
 
    NODE_ENV=development ACCESS_TOKEN_COOKIE_NAME='edx-jwt-cookie-header-payload' npm run build
 
-For more information see the document: `Micro-frontend applications in Open
-edX <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/developers_guide/micro_frontends_in_open_edx.html#required-environment-variables>`__.
+For more information see the document: `Configuration documentation`_
+
+.. _Configuration documentation: https://openedx.github.io/frontend-platform/module-Config.html
 
 Cloning and Startup
 ===================
