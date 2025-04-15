@@ -114,7 +114,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
       </svg>
     </div>
     <div>
-      Before proceeding, please
+      Before proceeding, please 
       <a
         className="pgn__hyperlink default-link standalone-link"
         href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email-"
@@ -196,7 +196,7 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
       </svg>
     </div>
     <div>
-      Before proceeding, please
+      Before proceeding, please 
       <a
         className="pgn__hyperlink default-link standalone-link"
         href="https://support.edx.org/hc/en-us/articles/207206067"
