@@ -13,7 +13,7 @@ describe('MockedPluginSlot', () => {
   it('renders as the slot children directly if there is content within', () => {
     render(
       <div role="article">
-        <MockedPluginSlot>
+        <MockedPluginSlot id="test_plugin">
           <q role="note">How much wood could a woodchuck chuck if a woodchuck could chuck wood?</q>
         </MockedPluginSlot>
       </div>,
@@ -21,9 +21,13 @@ describe('MockedPluginSlot', () => {
 
     const component = screen.getByRole('article');
     expect(component).toBeInTheDocument();
-
-    // Direct children
-    const quote = component.querySelector(':scope > q');
+    const slot = component.querySelector('[data-testid="test_plugin"]');
+    expect(slot).toBeInTheDocument();
+    expect(slot).toHaveTextContent('PluginSlot_test_plugin');
+    // Check if the quote is a direct child of the MockedPluginSlot
+    const quote = slot.querySelector('q');
+    expect(quote).toBeInTheDocument();
+    expect(quote).toHaveTextContent('How much wood could a woodchuck chuck if a woodchuck could chuck wood?');
     expect(quote.getAttribute('role')).toBe('note');
   });
 
