@@ -26,6 +26,7 @@ const JumpNav = ({
         ]}
         className="list-unstyled"
         currentClassName="font-weight-bold"
+        offset={-64}
       >
         <li>
           <NavHashLink to="#basic-information">
