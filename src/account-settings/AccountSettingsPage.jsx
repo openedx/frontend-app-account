@@ -733,7 +733,7 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        <div className="account-section pt-3" id="social-media">
+        <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
@@ -769,7 +769,8 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        <div id="notifications" ref={this.navLinkRefs['#notifications']}>
+        <div className="border border-light-700" />
+        <div className="mt-6" id="notifications" ref={this.navLinkRefs['#notifications']}>
           <NotificationSettings />
         </div>
         <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
