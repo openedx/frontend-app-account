@@ -15,6 +15,8 @@ const ExtendedProfileField = (props) => {
     value: field.field_value,
     label: field.label,
     helpText: field.instructions,
+    restrictions: field.restrictions,
+    errorMessage: field.error_message,
     isEditable: true,
     emptyLabel: props.intl.formatMessage(messages['account.settings.dynamic.field.empty'], {
       field: field.label,
