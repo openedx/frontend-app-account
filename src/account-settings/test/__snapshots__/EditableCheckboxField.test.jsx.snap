@@ -84,9 +84,7 @@ exports[`EditableCheckboxField renders correctly when editing is enabled 1`] = `
               />
             </svg>
           </span>
-          <div>
-            
-          </div>
+          <div />
         </div>
       </div>
       <p>
