@@ -97,7 +97,7 @@ const normalizePreferences = (responseData, courseId) => {
   return normalizedPreferences;
 };
 
-export const fetchCourseList = (page = 1, pageSize = 99999) => (
+export const fetchCourseList = (page, pageSize) => (
   async (dispatch) => {
     try {
       dispatch(fetchCourseListFetching());
