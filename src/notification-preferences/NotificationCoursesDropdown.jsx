@@ -1,12 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Dropdown } from '@openedx/paragon';
 
-import { SUCCESS_STATUS } from '../constants';
+import { IDLE_STATUS, SUCCESS_STATUS } from '../constants';
 import { selectCourseList, selectCourseListStatus, selectSelectedCourseId } from './data/selectors';
-import { setSelectedCourse } from './data/thunks';
+import { fetchCourseList, setSelectedCourse } from './data/thunks';
 import messages from './messages';
 
 const NotificationCoursesDropdown = () => {
@@ -23,6 +23,16 @@ const NotificationCoursesDropdown = () => {
   const handleCourseSelection = useCallback((courseId) => {
     dispatch(setSelectedCourse(courseId));
   }, [dispatch]);
+
+  const fetchCourses = useCallback((page = 1, pageSize = 99999) => {
+    dispatch(fetchCourseList(page, pageSize));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (courseListStatus === IDLE_STATUS) {
+      fetchCourses();
+    }
+  }, [courseListStatus, fetchCourses]);
 
   return (
     courseListStatus === SUCCESS_STATUS && (
