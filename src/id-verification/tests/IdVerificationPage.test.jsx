@@ -7,7 +7,7 @@ import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import IdVerificationPage from '../IdVerificationPage';
+import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
 import * as selectors from '../data/selectors';
 
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
@@ -47,7 +47,7 @@ jest.mock('../panels/SubmittedPanel', () => function SubmittedPanelMock() {
   return <></>;
 });
 
-const IntlIdVerificationPage = injectIntl(IdVerificationPage);
+const IntlIdVerificationPage = injectIntl(IdVerificationPageSlot);
 const mockStore = configureStore();
 
 describe('IdVerificationPage', () => {
