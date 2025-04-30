@@ -42,36 +42,8 @@ const NotificationPreferences = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <Container size="sm" className="notification-preferences">
-      <h2 className="notification-heading mt-6 mb-4.5">
-        {intl.formatMessage(messages.notificationHeading)}
-      </h2>
-      <div className="mb-6 text-gray-700 font-size-14 margin-bottom-32">
-        {intl.formatMessage(messages.notificationPreferenceGuideBody)}
-        <Hyperlink
-          destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/managing_notifications.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-decoration-underline ml-1"
-        >
-          {intl.formatMessage(messages.notificationPreferenceGuideLink)}
-        </Hyperlink>
-      </div>
-      <div className="h-100">
-        <div className="d-flex mb-5">
-          <Link to="/notifications">
-            <Icon className="text-primary-500" src={ArrowBack} />
-          </Link>
-          <span className="notification-course-title ml-auto mr-auto text-primary-500">
-            {course?.name}
-          </span>
-        </div>
-        {!mobileView && !isLoading && (
-=======
     <div className="h-100">
       {!mobileView && !isLoading && (
->>>>>>> 8b96e67 (feat: added notification preferences settings at account level (#1159))
         <div className="d-flex flex-row justify-content-between float-right">
           <div className="d-flex">
             {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
