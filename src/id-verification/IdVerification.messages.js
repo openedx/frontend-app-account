@@ -46,6 +46,11 @@ const messages = defineMessages({
     defaultMessage: 'You need a valid identification card that contains your full name and photo, such as a driver’s license or passport.',
     description: 'Text that explains that the user needs a photo ID.',
   },
+  'id.verification.privacy.modal': {
+    id: 'id.verification.privacy.modal',
+    defaultMessage: 'Id modal',
+    description: 'Title for Id modal.',
+  },
   'id.verification.privacy.title': {
     id: 'id.verification.privacy.title',
     defaultMessage: 'Privacy Information',
@@ -576,6 +581,11 @@ const messages = defineMessages({
     defaultMessage: 'Submit',
     description: 'Button to confirm all information is correct and submit.',
   },
+  'id.verification.review.confirmation': {
+    id: 'id.verification.review.confirmation',
+    defaultMessage: 'Confirmation',
+    description: 'Button\'s title to confirm all information is correct.',
+  },
   'id.verification.submission.alert.error.face': {
     id: 'id.verification.submission.alert.error.face',
     defaultMessage: 'A photo of your face is required. Please retake your portrait photo.',
@@ -655,6 +665,11 @@ const messages = defineMessages({
     id: 'id.verification.camera.help.button',
     defaultMessage: 'Switch to Camera Mode',
     description: 'Button used to switch to camera mode.',
+  },
+  'id.verification.context.loading.state': {
+    id: 'id.verification.context.loading.state',
+    defaultMessage: 'Loading verification status',
+    description: 'Message for loading status.',
   },
 });
 

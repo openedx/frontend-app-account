@@ -78,7 +78,7 @@ const IdVerificationPage = (props) => {
       </div>
       <ModalDialog
         isOpen={isModalOpen}
-        title="Id modal"
+        title={props.intl.formatMessage(messages['id.verification.privacy.modal'])}
         onClose={() => setIsModalOpen(false)}
         size="lg"
         hasCloseButton={false}

@@ -20,7 +20,7 @@ export const SuccessModal = (props) => {
           </p>
         </div>
         <p>
-          <ModalCloseButton className="float-right" variant="link">Close</ModalCloseButton>
+          <ModalCloseButton className="float-right" variant="link">{intl.formatMessage(messages['account.settings.delete.account.modal.after.button'])}</ModalCloseButton>
         </p>
       </div>
 
