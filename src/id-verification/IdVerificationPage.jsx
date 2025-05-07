@@ -114,7 +114,7 @@ const IdVerificationPage = (props) => {
         <ModalDialog.Footer className="p-2">
           <ActionRow>
             <ModalDialog.CloseButton variant="link">
-              Close
+              {props.intl.formatMessage(messages['id.verification.privacy.modal.close.button'])}
             </ModalDialog.CloseButton>
           </ActionRow>
         </ModalDialog.Footer>
