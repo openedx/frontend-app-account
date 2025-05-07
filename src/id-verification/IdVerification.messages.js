@@ -51,6 +51,11 @@ const messages = defineMessages({
     defaultMessage: 'Id modal',
     description: 'Title for privacy information dialog that contains some FAQs related to privacy information.',
   },
+  'id.verification.privacy.modal.close.button': {
+    id: 'id.verification.privacy.modal.close.button',
+    defaultMessage: 'Close',
+    description: 'Label on button to close privacy information dialog.',
+  },
   'id.verification.privacy.title': {
     id: 'id.verification.privacy.title',
     defaultMessage: 'Privacy Information',
