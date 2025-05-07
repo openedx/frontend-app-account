@@ -49,7 +49,7 @@ const messages = defineMessages({
   'id.verification.privacy.modal': {
     id: 'id.verification.privacy.modal',
     defaultMessage: 'Id modal',
-    description: 'Title for Id modal.',
+    description: 'Title for privacy information dialog that contains some FAQs related to privacy information.',
   },
   'id.verification.privacy.title': {
     id: 'id.verification.privacy.title',
@@ -669,7 +669,7 @@ const messages = defineMessages({
   'id.verification.context.loading.state': {
     id: 'id.verification.context.loading.state',
     defaultMessage: 'Loading verification status',
-    description: 'Message for loading status.',
+    description: 'Message shown when a user\'s identification verification is in the loading state',
   },
 });
 
