@@ -55,7 +55,6 @@ import { fetchCourseList } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
 import ExtendedProfileField from './ExtendedProfileField';
-import { moveCheckboxFieldsToEnd } from '../utils';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
@@ -81,7 +80,7 @@ class AccountSettingsPage extends React.Component {
     this.props.fetchCourseList();
     this.props.fetchSettings();
     this.props.fetchSiteLanguages(this.props.navigate);
-    this.props.fetchExtraFieldsInfo({ is_register_page: true });
+    this.props.fetchExtraFieldsInfo();
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -737,12 +736,14 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
           {this.props.extendedProfileFields
-            .sort(moveCheckboxFieldsToEnd).map((fieldDescription) => {
+            .map((fieldDescription) => {
               const fieldValue = this.props.formValues.extended_profile?.find(
                 (field) => field.field_name === fieldDescription.name,
               );
 
-              return <ExtendedProfileField field={{ ...fieldDescription, ...fieldValue }} {...editableFieldProps} />;
+              return fieldValue && (
+                <ExtendedProfileField field={{ ...fieldDescription, ...fieldValue }} {...editableFieldProps} />
+              );
             })}
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
@@ -944,7 +945,7 @@ AccountSettingsPage.propTypes = {
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
     })),
-    error_message: PropTypes.shape({
+    errorMessage: PropTypes.shape({
       required: PropTypes.string,
       invalid: PropTypes.string,
     }),

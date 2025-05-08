@@ -16,7 +16,7 @@ const ExtendedProfileField = (props) => {
     label: field.label,
     helpText: field.instructions,
     restrictions: field.restrictions,
-    errorMessage: field.error_message,
+    errorMessage: field.errorMessages,
     isEditable: true,
     emptyLabel: props.intl.formatMessage(messages['account.settings.dynamic.field.empty'], {
       field: field.label,
@@ -47,7 +47,7 @@ ExtendedProfileField.propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    error_message: PropTypes.string.isRequired,
+    errorMessages: PropTypes.string.isRequired,
     instructions: PropTypes.string,
     default: PropTypes.any,
     placeholder: PropTypes.any,
