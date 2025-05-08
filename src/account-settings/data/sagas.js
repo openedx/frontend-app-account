@@ -161,12 +161,12 @@ export function* handleFetchTimeZones(action) {
   yield put(fetchTimeZonesSuccess(response, action.payload.country));
 }
 
-export function* fetchThirdPartyAuthContext(action) {
+export function* fetchExtendedProfileFields() {
   try {
     yield put(getExtendedProfileFieldsBegin());
     const {
       fields,
-    } = yield call(getExtendedProfileFields, action.payload.urlParams);
+    } = yield call(getExtendedProfileFields);
 
     yield put(getExtendedProfileFieldsSuccess(fields));
   } catch (e) {
@@ -180,7 +180,7 @@ export default function* saga() {
   yield takeEvery(SAVE_SETTINGS.BASE, handleSaveSettings);
   yield takeEvery(SAVE_MULTIPLE_SETTINGS.BASE, handleSaveMultipleSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
-  yield takeEvery(EXTENDED_PROFILE_FIELDS.BASE, fetchThirdPartyAuthContext);
+  yield takeEvery(EXTENDED_PROFILE_FIELDS.BASE, fetchExtendedProfileFields);
   yield all([
     deleteAccountSaga(),
     siteLanguageSaga(),

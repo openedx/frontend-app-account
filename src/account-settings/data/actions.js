@@ -138,13 +138,11 @@ export const fetchTimeZonesSuccess = timeZones => ({
   payload: { timeZones },
 });
 
-// Third party auth context
 export const EXTENDED_PROFILE_FIELDS = new AsyncActionType('EXTENDED_PROFILE_FIELDS', 'GET_EXTENDED_PROFILE_FIELDS');
 export const EXTENDED_PROFILE_FIELDS_CLEAR_ERROR_MSG = 'EXTENDED_PROFILE_FIELDS_CLEAR_ERROR_MSG';
 
-export const getExtendedProfileFields = (urlParams) => ({
+export const getExtendedProfileFields = () => ({
   type: EXTENDED_PROFILE_FIELDS.BASE,
-  payload: { urlParams },
 });
 
 export const getExtendedProfileFieldsBegin = () => ({
@@ -158,8 +156,4 @@ export const getExtendedProfileFieldsSuccess = (fields) => ({
 
 export const getExtendedProfileFieldsFailure = () => ({
   type: EXTENDED_PROFILE_FIELDS.FAILURE,
-});
-
-export const clearThirdPartyAuthContextErrorMessage = () => ({
-  type: EXTENDED_PROFILE_FIELDS_CLEAR_ERROR_MSG,
 });

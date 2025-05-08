@@ -21,7 +21,7 @@ import {
   handleFetchSettings,
   handleSaveSettings,
   handleFetchTimeZones,
-  fetchThirdPartyAuthContext,
+  fetchExtendedProfileFields,
 } from './sagas';
 
 jest.mock('@edx/frontend-platform/auth', () => ({
@@ -134,7 +134,7 @@ describe('Saga Tests', () => {
     expect(dispatched).toContainEqual(fetchTimeZonesSuccess(mockResponse, 'US'));
   });
 
-  test('fetchThirdPartyAuthContext success', async () => {
+  test('fetchExtendedProfileFields success', async () => {
     const dispatched = [];
     const mockedAction = { payload: { urlParams: {} } };
     const mockFields = { field1: 'value1' };
@@ -145,7 +145,7 @@ describe('Saga Tests', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      fetchThirdPartyAuthContext,
+      fetchExtendedProfileFields,
       mockedAction,
     ).toPromise();
 
@@ -153,7 +153,7 @@ describe('Saga Tests', () => {
     expect(dispatched).toContainEqual(getExtendedProfileFieldsSuccess(mockFields));
   });
 
-  test('fetchThirdPartyAuthContext failure', async () => {
+  test('fetchExtendedProfileFields failure', async () => {
     const dispatched = [];
     const mockedAction = { payload: { urlParams: {} } };
 
@@ -163,7 +163,7 @@ describe('Saga Tests', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      fetchThirdPartyAuthContext,
+      fetchExtendedProfileFields,
       mockedAction,
     ).toPromise()).rejects.toThrow('API error');
 
@@ -182,7 +182,7 @@ describe('Saga Tests', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      fetchThirdPartyAuthContext,
+      fetchExtendedProfileFields,
       { payload: { urlParams: mockUrlParams } },
     ).toPromise();
 
@@ -201,7 +201,7 @@ describe('Saga Tests', () => {
       {
         dispatch: (action) => dispatched.push(action),
       },
-      fetchThirdPartyAuthContext,
+      fetchExtendedProfileFields,
       { payload: { urlParams: mockUrlParams } },
     ).toPromise()).rejects.toThrow(errorMessage);
 

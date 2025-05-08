@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { siteLanguageListSelector, siteLanguageOptionsSelector } from '../site-language';
-import { compareVerifiedNamesByCreatedDate } from '../../utils';
+import { compareVerifiedNamesByCreatedDate, moveCheckboxFieldsToEnd } from '../../utils';
 
 export const storeName = 'accountSettings';
 
@@ -282,7 +282,7 @@ export const accountSettingsPageSelector = createSelector(
     mostRecentVerifiedName,
     verifiedNameHistory,
     countriesCodesList,
-    extendedProfileFields: accountSettings.extendedProfileFields,
+    extendedProfileFields: accountSettings.extendedProfileFields.sort(moveCheckboxFieldsToEnd),
   }),
 );
 
