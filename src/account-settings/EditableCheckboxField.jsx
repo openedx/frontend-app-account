@@ -61,16 +61,6 @@ const EditableCheckboxField = (props) => {
     onCancel(name);
   };
 
-  const renderValue = (rawValue) => {
-    let finalValue = rawValue;
-
-    if (userSuppliedValue) {
-      finalValue += `: ${userSuppliedValue}`;
-    }
-
-    return finalValue ? 'Yes' : 'No';
-  };
-
   const renderConfirmationMessage = () => {
     if (!confirmationMessageDefinition || !confirmationValue) {
       return null;
@@ -136,14 +126,19 @@ const EditableCheckboxField = (props) => {
         default: (
           <div className="form-group">
             <div className="d-flex align-items-start">
-              <h6 aria-level="3"><div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(label) }} /></h6>
+              <h6 aria-level="3">
+                <Form.Checkbox
+                  checked={value}
+                >
+                  <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(label) }} />
+                </Form.Checkbox>
+              </h6>
               {isEditable ? (
                 <Button variant="link" onClick={handleEdit} className="ml-3">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}
             </div>
-            <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
             <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
           </div>
         ),
