@@ -273,25 +273,16 @@ export async function patchSettings(username, commitValues) {
   return combinedResults;
 }
 
-export async function getExtendedProfileFields(urlParams) {
-  const requestConfig = {
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    params: urlParams,
-    isPublic: true,
-  };
+export async function getExtendedProfileFields() {
+  const url = `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`;
 
   const { data } = await getAuthenticatedHttpClient()
     .get(
-      `${getConfig().LMS_BASE_URL}/api/mfe_context`,
-      requestConfig,
+      url,
     )
     .catch((e) => {
       throw (e);
     });
 
-  const extendedProfileFields = data.optionalFields.extended_profile
-    .map((fieldName) => (data.optionalFields.fields[fieldName] ?? data.registrationFields.fields[fieldName]))
-    .filter(Boolean);
-
-  return { fields: extendedProfileFields };
+  return { fields: data.fields };
 }
