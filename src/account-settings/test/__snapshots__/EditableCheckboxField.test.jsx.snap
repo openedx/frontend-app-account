@@ -23,7 +23,7 @@ exports[`EditableCheckboxField renders correctly when editing is enabled 1`] = `
         className="pgn__form-group"
       >
         <div
-          aria-describedby="field-testCheckbox-2"
+          aria-describedby="field-testCheckbox-4"
           className="pgn__form-checkbox"
           id="field-testCheckbox"
           role="group"
@@ -63,7 +63,7 @@ exports[`EditableCheckboxField renders correctly when editing is enabled 1`] = `
         </div>
         <div
           className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
-          id="field-testCheckbox-2"
+          id="field-testCheckbox-4"
         >
           <span
             className="pgn__icon"
@@ -144,12 +144,30 @@ exports[`EditableCheckboxField renders correctly with editing disabled 1`] = `
           aria-level="3"
         >
           <div
-            dangerouslySetInnerHTML={
-              {
-                "__html": "Checkbox Label",
-              }
-            }
-          />
+            className="pgn__form-checkbox"
+          >
+            <input
+              checked={false}
+              className="pgn__form-checkbox-input"
+              disabled={false}
+              id="form-field1"
+              type="checkbox"
+            />
+            <div>
+              <label
+                className="pgn__form-label"
+                htmlFor="form-field1"
+              >
+                <div
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "Checkbox Label",
+                    }
+                  }
+                />
+              </label>
+            </div>
+          </div>
         </h6>
         <button
           className="ml-3 btn btn-link"
@@ -177,12 +195,6 @@ exports[`EditableCheckboxField renders correctly with editing disabled 1`] = `
           Edit
         </button>
       </div>
-      <p
-        className={null}
-        data-hj-suppress={true}
-      >
-        No
-      </p>
       <p
         className="small text-muted mt-n2"
       >

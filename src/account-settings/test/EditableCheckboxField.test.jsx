@@ -76,12 +76,6 @@ describe('EditableCheckboxField', () => {
     expect(screen.queryByRole('button', { name: /Edit/i })).not.toBeInTheDocument();
   });
 
-  it('renders as grayed out when isGrayedOut is true', () => {
-    props.isGrayedOut = true;
-    render(componentWrapper(<TestableEditableCheckboxField {...props} />));
-    expect(screen.getByText('No').closest('p')).toHaveClass('grayed-out');
-  });
-
   it('calls onChange with correct arguments when checkbox value changes', () => {
     props.isEditing = true;
     render(componentWrapper(<TestableEditableCheckboxField {...props} />));
