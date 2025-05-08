@@ -272,3 +272,17 @@ export async function patchSettings(username, commitValues) {
   const combinedResults = Object.assign({}, ...results);
   return combinedResults;
 }
+
+export async function getExtendedProfileFields() {
+  const url = `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`;
+
+  const { data } = await getAuthenticatedHttpClient()
+    .get(
+      url,
+    )
+    .catch((e) => {
+      throw (e);
+    });
+
+  return { fields: data.fields };
+}
