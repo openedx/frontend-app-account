@@ -43,6 +43,7 @@ const NotificationCoursesDropdown = () => {
             variant="outline-primary"
             id="course-dropdown-btn"
             className="w-100 justify-content-between small"
+            disabled
           >
             {selectedCourse?.name}
           </Dropdown.Toggle>
