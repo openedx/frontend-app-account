@@ -44,3 +44,8 @@
     filter: alpha(opacity = 60); /* MSIE */
   }
 }
+
+#tooltip-email .small {
+  display: block;
+  margin: 0 !important;
+}
