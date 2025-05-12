@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -40,6 +40,8 @@ const EditableField = (props) => {
     isEditable,
     isGrayedOut,
     intl,
+    restrictions,
+    errorMessage,
     ...others
   } = props;
   const id = `field-${name}`;
@@ -90,6 +92,27 @@ const EditableField = (props) => {
     });
   };
 
+  const [displayedMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (!value && errorMessage?.required) {
+      setErrorMessage(errorMessage.required);
+    } else if (restrictions?.max_length && value.length > restrictions.max_length) {
+      setErrorMessage(errorMessage.max_length);
+    } else if (restrictions?.min_length && value.length < restrictions.min_length) {
+      setErrorMessage(errorMessage.min_length);
+    } else {
+      setErrorMessage(null);
+    }
+  }, [
+    errorMessage?.max_length,
+    errorMessage?.min_length,
+    errorMessage?.required,
+    restrictions?.max_length,
+    restrictions?.min_length,
+    value,
+  ]);
+
   return (
     <SwitchContent
       expression={isEditing ? 'editing' : 'default'}
@@ -99,7 +122,7 @@ const EditableField = (props) => {
             <form onSubmit={handleSubmit}>
               <Form.Group
                 controlId={id}
-                isInvalid={error != null}
+                isInvalid={error != null || displayedMessage != null}
               >
                 <Form.Label size="sm" className="h6 d-block" htmlFor={id}>{label}</Form.Label>
                 <Form.Control
@@ -110,16 +133,19 @@ const EditableField = (props) => {
                   value={value}
                   onChange={handleChange}
                   {...others}
+                  minLength={restrictions?.min_length}
+                  maxLength={restrictions?.max_length}
                 />
                 {!!helpText && <Form.Text>{helpText}</Form.Text>}
-                {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
+                {(error != null || displayedMessage != null)
+                && (<Form.Control.Feedback hasIcon={false}>{error || displayedMessage}</Form.Control.Feedback>)}
                 {others.children}
               </Form.Group>
               <p>
                 <StatefulButton
                   type="submit"
                   className="mr-2"
-                  state={saveState}
+                  state={displayedMessage ? 'error' : saveState}
                   labels={{
                     default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
                   }}
@@ -133,7 +159,7 @@ const EditableField = (props) => {
                     // current structure of the application.
                     if (saveState === 'pending') { e.preventDefault(); }
                   }}
-                  disabledStates={[]}
+                  disabledStates={['error']}
                 />
                 <Button
                   variant="outline-primary"
@@ -189,6 +215,15 @@ EditableField.propTypes = {
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
   intl: intlShape.isRequired,
+  errorMessage: PropTypes.shape({
+    required: PropTypes.string,
+    max_length: PropTypes.string,
+    min_length: PropTypes.string,
+  }),
+  restrictions: PropTypes.shape({
+    max_length: PropTypes.number,
+    min_length: PropTypes.number,
+  }),
 };
 
 EditableField.defaultProps = {
