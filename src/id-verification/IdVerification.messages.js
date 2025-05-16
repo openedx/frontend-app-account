@@ -46,11 +46,6 @@ const messages = defineMessages({
     defaultMessage: 'You need a valid identification card that contains your full name and photo, such as a driver’s license or passport.',
     description: 'Text that explains that the user needs a photo ID.',
   },
-  'id.verification.privacy.modal': {
-    id: 'id.verification.privacy.modal',
-    defaultMessage: 'Id modal',
-    description: 'Title for privacy information dialog that contains some FAQs related to privacy information.',
-  },
   'id.verification.privacy.modal.close.button': {
     id: 'id.verification.privacy.modal.close.button',
     defaultMessage: 'Close',

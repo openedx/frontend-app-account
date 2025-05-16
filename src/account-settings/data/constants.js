@@ -135,7 +135,3 @@ export function getStatesList(country) {
 export const FIELD_LABELS = {
   COUNTRY: 'country',
 };
-
-export const DECLINED = 'declined';
-export const SELF_DESCRIBE = 'self-describe';
-export const OTHER = 'other';
