@@ -90,7 +90,7 @@ const SummaryPanel = (props) => {
     };
     return (
       <Button
-        title="Confirmation"
+        title={props.intl.formatMessage(messages['id.verification.review.confirmation'])}
         disabled={isSubmitting}
         onClick={handleClick}
         data-testid="submit-button"
@@ -224,7 +224,7 @@ const SummaryPanel = (props) => {
                 defaultMessage="Edit {sr}"
                 description="Button to edit name, with clarifying information for screen readers."
                 values={{
-                  sr: <span className="sr-only">Name</span>,
+                  sr: <span className="sr-only">{props.intl.formatMessage(messages['id.verification.name.label'])}</span>,
                 }}
               />
             </Link>
