@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import {
@@ -21,6 +22,9 @@ const EmailCadences = ({
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = useState(null);
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  if (getConfig().SHOW_IMMEDIATE_EMAIL_CADENCE) {
+    EMAIL_CADENCE_PREFERENCES.IMMEDIATELY = 'Immediately';
+  }
 
   return (
     <>
