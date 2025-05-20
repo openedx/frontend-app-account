@@ -30,6 +30,7 @@ const EmailCadences = ({
     <>
       <Button
         ref={setTarget}
+        data-testid="email-cadence-button"
         variant="outline-primary"
         onClick={open}
         disabled={!email || updatePreferencesStatus === LOADING_STATUS}
@@ -58,6 +59,7 @@ const EmailCadences = ({
               size="inline"
               active={cadence === emailCadence}
               autoFocus={cadence === emailCadence}
+              data-testid={`email-cadence-${cadence}`}
               onClick={(event) => {
                 onToggle(event, notificationType);
                 close();
