@@ -736,6 +736,8 @@ const AccountSettingsPage = ({
             emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+
+          <ExtendedProfileFieldsSlot />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
