@@ -1,53 +1,50 @@
-# Footer Slot
+# Extended Profile Fields
 
-### Slot ID: `org.openedx.frontend.layout.footer.v1`
+### Slot ID: `org.openedx.frontend.account.extended_profile_fields.v1`
 
 ### Slot ID Aliases
-* `footer_slot`
+* `extended_account_fields_slot`
 
 ## Description
 
-This slot is used to replace/modify/hide the footer.
-
-The implementation of the `FooterSlot` component lives in [the `frontend-component-footer` repository](https://github.com/openedx/frontend-component-footer/).
+This slot is used to replace/modify/hide the extended profile fields in the account page.
 
 ## Example
 
-The following `env.config.jsx` will replace the default footer.
+> [!NOTE]
+> Take into account that the fields shown in the screenshots come from a [custom NPM Package](https://www.npmjs.com/package/@edunext/frontend-component-extended-fields) 
 
-![Screenshot of Default Footer](./images/default_footer.png)
+The following `env.config.jsx` will replace the default custom fields. 
 
-with a simple custom footer
+![Screenshot of Default Fields](./images/default_fields.png)
 
-![Screenshot of Custom Footer](./images/custom_footer.png)
+with a custom extended fields component
+
+![Screenshot of Custom Fields](./images/custom_fields.png)
 
 ```jsx
 import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-framework';
 
+import { ExtendedProfileFields } from '@organization/frontend-component-extended-fields';
+
 const config = {
-  pluginSlots: {
-    'org.openedx.frontend.layout.footer.v1': {
-      plugins: [
-        {
-          // Hide the default footer
-          op: PLUGIN_OPERATIONS.Hide,
-          widgetId: 'default_contents',
-        },
-        {
-          // Insert a custom footer
-          op: PLUGIN_OPERATIONS.Insert,
-          widget: {
-            id: 'custom_footer',
-            type: DIRECT_PLUGIN,
-            RenderWidget: () => (
-              <h1 style={{textAlign: 'center'}}>🦶</h1>
-            ),
-          },
-        },
-      ]
-    }
-  },
-}
+	pluginSlots: {
+		extended_account_fields_slot: {
+			keepDefault: false,
+			plugins: [
+				{
+                    // Insert a custom ExtendedProfileFields component
+					op: PLUGIN_OPERATIONS.Insert,
+					widget: {
+						id: 'extended_account_fields',
+						type: DIRECT_PLUGIN,
+						RenderWidget: ExtendedProfileFields,
+					},
+				},
+			],
+		},
+	},
+};
 
 export default config;
 ```
