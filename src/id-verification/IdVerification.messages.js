@@ -584,7 +584,7 @@ const messages = defineMessages({
   'id.verification.review.confirmation': {
     id: 'id.verification.review.confirmation',
     defaultMessage: 'Confirmation',
-    description: 'Button\'s title to confirm all information is correct.',
+    description: 'Button\'s title to confirm all ID Verification information is correct.',
   },
   'id.verification.submission.alert.error.face': {
     id: 'id.verification.submission.alert.error.face',
@@ -669,7 +669,7 @@ const messages = defineMessages({
   'id.verification.context.loading.state': {
     id: 'id.verification.context.loading.state',
     defaultMessage: 'Loading verification status',
-    description: 'Message shown when a user\'s identification verification is in the loading state',
+    description: 'Message shown for screen readers when a user\'s identification verification is in the loading state',
   },
 });
 
