@@ -27,7 +27,6 @@ exports[`DeleteAccount should match default section snapshot 1`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
@@ -73,7 +72,6 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
@@ -112,15 +110,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
       </svg>
     </div>
     <div>
-      Before proceeding, please 
-      <a
-        className="pgn__hyperlink default-link standalone-link"
-        href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
-        target="_self"
-      >
-        activate your account
-      </a>
-      .
+      Before proceeding, please activate your account.
     </div>
   </div>
 </div>
@@ -153,7 +143,6 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
@@ -192,15 +181,7 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
       </svg>
     </div>
     <div>
-      Before proceeding, please 
-      <a
-        className="pgn__hyperlink default-link standalone-link"
-        href="https://help.edx.org/edxlearner/s/article/How-do-I-link-or-unlink-my-edX-account-to-a-social-media-account"
-        target="_self"
-      >
-        unlink all social media accounts
-      </a>
-      .
+      Before proceeding, please unlink all social media accounts.
     </div>
   </div>
 </div>
