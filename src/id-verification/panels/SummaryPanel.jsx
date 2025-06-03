@@ -130,7 +130,7 @@ const SummaryPanel = (props) => {
         `}
         values={{
           support_link: (
-            <Alert.Link href="https://support.edx.org/hc/en-us">
+            <Alert.Link href={getConfig().LEARNER_SUPPORT_URL}>
               {props.intl.formatMessage(
                 messages['id.verification.review.error'],
                 { siteName: getConfig().SITE_NAME },
