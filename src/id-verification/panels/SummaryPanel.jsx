@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import {
   Alert, Hyperlink, Form, Button, Spinner,
@@ -90,7 +90,6 @@ const SummaryPanel = (props) => {
     };
     return (
       <Button
-        title={props.intl.formatMessage(messages['id.verification.review.confirmation'])}
         disabled={isSubmitting}
         onClick={handleClick}
         data-testid="submit-button"
@@ -224,7 +223,7 @@ const SummaryPanel = (props) => {
                 defaultMessage="Edit {sr}"
                 description="Button to edit name, with clarifying information for screen readers."
                 values={{
-                  sr: <span className="sr-only">{props.intl.formatMessage(messages['id.verification.name.label'])}</span>,
+                  sr: <span className="sr-only">Name</span>,
                 }}
               />
             </Link>

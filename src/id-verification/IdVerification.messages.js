@@ -581,11 +581,6 @@ const messages = defineMessages({
     defaultMessage: 'Submit',
     description: 'Button to confirm all information is correct and submit.',
   },
-  'id.verification.review.confirmation': {
-    id: 'id.verification.review.confirmation',
-    defaultMessage: 'Confirmation',
-    description: 'Button\'s title to confirm all ID Verification information is correct.',
-  },
   'id.verification.submission.alert.error.face': {
     id: 'id.verification.submission.alert.error.face',
     defaultMessage: 'A photo of your face is required. Please retake your portrait photo.',
