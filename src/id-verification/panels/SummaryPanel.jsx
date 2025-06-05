@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import {
   Alert, Hyperlink, Form, Button, Spinner,
@@ -90,7 +90,6 @@ const SummaryPanel = (props) => {
     };
     return (
       <Button
-        title="Confirmation"
         disabled={isSubmitting}
         onClick={handleClick}
         data-testid="submit-button"
