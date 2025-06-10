@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import { getProfileDataManager } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
@@ -15,7 +16,10 @@ import { hasGetUserMediaSupport } from './getUserMediaShim';
 import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from './IdVerificationContext';
 import { VerifiedNameContext } from './VerifiedNameContext';
 
+import messages from './IdVerification.messages';
+
 const IdVerificationContextProvider = ({ children }) => {
+  const intl = useIntl();
   const { authenticatedUser } = useContext(AppContext);
   const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
@@ -117,7 +121,7 @@ const IdVerificationContextProvider = ({ children }) => {
   const loadingStatuses = [IDLE_STATUS, LOADING_STATUS];
   // If we are waiting for verification status or verified name history endpoint, show spinner.
   if (loadingStatuses.includes(idVerificationData.status) || loadingStatuses.includes(verifiedNameHistoryCallStatus)) {
-    return <PageLoading srMessage="Loading verification status" />;
+    return <PageLoading srMessage={intl.formatMessage(messages['id.verification.context.loading.state'])} />;
   }
 
   if (!canVerify) {

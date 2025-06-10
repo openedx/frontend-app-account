@@ -46,6 +46,11 @@ const messages = defineMessages({
     defaultMessage: 'You need a valid identification card that contains your full name and photo, such as a driver’s license or passport.',
     description: 'Text that explains that the user needs a photo ID.',
   },
+  'id.verification.privacy.modal.close.button': {
+    id: 'id.verification.privacy.modal.close.button',
+    defaultMessage: 'Close',
+    description: 'Label on button to close privacy information dialog.',
+  },
   'id.verification.privacy.title': {
     id: 'id.verification.privacy.title',
     defaultMessage: 'Privacy Information',
@@ -655,6 +660,11 @@ const messages = defineMessages({
     id: 'id.verification.camera.help.button',
     defaultMessage: 'Switch to Camera Mode',
     description: 'Button used to switch to camera mode.',
+  },
+  'id.verification.context.loading.state': {
+    id: 'id.verification.context.loading.state',
+    defaultMessage: 'Loading verification status',
+    description: 'Message shown for screen readers when a user\'s identification verification is in the loading state',
   },
 });
 
