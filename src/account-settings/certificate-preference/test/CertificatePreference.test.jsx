@@ -11,6 +11,7 @@ import {
 
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import messages from '../messages';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -38,7 +39,7 @@ describe('NameChange', () => {
   let store = {};
   const formId = 'useVerifiedNameForCerts';
   const updateDraft = 'UPDATE_DRAFT';
-  const labelText = 'If checked, this name will appear on your certificates and public-facing records.';
+  const labelText = messages['account.settings.field.name.checkbox.certificate.select'].defaultMessage;
 
   const reduxWrapper = children => (
     <Router>
