@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { setConfig } from '@edx/frontend-platform';
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -105,6 +106,11 @@ describe('Notification Preferences', () => {
   let store;
 
   beforeEach(() => {
+    setConfig({
+      SHOW_IMMEDIATE_EMAIL_CADENCE: false,
+      SHOW_EMAIL_CHANNEL: '',
+    });
+
     store = setupStore({
       ...defaultPreferences,
       status: SUCCESS_STATUS,
@@ -157,5 +163,31 @@ describe('Notification Preferences', () => {
     const element = screen.getByTestId('core-web');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
+  });
+
+  test.each([
+    { SHOW_IMMEDIATE_EMAIL_CADENCE: false },
+    { SHOW_IMMEDIATE_EMAIL_CADENCE: true },
+  ])('test immediate cadence is visible iff SHOW_IMMEDIATE_EMAIL_CADENCE is true', async (
+    { SHOW_IMMEDIATE_EMAIL_CADENCE },
+  ) => {
+    setConfig({
+      SHOW_IMMEDIATE_EMAIL_CADENCE,
+      SHOW_EMAIL_CHANNEL: 'true',
+    });
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+    const button = screen.queryAllByTestId('email-cadence-button')[0];
+    await fireEvent.click(button);
+    const option = screen.queryByTestId('email-cadence-Immediately');
+    if (SHOW_IMMEDIATE_EMAIL_CADENCE) {
+      expect(option).toBeInTheDocument();
+    } else {
+      expect(option).not.toBeInTheDocument();
+    }
   });
 });
