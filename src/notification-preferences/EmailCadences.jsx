@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import {
@@ -21,11 +22,15 @@ const EmailCadences = ({
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = useState(null);
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  if (getConfig().SHOW_IMMEDIATE_EMAIL_CADENCE) {
+    EMAIL_CADENCE_PREFERENCES.IMMEDIATELY = 'Immediately';
+  }
 
   return (
     <>
       <Button
         ref={setTarget}
+        data-testid="email-cadence-button"
         variant="outline-primary"
         onClick={open}
         disabled={!email || updatePreferencesStatus === LOADING_STATUS}
@@ -54,6 +59,7 @@ const EmailCadences = ({
               size="inline"
               active={cadence === emailCadence}
               autoFocus={cadence === emailCadence}
+              data-testid={`email-cadence-${cadence}`}
               onClick={(event) => {
                 onToggle(event, notificationType);
                 close();
