@@ -41,7 +41,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
       />
       <div
         aria-label="Are you sure?"
-        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__modal-visible-overflow pgn__alert-modal"
         role="dialog"
       >
         <div
@@ -131,30 +131,57 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
                 </div>
               </div>
               <div
-                className="form-group"
-                data-testid="validation-form-group"
+                className="pgn__form-group"
+                for="passwordFieldId"
               >
                 <label
-                  className="d-block"
-                  htmlFor="passwordFieldId"
+                  className="pgn__form-label d-block"
+                  htmlFor="form-field3"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <input
-                  aria-describedby="passwordFieldId-invalid-feedback"
-                  className="form-control is-invalid"
-                  id="passwordFieldId"
-                  name="password"
-                  onChange={[MockFunction]}
-                  type="password"
-                  value="fluffy bunnies"
-                />
-                <strong
-                  className="invalid-feedback"
-                  id="passwordFieldId-invalid-feedback"
+                <div
+                  className="pgn__form-control-decorator-group"
                 >
-                  A password is required
-                </strong>
+                  <input
+                    aria-describedby="form-field3-5"
+                    className="has-value form-control is-invalid"
+                    id="form-field3"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="password"
+                    value="fluffy bunnies"
+                  />
+                </div>
+                <div
+                  className="pgn__form-control-description pgn__form-text pgn__form-text-invalid"
+                  feedback-for="passwordFieldId"
+                  id="form-field3-5"
+                >
+                  <span
+                    className="pgn__icon"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      fill="none"
+                      focusable={false}
+                      height={24}
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width={24}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    A password is required
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -242,7 +269,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
       />
       <div
         aria-label="Are you sure?"
-        className="pgn__modal pgn__modal-md pgn__modal-default pgn__alert-modal"
+        className="pgn__modal pgn__modal-md pgn__modal-default pgn__modal-visible-overflow pgn__alert-modal"
         role="dialog"
       >
         <div
@@ -299,30 +326,28 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="form-group"
-                data-testid="validation-form-group"
+                className="pgn__form-group"
+                for="passwordFieldId"
               >
                 <label
-                  className="d-block"
-                  htmlFor="passwordFieldId"
+                  className="pgn__form-label d-block"
+                  htmlFor="form-field1"
                 >
                   If you still wish to continue and delete your account, please enter your account password:
                 </label>
-                <input
-                  aria-describedby=""
-                  className="form-control"
-                  id="passwordFieldId"
-                  name="password"
-                  onChange={[MockFunction]}
-                  type="password"
-                  value="fluffy bunnies"
-                />
-                <strong
-                  className="invalid-feedback"
-                  id="passwordFieldId-invalid-feedback"
+                <div
+                  className="pgn__form-control-decorator-group"
                 >
-                  Unable to delete account
-                </strong>
+                  <input
+                    className="has-value form-control"
+                    id="form-field1"
+                    name="password"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    type="password"
+                    value="fluffy bunnies"
+                  />
+                </div>
               </div>
             </div>
           </div>
