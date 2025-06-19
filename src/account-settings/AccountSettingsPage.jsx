@@ -14,7 +14,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
 import {
-  Hyperlink, Icon, Alert,
+  Container, Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
@@ -852,7 +852,7 @@ class AccountSettingsPage extends React.Component {
     } = this.props;
 
     return (
-      <div className="page__account-settings container-fluid py-5">
+      <Container className="page__account-settings py-5" size="xl">
         {this.renderDuplicateTpaProviderMessage()}
         <h1 className="mb-4">
           {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
@@ -869,7 +869,7 @@ class AccountSettingsPage extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
