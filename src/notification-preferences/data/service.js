@@ -3,7 +3,10 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import snakeCase from 'lodash.snakecase';
 
 export const getCourseNotificationPreferences = async (courseId) => {
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  let url = `${getConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  if (getConfig().ENABLE_PREFERENCES_V2 === 'true') {
+    url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
+  }
   const { data } = await getAuthenticatedHttpClient().get(url);
   return data;
 };
@@ -47,6 +50,12 @@ export const postPreferenceToggle = async (
     value,
     emailCadence,
   });
+  if (getConfig().ENABLE_PREFERENCES_V2 === 'true') {
+    const url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
+    const { data } = await getAuthenticatedHttpClient().put(url, patchData);
+    return data;
+  }
+
   const url = `${getConfig().LMS_BASE_URL}/api/notifications/preferences/update-all/`;
   const { data } = await getAuthenticatedHttpClient().post(url, patchData);
   return data;
