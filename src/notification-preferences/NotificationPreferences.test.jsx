@@ -11,6 +11,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
 import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import {
+  getCourseNotificationPreferences,
+  postPreferenceToggle,
+} from './data/service';
 
 const courseId = 'selected-course-id';
 
@@ -189,5 +193,72 @@ describe('Notification Preferences', () => {
     } else {
       expect(option).not.toBeInTheDocument();
     }
+  });
+});
+
+describe('Notification Preferences API v2 Logic', () => {
+  const LMS_BASE_URL = 'https://lms.example.com';
+  let mockHttpClient;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    mockHttpClient = {
+      get: jest.fn().mockResolvedValue({ data: {} }),
+      put: jest.fn().mockResolvedValue({ data: {} }),
+      post: jest.fn().mockResolvedValue({ data: {} }),
+      patch: jest.fn().mockResolvedValue({ data: {} }),
+    };
+    auth.getAuthenticatedHttpClient.mockReturnValue(mockHttpClient);
+
+    setConfig({ LMS_BASE_URL });
+  });
+
+  describe('getCourseNotificationPreferences', () => {
+    it('should call the v2 configurations URL when ENABLE_PREFERENCES_V2 is true', async () => {
+      setConfig({ LMS_BASE_URL, ENABLE_PREFERENCES_V2: 'true' });
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v2/configurations/`;
+
+      await getCourseNotificationPreferences('any-course-id');
+
+      expect(mockHttpClient.get).toHaveBeenCalledWith(expectedUrl);
+      expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call the original (v1) configurations URL when ENABLE_PREFERENCES_V2 is not true', async () => {
+      setConfig({ LMS_BASE_URL, ENABLE_PREFERENCES_V2: 'false' });
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+
+      await getCourseNotificationPreferences(courseId);
+
+      expect(mockHttpClient.get).toHaveBeenCalledWith(expectedUrl);
+      expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('postPreferenceToggle', () => {
+    it('should call the v2 configurations URL with PUT method when ENABLE_PREFERENCES_V2 is true', async () => {
+      setConfig({ LMS_BASE_URL, ENABLE_PREFERENCES_V2: 'true' });
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v2/configurations/`;
+      const testArgs = ['app_name', 'notification_type', 'web', true, 'daily'];
+
+      await postPreferenceToggle(...testArgs);
+
+      expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
+      expect(mockHttpClient.put).toHaveBeenCalledTimes(1);
+      expect(mockHttpClient.post).not.toHaveBeenCalled();
+    });
+
+    it('should call the original (v1) update-all URL with POST method when ENABLE_PREFERENCES_V2 is not true', async () => {
+      setConfig({ LMS_BASE_URL, ENABLE_PREFERENCES_V2: 'false' });
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/preferences/update-all/`;
+      const testArgs = ['app_name', 'notification_type', 'web', true, 'daily'];
+
+      await postPreferenceToggle(...testArgs);
+
+      expect(mockHttpClient.post).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
+      expect(mockHttpClient.post).toHaveBeenCalledTimes(1);
+      expect(mockHttpClient.put).not.toHaveBeenCalled();
+    });
   });
 });
