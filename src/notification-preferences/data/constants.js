@@ -1,6 +1,7 @@
 export const EMAIL_CADENCE_PREFERENCES = {
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
+  IMMEDIATELY: 'Immediately',
 };
 export const EMAIL_CADENCE = 'email_cadence';
 export const EMAIL = 'email';

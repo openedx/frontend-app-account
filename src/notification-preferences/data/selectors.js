@@ -1,3 +1,6 @@
+export const selectAppNonEditableChannels = (appId) => state => (
+  state.notificationPreferences.preferences?.nonEditable[appId] || {}
+);
 export const selectNotificationPreferencesStatus = () => state => (
   state.notificationPreferences.preferences.status
 );
