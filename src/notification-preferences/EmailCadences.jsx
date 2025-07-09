@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import {
@@ -16,15 +15,12 @@ import { selectUpdatePreferencesStatus } from './data/selectors';
 import { LOADING_STATUS } from '../constants';
 
 const EmailCadences = ({
-  email, onToggle, emailCadence, notificationType,
+  email, onToggle, emailCadence, notificationType, disabled = false,
 }) => {
   const intl = useIntl();
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = useState(null);
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
-  if (getConfig().SHOW_IMMEDIATE_EMAIL_CADENCE) {
-    EMAIL_CADENCE_PREFERENCES.IMMEDIATELY = 'Immediately';
-  }
 
   return (
     <>
@@ -33,7 +29,7 @@ const EmailCadences = ({
         data-testid="email-cadence-button"
         variant="outline-primary"
         onClick={open}
-        disabled={!email || updatePreferencesStatus === LOADING_STATUS}
+        disabled={!email || updatePreferencesStatus === LOADING_STATUS || disabled}
         size="sm"
         iconAfter={isOpen ? ExpandLess : ExpandMore}
         className="border-light-300 justify-content-between ml-3.5 cadence-button"
@@ -79,6 +75,7 @@ EmailCadences.propTypes = {
   onToggle: PropTypes.func.isRequired,
   emailCadence: PropTypes.oneOf(Object.values(EMAIL_CADENCE_PREFERENCES)).isRequired,
   notificationType: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default React.memo(EmailCadences);

@@ -56,7 +56,7 @@ const defaultPreferences = {
       appId: 'coursework',
       web: false,
       push: false,
-      email: false,
+      email: true,
       coreNotificationTypes: [],
     },
     {
@@ -71,7 +71,7 @@ const defaultPreferences = {
   nonEditable: {
     discussion: {
       core: [
-        'web',
+        'web', 'email',
       ],
     },
   },
@@ -111,7 +111,6 @@ describe('Notification Preferences', () => {
 
   beforeEach(() => {
     setConfig({
-      SHOW_IMMEDIATE_EMAIL_CADENCE: false,
       SHOW_EMAIL_CHANNEL: '',
     });
 
@@ -164,19 +163,13 @@ describe('Notification Preferences', () => {
       selectedCourse: '',
     });
     await render(notificationPreferences(store));
-    const element = screen.getByTestId('core-web');
+    const element = screen.getByTestId('toggle-core-web');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();
   });
 
-  test.each([
-    { SHOW_IMMEDIATE_EMAIL_CADENCE: false },
-    { SHOW_IMMEDIATE_EMAIL_CADENCE: true },
-  ])('test immediate cadence is visible iff SHOW_IMMEDIATE_EMAIL_CADENCE is true', async (
-    { SHOW_IMMEDIATE_EMAIL_CADENCE },
-  ) => {
+  it('test non editable', async () => {
     setConfig({
-      SHOW_IMMEDIATE_EMAIL_CADENCE,
       SHOW_EMAIL_CHANNEL: 'true',
     });
     store = setupStore({
@@ -185,14 +178,10 @@ describe('Notification Preferences', () => {
       selectedCourse: '',
     });
     await render(notificationPreferences(store));
-    const button = screen.queryAllByTestId('email-cadence-button')[0];
-    await fireEvent.click(button);
-    const option = screen.queryByTestId('email-cadence-Immediately');
-    if (SHOW_IMMEDIATE_EMAIL_CADENCE) {
-      expect(option).toBeInTheDocument();
-    } else {
-      expect(option).not.toBeInTheDocument();
-    }
+    expect(screen.getByTestId('toggle-core-web')).toBeDisabled();
+    expect(screen.getByTestId('toggle-core-email')).toBeDisabled();
+    expect(screen.getAllByTestId('email-cadence-button')[0]).toBeDisabled();
+    expect(screen.getByTestId('toggle-newGrade-web')).not.toBeDisabled();
   });
 });
 

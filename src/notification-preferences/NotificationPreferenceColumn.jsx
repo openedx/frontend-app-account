@@ -13,7 +13,10 @@ import ToggleSwitch from './ToggleSwitch';
 import EmailCadences from './EmailCadences';
 import { LOADING_STATUS } from '../constants';
 import { updatePreferenceToggle } from './data/thunks';
-import { selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
+import {
+  selectAppNonEditableChannels, selectAppPreferences,
+  selectSelectedCourseId, selectUpdatePreferencesStatus,
+} from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import {
   EMAIL, EMAIL_CADENCE, EMAIL_CADENCE_PREFERENCES, MIXED,
@@ -25,6 +28,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const courseId = useSelector(selectSelectedCourseId());
   const appPreferences = useSelector(selectAppPreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  const nonEditable = useSelector(selectAppNonEditableChannels(appId));
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
@@ -84,8 +88,8 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         name={channel}
         value={preference[channel]}
         onChange={(event) => onToggle(event, preference.id)}
-        disabled={updatePreferencesStatus === LOADING_STATUS}
-        id={`${preference.id}-${channel}`}
+        disabled={updatePreferencesStatus === LOADING_STATUS || nonEditable[preference.id]?.includes(channel)}
+        id={`toggle-${preference.id}-${channel}`}
         className="my-1"
       />
       {channel === EMAIL && (
@@ -94,6 +98,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         onToggle={onToggle}
         emailCadence={preference.emailCadence}
         notificationType={preference.id}
+        disabled={nonEditable[preference.id]?.includes(channel)}
       />
       )}
     </div>
