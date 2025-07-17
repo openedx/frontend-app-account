@@ -1,5 +1,4 @@
 /* eslint-disable no-import-assign */
-import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -10,7 +9,7 @@ import {
 } from '@testing-library/react';
 
 import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -28,8 +27,6 @@ jest.mock('react-redux', () => ({
 
 jest.mock('@edx/frontend-platform/auth');
 jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ nameChangeSelector: () => ({}) })));
-
-const IntlNameChange = injectIntl(NameChange);
 
 const mockStore = configureStore();
 
@@ -55,7 +52,6 @@ describe('NameChange', () => {
         verified_name: 'edX Verified',
       },
       saveState: null,
-      intl: {},
     };
 
     auth.getAuthenticatedHttpClient = jest.fn(() => ({
@@ -72,7 +68,7 @@ describe('NameChange', () => {
   it('renders populated input after clicking continue if verified_name in form data', async () => {
     const getInput = () => screen.queryByPlaceholderText('Enter the name on your photo ID');
 
-    render(reduxWrapper(<IntlNameChange {...props} />));
+    render(reduxWrapper(<NameChange {...props} />));
     expect(getInput()).toBeNull();
 
     const continueButton = screen.getByText('Continue');
@@ -89,7 +85,7 @@ describe('NameChange', () => {
         name: 'edx edx',
       },
     };
-    render(reduxWrapper(<IntlNameChange {...formProps} />));
+    render(reduxWrapper(<NameChange {...formProps} />));
 
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
@@ -107,7 +103,7 @@ describe('NameChange', () => {
       type: 'ACCOUNT_SETTINGS__REQUEST_NAME_CHANGE',
     };
 
-    render(reduxWrapper(<IntlNameChange {...props} />));
+    render(reduxWrapper(<NameChange {...props} />));
 
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
@@ -134,7 +130,7 @@ describe('NameChange', () => {
       targetFormId: 'name',
     };
 
-    render(reduxWrapper(<IntlNameChange {...formProps} />));
+    render(reduxWrapper(<NameChange {...formProps} />));
 
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
@@ -150,7 +146,7 @@ describe('NameChange', () => {
   it('does not dispatch action while pending', async () => {
     props.saveState = 'pending';
 
-    render(reduxWrapper(<IntlNameChange {...props} />));
+    render(reduxWrapper(<NameChange {...props} />));
 
     const continueButton = screen.getByText('Continue');
     fireEvent.click(continueButton);
@@ -166,7 +162,7 @@ describe('NameChange', () => {
   it('routes to IDV when name change request is successful', async () => {
     props.saveState = 'complete';
 
-    render(reduxWrapper(<IntlNameChange {...props} />));
+    render(reduxWrapper(<NameChange {...props} />));
     expect(window.location.pathname).toEqual('/id-verification');
   });
 });
