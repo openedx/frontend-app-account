@@ -10,7 +10,7 @@ import {
 } from '@testing-library/react';
 
 import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import messages from '../messages';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
@@ -29,8 +29,6 @@ jest.mock('react-redux', () => ({
 
 jest.mock('@edx/frontend-platform/auth');
 jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
-
-const IntlCertificatePreference = injectIntl(CertificatePreference);
 
 const mockStore = configureStore();
 
@@ -57,7 +55,6 @@ describe('NameChange', () => {
       originalVerifiedName: 'edX Verified',
       saveState: null,
       useVerifiedNameForCerts: false,
-      intl: {},
     };
 
     auth.getAuthenticatedHttpClient = jest.fn(() => ({
@@ -77,7 +74,7 @@ describe('NameChange', () => {
       originalVerifiedName: '',
     };
 
-    const wrapper = render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    const wrapper = render(reduxWrapper(<CertificatePreference {...props} />));
 
     expect(wrapper).toMatchSnapshot();
   });
@@ -88,7 +85,7 @@ describe('NameChange', () => {
       useVerifiedNameForCerts: true,
     };
 
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(false);
@@ -103,7 +100,7 @@ describe('NameChange', () => {
   });
 
   it('triggers modal when attempting to uncheck checkbox', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);
@@ -115,7 +112,7 @@ describe('NameChange', () => {
   });
 
   it('updates draft when changing radio value', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
@@ -133,7 +130,7 @@ describe('NameChange', () => {
   });
 
   it('clears draft on cancel', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
@@ -146,7 +143,7 @@ describe('NameChange', () => {
   });
 
   it('submits', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
@@ -166,7 +163,7 @@ describe('NameChange', () => {
       useVerifiedNameForCerts: true,
     };
 
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(reduxWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);

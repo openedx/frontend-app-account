@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ import {
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import {
   closeForm,
@@ -22,7 +22,6 @@ import commonMessages from '../AccountSettingsPage.messages';
 import messages from './messages';
 
 const CertificatePreference = ({
-  intl,
   fieldName,
   originalFullName,
   originalVerifiedName,
@@ -33,6 +32,7 @@ const CertificatePreference = ({
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formId = 'useVerifiedNameForCerts';
+  const intl = useIntl();
 
   const handleCheckboxChange = () => {
     if (!checked) {
@@ -155,7 +155,6 @@ const CertificatePreference = ({
 };
 
 CertificatePreference.propTypes = {
-  intl: intlShape.isRequired,
   fieldName: PropTypes.string.isRequired,
   originalFullName: PropTypes.string,
   originalVerifiedName: PropTypes.string,
@@ -170,4 +169,4 @@ CertificatePreference.defaultProps = {
   useVerifiedNameForCerts: false,
 };
 
-export default connect(certPreferenceSelector)(injectIntl(CertificatePreference));
+export default connect(certPreferenceSelector)(CertificatePreference);

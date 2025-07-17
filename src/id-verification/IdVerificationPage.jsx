@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
 import { getConfig } from '@edx/frontend-platform';
 import { idVerificationSelector } from './data/selectors';
@@ -26,9 +26,10 @@ import SubmittedPanel from './panels/SubmittedPanel';
 import messages from './IdVerification.messages';
 
 // eslint-disable-next-line react/prefer-stateless-function
-const IdVerificationPage = (props) => {
+const IdVerificationPage = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
+  const intl = useIntl();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -78,33 +79,33 @@ const IdVerificationPage = (props) => {
       </div>
       <ModalDialog
         isOpen={isModalOpen}
-        title={props.intl.formatMessage(messages['id.verification.privacy.title'])}
+        title={intl.formatMessage(messages['id.verification.privacy.title'])}
         onClose={() => setIsModalOpen(false)}
         size="lg"
         hasCloseButton={false}
       >
         <ModalDialog.Header>
           <ModalDialog.Title data-testid="Id-modal">
-            {props.intl.formatMessage(messages['id.verification.privacy.title'])}
+            {intl.formatMessage(messages['id.verification.privacy.title'])}
           </ModalDialog.Title>
         </ModalDialog.Header>
         <ModalDialog.Body>
           <div className="p-3">
             <h6>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
                 { siteName: getConfig().SITE_NAME },
               )}
             </h6>
-            <p>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
+            <p>{intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
                 { siteName: getConfig().SITE_NAME },
               )}
             </h6>
             <p>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
                 { siteName: getConfig().SITE_NAME },
               )}
@@ -114,7 +115,7 @@ const IdVerificationPage = (props) => {
         <ModalDialog.Footer className="p-2">
           <ActionRow>
             <ModalDialog.CloseButton variant="link">
-              {props.intl.formatMessage(messages['id.verification.privacy.modal.close.button'])}
+              {intl.formatMessage(messages['id.verification.privacy.modal.close.button'])}
             </ModalDialog.CloseButton>
           </ActionRow>
         </ModalDialog.Footer>
@@ -124,8 +125,4 @@ const IdVerificationPage = (props) => {
   );
 };
 
-IdVerificationPage.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default connect(idVerificationSelector, {})(injectIntl(IdVerificationPage));
+export default connect(idVerificationSelector, {})(IdVerificationPage);
