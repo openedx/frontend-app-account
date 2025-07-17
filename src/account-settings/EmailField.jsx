@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
   Button, StatefulButton, Form,
 } from '@openedx/paragon';
@@ -35,9 +34,9 @@ const EmailField = (props) => {
     onChange,
     isEditing,
     isEditable,
-    intl,
   } = props;
   const id = `field-${name}`;
+  const intl = useIntl();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -191,7 +190,6 @@ EmailField.propTypes = {
   onChange: PropTypes.func.isRequired,
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 EmailField.defaultProps = {
@@ -210,4 +208,4 @@ EmailField.defaultProps = {
 export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
-})(injectIntl(EmailField));
+})(EmailField);
