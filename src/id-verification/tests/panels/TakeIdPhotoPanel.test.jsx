@@ -1,9 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakeIdPhotoPanel from '../../panels/TakeIdPhotoPanel';
 
@@ -13,13 +12,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 
 jest.mock('../../Camera');
 
-const IntlTakeIdPhotoPanel = injectIntl(TakeIdPhotoPanel);
-
 describe('TakeIdPhotoPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const contextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: null,
@@ -37,7 +30,7 @@ describe('TakeIdPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakeIdPhotoPanel {...defaultProps} />
+            <TakeIdPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -52,7 +45,7 @@ describe('TakeIdPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakeIdPhotoPanel {...defaultProps} />
+            <TakeIdPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -70,7 +63,7 @@ describe('TakeIdPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakeIdPhotoPanel {...defaultProps} />
+            <TakeIdPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -85,7 +78,7 @@ describe('TakeIdPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakeIdPhotoPanel {...defaultProps} />
+            <TakeIdPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>

@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import SubmittedPanel from '../../panels/SubmittedPanel';
 
@@ -12,13 +11,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-const IntlSubmittedPanel = injectIntl(SubmittedPanel);
-
 describe('SubmittedPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const contextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: 'test.jpg',
@@ -43,7 +36,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlSubmittedPanel {...defaultProps} />
+            <SubmittedPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -59,7 +52,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlSubmittedPanel {...defaultProps} />
+            <SubmittedPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -75,7 +68,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlSubmittedPanel {...defaultProps} />
+            <SubmittedPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
