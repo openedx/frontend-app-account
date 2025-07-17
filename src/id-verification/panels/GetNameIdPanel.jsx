@@ -1,9 +1,9 @@
-import React, {
+import {
   useContext, useEffect, useRef,
 } from 'react';
 import { Form } from '@openedx/paragon';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -11,12 +11,13 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
-const GetNameIdPanel = (props) => {
+const GetNameIdPanel = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const nameInputRef = useRef();
   const panelSlug = 'get-name-id';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
+  const intl = useIntl();
 
   const { nameOnAccount, idPhotoName, setIdPhotoName } = useContext(IdVerificationContext);
   const nameOnAccountValue = nameOnAccount || '';
@@ -41,19 +42,19 @@ const GetNameIdPanel = (props) => {
   return (
     <BasePanel
       name={panelSlug}
-      title={props.intl.formatMessage(messages['id.verification.name.check.title'])}
+      title={intl.formatMessage(messages['id.verification.name.check.title'])}
     >
       <p>
-        {props.intl.formatMessage(messages['id.verification.name.check.instructions'])}
+        {intl.formatMessage(messages['id.verification.name.check.instructions'])}
       </p>
       <p>
-        {props.intl.formatMessage(messages['id.verification.name.check.mismatch.information'])}
+        {intl.formatMessage(messages['id.verification.name.check.mismatch.information'])}
       </p>
 
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label className="font-weight-bold" htmlFor="photo-id-name">
-            {props.intl.formatMessage(messages['id.verification.name.label'])}
+            {intl.formatMessage(messages['id.verification.name.label'])}
           </Form.Label>
           <Form.Control
             controlId="photo-id-name"
@@ -72,7 +73,7 @@ const GetNameIdPanel = (props) => {
               data-testid="id-name-feedback-message"
               type="invalid"
             >
-              {props.intl.formatMessage(messages['id.verification.name.error'])}
+              {intl.formatMessage(messages['id.verification.name.error'])}
             </Form.Control.Feedback>
           )}
         </Form.Group>
@@ -85,15 +86,11 @@ const GetNameIdPanel = (props) => {
           data-testid="next-button"
           aria-disabled={!idPhotoName}
         >
-          {props.intl.formatMessage(messages['id.verification.next'])}
+          {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 };
 
-GetNameIdPanel.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(GetNameIdPanel);
+export default GetNameIdPanel;
