@@ -5,6 +5,7 @@ import {
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakeIdPhotoPanel from '../../panels/TakeIdPhotoPanel';
+import messages from '../../IdVerification.messages';
 
 jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
@@ -90,5 +91,25 @@ describe('TakeIdPhotoPanel', () => {
 
     const text = await screen.findByTestId('upload-text');
     expect(text.textContent).toContain('Please upload a photo of your identification card');
+  });
+
+  it('shows correct text if useCameraForId', async () => {
+    contextValue.useCameraForId = true;
+    await act(async () => render((
+      <Router>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <TakeIdPhotoPanel />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+
+    // check that upload title and text are correct
+    const title = await screen.findByText(messages['id.verification.id.photo.title.camera'].defaultMessage);
+    expect(title).toBeVisible();
+
+    const text = await screen.findByText(messages['id.verification.id.photo.instructions.camera'].defaultMessage);
+    expect(text).toBeVisible();
   });
 });
