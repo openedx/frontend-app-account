@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { Button, Collapsible } from '@openedx/paragon';
 
 import IdVerificationContext from './IdVerificationContext';
 import messages from './IdVerification.messages';
 
-const CollapsibleImageHelp = (props) => {
+const CollapsibleImageHelp = () => {
+  const intl = useIntl();
   const {
     userId, useCameraForId, setUseCameraForId,
   } = useContext(IdVerificationContext);
@@ -25,15 +26,15 @@ const CollapsibleImageHelp = (props) => {
     <Collapsible
       styling="card"
       title={useCameraForId
-        ? props.intl.formatMessage(messages['id.verification.photo.upload.help.title'])
-        : props.intl.formatMessage(messages['id.verification.photo.camera.help.title'])}
+        ? intl.formatMessage(messages['id.verification.photo.upload.help.title'])
+        : intl.formatMessage(messages['id.verification.photo.camera.help.title'])}
       className="mb-4 shadow"
       defaultOpen
     >
       <p data-testid="help-text">
         {useCameraForId
-          ? props.intl.formatMessage(messages['id.verification.photo.upload.help.text'])
-          : props.intl.formatMessage(messages['id.verification.photo.camera.help.text'])}
+          ? intl.formatMessage(messages['id.verification.photo.upload.help.text'])
+          : intl.formatMessage(messages['id.verification.photo.camera.help.text'])}
       </p>
       <Button
         title={useCameraForId ? 'Upload Photo' : 'Take Photo'} // TO-DO: translation
@@ -42,15 +43,11 @@ const CollapsibleImageHelp = (props) => {
         style={{ marginTop: '0.5rem' }}
       >
         {useCameraForId
-          ? props.intl.formatMessage(messages['id.verification.photo.upload.help.button'])
-          : props.intl.formatMessage(messages['id.verification.photo.camera.help.button'])}
+          ? intl.formatMessage(messages['id.verification.photo.upload.help.button'])
+          : intl.formatMessage(messages['id.verification.photo.camera.help.button'])}
       </Button>
     </Collapsible>
   );
 };
 
-CollapsibleImageHelp.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(CollapsibleImageHelp);
+export default CollapsibleImageHelp;

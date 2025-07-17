@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import { StatefulButton } from '@openedx/paragon';
 
 import { resetPassword } from './data/actions';
@@ -10,7 +9,9 @@ import ConfirmationAlert from './ConfirmationAlert';
 import RequestInProgressAlert from './RequestInProgressAlert';
 
 const ResetPassword = (props) => {
-  const { email, intl, status } = props;
+  const { email, status } = props;
+  const intl = useIntl();
+
   return (
     <div className="form-group">
       <h6 aria-level="3">
@@ -51,7 +52,6 @@ const ResetPassword = (props) => {
 
 ResetPassword.propTypes = {
   email: PropTypes.string,
-  intl: intlShape.isRequired,
   resetPassword: PropTypes.func.isRequired,
   status: PropTypes.string,
 };
@@ -68,4 +68,4 @@ export default connect(
   {
     resetPassword,
   },
-)(injectIntl(ResetPassword));
+)(ResetPassword);
