@@ -1,20 +1,16 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppProvider } from '@edx/frontend-platform/react';
 import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
 
 import JumpNav from '../JumpNav';
 import configureStore from '../../data/configureStore';
 
-const IntlJumpNav = injectIntl(JumpNav);
-
 describe('JumpNav', () => {
   mergeConfig({
     ENABLE_ACCOUNT_DELETION: true,
   });
 
-  let props = {};
   let store;
 
   beforeEach(() => {
@@ -27,9 +23,6 @@ describe('JumpNav', () => {
       },
     });
 
-    props = {
-      intl: {},
-    };
     store = configureStore({
       notificationPreferences: {
         showPreferences: false,
@@ -45,7 +38,7 @@ describe('JumpNav', () => {
     render(
       <IntlProvider locale="en">
         <AppProvider store={store}>
-          <IntlJumpNav {...props} />
+          <JumpNav />
         </AppProvider>
       </IntlProvider>,
     );
@@ -58,14 +51,10 @@ describe('JumpNav', () => {
       ENABLE_ACCOUNT_DELETION: true,
     });
 
-    props = {
-      ...props,
-    };
-
     render(
       <IntlProvider locale="en">
         <AppProvider store={store}>
-          <IntlJumpNav {...props} />
+          <JumpNav />
         </AppProvider>
       </IntlProvider>,
     );
