@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Bowser from 'bowser';
 import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import { useRedirect } from '../../hooks';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -14,7 +14,8 @@ import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsP
 
 import messages from '../IdVerification.messages';
 
-const RequestCameraAccessPanel = (props) => {
+const RequestCameraAccessPanel = () => {
+  const intl = useIntl();
   const { location: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
@@ -40,17 +41,17 @@ const RequestCameraAccessPanel = (props) => {
 
   const getTitle = () => {
     if (mediaAccess === MEDIA_ACCESS.GRANTED) {
-      return props.intl.formatMessage(messages['id.verification.camera.access.title.success']);
+      return intl.formatMessage(messages['id.verification.camera.access.title.success']);
     }
     if ([MEDIA_ACCESS.UNSUPPORTED, MEDIA_ACCESS.DENIED].includes(mediaAccess)) {
-      return props.intl.formatMessage(messages['id.verification.camera.access.title.failed']);
+      return intl.formatMessage(messages['id.verification.camera.access.title.failed']);
     }
-    return props.intl.formatMessage(messages['id.verification.camera.access.title']);
+    return intl.formatMessage(messages['id.verification.camera.access.title']);
   };
 
   const returnLink = (
     <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
-      {props.intl.formatMessage(messages[returnText])}
+      {intl.formatMessage(messages[returnText])}
     </a>
   );
 
@@ -67,13 +68,13 @@ const RequestCameraAccessPanel = (props) => {
               defaultMessage="In order to take a photo using your webcam, you may receive a browser prompt for access to your camera. {clickAllow}"
               description="Instructions to enable camera access."
               values={{
-                clickAllow: <strong>{props.intl.formatMessage(messages['id.verification.camera.access.click.allow'])}</strong>,
+                clickAllow: <strong>{intl.formatMessage(messages['id.verification.camera.access.click.allow'])}</strong>,
               }}
             />
           </p>
           <div className="action-row">
             <button type="button" className="btn btn-primary" onClick={tryGetUserMedia}>
-              {props.intl.formatMessage(messages['id.verification.camera.access.enable'])}
+              {intl.formatMessage(messages['id.verification.camera.access.enable'])}
             </button>
           </div>
         </div>
@@ -82,11 +83,11 @@ const RequestCameraAccessPanel = (props) => {
       {mediaAccess === MEDIA_ACCESS.GRANTED && (
         <div>
           <p data-testid="camera-access-success">
-            {props.intl.formatMessage(messages['id.verification.camera.access.success'])}
+            {intl.formatMessage(messages['id.verification.camera.access.success'])}
           </p>
           <div className="action-row">
             <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
-              {props.intl.formatMessage(messages['id.verification.next'])}
+              {intl.formatMessage(messages['id.verification.next'])}
             </Link>
           </div>
         </div>
@@ -95,9 +96,9 @@ const RequestCameraAccessPanel = (props) => {
       {mediaAccess === MEDIA_ACCESS.DENIED && (
         <div data-testid="camera-failure-instructions">
           <p data-testid="camera-access-failure">
-            {props.intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
+            {intl.formatMessage(messages['id.verification.camera.access.failure.temporary'])}
           </p>
-          <EnableCameraDirectionsPanel browserName={browserName} intl={props.intl} />
+          <EnableCameraDirectionsPanel browserName={browserName} />
           <div className="action-row">
             {returnLink}
           </div>
@@ -107,9 +108,9 @@ const RequestCameraAccessPanel = (props) => {
       {mediaAccess === MEDIA_ACCESS.UNSUPPORTED && (
         <div data-testid="camera-unsupported-instructions">
           <p data-testid="camera-unsupported-failure">
-            {props.intl.formatMessage(messages['id.verification.camera.access.failure.unsupported'])}
+            {intl.formatMessage(messages['id.verification.camera.access.failure.unsupported'])}
           </p>
-          <UnsupportedCameraDirectionsPanel browserName={browserName} intl={props.intl} />
+          <UnsupportedCameraDirectionsPanel browserName={browserName} intl={intl} />
           <div className="action-row">
             {returnLink}
           </div>
@@ -120,8 +121,4 @@ const RequestCameraAccessPanel = (props) => {
   );
 };
 
-RequestCameraAccessPanel.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(RequestCameraAccessPanel);
+export default RequestCameraAccessPanel;
