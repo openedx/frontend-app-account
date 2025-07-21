@@ -1,9 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';
@@ -17,11 +16,7 @@ analytics.sendTrackEvent = jest.fn();
 
 window.HTMLMediaElement.prototype.play = () => {};
 
-const IntlCollapsible = injectIntl(CollapsibleImageHelp);
-
 describe('CollapsibleImageHelpPanel', () => {
-  const defaultProps = { intl: {} };
-
   const contextValue = {
     useCameraForId: true,
     setUseCameraForId: jest.fn(),
@@ -36,7 +31,7 @@ describe('CollapsibleImageHelpPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCollapsible {...defaultProps} />
+            <CollapsibleImageHelp />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -56,7 +51,7 @@ describe('CollapsibleImageHelpPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCollapsible {...defaultProps} />
+            <CollapsibleImageHelp />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
