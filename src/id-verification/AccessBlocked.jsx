@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import messages from './IdVerification.messages';
 import { ERROR_REASONS } from './IdVerificationContext';
 
-const AccessBlocked = ({ error, intl }) => {
+const AccessBlocked = ({ error }) => {
+  const intl = useIntl();
   const handleMessage = () => {
     if (error === ERROR_REASONS.COURSE_ENROLLMENT) {
       return <p>{intl.formatMessage(messages['id.verification.access.blocked.enrollment'])}</p>;
@@ -42,8 +43,7 @@ const AccessBlocked = ({ error, intl }) => {
 };
 
 AccessBlocked.propTypes = {
-  intl: intlShape.isRequired,
   error: PropTypes.string.isRequired,
 };
 
-export default injectIntl(AccessBlocked);
+export default AccessBlocked;
