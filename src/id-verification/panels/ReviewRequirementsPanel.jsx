@@ -1,8 +1,8 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { getConfig } from '@edx/frontend-platform';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 import { Alert, Hyperlink } from '@openedx/paragon';
 
 import { useNextPanelSlug } from '../routing-utilities';
@@ -12,7 +12,8 @@ import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
 import exampleCard from '../assets/example-card.png';
 
-const ReviewRequirementsPanel = (props) => {
+const ReviewRequirementsPanel = () => {
+  const intl = useIntl();
   const { userId, profileDataManager } = useContext(IdVerificationContext);
   const panelSlug = 'review-requirements';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
@@ -41,7 +42,7 @@ const ReviewRequirementsPanel = (props) => {
               profileDataManager,
               support: (
                 <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
-                  {props.intl.formatMessage(messages['id.verification.support'])}
+                  {intl.formatMessage(messages['id.verification.support'])}
                 </Hyperlink>
               ),
             }}
@@ -54,17 +55,17 @@ const ReviewRequirementsPanel = (props) => {
   return (
     <BasePanel
       name={panelSlug}
-      title={props.intl.formatMessage(messages['id.verification.requirements.title'])}
+      title={intl.formatMessage(messages['id.verification.requirements.title'])}
       focusOnMount={false}
     >
       {renderManagedProfileMessage()}
       <p>
-        {props.intl.formatMessage(messages['id.verification.requirements.description'])}
+        {intl.formatMessage(messages['id.verification.requirements.description'])}
       </p>
       <div className="card mb-4 shadow accent border-warning">
         <div className="card-body">
           <h6 aria-level="3">
-            {props.intl.formatMessage(messages['id.verification.requirements.card.device.title'])}
+            {intl.formatMessage(messages['id.verification.requirements.card.device.title'])}
           </h6>
           <p className="mb-0">
             <FormattedMessage
@@ -72,7 +73,7 @@ const ReviewRequirementsPanel = (props) => {
               defaultMessage="You need a device that has a camera. If you receive a browser prompt for access to your camera, please make sure to click {allow}."
               description="Text explaining that the user needs access to a camera."
               values={{
-                allow: <strong>{props.intl.formatMessage(messages['id.verification.requirements.card.device.allow'])}</strong>,
+                allow: <strong>{intl.formatMessage(messages['id.verification.requirements.card.device.allow'])}</strong>,
               }}
             />
           </p>
@@ -81,37 +82,37 @@ const ReviewRequirementsPanel = (props) => {
       <div className="card mb-4 shadow accent border-warning">
         <div className="card-body">
           <h6 aria-level="3">
-            {props.intl.formatMessage(messages['id.verification.requirements.card.id.title'])}
+            {intl.formatMessage(messages['id.verification.requirements.card.id.title'])}
           </h6>
           <p className="mb-0">
-            {props.intl.formatMessage(messages['id.verification.requirements.card.id.text'])}
+            {intl.formatMessage(messages['id.verification.requirements.card.id.text'])}
             <img
               src={exampleCard}
-              alt={props.intl.formatMessage(messages['id.verification.example.card.alt'])}
+              alt={intl.formatMessage(messages['id.verification.example.card.alt'])}
             />
           </p>
         </div>
       </div>
       <h4 aria-level="2" className="mb-3">
-        {props.intl.formatMessage(messages['id.verification.privacy.title'])}
+        {intl.formatMessage(messages['id.verification.privacy.title'])}
       </h4>
       <h6 aria-level="3">
-        {props.intl.formatMessage(
+        {intl.formatMessage(
           messages['id.verification.privacy.need.photo.question'],
           { siteName: getConfig().SITE_NAME },
         )}
       </h6>
       <p>
-        {props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}
+        {intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}
       </p>
       <h6 aria-level="3">
-        {props.intl.formatMessage(
+        {intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.question'],
           { siteName: getConfig().SITE_NAME },
         )}
       </h6>
       <p>
-        {props.intl.formatMessage(
+        {intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.answer'],
           { siteName: getConfig().SITE_NAME },
         )}
@@ -119,15 +120,11 @@ const ReviewRequirementsPanel = (props) => {
 
       <div className="action-row">
         <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
-          {props.intl.formatMessage(messages['id.verification.next'])}
+          {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 };
 
-ReviewRequirementsPanel.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(ReviewRequirementsPanel);
+export default ReviewRequirementsPanel;
