@@ -110,7 +110,7 @@ const RequestCameraAccessPanel = () => {
           <p data-testid="camera-unsupported-failure">
             {intl.formatMessage(messages['id.verification.camera.access.failure.unsupported'])}
           </p>
-          <UnsupportedCameraDirectionsPanel browserName={browserName} intl={intl} />
+          <UnsupportedCameraDirectionsPanel browserName={browserName} />
           <div className="action-row">
             {returnLink}
           </div>
