@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
 
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 
 import EditableSelectField from '../EditableSelectField';
 
@@ -16,8 +15,6 @@ jest.mock('react-redux', () => ({
 
 jest.mock('@edx/frontend-platform/auth');
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
-
-const IntlEditableSelectField = injectIntl(EditableSelectField);
 
 const mockStore = configureStore();
 
@@ -88,7 +85,7 @@ describe('EditableSelectField', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('renders EditableSelectField correctly with editing disabled', () => {
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...props} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...props} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -98,7 +95,7 @@ describe('EditableSelectField', () => {
       isEditing: true,
     };
 
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...props} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...props} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -107,7 +104,7 @@ describe('EditableSelectField', () => {
       ...props,
       error: 'This is an error message',
     };
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...errorProps} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...errorProps} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -126,7 +123,7 @@ describe('EditableSelectField', () => {
         },
       ],
     };
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...propsWithGroup} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithGroup} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -140,7 +137,7 @@ describe('EditableSelectField', () => {
         },
       ],
     };
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...propsWithoutGroup} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithoutGroup} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -163,7 +160,7 @@ describe('EditableSelectField', () => {
         },
       ],
     };
-    const tree = renderer.create(reduxWrapper(<IntlEditableSelectField {...propsWithGroups} />)).toJSON();
+    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithGroups} />)).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

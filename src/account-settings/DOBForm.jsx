@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@openedx/paragon';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import messages from './AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
@@ -11,11 +11,11 @@ import { editableFieldSelector } from './data/selectors';
 import { saveSettingsReset } from './data/actions';
 
 const DOBModal = (props) => {
+  const intl = useIntl();
   const {
     saveState,
     error,
     onSubmit,
-    intl,
   } = props;
 
   const dispatch = useDispatch();
@@ -151,7 +151,6 @@ DOBModal.propTypes = {
   saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
   error: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
 };
 
 DOBModal.defaultProps = {
@@ -159,4 +158,4 @@ DOBModal.defaultProps = {
   error: undefined,
 };
 
-export default connect(editableFieldSelector)(injectIntl(DOBModal));
+export default connect(editableFieldSelector)(DOBModal);

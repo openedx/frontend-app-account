@@ -1,15 +1,13 @@
 import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
-import React from 'react';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 import messages from './AccountSettingsPage.messages';
 
-const JumpNav = ({
-  intl,
-}) => {
+const JumpNav = () => {
+  const intl = useIntl();
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
 
   return (
@@ -71,8 +69,4 @@ const JumpNav = ({
   );
 };
 
-JumpNav.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(JumpNav);
+export default JumpNav;
