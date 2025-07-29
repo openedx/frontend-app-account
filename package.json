@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "fedx-scripts webpack",
+    "dev": "PUBLIC_PATH=/account/ MFE_CONFIG_API_URL='http://localhost:8000/api/mfe_config/v1' fedx-scripts webpack-dev-server --progress --host apps.local.openedx.io",
     "i18n_extract": "fedx-scripts formatjs extract",
     "lint": "fedx-scripts eslint --ext .js --ext .jsx .",
     "lint:fix": "npm run lint -- --fix",
