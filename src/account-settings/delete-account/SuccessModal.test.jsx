@@ -1,6 +1,5 @@
-import React from 'react';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { waitFor } from '@testing-library/react';
 import { SuccessModal } from './SuccessModal';
 
@@ -9,8 +8,6 @@ jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
   createPortal: jest.fn(node => node), // Mock portal behavior
 }));
-
-const IntlSuccessModal = injectIntl(SuccessModal);
 
 describe('SuccessModal', () => {
   let props = {};
@@ -25,22 +22,22 @@ describe('SuccessModal', () => {
   it('should match default closed success modal snapshot', async () => {
     await waitFor(() => {
       const tree = renderer.create((
-        <IntlProvider locale="en"><IntlSuccessModal {...props} /></IntlProvider>)).toJSON();
+        <IntlProvider locale="en"><SuccessModal {...props} /></IntlProvider>)).toJSON();
       expect(tree).toMatchSnapshot();
     });
     await waitFor(() => {
       const tree = renderer.create((
-        <IntlProvider locale="en"><IntlSuccessModal {...props} status="confirming" /></IntlProvider>)).toJSON();
+        <IntlProvider locale="en"><SuccessModal {...props} status="confirming" /></IntlProvider>)).toJSON();
       expect(tree).toMatchSnapshot();
     });
     await waitFor(() => {
       const tree = renderer.create((
-        <IntlProvider locale="en"><IntlSuccessModal {...props} status="pending" /></IntlProvider>)).toJSON();
+        <IntlProvider locale="en"><SuccessModal {...props} status="pending" /></IntlProvider>)).toJSON();
       expect(tree).toMatchSnapshot();
     });
     await waitFor(() => {
       const tree = renderer.create((
-        <IntlProvider locale="en"><IntlSuccessModal {...props} status="failed" /></IntlProvider>)).toJSON();
+        <IntlProvider locale="en"><SuccessModal {...props} status="failed" /></IntlProvider>)).toJSON();
       expect(tree).toMatchSnapshot();
     });
   });
@@ -49,7 +46,7 @@ describe('SuccessModal', () => {
     await waitFor(() => {
       const tree = renderer.create(
         <IntlProvider locale="en">
-          <IntlSuccessModal
+          <SuccessModal
             {...props}
             status="deleted"
           />
