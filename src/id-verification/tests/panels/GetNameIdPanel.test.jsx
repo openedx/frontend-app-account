@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import { VerifiedNameContext } from '../../VerifiedNameContext';
 import GetNameIdPanel from '../../panels/GetNameIdPanel';
@@ -13,13 +12,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-const IntlGetNameIdPanel = injectIntl(GetNameIdPanel);
-
 describe('GetNameIdPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const IDVerificationContextValue = {
     nameOnAccount: 'test',
     userId: 3,
@@ -37,7 +30,7 @@ describe('GetNameIdPanel', () => {
         <IntlProvider locale="en">
           <VerifiedNameContext.Provider value={verifiedNameContextValue}>
             <IdVerificationContext.Provider value={idVerificationContextValue}>
-              <IntlGetNameIdPanel {...defaultProps} />
+              <GetNameIdPanel />
             </IdVerificationContext.Provider>
           </VerifiedNameContext.Provider>
         </IntlProvider>
