@@ -1,17 +1,18 @@
 import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig, getQueryParameters } from '@edx/frontend-platform';
-import React from 'react';
+import { getConfig } from '@edx/frontend-platform';
+import {
+  useEffect, useContext, useMemo, createRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
 import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import {
-  injectIntl,
-  intlShape,
   FormattedMessage,
   getCountryList,
   getLanguageList,
+  useIntl,
 } from '@edx/frontend-platform/i18n';
 import {
   Container, Hyperlink, Icon, Alert,
@@ -54,117 +55,87 @@ import { fetchNotificationPreferences } from '../notification-preferences/data/t
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
 
-class AccountSettingsPage extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+const AccountSettingsPage = ({
+  loading = false,
+  loaded = false,
+  loadingError = null,
+  nameChangeModal = {} || false,
+  navigate,
+  countriesCodesList = [],
+  profileDataManager = null,
+  committedValues = {
+    useVerifiedNameForCerts: false,
+    verified_name: null,
+    country: '',
+  },
+  ...props
+}) => {
+  const intl = useIntl();
+  const appContext = useContext(AppContext);
+  const [duplicateTpaProvider, setDuplicateTpaProvider] = useState(null);
 
-    const duplicateTpaProvider = getQueryParameters().duplicate_provider;
-    this.state = {
-      duplicateTpaProvider,
-    };
-
-    this.navLinkRefs = {
-      '#basic-information': React.createRef(),
-      '#profile-information': React.createRef(),
-      '#social-media': React.createRef(),
-      '#notifications': React.createRef(),
-      '#site-preferences': React.createRef(),
-      '#linked-accounts': React.createRef(),
-      '#delete-account': React.createRef(),
-    };
-  }
-
-  componentDidMount() {
-    this.props.fetchNotificationPreferences();
-    this.props.fetchSettings();
-    this.props.fetchSiteLanguages(this.props.navigate);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const initialDuplicateTpaProvider = searchParams.get('duplicate_provider');
+    if (initialDuplicateTpaProvider) {
+      setDuplicateTpaProvider(initialDuplicateTpaProvider);
+    }
+    props.fetchCourseList();
+    props.fetchSettings();
+    props.fetchSiteLanguages(navigate);
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
-      user_id: this.context.authenticatedUser.userId,
+      user_id: appContext.authenticatedUser.userId,
     });
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.loading && !prevProps.loaded && this.props.loaded) {
+  const navLinkRefs = useMemo(() => ({
+    '#basic-information': createRef(),
+    '#profile-information': createRef(),
+    '#social-media': createRef(),
+    '#notifications': createRef(),
+    '#site-preferences': createRef(),
+    '#linked-accounts': createRef(),
+    '#delete-account': createRef(),
+  }), []);
+
+  useEffect(() => {
+    if (loading && !loaded && loaded) {
       const locationHash = global.location.hash;
       // Check for the locationHash in the URL and then scroll to it if it is in the
       // NavLinks list
       if (typeof locationHash !== 'string') {
         return;
       }
-      if (Object.keys(this.navLinkRefs).includes(locationHash) && this.navLinkRefs[locationHash].current) {
-        window.scrollTo(0, this.navLinkRefs[locationHash].current.offsetTop);
+      if (Object.keys(navLinkRefs).includes(locationHash) && navLinkRefs[locationHash].current) {
+        window.scrollTo(0, navLinkRefs[locationHash].current.offsetTop);
       }
     }
-  }
+  }, [loading, loaded, navLinkRefs]);
 
   // NOTE: We need 'locale' for the memoization in getLocalizedTimeZoneOptions.  Don't remove it!
   // eslint-disable-next-line no-unused-vars
-  getLocalizedTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions, locale) => {
+  const getLocalizedTimeZoneOptions = memoize((timeZoneOptions, countryTimeZoneOptions, locale) => {
     const concatTimeZoneOptions = [{
-      label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.default']),
+      label: intl.formatMessage(messages['account.settings.field.time.zone.default']),
       value: '',
     }];
     if (countryTimeZoneOptions.length) {
       concatTimeZoneOptions.push({
-        label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.country']),
+        label: intl.formatMessage(messages['account.settings.field.time.zone.country']),
         group: countryTimeZoneOptions,
       });
     }
     concatTimeZoneOptions.push({
-      label: this.props.intl.formatMessage(messages['account.settings.field.time.zone.all']),
+      label: intl.formatMessage(messages['account.settings.field.time.zone.all']),
       group: timeZoneOptions,
     });
     return concatTimeZoneOptions;
   });
 
-  getLocalizedOptions = memoize((locale, country) => ({
-    countryOptions: [{
-      value: '',
-      label: this.props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
-    }].concat(
-      this.removeDisabledCountries(
-        getCountryList(locale).map(({ code, name }) => ({
-          value: code,
-          label: name,
-          disabled: this.isDisabledCountry(code),
-        })),
-      ),
-    ),
-    stateOptions: [{
-      value: '',
-      label: this.props.intl.formatMessage(messages['account.settings.field.state.options.empty']),
-    }].concat(getStatesList(country)),
-    languageProficiencyOptions: [{
-      value: '',
-      label: this.props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
-    }].concat(getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name }))),
-    yearOfBirthOptions: [{
-      value: '',
-      label: this.props.intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
-    }].concat(YEAR_OF_BIRTH_OPTIONS),
-    educationLevelOptions: EDUCATION_LEVELS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
-    })),
-    genderOptions: GENDER_OPTIONS.map(key => ({
-      value: key,
-      label: this.props.intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
-    })),
-    workExperienceOptions: WORK_EXPERIENCE_OPTIONS.map(key => ({
-      value: key,
-      label: key === '' ? this.props.intl.formatMessage(messages['account.settings.field.work.experience.options.empty']) : key,
-    })),
-  }));
-
-  canDeleteAccount = () => {
-    const { committedValues } = this.props;
-    return !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
-  };
-
-  removeDisabledCountries = (countryList) => {
-    const { countriesCodesList, committedValues } = this.props;
+  const removeDisabledCountries = (countryList) => {
     const committedCountry = committedValues?.country;
 
     if (!countriesCodesList.length) {
@@ -173,16 +144,59 @@ class AccountSettingsPage extends React.Component {
     return countryList.filter(({ value }) => value === committedCountry || countriesCodesList.find(x => x === value));
   };
 
-  handleEditableFieldChange = (name, value) => {
-    this.props.updateDraft(name, value);
+  const isDisabledCountry = (country) => countriesCodesList.length > 0 && !countriesCodesList.find(x => x === country);
+
+  const getLocalizedOptions = memoize((locale, country) => ({
+    countryOptions: [{
+      value: '',
+      label: intl.formatMessage(messages['account.settings.field.country.options.empty']),
+    }].concat(
+      removeDisabledCountries(
+        getCountryList(locale).map(({ code, name }) => ({
+          value: code,
+          label: name,
+          disabled: isDisabledCountry(code),
+        })),
+      ),
+    ),
+    stateOptions: [{
+      value: '',
+      label: intl.formatMessage(messages['account.settings.field.state.options.empty']),
+    }].concat(getStatesList(country)),
+    languageProficiencyOptions: [{
+      value: '',
+      label: intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
+    }].concat(getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name }))),
+    yearOfBirthOptions: [{
+      value: '',
+      label: intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
+    }].concat(YEAR_OF_BIRTH_OPTIONS),
+    educationLevelOptions: EDUCATION_LEVELS.map(key => ({
+      value: key,
+      label: intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
+    })),
+    genderOptions: GENDER_OPTIONS.map(key => ({
+      value: key,
+      label: intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
+    })),
+    workExperienceOptions: WORK_EXPERIENCE_OPTIONS.map(key => ({
+      value: key,
+      label: key === '' ? intl.formatMessage(messages['account.settings.field.work.experience.options.empty']) : key,
+    })),
+  }));
+
+  const canDeleteAccount = () => !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
+
+  const handleEditableFieldChange = (name, value) => {
+    updateDraft(name, value);
   };
 
-  handleSubmit = (formId, values) => {
-    if (formId === FIELD_LABELS.COUNTRY && this.isDisabledCountry(values)) {
+  const handleSubmit = (formId, values) => {
+    if (formId === FIELD_LABELS.COUNTRY && isDisabledCountry(values)) {
       return;
     }
 
-    const { formValues } = this.props;
+    const { formValues } = props;
     let extendedProfileObject = {};
 
     if ('extended_profile' in formValues && formValues.extended_profile.some((field) => field.field_name === formId)) {
@@ -192,55 +206,45 @@ class AccountSettingsPage extends React.Component {
           : field)),
       };
     }
-    this.props.saveSettings(formId, values, extendedProfileObject);
+    saveSettings(formId, values, extendedProfileObject);
   };
 
-  handleSubmitProfileName = (formId, values) => {
-    if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
-      this.props.saveMultipleSettings([
+  const handleSubmitProfileName = (formId, values) => {
+    if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
+      saveMultipleSettings([
         {
           formId,
           commitValues: values,
         },
         {
           formId: 'useVerifiedNameForCerts',
-          commitValues: this.props.formValues.useVerifiedNameForCerts,
+          commitValues: props.formValues.useVerifiedNameForCerts,
         },
       ], formId);
     } else {
-      this.props.saveSettings(formId, values);
+      saveSettings(formId, values);
     }
   };
 
-  handleSubmitVerifiedName = (formId, values) => {
-    if (Object.keys(this.props.drafts).includes('useVerifiedNameForCerts')) {
-      this.props.saveSettings('useVerifiedNameForCerts', this.props.formValues.useVerifiedNameForCerts);
+  const handleSubmitVerifiedName = (formId, values) => {
+    if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
+      saveSettings('useVerifiedNameForCerts', props.formValues.useVerifiedNameForCerts);
     }
-    if (values !== this.props.committedValues?.verified_name) {
-      this.props.beginNameChange(formId);
+    if (values !== props.committedValues?.verified_name) {
+      beginNameChange(formId);
     } else {
-      this.props.saveSettings(formId, values);
+      saveSettings(formId, values);
     }
   };
 
-  isDisabledCountry = (country) => {
-    const { countriesCodesList } = this.props;
+  const isEditable = (fieldName) => !props.staticFields.includes(fieldName);
 
-    return countriesCodesList.length > 0 && !countriesCodesList.find(x => x === country);
-  };
+  // Enterprise customer profiles are managed by their organizations. We determine whether
+  // a profile is managed or not by the presence of the profileDataManager prop.
+  const isManagedProfile = () => Boolean(profileDataManager);
 
-  isEditable(fieldName) {
-    return !this.props.staticFields.includes(fieldName);
-  }
-
-  isManagedProfile() {
-    // Enterprise customer profiles are managed by their organizations. We determine whether
-    // a profile is managed or not by the presence of the profileDataManager prop.
-    return Boolean(this.props.profileDataManager);
-  }
-
-  renderDuplicateTpaProviderMessage() {
-    if (!this.state.duplicateTpaProvider) {
+  const renderDuplicateTpaProviderMessage = () => {
+    if (!duplicateTpaProvider) {
       return null;
     }
 
@@ -248,7 +252,7 @@ class AccountSettingsPage extends React.Component {
     // way of telling us that the provider account the user tried to link is already linked
     // to another user account on the platform. We use this to display a message to that effect,
     // and remove the parameter from the URL.
-    this.props.navigate(this.props.location, { replace: true });
+    navigate(props.location, { replace: true });
 
     return (
       <div>
@@ -258,17 +262,17 @@ class AccountSettingsPage extends React.Component {
             defaultMessage="The {provider} account you selected is already linked to another {siteName} account."
             description="alert message informing the user that the third-party account they attempted to link is already linked to another account"
             values={{
-              provider: <b>{this.state.duplicateTpaProvider}</b>,
+              provider: <b>{duplicateTpaProvider}</b>,
               siteName: getConfig().SITE_NAME,
             }}
           />
         </Alert>
       </div>
     );
-  }
+  };
 
-  renderManagedProfileMessage() {
-    if (!this.isManagedProfile()) {
+  const renderManagedProfileMessage = () => {
+    if (!isManagedProfile()) {
       return null;
     }
 
@@ -280,7 +284,7 @@ class AccountSettingsPage extends React.Component {
             defaultMessage="Your profile settings are managed by {managerTitle}. Contact your administrator or {support} for help."
             description="alert message informing the user their account data is managed by a third party"
             values={{
-              managerTitle: <b>{this.props.profileDataManager}</b>,
+              managerTitle: <b>{profileDataManager}</b>,
               support: (
                 <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
                   <FormattedMessage
@@ -295,11 +299,11 @@ class AccountSettingsPage extends React.Component {
         </Alert>
       </div>
     );
-  }
+  };
 
-  renderFullNameHelpText = (status, proctoredExamId) => {
-    if (!this.props.verifiedNameHistory) {
-      return this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text']);
+  const renderFullNameHelpText = (status, proctoredExamId) => {
+    if (!props.verifiedNameHistory) {
+      return intl.formatMessage(messages['account.settings.field.full.name.help.text']);
     }
 
     let messageString = 'account.settings.field.full.name.help.text';
@@ -313,14 +317,14 @@ class AccountSettingsPage extends React.Component {
       messageString += '.default';
     }
 
-    if (!this.props.committedValues.useVerifiedNameForCerts) {
+    if (!props.committedValues.useVerifiedNameForCerts) {
       messageString += '.certificate';
     }
 
-    return this.props.intl.formatMessage(messages[messageString]);
+    return intl.formatMessage(messages[messageString]);
   };
 
-  renderVerifiedNameSuccessMessage = (verifiedName, created) => {
+  const renderVerifiedNameSuccessMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
     const id = `dismissedVerifiedNameSuccessMessage-${verifiedName}-${dateValue}`;
 
@@ -329,13 +333,13 @@ class AccountSettingsPage extends React.Component {
         id={id}
         variant="success"
         icon={CheckCircle}
-        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
-        body={this.props.intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
+        header={intl.formatMessage(messages['account.settings.field.name.verified.success.message.header'])}
+        body={intl.formatMessage(messages['account.settings.field.name.verified.success.message'])}
       />
     );
   };
 
-  renderVerifiedNameFailureMessage = (verifiedName, created) => {
+  const renderVerifiedNameFailureMessage = (verifiedName, created) => {
     const dateValue = new Date(created).valueOf();
     const id = `dismissedVerifiedNameFailureMessage-${verifiedName}-${dateValue}`;
 
@@ -344,11 +348,11 @@ class AccountSettingsPage extends React.Component {
         id={id}
         variant="danger"
         icon={Error}
-        header={this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message.header'])}
+        header={intl.formatMessage(messages['account.settings.field.name.verified.failure.message.header'])}
         body={
           (
             <div className="d-flex flex-row">
-              {this.props.intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
+              {intl.formatMessage(messages['account.settings.field.name.verified.failure.message'])}
             </div>
           )
         }
@@ -356,25 +360,25 @@ class AccountSettingsPage extends React.Component {
     );
   };
 
-  renderVerifiedNameSubmittedMessage = (willCertNameChange) => (
+  const renderVerifiedNameSubmittedMessage = (willCertNameChange) => (
     <Alert
       variant="warning"
       icon={WarningFilled}
     >
       <Alert.Heading>
-        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.header'])}
+        {intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.header'])}
       </Alert.Heading>
       <p>
-        {this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message'])}{' '}
+        {intl.formatMessage(messages['account.settings.field.name.verified.submitted.message'])}{' '}
         {
           willCertNameChange
-          && this.props.intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.certificate'])
+          && intl.formatMessage(messages['account.settings.field.name.verified.submitted.message.certificate'])
         }
       </p>
     </Alert>
   );
 
-  renderVerifiedNameMessage = verifiedNameRecord => {
+  const renderVerifiedNameMessage = verifiedNameRecord => {
     const {
       created,
       status,
@@ -387,13 +391,13 @@ class AccountSettingsPage extends React.Component {
     if (
       (
         // User submitted a profile name change, and uses their profile name on certificates
-        this.props.committedValues.name !== profileName
-        && !this.props.committedValues.useVerifiedNameForCerts
+        props.committedValues.name !== profileName
+        && !props.committedValues.useVerifiedNameForCerts
       )
       || (
         // User submitted a verified name change, and uses their verified name on certificates
-        this.props.committedValues.name === profileName
-        && this.props.committedValues.useVerifiedNameForCerts
+        props.committedValues.name === profileName
+        && props.committedValues.useVerifiedNameForCerts
       )
     ) {
       willCertNameChange = true;
@@ -405,17 +409,17 @@ class AccountSettingsPage extends React.Component {
 
     switch (status) {
       case 'approved':
-        return this.renderVerifiedNameSuccessMessage(verifiedName, created);
+        return renderVerifiedNameSuccessMessage(verifiedName, created);
       case 'denied':
-        return this.renderVerifiedNameFailureMessage(verifiedName, created);
+        return renderVerifiedNameFailureMessage(verifiedName, created);
       case 'submitted':
-        return this.renderVerifiedNameSubmittedMessage(willCertNameChange);
+        return renderVerifiedNameSubmittedMessage(willCertNameChange);
       default:
         return null;
     }
   };
 
-  renderVerifiedNameIcon = (status) => {
+  const renderVerifiedNameIcon = (status) => {
     switch (status) {
       case 'approved':
         return (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />);
@@ -426,7 +430,7 @@ class AccountSettingsPage extends React.Component {
     }
   };
 
-  renderVerifiedNameHelpText = (status, proctoredExamId) => {
+  const renderVerifiedNameHelpText = (status, proctoredExamId) => {
     let messageStr = 'account.settings.field.name.verified.help.text';
 
     // add additional string based on status
@@ -444,50 +448,50 @@ class AccountSettingsPage extends React.Component {
     }
 
     // add additional string based on certificate name use
-    if (this.props.committedValues.useVerifiedNameForCerts) {
+    if (props.committedValues.useVerifiedNameForCerts) {
       messageStr += '.certificate';
     }
 
-    return this.props.intl.formatMessage(messages[messageStr]);
+    return intl.formatMessage(messages[messageStr]);
   };
 
-  renderEmptyStaticFieldMessage() {
-    if (this.isManagedProfile()) {
-      return this.props.intl.formatMessage(messages['account.settings.static.field.empty'], {
-        enterprise: this.props.profileDataManager,
+  const renderEmptyStaticFieldMessage = () => {
+    if (isManagedProfile()) {
+      return intl.formatMessage(messages['account.settings.static.field.empty'], {
+        enterprise: profileDataManager,
       });
     }
-    return this.props.intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
-  }
+    return intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
+  };
 
-  renderNameChangeModal() {
-    if (this.props.nameChangeModal && this.props.nameChangeModal.formId) {
-      return <NameChange targetFormId={this.props.nameChangeModal.formId} />;
+  const renderNameChangeModal = () => {
+    if (nameChangeModal && nameChangeModal.formId) {
+      return <NameChange targetFormId={nameChangeModal.formId} />;
     }
     return null;
-  }
+  };
 
-  renderSecondaryEmailField(editableFieldProps) {
-    if (!this.props.formValues.secondary_email_enabled) {
+  const renderSecondaryEmailField = (editableFieldProps) => {
+    if (!props.formValues.secondary_email_enabled) {
       return null;
     }
 
     return (
       <EmailField
         name="secondary_email"
-        label={this.props.intl.formatMessage(messages['account.settings.field.secondary.email'])}
-        emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
-        value={this.props.formValues.secondary_email}
+        label={intl.formatMessage(messages['account.settings.field.secondary.email'])}
+        emptyLabel={intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
+        value={props.formValues.secondary_email}
         confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
         {...editableFieldProps}
       />
     );
-  }
+  };
 
-  renderContent() {
+  const renderContent = () => {
     const editableFieldProps = {
-      onChange: this.handleEditableFieldChange,
-      onSubmit: this.handleSubmit,
+      onChange: handleEditableFieldChange,
+      onSubmit: handleSubmit,
     };
 
     // Memoized options lists
@@ -499,28 +503,28 @@ class AccountSettingsPage extends React.Component {
       educationLevelOptions,
       genderOptions,
       workExperienceOptions,
-    } = this.getLocalizedOptions(this.context.locale, this.props.formValues.country);
+    } = getLocalizedOptions(appContext.locale, props.formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
-    const { country } = this.props.formValues;
-    const showState = country === COUNTRY_WITH_STATES && !this.isDisabledCountry(country);
-    const { verifiedName } = this.props;
+    const { country } = props.formValues;
+    const showState = country === COUNTRY_WITH_STATES && !isDisabledCountry(country);
+    const { verifiedName } = props;
 
-    const hasWorkExperience = !!this.props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
+    const hasWorkExperience = !!props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
 
-    const timeZoneOptions = this.getLocalizedTimeZoneOptions(
-      this.props.timeZoneOptions,
-      this.props.countryTimeZoneOptions,
-      this.context.locale,
+    const timeZoneOptions = getLocalizedTimeZoneOptions(
+      props.timeZoneOptions,
+      props.countryTimeZoneOptions,
+      appContext.locale,
     );
 
-    const hasLinkedTPA = findIndex(this.props.tpaProviders, provider => provider.connected) >= 0;
+    const hasLinkedTPA = findIndex(props.tpaProviders, provider => provider.connected) >= 0;
 
     // if user is under 13 and does not have cookie set
     const shouldUpdateDOB = (
       getConfig().ENABLE_COPPA_COMPLIANCE
       && getConfig().ENABLE_DOB_UPDATE
-      && this.props.formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
+      && props.formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
       && !localStorage.getItem('submittedDOB')
     );
     return (
@@ -531,10 +535,10 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
           )}
-        <div className="account-section pt-3 mb-5" id="basic-information" ref={this.navLinkRefs['#basic-information']}>
+        <div className="account-section pt-3 mb-5" id="basic-information" ref={navLinkRefs['#basic-information']}>
           {
-            this.props.mostRecentVerifiedName
-            && this.renderVerifiedNameMessage(this.props.mostRecentVerifiedName)
+            props.mostRecentVerifiedName
+            && renderVerifiedNameMessage(props.mostRecentVerifiedName)
           }
           {localStorage.getItem('submittedDOB')
             && (
@@ -542,25 +546,25 @@ class AccountSettingsPage extends React.Component {
               id="updated-dob"
               variant="success"
               icon={CheckCircle}
-              header={this.props.intl.formatMessage(messages['account.settings.field.dob.form.success'])}
+              header={intl.formatMessage(messages['account.settings.field.dob.form.success'])}
               body=""
             />
             )}
 
           <h2 className="section-heading h4 mb-3">
-            {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
+            {intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
-          <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
-          {this.renderManagedProfileMessage()}
+          <p>{intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
+          {renderManagedProfileMessage()}
 
-          {this.renderNameChangeModal()}
+          {renderNameChangeModal()}
 
           <EditableField
             name="username"
             type="text"
-            value={this.props.formValues.username}
-            label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
-            helpText={this.props.intl.formatMessage(
+            value={props.formValues.username}
+            label={intl.formatMessage(messages['account.settings.field.username'])}
+            helpText={intl.formatMessage(
               messages['account.settings.field.username.help.text'],
               { siteName: getConfig().SITE_NAME },
             )}
@@ -572,83 +576,83 @@ class AccountSettingsPage extends React.Component {
             type="text"
             value={
               verifiedName?.status === 'submitted'
-              && this.props.formValues.pending_name_change
-                ? this.props.formValues.pending_name_change
-                : this.props.formValues.name
+              && props.formValues.pending_name_change
+                ? props.formValues.pending_name_change
+                : props.formValues.name
               }
-            label={this.props.intl.formatMessage(messages['account.settings.field.full.name'])}
+            label={intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
-              this.isEditable('name')
-                ? this.props.intl.formatMessage(messages['account.settings.field.full.name.empty'])
-                : this.renderEmptyStaticFieldMessage()
+              isEditable('name')
+                ? intl.formatMessage(messages['account.settings.field.full.name.empty'])
+                : renderEmptyStaticFieldMessage()
             }
             helpText={
               verifiedName
-                ? this.renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
-                : this.props.intl.formatMessage(messages['account.settings.field.full.name.help.text'])
+                ? renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
+                : intl.formatMessage(messages['account.settings.field.full.name.help.text'])
             }
             isEditable={
               verifiedName
-                ? this.isEditable('verifiedName') && this.isEditable('name')
-                : this.isEditable('name')
+                ? isEditable('verifiedName') && isEditable('name')
+                : isEditable('name')
             }
             isGrayedOut={
-              verifiedName && !this.isEditable('verifiedName')
+              verifiedName && !isEditable('verifiedName')
             }
-            onChange={this.handleEditableFieldChange}
-            onSubmit={this.handleSubmitProfileName}
+            onChange={handleEditableFieldChange}
+            onSubmit={handleSubmitProfileName}
           />
           {verifiedName
             && (
             <EditableField
               name="verified_name"
               type="text"
-              value={this.props.formValues.verified_name}
+              value={props.formValues.verified_name}
               label={
                 (
                   <div className="d-flex">
-                    {this.props.intl.formatMessage(messages['account.settings.field.name.verified'])}
+                    {intl.formatMessage(messages['account.settings.field.name.verified'])}
                     {
-                      this.renderVerifiedNameIcon(verifiedName.status)
+                      renderVerifiedNameIcon(verifiedName.status)
                     }
                   </div>
                 )
               }
-              helpText={this.renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
-              isEditable={this.isEditable('verifiedName')}
-              isGrayedOut={!this.isEditable('verifiedName')}
-              onChange={this.handleEditableFieldChange}
-              onSubmit={this.handleSubmitVerifiedName}
+              helpText={renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
+              isEditable={isEditable('verifiedName')}
+              isGrayedOut={!isEditable('verifiedName')}
+              onChange={handleEditableFieldChange}
+              onSubmit={handleSubmitVerifiedName}
             />
             )}
 
           <EmailField
             name="email"
-            label={this.props.intl.formatMessage(messages['account.settings.field.email'])}
+            label={intl.formatMessage(messages['account.settings.field.email'])}
             emptyLabel={
-              this.isEditable('email')
-                ? this.props.intl.formatMessage(messages['account.settings.field.email.empty'])
-                : this.renderEmptyStaticFieldMessage()
+              isEditable('email')
+                ? intl.formatMessage(messages['account.settings.field.email.empty'])
+                : renderEmptyStaticFieldMessage()
             }
-            value={this.props.formValues.email}
+            value={props.formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
-            helpText={this.props.intl.formatMessage(
+            helpText={intl.formatMessage(
               messages['account.settings.field.email.help.text'],
               { siteName: getConfig().SITE_NAME },
             )}
-            isEditable={this.isEditable('email')}
+            isEditable={isEditable('email')}
             {...editableFieldProps}
           />
-          {this.renderSecondaryEmailField(editableFieldProps)}
-          <ResetPassword email={this.props.formValues.email} />
+          {renderSecondaryEmailField(editableFieldProps)}
+          <ResetPassword email={props.formValues.email} />
           {(!getConfig().ENABLE_COPPA_COMPLIANCE)
             && (
             <EditableSelectField
               name="year_of_birth"
               type="select"
-              label={this.props.intl.formatMessage(messages['account.settings.field.dob'])}
-              emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.dob.empty'])}
-              value={this.props.formValues.year_of_birth}
+              label={intl.formatMessage(messages['account.settings.field.dob'])}
+              emptyLabel={intl.formatMessage(messages['account.settings.field.dob.empty'])}
+              value={props.formValues.year_of_birth}
               options={yearOfBirthOptions}
               {...editableFieldProps}
             />
@@ -656,15 +660,15 @@ class AccountSettingsPage extends React.Component {
           <EditableSelectField
             name="country"
             type="select"
-            value={this.props.formValues.country}
+            value={props.formValues.country}
             options={countryOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.country'])}
+            label={intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
-              this.isEditable('country')
-                ? this.props.intl.formatMessage(messages['account.settings.field.country.empty'])
-                : this.renderEmptyStaticFieldMessage()
+              isEditable('country')
+                ? intl.formatMessage(messages['account.settings.field.country.empty'])
+                : renderEmptyStaticFieldMessage()
             }
-            isEditable={this.isEditable('country')}
+            isEditable={isEditable('country')}
             {...editableFieldProps}
           />
           {showState
@@ -672,43 +676,43 @@ class AccountSettingsPage extends React.Component {
             <EditableSelectField
               name="state"
               type="select"
-              value={this.props.formValues.state}
+              value={props.formValues.state}
               options={stateOptions}
-              label={this.props.intl.formatMessage(messages['account.settings.field.state'])}
+              label={intl.formatMessage(messages['account.settings.field.state'])}
               emptyLabel={
-                this.isEditable('state')
-                  ? this.props.intl.formatMessage(messages['account.settings.field.state.empty'])
-                  : this.renderEmptyStaticFieldMessage()
+                isEditable('state')
+                  ? intl.formatMessage(messages['account.settings.field.state.empty'])
+                  : renderEmptyStaticFieldMessage()
               }
-              isEditable={this.isEditable('state')}
+              isEditable={isEditable('state')}
               {...editableFieldProps}
             />
             )}
         </div>
 
-        <div className="account-section pt-3 mb-5" id="profile-information" ref={this.navLinkRefs['#profile-information']}>
+        <div className="account-section pt-3 mb-5" id="profile-information" ref={navLinkRefs['#profile-information']}>
           <h2 className="section-heading h4 mb-3">
-            {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
+            {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
           <EditableSelectField
             name="level_of_education"
             type="select"
-            value={this.props.formValues.level_of_education}
+            value={props.formValues.level_of_education}
             options={getConfig().ENABLE_COPPA_COMPLIANCE
               ? educationLevelOptions.filter(option => option.value !== 'el')
               : educationLevelOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.education.empty'])}
+            label={intl.formatMessage(messages['account.settings.field.education'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.education.empty'])}
             {...editableFieldProps}
           />
           <EditableSelectField
             name="gender"
             type="select"
-            value={this.props.formValues.gender}
+            value={props.formValues.gender}
             options={genderOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.gender'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.gender.empty'])}
+            label={intl.formatMessage(messages['account.settings.field.gender'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.gender.empty'])}
             {...editableFieldProps}
           />
           {hasWorkExperience
@@ -716,29 +720,29 @@ class AccountSettingsPage extends React.Component {
           <EditableSelectField
             name="work_experience"
             type="select"
-            value={this.props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
+            value={props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
             options={workExperienceOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.work.experience'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
+            label={intl.formatMessage(messages['account.settings.field.work.experience'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
             {...editableFieldProps}
           />
           )}
           <EditableSelectField
             name="language_proficiencies"
             type="select"
-            value={this.props.formValues.language_proficiencies}
+            value={props.formValues.language_proficiencies}
             options={languageProficiencyOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
+            label={intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
-            {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
+            {intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
           <p>
-            {this.props.intl.formatMessage(
+            {intl.formatMessage(
               messages['account.settings.section.social.media.description'],
               { siteName: getConfig().SITE_NAME },
             )}
@@ -747,67 +751,67 @@ class AccountSettingsPage extends React.Component {
           <EditableField
             name="social_link_linkedin"
             type="text"
-            value={this.props.formValues.social_link_linkedin}
-            label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
+            value={props.formValues.social_link_linkedin}
+            label={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
             {...editableFieldProps}
           />
           <EditableField
             name="social_link_facebook"
             type="text"
-            value={this.props.formValues.social_link_facebook}
-            label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
+            value={props.formValues.social_link_facebook}
+            label={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
             {...editableFieldProps}
           />
           <EditableField
             name="social_link_twitter"
             type="text"
-            value={this.props.formValues.social_link_twitter}
-            label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
+            value={props.formValues.social_link_twitter}
+            label={intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
             {...editableFieldProps}
           />
         </div>
         <div className="border border-light-700" />
-        <div className="mt-6" id="notifications" ref={this.navLinkRefs['#notifications']}>
+        <div className="mt-6" id="notifications" ref={navLinkRefs['#notifications']}>
           <NotificationSettings />
         </div>
-        <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
+        <div className="account-section mb-5" id="site-preferences" ref={navLinkRefs['#site-preferences']}>
           <h2 className="section-heading h4 mb-3">
-            {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
+            {intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
           <BetaLanguageBanner />
           <EditableSelectField
             name="siteLanguage"
             type="select"
-            options={this.props.siteLanguageOptions}
-            value={this.props.siteLanguage.draft !== undefined ? this.props.siteLanguage.draft : this.context.locale}
-            label={this.props.intl.formatMessage(messages['account.settings.field.site.language'])}
-            helpText={this.props.intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
+            options={props.siteLanguageOptions}
+            value={props.siteLanguage.draft !== undefined ? props.siteLanguage.draft : appContext.locale}
+            label={intl.formatMessage(messages['account.settings.field.site.language'])}
+            helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
             {...editableFieldProps}
           />
           <EditableSelectField
             name="time_zone"
             type="select"
-            value={this.props.formValues.time_zone}
+            value={props.formValues.time_zone}
             options={timeZoneOptions}
-            label={this.props.intl.formatMessage(messages['account.settings.field.time.zone'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
-            helpText={this.props.intl.formatMessage(messages['account.settings.field.time.zone.description'])}
+            label={intl.formatMessage(messages['account.settings.field.time.zone'])}
+            emptyLabel={intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
+            helpText={intl.formatMessage(messages['account.settings.field.time.zone.description'])}
             {...editableFieldProps}
             onSubmit={(formId, value) => {
               // the endpoint will not accept an empty string. it must be null
-              this.handleSubmit(formId, value || null);
+              handleSubmit(formId, value || null);
             }}
           />
         </div>
 
-        <div className="account-section pt-3 mb-5" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
-          <h2 className="section-heading h4 mb-3">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
+        <div className="account-section pt-3 mb-5" id="linked-accounts" ref={navLinkRefs['#linked-accounts']}>
+          <h2 className="section-heading h4 mb-3">{intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
           <p>
-            {this.props.intl.formatMessage(
+            {intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
               { siteName: getConfig().SITE_NAME },
             )}
@@ -816,68 +820,53 @@ class AccountSettingsPage extends React.Component {
         </div>
 
         {getConfig().ENABLE_ACCOUNT_DELETION && (
-          <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
+          <div className="account-section pt-3 mb-5" id="delete-account" ref={navLinkRefs['#delete-account']}>
             <DeleteAccount
-              isVerifiedAccount={this.props.isActive}
+              isVerifiedAccount={props.isActive}
               hasLinkedTPA={hasLinkedTPA}
-              canDeleteAccount={this.canDeleteAccount()}
+              canDeleteAccount={canDeleteAccount()}
             />
           </div>
         )}
       </>
     );
-  }
+  };
 
-  renderError() {
-    return (
+  const renderError = () => (
+    <div>
+      {intl.formatMessage(messages['account.settings.loading.error'], {
+        error: loadingError,
+      })}
+    </div>
+  );
+
+  const renderLoading = () => (
+    <PageLoading srMessage={intl.formatMessage(messages['account.settings.loading.message'])} />
+  );
+
+  return (
+    <Container className="page__account-settings py-5" size="xl">
+      {renderDuplicateTpaProviderMessage()}
+      <h1 className="mb-4">
+        {intl.formatMessage(messages['account.settings.page.heading'])}
+      </h1>
       <div>
-        {this.props.intl.formatMessage(messages['account.settings.loading.error'], {
-          error: this.props.loadingError,
-        })}
-      </div>
-    );
-  }
-
-  renderLoading() {
-    return (
-      <PageLoading srMessage={this.props.intl.formatMessage(messages['account.settings.loading.message'])} />
-    );
-  }
-
-  render() {
-    const {
-      loading,
-      loaded,
-      loadingError,
-    } = this.props;
-
-    return (
-      <Container className="page__account-settings py-5" size="xl">
-        {this.renderDuplicateTpaProviderMessage()}
-        <h1 className="mb-4">
-          {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
-        </h1>
-        <div>
-          <div className="row">
-            <div className="col-md-3">
-              <JumpNav />
-            </div>
-            <div className="col-md-9">
-              {loading ? this.renderLoading() : null}
-              {loaded ? this.renderContent() : null}
-              {loadingError ? this.renderError() : null}
-            </div>
+        <div className="row">
+          <div className="col-md-3">
+            <JumpNav />
+          </div>
+          <div className="col-md-9">
+            {loading ? renderLoading() : null}
+            {loaded ? renderContent() : null}
+            {loadingError ? renderError() : null}
           </div>
         </div>
-      </Container>
-    );
-  }
-}
-
-AccountSettingsPage.contextType = AppContext;
+      </div>
+    </Container>
+  );
+};
 
 AccountSettingsPage.propTypes = {
-  intl: intlShape.isRequired,
   loading: PropTypes.bool,
   loaded: PropTypes.bool,
   loadingError: PropTypes.string,
@@ -1017,4 +1006,4 @@ export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
   updateDraft,
   fetchSiteLanguages,
   beginNameChange,
-})(injectIntl(AccountSettingsPage))));
+})(AccountSettingsPage)));
