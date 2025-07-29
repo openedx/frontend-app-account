@@ -104,6 +104,12 @@ Cloning and Startup
 
     ``npm start``
 
+    Or for local development with custom configuration:
+
+    ``npm run dev``
+
+    This runs the dev server with PUBLIC_PATH=/account/, MFE_CONFIG_API_URL pointing to localhost:8000, and hosts on apps.local.openedx.io.
+
 Local module development
 =========================
 
