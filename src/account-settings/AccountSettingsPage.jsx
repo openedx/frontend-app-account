@@ -80,7 +80,7 @@ const AccountSettingsPage = ({
     if (initialDuplicateTpaProvider) {
       setDuplicateTpaProvider(initialDuplicateTpaProvider);
     }
-    props.fetchCourseList();
+    props.fetchNotificationPreferences();
     props.fetchSettings();
     props.fetchSiteLanguages(navigate);
     sendTrackingLogEvent('edx.user.settings.viewed', {
