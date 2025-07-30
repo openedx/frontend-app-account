@@ -4,7 +4,7 @@ import {
   fetchNotificationPreferenceSuccess,
   fetchNotificationPreferenceFailed,
 } from './actions';
-import { patchPreferenceToggle, postPreferenceToggle } from './service';
+import { postPreferenceToggle } from './service';
 import { EMAIL } from './constants';
 
 jest.mock('./service', () => ({
@@ -60,37 +60,9 @@ describe('updatePreferenceToggle', () => {
     jest.clearAllMocks();
   });
 
-  it('should update preference for a course-specific notification', async () => {
-    patchPreferenceToggle.mockResolvedValue({ data: mockData });
-    await updatePreferenceToggle(
-      courseId,
-      notificationApp,
-      notificationType,
-      notificationChannel,
-      value,
-      emailCadence,
-    )(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(updatePreferenceValue(
-      notificationApp,
-      notificationType,
-      notificationChannel,
-      !value,
-    ));
-    expect(patchPreferenceToggle).toHaveBeenCalledWith(
-      courseId,
-      notificationApp,
-      notificationType,
-      notificationChannel,
-      value,
-    );
-    expect(dispatch).toHaveBeenCalledWith(fetchNotificationPreferenceSuccess(courseId, { data: mockData }, false));
-  });
-
-  it('should update preference globally when courseId is not provided', async () => {
+  it('should update preference globally', async () => {
     postPreferenceToggle.mockResolvedValue({ data: mockData });
     await updatePreferenceToggle(
-      null,
       notificationApp,
       notificationType,
       notificationChannel,
@@ -115,23 +87,22 @@ describe('updatePreferenceToggle', () => {
   });
 
   it('should handle email preferences separately', async () => {
-    patchPreferenceToggle.mockResolvedValue({ data: mockData });
-    await updatePreferenceToggle(courseId, notificationApp, notificationType, EMAIL, value, emailCadence)(dispatch);
+    postPreferenceToggle.mockResolvedValue({ data: mockData });
+    await updatePreferenceToggle(notificationApp, notificationType, EMAIL, value, emailCadence)(dispatch);
 
-    expect(patchPreferenceToggle).toHaveBeenCalledWith(
-      courseId,
+    expect(postPreferenceToggle).toHaveBeenCalledWith(
       notificationApp,
       notificationType,
       EMAIL,
       true,
+      emailCadence,
     );
     expect(dispatch).toHaveBeenCalledWith(fetchNotificationPreferenceSuccess(courseId, { data: mockData }, false));
   });
 
   it('should dispatch fetchNotificationPreferenceFailed on error', async () => {
-    patchPreferenceToggle.mockRejectedValue(new Error('Network Error'));
+    postPreferenceToggle.mockRejectedValue(new Error('Network Error'));
     await updatePreferenceToggle(
-      courseId,
       notificationApp,
       notificationType,
       notificationChannel,

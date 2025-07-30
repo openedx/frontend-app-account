@@ -15,7 +15,7 @@ import { LOADING_STATUS } from '../constants';
 import { updatePreferenceToggle } from './data/thunks';
 import {
   selectAppNonEditableChannels, selectAppPreferences,
-  selectSelectedCourseId, selectUpdatePreferencesStatus,
+  selectUpdatePreferencesStatus,
 } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import {
@@ -25,7 +25,6 @@ import {
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const courseId = useSelector(selectSelectedCourseId());
   const appPreferences = useSelector(selectAppPreferences(appId));
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectAppNonEditableChannels(appId));
@@ -34,11 +33,11 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
   const getValue = useCallback((notificationChannel, innerText, checked) => {
-    if (notificationChannel === EMAIL_CADENCE && courseId) {
+    if (notificationChannel === EMAIL_CADENCE) {
       return innerText;
     }
     return checked;
-  }, [courseId]);
+  }, []);
 
   const getEmailCadence = useCallback((notificationChannel, checked, innerText, emailCadence) => {
     if (notificationChannel === EMAIL_CADENCE) {
@@ -63,14 +62,13 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
     );
 
     dispatch(updatePreferenceToggle(
-      courseId,
       appId,
       notificationType,
       notificationChannel,
       value,
       emailCadence !== MIXED ? emailCadence : undefined,
     ));
-  }, [appPreferences, getValue, getEmailCadence, dispatch, courseId, appId]);
+  }, [appPreferences, getValue, getEmailCadence, dispatch, appId]);
 
   const renderPreference = (preference) => (
     (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (

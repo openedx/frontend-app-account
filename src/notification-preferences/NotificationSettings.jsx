@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Hyperlink } from '@openedx/paragon';
 
-import { selectSelectedCourseId, selectShowPreferences } from './data/selectors';
+import { selectShowPreferences } from './data/selectors';
 import messages from './messages';
-import NotificationCoursesDropdown from './NotificationCoursesDropdown';
 import NotificationPreferences from './NotificationPreferences';
 import { useFeedbackWrapper } from '../hooks';
 
@@ -14,7 +13,6 @@ const NotificationSettings = () => {
   useFeedbackWrapper();
   const intl = useIntl();
   const showPreferences = useSelector(selectShowPreferences());
-  const courseId = useSelector(selectSelectedCourseId());
 
   return (
     showPreferences && (
@@ -42,8 +40,7 @@ const NotificationSettings = () => {
             {intl.formatMessage(messages.notificationPreferenceGuideLink)}
           </Hyperlink>
         </div>
-        <NotificationCoursesDropdown />
-        <NotificationPreferences courseId={courseId} />
+        <NotificationPreferences />
         <div className="border border-light-700 my-6" />
       </Container>
     )

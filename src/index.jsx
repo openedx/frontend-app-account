@@ -74,7 +74,6 @@ initialize({
         MARKETING_EMAILS_OPT_IN: (process.env.MARKETING_EMAILS_OPT_IN || false),
         PASSWORD_RESET_SUPPORT_LINK: process.env.PASSWORD_RESET_SUPPORT_LINK,
         LEARNER_FEEDBACK_URL: process.env.LEARNER_FEEDBACK_URL,
-        ENABLE_PREFERENCES_V2: process.env.ENABLE_PREFERENCES_V2 || false,
       }, 'App loadConfig override handler');
     },
   },
