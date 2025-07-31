@@ -54,6 +54,8 @@ import { fetchNotificationPreferences } from '../notification-preferences/data/t
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
 
+import ExtendedProfileFieldsSlot from '../plugin-slots/ExtendedProfileFieldsSlot';
+
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -732,6 +734,8 @@ class AccountSettingsPage extends React.Component {
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+
+          <ExtendedProfileFieldsSlot />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
