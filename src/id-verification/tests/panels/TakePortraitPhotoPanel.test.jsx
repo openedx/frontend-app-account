@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakePortraitPhotoPanel from '../../panels/TakePortraitPhotoPanel';
 
@@ -16,13 +15,7 @@ jest.mock('../../Camera', () => function CameraMock() {
   return <></>;
 });
 
-const IntlTakePortraitPhotoPanel = injectIntl(TakePortraitPhotoPanel);
-
 describe('TakePortraitPhotoPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const contextValue = {
     facePhotoFile: null,
     idPhotoFile: null,
@@ -39,7 +32,7 @@ describe('TakePortraitPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakePortraitPhotoPanel {...defaultProps} />
+            <TakePortraitPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -54,7 +47,7 @@ describe('TakePortraitPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakePortraitPhotoPanel {...defaultProps} />
+            <TakePortraitPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -73,7 +66,7 @@ describe('TakePortraitPhotoPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlTakePortraitPhotoPanel {...defaultProps} />
+            <TakePortraitPhotoPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
