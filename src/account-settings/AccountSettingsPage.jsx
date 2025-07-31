@@ -50,7 +50,7 @@ import {
   FIELD_LABELS,
 } from './data/constants';
 import { fetchSiteLanguages } from './site-language';
-import { fetchCourseList } from '../notification-preferences/data/thunks';
+import { fetchNotificationPreferences } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
 
@@ -75,7 +75,7 @@ class AccountSettingsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchCourseList();
+    this.props.fetchNotificationPreferences();
     this.props.fetchSettings();
     this.props.fetchSiteLanguages(this.props.navigate);
     sendTrackingLogEvent('edx.user.settings.viewed', {
@@ -945,7 +945,7 @@ AccountSettingsPage.propTypes = {
   saveSettings: PropTypes.func.isRequired,
   fetchSettings: PropTypes.func.isRequired,
   beginNameChange: PropTypes.func.isRequired,
-  fetchCourseList: PropTypes.func.isRequired,
+  fetchNotificationPreferences: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
@@ -1010,7 +1010,7 @@ AccountSettingsPage.defaultProps = {
 };
 
 export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
-  fetchCourseList,
+  fetchNotificationPreferences,
   fetchSettings,
   saveSettings,
   saveMultipleSettings,

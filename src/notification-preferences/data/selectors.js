@@ -13,20 +13,6 @@ export const selectPreferences = () => state => (
   state.notificationPreferences.preferences?.preferences
 );
 
-export const selectCourseListStatus = () => state => (
-  state.notificationPreferences.courses.status
-);
-
-export const selectCourseList = () => state => (
-  state.notificationPreferences.courses.courses
-);
-
-export const selectCourse = courseId => state => (
-  selectCourseList()(state).find(
-    course => course.id === courseId,
-  )
-);
-
 export const selectPreferenceAppsId = () => state => (
   state.notificationPreferences.preferences.apps.map(app => app.id)
 );
@@ -55,14 +41,6 @@ export const selectPreference = (appId, name) => state => (
 
 export const selectPreferenceNonEditableChannels = (appId, name) => state => (
   state?.notificationPreferences.preferences.nonEditable[appId]?.[name] || []
-);
-
-export const selectSelectedCourseId = () => state => (
-  state.notificationPreferences.preferences.selectedCourse
-);
-
-export const selectPagination = () => state => (
-  state.notificationPreferences.courses.pagination
 );
 
 export const selectShowPreferences = () => state => (

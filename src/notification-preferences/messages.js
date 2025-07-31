@@ -93,7 +93,7 @@ const messages = defineMessages({
   },
   accountNotificationDescription: {
     id: 'account.notification.description',
-    defaultMessage: 'Account-level settings apply to all courses. Notifications for individual courses can be changed within each course and will override account-level settings.',
+    defaultMessage: 'Account-level settings apply to all courses.',
     description: 'Account notification description',
   },
   notificationCadenceDescription: {

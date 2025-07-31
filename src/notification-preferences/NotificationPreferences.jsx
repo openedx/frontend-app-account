@@ -9,23 +9,21 @@ import { Spinner, NavItem } from '@openedx/paragon';
 import { useIsOnMobile } from '../hooks';
 import messages from './messages';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
-import { fetchCourseNotificationPreferences } from './data/thunks';
+import { fetchNotificationPreferences } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 import {
-  selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId, selectSelectedCourseId,
+  selectNotificationPreferencesStatus, selectPreferenceAppsId,
 } from './data/selectors';
 import { notificationChannels } from './data/utils';
 
 const NotificationPreferences = () => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const courseStatus = useSelector(selectCourseListStatus());
-  const courseId = useSelector(selectSelectedCourseId());
   const notificationStatus = useSelector(selectNotificationPreferencesStatus());
   const preferenceAppsIds = useSelector(selectPreferenceAppsId());
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
-  const isLoading = notificationStatus === LOADING_STATUS || courseStatus === LOADING_STATUS;
+  const isLoading = notificationStatus === LOADING_STATUS;
 
   const preferencesList = useMemo(() => (
     preferenceAppsIds.map(appId => (
@@ -34,8 +32,8 @@ const NotificationPreferences = () => {
   ), [preferenceAppsIds]);
 
   useEffect(() => {
-    dispatch(fetchCourseNotificationPreferences(courseId));
-  }, [courseId, dispatch]);
+    dispatch(fetchNotificationPreferences());
+  }, [dispatch]);
 
   if (preferenceAppsIds.length === 0) {
     return null;
