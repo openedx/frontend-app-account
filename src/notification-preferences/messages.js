@@ -91,14 +91,9 @@ const messages = defineMessages({
     defaultMessage: 'Notifications for certain activities are enabled by default,',
     description: 'Body of the notification preferences for learner guide',
   },
-  accountNotificationDescription: {
-    id: 'account.notification.description',
-    defaultMessage: 'Account-level settings apply to all courses.',
-    description: 'Account notification description',
-  },
   notificationCadenceDescription: {
     id: 'notification.cadence.description',
-    defaultMessage: 'Daily notifications are delivered at {dailyTime}. Weekly notifications are delivered at {weeklyTime}.',
+    defaultMessage: 'Daily email notifications are sent at {dailyTime}. Weekly email notifications are sent every Sunday at {weeklyTime}.',
     description: 'Notification cadence description',
   },
   notificationDefaultInfo: {

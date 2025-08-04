@@ -21,12 +21,9 @@ const NotificationSettings = () => {
           {intl.formatMessage(messages.notificationHeading)}
         </h2>
         <div className="text-gray-700 font-size-14 mb-3">
-          {intl.formatMessage(messages.accountNotificationDescription)}
-        </div>
-        <div className="text-gray-700 font-size-14 mb-3">
           {intl.formatMessage(messages.notificationCadenceDescription, {
             dailyTime: '22:00 UTC',
-            weeklyTime: '22:00 UTC Every Sunday',
+            weeklyTime: '22:00 UTC',
           })}
         </div>
         <div className="mb-5 text-gray-700 font-size-14">
