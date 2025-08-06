@@ -1,21 +1,30 @@
 {
-  "name": "@edx/frontend-app-account",
-  "version": "1.0.0-semantically-released",
-  "description": "User account micro-frontend for Open edX",
-  "author": "edX",
+  "name": "@openedx/frontend-app-account",
+  "version": "1.0.0-alpha.3",
+  "description": "User account frontend for Open edX",
+  "author": "Open edX",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openedx/frontend-app-account.git"
   },
+  "main": "src/index.ts",
+  "files": [
+    "/src"
+  ],
+  "sideEffects": [
+  "*.css",
+  "*.scss"
+],
   "scripts": {
+    "dev": "PORT=1997 openedx dev",
     "build": "fedx-scripts webpack",
-    "i18n_extract": "fedx-scripts formatjs extract",
-    "lint": "fedx-scripts eslint --ext .js --ext .jsx .",
-    "lint:fix": "npm run lint -- --fix",
-    "snapshot": "fedx-scripts jest --updateSnapshot",
-    "start": "fedx-scripts webpack-dev-server --progress",
-    "test": "TZ=UTC fedx-scripts jest --coverage --passWithNoTests"
+    "i18n_extract": "openedx formatjs extract",
+    "lint": "openedx lint .",
+    "lint:fix": "openedx lint --fix .",
+    "snapshot": "openedx test --updateSnapshot",
+    "test": "openedx test --coverage --passWithNoTests",
+    "start": "openedx webpack-dev-server --progress"
   },
   "bugs": {
     "url": "https://github.com/openedx/frontend-app-account/issues"
@@ -29,17 +38,12 @@
   ],
   "dependencies": {
     "@edx/brand": "npm:@openedx/brand-openedx@^1.2.2",
-    "@edx/frontend-component-footer": "^14.6.0",
-    "@edx/frontend-component-header": "^6.2.0",
-    "@edx/frontend-platform": "^8.3.3",
     "@edx/openedx-atlas": "^0.7.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "0.2.2",
-    "@openedx/frontend-plugin-framework": "^1.7.0",
-    "@openedx/paragon": "^22.16.0",
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs-converter": "4.22.0",
     "@tensorflow/tfjs-core": "4.22.0",
@@ -64,11 +68,7 @@
     "memoize-one": "^6.0.0",
     "prop-types": "15.8.1",
     "qs": "6.14.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
     "react-redux": "7.2.9",
-    "react-router": "^6.25.1",
-    "react-router-dom": "^6.25.1",
     "react-router-hash-link": "2.4.3",
     "react-scrollspy": "3.4.3",
     "react-transition-group": "4.4.5",
@@ -83,12 +83,18 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.5.0",
-    "@edx/reactifex": "2.2.0",
-    "@openedx/frontend-build": "^14.3.3",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "14.3.1",
     "react-test-renderer": "^18.3.1",
     "reactifex": "1.1.1",
     "redux-mock-store": "1.5.5"
+  },
+  "peerDependencies": {
+    "@openedx/frontend-base": "^1.0.0-alpha.5",
+    "@openedx/paragon": "^22.16.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router": "^6.25.1",
+    "react-router-dom": "^6.25.1"
   }
 }
