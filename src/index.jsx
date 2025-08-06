@@ -20,14 +20,12 @@ import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
 
 import './index.scss';
-import Head from './head/Head';
 
 const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
   rootNode.render(
     <StrictMode>
       <AppProvider store={configureStore()}>
-        <Head />
         <Routes>
           <Route element={(
             <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
