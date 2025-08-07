@@ -4,7 +4,7 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import IdContextPanel from '../../panels/IdContextPanel';
 
@@ -12,13 +12,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-const IntlIdContextPanel = injectIntl(IdContextPanel);
-
 describe('IdContextPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const contextValue = {
     facePhotoFile: 'test.jpg',
     reachedSummary: false,
@@ -33,7 +27,7 @@ describe('IdContextPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlIdContextPanel {...defaultProps} />
+            <IdContextPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -49,7 +43,7 @@ describe('IdContextPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlIdContextPanel {...defaultProps} />
+            <IdContextPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>

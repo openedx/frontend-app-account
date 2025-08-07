@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Button, Form, StatefulButton,
 } from '@openedx/paragon';
@@ -39,10 +38,10 @@ const EditableField = (props) => {
     isEditing,
     isEditable,
     isGrayedOut,
-    intl,
     ...others
   } = props;
   const id = `field-${name}`;
+  const intl = useIntl();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -188,7 +187,6 @@ EditableField.propTypes = {
   isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 EditableField.defaultProps = {
@@ -209,4 +207,4 @@ EditableField.defaultProps = {
 export default connect(editableFieldSelector, {
   onEdit: openForm,
   onCancel: closeForm,
-})(injectIntl(EditableField));
+})(EditableField);
