@@ -859,10 +859,10 @@ class AccountSettingsPage extends React.Component {
         </h1>
         <div>
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-md-3">
               <JumpNav />
             </div>
-            <div className="col-md-10">
+            <div className="col-md-9">
               {loading ? this.renderLoading() : null}
               {loaded ? this.renderContent() : null}
               {loadingError ? this.renderError() : null}
