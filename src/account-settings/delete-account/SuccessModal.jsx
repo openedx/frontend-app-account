@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { ModalLayer, ModalCloseButton } from '@openedx/paragon';
 
 import messages from './messages';
 
 export const SuccessModal = (props) => {
-  const { status, intl, onClose } = props;
+  const intl = useIntl();
+  const { status, onClose } = props;
   return (
 
     <ModalLayer isOpen={status === 'deleted'} onClose={onClose}>
@@ -31,7 +31,6 @@ export const SuccessModal = (props) => {
 
 SuccessModal.propTypes = {
   status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
-  intl: intlShape.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
@@ -39,4 +38,4 @@ SuccessModal.defaultProps = {
   status: null,
 };
 
-export default injectIntl(SuccessModal);
+export default SuccessModal;

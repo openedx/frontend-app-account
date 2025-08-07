@@ -4,7 +4,7 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import ReviewRequirementsPanel from '../../panels/ReviewRequirementsPanel';
 
@@ -12,13 +12,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-const IntlReviewRequirementsPanel = injectIntl(ReviewRequirementsPanel);
-
 describe('ReviewRequirementsPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const context = {};
 
   const getPanel = async () => {
@@ -26,7 +20,7 @@ describe('ReviewRequirementsPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={context}>
-            <IntlReviewRequirementsPanel {...defaultProps} />
+            <ReviewRequirementsPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
