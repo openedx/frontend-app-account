@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -10,11 +10,12 @@ import IdVerificationContext from '../IdVerificationContext';
 
 import messages from '../IdVerification.messages';
 
-const TakePortraitPhotoPanel = (props) => {
+const TakePortraitPhotoPanel = () => {
   const panelSlug = 'take-portrait-photo';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const { setFacePhotoFile, facePhotoFile } = useContext(IdVerificationContext);
   const [mounted, setMounted] = useState(false);
+  const intl = useIntl();
 
   useEffect(() => {
     // This prevents focus switching to the heading when taking a photo
@@ -25,26 +26,22 @@ const TakePortraitPhotoPanel = (props) => {
     <BasePanel
       name={panelSlug}
       focusOnMount={!mounted}
-      title={props.intl.formatMessage(messages['id.verification.portrait.photo.title.camera'])}
+      title={intl.formatMessage(messages['id.verification.portrait.photo.title.camera'])}
     >
       <div>
         <p>
-          {props.intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
+          {intl.formatMessage(messages['id.verification.portrait.photo.instructions.camera'])}
         </p>
         <Camera onImageCapture={setFacePhotoFile} isPortrait />
       </div>
       <CameraHelp isPortrait />
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
         <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
-          {props.intl.formatMessage(messages['id.verification.next'])}
+          {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
     </BasePanel>
   );
 };
 
-TakePortraitPhotoPanel.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(TakePortraitPhotoPanel);
+export default TakePortraitPhotoPanel;
