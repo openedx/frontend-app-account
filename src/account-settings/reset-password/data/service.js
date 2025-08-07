@@ -1,5 +1,4 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import formurlencoded from 'form-urlencoded';
 import { handleRequestError } from '../../data/utils';
 
@@ -7,7 +6,7 @@ import { handleRequestError } from '../../data/utils';
 export async function postResetPassword(email) {
   const { data } = await getAuthenticatedHttpClient()
     .post(
-      `${getConfig().LMS_BASE_URL}/password_reset/`,
+      `${getSiteConfig().LMS_BASE_URL}/password_reset/`,
       formurlencoded({ email }),
       {
         headers: {

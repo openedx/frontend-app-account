@@ -4,18 +4,16 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { injectIntl, IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
-import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
 import Camera from '../Camera';
 
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');
-jest.mock('@edx/frontend-platform/analytics');
 
-analytics.sendTrackEvent = jest.fn();
+sendTrackEvent = jest.fn();
 
 window.HTMLMediaElement.prototype.play = () => {};
 
@@ -156,9 +154,9 @@ describe('SubmittedPanel', () => {
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
   });
 
   it('sends tracking events on id photo page', async () => {
@@ -177,8 +175,8 @@ describe('SubmittedPanel', () => {
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
   });
 });

@@ -1,18 +1,19 @@
-import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig, getQueryParameters } from '@edx/frontend-platform';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
-import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import {
+  SiteContext,
+  getSiteConfig,
+  getQueryParameters,
+  sendTrackingLogEvent,
   injectIntl,
   intlShape,
   FormattedMessage,
   getCountryList,
   getLanguageList,
-} from '@edx/frontend-platform/i18n';
+} from '@openedx/frontend-base';
 import {
   Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
@@ -160,7 +161,7 @@ class AccountSettingsPage extends React.Component {
 
   canDeleteAccount = () => {
     const { committedValues } = this.props;
-    return !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
+    return !getSiteConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
   };
 
   removeDisabledCountries = (countryList) => {
@@ -259,7 +260,7 @@ class AccountSettingsPage extends React.Component {
             description="alert message informing the user that the third-party account they attempted to link is already linked to another account"
             values={{
               provider: <b>{this.state.duplicateTpaProvider}</b>,
-              siteName: getConfig().SITE_NAME,
+              siteName: getSiteConfig().SITE_NAME,
             }}
           />
         </Alert>
@@ -282,7 +283,7 @@ class AccountSettingsPage extends React.Component {
             values={{
               managerTitle: <b>{this.props.profileDataManager}</b>,
               support: (
-                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+                <Hyperlink destination={getSiteConfig().SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -518,8 +519,8 @@ class AccountSettingsPage extends React.Component {
 
     // if user is under 13 and does not have cookie set
     const shouldUpdateDOB = (
-      getConfig().ENABLE_COPPA_COMPLIANCE
-      && getConfig().ENABLE_DOB_UPDATE
+      getSiteConfig().ENABLE_COPPA_COMPLIANCE
+      && getSiteConfig().ENABLE_DOB_UPDATE
       && this.props.formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
       && !localStorage.getItem('submittedDOB')
     );
@@ -562,7 +563,7 @@ class AccountSettingsPage extends React.Component {
             label={this.props.intl.formatMessage(messages['account.settings.field.username'])}
             helpText={this.props.intl.formatMessage(
               messages['account.settings.field.username.help.text'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().SITE_NAME },
             )}
             isEditable={false}
             {...editableFieldProps}
@@ -634,14 +635,14 @@ class AccountSettingsPage extends React.Component {
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             helpText={this.props.intl.formatMessage(
               messages['account.settings.field.email.help.text'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().SITE_NAME },
             )}
             isEditable={this.isEditable('email')}
             {...editableFieldProps}
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
           <ResetPassword email={this.props.formValues.email} />
-          {(!getConfig().ENABLE_COPPA_COMPLIANCE)
+          {(!getSiteConfig().ENABLE_COPPA_COMPLIANCE)
             && (
             <EditableSelectField
               name="year_of_birth"
@@ -695,7 +696,7 @@ class AccountSettingsPage extends React.Component {
             name="level_of_education"
             type="select"
             value={this.props.formValues.level_of_education}
-            options={getConfig().ENABLE_COPPA_COMPLIANCE
+            options={getSiteConfig().ENABLE_COPPA_COMPLIANCE
               ? educationLevelOptions.filter(option => option.value !== 'el')
               : educationLevelOptions}
             label={this.props.intl.formatMessage(messages['account.settings.field.education'])}
@@ -740,7 +741,7 @@ class AccountSettingsPage extends React.Component {
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.social.media.description'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().SITE_NAME },
             )}
           </p>
 
@@ -809,13 +810,13 @@ class AccountSettingsPage extends React.Component {
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().SITE_NAME },
             )}
           </p>
           <ThirdPartyAuth />
         </div>
 
-        {getConfig().ENABLE_ACCOUNT_DELETION && (
+        {getSiteConfig().ENABLE_ACCOUNT_DELETION && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
             <DeleteAccount
               isVerifiedAccount={this.props.isActive}
@@ -874,7 +875,7 @@ class AccountSettingsPage extends React.Component {
   }
 }
 
-AccountSettingsPage.contextType = AppContext;
+AccountSettingsPage.contextType = SiteContext;
 
 AccountSettingsPage.propTypes = {
   intl: intlShape.isRequired,

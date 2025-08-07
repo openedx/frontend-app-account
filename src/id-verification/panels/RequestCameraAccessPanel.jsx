@@ -1,14 +1,12 @@
-import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { FormattedMessage, getSiteConfig, injectIntl, intlShape, sendTrackEvent } from '@openedx/frontend-base';
 import Bowser from 'bowser';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useRedirect } from '../../hooks';
+import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
-import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
 import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
 import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
 
@@ -49,7 +47,7 @@ const RequestCameraAccessPanel = (props) => {
   };
 
   const returnLink = (
-    <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+    <a className="btn btn-primary" href={`${getSiteConfig().LMS_BASE_URL}/${returnUrl}`}>
       {props.intl.formatMessage(messages[returnText])}
     </a>
   );

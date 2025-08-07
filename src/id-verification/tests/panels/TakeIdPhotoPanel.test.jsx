@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakeIdPhotoPanel from '../../panels/TakeIdPhotoPanel';
 

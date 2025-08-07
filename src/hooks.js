@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { getConfig } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { getSiteConfig } from '@edx/frontend-base';
+import { logError } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
@@ -62,7 +62,7 @@ export function useFeedbackWrapper() {
   useEffect(() => {
     try {
     // eslint-disable-next-line no-undef
-      window.usabilla_live = lightningjs?.require('usabilla_live', getConfig().LEARNER_FEEDBACK_URL);
+      window.usabilla_live = lightningjs?.require('usabilla_live', getSiteConfig().LEARNER_FEEDBACK_URL);
     } catch (error) {
       logError('Error loading usabilla_live', error);
     }

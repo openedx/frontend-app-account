@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { AppContext } from '@edx/frontend-platform/react';
+import { SiteContext } from '@openedx/frontend-base';
 import {
   render, screen, fireEvent,
 } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl } from '@openedx/frontend-base';
 
 import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
@@ -35,7 +35,7 @@ describe('AccountSettingsPage', () => {
   let store = {};
   const appContext = { locale: 'en', authenticatedUser: { userId: 3, roles: [] } };
   const reduxWrapper = children => (
-    <AppContext.Provider value={appContext}>
+    <SiteContext.Provider value={appContext}>
       <Router>
         <IntlProvider locale="en">
           <Provider store={store}>
@@ -43,7 +43,7 @@ describe('AccountSettingsPage', () => {
           </Provider>
         </IntlProvider>
       </Router>
-    </AppContext.Provider>
+    </SiteContext.Provider>
   );
 
   beforeEach(() => {

@@ -1,7 +1,6 @@
 import qs from 'qs';
 
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
 /**
  * Get ID verification status from LMS.
@@ -13,7 +12,7 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
  * }
  */
 export async function getExistingIdVerification() {
-  const url = `${getConfig().LMS_BASE_URL}/verify_student/status/`;
+  const url = `${getSiteConfig().LMS_BASE_URL}/verify_student/status/`;
   const requestConfig = {
     headers: { Accept: 'application/json' },
   };
@@ -36,7 +35,7 @@ export async function getExistingIdVerification() {
  * Returns an array: [{...data, mode: String}]
  */
 export async function getEnrollments() {
-  const url = `${getConfig().LMS_BASE_URL}/api/enrollment/v1/enrollment`;
+  const url = `${getSiteConfig().LMS_BASE_URL}/api/enrollment/v1/enrollment`;
   const requestConfig = {
     headers: { Accept: 'application/json' },
   };
@@ -75,7 +74,7 @@ export async function submitIdVerification(verificationData) {
     }
   });
 
-  const url = `${getConfig().LMS_BASE_URL}/verify_student/submit-photos/`;
+  const url = `${getSiteConfig().LMS_BASE_URL}/verify_student/submit-photos/`;
   const urlEncodedPostData = qs.stringify(postData);
   const requestConfig = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

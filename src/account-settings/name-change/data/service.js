@@ -1,5 +1,4 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
 import { handleRequestError } from '../../data/utils';
 
@@ -7,7 +6,7 @@ import { handleRequestError } from '../../data/utils';
 export async function postNameChange(name) {
   // Requests a pending name change, rather than saving the account name immediately
   const requestConfig = { headers: { Accept: 'application/json' } };
-  const requestUrl = `${getConfig().LMS_BASE_URL}/api/user/v1/accounts/name_change/`;
+  const requestUrl = `${getSiteConfig().LMS_BASE_URL}/api/user/v1/accounts/name_change/`;
 
   const { data } = await getAuthenticatedHttpClient()
     .post(requestUrl, { name }, requestConfig)

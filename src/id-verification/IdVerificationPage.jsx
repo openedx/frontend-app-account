@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { getSiteConfig, injectIntl, intlShape } from '@openedx/frontend-base';
+import { ActionRow, Button, ModalDialog } from '@openedx/paragon';
+import camelCase from 'lodash.camelcase';
+import qs from 'qs';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
-import camelCase from 'lodash.camelcase';
-import qs from 'qs';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
-import { getConfig } from '@edx/frontend-platform';
 import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
 import { VerifiedNameContextProvider } from './VerifiedNameContext';
-import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
-import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
-import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';
-import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
-import IdContextPanel from './panels/IdContextPanel';
 import GetNameIdPanel from './panels/GetNameIdPanel';
-import TakeIdPhotoPanel from './panels/TakeIdPhotoPanel';
-import SummaryPanel from './panels/SummaryPanel';
+import IdContextPanel from './panels/IdContextPanel';
+import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';
+import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
+import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
 import SubmittedPanel from './panels/SubmittedPanel';
+import SummaryPanel from './panels/SummaryPanel';
+import TakeIdPhotoPanel from './panels/TakeIdPhotoPanel';
+import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
 
 import messages from './IdVerification.messages';
 
@@ -93,20 +92,20 @@ const IdVerificationPage = (props) => {
             <h6>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </h6>
             <p>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </h6>
             <p>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </p>
           </div>

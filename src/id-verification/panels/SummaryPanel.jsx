@@ -1,19 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { getConfig } from '@edx/frontend-platform';
+import { FormattedMessage, getSiteConfig, injectIntl, intlShape } from '@openedx/frontend-base';
 import {
-  Alert, Hyperlink, Form, Button, Spinner,
+  Alert,
+  Button,
+  Form,
+  Hyperlink,
+  Spinner,
 } from '@openedx/paragon';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/service';
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
 import IdVerificationContext from '../IdVerificationContext';
 import ImagePreview from '../ImagePreview';
+import { useNextPanelSlug } from '../routing-utilities';
+import BasePanel from './BasePanel';
 
-import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
+import messages from '../IdVerification.messages';
 import SupportedMediaTypes from '../SupportedMediaTypes';
 
 const SummaryPanel = (props) => {
@@ -50,7 +53,7 @@ const SummaryPanel = (props) => {
             managerTitle: <strong>{profileDataManager}</strong>,
             profileDataManager,
             support: (
-              <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+              <Hyperlink destination={getSiteConfig().SUPPORT_URL} target="_blank">
                 {props.intl.formatMessage(messages['id.verification.support'])}
               </Hyperlink>
             ),
@@ -133,7 +136,7 @@ const SummaryPanel = (props) => {
             <Alert.Link href="https://support.edx.org/hc/en-us">
               {props.intl.formatMessage(
                 messages['id.verification.review.error'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </Alert.Link>
           ),

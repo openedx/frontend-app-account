@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { injectIntl, intlShape, sendTrackEvent } from '@openedx/frontend-base';
 import { Collapsible } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+import PropTypes from 'prop-types';
+import { useContext, useState } from 'react';
 
 import messages from './IdVerification.messages';
-import ImageFileUpload from './ImageFileUpload';
 import IdVerificationContext from './IdVerificationContext';
+import ImageFileUpload from './ImageFileUpload';
 import ImagePreview from './ImagePreview';
 import SupportedMediaTypes from './SupportedMediaTypes';
 

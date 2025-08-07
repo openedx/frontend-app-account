@@ -2,10 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import 'formdata-polyfill';
-import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
-import {
-  subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig,
-} from '@edx/frontend-platform';
+import { SiteProvider, ErrorPage, subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig } from '@openedx/frontend-base';
 import React, { StrictMode } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { createRoot } from 'react-dom/client';
@@ -25,7 +22,7 @@ const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
   rootNode.render(
     <StrictMode>
-      <AppProvider store={configureStore()}>
+      <SiteProvider store={configureStore()}>
         <Routes>
           <Route element={(
             <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
@@ -46,7 +43,7 @@ subscribe(APP_READY, () => {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-      </AppProvider>
+      </SiteProvider>
     </StrictMode>,
   );
 });

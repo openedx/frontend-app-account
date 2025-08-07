@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, injectIntl, intlShape } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 
-import { getConfig } from '@edx/frontend-platform';
+import { getSiteConfig } from '@openedx/frontend-base';
 import messages from './messages';
 
 const PrintingInstructions = (props) => {
@@ -19,7 +19,7 @@ const PrintingInstructions = (props) => {
 
   // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
   // to allow edx.org to mention MicroMasters certificates to fulfill its business requirements.
-  if (getConfig().SITE_NAME === 'edX') {
+  if (getSiteConfig().SITE_NAME === 'edX') {
     return (
       <FormattedMessage
         id="account.settings.delete.account.text.3.edX"

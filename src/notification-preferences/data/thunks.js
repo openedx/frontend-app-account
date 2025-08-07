@@ -1,11 +1,11 @@
-import { camelCaseObject } from '@edx/frontend-platform';
+import { camelCaseObject } from '@openedx/frontend-base';
 import camelCase from 'lodash.camelcase';
 import { EMAIL, EMAIL_CADENCE, EMAIL_CADENCE_PREFERENCES } from './constants';
 import {
   fetchCourseListSuccess,
   fetchCourseListFetching,
   fetchCourseListFailed,
-  fetchNotificationPreferenceFailed,
+  fetchNotificationPreferenceFailed, 
   fetchNotificationPreferenceFetching,
   fetchNotificationPreferenceSuccess,
   updatePreferenceValue,

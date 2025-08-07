@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { NavItem } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
 import messages from './messages';
 import { useIsOnMobile } from '../hooks';

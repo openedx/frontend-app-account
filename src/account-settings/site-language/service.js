@@ -1,6 +1,4 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { convertKeyNames, snakeCaseObject } from '@edx/frontend-platform/utils';
+import { convertKeyNames, getAuthenticatedHttpClient, getSiteConfig, snakeCaseObject } from '@openedx/frontend-base';
 import siteLanguageList from './constants';
 
 export async function getSiteLanguageList() {
@@ -14,7 +12,7 @@ export async function patchPreferences(username, params) {
   });
 
   await getAuthenticatedHttpClient()
-    .patch(`${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
+    .patch(`${getSiteConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
       headers: { 'Content-Type': 'application/merge-patch+json' },
     });
 
@@ -29,7 +27,7 @@ export async function postSetLang(code) {
       'X-Requested-With': 'XMLHttpRequest',
     },
   };
-  const url = `${getConfig().LMS_BASE_URL}/i18n/setlang/`;
+  const url = `${getSiteConfig().LMS_BASE_URL}/i18n/setlang/`;
   formData.append('language', code);
 
   await getAuthenticatedHttpClient()

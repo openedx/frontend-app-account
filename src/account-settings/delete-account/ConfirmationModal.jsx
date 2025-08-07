@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 
-import {
-  AlertModal,
-  Button, Input, ValidationFormGroup, ActionRow,
-} from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getConfig } from '@edx/frontend-platform';
-import messages from './messages';
+import { getSiteConfig, injectIntl, intlShape } from '@openedx/frontend-base';
+import {
+  ActionRow,
+  AlertModal,
+  Button, Input, ValidationFormGroup,
+} from '@openedx/paragon';
 import Alert from '../Alert';
+import messages from './messages';
 import PrintingInstructions from './PrintingInstructions';
 
 export class ConfirmationModal extends Component {
@@ -69,7 +69,7 @@ export class ConfirmationModal extends Component {
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
-    const deleteAccountModalText2MessageKey = getConfig().SITE_NAME === 'edX'
+    const deleteAccountModalText2MessageKey = getSiteConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.modal.text.2.edX'
       : 'account.settings.delete.account.modal.text.2';
 
@@ -94,13 +94,13 @@ export class ConfirmationModal extends Component {
             <h6>
               {intl.formatMessage(
                 messages['account.settings.delete.account.modal.text.1'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </h6>
             <p>
               {intl.formatMessage(
                 messages[deleteAccountModalText2MessageKey],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().SITE_NAME },
               )}
             </p>
             <p>

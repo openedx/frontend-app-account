@@ -1,6 +1,6 @@
-import { getConfig } from '@edx/frontend-platform';
+import { getSiteConfig } from '@openedx/frontend-base';
 
-export const notificationChannels = () => ({ WEB: 'web', ...(getConfig().SHOW_EMAIL_CHANNEL === 'true' && { EMAIL: 'email' }) });
+export const notificationChannels = () => ({ WEB: 'web', ...(getSiteConfig().SHOW_EMAIL_CHANNEL === 'true' && { EMAIL: 'email' }) });
 
 export const shouldHideAppPreferences = (preferences, appId) => {
   const appPreferences = preferences.filter(pref => pref.appId === appId);

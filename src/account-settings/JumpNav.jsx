@@ -1,5 +1,5 @@
-import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { getSiteConfig } from '@openedx/frontend-base';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
 import React from 'react';
@@ -58,7 +58,7 @@ const JumpNav = ({
             {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
           </NavHashLink>
         </li>
-        {getConfig().ENABLE_ACCOUNT_DELETION
+        {getSiteConfig().ENABLE_ACCOUNT_DELETION
           && (
           <li>
             <NavHashLink to="#delete-account">

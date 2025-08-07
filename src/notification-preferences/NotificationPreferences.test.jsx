@@ -3,8 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
@@ -111,13 +110,13 @@ describe('Notification Preferences', () => {
       selectedCourse: courseId,
     });
 
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
+    getAuthenticatedHttpClient = jest.fn(() => ({
       patch: async () => ({
         data: { status: 200 },
         catch: () => {},
       }),
     }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
   });
 
   afterEach(() => jest.clearAllMocks());

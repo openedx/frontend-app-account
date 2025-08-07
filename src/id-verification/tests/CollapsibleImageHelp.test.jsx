@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';

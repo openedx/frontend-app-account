@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { getSiteConfig } from '@openedx/frontend-base';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
 
 // Actions
@@ -51,7 +51,7 @@ export class DeleteAccount extends React.Component {
   };
 
   handleFinalClose = () => {
-    global.location = getConfig().LOGOUT_URL;
+    global.location = getSiteConfig().LOGOUT_URL;
   };
 
   render() {
@@ -63,11 +63,11 @@ export class DeleteAccount extends React.Component {
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
-    const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
+    const deleteAccountText2MessageKey = getSiteConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.text.2.edX'
       : 'account.settings.delete.account.text.2';
 
-    const optInInstructionMessageId = getConfig().MARKETING_EMAILS_OPT_IN
+    const optInInstructionMessageId = getSiteConfig().MARKETING_EMAILS_OPT_IN
       ? 'account.settings.delete.account.please.confirm'
       : 'account.settings.delete.account.please.activate';
 
@@ -83,13 +83,13 @@ export class DeleteAccount extends React.Component {
               <p>
                 {intl.formatMessage(
                   messages['account.settings.delete.account.text.1'],
-                  { siteName: getConfig().SITE_NAME },
+                  { siteName: getSiteConfig().SITE_NAME },
                 )}
               </p>
               <p>
                 {intl.formatMessage(
                   messages[deleteAccountText2MessageKey],
-                  { siteName: getConfig().SITE_NAME },
+                  { siteName: getSiteConfig().SITE_NAME },
                 )}
               </p>
               <p>
@@ -98,7 +98,7 @@ export class DeleteAccount extends React.Component {
               <p className="text-danger h6">
                 {intl.formatMessage(
                   messages['account.settings.delete.account.text.warning'],
-                  { siteName: getConfig().SITE_NAME },
+                  { siteName: getSiteConfig().SITE_NAME },
                 )}
               </p>
               <p>

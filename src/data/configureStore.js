@@ -1,4 +1,4 @@
-import { getConfig } from '@edx/frontend-platform';
+import { getSiteConfig } from '@openedx/frontend-base';
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -11,7 +11,7 @@ import rootSaga from './sagas';
 const sagaMiddleware = createSagaMiddleware();
 
 function composeMiddleware() {
-  if (getConfig().ENVIRONMENT === 'development') {
+  if (getSiteConfig().ENVIRONMENT === 'development') {
     const loggerMiddleware = createLogger({
       collapsed: true,
     });

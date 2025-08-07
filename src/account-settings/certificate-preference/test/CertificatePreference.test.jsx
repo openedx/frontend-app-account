@@ -9,8 +9,7 @@ import {
   screen,
 } from '@testing-library/react';
 
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -59,13 +58,13 @@ describe('NameChange', () => {
       intl: {},
     };
 
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
+    getAuthenticatedHttpClient = jest.fn(() => ({
       patch: async () => ({
         data: { status: 200 },
         catch: () => {},
       }),
     }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
   });
 
   afterEach(() => jest.clearAllMocks());

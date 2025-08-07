@@ -8,7 +8,7 @@ import {
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 
 import {
   closeForm,

@@ -4,8 +4,8 @@ import Bowser from 'bowser';
 import {
   render, screen, cleanup, act, fireEvent,
 } from '@testing-library/react';
-import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { getSiteConfig } from '@openedx/frontend-base';
+import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '../../IdVerificationContext';
 import RequestCameraAccessPanel from '../../panels/RequestCameraAccessPanel';
 
@@ -194,7 +194,7 @@ describe('RequestCameraAccessPanel', () => {
       </Router>
     )));
     const button = await screen.findByRole('link');
-    expect(button).toHaveAttribute('href', `${getConfig().LMS_BASE_URL}/dashboard`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().LMS_BASE_URL}/dashboard`);
   });
 
   it('routes correctly to portrait context', async () => {
