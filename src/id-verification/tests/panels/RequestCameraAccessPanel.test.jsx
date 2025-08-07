@@ -5,7 +5,7 @@ import {
   render, screen, cleanup, act, fireEvent,
 } from '@testing-library/react';
 import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import IdVerificationContext from '../../IdVerificationContext';
 import RequestCameraAccessPanel from '../../panels/RequestCameraAccessPanel';
 
@@ -15,13 +15,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 
 jest.mock('bowser');
 
-const IntlRequestCameraAccessPanel = injectIntl(RequestCameraAccessPanel);
-
 describe('RequestCameraAccessPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const contextValue = {
     reachedSummary: false,
     tryGetUserMedia: jest.fn(),
@@ -38,7 +32,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -54,7 +48,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -73,7 +67,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -89,7 +83,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -106,7 +100,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -123,7 +117,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -139,7 +133,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -155,7 +149,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -171,7 +165,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -188,7 +182,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -205,7 +199,7 @@ describe('RequestCameraAccessPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlRequestCameraAccessPanel {...defaultProps} />
+            <RequestCameraAccessPanel />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
