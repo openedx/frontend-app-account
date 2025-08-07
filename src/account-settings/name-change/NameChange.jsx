@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   ActionRow,
   Alert,
@@ -25,7 +25,6 @@ const NameChangeModal = ({
   targetFormId,
   errors,
   formValues,
-  intl,
   saveState,
 }) => {
   const dispatch = useDispatch();
@@ -33,6 +32,7 @@ const NameChangeModal = ({
   const { username } = getAuthenticatedUser();
   const [verifiedNameInput, setVerifiedNameInput] = useState(formValues.verified_name || '');
   const [confirmedWarning, setConfirmedWarning] = useState(false);
+  const intl = useIntl();
 
   const resetLocalState = useCallback(() => {
     setConfirmedWarning(false);
@@ -193,11 +193,10 @@ NameChangeModal.propTypes = {
     verified_name: PropTypes.string,
   }).isRequired,
   saveState: PropTypes.string,
-  intl: intlShape.isRequired,
 };
 
 NameChangeModal.defaultProps = {
   saveState: null,
 };
 
-export default connect(nameChangeSelector)(injectIntl(NameChangeModal));
+export default connect(nameChangeSelector)(NameChangeModal);
