@@ -25,7 +25,13 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedUser: jest.fn(() => ({
+    userId: 123,
+    username: 'test-user',
+  })),
+}));
 jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
 
 const IntlCertificatePreference = injectIntl(CertificatePreference);

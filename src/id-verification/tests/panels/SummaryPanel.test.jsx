@@ -10,7 +10,8 @@ import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
 import { VerifiedNameContext } from '../../VerifiedNameContext';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 

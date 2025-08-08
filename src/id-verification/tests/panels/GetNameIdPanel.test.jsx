@@ -8,7 +8,8 @@ import IdVerificationContext from '../../IdVerificationContext';
 import { VerifiedNameContext } from '../../VerifiedNameContext';
 import GetNameIdPanel from '../../panels/GetNameIdPanel';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 

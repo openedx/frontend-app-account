@@ -4,16 +4,15 @@ import {
   render, cleanup, screen, act,
 } from '@testing-library/react';
 import { injectIntl, IntlProvider } from '@openedx/frontend-base';
-import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
 import CollapsibleImageHelp from '../CollapsibleImageHelp';
 
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');
-jest.mock('@edx/frontend-platform/analytics');
-
-// eslint-disable-next-line no-import-assign
-analytics.sendTrackEvent = jest.fn();
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  sendTrackEvent: jest.fn(),
+}));
 
 window.HTMLMediaElement.prototype.play = () => {};
 

@@ -7,7 +7,8 @@ import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import PortraitPhotoContextPanel from '../../panels/PortraitPhotoContextPanel';
 import IdVerificationContext from '../../IdVerificationContext';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 

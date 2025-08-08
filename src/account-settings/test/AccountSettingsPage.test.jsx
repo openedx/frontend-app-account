@@ -13,7 +13,8 @@ import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
 
 const mockDispatch = jest.fn();
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackingLogEvent: jest.fn(),
   getCountryList: jest.fn(),
 }));
@@ -23,7 +24,13 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedUser: jest.fn(() => ({
+    userId: 123,
+    username: 'test-user',
+  })),
+}));
 
 const IntlAccountSettingsPage = injectIntl(AccountSettingsPage);
 
