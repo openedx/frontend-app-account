@@ -1,15 +1,16 @@
+@use "@openedx/paragon/scss/core/core" as paragon;
 $fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
+@use "~font-awesome/scss/font-awesome";
 
-@import "~@edx/brand/paragon/fonts";
-@import "~@edx/brand/paragon/variables";
-@import "~@openedx/paragon/scss/core/core";
-@import "~@edx/brand/paragon/overrides";
-@import "~@edx/frontend-component-header/dist/index";
-@import "~@edx/frontend-component-footer/dist/footer";
+@use "~@edx/brand/paragon/fonts";
+@use "~@edx/brand/paragon/variables";
+@use "~@openedx/paragon/scss/core/core";
+@use "~@edx/brand/paragon/overrides";
+@use "~@edx/frontend-component-header/dist/index";
+@use "~@edx/frontend-component-footer/dist/footer";
 
-@import "./account-settings/style";
-@import "./id-verification/id-verification";
+@use "./account-settings/style";
+@use "./id-verification/id-verification";
 
 .word-break-all {
   word-break: break-all !important;
@@ -120,7 +121,7 @@ $fa-font-path: "~font-awesome/fonts";
   .dropdown-item:active,
   .dropdown-item:focus,
   .btn-tertiary:not(:disabled):not(.disabled).active {
-    background-color: $light-300 !important;
+    background-color: paragon.$light-300 !important;
   }
 
 
@@ -138,7 +139,7 @@ $fa-font-path: "~font-awesome/fonts";
       font-size: 14px !important;
       padding-top: 10px !important;
       padding-bottom: 10px !important;
-      border: 1px solid $light-500 !important;
+      border: 1px solid paragon.$light-500 !important;
     }
 
     .dropdown-item {
