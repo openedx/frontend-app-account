@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 
 const JumpNav = ({
   intl,

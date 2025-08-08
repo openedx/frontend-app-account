@@ -11,15 +11,15 @@ import {
   injectIntl,
   intlShape,
   FormattedMessage,
-  getCountryList,
-  getLanguageList,
+  getCountryList, //TODO: use i18n-iso-countries or countries-list
+  getLanguageList, //TODO: use @cospired/i18n-iso-languages instead
 } from '@openedx/frontend-base';
 import {
   Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 import {
   fetchSettings,
   saveMultipleSettings,

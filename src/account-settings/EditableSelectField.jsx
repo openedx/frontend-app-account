@@ -9,7 +9,7 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SwitchContent from './SwitchContent';
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 
 import {
   openForm,

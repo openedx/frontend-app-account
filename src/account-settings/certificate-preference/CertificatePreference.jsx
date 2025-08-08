@@ -18,7 +18,7 @@ import {
 } from '../data/actions';
 import { certPreferenceSelector } from '../data/selectors';
 
-import commonMessages from '../AccountSettingsPage.messages';
+import commonMessages from '../messages';
 import messages from './messages';
 
 const CertificatePreference = ({

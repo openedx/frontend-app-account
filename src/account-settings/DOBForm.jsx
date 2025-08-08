@@ -5,7 +5,7 @@ import {
 } from '@openedx/paragon';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
 import { editableFieldSelector } from './data/selectors';
 import { saveSettingsReset } from './data/actions';
