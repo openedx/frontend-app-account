@@ -9,11 +9,13 @@ import SwitchContent from '../../account-settings/SwitchContent';
 const ExtendedProfileFieldsSlot = () => {
   const dispatch = useDispatch();
   const extendedProfileValues = useSelector((state) => state.accountSettings.values.extended_profile);
+  const errors = useSelector((state) => state.accountSettings.errors);
 
   const pluginProps = {
     refreshUserProfile: (username) => dispatch(fetchSettings(username)),
     updateUserProfile: (params) => dispatch(saveSettings(null, null, snakeCaseObject(params))),
     profileFieldValues: camelCaseObject(extendedProfileValues),
+    profileFieldErrors: errors,
     formComponents: {
       SwitchContent,
     },
