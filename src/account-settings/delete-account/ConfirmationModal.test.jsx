@@ -1,6 +1,5 @@
-import React from 'react';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -9,8 +8,6 @@ jest.mock('react-dom', () => ({
 }));
 
 import { ConfirmationModal } from './ConfirmationModal'; // eslint-disable-line import/first
-
-const IntlConfirmationModal = injectIntl(ConfirmationModal);
 
 describe('ConfirmationModal', () => {
   let props = {};
@@ -30,7 +27,7 @@ describe('ConfirmationModal', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlConfirmationModal
+          <ConfirmationModal
             {...props}
           />
         </IntlProvider>
@@ -43,7 +40,7 @@ describe('ConfirmationModal', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlConfirmationModal
+          <ConfirmationModal
             {...props}
             status="pending" // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
           />
@@ -57,7 +54,7 @@ describe('ConfirmationModal', () => {
     const tree = renderer
       .create((
         <IntlProvider locale="en">
-          <IntlConfirmationModal
+          <ConfirmationModal
             {...props}
             errorType="empty-password"
             status="pending" // This will cause 'modal-backdrop' and 'show' to appear on the modal as CSS classes.
