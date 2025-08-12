@@ -1,4 +1,4 @@
-# Extended Profile Fields
+# Additional Profile Fields
 
 ### Slot ID: `org.openedx.frontend.account.additional_profile_fields.v1`
 
@@ -25,7 +25,7 @@ const config = {
         {
           op: PLUGIN_OPERATIONS.Insert,
           widget: {
-            id: 'extended_account_fields',
+            id: 'additional_account_fields',
             type: DIRECT_PLUGIN,
             RenderWidget: Example,
           },
