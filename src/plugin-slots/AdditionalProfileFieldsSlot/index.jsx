@@ -6,7 +6,7 @@ import { fetchSettings, saveSettings } from '../../account-settings/data/actions
 
 import SwitchContent from '../../account-settings/SwitchContent';
 
-const ExtendedProfileFieldsSlot = () => {
+const AdditionalProfileFieldsSlot = () => {
   const dispatch = useDispatch();
   const extendedProfileValues = useSelector((state) => state.accountSettings.values.extended_profile);
   const errors = useSelector((state) => state.accountSettings.errors);
@@ -23,11 +23,10 @@ const ExtendedProfileFieldsSlot = () => {
 
   return (
     <PluginSlot
-      id="org.openedx.frontend.account.extended_profile_fields.v1"
-      idAliases={['extended_account_fields_slot']}
+      id="org.openedx.frontend.account.additional_profile_fields.v1"
       pluginProps={pluginProps}
     />
   );
 };
 
-export default ExtendedProfileFieldsSlot;
+export default AdditionalProfileFieldsSlot;
