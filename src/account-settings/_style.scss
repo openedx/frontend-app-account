@@ -29,7 +29,6 @@
     }
   }
 
-
   .custom-switch {
     padding: 0;
     max-width: 500px;
@@ -43,4 +42,9 @@
     opacity: 0.6; /* Real browsers */
     filter: alpha(opacity = 60); /* MSIE */
   }
+}
+
+#tooltip-email .small {
+  display: block;
+  margin: 0 !important;
 }
