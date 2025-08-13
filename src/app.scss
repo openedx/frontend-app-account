@@ -1,16 +1,15 @@
-@use "@openedx/paragon/scss/core/core" as paragon;
-$fa-font-path: "~font-awesome/fonts";
 @use "~font-awesome/scss/font-awesome";
 
 @use "~@edx/brand/paragon/fonts";
 @use "~@edx/brand/paragon/variables";
 @use "~@openedx/paragon/scss/core/core";
 @use "~@edx/brand/paragon/overrides";
-@use "~@edx/frontend-component-header/dist/index";
-@use "~@edx/frontend-component-footer/dist/footer";
 
 @use "./account-settings/style";
 @use "./id-verification/id-verification";
+
+@use "@openedx/paragon/scss/core/core" as paragon;
+$fa-font-path: "~font-awesome/fonts";
 
 .word-break-all {
   word-break: break-all !important;
@@ -170,4 +169,8 @@ $fa-font-path: "~font-awesome/fonts";
     margin-bottom: 32px !important;
   }
 }
+
+
+
+
 
