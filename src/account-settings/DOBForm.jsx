@@ -4,21 +4,20 @@ import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@openedx/paragon';
 import { useCallback, useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import messages from './AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
 import { editableFieldSelector } from './data/selectors';
 import { saveSettingsReset } from './data/actions';
 
-const DOBModal = (props) => {
+const DOBModal = ({ onSubmit }) => {
   const intl = useIntl();
-  const {
-    saveState,
-    error,
-    onSubmit,
-  } = props;
 
   const dispatch = useDispatch();
+  const {
+    saveState = undefined,
+    error = undefined,
+  } = useSelector((state) => editableFieldSelector(state, { name: 'extended_profile' }));
 
   // eslint-disable-next-line no-unused-vars
   const [isOpen, open, close, toggle] = useToggle(true, {});
@@ -148,14 +147,7 @@ const DOBModal = (props) => {
 };
 
 DOBModal.propTypes = {
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
 };
 
-DOBModal.defaultProps = {
-  saveState: undefined,
-  error: undefined,
-};
-
-export default connect(editableFieldSelector)(DOBModal);
+export default DOBModal;
