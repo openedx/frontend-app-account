@@ -1,0 +1,59 @@
+import { EnvironmentTypes, SiteConfig } from '@openedx/frontend-base';
+
+import { appId } from './src/constants';
+
+const siteConfig: SiteConfig = {
+  siteId: 'account-test-site',
+  siteName: 'Account Test Site',
+  baseUrl: 'http://localhost:1997',
+  lmsBaseUrl: 'http://localhost:8000',
+  loginUrl: 'http://localhost:8000/login',
+  logoutUrl: 'http://localhost:8000/logout',
+
+  environment: EnvironmentTypes.TEST,
+  basename: '/account',
+  apps: [{
+    appId,
+    config: {
+      ACCESS_TOKEN_COOKIE_NAME: 'edx-jwt-cookie-header-payload',
+      BASE_URL: 'localhost:1997',
+      CREDENTIALS_BASE_URL: 'http://localhost:18150',
+      CSRF_TOKEN_API_PATH: '/csrf/api/v1/token',
+      DISCOVERY_API_BASE_URL: '',
+      ECOMMERCE_BASE_URL: 'http://localhost:18130',
+      FAVICON_URL: 'https://edx-cdn.org/v3/default/favicon.ico',
+      LANGUAGE_PREFERENCE_COOKIE_NAME: 'openedx-language-preference',
+      LMS_BASE_URL: 'http://localhost:18000',
+      LOGIN_URL: 'http://localhost:18000/login',
+      LOGO_TRADEMARK_URL: 'https://edx-cdn.org/v3/default/logo-trademark.svg',
+      LOGO_URL: 'https://edx-cdn.org/v3/default/logo.svg',
+      LOGO_WHITE_URL: 'https://edx-cdn.org/v3/default/logo-white.svg',
+      LOGOUT_URL: 'http://localhost:18000/logout',
+      MARKETING_SITE_BASE_URL: 'http://localhost:5335',
+      NODE_ENV: '',
+      ORDER_HISTORY_URL: 'http://localhost:1996/orders',
+      PUBLISHER_BASE_URL: '',
+      REFRESH_ACCESS_TOKEN_ENDPOINT: 'http://localhost:18000/login_refresh',
+      SEGMENT_KEY: '',
+      SITE_NAME: 'localhost',
+      STUDIO_BASE_URL: '',
+      SUPPORT_URL: 'http://localhost:18000/support',
+      USER_INFO_COOKIE_NAME: 'edx-user-info',
+      ENABLE_COPPA_COMPLIANCE: '',
+      ENABLE_ACCOUNT_DELETION: '',
+      SHOW_EMAIL_CHANNEL: '',
+      ENABLE_DOB_UPDATE: '',
+      MARKETING_EMAILS_OPT_IN: '',
+      APP_ID: '',
+      MFE_CONFIG_API_URL: '',
+      LEARNER_FEEDBACK_URL: '',
+      SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT: 'https://help.edx.org/edxlearner/s/article/How-do-I-link-or-unlink-my-edX-account-to-a-social-media-account',
+      COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: '[]'
+    },
+  }],
+
+  accessTokenCookieName: 'edx-jwt-cookie-header-payload',
+  segmentKey: '',
+};
+
+export default siteConfig;

@@ -13,11 +13,11 @@
     "/src"
   ],
   "sideEffects": [
-  "*.css",
-  "*.scss"
-],
+    "*.css",
+    "*.scss"
+  ],
   "scripts": {
-    "dev": "PORT=1997 openedx dev",
+    "dev": "PORT=1997 PUBLIC_PATH=/account openedx dev",
     "build": "fedx-scripts webpack",
     "i18n_extract": "openedx formatjs extract",
     "lint": "openedx lint .",
