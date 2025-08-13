@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
@@ -26,20 +26,19 @@ const EditableField = (props) => {
     type,
     value,
     userSuppliedValue,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
     onChange,
-    isEditing,
     isEditable,
     isGrayedOut,
     ...others
   } = props;
+
+  const dispatch = useDispatch();
+  const {
+    isEditing, saveState, error, confirmationValue,
+  } = useSelector(state => editableFieldSelector(state, props));
   const id = `field-${name}`;
   const intl = useIntl();
 
@@ -53,11 +52,11 @@ const EditableField = (props) => {
   };
 
   const handleEdit = () => {
-    onEdit(name);
+    dispatch(openForm(name));
   };
 
   const handleCancel = () => {
-    onCancel(name);
+    dispatch(closeForm(name));
   };
 
   const renderEmptyLabel = () => {
@@ -171,40 +170,27 @@ EditableField.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userSuppliedValue: PropTypes.string,
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
 };
 
 EditableField.defaultProps = {
   value: undefined,
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
   isGrayedOut: false,
   userSuppliedValue: undefined,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(EditableField);
+export default EditableField;
