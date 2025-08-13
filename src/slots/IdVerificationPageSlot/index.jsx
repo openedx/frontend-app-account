@@ -1,13 +1,13 @@
-import { PluginSlot } from '@openedx/frontend-plugin-framework';
+import { Slot } from '@openedx/frontend-base';
 import IdVerificationPage from '../../id-verification';
 
 const IdVerificationPageSlot = () => (
-  <PluginSlot
-    id="org.openedx.frontend.account.id_verification_page.v1"
+  <Slot
+    id="org.openedx.frontend.slot.account.idVerificationPage.v1"
     idAliases={['id_verification_page_plugin']}
   >
     <IdVerificationPage />
-  </PluginSlot>
+  </Slot>
 );
 
 export default IdVerificationPageSlot;

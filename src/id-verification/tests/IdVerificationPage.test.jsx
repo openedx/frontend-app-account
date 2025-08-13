@@ -7,7 +7,7 @@ import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider, injectIntl } from '@openedx/frontend-base';
-import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
+import IdVerificationPageSlot from '../../slots/IdVerificationPageSlot';
 import * as selectors from '../data/selectors';
 
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
