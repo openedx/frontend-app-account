@@ -54,6 +54,7 @@ import { fetchSiteLanguages } from './site-language';
 import { fetchNotificationPreferences } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import { withLocation, withNavigate } from './hoc';
+import AdditionalProfileFieldsSlot from '../plugin-slots/AdditionalProfileFieldsSlot';
 
 const AccountSettingsPage = ({
   loading = false,
@@ -736,6 +737,8 @@ const AccountSettingsPage = ({
             emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
             {...editableFieldProps}
           />
+
+          <AdditionalProfileFieldsSlot />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
