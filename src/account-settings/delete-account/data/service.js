@@ -5,7 +5,6 @@ import { handleRequestError } from '../../data/utils';
 /**
  * Request deletion of the user's account.
  */
-// eslint-disable-next-line import/prefer-default-export
 export async function postDeleteAccount(password) {
   const { data } = await getAuthenticatedHttpClient()
     .post(

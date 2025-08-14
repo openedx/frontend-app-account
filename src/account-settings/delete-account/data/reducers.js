@@ -30,7 +30,7 @@ const reducer = (state = defaultState, action = null) => {
         return {
           ...state,
           status: 'failed',
-          errorType: action.payload.reason || 'server',
+          errorType: action.payload.reason ?? 'server',
         };
 
       case DELETE_ACCOUNT.RESET: {

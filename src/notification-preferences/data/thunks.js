@@ -5,7 +5,7 @@ import {
   fetchCourseListSuccess,
   fetchCourseListFetching,
   fetchCourseListFailed,
-  fetchNotificationPreferenceFailed, 
+  fetchNotificationPreferenceFailed,
   fetchNotificationPreferenceFetching,
   fetchNotificationPreferenceSuccess,
   updatePreferenceValue,
@@ -22,7 +22,7 @@ const normalizeCourses = (responseData) => {
   const courseList = responseData.results?.map((enrollment) => ({
     id: enrollment.course.id,
     name: enrollment.course.displayName,
-  })) || [];
+  })) ?? [];
 
   const pagination = {
     count: responseData.count,
@@ -78,10 +78,10 @@ const normalizePreferences = (responseData, courseId) => {
         web: preferences[appId].notificationTypes[preferenceId].web,
         push: preferences[appId].notificationTypes[preferenceId].push,
         email: preferences[appId].notificationTypes[preferenceId].email,
-        info: preferences[appId].notificationTypes[preferenceId].info || '',
+        info: preferences[appId].notificationTypes[preferenceId].info ?? '',
         emailCadence: preferences[appId].notificationTypes[preferenceId].emailCadence
-        || EMAIL_CADENCE_PREFERENCES.DAILY,
-        coreNotificationTypes: preferences[appId].coreNotificationTypes || [],
+          ?? EMAIL_CADENCE_PREFERENCES.DAILY,
+        coreNotificationTypes: preferences[appId].coreNotificationTypes ?? [],
       }
     ));
     nonEditable[appId] = preferences[appId].nonEditable;
@@ -97,7 +97,7 @@ const normalizePreferences = (responseData, courseId) => {
   return normalizedPreferences;
 };
 
-export const fetchCourseList = (page, pageSize) => (
+export const fetchCourseList = (page, pageSize) =>
   async (dispatch) => {
     try {
       dispatch(fetchCourseListFetching());
@@ -108,9 +108,9 @@ export const fetchCourseList = (page, pageSize) => (
       dispatch(fetchCourseListFailed());
     }
   }
-);
+;
 
-export const fetchCourseNotificationPreferences = (courseId) => (
+export const fetchCourseNotificationPreferences = (courseId) =>
   async (dispatch) => {
     try {
       dispatch(updateSelectedCourse(courseId));
@@ -122,13 +122,13 @@ export const fetchCourseNotificationPreferences = (courseId) => (
       dispatch(fetchNotificationPreferenceFailed());
     }
   }
-);
+;
 
-export const setSelectedCourse = courseId => (
+export const setSelectedCourse = courseId =>
   async (dispatch) => {
     dispatch(updateSelectedCourse(courseId));
   }
-);
+;
 
 export const updatePreferenceToggle = (
   courseId,
@@ -137,7 +137,7 @@ export const updatePreferenceToggle = (
   notificationChannel,
   value,
   emailCadence,
-) => (
+) =>
   async (dispatch) => {
     try {
       // Initially update the UI to give immediate feedback
@@ -203,4 +203,4 @@ export const updatePreferenceToggle = (
       dispatch(fetchNotificationPreferenceFailed());
     }
   }
-);
+;

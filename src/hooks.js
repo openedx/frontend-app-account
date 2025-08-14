@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { useAppConfig } from '@openedx/frontend-base';
-import { logError } from '@openedx/frontend-base';
+import { logError, useAppConfig } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
-  IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
+  FAILURE_STATUS,
+  IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS,
 } from './constants';
 
 export function useAsyncCall(asyncFunc) {

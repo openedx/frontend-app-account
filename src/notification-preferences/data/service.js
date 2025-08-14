@@ -8,7 +8,6 @@ export const getCourseNotificationPreferences = async (courseId) => {
 };
 
 export const getCourseList = async (page, pageSize) => {
-  console.log('Fetching course list...', getSiteConfig());
   const params = snakeCaseObject({ page, pageSize });
   const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/enrollments/`;
   const { data } = await getAuthenticatedHttpClient().get(url, { params });

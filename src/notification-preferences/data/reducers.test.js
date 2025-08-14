@@ -1,12 +1,11 @@
-// eslint-disable-next-line import/no-named-default
-import { default as reducer } from './reducers';
-import { Actions } from './actions';
 import {
   FAILURE_STATUS,
+  IDLE_STATUS,
   LOADING_STATUS,
   SUCCESS_STATUS,
-  IDLE_STATUS,
 } from '../../constants';
+import { Actions } from './actions';
+import { default as reducer } from './reducers';
 
 describe('notification-preferences reducer', () => {
   let state = null;

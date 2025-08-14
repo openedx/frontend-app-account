@@ -19,9 +19,9 @@ export async function getExistingIdVerification() {
   try {
     const response = await getAuthenticatedHttpClient().get(url, requestConfig);
     return {
-      status: response.data.status || null,
-      expires: response.data.expires || null,
-      canVerify: response.data.can_verify || false,
+      status: response.data.status ?? null,
+      expires: response.data.expires ?? null,
+      canVerify: response.data.can_verify ?? false,
     };
   } catch (e) {
     return { status: null, expires: null, canVerify: false };

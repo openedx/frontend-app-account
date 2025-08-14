@@ -42,7 +42,7 @@ const mostRecentApprovedVerifiedNameValueSelector = createSelector(
     const approvedVerifiedName = approvedVerifiedNames.length > 0 ? approvedVerifiedNames[0] : null;
 
     let verifiedName = null;
-    switch (mostRecentVerifiedName && mostRecentVerifiedName.status) {
+    switch (mostRecentVerifiedName?.status) {
       case 'approved':
       case 'denied':
       case 'pending':
@@ -63,7 +63,7 @@ const valuesSelector = createSelector(
   mostRecentApprovedVerifiedNameValueSelector,
   (accountSettings, mostRecentApprovedVerifiedNameValue) => {
     let useVerifiedNameForCerts = (
-      accountSettings.verifiedNameHistory?.use_verified_name_for_certs || false
+      accountSettings.verifiedNameHistory?.use_verified_name_for_certs ?? false
     );
 
     if (Object.keys(accountSettings.confirmationValues).includes('useVerifiedNameForCerts')) {
@@ -184,7 +184,7 @@ export const formValuesSelector = createSelector(
 
         formValues.extended_profile = [...extendedProfile];
       } else {
-        formValues[name] = chooseFormValue(drafts[name], value) || '';
+        formValues[name] = chooseFormValue(drafts[name], value) ?? '';
       }
     });
     return formValues;
@@ -192,8 +192,8 @@ export const formValuesSelector = createSelector(
 );
 
 const transformTimeZonesToOptions = timeZoneArr => timeZoneArr
-  .map(({ time_zone, description }) => ({ // eslint-disable-line camelcase
-    value: time_zone, label: description, // eslint-disable-line camelcase
+  .map(({ time_zone, description }) => ({
+    value: time_zone, label: description,
   }));
 
 const timeZonesSelector = createSelector(
@@ -298,9 +298,9 @@ export const certPreferenceSelector = createSelector(
     saveState,
     errors,
   ) => ({
-    originalFullName: committedValues?.name || '',
-    originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name || '',
-    useVerifiedNameForCerts: formValues.useVerifiedNameForCerts || false,
+    originalFullName: committedValues?.name ?? '',
+    originalVerifiedName: mostRecentApprovedVerifiedNameValue?.verified_name ?? '',
+    useVerifiedNameForCerts: formValues.useVerifiedNameForCerts ?? false,
     saveState,
     formErrors: errors,
   }),

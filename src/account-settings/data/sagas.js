@@ -61,7 +61,9 @@ export function* handleFetchSettings() {
 
     const verifiedNameHistory = yield call(getVerifiedNameHistory);
 
-    if (values.country) { yield put(fetchTimeZones(values.country)); }
+    if (values.country) {
+      yield put(fetchTimeZones(values.country));
+    }
 
     yield put(fetchSettingsSuccess({
       values,
@@ -102,7 +104,9 @@ export function* handleSaveSettings(action) {
       savedValues = yield call(patchSettings, username, commitData, userId);
     }
     yield put(saveSettingsSuccess(savedValues, commitData));
-    if (savedValues.country) { yield put(fetchTimeZones(savedValues.country)); }
+    if (savedValues.country) {
+      yield put(fetchTimeZones(savedValues.country));
+    }
     yield delay(1000);
     yield put(closeForm(action.payload.formId));
   } catch (e) {
@@ -124,8 +128,8 @@ export function* handleSaveMultipleSettings(action) {
     yield put(saveMultipleSettingsBegin());
     const { username, userId } = getAuthenticatedUser();
     const { settingsArray, form } = action.payload;
-    for (let i = 0; i < settingsArray.length; i += 1) {
-      const { formId, commitValues } = settingsArray[i];
+    for (const setting of settingsArray) {
+      const { formId, commitValues } = setting;
       yield put(saveSettingsBegin());
       const commitData = { [formId]: commitValues };
       const savedSettings = yield call(patchSettings, username, commitData, userId);

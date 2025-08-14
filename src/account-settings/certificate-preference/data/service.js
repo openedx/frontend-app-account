@@ -2,7 +2,6 @@ import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-bas
 
 import { handleRequestError } from '../../data/utils';
 
-// eslint-disable-next-line import/prefer-default-export
 export async function postVerifiedNameConfig(username, commitValues) {
   const requestConfig = { headers: { Accept: 'application/json' } };
   const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name/config`;

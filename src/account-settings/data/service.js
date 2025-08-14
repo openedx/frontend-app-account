@@ -140,9 +140,9 @@ export async function getProfileDataManager(username, userRoles) {
     const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
     if (data.results.length > 0) {
-      const enterprise = data.results[0] && data.results[0].enterprise_customer;
+      const enterprise = data.results[0]?.enterprise_customer;
       // To ensure that enterprise returned is current enterprise & it manages profile settings
-      if (enterprise && enterprise.sync_learner_profile_data) {
+      if (enterprise?.sync_learner_profile_data) {
         return enterprise.name;
       }
     }
@@ -189,7 +189,7 @@ export async function postVerifiedName(data) {
 function extractCountryList(data) {
   return data?.fields
     .find(({ name }) => name === FIELD_LABELS.COUNTRY)
-    ?.options?.map(({ value }) => (value)) || [];
+    ?.options?.map(({ value }) => (value)) ?? [];
 }
 
 export async function getCountryList() {

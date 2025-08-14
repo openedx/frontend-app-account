@@ -25,7 +25,7 @@ const reducer = (state = defaultState, action = null) => {
         return {
           ...state,
           saveState: 'error',
-          errors: action.payload.errors || { general_error: 'A technical error occurred. Please try again.' },
+          errors: action.payload.errors ?? { general_error: 'A technical error occurred. Please try again.' },
         };
 
       case REQUEST_NAME_CHANGE.RESET:

@@ -2,7 +2,6 @@ import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-bas
 
 import { handleRequestError } from '../../data/utils';
 
-// eslint-disable-next-line import/prefer-default-export
 export async function postNameChange(name) {
   // Requests a pending name change, rather than saving the account name immediately
   const requestConfig = { headers: { Accept: 'application/json' } };
