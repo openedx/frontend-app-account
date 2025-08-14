@@ -8,7 +8,7 @@ import {
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 
 import {
   closeForm,
@@ -18,7 +18,7 @@ import {
 } from '../data/actions';
 import { certPreferenceSelector } from '../data/selectors';
 
-import commonMessages from '../AccountSettingsPage.messages';
+import commonMessages from '../messages';
 import messages from './messages';
 
 const CertificatePreference = ({

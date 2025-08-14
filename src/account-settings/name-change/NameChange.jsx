@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { getAuthenticatedUser, injectIntl, intlShape } from '@openedx/frontend-base';
 import {
   ActionRow,
   Alert,
@@ -12,7 +11,7 @@ import {
   Col,
   Form,
   ModalDialog,
-  StatefulButton,
+  StatefulButton,ß
 } from '@openedx/paragon';
 
 import { closeForm, saveSettingsReset } from '../data/actions';

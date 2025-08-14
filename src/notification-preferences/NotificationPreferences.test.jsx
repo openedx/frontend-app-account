@@ -3,8 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
@@ -20,7 +19,13 @@ jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: () => mockDispatch,
 }));
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedUser: jest.fn(() => ({
+    userId: 123,
+    username: 'test-user',
+  })),
+}));
 
 const defaultPreferences = {
   status: SUCCESS_STATUS,
@@ -111,13 +116,13 @@ describe('Notification Preferences', () => {
       selectedCourse: courseId,
     });
 
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
+    getAuthenticatedHttpClient = jest.fn(() => ({
       patch: async () => ({
         data: { status: 200 },
         catch: () => {},
       }),
     }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
   });
 
   afterEach(() => jest.clearAllMocks());

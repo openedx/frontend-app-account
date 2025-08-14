@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppContext } from '@edx/frontend-platform/react';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { SiteContext } from '@openedx/frontend-base';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 import { connect } from 'react-redux';
 import { Button, Hyperlink } from '@openedx/paragon';
 
 import { betaLanguageBannerSelector } from './data/selectors';
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 import { saveSettings } from './data/actions';
 import { TRANSIFEX_LANGUAGE_BASE_URL } from './data/constants';
 import Alert from './Alert';
@@ -91,7 +91,7 @@ class BetaLanguageBanner extends React.Component {
   }
 }
 
-BetaLanguageBanner.contextType = AppContext;
+BetaLanguageBanner.contextType = SiteContext;
 
 BetaLanguageBanner.propTypes = {
   intl: intlShape.isRequired,

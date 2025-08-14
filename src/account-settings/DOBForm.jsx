@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@openedx/paragon';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import messages from './AccountSettingsPage.messages';
+import messages from './messages';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
 import { editableFieldSelector } from './data/selectors';
 import { saveSettingsReset } from './data/actions';

@@ -6,8 +6,8 @@ import configureStore from 'redux-mock-store';
 import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
+import { IntlProvider, injectIntl } from '@openedx/frontend-base';
+import IdVerificationPageSlot from '../../slots/IdVerificationPageSlot';
 import * as selectors from '../data/selectors';
 
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 import messages from '../IdVerification.messages';
 
 export const UnsupportedCameraDirectionsPanel = (props) => (

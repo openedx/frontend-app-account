@@ -1,5 +1,5 @@
 import { put } from 'redux-saga/effects';
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
 export default function* handleFailure(error, navigate, failureAction = null, failureRedirectPath = null) {
   if (error.fieldErrors && failureAction !== null) {

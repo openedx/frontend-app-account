@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl, createIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl, createIntl } from '@openedx/frontend-base';
 
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),

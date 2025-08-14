@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { Form } from '@openedx/paragon';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@openedx/frontend-base';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';

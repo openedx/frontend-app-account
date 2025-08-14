@@ -51,7 +51,7 @@ export const selectPreference = (appId, name) => state => (
 );
 
 export const selectPreferenceNonEditableChannels = (appId, name) => state => (
-  state?.notificationPreferences.preferences.nonEditable[appId]?.[name] || []
+  state?.notificationPreferences.preferences.nonEditable[appId]?.[name] ?? []
 );
 
 export const selectSelectedCourseId = () => state => (

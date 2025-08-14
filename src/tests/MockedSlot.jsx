@@ -1,16 +1,15 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
-const MockedPluginSlot = ({ children, id }) => (
+const MockedSlot = ({ children, id }) => (
   <div data-testid={id}>
-    PluginSlot_{id}
+    Slot{id}
     { children && <div>{children}</div> }
   </div>
 );
 
-MockedPluginSlot.displayName = 'PluginSlot';
+MockedSlot.displayName = 'Slot';
 
-MockedPluginSlot.propTypes = {
+MockedSlot.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -18,9 +17,9 @@ MockedPluginSlot.propTypes = {
   id: PropTypes.string,
 };
 
-MockedPluginSlot.defaultProps = {
+MockedSlot.defaultProps = {
   children: undefined,
   id: undefined,
 };
 
-export default MockedPluginSlot;
+export default MockedSlot;

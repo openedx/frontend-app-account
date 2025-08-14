@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { Container, Hyperlink } from '@openedx/paragon';
 
 import { selectSelectedCourseId, selectShowPreferences } from './data/selectors';

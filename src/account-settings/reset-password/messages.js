@@ -1,4 +1,4 @@
-import { defineMessages } from '@edx/frontend-platform/i18n';
+import { defineMessages } from '@openedx/frontend-base';
 
 const messages = defineMessages({
   'account.settings.editable.field.password.reset.button': {

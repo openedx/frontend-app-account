@@ -1,11 +1,8 @@
-import React from 'react';
+import { IntlProvider, SiteProvider, initializeMockApp, injectIntl, mergeConfig, setConfig } from '@openedx/frontend-base';
 import { render, screen } from '@testing-library/react';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import { AppProvider } from '@edx/frontend-platform/react';
-import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
 
-import JumpNav from '../JumpNav';
 import configureStore from '../../data/configureStore';
+import JumpNav from '../JumpNav';
 
 const IntlJumpNav = injectIntl(JumpNav);
 
@@ -44,9 +41,9 @@ describe('JumpNav', () => {
 
     render(
       <IntlProvider locale="en">
-        <AppProvider store={store}>
+        <SiteProvider store={store}>
           <IntlJumpNav {...props} />
-        </AppProvider>
+        </SiteProvider>
       </IntlProvider>,
     );
 
@@ -64,9 +61,9 @@ describe('JumpNav', () => {
 
     render(
       <IntlProvider locale="en">
-        <AppProvider store={store}>
+        <SiteProvider store={store}>
           <IntlJumpNav {...props} />
-        </AppProvider>
+        </SiteProvider>
       </IntlProvider>,
     );
 

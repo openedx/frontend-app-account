@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
 
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl } from '@openedx/frontend-base';
 
 import EditableSelectField from '../EditableSelectField';
 
@@ -14,7 +14,13 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedUser: jest.fn(() => ({
+    userId: 123,
+    username: 'test-user',
+  })),
+}));
 jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
 
 const IntlEditableSelectField = injectIntl(EditableSelectField);

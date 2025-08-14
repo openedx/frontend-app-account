@@ -9,8 +9,7 @@ import {
   screen,
 } from '@testing-library/react';
 
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -26,7 +25,13 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedUser: jest.fn(() => ({
+    userId: 123,
+    username: 'test-user',
+  })),
+}));
 jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
 
 const IntlCertificatePreference = injectIntl(CertificatePreference);
@@ -59,13 +64,13 @@ describe('NameChange', () => {
       intl: {},
     };
 
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
+    getAuthenticatedHttpClient = jest.fn(() => ({
       patch: async () => ({
         data: { status: 200 },
         catch: () => {},
       }),
     }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
   });
 
   afterEach(() => jest.clearAllMocks());

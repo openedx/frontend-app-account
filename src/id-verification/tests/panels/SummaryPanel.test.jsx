@@ -4,14 +4,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent, waitFor,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import * as dataService from '../../data/service';
 import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
 import { VerifiedNameContext } from '../../VerifiedNameContext';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 

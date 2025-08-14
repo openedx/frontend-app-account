@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { Spinner, NavItem } from '@openedx/paragon';
 
 import { useIsOnMobile } from '../hooks';

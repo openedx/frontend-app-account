@@ -1,6 +1,6 @@
 # ID Verification Page Slot
 
-### Slot ID: `org.openedx.frontend.account.id_verification_page.v1`
+### Slot ID: `org.openedx.frontend.slot.account.idVerificationPage.v1`
 
 ### Slot ID Aliases
 * `id_verification_page_plugin`
@@ -22,7 +22,7 @@ import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-frame
 
 const config = {
   pluginSlots: {
-    'org.openedx.frontend.account.id_verification_page.v1': {
+    'org.openedx.frontend.slot.account.idVerificationPage.v1': {
       plugins: [
         {
           // Insert a custom IDV Page

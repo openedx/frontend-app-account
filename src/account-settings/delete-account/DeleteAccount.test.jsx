@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl } from '@openedx/frontend-base';
 
 // Testing the modals separately, they just clutter up the snapshots if included here.
 jest.mock('./ConfirmationModal', () => function ConfirmationModalMock() {

@@ -39,7 +39,7 @@ export function unpackFieldErrors(fieldErrors) {
  * for the default.
  */
 export function handleRequestError(error, unpackFunction = unpackFieldErrors) {
-  if (error.response && error.response.data.field_errors) {
+  if (error.response?.data.field_errors) {
     const apiError = Object.create(error);
     apiError.fieldErrors = unpackFunction(error.response.data.field_errors);
     throw apiError;
