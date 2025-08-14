@@ -12,9 +12,9 @@ import {
   injectIntl,
   intlShape,
   FormattedMessage,
-  // getCountryList, //TODO: use i18n-iso-countries or countries-list
-  // getLanguageList, //TODO: use @cospired/i18n-iso-languages instead
 } from '@openedx/frontend-base';
+
+import { getCountryList, getLanguageList } from './site-language/utils';
 import { appId } from '../constants';
 import {
   Hyperlink, Icon, Alert,
@@ -129,7 +129,7 @@ class AccountSettingsPage extends React.Component {
       label: this.props.intl.formatMessage(messages['account.settings.field.country.options.empty']),
     }].concat(
       this.removeDisabledCountries(
-        [{code: 33, name: 'mx'}].map(({ code, name }) => ({
+        getCountryList(locale).map(({ code, name }) => ({
           value: code,
           label: name,
           disabled: this.isDisabledCountry(code),
@@ -143,7 +143,7 @@ class AccountSettingsPage extends React.Component {
     languageProficiencyOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
-    }].concat([{code: 33, name: 'mx'}].map(({ code, name }) => ({ value: code, label: name }))),
+    }].concat(getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name }))),
     yearOfBirthOptions: [{
       value: '',
       label: this.props.intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),

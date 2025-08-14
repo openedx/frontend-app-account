@@ -37,6 +37,7 @@
     "extends @edx/browserslist-config"
   ],
   "dependencies": {
+    "@cospired/i18n-iso-languages": "^4.2.0",
     "@edx/brand": "npm:@openedx/brand-openedx@^1.2.2",
     "@edx/openedx-atlas": "^0.7.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
@@ -53,6 +54,7 @@
     "font-awesome": "4.7.0",
     "form-urlencoded": "6.1.5",
     "formdata-polyfill": "4.0.10",
+    "i18n-iso-countries": "^7.14.0",
     "jslib-html5-camera-photo": "3.3.4",
     "lodash.camelcase": "4.3.0",
     "lodash.debounce": "4.0.8",

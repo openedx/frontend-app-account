@@ -1,8 +1,7 @@
-import { convertKeyNames, getAuthenticatedHttpClient, getSiteConfig, snakeCaseObject } from '@openedx/frontend-base';
-import siteLanguageList from './constants';
+import { convertKeyNames, getAuthenticatedHttpClient, getSiteConfig, snakeCaseObject, getSupportedLanguageList } from '@openedx/frontend-base';
 
 export async function getSiteLanguageList() {
-  return siteLanguageList;
+  return getSupportedLanguageList();
 }
 
 export async function patchPreferences(username, params) {
