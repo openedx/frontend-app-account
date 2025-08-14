@@ -12,7 +12,7 @@ export async function patchPreferences(username, params) {
   });
 
   await getAuthenticatedHttpClient()
-    .patch(`${getSiteConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`, processedParams, {
+    .patch(`${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`, processedParams, {
       headers: { 'Content-Type': 'application/merge-patch+json' },
     });
 
@@ -27,7 +27,7 @@ export async function postSetLang(code) {
       'X-Requested-With': 'XMLHttpRequest',
     },
   };
-  const url = `${getSiteConfig().LMS_BASE_URL}/i18n/setlang/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/i18n/setlang/`;
   formData.append('language', code);
 
   await getAuthenticatedHttpClient()

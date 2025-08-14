@@ -1,8 +1,9 @@
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage, getSiteConfig } from '@openedx/frontend-base';
+import { FormattedMessage, getAppConfig } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 import PropTypes from 'prop-types';
+import { appId } from '../../constants';
 
 import Alert from '../Alert';
 
@@ -11,7 +12,7 @@ const ConfirmationAlert = (props) => {
 
   const technicalSupportLink = (
     <Hyperlink
-      destination={getSiteConfig().PASSWORD_RESET_SUPPORT_LINK}
+      destination={getAppConfig(appId).PASSWORD_RESET_SUPPORT_LINK}
     >
       <FormattedMessage
         id="account.settings.editable.field.password.reset.button.confirmation.support.link"

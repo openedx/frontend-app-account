@@ -30,7 +30,7 @@ const SubmittedPanel = (props) => {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getSiteConfig().LMS_BASE_URL}/${returnUrl}`}
+        href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}
         data-testid="return-button"
       >
         {props.intl.formatMessage(messages[returnText])}

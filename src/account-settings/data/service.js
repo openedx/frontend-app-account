@@ -71,7 +71,7 @@ function packAccountCommitData(commitData) {
 
 export async function getAccount(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`);
   return unpackAccountResponseData(data);
 }
 
@@ -82,7 +82,7 @@ export async function patchAccount(username, commitValues) {
 
   const { data } = await getAuthenticatedHttpClient()
     .patch(
-      `${getSiteConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`,
+      `${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`,
       packAccountCommitData(commitValues),
       requestConfig,
     )
@@ -104,13 +104,13 @@ export async function patchAccount(username, commitValues) {
 
 export async function getPreferences(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`);
   return data;
 }
 
 export async function patchPreferences(username, commitValues) {
   const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
-  const requestUrl = `${getSiteConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
   await getAuthenticatedHttpClient()
@@ -121,7 +121,7 @@ export async function patchPreferences(username, commitValues) {
 
 export async function getTimeZones(forCountry) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
+    .get(`${getSiteConfig().lmsBaseUrl}/user_api/v1/preferences/time_zones/`, {
       params: { country_code: forCountry },
     })
     .catch(handleRequestError);
@@ -136,7 +136,7 @@ export async function getProfileDataManager(username, userRoles) {
   const userRoleNames = userRoles.map(role => role.split(':')[0]);
 
   if (userRoleNames.includes('enterprise_learner')) {
-    const url = `${getSiteConfig().LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
+    const url = `${getSiteConfig().lmsBaseUrl}/enterprise/api/v1/enterprise-learner/?username=${username}`;
     const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
     if (data.results.length > 0) {
@@ -155,7 +155,7 @@ export async function getVerifiedName() {
   let data;
   const client = getAuthenticatedHttpClient();
   try {
-    const requestUrl = `${getSiteConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+    const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name`;
     ({ data } = await client.get(requestUrl));
   } catch (error) {
     return {};
@@ -168,7 +168,7 @@ export async function getVerifiedNameHistory() {
   let data;
   const client = getAuthenticatedHttpClient();
   try {
-    const requestUrl = `${getSiteConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name/history`;
+    const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name/history`;
     ({ data } = await client.get(requestUrl));
   } catch (error) {
     return {};
@@ -179,7 +179,7 @@ export async function getVerifiedNameHistory() {
 
 export async function postVerifiedName(data) {
   const requestConfig = { headers: { Accept: 'application/json' } };
-  const requestUrl = `${getSiteConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name`;
 
   await getAuthenticatedHttpClient()
     .post(requestUrl, data, requestConfig)
@@ -193,7 +193,7 @@ function extractCountryList(data) {
 }
 
 export async function getCountryList() {
-  const url = `${getSiteConfig().LMS_BASE_URL}/user_api/v1/account/registration/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/user_api/v1/account/registration/`;
 
   try {
     const { data } = await getAuthenticatedHttpClient().get(url);

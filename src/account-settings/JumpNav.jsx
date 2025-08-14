@@ -1,4 +1,4 @@
-import { getSiteConfig } from '@openedx/frontend-base';
+import { getAppConfig } from '@openedx/frontend-base';
 import { injectIntl, intlShape } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
@@ -6,6 +6,7 @@ import React from 'react';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 import messages from './messages';
+import { appId } from '../constants';
 
 const JumpNav = ({
   intl,
@@ -58,7 +59,7 @@ const JumpNav = ({
             {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
           </NavHashLink>
         </li>
-        {getSiteConfig().ENABLE_ACCOUNT_DELETION
+        {getAppConfig(appId).ENABLE_ACCOUNT_DELETION
           && (
           <li>
             <NavHashLink to="#delete-account">

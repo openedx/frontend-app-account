@@ -9,7 +9,7 @@ import { handleRequestError } from '../../data/utils';
 export async function postDeleteAccount(password) {
   const { data } = await getAuthenticatedHttpClient()
     .post(
-      `${getSiteConfig().LMS_BASE_URL}/api/user/v1/accounts/deactivate_logout/`,
+      `${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/deactivate_logout/`,
       formurlencoded({ password }),
       {
         headers: {

@@ -6,7 +6,7 @@ import { handleRequestError } from '../../data/utils';
 export async function postResetPassword(email) {
   const { data } = await getAuthenticatedHttpClient()
     .post(
-      `${getSiteConfig().LMS_BASE_URL}/password_reset/`,
+      `${getSiteConfig().lmsBaseUrl}/password_reset/`,
       formurlencoded({ email }),
       {
         headers: {

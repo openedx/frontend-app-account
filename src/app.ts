@@ -39,7 +39,7 @@ const app: App = {
     SUPPORT_URL: 'http://localhost:18000/support',
     USER_INFO_COOKIE_NAME: 'edx-user-info',
     ENABLE_COPPA_COMPLIANCE: '',
-    ENABLE_ACCOUNT_DELETION: '',
+    ENABLE_ACCOUNT_DELETION: true,
     ENABLE_DOB_UPDATE: '',
     MARKETING_EMAILS_OPT_IN: '',
     SHOW_EMAIL_CHANNEL: 'true',

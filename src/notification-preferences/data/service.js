@@ -1,15 +1,16 @@
-import { getSiteConfig, snakeCaseObject, getAuthenticatedHttpClient} from '@openedx/frontend-base';
+import { getSiteConfig, snakeCaseObject, getAuthenticatedHttpClient } from '@openedx/frontend-base';
 import snakeCase from 'lodash.snakecase';
 
 export const getCourseNotificationPreferences = async (courseId) => {
-  const url = `${getSiteConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/configurations/${courseId}`;
   const { data } = await getAuthenticatedHttpClient().get(url);
   return data;
 };
 
 export const getCourseList = async (page, pageSize) => {
+  console.log('Fetching course list...', getSiteConfig());
   const params = snakeCaseObject({ page, pageSize });
-  const url = `${getSiteConfig().LMS_BASE_URL}/api/notifications/enrollments/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/enrollments/`;
   const { data } = await getAuthenticatedHttpClient().get(url, { params });
   return data;
 };
@@ -27,7 +28,7 @@ export const patchPreferenceToggle = async (
     notificationChannel,
     value,
   });
-  const url = `${getSiteConfig().LMS_BASE_URL}/api/notifications/configurations/${courseId}`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/configurations/${courseId}`;
   const { data } = await getAuthenticatedHttpClient().patch(url, patchData);
   return data;
 };
@@ -46,7 +47,7 @@ export const postPreferenceToggle = async (
     value,
     emailCadence,
   });
-  const url = `${getSiteConfig().LMS_BASE_URL}/api/notifications/preferences/update-all/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/preferences/update-all/`;
   const { data } = await getAuthenticatedHttpClient().post(url, patchData);
   return data;
 };

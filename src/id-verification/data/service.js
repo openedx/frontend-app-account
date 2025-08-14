@@ -12,7 +12,7 @@ import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-bas
  * }
  */
 export async function getExistingIdVerification() {
-  const url = `${getSiteConfig().LMS_BASE_URL}/verify_student/status/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/verify_student/status/`;
   const requestConfig = {
     headers: { Accept: 'application/json' },
   };
@@ -35,7 +35,7 @@ export async function getExistingIdVerification() {
  * Returns an array: [{...data, mode: String}]
  */
 export async function getEnrollments() {
-  const url = `${getSiteConfig().LMS_BASE_URL}/api/enrollment/v1/enrollment`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/enrollment/v1/enrollment`;
   const requestConfig = {
     headers: { Accept: 'application/json' },
   };
@@ -74,7 +74,7 @@ export async function submitIdVerification(verificationData) {
     }
   });
 
-  const url = `${getSiteConfig().LMS_BASE_URL}/verify_student/submit-photos/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/verify_student/submit-photos/`;
   const urlEncodedPostData = qs.stringify(postData);
   const requestConfig = {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

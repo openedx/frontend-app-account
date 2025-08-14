@@ -25,7 +25,7 @@ const CameraHelp = (props) => (
       <p>
         {props.intl.formatMessage(
           messages['id.verification.camera.help.difficulty.answer'],
-          { siteName: getSiteConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </p>
     </Collapsible>

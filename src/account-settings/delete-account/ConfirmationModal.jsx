@@ -69,7 +69,7 @@ export class ConfirmationModal extends Component {
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
-    const deleteAccountModalText2MessageKey = getSiteConfig().SITE_NAME === 'edX'
+    const deleteAccountModalText2MessageKey = getSiteConfig().siteName === 'edX'
       ? 'account.settings.delete.account.modal.text.2.edX'
       : 'account.settings.delete.account.modal.text.2';
 
@@ -94,13 +94,13 @@ export class ConfirmationModal extends Component {
             <h6>
               {intl.formatMessage(
                 messages['account.settings.delete.account.modal.text.1'],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>
               {intl.formatMessage(
                 messages[deleteAccountModalText2MessageKey],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
             <p>

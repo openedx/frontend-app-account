@@ -195,7 +195,7 @@ describe('RequestCameraAccessPanel', () => {
       </Router>
     )));
     const button = await screen.findByRole('link');
-    expect(button).toHaveAttribute('href', `${getSiteConfig().LMS_BASE_URL}/dashboard`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/dashboard`);
   });
 
   it('routes correctly to portrait context', async () => {

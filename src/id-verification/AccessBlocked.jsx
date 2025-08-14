@@ -31,7 +31,7 @@ const AccessBlocked = ({ error, intl }) => {
       </h3>
       {handleMessage()}
       <div className="action-row">
-        <a className="btn btn-primary mt-3" href={`${getSiteConfig().LMS_BASE_URL}/dashboard`}>
+        <a className="btn btn-primary mt-3" href={`${getSiteConfig().lmsBaseUrl}/dashboard`}>
           {intl.formatMessage(messages['id.verification.return.dashboard'])}
         </a>
       </div>

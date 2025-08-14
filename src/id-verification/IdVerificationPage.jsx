@@ -92,20 +92,20 @@ const IdVerificationPage = (props) => {
             <h6>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>
               {props.intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
           </div>

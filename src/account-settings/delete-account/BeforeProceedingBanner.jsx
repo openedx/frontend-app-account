@@ -30,7 +30,7 @@ const BeforeProceedingBanner = (props) => {
           ) : (
             intl.formatMessage(messages[instructionMessageId])
           ),
-          siteName: getSiteConfig().SITE_NAME,
+          siteName: getSiteConfig().siteName,
         }}
       />
     </Alert>

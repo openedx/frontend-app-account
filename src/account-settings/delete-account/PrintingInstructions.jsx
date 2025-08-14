@@ -19,7 +19,7 @@ const PrintingInstructions = (props) => {
 
   // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
   // to allow edx.org to mention MicroMasters certificates to fulfill its business requirements.
-  if (getSiteConfig().SITE_NAME === 'edX') {
+  if (getSiteConfig().siteName === 'edX') {
     return (
       <FormattedMessage
         id="account.settings.delete.account.text.3.edX"

@@ -53,7 +53,7 @@ const SummaryPanel = (props) => {
             managerTitle: <strong>{profileDataManager}</strong>,
             profileDataManager,
             support: (
-              <Hyperlink destination={getSiteConfig().SUPPORT_URL} target="_blank">
+              <Hyperlink destination={getSiteConfig().lmsBaseUrl} target="_blank">
                 {props.intl.formatMessage(messages['id.verification.support'])}
               </Hyperlink>
             ),
@@ -136,7 +136,7 @@ const SummaryPanel = (props) => {
             <Alert.Link href="https://support.edx.org/hc/en-us">
               {props.intl.formatMessage(
                 messages['id.verification.review.error'],
-                { siteName: getSiteConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </Alert.Link>
           ),

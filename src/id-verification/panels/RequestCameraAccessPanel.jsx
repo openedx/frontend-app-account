@@ -47,7 +47,7 @@ const RequestCameraAccessPanel = (props) => {
   };
 
   const returnLink = (
-    <a className="btn btn-primary" href={`${getSiteConfig().LMS_BASE_URL}/${returnUrl}`}>
+    <a className="btn btn-primary" href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}>
       {props.intl.formatMessage(messages[returnText])}
     </a>
   );
