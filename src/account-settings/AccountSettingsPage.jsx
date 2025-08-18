@@ -3,8 +3,7 @@ import { getConfig } from '@edx/frontend-platform';
 import {
   useEffect, useContext, useMemo, createRef, useState,
 } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
 import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
@@ -19,6 +18,7 @@ import {
 } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
+import { useLocation, useNavigate } from 'react-router-dom';
 import messages from './AccountSettingsPage.messages';
 import {
   fetchSettings,
@@ -53,25 +53,43 @@ import {
 import { fetchSiteLanguages } from './site-language';
 import { fetchNotificationPreferences } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
-import { withLocation, withNavigate } from './hoc';
 import AdditionalProfileFieldsSlot from '../plugin-slots/AdditionalProfileFieldsSlot';
 
-const AccountSettingsPage = ({
-  loading = false,
-  loaded = false,
-  loadingError = null,
-  nameChangeModal = {} || false,
-  navigate,
-  countriesCodesList = [],
-  profileDataManager = null,
-  committedValues = {
-    useVerifiedNameForCerts: false,
-    verified_name: null,
-    country: '',
-  },
-  ...props
-}) => {
+const AccountSettingsPage = () => {
+  const dispatch = useDispatch();
+  const {
+    loading = false,
+    loaded = false,
+    loadingError = null,
+    nameChangeModal = {} || false,
+    countriesCodesList = [],
+    profileDataManager = null,
+    committedValues = {
+      useVerifiedNameForCerts: false,
+      verified_name: null,
+      country: '',
+    },
+    formValues = {
+      useVerifiedNameForCerts: false,
+      verified_name: null,
+      country: '',
+      secondary_email_enabled: false,
+    },
+    staticFields = [],
+    timeZoneOptions: availableTimeZones = [],
+    countryTimeZoneOptions: availableCountryTimeZones = [],
+    tpaProviders = [],
+    drafts = {},
+    verifiedNameHistory = [],
+    mostRecentVerifiedName = {},
+    siteLanguageOptions = [],
+    siteLanguage = null,
+    isActive = true,
+
+  } = useSelector(accountSettingsPageSelector);
   const intl = useIntl();
+  const navigate = useNavigate();
+  const { pathname: location } = useLocation();
   const appContext = useContext(AppContext);
   const [duplicateTpaProvider, setDuplicateTpaProvider] = useState(null);
 
@@ -81,9 +99,9 @@ const AccountSettingsPage = ({
     if (initialDuplicateTpaProvider) {
       setDuplicateTpaProvider(initialDuplicateTpaProvider);
     }
-    props.fetchNotificationPreferences();
-    props.fetchSettings();
-    props.fetchSiteLanguages(navigate);
+    dispatch(fetchNotificationPreferences());
+    dispatch(fetchSettings());
+    dispatch(fetchSiteLanguages(navigate));
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -103,7 +121,7 @@ const AccountSettingsPage = ({
   }), []);
 
   useEffect(() => {
-    if (loading && !loaded && loaded) {
+    if (loading && loaded) {
       const locationHash = global.location.hash;
       // Check for the locationHash in the URL and then scroll to it if it is in the
       // NavLinks list
@@ -189,7 +207,7 @@ const AccountSettingsPage = ({
   const canDeleteAccount = () => !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
 
   const handleEditableFieldChange = (name, value) => {
-    updateDraft(name, value);
+    dispatch(updateDraft(name, value));
   };
 
   const handleSubmit = (formId, values) => {
@@ -197,7 +215,6 @@ const AccountSettingsPage = ({
       return;
     }
 
-    const { formValues } = props;
     let extendedProfileObject = {};
 
     if ('extended_profile' in formValues && formValues.extended_profile.some((field) => field.field_name === formId)) {
@@ -207,38 +224,38 @@ const AccountSettingsPage = ({
           : field)),
       };
     }
-    saveSettings(formId, values, extendedProfileObject);
+    dispatch(saveSettings(formId, values, extendedProfileObject));
   };
 
   const handleSubmitProfileName = (formId, values) => {
-    if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
-      saveMultipleSettings([
+    if (Object.keys(drafts).includes('useVerifiedNameForCerts')) {
+      dispatch(saveMultipleSettings([
         {
           formId,
           commitValues: values,
         },
         {
           formId: 'useVerifiedNameForCerts',
-          commitValues: props.formValues.useVerifiedNameForCerts,
+          commitValues: formValues.useVerifiedNameForCerts,
         },
-      ], formId);
+      ], formId));
     } else {
-      saveSettings(formId, values);
+      dispatch(saveSettings(formId, values));
     }
   };
 
   const handleSubmitVerifiedName = (formId, values) => {
-    if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
-      saveSettings('useVerifiedNameForCerts', props.formValues.useVerifiedNameForCerts);
+    if (Object.keys(drafts).includes('useVerifiedNameForCerts')) {
+      dispatch(saveSettings('useVerifiedNameForCerts', formValues.useVerifiedNameForCerts));
     }
-    if (values !== props.committedValues?.verified_name) {
-      beginNameChange(formId);
+    if (values !== committedValues?.verified_name) {
+      dispatch(beginNameChange(formId));
     } else {
-      saveSettings(formId, values);
+      dispatch(saveSettings(formId, values));
     }
   };
 
-  const isEditable = (fieldName) => !props.staticFields.includes(fieldName);
+  const isEditable = (fieldName) => !staticFields.includes(fieldName);
 
   // Enterprise customer profiles are managed by their organizations. We determine whether
   // a profile is managed or not by the presence of the profileDataManager prop.
@@ -253,7 +270,7 @@ const AccountSettingsPage = ({
     // way of telling us that the provider account the user tried to link is already linked
     // to another user account on the platform. We use this to display a message to that effect,
     // and remove the parameter from the URL.
-    navigate(props.location, { replace: true });
+    navigate(location, { replace: true });
 
     return (
       <div>
@@ -303,7 +320,7 @@ const AccountSettingsPage = ({
   };
 
   const renderFullNameHelpText = (status, proctoredExamId) => {
-    if (!props.verifiedNameHistory) {
+    if (!verifiedNameHistory) {
       return intl.formatMessage(messages['account.settings.field.full.name.help.text']);
     }
 
@@ -318,7 +335,7 @@ const AccountSettingsPage = ({
       messageString += '.default';
     }
 
-    if (!props.committedValues.useVerifiedNameForCerts) {
+    if (!committedValues.useVerifiedNameForCerts) {
       messageString += '.certificate';
     }
 
@@ -392,13 +409,13 @@ const AccountSettingsPage = ({
     if (
       (
         // User submitted a profile name change, and uses their profile name on certificates
-        props.committedValues.name !== profileName
-        && !props.committedValues.useVerifiedNameForCerts
+        committedValues.name !== profileName
+        && !committedValues.useVerifiedNameForCerts
       )
       || (
         // User submitted a verified name change, and uses their verified name on certificates
-        props.committedValues.name === profileName
-        && props.committedValues.useVerifiedNameForCerts
+        committedValues.name === profileName
+        && committedValues.useVerifiedNameForCerts
       )
     ) {
       willCertNameChange = true;
@@ -449,7 +466,7 @@ const AccountSettingsPage = ({
     }
 
     // add additional string based on certificate name use
-    if (props.committedValues.useVerifiedNameForCerts) {
+    if (committedValues.useVerifiedNameForCerts) {
       messageStr += '.certificate';
     }
 
@@ -473,7 +490,7 @@ const AccountSettingsPage = ({
   };
 
   const renderSecondaryEmailField = (editableFieldProps) => {
-    if (!props.formValues.secondary_email_enabled) {
+    if (!formValues.secondary_email_enabled) {
       return null;
     }
 
@@ -482,7 +499,7 @@ const AccountSettingsPage = ({
         name="secondary_email"
         label={intl.formatMessage(messages['account.settings.field.secondary.email'])}
         emptyLabel={intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
-        value={props.formValues.secondary_email}
+        value={formValues.secondary_email}
         confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
         {...editableFieldProps}
       />
@@ -504,28 +521,27 @@ const AccountSettingsPage = ({
       educationLevelOptions,
       genderOptions,
       workExperienceOptions,
-    } = getLocalizedOptions(appContext.locale, props.formValues.country);
+    } = getLocalizedOptions(appContext.locale, formValues.country);
 
     // Show State field only if the country is US (could include Canada later)
-    const { country } = props.formValues;
+    const { country, verified_name: verifiedName } = formValues;
     const showState = country === COUNTRY_WITH_STATES && !isDisabledCountry(country);
-    const { verifiedName } = props;
 
-    const hasWorkExperience = !!props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
+    const hasWorkExperience = !!formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
 
-    const timeZoneOptions = getLocalizedTimeZoneOptions(
-      props.timeZoneOptions,
-      props.countryTimeZoneOptions,
+    const localizedTimeZoneOptions = getLocalizedTimeZoneOptions(
+      availableTimeZones,
+      availableCountryTimeZones,
       appContext.locale,
     );
 
-    const hasLinkedTPA = findIndex(props.tpaProviders, provider => provider.connected) >= 0;
+    const hasLinkedTPA = findIndex(tpaProviders, provider => provider.connected) >= 0;
 
     // if user is under 13 and does not have cookie set
     const shouldUpdateDOB = (
       getConfig().ENABLE_COPPA_COMPLIANCE
       && getConfig().ENABLE_DOB_UPDATE
-      && props.formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
+      && formValues.year_of_birth.toString() >= COPPA_COMPLIANCE_YEAR.toString()
       && !localStorage.getItem('submittedDOB')
     );
     return (
@@ -538,8 +554,8 @@ const AccountSettingsPage = ({
           )}
         <div className="account-section pt-3 mb-5" id="basic-information" ref={navLinkRefs['#basic-information']}>
           {
-            props.mostRecentVerifiedName
-            && renderVerifiedNameMessage(props.mostRecentVerifiedName)
+            mostRecentVerifiedName
+            && renderVerifiedNameMessage(mostRecentVerifiedName)
           }
           {localStorage.getItem('submittedDOB')
             && (
@@ -563,7 +579,7 @@ const AccountSettingsPage = ({
           <EditableField
             name="username"
             type="text"
-            value={props.formValues.username}
+            value={formValues.username}
             label={intl.formatMessage(messages['account.settings.field.username'])}
             helpText={intl.formatMessage(
               messages['account.settings.field.username.help.text'],
@@ -577,9 +593,9 @@ const AccountSettingsPage = ({
             type="text"
             value={
               verifiedName?.status === 'submitted'
-              && props.formValues.pending_name_change
-                ? props.formValues.pending_name_change
-                : props.formValues.name
+              && formValues.pending_name_change
+                ? formValues.pending_name_change
+                : formValues.name
               }
             label={intl.formatMessage(messages['account.settings.field.full.name'])}
             emptyLabel={
@@ -608,7 +624,7 @@ const AccountSettingsPage = ({
             <EditableField
               name="verified_name"
               type="text"
-              value={props.formValues.verified_name}
+              value={formValues.verified_name}
               label={
                 (
                   <div className="d-flex">
@@ -635,7 +651,7 @@ const AccountSettingsPage = ({
                 ? intl.formatMessage(messages['account.settings.field.email.empty'])
                 : renderEmptyStaticFieldMessage()
             }
-            value={props.formValues.email}
+            value={formValues.email}
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             helpText={intl.formatMessage(
               messages['account.settings.field.email.help.text'],
@@ -645,7 +661,7 @@ const AccountSettingsPage = ({
             {...editableFieldProps}
           />
           {renderSecondaryEmailField(editableFieldProps)}
-          <ResetPassword email={props.formValues.email} />
+          <ResetPassword email={formValues.email} />
           {(!getConfig().ENABLE_COPPA_COMPLIANCE)
             && (
             <EditableSelectField
@@ -653,7 +669,7 @@ const AccountSettingsPage = ({
               type="select"
               label={intl.formatMessage(messages['account.settings.field.dob'])}
               emptyLabel={intl.formatMessage(messages['account.settings.field.dob.empty'])}
-              value={props.formValues.year_of_birth}
+              value={formValues.year_of_birth}
               options={yearOfBirthOptions}
               {...editableFieldProps}
             />
@@ -661,7 +677,7 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="country"
             type="select"
-            value={props.formValues.country}
+            value={formValues.country}
             options={countryOptions}
             label={intl.formatMessage(messages['account.settings.field.country'])}
             emptyLabel={
@@ -677,7 +693,7 @@ const AccountSettingsPage = ({
             <EditableSelectField
               name="state"
               type="select"
-              value={props.formValues.state}
+              value={formValues.state}
               options={stateOptions}
               label={intl.formatMessage(messages['account.settings.field.state'])}
               emptyLabel={
@@ -699,7 +715,7 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="level_of_education"
             type="select"
-            value={props.formValues.level_of_education}
+            value={formValues.level_of_education}
             options={getConfig().ENABLE_COPPA_COMPLIANCE
               ? educationLevelOptions.filter(option => option.value !== 'el')
               : educationLevelOptions}
@@ -710,7 +726,7 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="gender"
             type="select"
-            value={props.formValues.gender}
+            value={formValues.gender}
             options={genderOptions}
             label={intl.formatMessage(messages['account.settings.field.gender'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.gender.empty'])}
@@ -721,7 +737,7 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="work_experience"
             type="select"
-            value={props.formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
+            value={formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
             options={workExperienceOptions}
             label={intl.formatMessage(messages['account.settings.field.work.experience'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
@@ -731,7 +747,7 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="language_proficiencies"
             type="select"
-            value={props.formValues.language_proficiencies}
+            value={formValues.language_proficiencies}
             options={languageProficiencyOptions}
             label={intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
@@ -754,7 +770,7 @@ const AccountSettingsPage = ({
           <EditableField
             name="social_link_linkedin"
             type="text"
-            value={props.formValues.social_link_linkedin}
+            value={formValues.social_link_linkedin}
             label={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
             {...editableFieldProps}
@@ -762,7 +778,7 @@ const AccountSettingsPage = ({
           <EditableField
             name="social_link_facebook"
             type="text"
-            value={props.formValues.social_link_facebook}
+            value={formValues.social_link_facebook}
             label={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
             {...editableFieldProps}
@@ -770,7 +786,7 @@ const AccountSettingsPage = ({
           <EditableField
             name="social_link_twitter"
             type="text"
-            value={props.formValues.social_link_twitter}
+            value={formValues.social_link_twitter}
             label={intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
             {...editableFieldProps}
@@ -789,8 +805,8 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="siteLanguage"
             type="select"
-            options={props.siteLanguageOptions}
-            value={props.siteLanguage.draft !== undefined ? props.siteLanguage.draft : appContext.locale}
+            options={siteLanguageOptions}
+            value={siteLanguage.draft !== undefined ? siteLanguage.draft : appContext.locale}
             label={intl.formatMessage(messages['account.settings.field.site.language'])}
             helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
             {...editableFieldProps}
@@ -798,8 +814,8 @@ const AccountSettingsPage = ({
           <EditableSelectField
             name="time_zone"
             type="select"
-            value={props.formValues.time_zone}
-            options={timeZoneOptions}
+            value={formValues.time_zone}
+            options={localizedTimeZoneOptions}
             label={intl.formatMessage(messages['account.settings.field.time.zone'])}
             emptyLabel={intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
             helpText={intl.formatMessage(messages['account.settings.field.time.zone.description'])}
@@ -825,7 +841,7 @@ const AccountSettingsPage = ({
         {getConfig().ENABLE_ACCOUNT_DELETION && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={navLinkRefs['#delete-account']}>
             <DeleteAccount
-              isVerifiedAccount={props.isActive}
+              isVerifiedAccount={isActive}
               hasLinkedTPA={hasLinkedTPA}
               canDeleteAccount={canDeleteAccount()}
             />
@@ -869,144 +885,4 @@ const AccountSettingsPage = ({
   );
 };
 
-AccountSettingsPage.propTypes = {
-  loading: PropTypes.bool,
-  loaded: PropTypes.bool,
-  loadingError: PropTypes.string,
-
-  // Form data
-  formValues: PropTypes.shape({
-    username: PropTypes.string,
-    name: PropTypes.string,
-    email: PropTypes.string,
-    secondary_email: PropTypes.string,
-    secondary_email_enabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    year_of_birth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    country: PropTypes.string,
-    level_of_education: PropTypes.string,
-    gender: PropTypes.string,
-    extended_profile: PropTypes.arrayOf(PropTypes.shape({
-      field_name: PropTypes.string,
-      field_value: PropTypes.string,
-    })),
-    language_proficiencies: PropTypes.string,
-    pending_name_change: PropTypes.string,
-    phone_number: PropTypes.string,
-    social_link_linkedin: PropTypes.string,
-    social_link_facebook: PropTypes.string,
-    social_link_twitter: PropTypes.string,
-    time_zone: PropTypes.string,
-    state: PropTypes.string,
-    useVerifiedNameForCerts: PropTypes.bool.isRequired,
-    verified_name: PropTypes.string,
-  }).isRequired,
-  committedValues: PropTypes.shape({
-    name: PropTypes.string,
-    useVerifiedNameForCerts: PropTypes.bool,
-    verified_name: PropTypes.string,
-    country: PropTypes.string,
-  }),
-  drafts: PropTypes.shape({}),
-  formErrors: PropTypes.shape({
-    name: PropTypes.string,
-  }),
-  siteLanguage: PropTypes.shape({
-    previousValue: PropTypes.string,
-    draft: PropTypes.string,
-  }),
-  siteLanguageOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
-  profileDataManager: PropTypes.string,
-  staticFields: PropTypes.arrayOf(PropTypes.string),
-  isActive: PropTypes.bool,
-  secondary_email_enabled: PropTypes.bool,
-
-  timeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
-  countryTimeZoneOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  })),
-  fetchSiteLanguages: PropTypes.func.isRequired,
-  updateDraft: PropTypes.func.isRequired,
-  saveMultipleSettings: PropTypes.func.isRequired,
-  saveSettings: PropTypes.func.isRequired,
-  fetchSettings: PropTypes.func.isRequired,
-  beginNameChange: PropTypes.func.isRequired,
-  fetchNotificationPreferences: PropTypes.func.isRequired,
-  tpaProviders: PropTypes.arrayOf(PropTypes.shape({
-    connected: PropTypes.bool,
-  })),
-  nameChangeModal: PropTypes.oneOfType([
-    PropTypes.shape({
-      formId: PropTypes.string,
-    }),
-    PropTypes.bool,
-  ]),
-  verifiedName: PropTypes.shape({
-    verified_name: PropTypes.string,
-    status: PropTypes.string,
-    proctored_exam_attempt_id: PropTypes.number,
-  }),
-  mostRecentVerifiedName: PropTypes.shape({
-    verified_name: PropTypes.string,
-    status: PropTypes.string,
-    proctored_exam_attempt_id: PropTypes.number,
-  }),
-  verifiedNameHistory: PropTypes.arrayOf(
-    PropTypes.shape({
-      verified_name: PropTypes.string,
-      status: PropTypes.string,
-      proctored_exam_attempt_id: PropTypes.number,
-    }),
-  ),
-  navigate: PropTypes.func.isRequired,
-  location: PropTypes.string.isRequired,
-  countriesCodesList: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ),
-};
-
-AccountSettingsPage.defaultProps = {
-  loading: false,
-  loaded: false,
-  loadingError: null,
-  committedValues: {
-    useVerifiedNameForCerts: false,
-    verified_name: null,
-    country: '',
-  },
-  drafts: {},
-  formErrors: {},
-  siteLanguage: null,
-  siteLanguageOptions: [],
-  timeZoneOptions: [],
-  countryTimeZoneOptions: [],
-  profileDataManager: null,
-  staticFields: [],
-  tpaProviders: [],
-  isActive: true,
-  secondary_email_enabled: false,
-  nameChangeModal: {} || false,
-  verifiedName: null,
-  mostRecentVerifiedName: {},
-  verifiedNameHistory: [],
-  countriesCodesList: [],
-};
-
-export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
-  fetchNotificationPreferences,
-  fetchSettings,
-  saveSettings,
-  saveMultipleSettings,
-  updateDraft,
-  fetchSiteLanguages,
-  beginNameChange,
-})(AccountSettingsPage)));
+export default AccountSettingsPage;
