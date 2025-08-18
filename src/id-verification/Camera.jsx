@@ -1,53 +1,66 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-access-key */
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Form, Spinner } from '@openedx/paragon';
 
 import shutter from './data/camera-shutter.base64.json';
 import messages from './IdVerification.messages';
 
-const Camera = ({ onImageCapture, isPortrait }) => {
-  const intl = useIntl();
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [cameraPhoto, setCameraPhoto] = useState(null);
-  const [dataUri, setDataUri] = useState('');
-  const [videoHasLoaded, setVideoHasLoaded] = useState(false);
-  const [shouldDetect, setShouldDetect] = useState(false);
-  const [isFinishedLoadingDetection, setIsFinishedLoadingDetection] = useState(true);
-  const [shouldGiveFeedback, setShouldGiveFeedback] = useState(true);
-  const [feedback, setFeedback] = useState('');
+class Camera extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.cameraPhoto = null;
+    this.videoRef = React.createRef();
+    this.canvasRef = React.createRef();
+    this.setDetection = this.setDetection.bind(this);
+    this.state = {
+      dataUri: '',
+      videoHasLoaded: false,
+      shouldDetect: false,
+      isFinishedLoadingDetection: true,
+      shouldGiveFeedback: true,
+      feedback: '',
+    };
+  }
 
-  useEffect(() => {
-    const camera = new CameraPhoto(videoRef.current);
-    setCameraPhoto(camera);
-    camera.startCamera(
-      isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT,
+  componentDidMount() {
+    this.cameraPhoto = new CameraPhoto(this.videoRef.current);
+    this.cameraPhoto.startCamera(
+      this.props.isPortrait ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT,
       { width: 640, height: 480 },
     );
+  }
 
-    return () => {
-      camera.stopCamera();
-    };
-  }, [isPortrait]);
+  async componentWillUnmount() {
+    this.cameraPhoto.stopCamera();
+  }
 
-  const handleVideoLoad = () => {
-    setVideoHasLoaded(true);
-  };
+  setDetection() {
+    this.setState(
+      (state) => ({ shouldDetect: !state.shouldDetect }),
+      () => {
+        if (this.state.shouldDetect) {
+          this.setState({ isFinishedLoadingDetection: false });
+          this.startDetection();
+        }
+        this.sendEvent();
+      },
+    );
+  }
 
-  const getGridPosition = useCallback((coordinates) => {
+  setVideoHasLoaded() {
+    this.setState({ videoHasLoaded: 'true' });
+  }
+
+  getGridPosition(coordinates) {
     // Used to determine where a face is (i.e. top-left, center-right, bottom-center, etc.)
+
     const x = coordinates[0];
     const y = coordinates[1];
 
@@ -76,11 +89,11 @@ const Camera = ({ onImageCapture, isPortrait }) => {
     }
 
     return messageBase;
-  }, []);
+  }
 
-  const getSizeFactor = useCallback(() => {
+  getSizeFactor() {
     let sizeFactor = 1;
-    const settings = cameraPhoto?.getCameraSettings();
+    const settings = this.cameraPhoto.getCameraSettings();
     if (settings) {
       const videoWidth = settings.width;
       const videoHeight = settings.height;
@@ -100,46 +113,24 @@ const Camera = ({ onImageCapture, isPortrait }) => {
       }
     }
     return sizeFactor;
-  }, [cameraPhoto]);
+  }
 
-  const isInRangeForPortrait = useCallback((x, y) => x > 47 && x < 570 && y > 100 && y < 410, []);
+  detectFromVideoFrame = (model, video) => {
+    model.estimateFaces(video).then((predictions) => {
+      if (this.state.shouldDetect && !this.state.dataUri) {
+        this.showDetections(predictions);
 
-  const isInRangeForID = useCallback((x, y) => x > 120 && x < 470 && y > 120 && y < 350, []);
-
-  const giveFeedback = useCallback((numFaces, rightEye, isCorrect) => {
-    if (shouldGiveFeedback) {
-      const currentFeedback = feedback;
-      let newFeedback = '';
-      if (numFaces === 1) {
-        // only give feedback if one face is detected otherwise
-        // it would be difficult to tell a user which face to move
-        if (isCorrect) {
-          newFeedback = intl.formatMessage(messages['id.verification.photo.feedback.correct']);
-        } else {
-          // give feedback based on where user is
-          newFeedback = intl.formatMessage(messages[getGridPosition(rightEye)]);
-        }
-      } else if (numFaces > 1) {
-        newFeedback = intl.formatMessage(messages['id.verification.photo.feedback.two.faces']);
-      } else {
-        newFeedback = intl.formatMessage(messages['id.verification.photo.feedback.no.faces']);
+        requestAnimationFrame(() => {
+          this.detectFromVideoFrame(model, video);
+        });
       }
-      if (currentFeedback !== newFeedback) {
-        // only update status if it is different, so we don't overload the user with status updates
-        setFeedback(newFeedback);
-      }
-      // turn off feedback for one to ensure that instructions aren't disruptive/interrupting
-      setShouldGiveFeedback(false);
-      setTimeout(() => {
-        setShouldGiveFeedback(true);
-      }, 1000);
-    }
-  }, [shouldGiveFeedback, feedback, intl, getGridPosition]);
+    });
+  };
 
-  const showDetections = useCallback((predictions) => {
+  showDetections = (predictions) => {
     let canvasContext;
     if (predictions.length > 0) {
-      canvasContext = canvasRef.current.getContext('2d');
+      canvasContext = this.canvasRef.current.getContext('2d');
       canvasContext.clearRect(0, 0, canvasContext.canvas.width, canvasContext.canvas.height);
     }
     // predictions is an array of objects describing each detected face
@@ -158,10 +149,10 @@ const Camera = ({ onImageCapture, isPortrait }) => {
         const y = features[j][1];
 
         let isInRange;
-        if (isPortrait) {
-          isInRange = isInRangeForPortrait(x, y);
+        if (this.props.isPortrait) {
+          isInRange = this.isInRangeForPortrait(x, y);
         } else {
-          isInRange = isInRangeForID(x, y);
+          isInRange = this.isInRangeForID(x, y);
         }
         // if it is not in range, give feedback depending on which feature is out of range
         isInPosition = isInPosition && isInRange;
@@ -173,188 +164,202 @@ const Camera = ({ onImageCapture, isPortrait }) => {
         canvasContext.lineWidth = 6;
         canvasContext.strokeRect(start[0], start[1], size[0], size[1]);
         // give positive feedback here if user is in correct position
-        giveFeedback(predictions.length, [], true);
+        this.giveFeedback(predictions.length, [], true);
       } else {
         canvasContext.fillStyle = 'rgba(255, 51, 0, 0.75)';
         canvasContext.fillRect(start[0], start[1], size[0], size[1]);
-        giveFeedback(predictions.length, features[0], false);
+        this.giveFeedback(predictions.length, features[0], false);
       }
     });
 
     if (predictions.length === 0) {
-      giveFeedback(predictions.length, [], false);
+      this.giveFeedback(predictions.length, [], false);
     }
-  }, [isPortrait, giveFeedback, isInRangeForPortrait, isInRangeForID]);
+  };
 
-  const detectFromVideoFrame = useCallback((model, video) => {
-    model.estimateFaces(video).then((predictions) => {
-      if (shouldDetect && !dataUri) {
-        showDetections(predictions);
-
-        requestAnimationFrame(() => {
-          detectFromVideoFrame(model, video);
-        });
-      }
-    });
-  }, [shouldDetect, dataUri, showDetections]);
-
-  const startDetection = useCallback(() => {
+  startDetection() {
     setTimeout(() => {
-      if (videoHasLoaded) {
+      if (this.state.videoHasLoaded) {
         const loadModelPromise = blazeface.load();
         Promise.all([loadModelPromise])
           .then((values) => {
-            setIsFinishedLoadingDetection(true);
-            detectFromVideoFrame(values[0], videoRef.current);
+            this.setState({ isFinishedLoadingDetection: true });
+            this.detectFromVideoFrame(values[0], this.videoRef.current);
           });
       } else {
-        setIsFinishedLoadingDetection(true);
-        setShouldDetect(false);
+        this.setState({ isFinishedLoadingDetection: true });
+        this.setState({ shouldDetect: false });
         // TODO: add error message
       }
     }, 1000);
-  }, [videoHasLoaded, detectFromVideoFrame]);
+  }
 
-  const sendEvent = useCallback((currentShouldDetect) => {
+  sendEvent() {
     let eventName = 'edx.id_verification';
-    if (isPortrait) {
+    if (this.props.isPortrait) {
       eventName += '.user_photo';
     } else {
       eventName += '.id_photo';
     }
 
-    if (currentShouldDetect) {
+    if (this.state.shouldDetect) {
       eventName += '.face_detection_enabled';
     } else {
       eventName += '.face_detection_disabled';
     }
     sendTrackEvent(eventName);
-  }, [isPortrait]);
+  }
 
-  const playShutterClick = useCallback(() => {
-    const audio = new Audio(`data:audio/mp3;base64,${shutter.base64}`);
-    audio.play();
-  }, []);
-
-  const reset = useCallback(() => {
-    setDataUri('');
-    if (shouldDetect) {
-      startDetection();
+  giveFeedback(numFaces, rightEye, isCorrect) {
+    if (this.state.shouldGiveFeedback) {
+      const currentFeedback = this.state.feedback;
+      let newFeedback = '';
+      if (numFaces === 1) {
+        // only give feedback if one face is detected otherwise
+        // it would be difficult to tell a user which face to move
+        if (isCorrect) {
+          newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.correct']);
+        } else {
+          // give feedback based on where user is
+          newFeedback = this.props.intl.formatMessage(messages[this.getGridPosition(rightEye)]);
+        }
+      } else if (numFaces > 1) {
+        newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.two.faces']);
+      } else {
+        newFeedback = this.props.intl.formatMessage(messages['id.verification.photo.feedback.no.faces']);
+      }
+      if (currentFeedback !== newFeedback) {
+        // only update status if it is different, so we don't overload the user with status updates
+        this.setState({ feedback: newFeedback });
+      }
+      // turn off feedback for one to ensure that instructions aren't disruptive/interrupting
+      this.setState({ shouldGiveFeedback: false });
+      setTimeout(() => {
+        this.setState({ shouldGiveFeedback: true });
+      }, 1000);
     }
-  }, [shouldDetect, startDetection]);
+  }
 
-  const takePhoto = useCallback(() => {
-    if (dataUri) {
-      reset();
+  isInRangeForPortrait(x, y) {
+    return x > 47 && x < 570 && y > 100 && y < 410;
+  }
+
+  isInRangeForID(x, y) {
+    return x > 120 && x < 470 && y > 120 && y < 350;
+  }
+
+  takePhoto() {
+    if (this.state.dataUri) {
+      this.reset();
       return;
     }
 
     const config = {
-      sizeFactor: getSizeFactor(),
+      sizeFactor: this.getSizeFactor(),
     };
 
-    playShutterClick();
-    const newDataUri = cameraPhoto.getDataUri(config);
-    setDataUri(newDataUri);
-    onImageCapture(newDataUri);
-  }, [dataUri, cameraPhoto, getSizeFactor, onImageCapture, playShutterClick, reset]);
+    this.playShutterClick();
+    const dataUri = this.cameraPhoto.getDataUri(config);
+    this.setState({ dataUri });
+    this.props.onImageCapture(dataUri);
+  }
 
-  const setDetection = useCallback(() => {
-    setShouldDetect((prevShouldDetect) => {
-      const newShouldDetect = !prevShouldDetect;
+  playShutterClick() {
+    const audio = new Audio(`data:audio/mp3;base64,${shutter.base64}`);
+    audio.play();
+  }
 
-      if (newShouldDetect) {
-        setIsFinishedLoadingDetection(false);
-        setTimeout(() => startDetection(), 0);
-      }
+  reset() {
+    this.setState({ dataUri: '' });
+    if (this.state.shouldDetect) {
+      this.startDetection();
+    }
+  }
 
-      // Send event after state update
-      setTimeout(() => sendEvent(newShouldDetect), 0);
-
-      return newShouldDetect;
-    });
-  }, [startDetection, sendEvent]);
-
-  const cameraFlashClass = dataUri
-    ? 'do-transition camera-flash'
-    : 'camera-flash';
-
-  return (
-    <div className="camera-outer-wrapper shadow">
-      <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }}>
-        <Form.Check
-          id="videoDetection"
-          name="videoDetection"
-          label={intl.formatMessage(messages['id.verification.photo.enable.detection'])}
-          aria-describedby="videoDetectionHelpText"
-          checked={shouldDetect}
-          onChange={setDetection}
-          style={{ padding: '0rem', marginLeft: '1.25rem', float: isFinishedLoadingDetection ? 'none' : 'left' }}
-        />
-        {!isFinishedLoadingDetection && <Spinner animation="border" variant="primary" style={{ marginLeft: '0.5rem' }} data-testid="spinner" />}
-        <Form.Text id="videoDetectionHelpText" data-testid="videoDetectionHelpText">
-          {isPortrait
-            ? intl.formatMessage(messages['id.verification.photo.enable.detection.portrait.help.text'])
-            : intl.formatMessage(messages['id.verification.photo.enable.detection.id.help.text'])}
-        </Form.Text>
-      </Form.Group>
-      <div className="camera-wrapper">
-        <div className={cameraFlashClass} />
-        <video
-          ref={videoRef}
-          data-testid="video"
-          autoPlay
-          className="camera-video"
-          onLoadedData={handleVideoLoad}
-          style={{
-            display: dataUri ? 'none' : 'block',
-            WebkitTransform: 'scaleX(-1)',
-            transform: 'scaleX(-1)',
+  render() {
+    const cameraFlashClass = this.state.dataUri
+      ? 'do-transition camera-flash'
+      : 'camera-flash';
+    return (
+      <div className="camera-outer-wrapper shadow">
+        <Form.Group style={{ textAlign: 'left', padding: '0.5rem', marginBottom: '0.5rem' }}>
+          <Form.Check
+            id="videoDetection"
+            name="videoDetection"
+            label={this.props.intl.formatMessage(messages['id.verification.photo.enable.detection'])}
+            aria-describedby="videoDetectionHelpText"
+            checked={this.state.shouldDetect}
+            onChange={this.setDetection}
+            style={{ padding: '0rem', marginLeft: '1.25rem', float: this.state.isFinishedLoadingDetection ? 'none' : 'left' }}
+          />
+          {!this.state.isFinishedLoadingDetection && <Spinner animation="border" variant="primary" style={{ marginLeft: '0.5rem' }} data-testid="spinner" />}
+          <Form.Text id="videoDetectionHelpText" data-testid="videoDetectionHelpText">
+            {this.props.isPortrait
+              ? this.props.intl.formatMessage(messages['id.verification.photo.enable.detection.portrait.help.text'])
+              : this.props.intl.formatMessage(messages['id.verification.photo.enable.detection.id.help.text'])}
+          </Form.Text>
+        </Form.Group>
+        <div className="camera-wrapper">
+          <div className={cameraFlashClass} />
+          <video
+            ref={this.videoRef}
+            data-testid="video"
+            autoPlay
+            className="camera-video"
+            onLoadedData={() => { this.setVideoHasLoaded(); }}
+            style={{
+              display: this.state.dataUri ? 'none' : 'block',
+              WebkitTransform: 'scaleX(-1)',
+              transform: 'scaleX(-1)',
+            }}
+            playsInline
+          />
+          <canvas
+            ref={this.canvasRef}
+            data-testid="detection-canvas"
+            className="canvas-video"
+            style={{
+              display: !this.state.shouldDetect || this.state.dataUri ? 'none' : 'block',
+              WebkitTransform: 'scaleX(-1)',
+              transform: 'scaleX(-1)',
+            }}
+            width="640"
+            height="480"
+          />
+          <img
+            data-hj-suppress
+            alt="imgCamera"
+            src={this.state.dataUri}
+            className="camera-video"
+            style={{ display: this.state.dataUri ? 'block' : 'none' }}
+          />
+          <div role="status" className="sr-only">{this.state.feedback}</div>
+        </div>
+        <button
+          type="button"
+          className={`btn camera-btn ${
+            this.state.dataUri
+              ? 'btn-outline-primary'
+              : 'btn-primary'
+          }`}
+          accessKey="c"
+          onClick={() => {
+            this.takePhoto();
           }}
-          playsInline
-        />
-        <canvas
-          ref={canvasRef}
-          data-testid="detection-canvas"
-          className="canvas-video"
-          style={{
-            display: !shouldDetect || dataUri ? 'none' : 'block',
-            WebkitTransform: 'scaleX(-1)',
-            transform: 'scaleX(-1)',
-          }}
-          width="640"
-          height="480"
-        />
-        <img
-          data-hj-suppress
-          alt="imgCamera"
-          src={dataUri}
-          className="camera-video"
-          style={{ display: dataUri ? 'block' : 'none' }}
-        />
-        <div role="status" className="sr-only">{feedback}</div>
+        >
+          {this.state.dataUri
+            ? this.props.intl.formatMessage(messages['id.verification.photo.retake'])
+            : this.props.intl.formatMessage(messages['id.verification.photo.take'])}
+        </button>
       </div>
-      <button
-        type="button"
-        className={`btn camera-btn ${
-          dataUri
-            ? 'btn-outline-primary'
-            : 'btn-primary'
-        }`}
-        accessKey="c"
-        onClick={takePhoto}
-      >
-        {dataUri
-          ? intl.formatMessage(messages['id.verification.photo.retake'])
-          : intl.formatMessage(messages['id.verification.photo.take'])}
-      </button>
-    </div>
-  );
-};
+    );
+  }
+}
 
 Camera.propTypes = {
+  intl: intlShape.isRequired,
   onImageCapture: PropTypes.func.isRequired,
   isPortrait: PropTypes.bool.isRequired,
 };
 
-export default Camera;
+export default injectIntl(Camera);
