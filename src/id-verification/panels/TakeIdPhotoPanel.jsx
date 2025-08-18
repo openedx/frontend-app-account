@@ -55,7 +55,7 @@ const TakeIdPhotoPanel = () => {
               {intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
               <SupportedMediaTypes />
             </p>
-            <ImageFileUpload onFileChange={setIdPhotoFile} intl={intl} />
+            <ImageFileUpload onFileChange={setIdPhotoFile} />
           </div>
         )}
       </div>

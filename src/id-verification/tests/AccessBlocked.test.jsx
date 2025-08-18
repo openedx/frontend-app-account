@@ -4,16 +4,13 @@ import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 
 import { ERROR_REASONS } from '../IdVerificationContext';
 import AccessBlocked from '../AccessBlocked';
 
-const IntlAccessBlocked = injectIntl(AccessBlocked);
-
 describe('AccessBlocked', () => {
   const defaultProps = {
-    intl: {},
     error: '',
   };
 
@@ -27,7 +24,7 @@ describe('AccessBlocked', () => {
     await act(async () => render((
       <Router>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <AccessBlocked {...defaultProps} />
         </IntlProvider>
       </Router>
     )));
@@ -43,7 +40,7 @@ describe('AccessBlocked', () => {
     await act(async () => render((
       <Router>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <AccessBlocked {...defaultProps} />
         </IntlProvider>
       </Router>
     )));
@@ -59,7 +56,7 @@ describe('AccessBlocked', () => {
     await act(async () => render((
       <Router>
         <IntlProvider locale="en">
-          <IntlAccessBlocked {...defaultProps} />
+          <AccessBlocked {...defaultProps} />
         </IntlProvider>
       </Router>
     )));

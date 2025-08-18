@@ -1,11 +1,10 @@
 /* eslint-disable no-import-assign */
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent, waitFor,
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@edx/frontend-platform/i18n';
 import * as dataService from '../../data/service';
 import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
@@ -18,13 +17,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
 jest.mock('../../data/service');
 dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 
-const IntlSummaryPanel = injectIntl(SummaryPanel);
-
 describe('SummaryPanel', () => {
-  const defaultProps = {
-    intl: {},
-  };
-
   const appContextValue = {
     facePhotoFile: 'test.jpg',
     idPhotoFile: 'test.jpg',
@@ -42,7 +35,7 @@ describe('SummaryPanel', () => {
         <IntlProvider locale="en">
           <VerifiedNameContext.Provider value={verifiedNameContextValue}>
             <IdVerificationContext.Provider value={appContextValue}>
-              <IntlSummaryPanel {...defaultProps} />
+              <SummaryPanel />
             </IdVerificationContext.Provider>
           </VerifiedNameContext.Provider>
         </IntlProvider>
