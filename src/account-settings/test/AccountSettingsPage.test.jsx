@@ -79,6 +79,14 @@ describe('AccountSettingsPage', () => {
     delete global.lightningjs;
   });
 
+  it('dispatches correct actions on initial load', async () => {
+    render(reduxWrapper(<AccountSettingsPage {...props} />));
+
+    // Check that all initial fetch actions are dispatched
+    // fetchNotificationPreferences does 2 dispatch
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
+  });
+
   it('renders AccountSettingsPage correctly with editing enabled', async () => {
     const { getByText, rerender, getByLabelText } = render(reduxWrapper(<AccountSettingsPage {...props} />));
 
