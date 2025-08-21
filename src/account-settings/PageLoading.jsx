@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class PageLoading extends Component {
-  renderSrMessage() {
-    if (!this.props.srMessage) {
+const PageLoading = ({ srMessage }) => {
+  const renderSrMessage = () => {
+    if (!srMessage) {
       return null;
     }
 
     return (
       <span className="sr-only">
-        {this.props.srMessage}
+        {srMessage}
       </span>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <div
-          className="d-flex justify-content-center align-items-center flex-column"
-          style={{
-            height: '50vh',
-          }}
-        >
-          <div className="spinner-border text-primary" role="status">
-            {this.renderSrMessage()}
-          </div>
+  return (
+    <div>
+      <div
+        className="d-flex justify-content-center align-items-center flex-column"
+        style={{
+          height: '50vh',
+        }}
+      >
+        <div className="spinner-border text-primary" role="status">
+          {renderSrMessage()}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 PageLoading.propTypes = {
   srMessage: PropTypes.string.isRequired,
 };
+
+export default PageLoading;

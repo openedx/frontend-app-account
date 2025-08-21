@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 
+import { useIntl } from '@openedx/frontend-base';
 import {
   ActionRow,
   Form,
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@openedx/frontend-base';
 
 import {
   closeForm,
@@ -22,13 +22,13 @@ import commonMessages from '../messages';
 import messages from './messages';
 
 const CertificatePreference = ({
-  intl,
   fieldName,
   originalFullName,
   originalVerifiedName,
   saveState,
   useVerifiedNameForCerts,
 }) => {
+  const intl = useIntl();
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -155,7 +155,6 @@ const CertificatePreference = ({
 };
 
 CertificatePreference.propTypes = {
-  intl: intlShape.isRequired,
   fieldName: PropTypes.string.isRequired,
   originalFullName: PropTypes.string,
   originalVerifiedName: PropTypes.string,
@@ -170,4 +169,4 @@ CertificatePreference.defaultProps = {
   useVerifiedNameForCerts: false,
 };
 
-export default connect(certPreferenceSelector)(injectIntl(CertificatePreference));
+export default connect(certPreferenceSelector)(CertificatePreference);

@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { FormattedMessage } from '@openedx/frontend-base';
 import { Hyperlink, StatefulButton } from '@openedx/paragon';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Alert from '../Alert';
 import { disconnectAuth } from './data/actions';
 
-class ThirdPartyAuth extends Component {
-  onClickDisconnect = (e) => {
+const ThirdPartyAuth = ({
+  providers,
+  disconnectionStatuses,
+  errors,
+  disconnectAuth,
+}) => {
+  const onClickDisconnect = (e) => {
     e.preventDefault();
     const providerId = e.currentTarget.getAttribute('data-provider-id');
-    if (this.props.disconnectionStatuses[providerId] === 'pending') {
+    if (disconnectionStatuses[providerId] === 'pending') {
       return;
     }
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
-    this.props.disconnectAuth(disconnectUrl, providerId);
+    disconnectAuth(disconnectUrl, providerId);
   };
 
-  renderUnconnectedProvider(url, name) {
+  const renderUnconnectedProvider = (url, name) => {
     return (
       <>
         <h6 aria-level="3">{name}</h6>
@@ -32,10 +36,10 @@ class ThirdPartyAuth extends Component {
         </Hyperlink>
       </>
     );
-  }
+  };
 
-  renderConnectedProvider(url, name, id) {
-    const hasError = this.props.errors[id];
+  const renderConnectedProvider = (url, name, id) => {
+    const hasError = errors[id];
 
     return (
       <>
@@ -61,7 +65,7 @@ class ThirdPartyAuth extends Component {
 
         <StatefulButton
           variant="link"
-          state={this.props.disconnectionStatuses[id]}
+          state={disconnectionStatuses[id]}
           labels={{
             default: (
               <FormattedMessage
@@ -72,30 +76,30 @@ class ThirdPartyAuth extends Component {
               />
             ),
           }}
-          onClick={this.onClickDisconnect}
+          onClick={onClickDisconnect}
           disabledStates={[]}
           data-disconnect-url={url}
           data-provider-id={id}
         />
       </>
     );
-  }
+  };
 
-  renderProvider({
+  const renderProvider = ({
     name, disconnectUrl, connectUrl, connected, id,
-  }) {
+  }) => {
     return (
       <div className="form-group" key={id}>
         {
           connected
-            ? this.renderConnectedProvider(disconnectUrl, name, id)
-            : this.renderUnconnectedProvider(connectUrl, name)
+            ? renderConnectedProvider(disconnectUrl, name, id)
+            : renderUnconnectedProvider(connectUrl, name)
         }
       </div>
     );
-  }
+  };
 
-  renderNoProviders() {
+  const renderNoProviders = () => {
     return (
       <FormattedMessage
         id="account.settings.sso.no.providers"
@@ -103,20 +107,18 @@ class ThirdPartyAuth extends Component {
         description="Displayed when no third-party accounts are available for the user to link to their account on the platform."
       />
     );
+  };
+
+  if (providers === undefined) {
+    return null;
   }
 
-  render() {
-    if (this.props.providers === undefined) {
-      return null;
-    }
-
-    if (this.props.providers.length === 0) {
-      return this.renderNoProviders();
-    }
-
-    return this.props.providers.map(this.renderProvider, this);
+  if (providers.length === 0) {
+    return renderNoProviders();
   }
-}
+
+  return providers.map(renderProvider);
+};
 
 ThirdPartyAuth.propTypes = {
   providers: PropTypes.arrayOf(PropTypes.shape({

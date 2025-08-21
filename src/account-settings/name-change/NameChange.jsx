@@ -11,7 +11,7 @@ import {
   Col,
   Form,
   ModalDialog,
-  StatefulButton,ß
+  StatefulButton
 } from '@openedx/paragon';
 
 import { closeForm, saveSettingsReset } from '../data/actions';

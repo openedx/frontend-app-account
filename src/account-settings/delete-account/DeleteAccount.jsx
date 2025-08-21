@@ -1,153 +1,154 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape, getSiteConfig, getAppConfig } from '@openedx/frontend-base';
+import { getAppConfig, getSiteConfig, useIntl } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { connect } from 'react-redux';
 import { appId } from '../../constants';
 
 // Actions
 import {
   deleteAccount,
+  deleteAccountCancel,
   deleteAccountConfirmation,
   deleteAccountFailure,
   deleteAccountReset,
-  deleteAccountCancel,
 } from './data/actions';
 
 // Messages
 import messages from './messages';
 
 // Components
+import BeforeProceedingBanner from './BeforeProceedingBanner';
 import ConnectedConfirmationModal from './ConfirmationModal';
 import PrintingInstructions from './PrintingInstructions';
 import ConnectedSuccessModal from './SuccessModal';
-import BeforeProceedingBanner from './BeforeProceedingBanner';
 
-export class DeleteAccount extends React.Component {
-  constructor(props) {
-    super(props);
+export const DeleteAccount = ({
+  hasLinkedTPA,
+  isVerifiedAccount,
+  status,
+  errorType,
+  canDeleteAccount,
+  deleteAccount,
+  deleteAccountConfirmation,
+  deleteAccountFailure,
+  deleteAccountReset,
+  deleteAccountCancel,
+}) => {
+  const intl = useIntl();
+  const [password, setPassword] = useState('');
 
-    this.state = {
-      password: '',
-    };
-  }
-
-  handleSubmit = () => {
-    if (this.state.password === '') {
-      this.props.deleteAccountFailure('empty-password');
+  const handleSubmit = () => {
+    if (password === '') {
+      deleteAccountFailure('empty-password');
     } else {
-      this.props.deleteAccount(this.state.password);
+      deleteAccount(password);
     }
   };
 
-  handleCancel = () => {
-    this.setState({ password: '' });
-    this.props.deleteAccountCancel();
+  const handleCancel = () => {
+    setPassword('');
+    deleteAccountCancel();
   };
 
-  handlePasswordChange = (e) => {
-    this.setState({ password: e.target.value.trim() });
-    this.props.deleteAccountReset();
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value.trim());
+    deleteAccountReset();
   };
 
-  handleFinalClose = () => {
+  const handleFinalClose = () => {
     global.location = getAppConfig(appId).LOGOUT_URL;
   };
 
-  render() {
-    const {
-      hasLinkedTPA, isVerifiedAccount, status, errorType, intl,
-    } = this.props;
-    const canDelete = isVerifiedAccount && !hasLinkedTPA;
-    const supportArticleUrl = getAppConfig(appId).SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
+  const canDelete = isVerifiedAccount && !hasLinkedTPA;
+  const supportArticleUrl = getAppConfig(appId).SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
 
-    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
-    // to allow edx.org to fulfill its business requirements.
-    const deleteAccountText2MessageKey = getSiteConfig().siteName === 'edX'
-      ? 'account.settings.delete.account.text.2.edX'
-      : 'account.settings.delete.account.text.2';
+  // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+  // to allow edx.org to fulfill its business requirements.
+  const deleteAccountText2MessageKey = getSiteConfig().siteName === 'edX'
+    ? 'account.settings.delete.account.text.2.edX'
+    : 'account.settings.delete.account.text.2';
 
-    const optInInstructionMessageId = getAppConfig(appId).MARKETING_EMAILS_OPT_IN
-      ? 'account.settings.delete.account.please.confirm'
-      : 'account.settings.delete.account.please.activate';
+  const optInInstructionMessageId = getAppConfig(appId).MARKETING_EMAILS_OPT_IN
+    ? 'account.settings.delete.account.please.confirm'
+    : 'account.settings.delete.account.please.activate';
 
-    return (
-      <div>
-        <h2 className="section-heading h4 mb-3">
-          {intl.formatMessage(messages['account.settings.delete.account.header'])}
-        </h2>
-        {
-          this.props.canDeleteAccount ? (
-            <>
-              <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
-              <p>
-                {intl.formatMessage(
-                  messages['account.settings.delete.account.text.1'],
-                  { siteName: getSiteConfig().siteName },
-                )}
-              </p>
-              <p>
-                {intl.formatMessage(
-                  messages[deleteAccountText2MessageKey],
-                  { siteName: getSiteConfig().siteName },
-                )}
-              </p>
-              <p>
-                <PrintingInstructions />
-              </p>
-              <p className="text-danger h6">
-                {intl.formatMessage(
-                  messages['account.settings.delete.account.text.warning'],
-                  { siteName: getSiteConfig().siteName },
-                )}
-              </p>
-              <p>
-                <Hyperlink destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics">
-                  {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
-                </Hyperlink>
-              </p>
-              <p>
-                <Button
-                  variant="outline-danger"
-                  onClick={canDelete ? this.props.deleteAccountConfirmation : null}
-                  disabled={!canDelete}
-                >
-                  {intl.formatMessage(messages['account.settings.delete.account.button'])}
-                </Button>
-              </p>
-              {isVerifiedAccount ? null : (
-                <BeforeProceedingBanner
-                  instructionMessageId={optInInstructionMessageId}
-                  supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
-                />
+  return (
+    <div>
+      <h2 className="section-heading h4 mb-3">
+        {intl.formatMessage(messages['account.settings.delete.account.header'])}
+      </h2>
+      {
+        canDeleteAccount ? (
+          <>
+            <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
+            <p>
+              {intl.formatMessage(
+                messages['account.settings.delete.account.text.1'],
+                { siteName: getSiteConfig().siteName },
               )}
-              {hasLinkedTPA ? (
-                <BeforeProceedingBanner
-                  instructionMessageId="account.settings.delete.account.please.unlink"
-                  supportArticleUrl={supportArticleUrl}
-                />
-              ) : null}
-
-              <ConnectedConfirmationModal
-                status={status}
-                errorType={errorType}
-                onSubmit={this.handleSubmit}
-                onCancel={this.handleCancel}
-                onChange={this.handlePasswordChange}
-                password={this.state.password}
+            </p>
+            <p>
+              {intl.formatMessage(
+                messages[deleteAccountText2MessageKey],
+                { siteName: getSiteConfig().siteName },
+              )}
+            </p>
+            <p>
+              <PrintingInstructions />
+            </p>
+            <p className="text-danger h6">
+              {intl.formatMessage(
+                messages['account.settings.delete.account.text.warning'],
+                { siteName: getSiteConfig().siteName },
+              )}
+            </p>
+            <p>
+              <Hyperlink destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics">
+                {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
+              </Hyperlink>
+            </p>
+            <p>
+              <Button
+                variant="outline-danger"
+                onClick={canDelete ? deleteAccountConfirmation : null}
+                disabled={!canDelete}
+              >
+                {intl.formatMessage(messages['account.settings.delete.account.button'])}
+              </Button>
+            </p>
+            {isVerifiedAccount ? null : (
+              <BeforeProceedingBanner
+                instructionMessageId={optInInstructionMessageId}
+                supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
               />
+            )}
+            {hasLinkedTPA ? (
+              <BeforeProceedingBanner
+                instructionMessageId="account.settings.delete.account.please.unlink"
+                supportArticleUrl={supportArticleUrl}
+              />
+            ) : null}
 
-              <ConnectedSuccessModal status={status} onClose={this.handleFinalClose} />
-            </>
-          ) : (
-            <p>{intl.formatMessage(messages['account.settings.cannot.delete.account.text'])}</p>
-          )
-        }
+            <ConnectedConfirmationModal
+              status={status}
+              errorType={errorType}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+              onChange={handlePasswordChange}
+              password={password}
+            />
 
-      </div>
-    );
-  }
-}
+            <ConnectedSuccessModal status={status} onClose={handleFinalClose} />
+          </>
+        ) : (
+          <p>{intl.formatMessage(messages['account.settings.cannot.delete.account.text'])}</p>
+        )
+      }
+
+    </div>
+  );
+};
 
 DeleteAccount.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
@@ -160,7 +161,6 @@ DeleteAccount.propTypes = {
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   canDeleteAccount: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 DeleteAccount.defaultProps = {
@@ -183,4 +183,4 @@ export default connect(
     deleteAccountReset,
     deleteAccountCancel,
   },
-)(injectIntl(DeleteAccount));
+)(DeleteAccount);
