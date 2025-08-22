@@ -1,48 +1,48 @@
 import {
-  call, put, delay, takeEvery, all,
+  all,
+  call,
+  delay,
+  put,
+  takeEvery,
 } from 'redux-saga/effects';
 
-import { getLocale, handleRtl, LOCALE_CHANGED, publish, getAuthenticatedUser } from '@openedx/frontend-base';
+import { getAuthenticatedUser, getLocale, handleRtl, LOCALE_CHANGED, publish } from '@openedx/frontend-base';
 
 // Actions
 import {
-  FETCH_SETTINGS,
-  fetchSettingsBegin,
-  fetchSettingsSuccess,
-  fetchSettingsFailure,
+  beginNameChange,
   closeForm,
-  SAVE_SETTINGS,
-  SAVE_MULTIPLE_SETTINGS,
-  saveSettingsBegin,
-  saveSettingsSuccess,
-  saveSettingsFailure,
-  savePreviousSiteLanguage,
+  FETCH_SETTINGS,
   FETCH_TIME_ZONES,
+  fetchSettingsBegin,
+  fetchSettingsFailure,
+  fetchSettingsSuccess,
   fetchTimeZones,
   fetchTimeZonesSuccess,
+  SAVE_MULTIPLE_SETTINGS,
+  SAVE_SETTINGS,
   saveMultipleSettingsBegin,
-  saveMultipleSettingsSuccess,
   saveMultipleSettingsFailure,
-  beginNameChange,
+  saveMultipleSettingsSuccess,
+  savePreviousSiteLanguage,
+  saveSettingsBegin,
+  saveSettingsFailure,
+  saveSettingsSuccess,
 } from './actions';
 
 // Sub-modules
-import { saga as deleteAccountSaga } from '../delete-account';
-import { saga as resetPasswordSaga } from '../reset-password';
-import { saga as nameChangeSaga } from '../name-change';
 import {
-  saga as siteLanguageSaga,
   patchPreferences,
   postSetLang,
+  saga as siteLanguageSaga,
 } from '../site-language';
-import { saga as thirdPartyAuthSaga } from '../third-party-auth';
 
 // Services
 import {
   getSettings,
-  patchSettings,
   getTimeZones,
   getVerifiedNameHistory,
+  patchSettings,
 } from './service';
 
 export function* handleFetchSettings() {
@@ -164,10 +164,8 @@ export default function* saga() {
   yield takeEvery(SAVE_MULTIPLE_SETTINGS.BASE, handleSaveMultipleSettings);
   yield takeEvery(FETCH_TIME_ZONES.BASE, handleFetchTimeZones);
   yield all([
-    deleteAccountSaga(),
+    // deleteAccountSaga(),
     siteLanguageSaga(),
-    resetPasswordSaga(),
-    nameChangeSaga(),
-    thirdPartyAuthSaga(),
+    // nameChangeSaga(),
   ]);
 }

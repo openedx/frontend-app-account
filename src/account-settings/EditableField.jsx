@@ -1,22 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { injectIntl, intlShape } from '@openedx/frontend-base';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useIntl } from '@openedx/frontend-base';
 import {
   Button, Form, StatefulButton,
 } from '@openedx/paragon';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
 
 import SwitchContent from './SwitchContent';
+import { useSettingsFormDataState } from './hooks';
 import messages from './messages';
 
-import {
-  openForm,
-  closeForm,
-} from './data/actions';
-import { editableFieldSelector } from './data/selectors';
+
 import CertificatePreference from './certificate-preference/CertificatePreference';
 
 const EditableField = (props) => {
@@ -27,22 +23,30 @@ const EditableField = (props) => {
     type,
     value,
     userSuppliedValue,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
-    onChange,
-    isEditing,
     isEditable,
     isGrayedOut,
-    intl,
     ...others
   } = props;
+  const intl = useIntl();
+  const { settingsFormDataState, openForm: onEdit, closeForm: onCancel } = useSettingsFormDataState();
   const id = `field-${name}`;
+  const { isEditing, confirmationValue, error, saveState } = useMemo(() => (
+    {
+      isEditing: settingsFormDataState?.openFormId === name,
+      confirmationValue: settingsFormDataState?.confirmationValues?.[name],
+      error: settingsFormDataState?.errors?.[name],
+      saveState: settingsFormDataState?.saveState,
+    }
+  ), [settingsFormDataState]);
+
+  const [localValue, setLocalValue] = useState(value);
+  
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +54,8 @@ const EditableField = (props) => {
   };
 
   const handleChange = (e) => {
-    onChange(name, e.target.value);
+    const newValue = e.target.value;
+    setLocalValue(newValue);
   };
 
   const handleEdit = () => {
@@ -107,7 +112,7 @@ const EditableField = (props) => {
                   name={name}
                   id={id}
                   type={type}
-                  value={value}
+                  value={localValue}
                   onChange={handleChange}
                   {...others}
                 />
@@ -172,41 +177,26 @@ EditableField.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userSuppliedValue: PropTypes.string,
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 EditableField.defaultProps = {
   value: undefined,
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
   isGrayedOut: false,
   userSuppliedValue: undefined,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(injectIntl(EditableField));
+export default EditableField;

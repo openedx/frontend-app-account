@@ -1,43 +1,35 @@
-import React, { useEffect, useMemo } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { useIntl } from '@openedx/frontend-base';
-import { Spinner, NavItem } from '@openedx/paragon';
+import { NavItem, Spinner } from '@openedx/paragon';
 
 import { useIsOnMobile } from '../hooks';
+import { notificationChannels } from './data/utils';
+import { useCourseList } from './hooks/useCourseList';
+import { useNotificationPreferences } from './hooks/useNotificationPreferences';
 import messages from './messages';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
-import { fetchCourseNotificationPreferences } from './data/thunks';
-import { LOADING_STATUS } from '../constants';
-import {
-  selectCourseListStatus, selectNotificationPreferencesStatus, selectPreferenceAppsId, selectSelectedCourseId,
-} from './data/selectors';
-import { notificationChannels } from './data/utils';
 
 const NotificationPreferences = () => {
-  const dispatch = useDispatch();
   const intl = useIntl();
-  const courseStatus = useSelector(selectCourseListStatus());
-  const courseId = useSelector(selectSelectedCourseId());
-  const notificationStatus = useSelector(selectNotificationPreferencesStatus());
-  const preferenceAppsIds = useSelector(selectPreferenceAppsId());
+  const { isLoading: isLoadingCourses } = useCourseList();
+  const { notificationPreferencesQuery } = useNotificationPreferences();
+  const { data: notificationsData, isLoading: isLoadingNotificationPreferences} = notificationPreferencesQuery;
+  const preferenceAppsIds = useMemo(() => notificationsData?.apps?.map(app => app.id), [notificationsData]);
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
-  const isLoading = notificationStatus === LOADING_STATUS || courseStatus === LOADING_STATUS;
+  const isLoading = isLoadingNotificationPreferences || isLoadingCourses;
 
   const preferencesList = useMemo(() => (
-    preferenceAppsIds.map(appId => (
+    preferenceAppsIds?.map(appId => (
       <NotificationPreferenceApp appId={appId} key={appId} />
     ))
   ), [preferenceAppsIds]);
 
-  useEffect(() => {
-    dispatch(fetchCourseNotificationPreferences(courseId));
-  }, [courseId, dispatch]);
 
-  if (preferenceAppsIds.length === 0) {
+  if (preferenceAppsIds?.length === 0) {
     return null;
   }
 

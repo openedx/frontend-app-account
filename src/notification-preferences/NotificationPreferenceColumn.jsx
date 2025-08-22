@@ -1,30 +1,26 @@
 import React, { useCallback } from 'react';
 
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { NavItem } from '@openedx/paragon';
 import { useIntl } from '@openedx/frontend-base';
+import { NavItem } from '@openedx/paragon';
 
-import messages from './messages';
 import { useIsOnMobile } from '../hooks';
-import ToggleSwitch from './ToggleSwitch';
-import EmailCadences from './EmailCadences';
-import { LOADING_STATUS } from '../constants';
-import { updatePreferenceToggle } from './data/thunks';
-import { selectAppPreferences, selectSelectedCourseId, selectUpdatePreferencesStatus } from './data/selectors';
-import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import {
   EMAIL, EMAIL_CADENCE, EMAIL_CADENCE_PREFERENCES, MIXED,
 } from './data/constants';
+import { notificationChannels, shouldHideAppPreferences } from './data/utils';
+import EmailCadences from './EmailCadences';
+import { useNotificationPreferences } from './hooks/useNotificationPreferences';
+import messages from './messages';
+import ToggleSwitch from './ToggleSwitch';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
-  const dispatch = useDispatch();
   const intl = useIntl();
-  const courseId = useSelector(selectSelectedCourseId());
-  const appPreferences = useSelector(selectAppPreferences(appId));
-  const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  const { notificationPreferencesQuery: {data}, notificationPreferencesState, notificationPreferencesMutation} = useNotificationPreferences();
+  const courseId = notificationPreferencesState?.selectedCourse;
+  const appPreferences = useMemo(() => data.preferences.filter(preference => preference.appId === appId), [data, appId]);
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
@@ -58,15 +54,15 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       appNotificationPreference.emailCadence,
     );
 
-    dispatch(updatePreferenceToggle(
+    notificationPreferencesMutation.mutate({
       courseId,
       appId,
       notificationType,
       notificationChannel,
       value,
-      emailCadence !== MIXED ? emailCadence : undefined,
-    ));
-  }, [appPreferences, getValue, getEmailCadence, dispatch, courseId, appId]);
+      emailCadence: emailCadence !== MIXED ? emailCadence : undefined,
+    });
+  }, [appPreferences, getValue, getEmailCadence, notificationPreferencesMutation, courseId, appId]);
 
   const renderPreference = (preference) => (
     (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
@@ -84,7 +80,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         name={channel}
         value={preference[channel]}
         onChange={(event) => onToggle(event, preference.id)}
-        disabled={updatePreferencesStatus === LOADING_STATUS}
+        disabled={notificationPreferencesMutation.isPending}
         id={`${preference.id}-${channel}`}
         className="my-1"
       />

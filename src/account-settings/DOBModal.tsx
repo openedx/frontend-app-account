@@ -1,27 +1,22 @@
-import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@openedx/frontend-base';
+import { useIntl } from '@openedx/frontend-base';
 import {
-  Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
+  ActionRow,
+  Button,
+  Form,
+  ModalDialog,
+  StatefulButton,
+  useToggle,
 } from '@openedx/paragon';
-import React, { useCallback, useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import messages from './messages';
+import { useCallback, useEffect, useState } from 'react';
 import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
-import { editableFieldSelector } from './data/selectors';
-import { saveSettingsReset } from './data/actions';
+import { useDOBMutation } from './hooks';
+import messages from './messages';
 
-const DOBModal = (props) => {
-  const {
-    saveState,
-    error,
-    onSubmit,
-    intl,
-  } = props;
+const DOBModal = () => {
+  const intl = useIntl();
+  const { mutateDOB, isPending, isSuccess, isError, error, reset } = useDOBMutation();
 
-  const dispatch = useDispatch();
-
-  // eslint-disable-next-line no-unused-vars
-  const [isOpen, open, close, toggle] = useToggle(true, {});
+  const [isOpen, open, close] = useToggle(true, {});
   const [monthValue, setMonthValue] = useState('');
   const [yearValue, setYearValue] = useState('');
 
@@ -37,24 +32,21 @@ const DOBModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const data = monthValue !== '' && yearValue !== '' ? [{ field_name: 'DOB', field_value: `${yearValue}-${monthValue}` }] : [];
-    onSubmit('extended_profile', data);
+    mutateDOB(monthValue, yearValue);
   };
 
   const handleComplete = useCallback(() => {
-    localStorage.setItem('submittedDOB', 'true');
     close();
-    dispatch(saveSettingsReset());
-  }, [dispatch, close]);
+    reset();
+  }, [close, reset]);
 
   const handleClose = useCallback(() => {
     close();
-    dispatch(saveSettingsReset());
-  }, [dispatch, close]);
+    reset();
+  }, [close, reset]);
 
   function renderErrors() {
-    if (saveState === 'error' || error) {
+    if (isError && error) {
       return (
         <Form.Control.Feedback type="invalid" key="general-error">
           {intl.formatMessage(messages['account.settingsfield.dob.error.general'])}
@@ -65,10 +57,10 @@ const DOBModal = (props) => {
   }
 
   useEffect(() => {
-    if (saveState === 'complete' && isOpen) {
+    if (isSuccess && isOpen) {
       handleComplete();
     }
-  }, [handleComplete, saveState, isOpen, monthValue, yearValue]);
+  }, [handleComplete, isSuccess, isOpen]);
 
   return (
     <>
@@ -81,6 +73,7 @@ const DOBModal = (props) => {
         onClose={handleClose}
         hasCloseButton={false}
         variant="default"
+        isOverflowVisible
       >
         <form onSubmit={handleSubmit}>
 
@@ -132,11 +125,11 @@ const DOBModal = (props) => {
               </ModalDialog.CloseButton>
               <StatefulButton
                 type="submit"
-                state={!(monthValue && yearValue) ? 'unedited' : saveState}
+                state={!(monthValue && yearValue) ? 'unedited' : isPending ? 'pending' : 'default'}
                 labels={{
                   default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
                 }}
-                disabledStates={['unedited']}
+                disabledStates={['unedited', 'pending']}
               />
             </ActionRow>
           </ModalDialog.Footer>
@@ -147,16 +140,4 @@ const DOBModal = (props) => {
   );
 };
 
-DOBModal.propTypes = {
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
-};
-
-DOBModal.defaultProps = {
-  saveState: undefined,
-  error: undefined,
-};
-
-export default connect(editableFieldSelector)(injectIntl(DOBModal));
+export default DOBModal;

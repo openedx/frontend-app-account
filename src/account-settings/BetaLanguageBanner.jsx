@@ -1,18 +1,16 @@
-import { SiteContext, useIntl } from '@openedx/frontend-base';
+import { getSupportedLanguageList, useIntl } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
-import PropTypes from 'prop-types';
-import { useContext } from 'react';
-import { connect } from 'react-redux';
+import { useMemo } from 'react';
 
 import Alert from './Alert';
-import { saveSettings } from './data/actions';
 import { TRANSIFEX_LANGUAGE_BASE_URL } from './data/constants';
-import { betaLanguageBannerSelector } from './data/selectors';
+import { useSiteLanguage } from './hooks';
 import messages from './messages';
 
-const BetaLanguageBanner = ({ siteLanguage, siteLanguageList, saveSettings }) => {
+const BetaLanguageBanner = () => {
   const intl = useIntl();
-  const siteContext = useContext(SiteContext);
+  const { languageState, mutation: languageMutation } = useSiteLanguage();
+  const siteLanguageList = useMemo(() => getSupportedLanguageList(), []);
 
   const getSiteLanguageEntry = (languageCode) => {
     return siteLanguageList.find(l => l.code === languageCode);
@@ -45,24 +43,24 @@ const BetaLanguageBanner = ({ siteLanguage, siteLanguageList, saveSettings }) =>
   };
 
   const handleRevertLanguage = () => {
-    if (siteLanguage?.previousValue) {
-      const previousSiteLanguage = siteLanguage.previousValue;
-      saveSettings('siteLanguage', previousSiteLanguage);
+    if (languageState?.prevSiteLanguage) {
+      const previousSiteLanguage = languageState.prevSiteLanguage;
+      languageMutation.mutate(previousSiteLanguage);
     }
   };
 
-  const savedLanguage = getSiteLanguageEntry(siteContext.locale);
+  const savedLanguage = getSiteLanguageEntry(languageState?.siteLanguage);
   if (!savedLanguage) {
     return null;
   }
   
   const isSavedLanguageReleased = savedLanguage.released === true;
-  const noPreviousLanguageSet = siteLanguage?.previousValue === null;
+  const noPreviousLanguageSet = languageState?.prevSiteLanguage === null;
   if (isSavedLanguageReleased || noPreviousLanguageSet) {
     return null;
   }
 
-  const previousLanguage = getSiteLanguageEntry(siteLanguage?.previousValue ?? '');
+  const previousLanguage = getSiteLanguageEntry(languageState.prevSiteLanguage ?? '');
   
   if (!previousLanguage) {
     return null;
@@ -99,26 +97,4 @@ const BetaLanguageBanner = ({ siteLanguage, siteLanguageList, saveSettings }) =>
   );
 };
 
-BetaLanguageBanner.propTypes = {
-  siteLanguage: PropTypes.shape({
-    previousValue: PropTypes.string,
-    draft: PropTypes.string,
-  }),
-  siteLanguageList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    code: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    released: PropTypes.bool,
-  })).isRequired,
-  saveSettings: PropTypes.func.isRequired,
-};
-
-BetaLanguageBanner.defaultProps = {
-  siteLanguage: null,
-};
-
-export default connect(
-  betaLanguageBannerSelector,
-  {
-    saveSettings,
-  },
-)(BetaLanguageBanner);
+export default BetaLanguageBanner;

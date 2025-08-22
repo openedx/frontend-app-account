@@ -1,13 +1,11 @@
-import { getSiteConfig, injectIntl, intlShape } from '@openedx/frontend-base';
+import { getSiteConfig } from '@openedx/frontend-base';
 import { ActionRow, Button, ModalDialog } from '@openedx/paragon';
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import {
   Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
-import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
@@ -25,7 +23,8 @@ import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
 import messages from './IdVerification.messages';
 
 // eslint-disable-next-line react/prefer-stateless-function
-const IdVerificationPage = (props) => {
+const IdVerificationPage = () => {
+  const intl = useIntl();
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -84,26 +83,26 @@ const IdVerificationPage = (props) => {
       >
         <ModalDialog.Header>
           <ModalDialog.Title data-testid="Id-modal">
-            {props.intl.formatMessage(messages['id.verification.privacy.title'])}
+            {intl.formatMessage(messages['id.verification.privacy.title'])}
           </ModalDialog.Title>
         </ModalDialog.Header>
         <ModalDialog.Body>
           <div className="p-3">
             <h6>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
                 { siteName: getSiteConfig().siteName },
               )}
             </h6>
-            <p>{props.intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
+            <p>{intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
                 { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
                 { siteName: getSiteConfig().siteName },
               )}
@@ -123,8 +122,4 @@ const IdVerificationPage = (props) => {
   );
 };
 
-IdVerificationPage.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default connect(idVerificationSelector, {})(injectIntl(IdVerificationPage));
+export default IdVerificationPage;

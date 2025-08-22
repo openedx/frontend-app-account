@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
 
 import { useIntl } from '@openedx/frontend-base';
 import {
@@ -9,37 +8,36 @@ import {
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
+import { useMemo } from 'react';
 
-import {
-  closeForm,
-  resetDrafts,
-  saveSettings,
-  updateDraft,
-} from '../data/actions';
-import { certPreferenceSelector } from '../data/selectors';
+import { useAccountSettings, useSettingsFormDataState } from '../hooks';
 
 import commonMessages from '../messages';
 import messages from './messages';
 
 const CertificatePreference = ({
-  fieldName,
-  originalFullName,
-  originalVerifiedName,
-  saveState,
-  useVerifiedNameForCerts,
+  fieldName
 }) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { settingsFormDataState: {committedValues, formValues, saveState, verifiedNameForCertsDraft }, closeForm, updateVerifiedNameForCertsDraft } = useSettingsFormDataState();
+  const { saveSettingsMutation } = useAccountSettings();
+
   const formId = 'useVerifiedNameForCerts';
+
+  const originalFullName = committedValues?.name ?? ''
+  const originalVerifiedName = committedValues?.verified_name ?? '';
+  const useVerifiedNameForCerts = useMemo(() => {
+    return verifiedNameForCertsDraft ?? formValues.useVerifiedNameForCerts ?? false;
+  }, [verifiedNameForCertsDraft, formValues]);
 
   const handleCheckboxChange = () => {
     if (!checked) {
       if (fieldName === 'verified_name') {
-        dispatch(updateDraft(formId, true));
+        updateVerifiedNameForCertsDraft(true);
       } else {
-        dispatch(updateDraft(formId, false));
+        updateVerifiedNameForCertsDraft(false);
       }
     } else {
       setModalIsOpen(true);
@@ -48,14 +46,14 @@ const CertificatePreference = ({
 
   const handleCancel = () => {
     setModalIsOpen(false);
-    dispatch(resetDrafts());
+    updateVerifiedNameForCertsDraft(null);
   };
 
   const handleModalChange = (e) => {
     if (e.target.value === 'fullName') {
-      dispatch(updateDraft(formId, false));
+      updateVerifiedNameForCertsDraft(false);
     } else {
-      dispatch(updateDraft(formId, true));
+      updateVerifiedNameForCertsDraft(true);
     }
   };
 
@@ -66,7 +64,7 @@ const CertificatePreference = ({
       return;
     }
 
-    dispatch(saveSettings(formId, useVerifiedNameForCerts));
+    saveSettingsMutation.mutate({ formId, values: useVerifiedNameForCerts });
   };
 
   useEffect(() => {
@@ -83,14 +81,14 @@ const CertificatePreference = ({
     if (originalVerifiedName) {
       if (modalIsOpen && saveState === 'complete') {
         setModalIsOpen(false);
-        dispatch(closeForm(fieldName));
+        closeForm(fieldName);
       }
     }
-  }, [dispatch, originalVerifiedName, fieldName, modalIsOpen, saveState]);
+  }, [closeForm, originalVerifiedName, fieldName, modalIsOpen, saveState]);
 
   // If the user doesn't have an approved verified name, do not display this component
 
-  return originalVerifiedName ? (
+  return originalVerifiedName && (
     <>
       <Form.Checkbox className="mt-1 mb-4" checked={checked} onChange={handleCheckboxChange}>
         {intl.formatMessage(messages['account.settings.field.name.checkbox.certificate.select'])}
@@ -151,22 +149,12 @@ const CertificatePreference = ({
         </Form>
       </ModalDialog>
     </>
-  ) : null;
+  )
 };
 
 CertificatePreference.propTypes = {
   fieldName: PropTypes.string.isRequired,
-  originalFullName: PropTypes.string,
-  originalVerifiedName: PropTypes.string,
-  saveState: PropTypes.string,
-  useVerifiedNameForCerts: PropTypes.bool,
 };
 
-CertificatePreference.defaultProps = {
-  originalFullName: '',
-  originalVerifiedName: '',
-  saveState: null,
-  useVerifiedNameForCerts: false,
-};
 
-export default connect(certPreferenceSelector)(CertificatePreference);
+export default CertificatePreference;

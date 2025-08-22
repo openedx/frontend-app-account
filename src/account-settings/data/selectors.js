@@ -276,7 +276,6 @@ export const accountSettingsPageSelector = createSelector(
     formErrors,
     profileDataManager,
     staticFields,
-    tpaProviders: accountSettings.thirdPartyAuth.providers,
     nameChangeModal,
     verifiedName,
     mostRecentVerifiedName,

@@ -1,11 +1,12 @@
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from '@openedx/frontend-base';
+import { FormattedMessage, useIntl } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 
 import { getSiteConfig } from '@openedx/frontend-base';
 import messages from './messages';
 
-const PrintingInstructions = (props) => {
+const PrintingInstructions = () => {
+  const intl = useIntl();
   const actionLink = (
     <Hyperlink
       // TODO: What would a generic version of this link look like?  Should
@@ -13,7 +14,7 @@ const PrintingInstructions = (props) => {
       // We've removed the link from the default message.
       destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UVVOA2/certificates"
     >
-      {props.intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
+      {intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
     </Hyperlink>
   );
 
@@ -40,8 +41,4 @@ const PrintingInstructions = (props) => {
   );
 };
 
-PrintingInstructions.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(PrintingInstructions);
+export default PrintingInstructions;

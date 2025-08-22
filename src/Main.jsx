@@ -1,28 +1,23 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import { CurrentAppProvider, getAppConfig } from '@openedx/frontend-base';
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import 'formdata-polyfill';
 import { Provider as ReduxProvider } from 'react-redux';
-import { CurrentAppProvider, SiteProvider } from '@openedx/frontend-base';
 import { Outlet } from 'react-router-dom';
 import { appId } from './constants';
 
-/* import Header from '@edx/frontend-component-header';
-import { FooterSlot } from '@edx/frontend-component-footer'; */
-
-import configureStore from './data/configureStore';
 import './app.scss';
+import configureStore from './data/configureStore';
 
 const Main = () => (
   <CurrentAppProvider appId={appId}>
     <ReduxProvider store={configureStore()}>
-      {/*<div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-        <Header />*/}
       <main className="flex-grow-1" id="main">
         <Outlet />
       </main>
-      {/*<FooterSlot />
-      </div>*/}
+      { getAppConfig(appId).NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} /> }
     </ReduxProvider>
   </CurrentAppProvider>
 );

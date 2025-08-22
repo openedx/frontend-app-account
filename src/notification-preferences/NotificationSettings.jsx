@@ -1,20 +1,21 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
 
 import { useIntl } from '@openedx/frontend-base';
 import { Container, Hyperlink } from '@openedx/paragon';
 
-import { selectSelectedCourseId, selectShowPreferences } from './data/selectors';
+import { useFeedbackWrapper } from '../hooks';
+import { useCourseList } from './hooks/useCourseList';
+import { useNotificationPreferences } from './hooks/useNotificationPreferences';
 import messages from './messages';
 import NotificationCoursesDropdown from './NotificationCoursesDropdown';
 import NotificationPreferences from './NotificationPreferences';
-import { useFeedbackWrapper } from '../hooks';
 
 const NotificationSettings = () => {
   useFeedbackWrapper();
   const intl = useIntl();
-  const showPreferences = useSelector(selectShowPreferences());
-  const courseId = useSelector(selectSelectedCourseId());
+  const { data } = useCourseList()
+  const { showPreferences } = data ?? {};
+  const { notificationPreferencesState } = useNotificationPreferences();
+  const { selectedCourse: courseId } = notificationPreferencesState ?? {};
 
   return (
     showPreferences && (

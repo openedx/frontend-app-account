@@ -1,21 +1,17 @@
 import {
-  FETCH_SETTINGS,
-  OPEN_FORM,
+  BEGIN_NAME_CHANGE,
   CLOSE_FORM,
-  SAVE_SETTINGS,
+  FETCH_SETTINGS,
   FETCH_TIME_ZONES,
-  SAVE_PREVIOUS_SITE_LANGUAGE,
-  UPDATE_DRAFT,
+  OPEN_FORM,
   RESET_DRAFTS,
   SAVE_MULTIPLE_SETTINGS,
-  BEGIN_NAME_CHANGE,
+  SAVE_PREVIOUS_SITE_LANGUAGE,
+  SAVE_SETTINGS,
+  UPDATE_DRAFT,
 } from './actions';
 
-import { reducer as deleteAccountReducer, DELETE_ACCOUNT } from '../delete-account';
-import { reducer as siteLanguageReducer, FETCH_SITE_LANGUAGES } from '../site-language';
-import { reducer as resetPasswordReducer, RESET_PASSWORD } from '../reset-password';
-import { reducer as nameChangeReducer, REQUEST_NAME_CHANGE } from '../name-change';
-import { reducer as thirdPartyAuthReducer, DISCONNECT_AUTH } from '../third-party-auth';
+import { FETCH_SITE_LANGUAGES, reducer as siteLanguageReducer } from '../site-language';
 
 export const defaultState = {
   loading: false,
@@ -30,11 +26,9 @@ export const defaultState = {
   timeZones: [],
   countryTimeZones: [],
   previousSiteLanguage: null,
-  deleteAccount: deleteAccountReducer(),
+  // deleteAccount: deleteAccountReducer(),
   siteLanguage: siteLanguageReducer(),
-  resetPassword: resetPasswordReducer(),
-  nameChange: nameChangeReducer(),
-  thirdPartyAuth: thirdPartyAuthReducer(),
+  // nameChange: nameChangeReducer(),
   nameChangeModal: false,
   verifiedName: null,
   mostRecentVerifiedName: {},
@@ -57,8 +51,6 @@ const reducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         values: { ...state.values, ...action.payload.values },
-        // Dump the providers into thirdPartyAuth.
-        thirdPartyAuth: { ...state.thirdPartyAuth, providers: action.payload.thirdPartyAuthProviders },
         profileDataManager: action.payload.profileDataManager,
         timeZones: action.payload.timeZones,
         loading: false,
@@ -188,8 +180,8 @@ const reducer = (state = defaultState, action = {}) => {
       // TODO: Once all the above cases have been converted into sub-reducers, we can use
       // combineReducers in this file to greatly simplify it.
 
-    // Delete My Account
-    case DELETE_ACCOUNT.CONFIRMATION:
+      // Delete My Account
+    /* case DELETE_ACCOUNT.CONFIRMATION:
     case DELETE_ACCOUNT.BEGIN:
     case DELETE_ACCOUNT.SUCCESS:
     case DELETE_ACCOUNT.FAILURE:
@@ -199,7 +191,7 @@ const reducer = (state = defaultState, action = {}) => {
         ...state,
         deleteAccount: deleteAccountReducer(state.deleteAccount, action),
       };
-
+    */
     case FETCH_SITE_LANGUAGES.BEGIN:
     case FETCH_SITE_LANGUAGES.SUCCESS:
     case FETCH_SITE_LANGUAGES.FAILURE:
@@ -207,32 +199,6 @@ const reducer = (state = defaultState, action = {}) => {
       return {
         ...state,
         siteLanguage: siteLanguageReducer(state.siteLanguage, action),
-      };
-
-    case RESET_PASSWORD.BEGIN:
-    case RESET_PASSWORD.SUCCESS:
-    case RESET_PASSWORD.FORBIDDEN:
-      return {
-        ...state,
-        resetPassword: resetPasswordReducer(state.resetPassword, action),
-      };
-
-    case REQUEST_NAME_CHANGE.BEGIN:
-    case REQUEST_NAME_CHANGE.SUCCESS:
-    case REQUEST_NAME_CHANGE.FAILURE:
-    case REQUEST_NAME_CHANGE.RESET:
-      return {
-        ...state,
-        nameChange: nameChangeReducer(state.nameChange, action),
-      };
-
-    case DISCONNECT_AUTH.BEGIN:
-    case DISCONNECT_AUTH.SUCCESS:
-    case DISCONNECT_AUTH.FAILURE:
-    case DISCONNECT_AUTH.RESET:
-      return {
-        ...state,
-        thirdPartyAuth: thirdPartyAuthReducer(state.thirdPartyAuth, action),
       };
 
     default:

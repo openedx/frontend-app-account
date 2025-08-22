@@ -1,6 +1,6 @@
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage, injectIntl, intlShape, getSiteConfig } from '@openedx/frontend-base';
+import { FormattedMessage, getSiteConfig, useIntl } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,8 @@ import messages from './messages';
 import Alert from '../Alert';
 
 const BeforeProceedingBanner = (props) => {
-  const { instructionMessageId, intl, supportArticleUrl } = props;
+  const { instructionMessageId, supportArticleUrl } = props;
+  const intl = useIntl();
 
   return (
     <Alert
@@ -39,8 +40,7 @@ const BeforeProceedingBanner = (props) => {
 
 BeforeProceedingBanner.propTypes = {
   instructionMessageId: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
   supportArticleUrl: PropTypes.string.isRequired,
 };
 
-export default injectIntl(BeforeProceedingBanner);
+export default BeforeProceedingBanner;

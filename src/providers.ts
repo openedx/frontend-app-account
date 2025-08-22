@@ -1,7 +1,9 @@
 import { AppProvider } from '@openedx/frontend-base';
 
-const providers: AppProvider[] = [
+import { QueryProvider } from './providers/QueryProvider';
 
+const providers: AppProvider[] = [
+  QueryProvider,
 ];
 
 export default providers;

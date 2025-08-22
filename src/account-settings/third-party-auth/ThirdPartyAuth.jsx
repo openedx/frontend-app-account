@@ -1,25 +1,20 @@
 import { FormattedMessage } from '@openedx/frontend-base';
 import { Hyperlink, StatefulButton } from '@openedx/paragon';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
 import Alert from '../Alert';
-import { disconnectAuth } from './data/actions';
+import { useDisconnectAuth, useThirdPartyAuthProviders } from './hooks';
 
-const ThirdPartyAuth = ({
-  providers,
-  disconnectionStatuses,
-  errors,
-  disconnectAuth,
-}) => {
-  const onClickDisconnect = (e) => {
+const ThirdPartyAuth = () => {
+  const { data: providers } = useThirdPartyAuthProviders();
+  const { mutate: disconnectAuth, disconnectionStatuses, errors } = useDisconnectAuth();
+
+  const handleClickDisconnect = (e) => {
     e.preventDefault();
     const providerId = e.currentTarget.getAttribute('data-provider-id');
     if (disconnectionStatuses[providerId] === 'pending') {
       return;
     }
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
-    disconnectAuth(disconnectUrl, providerId);
+    disconnectAuth({ url: disconnectUrl, providerId });
   };
 
   const renderUnconnectedProvider = (url, name) => {
@@ -76,8 +71,8 @@ const ThirdPartyAuth = ({
               />
             ),
           }}
-          onClick={onClickDisconnect}
-          disabledStates={[]}
+          onClick={handleClickDisconnect}
+          disabledStates={['pending']}
           data-disconnect-url={url}
           data-provider-id={id}
         />
@@ -120,30 +115,4 @@ const ThirdPartyAuth = ({
   return providers.map(renderProvider);
 };
 
-ThirdPartyAuth.propTypes = {
-  providers: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    disconnectUrl: PropTypes.string,
-    connectUrl: PropTypes.string,
-    connected: PropTypes.bool,
-    id: PropTypes.string,
-  })),
-  disconnectionStatuses: PropTypes.objectOf(PropTypes.oneOf([null, 'pending', 'complete', 'error'])),
-  errors: PropTypes.objectOf(PropTypes.bool),
-  disconnectAuth: PropTypes.func.isRequired,
-};
-
-ThirdPartyAuth.defaultProps = {
-  providers: undefined,
-  disconnectionStatuses: {},
-  errors: {},
-};
-
-const mapStateToProps = state => state.accountSettings.thirdPartyAuth;
-
-export default connect(
-  mapStateToProps,
-  {
-    disconnectAuth,
-  },
-)(ThirdPartyAuth);
+export default ThirdPartyAuth;

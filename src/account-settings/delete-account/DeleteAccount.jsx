@@ -2,17 +2,7 @@ import { getAppConfig, getSiteConfig, useIntl } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { connect } from 'react-redux';
 import { appId } from '../../constants';
-
-// Actions
-import {
-  deleteAccount,
-  deleteAccountCancel,
-  deleteAccountConfirmation,
-  deleteAccountFailure,
-  deleteAccountReset,
-} from './data/actions';
 
 // Messages
 import messages from './messages';
@@ -22,21 +12,41 @@ import BeforeProceedingBanner from './BeforeProceedingBanner';
 import ConnectedConfirmationModal from './ConfirmationModal';
 import PrintingInstructions from './PrintingInstructions';
 import ConnectedSuccessModal from './SuccessModal';
+import { DELETE_STATUS } from './constants';
+
+import { useDeleteAccount } from './hooks/useDeleteAccount';
 
 export const DeleteAccount = ({
   hasLinkedTPA,
   isVerifiedAccount,
-  status,
-  errorType,
   canDeleteAccount,
-  deleteAccount,
-  deleteAccountConfirmation,
-  deleteAccountFailure,
-  deleteAccountReset,
-  deleteAccountCancel,
 }) => {
   const intl = useIntl();
   const [password, setPassword] = useState('');
+  const [status, setStatus] = useState(null);
+  const [errorType, setErrorType] = useState(null);
+
+  const deleteAccountFailure = (error) => {
+    setStatus(DELETE_STATUS.FAILED);
+    setErrorType(error ?? 'server');
+  };
+  const handleMutateSuccess = () => {
+    setStatus(DELETE_STATUS.DELETED);
+  };
+
+  const handleMutateError = (error) => {
+    if (error?.response?.status === 403) {
+        deleteAccountFailure('invalid-password');
+      } else {
+        deleteAccountFailure();
+      }
+  }
+
+  const { mutate: deleteAccount } = useDeleteAccount(handleMutateSuccess, handleMutateError);
+
+  const deleteAccountConfirmation = () => {
+    setStatus(DELETE_STATUS.CONFIRMING);
+  };
 
   const handleSubmit = () => {
     if (password === '') {
@@ -48,12 +58,14 @@ export const DeleteAccount = ({
 
   const handleCancel = () => {
     setPassword('');
-    deleteAccountCancel();
+    setStatus(null);
+    setErrorType(null);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value.trim());
-    deleteAccountReset();
+    setStatus((prev) => prev === DELETE_STATUS.FAILED ? DELETE_STATUS.CONFIRMING : prev);
+    setErrorType(null);
   };
 
   const handleFinalClose = () => {
@@ -151,13 +163,6 @@ export const DeleteAccount = ({
 };
 
 DeleteAccount.propTypes = {
-  deleteAccount: PropTypes.func.isRequired,
-  deleteAccountConfirmation: PropTypes.func.isRequired,
-  deleteAccountFailure: PropTypes.func.isRequired,
-  deleteAccountReset: PropTypes.func.isRequired,
-  deleteAccountCancel: PropTypes.func.isRequired,
-  status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
-  errorType: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   canDeleteAccount: PropTypes.bool,
@@ -166,21 +171,8 @@ DeleteAccount.propTypes = {
 DeleteAccount.defaultProps = {
   hasLinkedTPA: false,
   isVerifiedAccount: true,
-  status: null,
-  errorType: null,
   canDeleteAccount: true,
 };
 
-// Assume we're part of the accountSettings state.
-const mapStateToProps = state => state.accountSettings.deleteAccount;
 
-export default connect(
-  mapStateToProps,
-  {
-    deleteAccount,
-    deleteAccountConfirmation,
-    deleteAccountFailure,
-    deleteAccountReset,
-    deleteAccountCancel,
-  },
-)(DeleteAccount);
+export default DeleteAccount;

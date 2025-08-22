@@ -1,22 +1,23 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
-import { InfoOutline } from '@openedx/paragon/icons';
 import { useIntl } from '@openedx/frontend-base';
 import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
+import { InfoOutline } from '@openedx/paragon/icons';
 
-import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
+import messages from './messages';
 
-import { selectAppPreferences } from './data/selectors';
+import { useNotificationPreferences } from './hooks/useNotificationPreferences';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
-  const preferences = useSelector(selectAppPreferences(appId));
+  const {notificationPreferencesQuery: {data}} = useNotificationPreferences();
+  const preferences = data.preferences.filter(preference => preference.appId === appId);
+  // const preferences = useSelector(selectAppPreferences(appId));
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
 
