@@ -1,6 +1,6 @@
-import { getNotificationPreferences, postPreferenceToggle } from './service';
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getNotificationPreferences, postPreferenceToggle } from './service';
 
 jest.mock('@edx/frontend-platform', () => {
   const actual = jest.requireActual('@edx/frontend-platform');
@@ -38,7 +38,7 @@ describe('Notification Preferences Service', () => {
       const result = await getNotificationPreferences();
 
       expect(mockHttpClient.get).toHaveBeenCalledWith(
-        'http://test.lms/api/notifications/v2/configurations/'
+        'http://test.lms/api/notifications/v2/configurations/',
       );
       expect(result).toEqual(mockData);
     });
@@ -54,7 +54,7 @@ describe('Notification Preferences Service', () => {
         'someType',
         'email',
         true,
-        'daily'
+        'daily',
       );
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
@@ -65,7 +65,7 @@ describe('Notification Preferences Service', () => {
           notification_channel: 'email',
           value: true,
           email_cadence: 'daily',
-        })
+        }),
       );
       expect(result).toEqual(mockData);
     });

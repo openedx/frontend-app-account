@@ -13,7 +13,6 @@ import {
   getVerifiedNameHistory,
   postVerifiedName,
   getCountryList,
-  getSettings,
   patchSettings,
 } from './service';
 

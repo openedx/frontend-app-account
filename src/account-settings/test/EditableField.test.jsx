@@ -1,5 +1,7 @@
 import React from 'react';
-import {render, screen, fireEvent, waitFor, act} from '@testing-library/react';
+import {
+  render, screen, fireEvent, waitFor,
+} from '@testing-library/react';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -20,10 +22,9 @@ jest.mock('../data/actions', () => ({
   closeForm: jest.fn((name) => ({ type: 'CLOSE_FORM', payload: name })),
 }));
 
-jest.mock('../certificate-preference/CertificatePreference', () => {
-  return function MockCertificatePreference({ fieldName }) {
-    return <div data-testid="editable-field-certificate-preference">Certificate Preference for {fieldName}</div>;
-  };
+// eslint-disable-next-line react/prop-types
+jest.mock('../certificate-preference/CertificatePreference', () => function MockCertificatePreference({ fieldName }) {
+  return <div data-testid="editable-field-certificate-preference">Certificate Preference for {fieldName}</div>;
 });
 
 const mockStore = configureStore([]);

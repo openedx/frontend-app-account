@@ -1,7 +1,7 @@
-import { getExistingIdVerification, getEnrollments, submitIdVerification } from './service';
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import qs from 'qs';
+import { getExistingIdVerification, getEnrollments, submitIdVerification } from './service';
 
 jest.mock('@edx/frontend-platform', () => {
   const actual = jest.requireActual('@edx/frontend-platform');
@@ -44,7 +44,7 @@ describe('ID Verification Service', () => {
 
       expect(mockHttpClient.get).toHaveBeenCalledWith(
         'http://test.lms/verify_student/status/',
-        { headers: { Accept: 'application/json' } }
+        { headers: { Accept: 'application/json' } },
       );
       expect(result).toEqual({
         status: 'approved',
@@ -75,7 +75,7 @@ describe('ID Verification Service', () => {
 
       expect(mockHttpClient.get).toHaveBeenCalledWith(
         'http://test.lms/api/enrollment/v1/enrollment',
-        { headers: { Accept: 'application/json' } }
+        { headers: { Accept: 'application/json' } },
       );
       expect(result).toEqual(mockResponse.data);
     });
@@ -111,7 +111,7 @@ describe('ID Verification Service', () => {
       expect(mockHttpClient.post).toHaveBeenCalledWith(
         'http://test.lms/verify_student/submit-photos/',
         'encoded-data',
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
       );
       expect(result).toEqual({ success: true, message: null });
     });

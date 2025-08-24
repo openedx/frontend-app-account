@@ -1,20 +1,20 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render, screen, fireEvent, waitFor,
+} from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { act } from 'react-dom/test-utils';
+import * as reactRedux from 'react-redux';
 import DOBModal from '../DOBForm';
 import messages from '../AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from '../data/constants';
-import { saveSettingsReset } from '../data/actions';
-import { act } from 'react-dom/test-utils';
 
-// Mock the useDispatch hook
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
 }));
 
-// Mock the useIntl hook
 jest.mock('@edx/frontend-platform/i18n', () => ({
   ...jest.requireActual('@edx/frontend-platform/i18n'),
   useIntl: () => ({
@@ -22,13 +22,13 @@ jest.mock('@edx/frontend-platform/i18n', () => ({
   }),
 }));
 
-// Mock Form.Control.Feedback to ensure it renders
 jest.mock('@openedx/paragon', () => ({
   ...jest.requireActual('@openedx/paragon'),
   Form: {
     ...jest.requireActual('@openedx/paragon').Form,
     Control: {
       ...jest.requireActual('@openedx/paragon').Form.Control,
+      // eslint-disable-next-line react/prop-types
       Feedback: ({ children, ...props }) => <div {...props}>{children}</div>,
     },
   },
@@ -50,7 +50,7 @@ describe('DOBModal', () => {
       },
     });
     mockDispatch = jest.fn();
-    jest.spyOn(require('react-redux'), 'useDispatch').mockReturnValue(mockDispatch);
+    jest.spyOn(reactRedux, 'useDispatch').mockReturnValue(mockDispatch); // ✅ replaced require with import
     // Mock localStorage.setItem
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -64,20 +64,18 @@ describe('DOBModal', () => {
     jest.clearAllMocks();
   });
 
-  const renderComponent = (props = {}) => {
-    return render(
-      <Provider store={store}>
-        <IntlProvider locale="en">
-          <DOBModal
-            saveState="default"
-            error={undefined}
-            onSubmit={jest.fn()}
-            {...props}
-          />
-        </IntlProvider>
-      </Provider>
-    );
-  };
+  const renderComponent = (props = {}) => render(
+    <Provider store={store}>
+      <IntlProvider locale="en">
+        <DOBModal
+          saveState="default"
+          error={undefined}
+          onSubmit={jest.fn()}
+          {...props}
+        />
+      </IntlProvider>
+    </Provider>,
+  );
 
   it('renders the modal with correct elements', async () => {
     renderComponent();
@@ -139,7 +137,7 @@ describe('DOBModal', () => {
       });
 
       expect(mockOnSubmit).toHaveBeenCalledWith('extended_profile', [
-        { field_name: 'DOB', field_value: '1990-6' }
+        { field_name: 'DOB', field_value: '1990-6' },
       ]);
     }, { timeout: 2000 });
   });
