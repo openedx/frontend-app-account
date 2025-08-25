@@ -57,7 +57,7 @@ const DOBModal = (props) => {
     if (saveState === 'error' || error) {
       return (
         <Form.Control.Feedback type="invalid" key="general-error" data-testid="error-message">
-          {intl.formatMessage(messages['account.settings.field.dob.error.general'])}
+          {intl.formatMessage(messages['account.settingsfield.dob.error.general'])}
         </Form.Control.Feedback>
       );
     }
