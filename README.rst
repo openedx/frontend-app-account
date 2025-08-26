@@ -218,7 +218,7 @@ Please do not report security issues in public. Please email security@openedx.or
    :target: https://github.com/openedx/edx-developer-docs/actions/workflows/ci.yml
    :alt: Continuous Integration
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/edx/frontend-app-account
-   :target: https://codecov.io/gh/edx/frontend-app-account
+   :target: https://codecov.io/gh/openedx/frontend-app-account/
 .. |npm_version| image:: https://img.shields.io/npm/v/@edx/frontend-app-account.svg
    :target: @edx/frontend-app-account
 .. |npm_downloads| image:: https://img.shields.io/npm/dt/@edx/frontend-app-account.svg

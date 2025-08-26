@@ -84,9 +84,13 @@ const EditableField = (props) => {
     if (!confirmationMessageDefinition || !confirmationValue) {
       return null;
     }
-    return intl.formatMessage(confirmationMessageDefinition, {
-      value: confirmationValue,
-    });
+    return (
+      <span data-testid="editable-field-confirmation">
+        {intl.formatMessage(confirmationMessageDefinition, {
+          value: confirmationValue,
+        })}
+      </span>
+    );
   };
 
   return (
@@ -95,7 +99,7 @@ const EditableField = (props) => {
       cases={{
         editing: (
           <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-testid="editable-field-form">
               <Form.Group
                 controlId={id}
                 isInvalid={error != null}
@@ -108,10 +112,11 @@ const EditableField = (props) => {
                   type={type}
                   value={value}
                   onChange={handleChange}
+                  data-testid="editable-field-textbox"
                   {...others}
                 />
                 {!!helpText && <Form.Text>{helpText}</Form.Text>}
-                {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
+                {error != null && <Form.Control.Feedback hasIcon={false} data-testid="editable-field-error">{error}</Form.Control.Feedback>}
                 {others.children}
               </Form.Group>
               <p>
@@ -133,16 +138,21 @@ const EditableField = (props) => {
                     if (saveState === 'pending') { e.preventDefault(); }
                   }}
                   disabledStates={[]}
+                  data-testid="editable-field-save"
                 />
                 <Button
                   variant="outline-primary"
                   onClick={handleCancel}
+                  data-testid="editable-field-cancel"
+                  data-clicked="cancel"
                 >
                   {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
                 </Button>
               </p>
             </form>
-            {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
+            {['name', 'verified_name'].includes(name) && (
+              <CertificatePreference fieldName={name} data-testid="editable-field-certificate-preference" />
+            )}
           </>
         ),
         default: (
@@ -150,7 +160,7 @@ const EditableField = (props) => {
             <div className="d-flex align-items-start">
               <h6 aria-level="3">{label}</h6>
               {isEditable ? (
-                <Button variant="link" onClick={handleEdit} className="ml-3">
+                <Button variant="link" onClick={handleEdit} className="ml-3" data-testid="editable-field-edit" data-clicked="edit">
                   <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
                 </Button>
               ) : null}

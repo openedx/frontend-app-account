@@ -56,7 +56,7 @@ const DOBModal = (props) => {
   function renderErrors() {
     if (saveState === 'error' || error) {
       return (
-        <Form.Control.Feedback type="invalid" key="general-error">
+        <Form.Control.Feedback type="invalid" key="general-error" data-testid="error-message">
           {intl.formatMessage(messages['account.settingsfield.dob.error.general'])}
         </Form.Control.Feedback>
       );
@@ -72,7 +72,7 @@ const DOBModal = (props) => {
 
   return (
     <>
-      <Button variant="primary" onClick={open}>
+      <Button variant="primary" onClick={open} data-testid="open-modal-button">
         {intl.formatMessage(messages['account.settings.field.dob.form.button'])}
       </Button>
       <ModalDialog
@@ -81,25 +81,27 @@ const DOBModal = (props) => {
         onClose={handleClose}
         hasCloseButton={false}
         variant="default"
+        data-testid="dob-modal"
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="dob-form">
 
           <ModalDialog.Header>
-            <ModalDialog.Title>
+            <ModalDialog.Title data-testid="modal-title">
               {intl.formatMessage(messages['account.settings.field.dob.form.title'])}
             </ModalDialog.Title>
           </ModalDialog.Header>
 
           <ModalDialog.Body className="overflow-hidden" style={{ padding: '1.5rem' }}>
-            <p>{intl.formatMessage(messages['account.settings.field.dob.form.help.text'])}</p>
+            <p data-testid="help-text">{intl.formatMessage(messages['account.settings.field.dob.form.help.text'])}</p>
             <Form.Group>
-              <Form.Label>
+              <Form.Label data-testid="month-label">
                 {intl.formatMessage(messages['account.settings.field.dob.month'])}
               </Form.Label>
               <Form.Control
                 as="select"
                 name="month"
                 onChange={handleChange}
+                data-testid="month-select"
               >
                 <option value="">{intl.formatMessage(messages['account.settings.field.dob.month.default'])}</option>
                 {[...Array(12).keys()].map(month => (
@@ -108,13 +110,14 @@ const DOBModal = (props) => {
               </Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>
+              <Form.Label data-testid="year-label">
                 {intl.formatMessage(messages['account.settings.field.dob.year'])}
               </Form.Label>
               <Form.Control
                 as="select"
                 name="year"
                 onChange={handleChange}
+                data-testid="year-select"
               >
                 <option value="">{intl.formatMessage(messages['account.settings.field.dob.year.default'])}</option>
                 {YEAR_OF_BIRTH_OPTIONS.map(year => (
@@ -127,7 +130,7 @@ const DOBModal = (props) => {
 
           <ModalDialog.Footer>
             <ActionRow>
-              <ModalDialog.CloseButton variant="tertiary">
+              <ModalDialog.CloseButton variant="tertiary" data-testid="cancel-button">
                 Cancel
               </ModalDialog.CloseButton>
               <StatefulButton
@@ -137,6 +140,7 @@ const DOBModal = (props) => {
                   default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
                 }}
                 disabledStates={['unedited']}
+                data-testid="submit-button"
               />
             </ActionRow>
           </ModalDialog.Footer>
