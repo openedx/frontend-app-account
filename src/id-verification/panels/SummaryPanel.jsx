@@ -4,7 +4,7 @@ import {
   Alert, Hyperlink, Form, Button, Spinner,
 } from '@openedx/paragon';
 import { Link, useNavigate } from 'react-router-dom';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/service';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -16,7 +16,8 @@ import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
 import SupportedMediaTypes from '../SupportedMediaTypes';
 
-const SummaryPanel = (props) => {
+const SummaryPanel = () => {
+  const intl = useIntl();
   const panelSlug = 'summary';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
@@ -51,7 +52,7 @@ const SummaryPanel = (props) => {
             profileDataManager,
             support: (
               <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
-                {props.intl.formatMessage(messages['id.verification.support'])}
+                {intl.formatMessage(messages['id.verification.support'])}
               </Hyperlink>
             ),
           }}
@@ -94,7 +95,7 @@ const SummaryPanel = (props) => {
         onClick={handleClick}
         data-testid="submit-button"
       >
-        {props.intl.formatMessage(messages['id.verification.review.confirm'])}
+        {intl.formatMessage(messages['id.verification.review.confirm'])}
       </Button>
     );
   };
@@ -102,18 +103,18 @@ const SummaryPanel = (props) => {
   function getError() {
     if (submissionError.status === 400) {
       if (submissionError.message.includes('face_image')) {
-        return props.intl.formatMessage(messages['id.verification.submission.alert.error.face']);
+        return intl.formatMessage(messages['id.verification.submission.alert.error.face']);
       }
       if (submissionError.message.includes('Photo ID image')) {
-        return props.intl.formatMessage(messages['id.verification.submission.alert.error.id']);
+        return intl.formatMessage(messages['id.verification.submission.alert.error.id']);
       }
       if (submissionError.message.includes('Name')) {
-        return props.intl.formatMessage(messages['id.verification.submission.alert.error.name']);
+        return intl.formatMessage(messages['id.verification.submission.alert.error.name']);
       }
       if (submissionError.message.includes('unsupported format')) {
         return (
           <>
-            {props.intl.formatMessage(messages['id.verification.submission.alert.error.unsupported'])}
+            {intl.formatMessage(messages['id.verification.submission.alert.error.unsupported'])}
             <SupportedMediaTypes />
           </>
         );
@@ -130,7 +131,7 @@ const SummaryPanel = (props) => {
         values={{
           support_link: (
             <Alert.Link href="https://support.edx.org/hc/en-us">
-              {props.intl.formatMessage(
+              {intl.formatMessage(
                 messages['id.verification.review.error'],
                 { siteName: getConfig().SITE_NAME },
               )}
@@ -144,7 +145,7 @@ const SummaryPanel = (props) => {
   return (
     <BasePanel
       name={panelSlug}
-      title={props.intl.formatMessage(messages['id.verification.review.title'])}
+      title={intl.formatMessage(messages['id.verification.review.title'])}
     >
       {submissionError && (
         <Alert
@@ -157,17 +158,17 @@ const SummaryPanel = (props) => {
         </Alert>
       )}
       <p>
-        {props.intl.formatMessage(messages['id.verification.review.description'])}
+        {intl.formatMessage(messages['id.verification.review.description'])}
       </p>
       <div className="row mb-4">
         <div className="col-6">
           <label htmlFor="photo-of-face" className="font-weight-bold">
-            {props.intl.formatMessage(messages['id.verification.review.portrait.label'])}
+            {intl.formatMessage(messages['id.verification.review.portrait.label'])}
           </label>
           <ImagePreview
             id="photo-of-face"
             src={facePhotoFile}
-            alt={props.intl.formatMessage(messages['id.verification.review.portrait.alt'])}
+            alt={intl.formatMessage(messages['id.verification.review.portrait.alt'])}
           />
           <Link
             className="btn btn-outline-primary"
@@ -175,17 +176,17 @@ const SummaryPanel = (props) => {
             state={{ fromSummary: true }}
             data-testid="portrait-retake"
           >
-            {props.intl.formatMessage(messages['id.verification.review.portrait.retake'])}
+            {intl.formatMessage(messages['id.verification.review.portrait.retake'])}
           </Link>
         </div>
         <div className="col-6">
           <label htmlFor="photo-of-id/edit" className="font-weight-bold">
-            {props.intl.formatMessage(messages['id.verification.review.id.label'])}
+            {intl.formatMessage(messages['id.verification.review.id.label'])}
           </label>
           <ImagePreview
             id="photo-of-id"
             src={idPhotoFile}
-            alt={props.intl.formatMessage(messages['id.verification.review.id.alt'])}
+            alt={intl.formatMessage(messages['id.verification.review.id.alt'])}
           />
           <Link
             className="btn btn-outline-primary"
@@ -193,14 +194,14 @@ const SummaryPanel = (props) => {
             state={{ fromSummary: true }}
             data-testid="id-retake"
           >
-            {props.intl.formatMessage(messages['id.verification.review.id.retake'])}
+            {intl.formatMessage(messages['id.verification.review.id.retake'])}
           </Link>
         </div>
       </div>
       <CameraHelpWithUpload />
       <div className="form-group">
         <label htmlFor="name-to-be-used" className="font-weight-bold">
-          {props.intl.formatMessage(messages['id.verification.name.label'])}
+          {intl.formatMessage(messages['id.verification.name.label'])}
         </label>
         {renderManagedProfileMessage()}
         <div className="d-flex">
@@ -236,8 +237,4 @@ const SummaryPanel = (props) => {
   );
 };
 
-SummaryPanel.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(SummaryPanel);
+export default SummaryPanel;
