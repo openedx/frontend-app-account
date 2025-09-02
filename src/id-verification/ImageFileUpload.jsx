@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { intlShape } from '@edx/frontend-platform/i18n';
+import { useCallback, useState } from 'react';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import PropTypes from 'prop-types';
 import { Alert } from '@openedx/paragon';
 import messages from './IdVerification.messages';
 import SupportedMediaTypes from './SupportedMediaTypes';
 
-const ImageFileUpload = ({ onFileChange, intl }) => {
+const ImageFileUpload = ({ onFileChange }) => {
+  const intl = useIntl();
   const [error, setError] = useState(null);
   const errorTypes = {
     invalidFileType: 'invalidFileType',
@@ -58,7 +59,6 @@ const ImageFileUpload = ({ onFileChange, intl }) => {
 
 ImageFileUpload.propTypes = {
   onFileChange: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default ImageFileUpload;

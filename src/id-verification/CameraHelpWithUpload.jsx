@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Collapsible } from '@openedx/paragon';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@edx/frontend-platform/i18n';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 
 import messages from './IdVerification.messages';
@@ -11,6 +11,7 @@ import ImagePreview from './ImagePreview';
 import SupportedMediaTypes from './SupportedMediaTypes';
 
 const CameraHelpWithUpload = (props) => {
+  const intl = useIntl();
   const { setIdPhotoFile, idPhotoFile, userId } = useContext(IdVerificationContext);
   const [hasUploadedImage, setHasUploadedImage] = useState(false);
 
@@ -27,24 +28,23 @@ const CameraHelpWithUpload = (props) => {
     <div>
       <Collapsible
         styling="card"
-        title={props.intl.formatMessage(messages['id.verification.id.photo.unclear.question'])}
+        title={intl.formatMessage(messages['id.verification.id.photo.unclear.question'])}
         data-testid="collapsible"
         className="mb-4 shadow"
         defaultOpen={props.isOpen}
       >
-        {idPhotoFile && hasUploadedImage && <ImagePreview src={idPhotoFile} alt={props.intl.formatMessage(messages['id.verification.id.photo.preview.alt'])} />}
+        {idPhotoFile && hasUploadedImage && <ImagePreview src={idPhotoFile} alt={intl.formatMessage(messages['id.verification.id.photo.preview.alt'])} />}
         <p>
-          {props.intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
+          {intl.formatMessage(messages['id.verification.id.photo.instructions.upload'])}
           <SupportedMediaTypes />
         </p>
-        <ImageFileUpload onFileChange={setAndTrackIdPhotoFile} intl={props.intl} />
+        <ImageFileUpload onFileChange={setAndTrackIdPhotoFile} />
       </Collapsible>
     </div>
   );
 };
 
 CameraHelpWithUpload.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
 };
 
@@ -52,4 +52,4 @@ CameraHelpWithUpload.defaultProps = {
   isOpen: false,
 };
 
-export default injectIntl(CameraHelpWithUpload);
+export default CameraHelpWithUpload;
