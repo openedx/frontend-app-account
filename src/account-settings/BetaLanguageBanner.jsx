@@ -1,8 +1,7 @@
 import { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Hyperlink } from '@openedx/paragon';
 
 import { betaLanguageBannerSelector } from './data/selectors';
@@ -11,8 +10,10 @@ import { saveSettings } from './data/actions';
 import { TRANSIFEX_LANGUAGE_BASE_URL } from './data/constants';
 import Alert from './Alert';
 
-const BetaLanguageBanner = ({ siteLanguage = null, siteLanguageList }) => {
+const BetaLanguageBanner = () => {
   const intl = useIntl();
+  const dispatch = useDispatch();
+  const { siteLanguage = null, siteLanguageList = [] } = useSelector(betaLanguageBannerSelector);
   const { locale } = useContext(AppContext);
 
   const getSiteLanguageEntry = (languageCode) => siteLanguageList.filter(l => l.code === languageCode)[0];
@@ -43,7 +44,7 @@ const BetaLanguageBanner = ({ siteLanguage = null, siteLanguageList }) => {
 
   const handleRevertLanguage = () => {
     const previousSiteLanguage = siteLanguage.previousValue;
-    saveSettings('siteLanguage', previousSiteLanguage);
+    dispatch(saveSettings('siteLanguage', previousSiteLanguage));
   };
 
   const savedLanguage = getSiteLanguageEntry(locale);
@@ -88,23 +89,4 @@ const BetaLanguageBanner = ({ siteLanguage = null, siteLanguageList }) => {
   );
 };
 
-BetaLanguageBanner.contextType = AppContext;
-
-BetaLanguageBanner.propTypes = {
-  siteLanguage: PropTypes.shape({
-    previousValue: PropTypes.string,
-    draft: PropTypes.string,
-  }),
-  siteLanguageList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    code: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    released: PropTypes.bool,
-  })).isRequired,
-};
-
-export default connect(
-  betaLanguageBannerSelector,
-  {
-    saveSettings,
-  },
-)(BetaLanguageBanner);
+export default BetaLanguageBanner;
