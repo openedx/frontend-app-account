@@ -4,7 +4,7 @@ import {
   useEffect, useContext, useMemo, createRef, useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import memoize from 'memoize-one';
 import findIndex from 'lodash.findindex';
 import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
@@ -71,6 +71,7 @@ const AccountSettingsPage = ({
   },
   ...props
 }) => {
+  const dispatch = useDispatch();
   const intl = useIntl();
   const appContext = useContext(AppContext);
   const [duplicateTpaProvider, setDuplicateTpaProvider] = useState(null);
@@ -81,9 +82,9 @@ const AccountSettingsPage = ({
     if (initialDuplicateTpaProvider) {
       setDuplicateTpaProvider(initialDuplicateTpaProvider);
     }
-    props.fetchNotificationPreferences();
-    props.fetchSettings();
-    props.fetchSiteLanguages(navigate);
+    dispatch(fetchNotificationPreferences());
+    dispatch(fetchSettings());
+    dispatch(fetchSiteLanguages(navigate));
     sendTrackingLogEvent('edx.user.settings.viewed', {
       page: 'account',
       visibility: null,
@@ -103,7 +104,7 @@ const AccountSettingsPage = ({
   }), []);
 
   useEffect(() => {
-    if (loading && !loaded && loaded) {
+    if (loading && loaded) {
       const locationHash = global.location.hash;
       // Check for the locationHash in the URL and then scroll to it if it is in the
       // NavLinks list
@@ -189,7 +190,7 @@ const AccountSettingsPage = ({
   const canDeleteAccount = () => !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country);
 
   const handleEditableFieldChange = (name, value) => {
-    updateDraft(name, value);
+    dispatch(updateDraft(name, value));
   };
 
   const handleSubmit = (formId, values) => {
@@ -207,12 +208,12 @@ const AccountSettingsPage = ({
           : field)),
       };
     }
-    saveSettings(formId, values, extendedProfileObject);
+    dispatch(saveSettings(formId, values, extendedProfileObject));
   };
 
   const handleSubmitProfileName = (formId, values) => {
     if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
-      saveMultipleSettings([
+      dispatch(saveMultipleSettings([
         {
           formId,
           commitValues: values,
@@ -221,20 +222,20 @@ const AccountSettingsPage = ({
           formId: 'useVerifiedNameForCerts',
           commitValues: props.formValues.useVerifiedNameForCerts,
         },
-      ], formId);
+      ], formId));
     } else {
-      saveSettings(formId, values);
+      dispatch(saveSettings(formId, values));
     }
   };
 
   const handleSubmitVerifiedName = (formId, values) => {
     if (Object.keys(props.drafts).includes('useVerifiedNameForCerts')) {
-      saveSettings('useVerifiedNameForCerts', props.formValues.useVerifiedNameForCerts);
+      dispatch(saveSettings('useVerifiedNameForCerts', props.formValues.useVerifiedNameForCerts));
     }
     if (values !== props.committedValues?.verified_name) {
-      beginNameChange(formId);
+      dispatch(beginNameChange(formId));
     } else {
-      saveSettings(formId, values);
+      dispatch(saveSettings(formId, values));
     }
   };
 
@@ -931,13 +932,6 @@ AccountSettingsPage.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
-  fetchSiteLanguages: PropTypes.func.isRequired,
-  updateDraft: PropTypes.func.isRequired,
-  saveMultipleSettings: PropTypes.func.isRequired,
-  saveSettings: PropTypes.func.isRequired,
-  fetchSettings: PropTypes.func.isRequired,
-  beginNameChange: PropTypes.func.isRequired,
-  fetchNotificationPreferences: PropTypes.func.isRequired,
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
@@ -1001,12 +995,4 @@ AccountSettingsPage.defaultProps = {
   countriesCodesList: [],
 };
 
-export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
-  fetchNotificationPreferences,
-  fetchSettings,
-  saveSettings,
-  saveMultipleSettings,
-  updateDraft,
-  fetchSiteLanguages,
-  beginNameChange,
-})(AccountSettingsPage)));
+export default withLocation(withNavigate(connect(accountSettingsPageSelector)(AccountSettingsPage)));
