@@ -1,14 +1,14 @@
 /* eslint-disable no-import-assign */
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
-  waitFor,
 } from '@testing-library/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import CameraPhoto from 'jslib-html5-camera-photo';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import * as analytics from '@edx/frontend-platform/analytics';
-import CameraPhoto from 'jslib-html5-camera-photo';
 import IdVerificationContext from '../IdVerificationContext';
 import Camera from '../Camera';
 
@@ -18,15 +18,19 @@ jest.mock('@edx/frontend-platform/analytics');
 
 analytics.sendTrackEvent = jest.fn();
 
-window.HTMLMediaElement.prototype.play = jest.fn().mockImplementation(() => Promise.resolve());
+window.HTMLMediaElement.prototype.play = () => {};
 
-describe('Camera Component', () => {
+const IntlCamera = injectIntl(Camera);
+
+describe('SubmittedPanel', () => {
   const defaultProps = {
+    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: true,
   };
 
   const idProps = {
+    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: false,
   };
@@ -35,7 +39,6 @@ describe('Camera Component', () => {
 
   afterEach(() => {
     cleanup();
-    jest.clearAllMocks();
   });
 
   it('takes photo', async () => {
@@ -43,7 +46,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -59,7 +62,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -73,7 +76,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...idProps} />
+            <IntlCamera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -88,7 +91,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -106,7 +109,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -126,7 +129,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -145,22 +148,18 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...defaultProps} />
+            <IntlCamera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
     )));
 
-    fireEvent.loadedData(screen.queryByTestId('video'));
+    await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    fireEvent.click(checkbox);
-    await waitFor(() => {
-      expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
-    });
-    fireEvent.click(checkbox);
-    await waitFor(() => {
-      expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
-    });
+    await fireEvent.click(checkbox);
+    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
+    await fireEvent.click(checkbox);
+    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
   });
 
   it('sends tracking events on id photo page', async () => {
@@ -170,7 +169,7 @@ describe('Camera Component', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <Camera {...idProps} />
+            <IntlCamera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -178,14 +177,10 @@ describe('Camera Component', () => {
 
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    fireEvent.click(checkbox);
-    await waitFor(() => {
-      expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
-    });
-    fireEvent.click(checkbox);
-    await waitFor(() => {
-      expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
-    });
+    await fireEvent.click(checkbox);
+    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
+    await fireEvent.click(checkbox);
+    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
   });
 
   describe('Camera getSizeFactor method', () => {

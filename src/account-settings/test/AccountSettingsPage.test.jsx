@@ -7,7 +7,7 @@ import {
   render, screen, fireEvent,
 } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
@@ -37,6 +37,8 @@ jest.mock('@edx/frontend-platform', () => ({
   getCountryList: jest.fn(() => [{ code: 'US', name: 'United States' }]),
   getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }]),
 }));
+
+const IntlAccountSettingsPage = injectIntl(AccountSettingsPage);
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -136,7 +138,7 @@ describe('AccountSettingsPage', () => {
   });
 
   it('renders AccountSettingsPage correctly with editing enabled', async () => {
-    const { getByText, rerender, getByLabelText } = render(reduxWrapper(<AccountSettingsPage {...props} />));
+    const { getByText, rerender, getByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
 
     const workExperienceText = getByText('Work Experience');
     const workExperienceEditButton = workExperienceText.parentElement.querySelector('button');
@@ -150,7 +152,7 @@ describe('AccountSettingsPage', () => {
         openFormId: 'work_experience',
       },
     });
-    rerender(reduxWrapper(<AccountSettingsPage {...props} />));
+    rerender(reduxWrapper(<IntlAccountSettingsPage {...props} />));
 
     const submitButton = screen.getByText('Save');
     expect(submitButton).toBeInTheDocument();
