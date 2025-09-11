@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -10,20 +10,19 @@ import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
 import messages from './messages';
 
-import { useNotificationPreferences } from './hooks/useNotificationPreferences';
+import { useNotificationPreferences } from './hooks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
-  const {notificationPreferencesQuery: {data}} = useNotificationPreferences();
-  const preferences = data.preferences.filter(preference => preference.appId === appId);
-  // const preferences = useSelector(selectAppPreferences(appId));
+  const { notificationPreferencesQuery } = useNotificationPreferences();
+  const preferences = useMemo(() => notificationPreferencesQuery.data?.preferences?.filter(preference => preference.appId === appId), [notificationPreferencesQuery.data, appId]);
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
 
   return (
     <div className="d-flex flex-column mr-auto px-0">
-      {preferences.map(preference => (
+      {preferences?.map(preference => (
         (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
         <>
           <div

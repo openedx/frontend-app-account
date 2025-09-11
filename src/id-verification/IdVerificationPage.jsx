@@ -1,4 +1,4 @@
-import { getSiteConfig } from '@openedx/frontend-base';
+import { getSiteConfig, useIntl} from '@openedx/frontend-base';
 import { ActionRow, Button, ModalDialog } from '@openedx/paragon';
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';

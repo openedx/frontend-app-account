@@ -5,9 +5,9 @@ import { EMAIL_CADENCE_PREFERENCES } from './constants';
 export const notificationChannels = () => ({ WEB: 'web', ...(getAppConfig(appId).SHOW_EMAIL_CHANNEL === 'true' && { EMAIL: 'email' }) });
 
 export const shouldHideAppPreferences = (preferences, appId) => {
-  const appPreferences = preferences.filter(pref => pref.appId === appId);
+  const appPreferences = preferences?.filter(pref => pref.appId === appId);
 
-  if (appPreferences.length !== 1) {
+  if (appPreferences?.length !== 1) {
     return false;
   }
 

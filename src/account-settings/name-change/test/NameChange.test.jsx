@@ -1,177 +1,298 @@
 /* eslint-disable no-import-assign */
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import { IntlProvider, injectIntl, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
+import { IntlProvider } from '@openedx/frontend-base';
+import NameChangeModal from '../NameChange';
+import { useSettingsFormDataState } from '../../hooks';
+import { useNameChangeMutation } from '../hooks'; 
+import { transformFormValues } from '../../hooks/utils'; 
 
-// Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
-  createPortal: jest.fn(node => node), // Mock portal behavior
+  createPortal: jest.fn(node => node),
 }));
 
-import NameChange from '../NameChange'; // eslint-disable-line import/first
+jest.mock('../../hooks', () => ({
+  useSettingsFormDataState: jest.fn(),
+}));
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
+jest.mock('../hooks', () => ({
+  useNameChangeMutation: jest.fn(),
+}));
+
+jest.mock('../../hooks/utils', () => ({
+  transformFormValues: jest.fn(),
+}));
+
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
 }));
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(() => ({
-    userId: 123,
-    username: 'test-user',
+    username: 'testuser',
   })),
 }));
-jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ nameChangeSelector: () => ({}) })));
 
-const IntlNameChange = injectIntl(NameChange);
 
-const mockStore = configureStore();
-
-describe('NameChange', () => {
+describe('NameChangeModal', () => {
   let props = {};
-  let store = {};
+  let user;
+  let mockCloseForm;
+  let mockRequestNameChange;
 
-  const reduxWrapper = children => (
-    <Router>
-      <IntlProvider locale="en">
-        <Provider store={store}>{children}</Provider>
-      </IntlProvider>
-    </Router>
-  );
+  const renderComponent = (additionalProps = {}) => {
+    return render(
+      <Router>
+        <IntlProvider locale="en">
+          <NameChangeModal {...props} {...additionalProps} />
+        </IntlProvider>
+      </Router>
+    );
+  };
 
   beforeEach(() => {
-    store = mockStore();
+    user = userEvent.setup();
+    
+    mockCloseForm = jest.fn();
+    mockRequestNameChange = jest.fn();
+
+    useSettingsFormDataState.mockReturnValue({
+      settingsFormDataState: {
+        formValues: {
+          name: 'John Doe',
+          verified_name: 'John Verified Doe',
+        },
+      },
+      closeForm: mockCloseForm,
+    });
+
+    useNameChangeMutation.mockReturnValue({
+      mutate: mockRequestNameChange,
+    });
+
+    transformFormValues.mockReturnValue({
+      name: 'John Doe',
+      verified_name: 'John Verified Doe',
+    });
+
     props = {
       targetFormId: 'test_form',
-      errors: {},
-      formValues: {
-        name: 'edx edx',
-        verified_name: 'edX Verified',
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    mockNavigate.mockClear();
+  });
+
+  it('should render initial warning screen with continue button', () => {
+    renderComponent();
+    
+    expect(screen.getByText(/This name change requires identity verification/i)).toBeInTheDocument();
+    
+    expect(screen.getByText(/Warning: This action updates the name/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument();
+    
+    expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+  });
+
+  it('should show input field after clicking continue button', async () => {
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    expect(screen.getByLabelText(/Before we begin/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/enter.*name.*photo.*id/i)).toBeInTheDocument();
+  });
+
+  it('should populate input with verified_name when available', async () => {
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    expect(input).toHaveValue('John Verified Doe');
+  });
+
+  it('should render empty input when verified_name is not available', async () => {
+    transformFormValues.mockReturnValue({
+      name: 'John Doe',
+      verified_name: '',
+    });
+    
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    expect(input).toHaveValue('');
+  });
+
+  it('should allow user to type in the input field', async () => {
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    await user.type(input, 'New Verified Name');
+    
+    expect(input).toHaveValue('New Verified Name');
+  });
+
+  it('should call requestNameChange on form submit with correct data', async () => {
+    renderComponent({ targetFormId: 'name' });
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    await user.type(input, 'Test Verified Name');
+    
+    const submitButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(submitButton);
+    
+    expect(mockRequestNameChange).toHaveBeenCalledWith({
+      username: 'testuser',
+      draftProfileName: 'John Doe',
+      verifiedNameInput: 'Test Verified Name',
+    });
+  });
+
+  it('should not include profile name when targetForm is not "name"', async () => {
+    renderComponent({ targetFormId: 'other_form' });
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    await user.type(input, 'Test Verified Name');
+    
+    const submitButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(submitButton);
+    
+    expect(mockRequestNameChange).toHaveBeenCalledWith({
+      username: 'testuser',
+      draftProfileName: null,
+      verifiedNameInput: 'Test Verified Name',
+    });
+  });
+
+  it('should show error message when submitting empty name', async () => {
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    
+    const submitButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(submitButton);
+    
+    expect(screen.getByText(/please enter a valid name/i)).toBeInTheDocument();
+    
+    expect(mockRequestNameChange).not.toHaveBeenCalled();
+  });
+
+  it('should close modal when cancel button is clicked', async () => {
+    renderComponent();
+    
+    const cancelButton = screen.getByRole('button', { name: /cancel/i });
+    await user.click(cancelButton);
+    
+    expect(mockCloseForm).toHaveBeenCalledWith('test_form');
+  });
+
+  it('should navigate to ID verification on successful submission', async () => {
+    const mockSuccessCallback = jest.fn();
+    useNameChangeMutation.mockImplementation((onSuccess) => {
+      mockSuccessCallback.mockImplementation(onSuccess);
+      return { mutate: mockRequestNameChange };
+    });
+    
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    await user.type(input, 'Test Name');
+    
+    const submitButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(submitButton);
+    
+    mockSuccessCallback();
+    
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/id-verification?next=account%2Fsettings');
+      expect(mockCloseForm).toHaveBeenCalledWith('test_form');
+    });
+  });
+
+  it('should handle mutation errors properly', async () => {
+    const mockErrorCallback = jest.fn();
+    useNameChangeMutation.mockImplementation((onSuccess, onError) => {
+      mockErrorCallback.mockImplementation(onError);
+      return { mutate: mockRequestNameChange };
+    });
+    
+    renderComponent();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    await user.clear(input);
+    await user.type(input, 'Test Name');
+    
+    const submitButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(submitButton);
+    
+    const mockError = {
+      customAttributes: {
+        httpErrorResponseData: {
+          verified_name: 'Invalid name format',
+        },
       },
-      saveState: null,
-      intl: {},
     };
-
-    getAuthenticatedHttpClient = jest.fn(() => ({
-      patch: async () => ({
-        data: { status: 200 },
-        catch: () => {},
-      }),
-    }));
-    getAuthenticatedUser = jest.fn(() => ({ userId: 3, username: 'edx' }));
+    mockErrorCallback(mockError);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Invalid name format')).toBeInTheDocument();
+    });
   });
 
-  afterEach(() => jest.clearAllMocks());
-
-  it('renders populated input after clicking continue if verified_name in form data', async () => {
-    const getInput = () => screen.queryByPlaceholderText('Enter the name on your photo ID');
-
-    render(reduxWrapper(<IntlNameChange {...props} />));
-    expect(getInput()).toBeNull();
-
-    const continueButton = screen.getByText('Continue');
-    fireEvent.click(continueButton);
-
-    expect(getInput().value).toBe('edX Verified');
+  it('should have proper accessibility attributes', async () => {
+    renderComponent();
+    
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    await user.click(continueButton);
+    
+    const input = screen.getByPlaceholderText(/enter.*name.*photo.*id/i);
+    expect(input).toHaveAccessibleName();
+    expect(input).toHaveAttribute('type', 'text');
   });
 
-  it('renders empty input after clicking continue if verified_name not in form data', async () => {
-    const getInput = () => screen.queryByPlaceholderText('Enter the name on your photo ID');
-    const formProps = {
-      ...props,
-      formValues: {
-        name: 'edx edx',
-      },
-    };
-    render(reduxWrapper(<IntlNameChange {...formProps} />));
-
-    const continueButton = screen.getByText('Continue');
-    fireEvent.click(continueButton);
-
-    expect(getInput().value).toBe('');
-  });
-
-  it('dispatches verifiedName on submit if targetForm is not "name"', async () => {
-    const dispatchData = {
-      payload: {
-        profileName: null,
-        username: 'edx',
-        verifiedName: 'Verified Name',
-      },
-      type: 'ACCOUNT_SETTINGS__REQUEST_NAME_CHANGE',
-    };
-
-    render(reduxWrapper(<IntlNameChange {...props} />));
-
-    const continueButton = screen.getByText('Continue');
-    fireEvent.click(continueButton);
-
-    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
-    fireEvent.change(input, { target: { value: 'Verified Name' } });
-
-    const submitButton = screen.getByText('Continue');
-    fireEvent.click(submitButton);
-    expect(mockDispatch).toHaveBeenCalledWith(dispatchData);
-  });
-
-  it('dispatches both profileName and verifiedName on submit if the targetForm is "name"', async () => {
-    const dispatchData = {
-      payload: {
-        profileName: 'edx edx',
-        username: 'edx',
-        verifiedName: 'Verified Name',
-      },
-      type: 'ACCOUNT_SETTINGS__REQUEST_NAME_CHANGE',
-    };
-    const formProps = {
-      ...props,
-      targetFormId: 'name',
-    };
-
-    render(reduxWrapper(<IntlNameChange {...formProps} />));
-
-    const continueButton = screen.getByText('Continue');
-    fireEvent.click(continueButton);
-
-    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
-    fireEvent.change(input, { target: { value: 'Verified Name' } });
-
-    const submitButton = screen.getByText('Continue');
-    fireEvent.click(submitButton);
-    expect(mockDispatch).toHaveBeenCalledWith(dispatchData);
-  });
-
-  it('does not dispatch action while pending', async () => {
-    props.saveState = 'pending';
-
-    render(reduxWrapper(<IntlNameChange {...props} />));
-
-    const continueButton = screen.getByText('Continue');
-    fireEvent.click(continueButton);
-
-    const input = screen.getByPlaceholderText('Enter the name on your photo ID');
-    fireEvent.change(input, { target: { value: 'Verified Name' } });
-
-    const submitButton = screen.getByText('Continue');
-    fireEvent.click(submitButton);
-    expect(mockDispatch).not.toHaveBeenCalled();
-  });
-
-  it('routes to IDV when name change request is successful', async () => {
-    props.saveState = 'complete';
-
-    render(reduxWrapper(<IntlNameChange {...props} />));
-    expect(window.location.pathname).toEqual('/id-verification');
-  });
 });

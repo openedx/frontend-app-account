@@ -5,7 +5,7 @@ describe('MockedSlot', () => {
   it('renders mock plugin with "PluginSlot" text', () => {
     render(<MockedSlot id="test_plugin" />);
 
-    const component = screen.getByText('PluginSlot_test_plugin');
+    const component = screen.getByText('Slot_test_plugin');
     expect(component).toBeInTheDocument();
   });
 
@@ -22,7 +22,7 @@ describe('MockedSlot', () => {
     expect(component).toBeInTheDocument();
     const slot = component.querySelector('[data-testid="test_plugin"]');
     expect(slot).toBeInTheDocument();
-    expect(slot).toHaveTextContent('PluginSlot_test_plugin');
+    expect(slot).toHaveTextContent('Slot_test_plugin');
     // Check if the quote is a direct child of the MockedSlot
     const quote = slot.querySelector('q');
     expect(quote).toBeInTheDocument();

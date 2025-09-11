@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo }from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from '@openedx/frontend-base';
 import { Collapsible } from '@openedx/paragon';
 import { useIsOnMobile } from '../hooks';
+import { useNotificationPreferences } from './hooks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 import NotificationTypes from './NotificationTypes';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
@@ -13,7 +14,7 @@ import messages from './messages';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const intl = useIntl();
-  const {notificationPreferencesQuery: {data}} = useNotificationPreferences();
+  const {notificationPreferencesQuery: { data }} = useNotificationPreferences();
   const appPreferences = useMemo(() => data?.preferences?.filter(preference => preference.appId === appId), [data, appId]);
   const appToggle = useMemo(() => data?.apps?.find(app => app.id === appId)?.enabled, [data, appId]);
   const mobileView = useIsOnMobile();

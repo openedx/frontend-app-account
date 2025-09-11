@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const MockedSlot = ({ children, id }) => (
   <div data-testid={id}>
-    Slot{id}
+    Slot_{id}
     { children && <div>{children}</div> }
   </div>
 );

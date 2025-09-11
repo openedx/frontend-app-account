@@ -49,6 +49,7 @@
     "@tensorflow-models/blazeface": "0.1.0",
     "@tensorflow/tfjs-converter": "4.22.0",
     "@tensorflow/tfjs-core": "4.22.0",
+    "@testing-library/user-event": "^14.6.1",
     "bowser": "2.11.0",
     "classnames": "2.5.1",
     "core-js": "3.41.0",

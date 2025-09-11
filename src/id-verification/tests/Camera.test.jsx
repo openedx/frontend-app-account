@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
+import { IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import IdVerificationContext from '../IdVerificationContext';
@@ -13,21 +13,21 @@ import Camera from '../Camera';
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');
 
-sendTrackEvent = jest.fn();
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  sendTrackEvent: jest.fn(),
+}));
 
 window.HTMLMediaElement.prototype.play = () => {};
 
-const IntlCamera = injectIntl(Camera);
 
-describe('SubmittedPanel', () => {
+describe('Camera', () => {
   const defaultProps = {
-    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: true,
   };
 
   const idProps = {
-    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: false,
   };
@@ -43,7 +43,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -59,7 +59,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -73,7 +73,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...idProps} />
+            <Camera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -88,7 +88,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -106,7 +106,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -126,7 +126,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -145,7 +145,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -166,7 +166,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...idProps} />
+            <Camera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>

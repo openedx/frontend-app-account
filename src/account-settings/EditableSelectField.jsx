@@ -48,7 +48,7 @@ const EditableSelectField = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(name, new FormData(e.target).get(name));
+    onSubmit(name, localValue);
   };
 
   const handleChange = (e) => {

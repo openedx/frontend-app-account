@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -12,18 +12,21 @@ import {
 } from './data/constants';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import EmailCadences from './EmailCadences';
-import { useNotificationPreferences } from './hooks/useNotificationPreferences';
+import { useNotificationPreferences } from './hooks';
 import messages from './messages';
 import ToggleSwitch from './ToggleSwitch';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const intl = useIntl();
-  const { notificationPreferencesQuery: {data}, notificationPreferencesState, notificationPreferencesMutation} = useNotificationPreferences();
+  const { notificationPreferencesQuery: { data }, notificationPreferencesState, notificationPreferencesMutation} = useNotificationPreferences();
   const courseId = notificationPreferencesState?.selectedCourse;
-  const appPreferences = useMemo(() => data.preferences.filter(preference => preference.appId === appId), [data, appId]);
+  const { appPreferences, hideAppPreferences } = useMemo(() => { 
+    const appPreferences = data?.preferences?.filter(preference => preference.appId === appId); 
+    const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
+    return { appPreferences, hideAppPreferences };
+  }, [data, appId]);
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
-  const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
   const getValue = useCallback((notificationChannel, innerText, checked) => {
     if (notificationChannel === EMAIL_CADENCE && courseId) {
@@ -113,7 +116,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       )}
       {appPreference
         ? renderPreference(appPreference)
-        : appPreferences.map((preference) => (renderPreference(preference)))}
+        : appPreferences?.map((preference) => (renderPreference(preference)))}
     </div>
   );
 };

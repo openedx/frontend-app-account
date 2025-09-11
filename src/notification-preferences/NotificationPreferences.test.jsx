@@ -1,34 +1,20 @@
-/* eslint-disable no-import-assign */
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import { IntlProvider, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { IntlProvider, initializeMockApp } from '@openedx/frontend-base';
 import { fireEvent, render, screen } from '@testing-library/react';
-
-import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
-import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { useNotificationPreferences, useCourseList, useNotificationPreferencesState} from './hooks';
+import userErvent from '@testing-library/user-event';
 
 const courseId = 'selected-course-id';
 
-const mockStore = configureStore();
-
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
-}));
-jest.mock('@openedx/frontend-base', () => ({
-  ...jest.requireActual('@openedx/frontend-base'),
-  getAuthenticatedUser: jest.fn(() => ({
-    userId: 123,
-    username: 'test-user',
-  })),
+jest.mock('./hooks', () => ({
+  useNotificationPreferences: jest.fn(),
+  useCourseList: jest.fn(),
+  useNotificationPreferencesState: jest.fn(),
 }));
 
 const defaultPreferences = {
-  status: SUCCESS_STATUS,
   selectedCourse: courseId,
   apps: [
     { id: 'discussion', enabled: true },
@@ -77,88 +63,101 @@ const defaultPreferences = {
   },
 };
 
-const setupStore = (override = {}) => {
-  const storeState = defaultState;
-  storeState.courses = {
-    status: SUCCESS_STATUS,
-    courses: [
-      { id: '', name: 'Account' },
-      { id: 'selected-course-id', name: 'Selected Course' },
-    ],
-  };
-  storeState.preferences = {
-    ...storeState.preferences,
-    ...override,
-  };
-  const store = mockStore({
-    notificationPreferences: storeState,
-  });
-  return store;
-};
-
-const notificationPreferences = (store = {}) => (
-  <Router>
-    <IntlProvider locale="en">
-      <Provider store={store}>
-        <NotificationPreferences />
-      </Provider>
-    </IntlProvider>
-  </Router>
-);
 
 describe('Notification Preferences', () => {
-  let store;
+  let queryClient;
+  const getNotificationPreferences = (store = {}) => (
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <IntlProvider locale="en">
+          <NotificationPreferences />
+        </IntlProvider>
+      </QueryClientProvider>
+    </Router>
+);
+
+  const mockUseCourseList = (isLoading = false) => {
+    useCourseList.mockReturnValue({
+      isLoading,
+    });
+  };
+
+  const mockUseNotificationPreferences = (data = defaultPreferences, isLoading = false, isPending = false, mockDispatch = jest.fn()) => {
+    useNotificationPreferences.mockReturnValue({
+      notificationPreferencesQuery: {
+        data,
+        isLoading,
+      },
+      notificationPreferencesMutation: { mutate: mockDispatch, isPending },
+    });
+  };
+
+  const mockUseNotificationPreferencesState = (selectedCourse = courseId) => { 
+    useNotificationPreferencesState.mockReturnValue({
+      notificationPreferencesState: {
+        selectedCourse,
+      },
+      setSelectedCourse: jest.fn(),
+    });
+  };
 
   beforeEach(() => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: courseId,
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+        mutations: { retry: false },
+      },
+    });
+    initializeMockApp({
+      authenticatedUser: {
+        userId: 123,
+        username: 'test-user',
+        administrator: true,
+        roles: [],
+      },
     });
 
-    getAuthenticatedHttpClient = jest.fn(() => ({
-      patch: async () => ({
-        data: { status: 200 },
-        catch: () => {},
-      }),
-    }));
-    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    mockUseCourseList();
+    mockUseNotificationPreferences();
+    mockUseNotificationPreferencesState();
   });
 
   afterEach(() => jest.clearAllMocks());
 
   it('tests if all notification apps are listed', async () => {
-    await render(notificationPreferences(store));
+    await render(getNotificationPreferences());
     expect(screen.queryByTestId('discussion-app')).toBeInTheDocument();
     expect(screen.queryByTestId('coursework-app')).toBeInTheDocument();
   });
 
   it('show spinner if api call is in progress', async () => {
-    store = setupStore({ status: LOADING_STATUS });
-    await render(notificationPreferences(store));
+    mockUseCourseList(true);
+    await render(getNotificationPreferences());
     expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
   });
 
   it('tests if all notification preferences are listed', async () => {
-    await render(notificationPreferences(store));
+    await render(getNotificationPreferences());
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
   });
 
   it('update preference on click', async () => {
-    const wrapper = await render(notificationPreferences(store));
+    const user = userErvent.setup();
+    const mockDispatch = jest.fn();
+    mockUseNotificationPreferences(defaultPreferences, false, false, mockDispatch);
+    const wrapper = await render(getNotificationPreferences());
     const element = wrapper.container.querySelector('#core-web');
     expect(element).not.toBeChecked();
-    await fireEvent.click(element);
+    expect(element).toBeEnabled();
+    await user.click(element.firstChild.firstChild.firstChild);
     expect(mockDispatch).toHaveBeenCalled();
   });
 
   it('update account preference on click', async () => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
+    const mockDispatch = jest.fn();
+    mockUseNotificationPreferences(defaultPreferences, false, false, mockDispatch);
+    mockUseNotificationPreferencesState('');
+    await render(getNotificationPreferences());
     const element = screen.getByTestId('core-web');
     await fireEvent.click(element);
     expect(mockDispatch).toHaveBeenCalled();

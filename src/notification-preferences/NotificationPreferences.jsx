@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import classNames from 'classnames';
 
@@ -7,8 +7,7 @@ import { NavItem, Spinner } from '@openedx/paragon';
 
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
-import { useCourseList } from './hooks/useCourseList';
-import { useNotificationPreferences } from './hooks/useNotificationPreferences';
+import { useNotificationPreferences, useCourseList } from './hooks';
 import messages from './messages';
 import NotificationPreferenceApp from './NotificationPreferenceApp';
 

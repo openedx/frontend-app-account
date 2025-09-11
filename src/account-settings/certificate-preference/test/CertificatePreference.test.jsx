@@ -1,98 +1,140 @@
 /* eslint-disable no-import-assign */
 import React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   fireEvent,
   render,
   screen,
 } from '@testing-library/react';
 
-import { IntlProvider, injectIntl, getAuthenticatedHttpClient, getAuthenticatedUser } from '@openedx/frontend-base';
+import { useSettingsFormDataState, useAccountSettings} from '../../hooks';
 
-// Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
-jest.mock('react-dom', () => ({
-  ...jest.requireActual('react-dom'),
-  createPortal: jest.fn(node => node), // Mock portal behavior
+import { IntlProvider, initializeMockApp } from '@openedx/frontend-base';
+import CertificatePreference from '../CertificatePreference';
+
+// Mock the hooks module
+jest.mock('../../hooks', () => ({
+  useAccountSettings: jest.fn(),
+  useSettingsFormDataState: jest.fn(),
 }));
 
-import CertificatePreference from '../CertificatePreference'; // eslint-disable-line import/first
-
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
-}));
-
-jest.mock('@openedx/frontend-base', () => ({
-  ...jest.requireActual('@openedx/frontend-base'),
-  getAuthenticatedUser: jest.fn(() => ({
-    userId: 123,
-    username: 'test-user',
-  })),
-}));
-jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
-
-const IntlCertificatePreference = injectIntl(CertificatePreference);
-
-const mockStore = configureStore();
-
-describe('NameChange', () => {
+describe('CertificatePreference', () => {
   let props = {};
-  let store = {};
+  let queryClient;
+  let mockUpdateVerifiedName;
+  let mockSaveSettingsMutate;
   const formId = 'useVerifiedNameForCerts';
-  const updateDraft = 'UPDATE_DRAFT';
   const labelText = 'If checked, this name will appear on your certificates and public-facing records.';
 
-  const reduxWrapper = children => (
+  const componentWrapper = children => (
     <Router>
-      <IntlProvider locale="en">
-        <Provider store={store}>{children}</Provider>
-      </IntlProvider>
+      <QueryClientProvider client={queryClient}>
+        <IntlProvider locale="en">
+          {children}
+        </IntlProvider>
+      </QueryClientProvider>
     </Router>
   );
 
   beforeEach(() => {
-    store = mockStore();
+    // Create fresh mock functions for each test
+    mockUpdateVerifiedName = jest.fn();
+    mockSaveSettingsMutate = jest.fn();
+
+    // Set up default mock implementations
+    useAccountSettings.mockReturnValue({
+      saveSettingsMutation: {
+        mutate: mockSaveSettingsMutate,
+      },
+    });
+
+    useSettingsFormDataState.mockReturnValue({
+      settingsFormDataState: {
+        committedValues: {
+          name: 'Ed X',
+          verified_name: 'edX Verified',
+        },
+        formValues: {
+          useVerifiedNameForCerts: false,
+        },
+        saveState: null,
+        verifiedNameForCertsDraft: null,
+      },
+      closeForm: jest.fn(),
+      updateVerifiedNameForCertsDraft: mockUpdateVerifiedName,
+    });
+
+    initializeMockApp({
+      authenticatedUser: {
+        userId: 3,
+        username: 'abc123',
+        administrator: true,
+        roles: [],
+      },
+    });
+
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+        mutations: { retry: false },
+      },
+    });
+
     props = {
       fieldName: 'name',
-      originalFullName: 'Ed X',
-      originalVerifiedName: 'edX Verified',
-      saveState: null,
-      useVerifiedNameForCerts: false,
-      intl: {},
     };
-
-    getAuthenticatedHttpClient = jest.fn(() => ({
-      patch: async () => ({
-        data: { status: 200 },
-        catch: () => {},
-      }),
-    }));
-    getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
   });
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('does not render if there is no verified name', () => {
-    props = {
-      ...props,
-      originalVerifiedName: '',
-    };
+    useSettingsFormDataState.mockReturnValue({
+      settingsFormDataState: {
+        committedValues: {
+          name: 'Ed X',
+          verified_name: '', // No verified name
+        },
+        formValues: {
+          useVerifiedNameForCerts: false,
+        },
+        saveState: null,
+        verifiedNameForCertsDraft: null,
+      },
+      closeForm: jest.fn(),
+      updateVerifiedNameForCertsDraft: jest.fn(),
+    });
 
-    const wrapper = render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    const { container } = render(componentWrapper(<CertificatePreference fieldName="name" />));
 
-    expect(wrapper).toMatchSnapshot();
+    // The component should not render anything when there's no verified name
+    expect(container.firstChild).toBeNull();
+    
+    // Verify that no checkbox is rendered
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
   });
 
   it('does not trigger modal when checking empty checkbox, and updates draft immediately', () => {
-    props = {
-      ...props,
-      useVerifiedNameForCerts: true,
-    };
+    const mockUpdate = jest.fn();
+    useSettingsFormDataState.mockReturnValue({
+      settingsFormDataState: {
+        committedValues: {
+          name: 'Ed X',
+          verified_name: 'Verified Name',
+        },
+        formValues: {
+          useVerifiedNameForCerts: true,
+        },
+        saveState: null,
+        verifiedNameForCertsDraft: null,
+      },
+      closeForm: jest.fn(),
+      updateVerifiedNameForCertsDraft: mockUpdate,
+    });
 
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(false);
@@ -100,26 +142,23 @@ describe('NameChange', () => {
     fireEvent.click(checkbox);
 
     expect(screen.queryByRole('radiogroup')).toBeNull();
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { name: formId, value: false },
-      type: updateDraft,
-    });
+    expect(mockUpdate).toHaveBeenCalledWith(false);
   });
 
   it('triggers modal when attempting to uncheck checkbox', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);
 
     fireEvent.click(checkbox);
-    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(mockUpdateVerifiedName).not.toHaveBeenCalled();
 
     screen.getByRole('radiogroup');
   });
 
   it('updates draft when changing radio value', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
@@ -130,14 +169,11 @@ describe('NameChange', () => {
     expect(verifiedNameOption.checked).toEqual(false);
 
     fireEvent.click(verifiedNameOption);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { name: formId, value: true },
-      type: updateDraft,
-    });
+    expect(mockUpdateVerifiedName).toHaveBeenCalledWith(true);
   });
 
   it('clears draft on cancel', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
@@ -145,32 +181,43 @@ describe('NameChange', () => {
     const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET_DRAFTS' });
+    expect(mockUpdateVerifiedName).toHaveBeenCalledWith(null);
     expect(screen.queryByRole('radiogroup')).toBeNull();
   });
 
   it('submits', () => {
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...props} />));
 
     const checkbox = screen.getByLabelText(labelText);
     fireEvent.click(checkbox);
 
     const submitButton = screen.getByText('Choose name');
     fireEvent.click(submitButton);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { formId, commitValues: false, extendedProfile: {} },
-      type: 'ACCOUNT_SETTINGS__SAVE_SETTINGS',
-    });
+    expect(mockSaveSettingsMutate).toHaveBeenCalledWith({ formId, values: false });
   });
 
   it('checks box for verified name', () => {
-    props = {
+    const localProps = {
       ...props,
       fieldName: 'verified_name',
-      useVerifiedNameForCerts: true,
     };
+    useSettingsFormDataState.mockReturnValue({
+      settingsFormDataState: {
+        committedValues: {
+          name: 'Ed X',
+          verified_name: 'Ed X verified',
+        },
+        formValues: {
+          useVerifiedNameForCerts: true,
+        },
+        saveState: null,
+        verifiedNameForCertsDraft: null,
+      },
+      closeForm: jest.fn(),
+      updateVerifiedNameForCertsDraft: jest.fn(),
+    });
 
-    render(reduxWrapper(<IntlCertificatePreference {...props} />));
+    render(componentWrapper(<CertificatePreference {...localProps} />));
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);
