@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getConfig } from '@edx/frontend-platform';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Button, Hyperlink } from '@openedx/paragon';
 
 // Actions
@@ -23,58 +23,61 @@ import PrintingInstructions from './PrintingInstructions';
 import ConnectedSuccessModal from './SuccessModal';
 import BeforeProceedingBanner from './BeforeProceedingBanner';
 
-export const DeleteAccount = ({
-  hasLinkedTPA = false,
-  isVerifiedAccount = true,
-  status = null,
-  errorType = null,
-  canDeleteAccount = true,
-}) => {
-  const intl = useIntl();
-  const [password, setPassword] = useState('');
+export class DeleteAccount extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const handleSubmit = () => {
-    if (password === '') {
-      deleteAccountFailure('empty-password');
+    this.state = {
+      password: '',
+    };
+  }
+
+  handleSubmit = () => {
+    if (this.state.password === '') {
+      this.props.deleteAccountFailure('empty-password');
     } else {
-      deleteAccount(password);
+      this.props.deleteAccount(this.state.password);
     }
   };
 
-  const handleCancel = () => {
-    setPassword('');
-    deleteAccountCancel();
+  handleCancel = () => {
+    this.setState({ password: '' });
+    this.props.deleteAccountCancel();
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value.trim());
-    deleteAccountReset();
+  handlePasswordChange = (e) => {
+    this.setState({ password: e.target.value.trim() });
+    this.props.deleteAccountReset();
   };
 
-  const handleFinalClose = () => {
+  handleFinalClose = () => {
     global.location = getConfig().LOGOUT_URL;
   };
 
-  const canDelete = isVerifiedAccount && !hasLinkedTPA;
-  const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT || '';
+  render() {
+    const {
+      hasLinkedTPA, isVerifiedAccount, status, errorType, intl,
+    } = this.props;
+    const canDelete = isVerifiedAccount && !hasLinkedTPA;
+    const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
 
-  // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
-  // to allow edx.org to fulfill its business requirements.
-  const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
-    ? 'account.settings.delete.account.text.2.edX'
-    : 'account.settings.delete.account.text.2';
+    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+    // to allow edx.org to fulfill its business requirements.
+    const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
+      ? 'account.settings.delete.account.text.2.edX'
+      : 'account.settings.delete.account.text.2';
 
-  const optInInstructionMessageId = getConfig().MARKETING_EMAILS_OPT_IN
-    ? 'account.settings.delete.account.please.confirm'
-    : 'account.settings.delete.account.please.activate';
+    const optInInstructionMessageId = getConfig().MARKETING_EMAILS_OPT_IN
+      ? 'account.settings.delete.account.please.confirm'
+      : 'account.settings.delete.account.please.activate';
 
-  return (
-    <div>
-      <h2 className="section-heading h4 mb-3">
-        {intl.formatMessage(messages['account.settings.delete.account.header'])}
-      </h2>
-      {
-          canDeleteAccount ? (
+    return (
+      <div>
+        <h2 className="section-heading h4 mb-3">
+          {intl.formatMessage(messages['account.settings.delete.account.header'])}
+        </h2>
+        {
+          this.props.canDeleteAccount ? (
             <>
               <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
               <p>
@@ -106,7 +109,7 @@ export const DeleteAccount = ({
               <p>
                 <Button
                   variant="outline-danger"
-                  onClick={canDelete ? deleteAccountConfirmation : null}
+                  onClick={canDelete ? this.props.deleteAccountConfirmation : null}
                   disabled={!canDelete}
                 >
                   {intl.formatMessage(messages['account.settings.delete.account.button'])}
@@ -124,30 +127,48 @@ export const DeleteAccount = ({
                   supportArticleUrl={supportArticleUrl}
                 />
               ) : null}
+
               <ConnectedConfirmationModal
                 status={status}
                 errorType={errorType}
-                onSubmit={handleSubmit}
-                onCancel={handleCancel}
-                onChange={handlePasswordChange}
-                password={password}
+                onSubmit={this.handleSubmit}
+                onCancel={this.handleCancel}
+                onChange={this.handlePasswordChange}
+                password={this.state.password}
               />
-              <ConnectedSuccessModal status={status} onClose={handleFinalClose} />
+
+              <ConnectedSuccessModal status={status} onClose={this.handleFinalClose} />
             </>
           ) : (
             <p>{intl.formatMessage(messages['account.settings.cannot.delete.account.text'])}</p>
           )
         }
-    </div>
-  );
-};
+
+      </div>
+    );
+  }
+}
 
 DeleteAccount.propTypes = {
+  deleteAccount: PropTypes.func.isRequired,
+  deleteAccountConfirmation: PropTypes.func.isRequired,
+  deleteAccountFailure: PropTypes.func.isRequired,
+  deleteAccountReset: PropTypes.func.isRequired,
+  deleteAccountCancel: PropTypes.func.isRequired,
   status: PropTypes.oneOf(['confirming', 'pending', 'deleted', 'failed']),
   errorType: PropTypes.oneOf(['empty-password', 'server']),
   hasLinkedTPA: PropTypes.bool,
   isVerifiedAccount: PropTypes.bool,
   canDeleteAccount: PropTypes.bool,
+  intl: intlShape.isRequired,
+};
+
+DeleteAccount.defaultProps = {
+  hasLinkedTPA: false,
+  isVerifiedAccount: true,
+  status: null,
+  errorType: null,
+  canDeleteAccount: true,
 };
 
 // Assume we're part of the accountSettings state.
@@ -162,4 +183,4 @@ export default connect(
     deleteAccountReset,
     deleteAccountCancel,
   },
-)(DeleteAccount);
+)(injectIntl(DeleteAccount));
