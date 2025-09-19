@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        node: [20, 24]
         npm-test:
         - i18n_extract
         - lint
         - test
+    continue-on-error: ${{ matrix.node == 24 }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version-file: '.nvmrc'
+        node-version: ${{ matrix.node }}
     - run: make requirements
     - run: make test NPM_TESTS=build
     - run: make test NPM_TESTS=${{ matrix.npm-test }}
