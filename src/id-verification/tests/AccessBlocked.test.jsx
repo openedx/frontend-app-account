@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { injectIntl, IntlProvider } from '@openedx/frontend-base';
 import {
-  render, cleanup, act, screen,
+  act,
+  cleanup,
+  render,
+  screen,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ERROR_REASONS } from '../IdVerificationContext';
 import AccessBlocked from '../AccessBlocked';
+import { ERROR_REASONS } from '../IdVerificationContext';
 
 const IntlAccessBlocked = injectIntl(AccessBlocked);
 

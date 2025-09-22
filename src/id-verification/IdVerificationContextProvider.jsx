@@ -2,7 +2,7 @@ import React, {
   useState, useContext, useEffect, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
-import { AppContext } from '@edx/frontend-platform/react';
+import { SiteContext } from '@openedx/frontend-base';
 
 import { getProfileDataManager } from '../account-settings/data/service';
 import PageLoading from '../account-settings/PageLoading';
@@ -16,7 +16,7 @@ import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } fr
 import { VerifiedNameContext } from './VerifiedNameContext';
 
 const IdVerificationContextProvider = ({ children }) => {
-  const { authenticatedUser } = useContext(AppContext);
+  const { authenticatedUser } = useContext(SiteContext);
   const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
   const idVerificationData = useAsyncCall(getExistingIdVerification);

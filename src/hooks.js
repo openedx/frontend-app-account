@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { getConfig } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { logError, useAppConfig } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
-  IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
+  FAILURE_STATUS,
+  IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS,
 } from './constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export function useAsyncCall(asyncFunc) {
   // React doesn't batch setStates call in async useEffect hooks,
   // so we use a combined object here to ensure that users
@@ -59,14 +58,15 @@ export function useRedirect() {
 }
 
 export function useFeedbackWrapper() {
+  const LEARNER_FEEDBACK_URL = useAppConfig().LEARNER_FEEDBACK_URL;
   useEffect(() => {
     try {
     // eslint-disable-next-line no-undef
-      window.usabilla_live = lightningjs?.require('usabilla_live', getConfig().LEARNER_FEEDBACK_URL);
+      window.usabilla_live = lightningjs?.require('usabilla_live', LEARNER_FEEDBACK_URL);
     } catch (error) {
       logError('Error loading usabilla_live', error);
     }
-  }, []);
+  }, [LEARNER_FEEDBACK_URL]);
 }
 
 export function useIsOnMobile() {

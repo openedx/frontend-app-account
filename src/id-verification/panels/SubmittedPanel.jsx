@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { getSiteConfig, injectIntl, intlShape, sendTrackEvent } from '@openedx/frontend-base';
+import { useContext, useEffect } from 'react';
 
 import { useRedirect } from '../../hooks';
 
-import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
+import IdVerificationContext from '../IdVerificationContext';
 
 import BasePanel from './BasePanel';
 
@@ -32,7 +30,7 @@ const SubmittedPanel = (props) => {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
+        href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}
         data-testid="return-button"
       >
         {props.intl.formatMessage(messages[returnText])}

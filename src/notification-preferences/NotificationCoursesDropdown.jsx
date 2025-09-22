@@ -1,41 +1,29 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useMemo } from 'react';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { Dropdown } from '@openedx/paragon';
+import { useCourseList } from './hooks/useCourseList';
+import { useNotificationPreferencesState } from './hooks/useNotificationPreferences';
 
-import { IDLE_STATUS, SUCCESS_STATUS } from '../constants';
-import { selectCourseList, selectCourseListStatus, selectSelectedCourseId } from './data/selectors';
-import { fetchCourseList, setSelectedCourse } from './data/thunks';
 import messages from './messages';
 
 const NotificationCoursesDropdown = () => {
   const intl = useIntl();
-  const dispatch = useDispatch();
-  const coursesList = useSelector(selectCourseList());
-  const courseListStatus = useSelector(selectCourseListStatus());
-  const selectedCourseId = useSelector(selectSelectedCourseId());
+  const { data , error, loaded } = useCourseList();
+  const { notificationPreferencesState, setSelectedCourse } = useNotificationPreferencesState();
+  const coursesList = useMemo(() => data?.courses || [], [data, loaded]);
+  const selectedCourseId = useMemo(() => notificationPreferencesState?.selectedCourse, [notificationPreferencesState]);
   const selectedCourse = useMemo(
     () => coursesList.find((course) => course.id === selectedCourseId),
     [coursesList, selectedCourseId],
   );
 
   const handleCourseSelection = useCallback((courseId) => {
-    dispatch(setSelectedCourse(courseId));
-  }, [dispatch]);
-
-  const fetchCourses = useCallback((page = 1, pageSize = 99999) => {
-    dispatch(fetchCourseList(page, pageSize));
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (courseListStatus === IDLE_STATUS) {
-      fetchCourses();
-    }
-  }, [courseListStatus, fetchCourses]);
+    setSelectedCourse(courseId);
+  }, [setSelectedCourse]);
 
   return (
-    courseListStatus === SUCCESS_STATUS && (
+    loaded && !error && (
       <div className="mb-5">
         <h5 className="text-primary-500 mb-3">{intl.formatMessage(messages.notificationDropdownlabel)}</h5>
         <Dropdown className="course-dropdown">

@@ -1,11 +1,8 @@
+import { addAppConfigs, mergeSiteConfig } from '@openedx/frontend-base';
+import '@testing-library/jest-dom';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import '@testing-library/jest-dom';
+import siteConfig from 'site.config';
 
-import MockedPluginSlot from './tests/MockedPluginSlot';
-
-jest.mock('@openedx/frontend-plugin-framework', () => ({
-  ...jest.requireActual('@openedx/frontend-plugin-framework'),
-  Plugin: () => 'Plugin',
-  PluginSlot: MockedPluginSlot,
-}));
+mergeSiteConfig(siteConfig);
+addAppConfigs();

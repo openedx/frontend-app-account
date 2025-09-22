@@ -1,16 +1,12 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
-import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
-import * as selectors from '../data/selectors';
+import { IntlProvider } from '@openedx/frontend-base';
+import IdVerificationPageSlot from '../../slots/IdVerificationPageSlot';
 
-jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ idVerificationSelector: () => ({}) })));
 jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
 jest.mock('../VerifiedNameContext', () => {
   const originalModule = jest.requireActual('../VerifiedNameContext');
@@ -47,23 +43,14 @@ jest.mock('../panels/SubmittedPanel', () => function SubmittedPanelMock() {
   return <></>;
 });
 
-const IntlIdVerificationPage = injectIntl(IdVerificationPageSlot);
-const mockStore = configureStore();
-
 describe('IdVerificationPage', () => {
-  selectors.mockClear();
   jest.spyOn(Storage.prototype, 'setItem');
-  const store = mockStore();
-  const props = {
-    intl: {},
-  };
+
   it('decodes and stores course_id', async () => {
     await act(async () => render((
       <Router initialEntries={[`/?course_id=${encodeURIComponent('course-v1:edX+DemoX+Demo_Course')}`]}>
         <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
+          <IdVerificationPageSlot />
         </IntlProvider>
       </Router>
     )));
@@ -77,9 +64,7 @@ describe('IdVerificationPage', () => {
     await act(async () => render((
       <Router initialEntries={['/?next=dashboard']}>
         <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
+          <IdVerificationPageSlot />
         </IntlProvider>
       </Router>
     )));
@@ -92,9 +77,7 @@ describe('IdVerificationPage', () => {
     await act(async () => render((
       <Router initialEntries={['/?next=dashboard']}>
         <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
+          <IdVerificationPageSlot  />
         </IntlProvider>
       </Router>
     )));
@@ -106,9 +89,7 @@ describe('IdVerificationPage', () => {
     await act(async () => render((
       <Router initialEntries={['/?next=dashboard']}>
         <IntlProvider locale="en">
-          <Provider store={store}>
-            <IntlIdVerificationPage {...props} />
-          </Provider>
+          <IdVerificationPageSlot />
         </IntlProvider>
       </Router>
     )));

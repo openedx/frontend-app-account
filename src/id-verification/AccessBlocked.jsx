@@ -1,7 +1,5 @@
-import React from 'react';
+import { FormattedMessage, getSiteConfig, injectIntl, intlShape } from '@openedx/frontend-base';
 import PropTypes from 'prop-types';
-import { getConfig } from '@edx/frontend-platform';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
 
 import messages from './IdVerification.messages';
 import { ERROR_REASONS } from './IdVerificationContext';
@@ -33,7 +31,7 @@ const AccessBlocked = ({ error, intl }) => {
       </h3>
       {handleMessage()}
       <div className="action-row">
-        <a className="btn btn-primary mt-3" href={`${getConfig().LMS_BASE_URL}/dashboard`}>
+        <a className="btn btn-primary mt-3" href={`${getSiteConfig().lmsBaseUrl}/dashboard`}>
           {intl.formatMessage(messages['id.verification.return.dashboard'])}
         </a>
       </div>
