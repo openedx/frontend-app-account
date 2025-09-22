@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import { useIntl } from '@openedx/frontend-base';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
@@ -11,8 +10,6 @@ import {
 
 import messages from './messages';
 import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from './data/constants';
-import { selectUpdatePreferencesStatus } from './data/selectors';
-import { LOADING_STATUS } from '../constants';
 
 const EmailCadences = ({
   email, onToggle, emailCadence, notificationType,
@@ -20,7 +17,7 @@ const EmailCadences = ({
   const intl = useIntl();
   const [isOpen, open, close] = useToggle(false);
   const [target, setTarget] = useState(null);
-  const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
+  const { notificationPreferencesMutation } = useNotificationPreferences();
 
   return (
     <>
@@ -28,7 +25,7 @@ const EmailCadences = ({
         ref={setTarget}
         variant="outline-primary"
         onClick={open}
-        disabled={!email || updatePreferencesStatus === LOADING_STATUS}
+        disabled={!email || notificationPreferencesMutation.isPending }
         size="sm"
         iconAfter={isOpen ? ExpandLess : ExpandMore}
         className="border-light-300 justify-content-between ml-3.5 cadence-button"
