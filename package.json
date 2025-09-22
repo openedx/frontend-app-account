@@ -48,7 +48,7 @@
     "classnames": "2.5.1",
     "core-js": "3.44.0",
     "font-awesome": "4.7.0",
-    "form-urlencoded": "6.1.5",
+    "form-urlencoded": "6.1.6",
     "formdata-polyfill": "4.0.10",
     "jslib-html5-camera-photo": "3.3.4",
     "lodash.camelcase": "4.3.0",
