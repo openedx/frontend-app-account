@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-
         npm-test:
         - i18n_extract
         - lint
