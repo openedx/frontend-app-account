@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape, sendTrackEvent } from '@openedx/frontend-base';
 import { Button, Collapsible } from '@openedx/paragon';
+import { useContext } from 'react';
 
-import IdVerificationContext from './IdVerificationContext';
 import messages from './IdVerification.messages';
+import IdVerificationContext from './IdVerificationContext';
 
 const CollapsibleImageHelp = (props) => {
   const {

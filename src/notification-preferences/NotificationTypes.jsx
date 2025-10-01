@@ -1,28 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
-import { InfoOutline } from '@openedx/paragon/icons';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
+import { InfoOutline } from '@openedx/paragon/icons';
 
-import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
+import messages from './messages';
 
-import { selectAppPreferences } from './data/selectors';
+import { useNotificationPreferences } from './hooks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
-  const preferences = useSelector(selectAppPreferences(appId));
+  const { notificationPreferencesQuery } = useNotificationPreferences();
+  const preferences = useMemo(() => notificationPreferencesQuery.data?.preferences?.filter(preference => preference.appId === appId), [notificationPreferencesQuery.data, appId]);
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels();
 
   return (
     <div className="d-flex flex-column mr-auto px-0">
-      {preferences.map(preference => (
+      {preferences?.map(preference => (
         (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
         <>
           <div

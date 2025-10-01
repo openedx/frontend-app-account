@@ -1,19 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormattedMessage, getSiteConfig, useIntl } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
+import PropTypes from 'prop-types';
 
 // Messages
-import { getConfig } from '@edx/frontend-platform';
 import messages from './messages';
 
 // Components
 import Alert from '../Alert';
 
 const BeforeProceedingBanner = (props) => {
-  const { instructionMessageId, intl, supportArticleUrl } = props;
+  const { instructionMessageId, supportArticleUrl } = props;
+  const intl = useIntl();
 
   return (
     <Alert
@@ -32,7 +31,7 @@ const BeforeProceedingBanner = (props) => {
           ) : (
             intl.formatMessage(messages[instructionMessageId])
           ),
-          siteName: getConfig().SITE_NAME,
+          siteName: getSiteConfig().siteName,
         }}
       />
     </Alert>
@@ -41,8 +40,7 @@ const BeforeProceedingBanner = (props) => {
 
 BeforeProceedingBanner.propTypes = {
   instructionMessageId: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
   supportArticleUrl: PropTypes.string.isRequired,
 };
 
-export default injectIntl(BeforeProceedingBanner);
+export default BeforeProceedingBanner;

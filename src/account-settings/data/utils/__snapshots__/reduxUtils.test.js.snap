@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`getModuleState should throw an exception on a bad path 1`] = `"Unexpected state key uhoh given to getModuleState. Is your state path set up correctly?"`;

@@ -9,11 +9,11 @@ frontend-app-account
 Purpose
 ********
 
-This is a micro-frontend application responsible for the display and updating of a user's account information.
+This is a frontend application responsible for the display and updating of a user's account information.
 
-What is the domain of this MFE?
+What is the domain of this frontend app?
 
-In this MFE: Private user settings UIs. Public facing profile is in a `separate MFE (Profile) <https://github.com/openedx/frontend-app-profile>`_
+In this frontend app: Private user settings UIs. Public facing profile is in a `separate frontend app (Profile) <https://github.com/openedx/frontend-app-profile>`_
 
 - Account settings page
 - IDV (Identity Verification)
@@ -33,18 +33,17 @@ to the `relevant tutor-mfe documentation`_ to get started using it.
 
 .. _relevant tutor-mfe documentation: https://github.com/overhangio/tutor-mfe?tab=readme-ov-file#mfe-development
 
-Plugins
+Widgets
 =======
-This MFE can be customized using `Frontend Plugin Framework <https://github.com/openedx/frontend-plugin-framework>`_.
-
-The parts of this MFE that can be customized in that manner are documented `here </src/plugin-slots>`_.
+This frontend app can be customized with widgets. The parts of this frontend app that can be customized in that manner are documented
+`here </src/slots>`_.
 
 Environment Variables/Setup Notes
 =================================
 
-This MFE is configured via the ``frontend-platform`` configuration module. For more information on MFE configuration see the `Configuration documentation`_.
+This frontend app is configured via the ``frontend-base`` configuration module. For more information on frontend app configuration see the `Configuration documentation`_.
 
-The account settings micro-frontend also supports the following additional variable:
+The account settings frontend app also supports the following additional variable:
 
 ``SUPPORT_URL``
 
@@ -89,9 +88,9 @@ Cloning and Startup
 
     ``git clone https://github.com/openedx/frontend-app-account.git``
 
-  2. Use node v18.x.
+  2. Use node v20.x.
 
-    The current version of the micro-frontend build scripts support node 18.
+    The current version of the frontend app build scripts support node 20.
     Using other major versions of node *may* work, but this is unsupported.  For
     convenience, this repository includes an .nvmrc file to help in setting the
     correct node version via `nvm <https://github.com/nvm-sh/nvm>`_.

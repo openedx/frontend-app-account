@@ -4,32 +4,30 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
-import { injectIntl, IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
-import * as analytics from '@edx/frontend-platform/analytics';
 import IdVerificationContext from '../IdVerificationContext';
 import Camera from '../Camera';
 
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');
-jest.mock('@edx/frontend-platform/analytics');
 
-analytics.sendTrackEvent = jest.fn();
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  sendTrackEvent: jest.fn(),
+}));
 
 window.HTMLMediaElement.prototype.play = () => {};
 
-const IntlCamera = injectIntl(Camera);
 
-describe('SubmittedPanel', () => {
+describe('Camera', () => {
   const defaultProps = {
-    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: true,
   };
 
   const idProps = {
-    intl: {},
     onImageCapture: jest.fn(),
     isPortrait: false,
   };
@@ -45,7 +43,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -61,7 +59,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -75,7 +73,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...idProps} />
+            <Camera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -90,7 +88,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -108,7 +106,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -128,7 +126,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -147,7 +145,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...defaultProps} />
+            <Camera {...defaultProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -156,9 +154,9 @@ describe('SubmittedPanel', () => {
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
   });
 
   it('sends tracking events on id photo page', async () => {
@@ -168,7 +166,7 @@ describe('SubmittedPanel', () => {
       <Router>
         <IntlProvider locale="en">
           <IdVerificationContext.Provider value={contextValue}>
-            <IntlCamera {...idProps} />
+            <Camera {...idProps} />
           </IdVerificationContext.Provider>
         </IntlProvider>
       </Router>
@@ -177,8 +175,8 @@ describe('SubmittedPanel', () => {
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
     await fireEvent.click(checkbox);
-    expect(analytics.sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
+    expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
   });
 });

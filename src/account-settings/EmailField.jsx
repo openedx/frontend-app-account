@@ -1,22 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
-import {
-  Button, StatefulButton, Form,
-} from '@openedx/paragon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormattedMessage, useIntl } from '@openedx/frontend-base';
+import {
+  Button,
+  Form,
+  StatefulButton,
+} from '@openedx/paragon';
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
 
 import Alert from './Alert';
 import SwitchContent from './SwitchContent';
-import messages from './AccountSettingsPage.messages';
+import { useSettingsFormDataState } from './hooks';
+import messages from './messages';
 
-import {
-  openForm,
-  closeForm,
-} from './data/actions';
-import { editableFieldSelector } from './data/selectors';
 
 const EmailField = (props) => {
   const {
@@ -24,20 +21,28 @@ const EmailField = (props) => {
     label,
     emptyLabel,
     value,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
-    onChange,
-    isEditing,
     isEditable,
-    intl,
   } = props;
   const id = `field-${name}`;
+  const intl = useIntl();
+  const { settingsFormDataState, openForm: onEdit, closeForm: onCancel } = useSettingsFormDataState();
+    const { isEditing, confirmationValue, error, saveState } = useMemo(() => (
+      {
+        isEditing: settingsFormDataState?.openFormId === name,
+        confirmationValue: settingsFormDataState?.confirmationValues?.[name],
+        error: settingsFormDataState?.errors?.[name],
+        saveState: settingsFormDataState?.saveState,
+      }
+    ), [settingsFormDataState]);
+
+  const [localValue, setLocalValue] = useState(value);
+
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +50,7 @@ const EmailField = (props) => {
   };
 
   const handleChange = (e) => {
-    onChange(name, e.target.value);
+    setLocalValue(e.target.value);
   };
 
   const handleEdit = () => {
@@ -116,7 +121,7 @@ const EmailField = (props) => {
                 name={name}
                 id={id}
                 type="email"
-                value={value}
+                value={localValue}
                 onChange={handleChange}
               />
               {!!helpText && <Form.Text>{helpText}</Form.Text>}
@@ -176,38 +181,23 @@ EmailField.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   emptyLabel: PropTypes.node,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 EmailField.defaultProps = {
   value: undefined,
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(injectIntl(EmailField));
+export default EmailField;

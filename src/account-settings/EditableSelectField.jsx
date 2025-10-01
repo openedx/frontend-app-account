@@ -1,21 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useIntl } from '@openedx/frontend-base';
 import {
   Button, Form, StatefulButton,
 } from '@openedx/paragon';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
 import SwitchContent from './SwitchContent';
-import messages from './AccountSettingsPage.messages';
+import { useSettingsFormDataState } from './hooks';
+import messages from './messages';
 
-import {
-  openForm,
-  closeForm,
-} from './data/actions';
-import { editableFieldSelector } from './data/selectors';
 import CertificatePreference from './certificate-preference/CertificatePreference';
 
 const EditableSelectField = (props) => {
@@ -27,30 +21,38 @@ const EditableSelectField = (props) => {
     value,
     userSuppliedValue,
     options,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
-    onChange,
-    isEditing,
     isEditable,
     isGrayedOut,
-    intl,
     ...others
   } = props;
+  const intl = useIntl();
+    const { settingsFormDataState, openForm: onEdit, closeForm: onCancel } = useSettingsFormDataState();
+    const { isEditing, confirmationValue, error, saveState } = useMemo(() => (
+      {
+        isEditing: settingsFormDataState?.openFormId === name,
+        confirmationValue: settingsFormDataState?.confirmationValues?.[name],
+        error: settingsFormDataState?.errors?.[name],
+        saveState: settingsFormDataState?.saveState,
+      }
+    ), [settingsFormDataState]);
+
+    const [localValue, setLocalValue] = useState(value);
+    
+    useEffect(() => {
+      setLocalValue(value);
+    }, [value]);
   const id = `field-${name}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(name, new FormData(e.target).get(name));
+    onSubmit(name, localValue);
   };
 
   const handleChange = (e) => {
-    onChange(name, e.target.value);
+    setLocalValue(e.target.value);
   };
 
   const handleEdit = () => {
@@ -140,7 +142,7 @@ const EditableSelectField = (props) => {
                   id={id}
                   type={type}
                   as={type}
-                  value={value}
+                  value={localValue}
                   onChange={handleChange}
                   {...others}
                 >
@@ -211,42 +213,27 @@ EditableSelectField.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
-  intl: intlShape.isRequired,
 };
 
 EditableSelectField.defaultProps = {
   value: undefined,
   options: [],
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
   isGrayedOut: false,
   userSuppliedValue: undefined,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(injectIntl(EditableSelectField));
+export default EditableSelectField;

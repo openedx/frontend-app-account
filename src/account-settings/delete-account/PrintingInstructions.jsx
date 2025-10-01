@@ -1,11 +1,12 @@
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 
-import { getConfig } from '@edx/frontend-platform';
+import { getSiteConfig } from '@openedx/frontend-base';
 import messages from './messages';
 
-const PrintingInstructions = (props) => {
+const PrintingInstructions = () => {
+  const intl = useIntl();
   const actionLink = (
     <Hyperlink
       // TODO: What would a generic version of this link look like?  Should
@@ -13,13 +14,13 @@ const PrintingInstructions = (props) => {
       // We've removed the link from the default message.
       destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UVVOA2/certificates"
     >
-      {props.intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
+      {intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
     </Hyperlink>
   );
 
   // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
   // to allow edx.org to mention MicroMasters certificates to fulfill its business requirements.
-  if (getConfig().SITE_NAME === 'edX') {
+  if (getSiteConfig().siteName === 'edX') {
     return (
       <FormattedMessage
         id="account.settings.delete.account.text.3.edX"
@@ -40,8 +41,4 @@ const PrintingInstructions = (props) => {
   );
 };
 
-PrintingInstructions.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(PrintingInstructions);
+export default PrintingInstructions;

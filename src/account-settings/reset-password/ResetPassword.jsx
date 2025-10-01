@@ -1,16 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@openedx/frontend-base';
 import { StatefulButton } from '@openedx/paragon';
+import PropTypes from 'prop-types';
 
-import { resetPassword } from './data/actions';
-import messages from './messages';
 import ConfirmationAlert from './ConfirmationAlert';
+import { useResetPasswordMutation } from './hooks';
+import messages from './messages';
 import RequestInProgressAlert from './RequestInProgressAlert';
 
-const ResetPassword = (props) => {
-  const { email, intl, status } = props;
+const ResetPassword = ({ email }) => {
+  const intl = useIntl();
+  const resetPasswordMutation = useResetPasswordMutation();
+
+  // Derive status from React Query mutation state
+  const getStatus = () => {
+    if (resetPasswordMutation.isPending) return 'pending';
+    if (resetPasswordMutation.isSuccess) return 'complete';
+    if (resetPasswordMutation.isError && resetPasswordMutation.error?.response?.status === 403) {
+      return 'forbidden';
+    }
+    return null;
+  };
+
+  const handleResetPassword = (e) => {
+    if (resetPasswordMutation.isPending) {
+      e.preventDefault();
+      return;
+    }
+    resetPasswordMutation.mutate(email);
+  };
   return (
     <div className="form-group">
       <h6 aria-level="3">
@@ -23,49 +40,26 @@ const ResetPassword = (props) => {
       <p>
         <StatefulButton
           variant="link"
-          state={status}
-          onClick={(e) => {
-            // Swallow clicks if the state is pending.
-            // We do this instead of disabling the button to prevent
-            // it from losing focus (disabled elements cannot have focus).
-            // Disabling it would causes upstream issues in focus management.
-            // Swallowing the onSubmit event on the form would be better, but
-            // we would have to add that logic for every field given our
-            // current structure of the application.
-            if (status === 'pending') {
-              e.preventDefault();
-            }
-            props.resetPassword(email);
-          }}
+          state={getStatus()}
+          onClick={handleResetPassword}
           disabledStates={[]}
           labels={{
             default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
           }}
         />
       </p>
-      {status === 'complete' ? <ConfirmationAlert email={email} /> : null}
-      {status === 'forbidden' ? <RequestInProgressAlert /> : null}
+      {resetPasswordMutation.isSuccess && <ConfirmationAlert email={email} />}
+      {resetPasswordMutation.isError && resetPasswordMutation.error?.response?.status === 403 && <RequestInProgressAlert />}
     </div>
   );
 };
 
 ResetPassword.propTypes = {
   email: PropTypes.string,
-  intl: intlShape.isRequired,
-  resetPassword: PropTypes.func.isRequired,
-  status: PropTypes.string,
 };
 
 ResetPassword.defaultProps = {
   email: '',
-  status: null,
 };
 
-const mapStateToProps = state => state.accountSettings.resetPassword;
-
-export default connect(
-  mapStateToProps,
-  {
-    resetPassword,
-  },
-)(injectIntl(ResetPassword));
+export default ResetPassword;

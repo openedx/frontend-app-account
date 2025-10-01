@@ -1,22 +1,16 @@
-import React from 'react';
+import { IntlProvider, initializeMockApp, CurrentAppProvider, getAppConfig } from '@openedx/frontend-base';
 import { render, screen } from '@testing-library/react';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
-import { AppProvider } from '@edx/frontend-platform/react';
-import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
+import { appId } from '../../constants';
 
 import JumpNav from '../JumpNav';
-import configureStore from '../../data/configureStore';
+import { MemoryRouter } from 'react-router';
 
-const IntlJumpNav = injectIntl(JumpNav);
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAppConfig: jest.fn(),
+}));
 
 describe('JumpNav', () => {
-  mergeConfig({
-    ENABLE_ACCOUNT_DELETION: true,
-  });
-
-  let props = {};
-  let store;
-
   beforeEach(() => {
     initializeMockApp({
       authenticatedUser: {
@@ -26,48 +20,37 @@ describe('JumpNav', () => {
         roles: [],
       },
     });
-
-    props = {
-      intl: {},
-    };
-    store = configureStore({
-      notificationPreferences: {
-        showPreferences: false,
-      },
-    });
   });
 
   it('should not render delete account link', async () => {
-    setConfig({
+    jest.mocked(getAppConfig).mockReturnValue({
       ENABLE_ACCOUNT_DELETION: false,
     });
-
     render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <IntlJumpNav {...props} />
-        </AppProvider>
-      </IntlProvider>,
+      <CurrentAppProvider appId={appId}>
+        <MemoryRouter>
+          <IntlProvider locale="en">
+            <JumpNav />
+          </IntlProvider>
+        </MemoryRouter>
+      </CurrentAppProvider>
     );
 
     expect(await screen.queryByText('Delete My Account')).toBeNull();
   });
 
   it('should render delete account link', async () => {
-    setConfig({
+    jest.mocked(getAppConfig).mockReturnValue({
       ENABLE_ACCOUNT_DELETION: true,
     });
-
-    props = {
-      ...props,
-    };
-
     render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <IntlJumpNav {...props} />
-        </AppProvider>
-      </IntlProvider>,
+      <CurrentAppProvider appId={appId}>
+        <MemoryRouter>
+          <IntlProvider locale="en">
+            <JumpNav />
+          </IntlProvider>
+        </MemoryRouter>
+      </CurrentAppProvider>
     );
 
     expect(await screen.findByText('Delete My Account')).toBeVisible();

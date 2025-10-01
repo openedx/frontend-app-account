@@ -1,15 +1,14 @@
-import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, getSiteConfig, getAppConfig, injectIntl, intlShape, sendTrackEvent } from '@openedx/frontend-base';
 import { Alert, Hyperlink } from '@openedx/paragon';
+import { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
+import { appId } from '../../constants';
 
-import IdVerificationContext from '../IdVerificationContext';
 import messages from '../IdVerification.messages';
+import IdVerificationContext from '../IdVerificationContext';
 import exampleCard from '../assets/example-card.png';
 
 const ReviewRequirementsPanel = (props) => {
@@ -40,7 +39,7 @@ const ReviewRequirementsPanel = (props) => {
               managerTitle: <strong>{profileDataManager}</strong>,
               profileDataManager,
               support: (
-                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+                <Hyperlink destination={getAppConfig(appId).SUPPORT_URL} target="_blank">
                   {props.intl.formatMessage(messages['id.verification.support'])}
                 </Hyperlink>
               ),
@@ -98,7 +97,7 @@ const ReviewRequirementsPanel = (props) => {
       <h6 aria-level="3">
         {props.intl.formatMessage(
           messages['id.verification.privacy.need.photo.question'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </h6>
       <p>
@@ -107,13 +106,13 @@ const ReviewRequirementsPanel = (props) => {
       <h6 aria-level="3">
         {props.intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.question'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </h6>
       <p>
         {props.intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.answer'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </p>
 
