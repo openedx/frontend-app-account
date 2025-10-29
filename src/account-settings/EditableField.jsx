@@ -170,11 +170,13 @@ const EditableField = (props) => {
                 </ActionRow>
                 )}
               />
-              <Card.Body>
-                <Card.Section>
-                  <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
-                </Card.Section>
-              </Card.Body>
+              {(renderConfirmationMessage() || helpText) && (
+                <Card.Body>
+                  <Card.Section>
+                    <p className="small text-muted mt-n2 mb-0">{renderConfirmationMessage() || helpText}</p>
+                  </Card.Section>
+                </Card.Body>
+              )}
             </>
           ),
         }}

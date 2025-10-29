@@ -25,29 +25,27 @@ const ResetPassword = (props) => {
       />
       <Card.Body>
         <Card.Section>
-          <p>
-            <StatefulButton
-              variant="link"
-              state={status}
-              onClick={(e) => {
-                // Swallow clicks if the state is pending.
-                // We do this instead of disabling the button to prevent
-                // it from losing focus (disabled elements cannot have focus).
-                // Disabling it would causes upstream issues in focus management.
-                // Swallowing the onSubmit event on the form would be better, but
-                // we would have to add that logic for every field given our
-                // current structure of the application.
-                if (status === 'pending') {
-                  e.preventDefault();
-                }
-                props.resetPassword(email);
-              }}
-              disabledStates={[]}
-              labels={{
-                default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
-              }}
-            />
-          </p>
+          <StatefulButton
+            variant="link"
+            state={status}
+            onClick={(e) => {
+              // Swallow clicks if the state is pending.
+              // We do this instead of disabling the button to prevent
+              // it from losing focus (disabled elements cannot have focus).
+              // Disabling it would causes upstream issues in focus management.
+              // Swallowing the onSubmit event on the form would be better, but
+              // we would have to add that logic for every field given our
+              // current structure of the application.
+              if (status === 'pending') {
+                e.preventDefault();
+              }
+              props.resetPassword(email);
+            }}
+            disabledStates={[]}
+            labels={{
+              default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
+            }}
+          />
         </Card.Section>
         {status && (
           <Card.Section>
