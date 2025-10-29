@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
-  Button, StatefulButton, Form, Tooltip, OverlayTrigger,
+  ActionRow, Button, Card, StatefulButton, Form, Tooltip, OverlayTrigger,
 } from '@openedx/paragon';
+import { EditOutline } from '@openedx/paragon/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 import Alert from './Alert';
 import SwitchContent from './SwitchContent';
@@ -100,82 +101,95 @@ const EmailField = (props) => {
   };
 
   return (
-    <SwitchContent
-      expression={isEditing ? 'editing' : 'default'}
-      cases={{
-        editing: (
-          <form onSubmit={handleSubmit}>
-            <Form.Group
-              controlId={id}
-              isInvalid={error != null}
-            >
-              <Form.Label className="h6 d-block" htmlFor={id}>{label}</Form.Label>
-              <Form.Control
-                data-hj-suppress
-                name={name}
-                id={id}
-                type="email"
-                value={value}
-                onChange={handleChange}
-              />
-              {!!helpText && <Form.Text>{helpText}</Form.Text>}
-              {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
-            </Form.Group>
-            <p>
-              <StatefulButton
-                type="submit"
-                className="mr-2"
-                state={saveState}
-                labels={{
-                  default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                }}
-                onClick={(e) => {
-                  // Swallow clicks if the state is pending.
-                  // We do this instead of disabling the button to prevent
-                  // it from losing focus (disabled elements cannot have focus).
-                  // Disabling it would causes upstream issues in focus management.
-                  // Swallowing the onSubmit event on the form would be better, but
-                  // we would have to add that logic for every field given our
-                  // current structure of the application.
-                  if (saveState === 'pending') { e.preventDefault(); }
-                }}
-                disabledStates={[]}
-              />
-              <Button
-                variant="outline-primary"
-                onClick={handleCancel}
-              >
-                {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-              </Button>
-            </p>
-          </form>
-        ),
-        default: (
-          <div className="form-group">
-            <div className="d-flex align-items-start">
-              <h6 aria-level="3">{label}</h6>
-              {isEditable ? (
-                <Button variant="link" onClick={handleEdit} className="ml-3">
-                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
-                  {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
-                </Button>
-              ) : null}
-            </div>
-            <OverlayTrigger
-              placement="top"
-              overlay={(
-                <Tooltip id={`tooltip-${name}`} variant="light" className="d-sm-none">
-                  {renderValue()}
-                </Tooltip>
+    <Card className="mb-4">
+      <SwitchContent
+        expression={isEditing ? 'editing' : 'default'}
+        cases={{
+          editing: (
+            <Card.Body>
+              <Card.Section>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group
+                    controlId={id}
+                    isInvalid={error != null}
+                  >
+                    <Form.Label className="h6 d-block" htmlFor={id}>{label}</Form.Label>
+                    <Form.Control
+                      data-hj-suppress
+                      name={name}
+                      id={id}
+                      type="email"
+                      value={value}
+                      onChange={handleChange}
+                    />
+                    {!!helpText && <Form.Text>{helpText}</Form.Text>}
+                    {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
+                  </Form.Group>
+                  <p>
+                    <StatefulButton
+                      type="submit"
+                      className="mr-2"
+                      state={saveState}
+                      labels={{
+                        default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                      }}
+                      onClick={(e) => {
+                      // Swallow clicks if the state is pending.
+                      // We do this instead of disabling the button to prevent
+                      // it from losing focus (disabled elements cannot have focus).
+                      // Disabling it would causes upstream issues in focus management.
+                      // Swallowing the onSubmit event on the form would be better, but
+                      // we would have to add that logic for every field given our
+                      // current structure of the application.
+                        if (saveState === 'pending') { e.preventDefault(); }
+                      }}
+                      disabledStates={[]}
+                    />
+                    <Button
+                      variant="outline-primary"
+                      onClick={handleCancel}
+                    >
+                      {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                    </Button>
+                  </p>
+                </Form>
+              </Card.Section>
+            </Card.Body>
+          ),
+          default: (
+            <>
+              <Card.Header
+                title={label}
+                subtitle={(
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={(
+                      <Tooltip id={`tooltip-${name}`} variant="light" className="d-sm-none">
+                        {renderValue()}
+                      </Tooltip>
+                  )}
+                  >
+                    <p data-hj-suppress className="text-truncate">{renderValue()}</p>
+                  </OverlayTrigger>
               )}
-            >
-              <p data-hj-suppress className="text-truncate">{renderValue()}</p>
-            </OverlayTrigger>
-            {renderConfirmationMessage() || <p className="small text-muted mt-n2">{helpText}</p>}
-          </div>
-        ),
-      }}
-    />
+                actions={isEditable && (
+                <ActionRow>
+                  <Button variant="outline-primary" onClick={handleEdit} data-testid="editable-field-edit" data-clicked="edit" iconBefore={EditOutline}>
+                    {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
+                  </Button>
+                </ActionRow>
+                )}
+              />
+              <Card.Body>
+                <Card.Section>
+                  <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+                </Card.Section>
+              </Card.Body>
+            </>
+          ),
+        }}
+      />
+    </Card>
   );
 };
 
