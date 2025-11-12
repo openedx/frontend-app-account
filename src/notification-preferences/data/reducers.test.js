@@ -44,7 +44,7 @@ describe('notification-preferences reducer', () => {
     );
     expect(result.courses).toEqual({
       status: SUCCESS_STATUS,
-      courses: [{ id: '', name: 'Account' }],
+      courses: [{ id: '', name: 'Select Course' }],
       pagination: data.pagination,
     });
   });
@@ -61,7 +61,7 @@ describe('notification-preferences reducer', () => {
       status,
       courses: [{
         id: '',
-        name: 'Account',
+        name: 'Select Course',
       }],
       pagination: {},
     });

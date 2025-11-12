@@ -77,7 +77,7 @@ const setupStore = (override = {}) => {
   storeState.courses = {
     status: SUCCESS_STATUS,
     courses: [
-      { id: '', name: 'Account' },
+      { id: '', name: 'Select Course' },
       { id: 'selected-course-id', name: 'Selected Course' },
     ],
   };
