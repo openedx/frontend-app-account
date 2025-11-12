@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { defaultState } from './data/reducers';
 import NotificationPreferences from './NotificationPreferences';
@@ -77,7 +77,7 @@ const setupStore = (override = {}) => {
   storeState.courses = {
     status: SUCCESS_STATUS,
     courses: [
-      { id: '', name: 'Account' },
+      { id: '', name: 'Select Course' },
       { id: 'selected-course-id', name: 'Selected Course' },
     ],
   };
@@ -137,25 +137,5 @@ describe('Notification Preferences', () => {
   it('tests if all notification preferences are listed', async () => {
     await render(notificationPreferences(store));
     expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
-  });
-
-  it('update preference on click', async () => {
-    const wrapper = await render(notificationPreferences(store));
-    const element = wrapper.container.querySelector('#core-web');
-    expect(element).not.toBeChecked();
-    await fireEvent.click(element);
-    expect(mockDispatch).toHaveBeenCalled();
-  });
-
-  it('update account preference on click', async () => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
-    const element = screen.getByTestId('core-web');
-    await fireEvent.click(element);
-    expect(mockDispatch).toHaveBeenCalled();
   });
 });

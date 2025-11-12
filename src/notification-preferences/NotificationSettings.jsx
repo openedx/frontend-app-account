@@ -23,9 +23,6 @@ const NotificationSettings = () => {
           {intl.formatMessage(messages.notificationHeading)}
         </h2>
         <div className="text-gray-700 font-size-14 mb-3">
-          {intl.formatMessage(messages.accountNotificationDescription)}
-        </div>
-        <div className="text-gray-700 font-size-14 mb-3">
           {intl.formatMessage(messages.notificationCadenceDescription, {
             dailyTime: '22:00 UTC',
             weeklyTime: '22:00 UTC Every Sunday',
@@ -43,7 +40,9 @@ const NotificationSettings = () => {
           </Hyperlink>
         </div>
         <NotificationCoursesDropdown />
-        <NotificationPreferences courseId={courseId} />
+          {courseId && (
+            <NotificationPreferences courseId={courseId} />
+          )}
         <div className="border border-light-700 my-6" />
       </Container>
     )
