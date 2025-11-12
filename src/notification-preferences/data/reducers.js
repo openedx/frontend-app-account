@@ -11,7 +11,7 @@ export const defaultState = {
   showPreferences: false,
   courses: {
     status: IDLE_STATUS,
-    courses: [],
+    courses: [{ id: '', name: 'Select Course' }],
     pagination: {},
   },
   preferences: {
