@@ -8,18 +8,13 @@ const PrintingInstructions = () => {
   const intl = useIntl();
   const actionLink = (
     <Hyperlink
-      // TODO: ME What would a generic version of this link look like?  Should
-      // CERTIFICATE_SHARING_HELP_URL really be a configuration variable?  In the meantime,
-      // We've removed the link from the default message.
       destination={getConfig().CERTIFICATES_SUPPORT_URL}
     >
       {intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
     </Hyperlink>
   );
 
-  // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
-  // to allow edx.org to mention MicroMasters certificates to fulfill its business requirements.
-  // TODO: ME needs to be moved to slot
+  // TODO: Custom messaging through JS configuration
   if (getConfig().SITE_NAME === 'edX') {
     return (
       <FormattedMessage
