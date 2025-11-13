@@ -60,9 +60,11 @@ export class DeleteAccount extends React.Component {
     } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
     const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
+    console.log(getConfig().ACCOUNT_BASICS_SUPPORT_URL);
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
+    // TODO: ME needs to be moved to slot
     const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.text.2.edX'
       : 'account.settings.delete.account.text.2';
@@ -78,6 +80,7 @@ export class DeleteAccount extends React.Component {
         </h2>
         {
           this.props.canDeleteAccount ? (
+            // TODO: ME put in plugin slot
             <>
               <p>{intl.formatMessage(messages['account.settings.delete.account.subheader'])}</p>
               <p>
@@ -102,7 +105,7 @@ export class DeleteAccount extends React.Component {
                 )}
               </p>
               <p>
-                <Hyperlink destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics">
+                <Hyperlink destination={getConfig().ACCOUNT_BASICS_SUPPORT_URL}>
                   {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
                 </Hyperlink>
               </p>
@@ -118,7 +121,7 @@ export class DeleteAccount extends React.Component {
               {isVerifiedAccount ? null : (
                 <BeforeProceedingBanner
                   instructionMessageId={optInInstructionMessageId}
-                  supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
+                  supportArticleUrl={getConfig().EMAIL_CONFIRMATION_SUPPORT_URL}
                 />
               )}
               {hasLinkedTPA ? (

@@ -69,6 +69,8 @@ export class ConfirmationModal extends Component {
 
     // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
     // to allow edx.org to fulfill its business requirements.
+
+    // TODO: ME replace with JS config implementation
     const deleteAccountModalText2MessageKey = getConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.modal.text.2.edX'
       : 'account.settings.delete.account.modal.text.2';
