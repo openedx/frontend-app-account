@@ -67,7 +67,8 @@ export class ConfirmationModal extends Component {
     const passwordFieldId = 'passwordFieldId';
     const invalidMessage = messages[this.getShortErrorMessageId(errorType)];
 
-    // TODO: Custom messaging through JS configuration
+    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+    // to allow edx.org to fulfill its business requirements.
     const deleteAccountModalText2MessageKey = getConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.modal.text.2.edX'
       : 'account.settings.delete.account.modal.text.2';

@@ -60,9 +60,9 @@ export class DeleteAccount extends React.Component {
     } = this.props;
     const canDelete = isVerifiedAccount && !hasLinkedTPA;
     const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
-    console.log(getConfig().ACCOUNT_BASICS_SUPPORT_URL);
 
-    // TODO: Custom messaging through JS configuration
+    // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+    // to allow edx.org to fulfill its business requirements.
     const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
       ? 'account.settings.delete.account.text.2.edX'
       : 'account.settings.delete.account.text.2';

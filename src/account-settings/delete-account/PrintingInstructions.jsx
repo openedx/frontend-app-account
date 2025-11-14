@@ -14,7 +14,8 @@ const PrintingInstructions = () => {
     </Hyperlink>
   );
 
-  // TODO: Custom messaging through JS configuration
+  // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
+  // to allow edx.org to fulfill its business requirements.
   if (getConfig().SITE_NAME === 'edX') {
     return (
       <FormattedMessage

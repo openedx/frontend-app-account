@@ -311,7 +311,6 @@ const messages = defineMessages({
     defaultMessage: 'Next to "Camera," select the "Settings…" button.',
     description: 'Text for step four of enabling camera access.',
   },
-  // TODO: Custom messaging through JS configuration
   'id.verification.camera.access.failure.temporary.firefox.step5': {
     id: 'id.verification.camera.access.failure.temporary.firefox.step5',
     defaultMessage: 'In the search bar, enter "edx.org."',
