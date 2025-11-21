@@ -3,7 +3,7 @@ import { getConfig } from '@edx/frontend-platform';
 export const notificationChannels = () => ({
   WEB: 'web',
   ...(getConfig().SHOW_PUSH_CHANNEL && { PUSH: 'push' }),
-  ...(getConfig().SHOW_EMAIL_CHANNEL === 'true' && { EMAIL: 'email' }),
+  ...(getConfig().SHOW_EMAIL_CHANNEL && { EMAIL: 'email' }),
 });
 
 export const shouldHideAppPreferences = (preferences, appId) => {
