@@ -65,8 +65,8 @@ initialize({
     config: () => {
       mergeConfig({
         SUPPORT_URL: process.env.SUPPORT_URL,
-        SHOW_PUSH_CHANNEL: process.env.SHOW_PUSH_CHANNEL === 'true',
-        SHOW_EMAIL_CHANNEL: process.env.SHOW_EMAIL_CHANNEL || 'false',
+        SHOW_PUSH_CHANNEL: process.env.SHOW_PUSH_CHANNEL || false,
+        SHOW_EMAIL_CHANNEL: process.env.SHOW_EMAIL_CHANNEL || false,
         ENABLE_COPPA_COMPLIANCE: (process.env.ENABLE_COPPA_COMPLIANCE || false),
         ENABLE_ACCOUNT_DELETION: (process.env.ENABLE_ACCOUNT_DELETION !== 'false'),
         COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: JSON.parse(process.env.COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED || '[]'),
