@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { setConfig } from '@edx/frontend-platform';
+import { setConfig, mergeConfig } from '@edx/frontend-platform';
 import * as auth from '@edx/frontend-platform/auth';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -110,9 +110,10 @@ describe('Notification Preferences', () => {
   let store;
 
   beforeEach(() => {
-    setConfig({
+    mergeConfig({
       SHOW_EMAIL_CHANNEL: '',
-    });
+      SHOW_PUSH_CHANNEL: '',
+    }, 'App loadConfig override handler');
 
     store = setupStore({
       ...defaultPreferences,
@@ -172,6 +173,59 @@ describe('Notification Preferences', () => {
     expect(screen.getByTestId('toggle-core-email')).toBeDisabled();
     expect(screen.getAllByTestId('email-cadence-button')[0]).toBeDisabled();
     expect(screen.getByTestId('toggle-newGrade-web')).not.toBeDisabled();
+  });
+
+  it('does not render push channel when SHOW_PUSH_CHANNEL is false', async () => {
+    setConfig({
+      SHOW_PUSH_CHANNEL: '',
+    });
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+
+    expect(screen.queryByTestId('toggle-core-push')).not.toBeInTheDocument();
+  });
+
+  it('renders push channel when SHOW_PUSH_CHANNEL is true', async () => {
+    setConfig({
+      SHOW_PUSH_CHANNEL: 'true',
+    });
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+    expect(screen.queryByTestId('toggle-core-push')).toBeInTheDocument();
+  });
+
+  it('does not render email channel when SHOW_EMAIL_CHANNEL is false', async () => {
+    setConfig({
+      SHOW_EMAIL_CHANNEL: '',
+    });
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+    expect(screen.queryByTestId('toggle-core-email')).not.toBeInTheDocument();
+  });
+
+  it('renders email channel when SHOW_EMAIL_CHANNEL is true', async () => {
+    setConfig({
+      SHOW_EMAIL_CHANNEL: 'true',
+    });
+    store = setupStore({
+      ...defaultPreferences,
+      status: SUCCESS_STATUS,
+      selectedCourse: '',
+    });
+    await render(notificationPreferences(store));
+    expect(screen.queryByTestId('toggle-core-email')).toBeInTheDocument();
   });
 });
 
