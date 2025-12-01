@@ -38,3 +38,13 @@ export function getMostRecentApprovedOrPendingVerifiedName(verifiedNames) {
 
   return applicableName;
 }
+
+/**
+ * Parse an environment variable string value to a boolean.
+ * @param {string} value the environment variable string value
+ * @returns {boolean} the parsed boolean value
+ */
+export const parseEnvBoolean = (value) => {
+  if (!value) { return false; }
+  return String(value).toLowerCase() === 'true';
+};
