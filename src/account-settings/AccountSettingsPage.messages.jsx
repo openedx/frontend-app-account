@@ -509,15 +509,15 @@ const messages = defineMessages({
     defaultMessage: 'Delete My Account',
     description: 'Header for the user account deletion area',
   },
-  'account.settings.field.social.platform.name.twitter': {
-    id: 'account.settings.field.social.platform.name.twitter',
-    defaultMessage: 'Twitter',
-    description: 'Label for Twitter',
+  'account.settings.field.social.platform.name.xTwitter': {
+    id: 'account.settings.field.social.platform.name.xTwitter',
+    defaultMessage: 'X (Twitter)',
+    description: 'Label for X (Twitter)',
   },
-  'account.settings.field.social.platform.name.twitter.empty': {
-    id: 'account.settings.field.social.platform.name.twitter.empty',
-    defaultMessage: 'Add Twitter profile',
-    description: 'Placeholder for an empty Twitter field',
+  'account.settings.field.social.platform.name.xTwitter.empty': {
+    id: 'account.settings.field.social.platform.name.xTwitter.empty',
+    defaultMessage: 'Add X profile',
+    description: 'Placeholder for an empty X field',
   },
 
   'account.settings.field.social.platform.name.facebook': {
