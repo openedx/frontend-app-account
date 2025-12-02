@@ -764,11 +764,11 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
           <EditableField
-            name="social_link_twitter"
+            name="social_link_x"
             type="text"
-            value={this.props.formValues.social_link_twitter}
-            label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter'])}
-            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.twitter.empty'])}
+            value={this.props.formValues.social_link_x}
+            label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter'])}
+            emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter.empty'])}
             {...editableFieldProps}
           />
         </div>
@@ -905,7 +905,7 @@ AccountSettingsPage.propTypes = {
     phone_number: PropTypes.string,
     social_link_linkedin: PropTypes.string,
     social_link_facebook: PropTypes.string,
-    social_link_twitter: PropTypes.string,
+    social_link_x: PropTypes.string,
     time_zone: PropTypes.string,
     state: PropTypes.string,
     useVerifiedNameForCerts: PropTypes.bool.isRequired,
