@@ -110,15 +110,10 @@ const messages = defineMessages({
     defaultMessage: 'Select notifications for',
     description: 'Dropdown label',
   },
-  notificationDropdownApplies: {
-    id: 'notification.dropdown.applies',
-    defaultMessage: 'Applies to all courses',
-    description: 'Dropdown applies to all courses',
-  },
-  notificationCourseDropdownApplies: {
-    id: 'notification.dropdown.course.applies',
-    defaultMessage: 'Overrides account-wide settings',
-    description: 'Dropdown applies to specific course',
+  notificationDropdownSelectCourse: {
+    id: 'notification.dropdown.select.course',
+    defaultMessage: 'Select a course you’re enrolled in to view its notification preferences.',
+    description: 'Dropdown description',
   },
 });
 

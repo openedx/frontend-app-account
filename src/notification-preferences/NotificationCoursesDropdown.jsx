@@ -61,9 +61,8 @@ const NotificationCoursesDropdown = () => {
           </Dropdown.Menu>
         </Dropdown>
         <span className="x-small text-gray-500">
-          {selectedCourse?.name === 'Account'
-            ? intl.formatMessage(messages.notificationDropdownApplies)
-            : intl.formatMessage(messages.notificationCourseDropdownApplies)}
+          {selectedCourse?.name === 'Select Course'
+            && intl.formatMessage(messages.notificationDropdownSelectCourse)}
         </span>
       </div>
     )
