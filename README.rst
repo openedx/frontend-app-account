@@ -89,9 +89,9 @@ Cloning and Startup
 
     ``git clone https://github.com/openedx/frontend-app-account.git``
 
-  2. Use node v18.x.
+  2. Use the version of Node specified in the ``.nvmrc`` file.
 
-    The current version of the micro-frontend build scripts support node 18.
+    The current version of the micro-frontend build scripts supports the version of Node found in ``.nvmrc``.
     Using other major versions of node *may* work, but this is unsupported.  For
     convenience, this repository includes an .nvmrc file to help in setting the
     correct node version via `nvm <https://github.com/nvm-sh/nvm>`_.
