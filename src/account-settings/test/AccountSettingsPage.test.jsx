@@ -11,6 +11,7 @@ import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
+import messages from '../AccountSettingsPage.messages';
 
 const mockDispatch = jest.fn();
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -189,7 +190,7 @@ describe('AccountSettingsPage', () => {
 
     expect(screen.getByText('https://linkedin.com/in/testuser')).toBeInTheDocument();
     expect(screen.getByText('Add Facebook profile')).toBeInTheDocument();
-    expect(screen.getByText('Add Twitter profile')).toBeInTheDocument();
+    expect(screen.getByText(messages['account.settings.field.social.platform.name.xTwitter.empty'].defaultMessage)).toBeInTheDocument();
   });
 
   it('renders Site Preferences section with correct field values', () => {

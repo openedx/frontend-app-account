@@ -38,24 +38,24 @@ describe('account service', () => {
     it('returns unpacked account data', async () => {
       const apiResponse = {
         username: 'testuser',
-        social_links: [{ platform: 'twitter', social_link: 'http://t' }],
+        social_links: [{ platform: 'xTwitter', social_link: 'http://t' }],
         language_proficiencies: [{ code: 'en' }],
       };
       mockHttpClient.get.mockResolvedValue({ data: apiResponse });
 
       const result = await getAccount('testuser');
       expect(mockHttpClient.get).toHaveBeenCalledWith('http://lms.test/api/user/v1/accounts/testuser');
-      expect(result.social_link_twitter).toEqual('http://t');
+      expect(result.social_link_x).toEqual('http://t');
       expect(result.language_proficiencies).toEqual('en');
     });
   });
 
   describe('patchAccount', () => {
     it('sends packed commit data and returns unpacked response', async () => {
-      const commit = { social_link_twitter: 'http://t' };
+      const commit = { social_link_x: 'http://t' };
       const apiResponse = {
         username: 'testuser',
-        social_links: [{ platform: 'twitter', social_link: 'http://t' }],
+        social_links: [{ platform: 'xTwitter', social_link: 'http://t' }],
         language_proficiencies: [],
       };
       mockHttpClient.patch.mockResolvedValue({ data: apiResponse });
@@ -63,10 +63,10 @@ describe('account service', () => {
       const result = await patchAccount('testuser', commit);
       expect(mockHttpClient.patch).toHaveBeenCalledWith(
         'http://lms.test/api/user/v1/accounts/testuser',
-        expect.objectContaining({ social_links: [{ platform: 'twitter', social_link: 'http://t' }] }),
+        expect.objectContaining({ social_links: [{ platform: 'xTwitter', social_link: 'http://t' }] }),
         expect.any(Object),
       );
-      expect(result.social_link_twitter).toEqual('http://t');
+      expect(result.social_link_x).toEqual('http://t');
     });
   });
 
