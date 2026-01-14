@@ -38,7 +38,7 @@ describe('Notification Preferences Service', () => {
       const result = await getNotificationPreferences();
 
       expect(mockHttpClient.get).toHaveBeenCalledWith(
-        'http://test.lms/api/notifications/v2/configurations/',
+        'http://test.lms/api/notifications/v3/configurations/',
       );
       expect(result).toEqual(mockData);
     });
@@ -50,7 +50,7 @@ describe('Notification Preferences Service', () => {
       mockHttpClient.put.mockResolvedValue({ data: mockData });
 
       const result = await postPreferenceToggle(
-        'appName',
+        'app_name',
         'someType',
         'email',
         true,
@@ -58,9 +58,9 @@ describe('Notification Preferences Service', () => {
       );
 
       expect(mockHttpClient.put).toHaveBeenCalledWith(
-        'http://test.lms/api/notifications/v2/configurations/',
+        'http://test.lms/api/notifications/v3/configurations/',
         expect.objectContaining({
-          notification_app: 'appName',
+          notification_app: 'app_name',
           notification_type: 'some_type',
           notification_channel: 'email',
           value: true,

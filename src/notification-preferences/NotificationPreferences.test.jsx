@@ -249,7 +249,7 @@ describe('Notification Preferences API v2 Logic', () => {
 
   describe('getNotificationPreferences', () => {
     it('should call the v2 configurations URL', async () => {
-      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v2/configurations/`;
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v3/configurations/`;
 
       await getNotificationPreferences();
 
@@ -260,7 +260,7 @@ describe('Notification Preferences API v2 Logic', () => {
 
   describe('postPreferenceToggle', () => {
     it('should call the v2 configurations URL with PUT method', async () => {
-      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v2/configurations/`;
+      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v3/configurations/`;
       const testArgs = ['app_name', 'notification_type', 'web', true, 'daily'];
 
       await postPreferenceToggle(...testArgs);
