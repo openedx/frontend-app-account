@@ -71,5 +71,5 @@ export function useFeedbackWrapper() {
 
 export function useIsOnMobile() {
   const windowSize = useWindowSize();
-  return windowSize.width <= breakpoints.small.minWidth;
+  return windowSize.width <= breakpoints.small.maxWidth;
 }

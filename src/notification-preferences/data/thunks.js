@@ -35,7 +35,7 @@ const normalizePreferences = (responseData) => {
   const apps = appKeys.map((appId) => ({
     id: appId,
     enabled: preferences[appId].enabled,
-  }));
+  })).sort((a, b) => a.id.localeCompare(b.id));
 
   const nonEditable = {};
   const preferenceList = appKeys.map(appId => {
@@ -50,7 +50,6 @@ const normalizePreferences = (responseData) => {
         info: preferences[appId].notificationTypes[preferenceId].info || '',
         emailCadence: preferences[appId].notificationTypes[preferenceId].emailCadence
         || EMAIL_CADENCE_PREFERENCES.DAILY,
-        coreNotificationTypes: preferences[appId].coreNotificationTypes || [],
       }
     ));
     nonEditable[appId] = preferences[appId].nonEditable;
@@ -122,7 +121,7 @@ export const updatePreferenceToggle = (
         const emailCadenceData = await togglePreference(
           EMAIL_CADENCE,
           value,
-          EMAIL_CADENCE_PREFERENCES.DAILY,
+          emailCadence,
         );
 
         handleSuccessResponse(emailCadenceData);

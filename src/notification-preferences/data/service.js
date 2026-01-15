@@ -3,7 +3,7 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import snakeCase from 'lodash.snakecase';
 
 export const getNotificationPreferences = async () => {
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v3/configurations/`;
   const { data } = await getAuthenticatedHttpClient().get(url);
   return data;
 };
@@ -16,13 +16,13 @@ export const postPreferenceToggle = async (
   emailCadence,
 ) => {
   const patchData = snakeCaseObject({
-    notificationApp,
+    notificationApp: snakeCase(notificationApp),
     notificationType: snakeCase(notificationType),
     notificationChannel,
     value,
     emailCadence,
   });
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v2/configurations/`;
+  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v3/configurations/`;
   const { data } = await getAuthenticatedHttpClient().put(url, patchData);
   return data;
 };

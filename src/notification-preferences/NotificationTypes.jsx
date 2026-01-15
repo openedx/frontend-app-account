@@ -23,7 +23,6 @@ const NotificationTypes = ({ appId }) => {
   return (
     <div className="d-flex flex-column mr-auto px-0">
       {preferences.map(preference => (
-        (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
         <>
           <div
             key={preference.id}
@@ -56,8 +55,6 @@ const NotificationTypes = ({ appId }) => {
           </div>
           )}
         </>
-        )
-
       ))}
     </div>
   );

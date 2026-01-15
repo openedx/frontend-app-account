@@ -18,9 +18,7 @@ import {
   selectUpdatePreferencesStatus,
 } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
-import {
-  EMAIL, EMAIL_CADENCE, EMAIL_CADENCE_PREFERENCES, MIXED,
-} from './data/constants';
+import { EMAIL, EMAIL_CADENCE } from './data/constants';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const dispatch = useDispatch();
@@ -39,13 +37,11 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
     return checked;
   }, []);
 
-  const getEmailCadence = useCallback((notificationChannel, checked, innerText, emailCadence) => {
+  const getEmailCadence = useCallback((notificationChannel, innerText, emailCadence) => {
     if (notificationChannel === EMAIL_CADENCE) {
       return innerText;
     }
-    if (notificationChannel === EMAIL && checked) {
-      return EMAIL_CADENCE_PREFERENCES.DAILY;
-    }
+
     return emailCadence;
   }, []);
 
@@ -56,7 +52,6 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
     const value = getValue(notificationChannel, innerText, checked);
     const emailCadence = getEmailCadence(
       notificationChannel,
-      checked,
       innerText,
       appNotificationPreference.emailCadence,
     );
@@ -66,12 +61,11 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       notificationType,
       notificationChannel,
       value,
-      emailCadence !== MIXED ? emailCadence : undefined,
+      emailCadence,
     ));
   }, [appPreferences, getValue, getEmailCadence, dispatch, appId]);
 
   const renderPreference = (preference) => (
-    (preference?.coreNotificationTypes?.length > 0 || preference.id !== 'core') && (
     <div
       key={`${preference.id}-${channel}`}
       id={`${preference.id}-${channel}`}
@@ -100,7 +94,6 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       />
       )}
     </div>
-    )
   );
 
   return (
