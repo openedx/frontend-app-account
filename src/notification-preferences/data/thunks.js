@@ -121,7 +121,7 @@ export const updatePreferenceToggle = (
         const emailCadenceData = await togglePreference(
           EMAIL_CADENCE,
           value,
-          EMAIL_CADENCE_PREFERENCES.DAILY,
+          emailCadence,
         );
 
         handleSuccessResponse(emailCadenceData);
