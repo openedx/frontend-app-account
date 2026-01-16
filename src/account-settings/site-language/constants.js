@@ -131,7 +131,7 @@ const siteLanguageList = [
   },
   {
     code: 'hu',
-    name: 'Hungarian',
+    name: 'magyar',
     released: true,
   },
 ];
