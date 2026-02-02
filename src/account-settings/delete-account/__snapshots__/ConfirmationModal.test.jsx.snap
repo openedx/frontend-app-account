@@ -38,6 +38,7 @@ exports[`ConfirmationModal should match empty password confirmation modal snapsh
         data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
+        role="presentation"
       />
       <div
         aria-label="Are you sure?"
@@ -247,15 +248,17 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
         "width": "1px",
       }
     }
-    tabIndex={-1}
+    tabIndex={0}
   />,
   <div
     className="pgn__modal-layer"
-    data-focus-lock-disabled="disabled"
+    data-focus-lock-disabled={false}
     onBlur={[Function]}
     onFocus={[Function]}
+    onMouseDown={[Function]}
     onScrollCapture={[Function]}
     onTouchMoveCapture={[Function]}
+    onTouchStart={[Function]}
     onWheelCapture={[Function]}
   >
     <div
@@ -266,6 +269,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
         data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
+        role="presentation"
       />
       <div
         aria-label="Are you sure?"
@@ -393,7 +397,7 @@ exports[`ConfirmationModal should match open confirmation modal snapshot 1`] = `
         "width": "1px",
       }
     }
-    tabIndex={-1}
+    tabIndex={0}
   />,
 ]
 `;
