@@ -23,15 +23,17 @@ exports[`SuccessModal should match open success modal snapshot 1`] = `
         "width": "1px",
       }
     }
-    tabIndex={-1}
+    tabIndex={0}
   />,
   <div
     className="pgn__modal-layer"
-    data-focus-lock-disabled="disabled"
+    data-focus-lock-disabled={false}
     onBlur={[Function]}
     onFocus={[Function]}
+    onMouseDown={[Function]}
     onScrollCapture={[Function]}
     onTouchMoveCapture={[Function]}
+    onTouchStart={[Function]}
     onWheelCapture={[Function]}
   >
     <div
@@ -42,6 +44,7 @@ exports[`SuccessModal should match open success modal snapshot 1`] = `
         data-testid="modal-backdrop"
         onClick={[MockFunction]}
         onKeyDown={[MockFunction]}
+        role="presentation"
       />
       <div
         className="mw-sm p-5 bg-white mx-auto my-3"
@@ -84,7 +87,7 @@ exports[`SuccessModal should match open success modal snapshot 1`] = `
         "width": "1px",
       }
     }
-    tabIndex={-1}
+    tabIndex={0}
   />,
 ]
 `;
