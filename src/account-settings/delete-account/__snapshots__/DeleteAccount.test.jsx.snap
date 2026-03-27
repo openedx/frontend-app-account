@@ -11,10 +11,10 @@ exports[`DeleteAccount should match default section snapshot 1`] = `
     We're sorry to see you go!
   </p>
   <p>
-    Please note: Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
+    Please note: Deletion of your account and personal data is permanent and cannot be undone. example-site-name will not be able to recover your account or the data that is deleted.
   </p>
   <p>
-    Once your account is deleted, you cannot use it to take courses on localhost.
+    Once your account is deleted, you cannot use it to take courses on example-site-name.
   </p>
   <p>
     You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
@@ -22,12 +22,12 @@ exports[`DeleteAccount should match default section snapshot 1`] = `
   <p
     className="text-danger h6"
   >
-    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on localhost.
+    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on example-site-name.
   </p>
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
+      href="help.example.com/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
@@ -57,10 +57,10 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
     We're sorry to see you go!
   </p>
   <p>
-    Please note: Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
+    Please note: Deletion of your account and personal data is permanent and cannot be undone. example-site-name will not be able to recover your account or the data that is deleted.
   </p>
   <p>
-    Once your account is deleted, you cannot use it to take courses on localhost.
+    Once your account is deleted, you cannot use it to take courses on example-site-name.
   </p>
   <p>
     You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
@@ -68,12 +68,12 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
   <p
     className="text-danger h6"
   >
-    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on localhost.
+    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on example-site-name.
   </p>
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
+      href="help.example.com/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
@@ -115,7 +115,7 @@ exports[`DeleteAccount should match unverified account section snapshot 1`] = `
       Before proceeding, please 
       <a
         className="pgn__hyperlink default-link standalone-link"
-        href="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
+        href="support.example.org/how-do-I-confirm-my-email"
         target="_self"
       >
         activate your account
@@ -137,10 +137,10 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
     We're sorry to see you go!
   </p>
   <p>
-    Please note: Deletion of your account and personal data is permanent and cannot be undone. localhost will not be able to recover your account or the data that is deleted.
+    Please note: Deletion of your account and personal data is permanent and cannot be undone. example-site-name will not be able to recover your account or the data that is deleted.
   </p>
   <p>
-    Once your account is deleted, you cannot use it to take courses on localhost.
+    Once your account is deleted, you cannot use it to take courses on example-site-name.
   </p>
   <p>
     You may also lose access to verified certificates and other program credentials. You can make a copy of these for your records before proceeding with deletion.
@@ -148,12 +148,12 @@ exports[`DeleteAccount should match unverified account section snapshot 2`] = `
   <p
     className="text-danger h6"
   >
-    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on localhost.
+    Warning: Account deletion is permanent. Please read the above carefully before proceeding. This is an irreversible action, and you will no longer be able to use the same email on example-site-name.
   </p>
   <p>
     <a
       className="pgn__hyperlink default-link standalone-link"
-      href="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics"
+      href="help.example.com/account-basics"
       target="_self"
     >
       Want to change your email, name, or password instead?
