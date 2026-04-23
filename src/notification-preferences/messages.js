@@ -30,6 +30,7 @@ const messages = defineMessages({
       oraStaffNotifications {New ORA submission for staff grading}
       oraGradeAssigned {Essay assignment grade received}
       newInstructorAllLearnersPost {New posts from instructors}
+      oraReminder {Essay assignment reminders}
       other {{text}}
     }`,
     description: 'Display text for Notification Types',
