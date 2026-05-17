@@ -74,6 +74,10 @@ initialize({
         MARKETING_EMAILS_OPT_IN: (process.env.MARKETING_EMAILS_OPT_IN || false),
         PASSWORD_RESET_SUPPORT_LINK: process.env.PASSWORD_RESET_SUPPORT_LINK,
         LEARNER_FEEDBACK_URL: process.env.LEARNER_FEEDBACK_URL,
+        ACCOUNT_BASICS_SUPPORT_URL: process.env.ACCOUNT_BASICS_SUPPORT_URL || false,
+        EMAIL_CONFIRMATION_SUPPORT_URL: process.env.EMAIL_CONFIRMATION_SUPPORT_URL || false,
+        CERTIFICATES_SUPPORT_URL: process.env.CERTIFICATES_SUPPORT_URL || false,
+        LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || false,
       }, 'App loadConfig override handler');
     },
   },
