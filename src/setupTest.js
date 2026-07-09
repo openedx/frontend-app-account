@@ -15,7 +15,6 @@ jest.mock('@openedx/frontend-plugin-framework', () => ({
 mergeConfig({
   SUPPORT_URL: process.env.SUPPORT_URL || 'https://support.example.com',
   SHOW_PUSH_CHANNEL: process.env.SHOW_PUSH_CHANNEL || false,
-  SHOW_EMAIL_CHANNEL: process.env.SHOW_EMAIL_CHANNEL || false,
   ENABLE_COPPA_COMPLIANCE: (process.env.ENABLE_COPPA_COMPLIANCE || false),
   ENABLE_ACCOUNT_DELETION: (process.env.ENABLE_ACCOUNT_DELETION !== 'false'),
   COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: JSON.parse(process.env.COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED || '[]'),

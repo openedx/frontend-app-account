@@ -39,6 +39,26 @@ describe('notification-preferences reducer', () => {
     });
   });
 
+  it('default state has showEmailPreferences set to true', () => {
+    expect(state.showEmailPreferences).toBe(true);
+  });
+
+  it('stores showEmailPreferences from FETCHED_PREFERENCES action', () => {
+    const result = reducer(
+      state,
+      { type: Actions.FETCHED_PREFERENCES, payload: preferenceData, showEmailPreferences: false },
+    );
+    expect(result.showEmailPreferences).toBe(false);
+  });
+
+  it('defaults showEmailPreferences to true when not in FETCHED_PREFERENCES action', () => {
+    const result = reducer(
+      state,
+      { type: Actions.FETCHED_PREFERENCES, payload: preferenceData },
+    );
+    expect(result.showEmailPreferences).toBe(true);
+  });
+
   test.each([
     { action: Actions.FETCHING_PREFERENCES, status: LOADING_STATUS, updatePreferenceStatus: IDLE_STATUS },
     { action: Actions.FAILED_PREFERENCES, status: FAILURE_STATUS, updatePreferenceStatus: FAILURE_STATUS },

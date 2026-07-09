@@ -1,26 +1,28 @@
-import { updatePreferenceToggle } from './thunks';
+import { updatePreferenceToggle, fetchNotificationPreferences } from './thunks';
 import {
   updatePreferenceValue,
   fetchNotificationPreferenceSuccess,
   fetchNotificationPreferenceFailed,
+  fetchNotificationPreferenceFetching,
 } from './actions';
-import { postPreferenceToggle } from './service';
+import { postPreferenceToggle, getNotificationPreferences } from './service';
 import { EMAIL } from './constants';
 
 jest.mock('./service', () => ({
   patchPreferenceToggle: jest.fn(),
   postPreferenceToggle: jest.fn(),
+  getNotificationPreferences: jest.fn(),
 }));
 
 jest.mock('./actions', () => ({
   updatePreferenceValue: jest.fn(),
   fetchNotificationPreferenceSuccess: jest.fn(),
   fetchNotificationPreferenceFailed: jest.fn(),
+  fetchNotificationPreferenceFetching: jest.fn(),
 }));
 
 describe('updatePreferenceToggle', () => {
   const dispatch = jest.fn();
-  const courseId = 'course-v1:edX+DemoX+2023';
   const notificationApp = 'app';
   const notificationType = 'type';
   const notificationChannel = 'channel';
@@ -83,7 +85,30 @@ describe('updatePreferenceToggle', () => {
       value,
       emailCadence,
     );
-    expect(dispatch).toHaveBeenCalledWith(fetchNotificationPreferenceSuccess(null, { data: mockData }, true));
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      expect.any(Object),
+      undefined,
+      true,
+      true,
+    );
+  });
+
+  it('propagates showEmailPreferences: false from API response', async () => {
+    postPreferenceToggle.mockResolvedValue({ show_email_preferences: false, data: mockData });
+    await updatePreferenceToggle(
+      notificationApp,
+      notificationType,
+      notificationChannel,
+      value,
+      emailCadence,
+    )(dispatch);
+
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      expect.any(Object),
+      undefined,
+      false,
+      true,
+    );
   });
 
   it('should handle email preferences separately', async () => {
@@ -97,7 +122,14 @@ describe('updatePreferenceToggle', () => {
       true,
       emailCadence,
     );
-    expect(dispatch).toHaveBeenCalledWith(fetchNotificationPreferenceSuccess(courseId, { data: mockData }, false));
+    // handleSuccessResponse is called twice: once for EMAIL, once for EMAIL_CADENCE
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledTimes(2);
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      expect.any(Object),
+      undefined,
+      true,
+      true,
+    );
   });
 
   it('should dispatch fetchNotificationPreferenceFailed on error', async () => {
@@ -116,6 +148,72 @@ describe('updatePreferenceToggle', () => {
       notificationChannel,
       !value,
     ));
-    expect(dispatch).toHaveBeenCalledWith(fetchNotificationPreferenceFailed());
+    expect(fetchNotificationPreferenceFailed).toHaveBeenCalled();
+  });
+});
+
+describe('fetchNotificationPreferences', () => {
+  const dispatch = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('dispatches fetching then success with showEmailPreferences from API response', async () => {
+    getNotificationPreferences.mockResolvedValue({
+      show_preferences: true,
+      show_email_preferences: true,
+      data: {},
+    });
+
+    await fetchNotificationPreferences()(dispatch);
+
+    expect(fetchNotificationPreferenceFetching).toHaveBeenCalled();
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      { apps: [], preferences: [], nonEditable: {} },
+      true,
+      true,
+    );
+    expect(fetchNotificationPreferenceFailed).not.toHaveBeenCalled();
+  });
+
+  it('defaults showEmailPreferences to true when API does not return it', async () => {
+    getNotificationPreferences.mockResolvedValue({
+      show_preferences: false,
+      data: {},
+    });
+
+    await fetchNotificationPreferences()(dispatch);
+
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      expect.any(Object),
+      false,
+      true,
+    );
+  });
+
+  it('sets showEmailPreferences to false when API returns show_email_preferences: false', async () => {
+    getNotificationPreferences.mockResolvedValue({
+      show_preferences: true,
+      show_email_preferences: false,
+      data: {},
+    });
+
+    await fetchNotificationPreferences()(dispatch);
+
+    expect(fetchNotificationPreferenceSuccess).toHaveBeenCalledWith(
+      expect.any(Object),
+      true,
+      false,
+    );
+  });
+
+  it('dispatches failure and not success on API error', async () => {
+    getNotificationPreferences.mockRejectedValue(new Error('Network Error'));
+
+    await fetchNotificationPreferences()(dispatch);
+
+    expect(fetchNotificationPreferenceFailed).toHaveBeenCalled();
+    expect(fetchNotificationPreferenceSuccess).not.toHaveBeenCalled();
   });
 });

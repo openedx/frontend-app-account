@@ -11,14 +11,15 @@ import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
 
-import { selectAppPreferences } from './data/selectors';
+import { selectAppPreferences, selectShowEmailPreferences } from './data/selectors';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
   const preferences = useSelector(selectAppPreferences(appId));
+  const showEmailPreferences = useSelector(selectShowEmailPreferences());
   const mobileView = useIsOnMobile();
-  const NOTIFICATION_CHANNELS = notificationChannels();
+  const NOTIFICATION_CHANNELS = notificationChannels(showEmailPreferences);
 
   return (
     <div className="d-flex flex-column mr-auto px-0">

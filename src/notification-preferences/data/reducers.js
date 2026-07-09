@@ -9,6 +9,7 @@ import { normalizeAccountPreferences } from './thunks';
 
 export const defaultState = {
   showPreferences: false,
+  showEmailPreferences: true,
   preferences: {
     status: IDLE_STATUS,
     updatePreferenceStatus: IDLE_STATUS,
@@ -50,6 +51,7 @@ const notificationPreferencesReducer = (state = defaultState, action = {}) => {
           ...action.payload,
         },
         showPreferences: action.showPreferences,
+        showEmailPreferences: action.showEmailPreferences ?? true,
       };
     }
     case Actions.FAILED_PREFERENCES:
