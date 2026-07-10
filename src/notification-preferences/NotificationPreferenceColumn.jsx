@@ -15,7 +15,7 @@ import { LOADING_STATUS } from '../constants';
 import { updatePreferenceToggle } from './data/thunks';
 import {
   selectAppNonEditableChannels, selectAppPreferences,
-  selectUpdatePreferencesStatus,
+  selectUpdatePreferencesStatus, selectShowEmailPreferences,
 } from './data/selectors';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import { EMAIL, EMAIL_CADENCE } from './data/constants';
@@ -27,7 +27,8 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
   const nonEditable = useSelector(selectAppNonEditableChannels(appId));
   const mobileView = useIsOnMobile();
-  const NOTIFICATION_CHANNELS = Object.values(notificationChannels());
+  const showEmailPreferences = useSelector(selectShowEmailPreferences());
+  const NOTIFICATION_CHANNELS = Object.values(notificationChannels(showEmailPreferences));
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
   const getValue = useCallback((notificationChannel, innerText, checked) => {
