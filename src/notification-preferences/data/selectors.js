@@ -46,3 +46,7 @@ export const selectPreferenceNonEditableChannels = (appId, name) => state => (
 export const selectShowPreferences = () => state => (
   state.notificationPreferences.showPreferences
 );
+
+export const selectShowEmailPreferences = () => state => (
+  state.notificationPreferences.showEmailPreferences
+);

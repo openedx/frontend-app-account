@@ -71,7 +71,11 @@ export const fetchNotificationPreferences = () => (
       dispatch(fetchNotificationPreferenceFetching());
       const data = camelCaseObject(await getNotificationPreferences());
       const normalizedData = normalizePreferences(data);
-      dispatch(fetchNotificationPreferenceSuccess(normalizedData, data.showPreferences));
+      dispatch(fetchNotificationPreferenceSuccess(
+        normalizedData,
+        data.showPreferences,
+        data.showEmailPreferences ?? true,
+      ));
     } catch (errors) {
       dispatch(fetchNotificationPreferenceFailed());
     }
@@ -99,7 +103,12 @@ export const updatePreferenceToggle = (
       const handleSuccessResponse = (data) => {
         const processedData = camelCaseObject(data);
 
-        dispatch(fetchNotificationPreferenceSuccess(processedData, processedData.showPreferences, true));
+        dispatch(fetchNotificationPreferenceSuccess(
+          processedData,
+          processedData.showPreferences,
+          processedData.showEmailPreferences ?? true,
+          true,
+        ));
         return processedData;
       };
 
