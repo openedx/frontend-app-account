@@ -74,7 +74,7 @@ describe('ID Verification Service', () => {
       const result = await getEnrollments();
 
       expect(mockHttpClient.get).toHaveBeenCalledWith(
-        'http://test.lms/api/enrollment/v1/enrollment',
+        'http://test.lms/api/enrollment/v2/enrollment/',
         { headers: { Accept: 'application/json' } },
       );
       expect(result).toEqual(mockResponse.data);
