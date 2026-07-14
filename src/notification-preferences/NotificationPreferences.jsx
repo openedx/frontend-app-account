@@ -12,7 +12,7 @@ import NotificationPreferenceApp from './NotificationPreferenceApp';
 import { fetchNotificationPreferences } from './data/thunks';
 import { LOADING_STATUS } from '../constants';
 import {
-  selectNotificationPreferencesStatus, selectPreferenceAppsId,
+  selectNotificationPreferencesStatus, selectPreferenceAppsId, selectShowEmailPreferences,
 } from './data/selectors';
 import { notificationChannels } from './data/utils';
 
@@ -21,8 +21,9 @@ const NotificationPreferences = () => {
   const intl = useIntl();
   const notificationStatus = useSelector(selectNotificationPreferencesStatus());
   const preferenceAppsIds = useSelector(selectPreferenceAppsId());
+  const showEmailPreferences = useSelector(selectShowEmailPreferences());
   const mobileView = useIsOnMobile();
-  const NOTIFICATION_CHANNELS = notificationChannels();
+  const NOTIFICATION_CHANNELS = notificationChannels(showEmailPreferences);
   const isLoading = notificationStatus === LOADING_STATUS;
 
   const preferencesList = useMemo(() => (

@@ -94,7 +94,7 @@ const messages = defineMessages({
   },
   notificationCadenceDescription: {
     id: 'notification.cadence.description',
-    defaultMessage: 'Daily email notifications are sent at {dailyTime}. Weekly email notifications are sent every Sunday at {weeklyTime}.',
+    defaultMessage: 'Daily email notifications are sent at {dailyTime}. Weekly email notifications are sent every Monday at {weeklyTime}.',
     description: 'Notification cadence description',
   },
   notificationDefaultInfo: {
