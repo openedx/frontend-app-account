@@ -833,11 +833,14 @@ class AccountSettingsPage extends React.Component {
 
   renderError() {
     return (
-      <div>
-        {this.props.intl.formatMessage(messages['account.settings.loading.error'], {
-          error: this.props.loadingError,
-        })}
-      </div>
+      <Alert variant="danger">
+        <Alert.Heading>
+          {this.props.intl.formatMessage(messages['account.settings.loading.error.heading'])}
+        </Alert.Heading>
+        <p>
+          {this.props.intl.formatMessage(messages['account.settings.loading.error.body'])}
+        </p>
+      </Alert>
     );
   }
 

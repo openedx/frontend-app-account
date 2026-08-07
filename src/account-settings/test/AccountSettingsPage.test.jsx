@@ -231,4 +231,23 @@ describe('AccountSettingsPage', () => {
 
     expect(screen.queryByText('We\'re sorry to see you go!')).not.toBeInTheDocument();
   });
+
+  it('renders a graceful loading error message instead of raw error text', () => {
+    store = mockStore({
+      ...mockData,
+      accountSettings: {
+        ...mockData.accountSettings,
+        loading: false,
+        loaded: false,
+        loadingError: 'Missing required request headers: x-enterprise-uuid',
+      },
+    });
+
+    render(reduxWrapper(<AccountSettingsPage {...props} />));
+
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(screen.getByText('We could not load this page. Refresh the page and try again.')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /support/ })).not.toBeInTheDocument();
+    expect(screen.queryByText('Missing required request headers: x-enterprise-uuid')).not.toBeInTheDocument();
+  });
 });
