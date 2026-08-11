@@ -6,7 +6,7 @@ import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
 import { handleRequestError, unpackFieldErrors } from './utils';
-import { getThirdPartyAuthProviders } from '../third-party-auth';
+import { getThirdPartyAuthProviders, getThirdPartyAuthError } from '../third-party-auth';
 import { postVerifiedNameConfig } from '../certificate-preference/data/service';
 import { FIELD_LABELS } from './constants';
 
@@ -215,6 +215,7 @@ export async function getSettings(username, userRoles) {
     account,
     preferences,
     thirdPartyAuthProviders,
+    thirdPartyAuthError,
     profileDataManager,
     timeZones,
     countries,
@@ -222,6 +223,7 @@ export async function getSettings(username, userRoles) {
     getAccount(username),
     getPreferences(username),
     getThirdPartyAuthProviders(),
+    getThirdPartyAuthError(),
     getProfileDataManager(username, userRoles),
     getTimeZones(),
     getCountryList(),
@@ -231,6 +233,7 @@ export async function getSettings(username, userRoles) {
     ...account,
     ...preferences,
     thirdPartyAuthProviders,
+    thirdPartyAuthError,
     profileDataManager,
     timeZones,
     countries,
