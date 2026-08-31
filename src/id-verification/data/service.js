@@ -36,7 +36,7 @@ export async function getExistingIdVerification() {
  * Returns an array: [{...data, mode: String}]
  */
 export async function getEnrollments() {
-  const url = `${getConfig().LMS_BASE_URL}/api/enrollment/v1/enrollment`;
+  const url = `${getConfig().LMS_BASE_URL}/api/enrollment/v2/enrollment/`;
   const requestConfig = {
     headers: { Accept: 'application/json' },
   };
