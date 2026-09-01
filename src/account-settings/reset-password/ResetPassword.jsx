@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
-import { StatefulButton } from '@openedx/paragon';
+import { Card, StatefulButton } from '@openedx/paragon';
 
 import { resetPassword } from './data/actions';
 import messages from './messages';
@@ -13,40 +13,48 @@ const ResetPassword = (props) => {
   const intl = useIntl();
 
   return (
-    <div className="form-group">
-      <h6 aria-level="3">
-        <FormattedMessage
-          id="account.settings.editable.field.password.reset.label"
-          defaultMessage="Password"
-          description="The password label in account settings"
-        />
-      </h6>
-      <p>
-        <StatefulButton
-          variant="link"
-          state={status}
-          onClick={(e) => {
-            // Swallow clicks if the state is pending.
-            // We do this instead of disabling the button to prevent
-            // it from losing focus (disabled elements cannot have focus).
-            // Disabling it would causes upstream issues in focus management.
-            // Swallowing the onSubmit event on the form would be better, but
-            // we would have to add that logic for every field given our
-            // current structure of the application.
-            if (status === 'pending') {
-              e.preventDefault();
-            }
-            props.resetPassword(email);
-          }}
-          disabledStates={[]}
-          labels={{
-            default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
-          }}
-        />
-      </p>
-      {status === 'complete' ? <ConfirmationAlert email={email} /> : null}
-      {status === 'forbidden' ? <RequestInProgressAlert /> : null}
-    </div>
+    <Card className="mb-4">
+      <Card.Header
+        title={(
+          <FormattedMessage
+            id="account.settings.editable.field.password.reset.label"
+            defaultMessage="Password"
+            description="The password label in account settings"
+          />
+        )}
+      />
+      <Card.Body>
+        <Card.Section>
+          <StatefulButton
+            variant="link"
+            state={status}
+            onClick={(e) => {
+              // Swallow clicks if the state is pending.
+              // We do this instead of disabling the button to prevent
+              // it from losing focus (disabled elements cannot have focus).
+              // Disabling it would causes upstream issues in focus management.
+              // Swallowing the onSubmit event on the form would be better, but
+              // we would have to add that logic for every field given our
+              // current structure of the application.
+              if (status === 'pending') {
+                e.preventDefault();
+              }
+              props.resetPassword(email);
+            }}
+            disabledStates={[]}
+            labels={{
+              default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
+            }}
+          />
+        </Card.Section>
+        {status && (
+          <Card.Section>
+            {status === 'complete' ? <ConfirmationAlert email={email} /> : null}
+            {status === 'forbidden' ? <RequestInProgressAlert /> : null}
+          </Card.Section>
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 
