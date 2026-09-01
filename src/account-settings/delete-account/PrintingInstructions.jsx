@@ -8,10 +8,7 @@ const PrintingInstructions = () => {
   const intl = useIntl();
   const actionLink = (
     <Hyperlink
-      // TODO: What would a generic version of this link look like?  Should
-      // CERTIFICATE_SHARING_HELP_URL really be a configuration variable?  In the meantime,
-      // We've removed the link from the default message.
-      destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UVVOA2/certificates"
+      destination={getConfig().CERTIFICATES_SUPPORT_URL}
     >
       {intl.formatMessage(messages['account.settings.delete.account.text.3.link'])}
     </Hyperlink>

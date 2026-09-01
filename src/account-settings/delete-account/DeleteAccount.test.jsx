@@ -3,6 +3,16 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
+jest.mock('@edx/frontend-platform', () => ({
+  ...jest.requireActual('@edx/frontend-platform'),
+  getConfig: jest.fn(() => ({
+    ACCOUNT_BASICS_SUPPORT_URL: 'help.example.com/account-basics',
+    EMAIL_CONFIRMATION_SUPPORT_URL: 'support.example.org/how-do-I-confirm-my-email',
+    CERTIFICATES_SUPPORT_URL: 'help.example.org/certificates-support',
+    LEARNER_SUPPORT_URL: 'support.example.org/learner-support',
+    SITE_NAME: 'example-site-name',
+  })),
+}));
 // Testing the modals separately, they just clutter up the snapshots if included here.
 jest.mock('./ConfirmationModal', () => function ConfirmationModalMock() {
   return <></>;
