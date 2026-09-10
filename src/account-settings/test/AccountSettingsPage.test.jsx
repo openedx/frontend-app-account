@@ -216,6 +216,28 @@ describe('AccountSettingsPage', () => {
     expect(screen.getByText('We\'re sorry to see you go!')).toBeInTheDocument();
   });
 
+  it('renders the third-party auth error message reported by the LMS', () => {
+    store = mockStore({
+      ...mockData,
+      accountSettings: {
+        ...mockData.accountSettings,
+        thirdPartyAuthError: 'The Google account you selected is already linked to another edX account.',
+      },
+    });
+
+    render(reduxWrapper(<AccountSettingsPage {...props} />));
+
+    expect(
+      screen.getByText('The Google account you selected is already linked to another edX account.'),
+    ).toBeInTheDocument();
+  });
+
+  it('does not render a third-party auth error message when there is none', () => {
+    render(reduxWrapper(<AccountSettingsPage {...props} />));
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
   it('does not render Delete Account section when disabled', () => {
     // eslint-disable-next-line global-require
     const { getConfig } = require('@edx/frontend-platform');

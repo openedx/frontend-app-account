@@ -1,5 +1,5 @@
 import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig, getQueryParameters } from '@edx/frontend-platform';
+import { getConfig } from '@edx/frontend-platform';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -52,17 +52,12 @@ import {
 import { fetchSiteLanguages } from './site-language';
 import { fetchNotificationPreferences } from '../notification-preferences/data/thunks';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
-import { withLocation, withNavigate } from './hoc';
+import { withNavigate } from './hoc';
 import AdditionalProfileFieldsSlot from '../plugin-slots/AdditionalProfileFieldsSlot';
 
 class AccountSettingsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    const duplicateTpaProvider = getQueryParameters().duplicate_provider;
-    this.state = {
-      duplicateTpaProvider,
-    };
 
     this.navLinkRefs = {
       '#basic-information': React.createRef(),
@@ -240,29 +235,19 @@ class AccountSettingsPage extends React.Component {
     return Boolean(this.props.profileDataManager);
   }
 
-  renderDuplicateTpaProviderMessage() {
-    if (!this.state.duplicateTpaProvider) {
+  renderThirdPartyAuthErrorMessage() {
+    if (!this.props.thirdPartyAuthError) {
       return null;
     }
 
-    // If there is a "duplicate_provider" query parameter, that's the backend's
-    // way of telling us that the provider account the user tried to link is already linked
-    // to another user account on the platform. We use this to display a message to that effect,
-    // and remove the parameter from the URL.
-    this.props.navigate(this.props.location, { replace: true });
-
+    // The LMS records a message when a third-party auth attempt fails (for instance, when the
+    // provider account the user tried to link is already linked to another account) and exposes it
+    // through the third_party_auth_error endpoint. The message is already localized and consumed on
+    // read, so it is only displayed once.
     return (
       <div>
-        <Alert variant="danger">
-          <FormattedMessage
-            id="account.settings.message.duplicate.tpa.provider"
-            defaultMessage="The {provider} account you selected is already linked to another {siteName} account."
-            description="alert message informing the user that the third-party account they attempted to link is already linked to another account"
-            values={{
-              provider: <b>{this.state.duplicateTpaProvider}</b>,
-              siteName: getConfig().SITE_NAME,
-            }}
-          />
+        <Alert variant="danger" icon={Error}>
+          {this.props.thirdPartyAuthError}
         </Alert>
       </div>
     );
@@ -856,7 +841,7 @@ class AccountSettingsPage extends React.Component {
 
     return (
       <Container className="page__account-settings py-5" size="xl">
-        {this.renderDuplicateTpaProviderMessage()}
+        {this.renderThirdPartyAuthErrorMessage()}
         <h1 className="mb-4">
           {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
         </h1>
@@ -952,6 +937,7 @@ AccountSettingsPage.propTypes = {
   tpaProviders: PropTypes.arrayOf(PropTypes.shape({
     connected: PropTypes.bool,
   })),
+  thirdPartyAuthError: PropTypes.string,
   nameChangeModal: PropTypes.oneOfType([
     PropTypes.shape({
       formId: PropTypes.string,
@@ -976,7 +962,6 @@ AccountSettingsPage.propTypes = {
     }),
   ),
   navigate: PropTypes.func.isRequired,
-  location: PropTypes.string.isRequired,
   countriesCodesList: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
@@ -1003,6 +988,7 @@ AccountSettingsPage.defaultProps = {
   profileDataManager: null,
   staticFields: [],
   tpaProviders: [],
+  thirdPartyAuthError: null,
   isActive: true,
   secondary_email_enabled: false,
   nameChangeModal: {} || false,
@@ -1012,7 +998,7 @@ AccountSettingsPage.defaultProps = {
   countriesCodesList: [],
 };
 
-export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
+export default withNavigate(connect(accountSettingsPageSelector, {
   fetchNotificationPreferences,
   fetchSettings,
   saveSettings,
@@ -1020,4 +1006,4 @@ export default withLocation(withNavigate(connect(accountSettingsPageSelector, {
   updateDraft,
   fetchSiteLanguages,
   beginNameChange,
-})(injectIntl(AccountSettingsPage))));
+})(injectIntl(AccountSettingsPage)));

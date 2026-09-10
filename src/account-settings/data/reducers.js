@@ -36,6 +36,7 @@ export const defaultState = {
   nameChange: nameChangeReducer(),
   thirdPartyAuth: thirdPartyAuthReducer(),
   nameChangeModal: false,
+  thirdPartyAuthError: null,
   verifiedName: null,
   mostRecentVerifiedName: {},
   verifiedNameHistory: {},
@@ -59,6 +60,10 @@ const reducer = (state = defaultState, action = {}) => {
         values: { ...state.values, ...action.payload.values },
         // Dump the providers into thirdPartyAuth.
         thirdPartyAuth: { ...state.thirdPartyAuth, providers: action.payload.thirdPartyAuthProviders },
+        // The LMS consumes the third-party auth message on read, so only the first fetch of a
+        // session returns it. Never let a later fetch (StrictMode's double mount in development,
+        // or any refetch) clobber a message we have already been handed.
+        thirdPartyAuthError: action.payload.thirdPartyAuthError ?? state.thirdPartyAuthError,
         profileDataManager: action.payload.profileDataManager,
         timeZones: action.payload.timeZones,
         loading: false,
