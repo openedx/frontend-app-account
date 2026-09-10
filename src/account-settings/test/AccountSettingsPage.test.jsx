@@ -83,7 +83,7 @@ describe('AccountSettingsPage', () => {
         language_proficiencies: 'es',
         social_link_linkedin: 'https://linkedin.com/in/testuser',
         social_link_facebook: '',
-        social_link_twitter: '',
+        social_link_x: '',
         time_zone: 'America/New_York',
         state: 'NY',
         secondary_email_enabled: true,
