@@ -38,7 +38,7 @@ describe('account service', () => {
     it('returns unpacked account data', async () => {
       const apiResponse = {
         username: 'testuser',
-        social_links: [{ platform: 'xTwitter', social_link: 'http://t' }],
+        social_links: [{ platform: 'x', social_link: 'http://t' }],
         language_proficiencies: [{ code: 'en' }],
       };
       mockHttpClient.get.mockResolvedValue({ data: apiResponse });
@@ -55,7 +55,7 @@ describe('account service', () => {
       const commit = { social_link_x: 'http://t' };
       const apiResponse = {
         username: 'testuser',
-        social_links: [{ platform: 'xTwitter', social_link: 'http://t' }],
+        social_links: [{ platform: 'x', social_link: 'http://t' }],
         language_proficiencies: [],
       };
       mockHttpClient.patch.mockResolvedValue({ data: apiResponse });
@@ -63,7 +63,7 @@ describe('account service', () => {
       const result = await patchAccount('testuser', commit);
       expect(mockHttpClient.patch).toHaveBeenCalledWith(
         'http://lms.test/api/user/v1/accounts/testuser',
-        expect.objectContaining({ social_links: [{ platform: 'xTwitter', social_link: 'http://t' }] }),
+        expect.objectContaining({ social_links: [{ platform: 'x', social_link: 'http://t' }] }),
         expect.any(Object),
       );
       expect(result.social_link_x).toEqual('http://t');
@@ -174,7 +174,7 @@ describe('account service', () => {
         },
       });
 
-      const result = await patchSettings('user', { time_zone: 'UTC', social_link_twitter: 't' });
+      const result = await patchSettings('user', { time_zone: 'UTC', social_link_x: 't' });
       expect(result.username).toBe('user');
     });
   });
