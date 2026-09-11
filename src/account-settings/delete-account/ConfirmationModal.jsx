@@ -78,7 +78,6 @@ export class ConfirmationModal extends Component {
         isOpen={open}
         title={intl.formatMessage(messages['account.settings.delete.account.modal.header'])}
         onClose={onCancel}
-        isOverflowVisible
         footerNode={(
           <ActionRow>
             <Button variant="link" onClick={onCancel}>{intl.formatMessage(messages['account.settings.delete.account.modal.confirm.cancel'])}</Button>
