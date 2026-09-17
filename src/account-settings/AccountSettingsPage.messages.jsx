@@ -11,10 +11,15 @@ const messages = defineMessages({
     defaultMessage: 'Loading...',
     description: 'Message when data is being loaded',
   },
-  'account.settings.loading.error': {
-    id: 'account.settings.loading.error',
-    defaultMessage: 'Error: {error}',
-    description: 'Message when data failed to load',
+  'account.settings.loading.error.heading': {
+    id: 'account.settings.loading.error.heading',
+    defaultMessage: 'Something went wrong',
+    description: 'Heading for message when account settings fail to load',
+  },
+  'account.settings.loading.error.body': {
+    id: 'account.settings.loading.error.body',
+    defaultMessage: 'We could not load this page. Refresh the page and try again.',
+    description: 'Body message when account settings fail to load',
   },
   'account.settings.banner.beta.language': {
     id: 'account.settings.banner.beta.language',
