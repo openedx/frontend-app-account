@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-  getAuthenticatedUser, getLocale, logError, updateLocale,
+  getAuthenticatedUser, logError, updateLocale,
 } from '@openedx/frontend-base';
 
 import { patchSettings } from './api';
@@ -20,7 +20,6 @@ import {
   RESET_DRAFTS,
   SAVE_BEGIN,
   SAVE_FAILURE,
-  SAVE_PREVIOUS_SITE_LANGUAGE,
   SAVE_RESET,
   SAVE_SUCCESS,
   UPDATE_DRAFT,
@@ -59,13 +58,12 @@ export const saveSettingsRequest = async ({ formId, commitValues, extendedProfil
   const commitData = Object.keys(extendedProfile).length > 0 ? extendedProfile : { [formId]: commitValues };
 
   if (formId === 'siteLanguage') {
-    const previousSiteLanguage = getLocale();
     await patchPreferences(username, { prefLang: commitValues });
     await postSetLang(commitValues);
 
     updateLocale(commitValues);
 
-    return { savedValues: commitData, commitData, previousSiteLanguage };
+    return { savedValues: commitData, commitData };
   }
 
   const savedValues = await patchSettings(username, commitData, userId);
@@ -118,10 +116,7 @@ export const AccountSettingsFormProvider = ({ children }) => {
     mutationKey: accountSettingsMutationKeys.saveSettings,
     mutationFn: saveSettingsRequest,
     onMutate: () => dispatch({ type: SAVE_BEGIN }),
-    onSuccess: ({ savedValues, commitData, previousSiteLanguage }, { formId }) => {
-      if (previousSiteLanguage !== undefined) {
-        dispatch({ type: SAVE_PREVIOUS_SITE_LANGUAGE, previousSiteLanguage });
-      }
+    onSuccess: ({ savedValues, commitData }, { formId }) => {
       applySavedValues(savedValues, commitData);
       scheduleCloseForm(formId);
     },
