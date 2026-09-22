@@ -20,6 +20,7 @@ describe('Main', () => {
 
     expect(screen.getByRole('main')).toHaveTextContent('settings page');
     expect(screen.getByRole('main')).toHaveClass('account-app');
+    expect(screen.getByRole('main').firstElementChild).toHaveClass('container-mw-xl');
     await waitFor(() => expect(document.title).toBe('Account | localhost'));
   });
 });
