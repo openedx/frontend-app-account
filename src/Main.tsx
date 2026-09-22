@@ -18,7 +18,7 @@ const Main = () => {
           })}
         </title>
       </Helmet>
-      <main className="flex-grow-1" id="main">
+      <main className="account-app flex-grow-1" id="main">
         <Outlet />
       </main>
     </CurrentAppProvider>

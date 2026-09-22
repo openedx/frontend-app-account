@@ -62,15 +62,16 @@ export const useThirdPartyAuthProviders = () => useQuery({
 
 /**
  * The LMS consumes the third-party auth error message on read, so it can only ever be fetched
- * once per page load. This query never goes stale and is never garbage collected, so neither a
- * remount nor a refetch can throw the message away.
+ * once per visit to the page. This query never goes stale, so nothing refetches it while the
+ * page shows it, and it is dropped as soon as the page stops observing it, so the next visit
+ * (the app stays loaded across the shell's soft navigations) asks the LMS afresh.
  */
 export const useThirdPartyAuthError = () => useQuery({
   queryKey: accountSettingsKeys.thirdPartyAuthError,
   queryFn: getThirdPartyAuthError,
   retry: retryUnlessClientError,
   staleTime: Infinity,
-  gcTime: Infinity,
+  gcTime: 0,
 });
 
 export const useProfileDataManager = () => {
