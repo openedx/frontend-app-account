@@ -6,10 +6,8 @@ import { Container, Hyperlink } from '@openedx/paragon';
 import { useShowPreferences } from './data/hooks';
 import messages from './messages';
 import NotificationPreferences from './NotificationPreferences';
-import { useFeedbackWrapper } from '../hooks';
 
 const NotificationSettings = () => {
-  useFeedbackWrapper();
   const intl = useIntl();
   const showPreferences = useShowPreferences();
 
