@@ -1,266 +1,185 @@
-/* eslint-disable no-import-assign */
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { BrowserRouter as Router } from 'react-router-dom';
-
-import { setConfig, mergeConfig } from '@edx/frontend-platform';
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { fireEvent, render, screen } from '@testing-library/react';
-
-import { defaultState } from './data/reducers';
-import NotificationPreferences from './NotificationPreferences';
-import { LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 import {
-  getNotificationPreferences,
-  postPreferenceToggle,
-} from './data/service';
+  fireEvent, screen, waitFor, within,
+} from '@testing-library/react';
 
-const courseId = 'selected-course-id';
+import { setConfig } from '@edx/frontend-platform';
+import { logError } from '@edx/frontend-platform/logging';
 
-const mockStore = configureStore();
+import { renderWithProviders } from '../tests/renderWithProviders';
+import NotificationPreferences from './NotificationPreferences';
+import { getNotificationPreferences, postPreferenceToggle } from './data/api';
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
-}));
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('./data/api');
+jest.mock('@edx/frontend-platform/logging');
 
-const defaultPreferences = {
-  status: SUCCESS_STATUS,
-  selectedCourse: courseId,
-  apps: [
-    { id: 'discussion', enabled: true },
-    { id: 'coursework', enabled: true },
-  ],
-  preferences: [
-    {
-      id: 'core',
-      appId: 'discussion',
-      web: true,
-      push: true,
-      email: true,
-      coreNotificationTypes: ['new_comment'],
-    },
-    {
-      id: 'newComment',
-      appId: 'discussion',
-      web: false,
-      push: false,
-      email: false,
-      coreNotificationTypes: [],
-    },
-    {
-      id: 'newAssignment',
-      appId: 'coursework',
-      web: false,
-      push: false,
-      email: true,
-      coreNotificationTypes: [],
-    },
-    {
-      id: 'newGrade',
-      appId: 'coursework',
-      web: false,
-      push: false,
-      email: false,
-      coreNotificationTypes: [],
-    },
-  ],
-  nonEditable: {
+const rawResponse = {
+  status: 'success',
+  show_preferences: true,
+  show_email_preferences: true,
+  data: {
     discussion: {
-      core: [
-        'web', 'email',
-      ],
+      enabled: true,
+      notification_types: {
+        core: {
+          web: true, push: true, email: true, info: '',
+        },
+        new_comment: {
+          web: false, push: false, email: false, info: '',
+        },
+      },
+      non_editable: { core: ['web', 'email'] },
+    },
+    coursework: {
+      enabled: true,
+      notification_types: {
+        new_assignment: {
+          web: false, push: false, email: true, info: '',
+        },
+        new_grade: {
+          web: false, push: false, email: false, info: '',
+        },
+      },
+      non_editable: {},
     },
   },
 };
 
-const setupStore = (override = {}, stateOverride = {}) => {
-  const storeState = { ...defaultState, ...stateOverride };
-  storeState.courses = {
-    status: SUCCESS_STATUS,
-    courses: [
-      { id: '', name: 'Account' },
-      { id: 'selected-course-id', name: 'Selected Course' },
-    ],
-  };
-  storeState.preferences = {
-    ...storeState.preferences,
-    ...override,
-  };
-  const store = mockStore({
-    notificationPreferences: storeState,
-  });
-  return store;
-};
+const toggleResponse = ({
+  app, type, channel, value,
+}) => ({
+  status: 'success',
+  show_preferences: true,
+  data: {
+    updated_value: value, notification_type: type, channel, app,
+  },
+});
 
-const notificationPreferences = (store = {}) => (
-  <Router>
-    <IntlProvider locale="en">
-      <Provider store={store}>
-        <NotificationPreferences />
-      </Provider>
-    </IntlProvider>
-  </Router>
-);
+const renderPreferences = () => renderWithProviders(<NotificationPreferences />);
 
 describe('Notification Preferences', () => {
-  let store;
-
   beforeEach(() => {
-    mergeConfig({
-      SHOW_PUSH_CHANNEL: '',
-    }, 'App loadConfig override handler');
-
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-    });
-
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
-      patch: async () => ({
-        data: { status: 200 },
-        catch: () => {},
-      }),
-    }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+    setConfig({ SHOW_PUSH_CHANNEL: '' });
+    getNotificationPreferences.mockResolvedValue(rawResponse);
   });
 
   afterEach(() => jest.clearAllMocks());
 
-  it('tests if all notification apps are listed', async () => {
-    await render(notificationPreferences(store));
-    expect(screen.queryByTestId('discussion-app')).toBeInTheDocument();
-    expect(screen.queryByTestId('coursework-app')).toBeInTheDocument();
+  it('lists all notification apps', async () => {
+    renderPreferences();
+
+    expect(await screen.findByTestId('discussion-app')).toBeInTheDocument();
+    expect(screen.getByTestId('coursework-app')).toBeInTheDocument();
   });
 
-  it('show spinner if api call is in progress', async () => {
-    store = setupStore({ ...defaultPreferences, status: LOADING_STATUS });
-    await render(notificationPreferences(store));
-    expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+  it('renders nothing until the preferences arrive', async () => {
+    getNotificationPreferences.mockReturnValue(new Promise(() => {}));
+    const { container } = renderPreferences();
+
+    expect(container).toBeEmptyDOMElement();
   });
 
-  it('tests if all notification preferences are listed', async () => {
-    await render(notificationPreferences(store));
-    expect(screen.queryAllByTestId('notification-preference')).toHaveLength(4);
+  it('lists all notification preferences', async () => {
+    renderPreferences();
+
+    expect(await screen.findAllByTestId('notification-preference')).toHaveLength(4);
   });
 
-  it('update account preference on click', async () => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-    });
-    await render(notificationPreferences(store));
-    const element = screen.getByTestId('toggle-core-web');
-    await fireEvent.click(element);
-    expect(mockDispatch).toHaveBeenCalled();
+  it('saves a toggle and reflects the value the API reports back', async () => {
+    let resolveToggle;
+    postPreferenceToggle.mockReturnValue(new Promise((resolve) => { resolveToggle = resolve; }));
+    renderPreferences();
+
+    const toggle = await screen.findByTestId('toggle-newGrade-web');
+    expect(toggle).not.toBeChecked();
+
+    fireEvent.click(toggle);
+
+    await waitFor(() => (
+      expect(postPreferenceToggle).toHaveBeenCalledWith('coursework', 'newGrade', 'web', true, 'Daily')
+    ));
+    // Every toggle waits for the server, so a learner cannot queue conflicting changes.
+    await waitFor(() => expect(toggle).toBeDisabled());
+    expect(screen.getByTestId('toggle-newComment-web')).toBeDisabled();
+    expect(toggle).not.toBeChecked();
+
+    resolveToggle(toggleResponse({
+      app: 'coursework', type: 'new_grade', channel: 'web', value: true,
+    }));
+
+    await waitFor(() => expect(toggle).toBeChecked());
+    expect(toggle).not.toBeDisabled();
+    expect(screen.getByTestId('toggle-newComment-web')).not.toBeDisabled();
   });
 
-  it('test non editable', async () => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
-    expect(screen.getByTestId('toggle-core-web')).toBeDisabled();
-    expect(screen.getByTestId('toggle-core-email')).toBeDisabled();
-    expect(screen.getAllByTestId('email-cadence-button')[0]).toBeDisabled();
+  it('also asserts the email cadence when email is turned on', async () => {
+    postPreferenceToggle
+      .mockResolvedValueOnce(toggleResponse({
+        app: 'coursework', type: 'new_grade', channel: 'email', value: true,
+      }))
+      .mockResolvedValueOnce(toggleResponse({
+        app: 'coursework', type: 'new_grade', channel: 'email_cadence', value: 'Daily',
+      }));
+    renderPreferences();
+
+    fireEvent.click(await screen.findByTestId('toggle-newGrade-email'));
+
+    await waitFor(() => expect(postPreferenceToggle).toHaveBeenCalledTimes(2));
+    expect(postPreferenceToggle).toHaveBeenNthCalledWith(1, 'coursework', 'newGrade', 'email', true, 'Daily');
+    expect(postPreferenceToggle).toHaveBeenNthCalledWith(2, 'coursework', 'newGrade', 'email_cadence', undefined, 'Daily');
+    await waitFor(() => expect(screen.getByTestId('toggle-newGrade-email')).toBeChecked());
+  });
+
+  it('keeps the current value and logs the error when saving fails', async () => {
+    const error = new Error('nope');
+    postPreferenceToggle.mockRejectedValue(error);
+    renderPreferences();
+
+    const toggle = await screen.findByTestId('toggle-newGrade-web');
+    fireEvent.click(toggle);
+
+    await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
+    expect(toggle).not.toBeChecked();
+    expect(toggle).not.toBeDisabled();
+    expect(screen.getByTestId('coursework-app')).toBeInTheDocument();
+  });
+
+  it('disables non-editable channels', async () => {
+    renderPreferences();
+
+    expect(await screen.findByTestId('toggle-core-web')).toBeDisabled();
+    const coreEmail = screen.getByTestId('toggle-core-email');
+    expect(coreEmail).toBeDisabled();
+    expect(within(coreEmail.closest('#core-email')).getByTestId('email-cadence-button')).toBeDisabled();
     expect(screen.getByTestId('toggle-newGrade-web')).not.toBeDisabled();
+    const newAssignmentEmail = screen.getByTestId('toggle-newAssignment-email');
+    expect(within(newAssignmentEmail.closest('#newAssignment-email')).getByTestId('email-cadence-button')).not.toBeDisabled();
   });
 
-  it('does not render push channel when SHOW_PUSH_CHANNEL is false', async () => {
-    setConfig({
-      SHOW_PUSH_CHANNEL: '',
-    });
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
+  it('does not render the push channel when SHOW_PUSH_CHANNEL is off', async () => {
+    renderPreferences();
 
+    await screen.findByTestId('toggle-core-web');
     expect(screen.queryByTestId('toggle-core-push')).not.toBeInTheDocument();
   });
 
-  it('renders push channel when SHOW_PUSH_CHANNEL is true', async () => {
-    setConfig({
-      SHOW_PUSH_CHANNEL: 'true',
-    });
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
-    expect(screen.queryByTestId('toggle-core-push')).toBeInTheDocument();
+  it('renders the push channel when SHOW_PUSH_CHANNEL is on', async () => {
+    setConfig({ SHOW_PUSH_CHANNEL: 'true' });
+    renderPreferences();
+
+    expect(await screen.findByTestId('toggle-core-push')).toBeInTheDocument();
   });
 
-  it('does not render email channel when show_email_preferences is false', async () => {
-    store = setupStore(
-      {
-        ...defaultPreferences,
-        status: SUCCESS_STATUS,
-        selectedCourse: '',
-      },
-      { showEmailPreferences: false },
-    );
-    await render(notificationPreferences(store));
+  it('does not render the email channel when show_email_preferences is false', async () => {
+    getNotificationPreferences.mockResolvedValue({ ...rawResponse, show_email_preferences: false });
+    renderPreferences();
+
+    await screen.findByTestId('toggle-core-web');
     expect(screen.queryByTestId('toggle-core-email')).not.toBeInTheDocument();
   });
 
-  it('renders email channel when show_email_preferences is true', async () => {
-    store = setupStore({
-      ...defaultPreferences,
-      status: SUCCESS_STATUS,
-      selectedCourse: '',
-    });
-    await render(notificationPreferences(store));
-    expect(screen.queryByTestId('toggle-core-email')).toBeInTheDocument();
-  });
-});
+  it('renders the email channel when show_email_preferences is true', async () => {
+    renderPreferences();
 
-describe('Notification Preferences API v2 Logic', () => {
-  const LMS_BASE_URL = 'https://lms.example.com';
-  let mockHttpClient;
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-
-    mockHttpClient = {
-      get: jest.fn().mockResolvedValue({ data: {} }),
-      put: jest.fn().mockResolvedValue({ data: {} }),
-      post: jest.fn().mockResolvedValue({ data: {} }),
-      patch: jest.fn().mockResolvedValue({ data: {} }),
-    };
-    auth.getAuthenticatedHttpClient.mockReturnValue(mockHttpClient);
-
-    setConfig({ LMS_BASE_URL });
-  });
-
-  describe('getNotificationPreferences', () => {
-    it('should call the v2 configurations URL', async () => {
-      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v3/configurations/`;
-
-      await getNotificationPreferences();
-
-      expect(mockHttpClient.get).toHaveBeenCalledWith(expectedUrl);
-      expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('postPreferenceToggle', () => {
-    it('should call the v2 configurations URL with PUT method', async () => {
-      const expectedUrl = `${LMS_BASE_URL}/api/notifications/v3/configurations/`;
-      const testArgs = ['app_name', 'notification_type', 'web', true, 'daily'];
-
-      await postPreferenceToggle(...testArgs);
-
-      expect(mockHttpClient.put).toHaveBeenCalledWith(expectedUrl, expect.any(Object));
-      expect(mockHttpClient.put).toHaveBeenCalledTimes(1);
-      expect(mockHttpClient.post).not.toHaveBeenCalled();
-    });
+    expect(await screen.findByTestId('toggle-core-email')).toBeInTheDocument();
   });
 });

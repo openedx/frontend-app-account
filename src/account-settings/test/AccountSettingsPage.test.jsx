@@ -7,11 +7,16 @@ import {
   render, screen, fireEvent,
 } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
 import AccountSettingsPage from '../AccountSettingsPage';
 import mockData from './mockData';
 import messages from '../AccountSettingsPage.messages';
+import { createTestQueryClient } from '../../tests/renderWithProviders';
+import { notificationPreferencesKeys } from '../../notification-preferences/data/queryKeys';
+
+jest.mock('../../notification-preferences/data/api');
 
 const mockDispatch = jest.fn();
 jest.mock('@edx/frontend-platform/analytics', () => ({
@@ -47,14 +52,17 @@ const mockStore = configureStore(middlewares);
 describe('AccountSettingsPage', () => {
   let props = {};
   let store = {};
+  let queryClient;
   const appContext = { locale: 'en', authenticatedUser: { userId: 3, roles: [] } };
   const reduxWrapper = children => (
     <AppContext.Provider value={appContext}>
       <Router>
         <IntlProvider locale="en">
-          <Provider store={store}>
-            {children}
-          </Provider>
+          <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+              {children}
+            </Provider>
+          </QueryClientProvider>
         </IntlProvider>
       </Router>
     </AppContext.Provider>
@@ -62,6 +70,16 @@ describe('AccountSettingsPage', () => {
 
   beforeEach(() => {
     store = mockStore(mockData);
+    // Seed the notification preferences so the page does not fetch them; the cache never goes
+    // stale, so react-query leaves the seeded data alone.
+    queryClient = createTestQueryClient({ staleTime: Infinity });
+    queryClient.setQueryData(notificationPreferencesKeys.all, {
+      apps: [],
+      preferences: [],
+      nonEditable: {},
+      showPreferences: false,
+      showEmailPreferences: true,
+    });
     props = {
       loaded: true,
       siteLanguage: {},
@@ -92,7 +110,6 @@ describe('AccountSettingsPage', () => {
       },
       fetchSettings: jest.fn(),
       fetchSiteLanguages: jest.fn(),
-      fetchNotificationPreferences: jest.fn(),
       saveSettings: jest.fn(),
       updateDraft: jest.fn(),
       beginNameChange: jest.fn(),

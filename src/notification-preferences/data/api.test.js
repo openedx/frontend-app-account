@@ -1,6 +1,6 @@
 import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { getNotificationPreferences, postPreferenceToggle } from './service';
+import { getNotificationPreferences, postPreferenceToggle } from './api';
 
 jest.mock('@edx/frontend-platform', () => {
   const actual = jest.requireActual('@edx/frontend-platform');
@@ -14,7 +14,7 @@ jest.mock('@edx/frontend-platform/auth', () => ({
   getAuthenticatedHttpClient: jest.fn(),
 }));
 
-describe('Notification Preferences Service', () => {
+describe('Notification Preferences API', () => {
   let mockHttpClient;
 
   beforeEach(() => {

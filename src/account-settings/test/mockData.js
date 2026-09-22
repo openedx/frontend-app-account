@@ -93,27 +93,6 @@ const mockData = {
     },
     profileDataManager: null,
   },
-  notificationPreferences: {
-    showPreferences: true,
-    courses: {
-      status: 'success',
-      courses: [],
-      pagination: {
-        count: 0,
-        currentPage: 1,
-        hasMore: false,
-        totalPages: 1,
-      },
-    },
-    preferences: {
-      status: 'idle',
-      updatePreferenceStatus: 'idle',
-      selectedCourse: 'account',
-      preferences: [],
-      apps: [],
-      nonEditable: {},
-    },
-  },
 };
 
 export default mockData;
