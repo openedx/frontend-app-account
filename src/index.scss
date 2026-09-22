@@ -3,8 +3,6 @@
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
-@import "~@edx/frontend-component-header/dist/index";
-@import "~@edx/frontend-component-footer/dist/footer";
 
 @import "./account-settings/style";
 @import "./id-verification/id-verification";
