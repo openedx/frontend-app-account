@@ -3,8 +3,7 @@ import {
   fireEvent, screen, waitFor, within,
 } from '@testing-library/react';
 
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser, mergeAppConfig } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '../../tests/renderWithProviders';
 import { getNotificationPreferences } from '../../notification-preferences/data/api';
@@ -20,29 +19,24 @@ import {
 import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
 import AccountSettingsPage from '../AccountSettingsPage';
 import messages from '../AccountSettingsPage.messages';
+import { appId } from '../../constants';
 
 jest.mock('../data/api');
 jest.mock('../third-party-auth/data/api');
 jest.mock('../../notification-preferences/data/api');
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackingLogEvent: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
   getAuthenticatedUser: jest.fn(),
 }));
-jest.mock('@edx/frontend-platform', () => ({
-  ...jest.requireActual('@edx/frontend-platform'),
-  getConfig: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/i18n', () => ({
-  ...jest.requireActual('@edx/frontend-platform/i18n'),
+jest.mock('../../data/countries', () => ({
   getCountryList: jest.fn(() => [{ code: 'US', name: 'United States' }]),
+}));
+jest.mock('../../data/languages', () => ({
   getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }, { code: 'es', name: 'Spanish' }]),
 }));
 
 const config = {
-  SITE_NAME: 'edX',
   SUPPORT_URL: 'https://support.edx.org',
   ENABLE_ACCOUNT_DELETION: true,
   ENABLE_COPPA_COMPLIANCE: false,
@@ -80,7 +74,7 @@ const account = {
 const timeZones = [{ time_zone: 'America/New_York', description: 'America/New_York (EST, UTC-0500)' }];
 
 const renderPage = () => renderWithProviders(<AccountSettingsPage />, {
-  appContext: { locale: 'en', authenticatedUser: user },
+  siteContext: { locale: 'en', authenticatedUser: user },
 });
 
 const findLoadedPage = () => screen.findByText('test_username');
@@ -97,7 +91,7 @@ describe('AccountSettingsPage', () => {
   });
 
   beforeEach(() => {
-    getConfig.mockReturnValue(config);
+    mergeAppConfig(appId, config);
     getAuthenticatedUser.mockReturnValue(user);
     getAccount.mockResolvedValue(account);
     getPreferences.mockResolvedValue({ time_zone: 'America/New_York', 'pref-lang': 'en' });
@@ -192,7 +186,7 @@ describe('AccountSettingsPage', () => {
   });
 
   it('does not render Delete Account section when disabled', async () => {
-    getConfig.mockReturnValue({ ...config, ENABLE_ACCOUNT_DELETION: false });
+    mergeAppConfig(appId, { ENABLE_ACCOUNT_DELETION: false });
     renderPage();
     await findLoadedPage();
 

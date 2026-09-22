@@ -1,7 +1,7 @@
-import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useQueryClient } from '@tanstack/react-query';
-import { camelCaseObject, snakeCaseObject } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import {
+  camelCaseObject, getAuthenticatedUser, Slot, snakeCaseObject,
+} from '@openedx/frontend-base';
 
 import { useAccountSettingsForm } from '../../account-settings/data/FormContext';
 import { useSettingsValues } from '../../account-settings/data/hooks';
@@ -14,7 +14,7 @@ const AdditionalProfileFieldsSlot = () => {
   const { data: values } = useSettingsValues();
   const { errors, saveSettings } = useAccountSettingsForm();
 
-  const pluginProps = {
+  const slotProps = {
     refreshUserProfile: () => queryClient.invalidateQueries({
       queryKey: accountSettingsKeys.values(getAuthenticatedUser().username),
     }),
@@ -27,9 +27,9 @@ const AdditionalProfileFieldsSlot = () => {
   };
 
   return (
-    <PluginSlot
+    <Slot
       id="org.openedx.frontend.account.additional_profile_fields.v1"
-      pluginProps={pluginProps}
+      {...slotProps}
     />
   );
 };

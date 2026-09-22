@@ -20,7 +20,7 @@ const BasePanel = ({
 
   const redirectSlug = useVerificationRedirectSlug(name);
   if (redirectSlug) {
-    return <Navigate replace to={`/id-verification/${redirectSlug}`} />;
+    return <Navigate replace to={`../${redirectSlug}`} />;
   }
 
   return (

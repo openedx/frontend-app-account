@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser } from '@openedx/frontend-base';
 
 import { createTestQueryClient, createWrapper } from '../../tests/renderWithProviders';
 import {
@@ -18,8 +18,8 @@ import { useAccountSettingsData, useThirdPartyAuthError } from './hooks';
 
 jest.mock('./api');
 jest.mock('../third-party-auth/data/api');
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
 }));
 

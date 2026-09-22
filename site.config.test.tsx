@@ -21,6 +21,7 @@ const siteConfig: SiteConfig = {
       SUPPORT_URL: 'https://support.example.com',
       PASSWORD_RESET_SUPPORT_LINK: 'https://support.example.com/password-reset',
       ENABLE_ACCOUNT_DELETION: true,
+      SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT: 'https://support.example.com/unlink',
     },
   }],
 

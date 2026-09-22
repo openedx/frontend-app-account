@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '@edx/frontend-platform/react';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { SiteContext, useIntl } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
 
 import messages from './AccountSettingsPage.messages';
@@ -37,7 +36,7 @@ const getTransifexLink = (languageCode) => TRANSIFEX_LANGUAGE_BASE_URL + getTran
 
 const BetaLanguageBanner = () => {
   const intl = useIntl();
-  const { locale } = useContext(AppContext);
+  const { locale } = useContext(SiteContext);
   const { previousSiteLanguage, saveSettings } = useAccountSettingsForm();
 
   const handleRevertLanguage = () => {

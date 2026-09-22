@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl, getSiteConfig } from '@openedx/frontend-base';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Hyperlink } from '@openedx/paragon';
 
 // Messages
-import { getConfig } from '@edx/frontend-platform';
 import messages from './messages';
 
 // Components
@@ -32,7 +31,7 @@ const BeforeProceedingBanner = (props) => {
           ) : (
             intl.formatMessage(messages[instructionMessageId])
           ),
-          siteName: getConfig().SITE_NAME,
+          siteName: getSiteConfig().siteName,
         }}
       />
     </Alert>

@@ -4,10 +4,9 @@ import React, {
 import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { publish } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
-import { logError } from '@edx/frontend-platform/logging';
+import {
+  getAuthenticatedUser, getLocale, logError, updateLocale,
+} from '@openedx/frontend-base';
 
 import { patchSettings } from './api';
 import { patchPreferences, postSetLang } from '../site-language';
@@ -45,8 +44,7 @@ export const saveSettingsRequest = async ({ formId, commitValues, extendedProfil
     await patchPreferences(username, { prefLang: commitValues });
     await postSetLang(commitValues);
 
-    publish(LOCALE_CHANGED, getLocale());
-    handleRtl();
+    updateLocale(commitValues);
 
     return { savedValues: commitData, commitData, previousSiteLanguage };
   }

@@ -26,7 +26,6 @@ const panelSteps = [
   SLUGS.SUBMITTED,
 ];
 
-// eslint-disable-next-line import/prefer-default-export
 export const useNextPanelSlug = (originSlug) => {
   // Go back to the summary view if that's where they came from
   const { reachedSummary } = useContext(IdVerificationContext);

@@ -7,7 +7,7 @@ import {
   ModalDialog,
   StatefulButton,
 } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
 import { useAccountSettingsForm } from '../data/FormContext';
 import { useAccountSettingsData } from '../data/hooks';

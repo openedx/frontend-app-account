@@ -1,13 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-// This module is only ever imported by tests.
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { render } from '@testing-library/react';
+import { ContextType, ReactElement, ReactNode } from 'react';
+import { render, RenderOptions } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { AppContext } from '@edx/frontend-platform/react';
+import { getSiteConfig, IntlProvider, SiteContext } from '@openedx/frontend-base';
+
+type SiteContextValue = ContextType<typeof SiteContext>;
 
 /**
  * A QueryClient for tests: no retries, so failures surface immediately, and no cache retention
@@ -27,12 +25,18 @@ export const createTestQueryClient = (queryOptions = {}) => new QueryClient({
   },
 });
 
+interface WrapperOptions {
+  queryClient?: QueryClient;
+  siteContext?: Partial<SiteContextValue> | null;
+  route?: string;
+}
+
 export const createWrapper = ({
   queryClient = createTestQueryClient(),
-  appContext = null,
+  siteContext = null,
   route = '/',
-} = {}) => {
-  const Wrapper = ({ children }) => {
+}: WrapperOptions = {}) => {
+  const Wrapper = ({ children }: { children: ReactNode }) => {
     const tree = (
       <QueryClientProvider client={queryClient}>
         <IntlProvider locale="en">
@@ -43,31 +47,38 @@ export const createWrapper = ({
       </QueryClientProvider>
     );
 
-    return appContext
-      ? <AppContext.Provider value={appContext}>{tree}</AppContext.Provider>
-      : tree;
-  };
+    if (!siteContext) {
+      return tree;
+    }
 
-  Wrapper.propTypes = {
-    children: PropTypes.node.isRequired,
+    const value: SiteContextValue = {
+      authenticatedUser: null,
+      siteConfig: getSiteConfig(),
+      locale: 'en',
+      ...siteContext,
+    };
+
+    return <SiteContext.Provider value={value}>{tree}</SiteContext.Provider>;
   };
 
   return Wrapper;
 };
 
+type RenderWithProvidersOptions = WrapperOptions & Omit<RenderOptions, 'wrapper'>;
+
 /**
  * Renders `ui` inside the providers the app expects: react-query, i18n, a memory router and,
- * when `appContext` is given, frontend-platform's AppContext.
+ * when `siteContext` is given, frontend-base's SiteContext.
  */
-export const renderWithProviders = (ui, {
+export const renderWithProviders = (ui: ReactElement, {
   queryClient = createTestQueryClient(),
-  appContext = null,
+  siteContext = null,
   route = '/',
   ...renderOptions
-} = {}) => ({
+}: RenderWithProvidersOptions = {}) => ({
   queryClient,
   ...render(ui, {
-    wrapper: createWrapper({ queryClient, appContext, route }),
+    wrapper: createWrapper({ queryClient, siteContext, route }),
     ...renderOptions,
   }),
 });

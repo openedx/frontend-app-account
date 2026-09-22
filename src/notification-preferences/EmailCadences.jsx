@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import {
   Button, Dropdown, ModalPopup, useToggle,

@@ -6,8 +6,8 @@ import messages from '../AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from '../data/constants';
 import { renderWithForm } from './renderWithForm';
 
-jest.mock('@edx/frontend-platform/i18n', () => ({
-  ...jest.requireActual('@edx/frontend-platform/i18n'),
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   useIntl: () => ({
     formatMessage: (message) => message.defaultMessage,
   }),

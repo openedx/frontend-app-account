@@ -4,9 +4,8 @@ import {
 } from 'react-router-dom';
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl, getSiteConfig } from '@openedx/frontend-base';
 import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
-import { getConfig } from '@edx/frontend-platform';
 import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
@@ -45,7 +44,7 @@ const IdVerificationPage = () => {
   }, [search]);
 
   useEffect(() => {
-    navigate('/id-verification/review-requirements');
+    navigate('review-requirements');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,20 +91,20 @@ const IdVerificationPage = () => {
             <h6>
               {intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>{intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
               {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>
               {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
           </div>

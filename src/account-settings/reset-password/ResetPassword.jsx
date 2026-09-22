@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { useIntl, FormattedMessage } from '@openedx/frontend-base';
 import { StatefulButton } from '@openedx/paragon';
 
 import { getResetPasswordStatus, useResetPassword } from './data/hooks';
