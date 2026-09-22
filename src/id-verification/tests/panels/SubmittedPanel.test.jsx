@@ -2,12 +2,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { getSiteConfig, IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '../../IdVerificationContext';
 import SubmittedPanel from '../../panels/SubmittedPanel';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
@@ -43,7 +43,7 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return to Your Dashboard/);
-    expect(button).toHaveAttribute('href', `${process.env.LMS_BASE_URL}/dashboard`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/dashboard`);
   });
 
   it('links to course when courseId is stored', async () => {
@@ -59,7 +59,7 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return to Course/);
-    expect(button).toHaveAttribute('href', `${process.env.LMS_BASE_URL}/courses/course-v1:edX+DemoX+Demo_Course`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/courses/course-v1:edX+DemoX+Demo_Course`);
   });
 
   it('links to specified page when `next` value is provided', async () => {
@@ -75,6 +75,6 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return/);
-    expect(button).toHaveAttribute('href', `${process.env.LMS_BASE_URL}/some_page`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/some_page`);
   });
 });

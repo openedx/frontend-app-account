@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '../../tests/renderWithProviders';
 import { postDeleteAccount } from './data/api';
@@ -14,7 +14,10 @@ jest.mock('react-dom', () => ({
 }));
 
 jest.mock('./data/api');
-jest.mock('@edx/frontend-platform/logging');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  logError: jest.fn(),
+}));
 
 const openConfirmation = () => {
   fireEvent.click(screen.getByRole('button', { name: 'Delete My Account' }));

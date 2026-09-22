@@ -3,8 +3,7 @@ import {
   useIsMutating, useMutation, useQuery, useQueryClient,
 } from '@tanstack/react-query';
 
-import { camelCaseObject } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { camelCaseObject, logError } from '@openedx/frontend-base';
 
 import { getNotificationPreferences, postPreferenceToggle } from './api';
 import { EMAIL, EMAIL_CADENCE } from './constants';

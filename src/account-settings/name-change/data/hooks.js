@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser } from '@openedx/frontend-base';
 
 import { postVerifiedName } from '../../data/api';
 import { accountSettingsKeys, accountSettingsMutationKeys } from '../../data/queryKeys';

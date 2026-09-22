@@ -3,8 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@openedx/frontend-base';
 
 import { ERROR_REASONS } from '../IdVerificationContext';
 import AccessBlocked from '../AccessBlocked';

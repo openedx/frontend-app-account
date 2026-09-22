@@ -1,12 +1,10 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
 import { handleRequestError } from '../../data/utils';
 
-// eslint-disable-next-line import/prefer-default-export
 export async function postVerifiedNameConfig(username, commitValues) {
   const requestConfig = { headers: { Accept: 'application/json' } };
-  const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name/config`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name/config`;
 
   const { useVerifiedNameForCerts } = commitValues;
   const postValues = {

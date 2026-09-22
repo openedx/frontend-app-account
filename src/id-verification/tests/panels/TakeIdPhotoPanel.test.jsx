@@ -2,12 +2,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '../../IdVerificationContext';
 import TakeIdPhotoPanel from '../../panels/TakeIdPhotoPanel';
 import messages from '../../IdVerification.messages';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
@@ -54,7 +55,7 @@ describe('TakeIdPhotoPanel', () => {
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/get-name-id');
+    expect(window.location.pathname).toEqual('/get-name-id');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
@@ -71,7 +72,7 @@ describe('TakeIdPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/summary');
+    expect(window.location.pathname).toEqual('/summary');
   });
 
   it('shows correct text if user should use upload', async () => {

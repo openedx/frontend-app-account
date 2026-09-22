@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@openedx/paragon';

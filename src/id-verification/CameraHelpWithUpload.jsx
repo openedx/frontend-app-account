@@ -1,8 +1,7 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Collapsible } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+import { useIntl, sendTrackEvent } from '@openedx/frontend-base';
 
 import messages from './IdVerification.messages';
 import ImageFileUpload from './ImageFileUpload';

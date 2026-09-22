@@ -1,10 +1,12 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
 import { getThirdPartyAuthError } from './api';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
 
 const mockHttpClient = {
   get: jest.fn(),
@@ -12,7 +14,7 @@ const mockHttpClient = {
 };
 
 getAuthenticatedHttpClient.mockReturnValue(mockHttpClient);
-getConfig.mockReturnValue({ LMS_BASE_URL: 'http://lms.test' });
+getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://lms.test' });
 
 beforeEach(() => {
   jest.clearAllMocks();
