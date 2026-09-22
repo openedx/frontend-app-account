@@ -33,12 +33,12 @@ export const createFormContextValue = (overrides = {}) => ({
 export const renderWithForm = (ui, {
   form = {},
   queryClient = createTestQueryClient(),
-  appContext = null,
+  siteContext = null,
   route = '/',
   ...renderOptions
 } = {}) => {
   const formValue = createFormContextValue(form);
-  const Providers = createWrapper({ queryClient, appContext, route });
+  const Providers = createWrapper({ queryClient, siteContext, route });
 
   const Wrapper = ({ children }) => (
     <Providers>

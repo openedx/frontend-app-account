@@ -1,4 +1,4 @@
-import { camelCaseObject } from '@edx/frontend-platform';
+import { camelCaseObject } from '@openedx/frontend-base';
 
 import { EMAIL_CADENCE_PREFERENCES } from './constants';
 import { applyPreferenceUpdate, normalizePreferences } from './utils';

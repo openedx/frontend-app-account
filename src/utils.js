@@ -45,6 +45,28 @@ export function getMostRecentApprovedOrPendingVerifiedName(verifiedNames) {
  * @returns {boolean} the parsed boolean value
  */
 export const parseEnvBoolean = (value) => {
-  if (!value) { return false; }
+  if (!value) {
+    return false;
+  }
   return String(value).toLowerCase() === 'true';
+};
+
+/**
+ * Parse a configuration value that is a list, whether it arrived as an array or as a JSON string.
+ * @param {string|Array} value the configuration value
+ * @returns {Array} the list, or an empty list if the value is unset or unparseable
+ */
+export const parseEnvArray = (value) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (typeof value !== 'string' || value === '') {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
 };

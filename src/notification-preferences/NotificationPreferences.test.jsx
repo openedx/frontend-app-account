@@ -2,15 +2,18 @@ import {
   fireEvent, screen, waitFor, within,
 } from '@testing-library/react';
 
-import { setConfig } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { logError, mergeAppConfig } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '../tests/renderWithProviders';
 import NotificationPreferences from './NotificationPreferences';
 import { getNotificationPreferences, postPreferenceToggle } from './data/api';
+import { appId } from '../constants';
 
 jest.mock('./data/api');
-jest.mock('@edx/frontend-platform/logging');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  logError: jest.fn(),
+}));
 
 const rawResponse = {
   status: 'success',
@@ -58,7 +61,7 @@ const renderPreferences = () => renderWithProviders(<NotificationPreferences />)
 
 describe('Notification Preferences', () => {
   beforeEach(() => {
-    setConfig({ SHOW_PUSH_CHANNEL: '' });
+    mergeAppConfig(appId, { SHOW_PUSH_CHANNEL: '' });
     getNotificationPreferences.mockResolvedValue(rawResponse);
   });
 
@@ -163,7 +166,7 @@ describe('Notification Preferences', () => {
   });
 
   it('renders the push channel when SHOW_PUSH_CHANNEL is on', async () => {
-    setConfig({ SHOW_PUSH_CHANNEL: 'true' });
+    mergeAppConfig(appId, { SHOW_PUSH_CHANNEL: 'true' });
     renderPreferences();
 
     expect(await screen.findByTestId('toggle-core-push')).toBeInTheDocument();

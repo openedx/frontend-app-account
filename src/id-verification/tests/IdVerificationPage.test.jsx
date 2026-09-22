@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { MemoryRouter as Router } from 'react-router-dom';
+import {
+  MemoryRouter as Router, Route, Routes, useLocation,
+} from 'react-router-dom';
 import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
 
 jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
@@ -42,8 +44,28 @@ jest.mock('../panels/SubmittedPanel', () => function SubmittedPanelMock() {
   return <></>;
 });
 
+const LocationDisplay = () => {
+  const { pathname } = useLocation();
+  return <div data-testid="location">{pathname}</div>;
+};
+
 describe('IdVerificationPage', () => {
   jest.spyOn(Storage.prototype, 'setItem');
+
+  it('starts the flow at the first panel, under the path it is mounted at', async () => {
+    await act(async () => render((
+      <Router initialEntries={['/account/id-verification?next=dashboard']}>
+        <IntlProvider locale="en">
+          <Routes>
+            <Route path="account/id-verification/*" element={<IdVerificationPageSlot />} />
+          </Routes>
+          <LocationDisplay />
+        </IntlProvider>
+      </Router>
+    )));
+    expect(screen.getByTestId('location')).toHaveTextContent('/account/id-verification/review-requirements');
+  });
+
   it('decodes and stores course_id', async () => {
     await act(async () => render((
       <Router initialEntries={[`/?course_id=${encodeURIComponent('course-v1:edX+DemoX+Demo_Course')}`]}>

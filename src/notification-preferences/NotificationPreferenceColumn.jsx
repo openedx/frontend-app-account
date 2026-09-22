@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { NavItem } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
 import messages from './messages';
 import { useIsOnMobile } from '../hooks';

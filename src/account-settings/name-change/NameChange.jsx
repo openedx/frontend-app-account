@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { getAuthenticatedUser, useIntl } from '@openedx/frontend-base';
 import {
   ActionRow,
   Alert,
@@ -86,7 +85,7 @@ const NameChangeModal = ({ targetFormId }) => {
   useEffect(() => {
     if (saveState === 'complete') {
       handleClose();
-      navigate(`/id-verification?next=${encodeURIComponent('account/settings')}`);
+      navigate(`id-verification?next=${encodeURIComponent('account/settings')}`);
     }
   }, [handleClose, navigate, saveState]);
 

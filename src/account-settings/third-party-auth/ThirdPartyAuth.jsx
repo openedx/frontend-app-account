@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage } from '@openedx/frontend-base';
 import { Hyperlink, StatefulButton } from '@openedx/paragon';
 
 import Alert from '../Alert';

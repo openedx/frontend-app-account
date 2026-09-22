@@ -1,11 +1,12 @@
-import { getConfig } from '@edx/frontend-platform';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl, getAppConfig } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
 import { useShowPreferences } from '../notification-preferences/data/hooks';
 import messages from './AccountSettingsPage.messages';
+import { parseEnvBoolean } from '../utils';
+import { appId } from '../constants';
 
 const JumpNav = () => {
   const intl = useIntl();
@@ -60,7 +61,7 @@ const JumpNav = () => {
             {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
           </NavHashLink>
         </li>
-        {getConfig().ENABLE_ACCOUNT_DELETION
+        {parseEnvBoolean(getAppConfig(appId).ENABLE_ACCOUNT_DELETION)
           && (
           <li>
             <NavHashLink to="#delete-account">

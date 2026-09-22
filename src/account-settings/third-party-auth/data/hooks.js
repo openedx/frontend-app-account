@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
 import { accountSettingsKeys, accountSettingsMutationKeys } from '../../data/queryKeys';
 import { postDisconnectAuth } from './api';
@@ -9,7 +9,6 @@ import { postDisconnectAuth } from './api';
  * Unlinks a provider. The mutation stays pending until the providers have been refetched, so the
  * button only reads "complete" once the list reflects the change.
  */
-// eslint-disable-next-line import/prefer-default-export
 export const useDisconnectAuth = () => {
   const queryClient = useQueryClient();
 

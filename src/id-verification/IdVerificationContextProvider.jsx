@@ -2,8 +2,7 @@ import React, {
   useState, useContext, useEffect, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
-import { AppContext } from '@edx/frontend-platform/react';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { SiteContext, useIntl } from '@openedx/frontend-base';
 
 import { getProfileDataManager } from '../account-settings/data/api';
 import PageLoading from '../account-settings/PageLoading';
@@ -20,7 +19,7 @@ import messages from './IdVerification.messages';
 
 const IdVerificationContextProvider = ({ children }) => {
   const intl = useIntl();
-  const { authenticatedUser } = useContext(AppContext);
+  const { authenticatedUser } = useContext(SiteContext);
   const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
   const idVerificationData = useAsyncCall(getExistingIdVerification);

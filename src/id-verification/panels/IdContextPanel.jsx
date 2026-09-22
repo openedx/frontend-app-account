@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -42,7 +42,7 @@ const IdContextPanel = () => {
       </div>
       <CameraHelp isOpen />
       <div className="action-row">
-        <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+        <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
           {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>
