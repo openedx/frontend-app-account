@@ -6,7 +6,7 @@ import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import IdVerificationPageSlot from '../../plugin-slots/IdVerificationPageSlot';
+import IdVerificationPageSlot from '../../slots/IdVerificationPageSlot';
 
 jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
 jest.mock('../VerifiedNameContext', () => {

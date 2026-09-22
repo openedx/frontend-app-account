@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { appId } from './constants';
 import messages from './messages';
 
-import './index.scss';
+import './style.scss';
 
 const Main = () => {
   const { formatMessage } = useIntl();

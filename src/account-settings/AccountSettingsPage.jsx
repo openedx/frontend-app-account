@@ -42,7 +42,7 @@ import {
   FIELD_LABELS,
 } from './data/constants';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
-import AdditionalProfileFieldsSlot from '../plugin-slots/AdditionalProfileFieldsSlot';
+import AdditionalProfileFieldsSlot from '../slots/AdditionalProfileFieldsSlot';
 import { appId } from '../constants';
 import { getCountryList } from '../data/countries';
 import { getLanguageList } from '../data/languages';

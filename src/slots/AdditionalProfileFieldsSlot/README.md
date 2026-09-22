@@ -1,49 +1,55 @@
 # Additional Profile Fields
 
-### Slot ID: `org.openedx.frontend.account.additional_profile_fields.v1`
+### Slot ID: `org.openedx.frontend.slot.account.additionalProfileFields.v1`
+
+### Slot Props
+
+* `updateUserProfile`
+* `profileFieldValues`
+* `profileFieldErrors`
+* `formComponents`
+* `refreshUserProfile`
 
 ## Description
 
-This slot is used to replace/modify/hide the additional profile fields in the account page.
+This slot is used to add fields to the "Profile Information" section of the account page. It
+renders nothing by default.
 
 ## Example
-The following `env.config.jsx` will extend the default fields with a additional custom fields through a simple example component.
+
+The following `site.config` extends the default fields with a custom one through the example
+component in [`./example`](./example/index.jsx), which stores a favorite color in the user's
+extended profile. The import path below is this repository's; the package exports only the app, so a
+site copies the component into its own source tree and imports it from there.
 
 ![Screenshot of Custom Fields](./images/custom_fields.png)
 
-### Using the Example Component
-Create a file named `env.config.jsx` at the MFE root with this:
-
 ```jsx
-import { PLUGIN_OPERATIONS, DIRECT_PLUGIN } from '@openedx/frontend-plugin-framework';
-import Example from './src/plugin-slots/AdditionalProfileFieldsSlot/example';
+import { WidgetOperationTypes } from '@openedx/frontend-base';
+import Example from './src/slots/AdditionalProfileFieldsSlot/example';
 
-const config = {
-  pluginSlots: {
-    'org.openedx.frontend.account.additional_profile_fields.v1': {
-      plugins: [
-        {
-          op: PLUGIN_OPERATIONS.Insert,
-          widget: {
-            id: 'additional_account_fields',
-            type: DIRECT_PLUGIN,
-            RenderWidget: Example,
-          },
-        },
-      ],
+const siteConfig = {
+  // ...
+  slots: [
+    {
+      slotId: 'org.openedx.frontend.slot.account.additionalProfileFields.v1',
+      id: 'additional_account_fields',
+      op: WidgetOperationTypes.APPEND,
+      component: Example,
     },
-  },
+  ],
 };
 
-export default config;
+export default siteConfig;
 ```
 
-## Plugin Props
+## Slot Props
 
-When implementing a plugin for this slot, the following props are available:
+Widgets rendered with `component` receive the following props. They are also available through
+`useSlotContext()` from `@openedx/frontend-base`.
 
 ### `updateUserProfile`
-- **Type**: Function  
+- **Type**: Function
 - **Description**: A function for updating the user's profile with new field values. This handles the API call to persist changes to the backend.
 - **Usage**: Pass an object containing the field updates to be saved to the user's profile preserving the required structure. The function automatically handles the persistence and UI updates.
 
