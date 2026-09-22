@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { logError, getAppConfig } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
-  appId, IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
+  IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
 } from './constants';
 
 export function useAsyncCall(asyncFunc) {
@@ -54,17 +53,6 @@ export function useRedirect() {
   }, []);
 
   return redirect;
-}
-
-export function useFeedbackWrapper() {
-  useEffect(() => {
-    try {
-    // eslint-disable-next-line no-undef
-      window.usabilla_live = lightningjs?.require('usabilla_live', getAppConfig(appId).LEARNER_FEEDBACK_URL);
-    } catch (error) {
-      logError('Error loading usabilla_live', error);
-    }
-  }, []);
 }
 
 export function useIsOnMobile() {
