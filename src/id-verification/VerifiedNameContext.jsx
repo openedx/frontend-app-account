@@ -1,21 +1,27 @@
 import React, { createContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { getVerifiedNameHistory } from '../account-settings/data/service';
+import { useVerifiedNameHistory } from '../account-settings/data/hooks';
 import { getMostRecentApprovedOrPendingVerifiedName } from '../utils';
-import { useAsyncCall } from '../hooks';
-import { SUCCESS_STATUS } from '../constants';
+import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
 export const VerifiedNameContext = createContext();
 
+// The history request never rejects: it resolves to an empty object when it fails.
+const getCallStatus = ({ isPending, data }) => {
+  if (isPending) {
+    return LOADING_STATUS;
+  }
+  return data && Object.keys(data).length > 0 ? SUCCESS_STATUS : FAILURE_STATUS;
+};
+
 export const VerifiedNameContextProvider = ({ children }) => {
-  const verifiedNameHistoryData = useAsyncCall(getVerifiedNameHistory);
+  const verifiedNameHistory = useVerifiedNameHistory();
+  const status = getCallStatus(verifiedNameHistory);
 
   let verifiedName = '';
-  const { status, data } = verifiedNameHistoryData;
-  if (status === SUCCESS_STATUS && data) {
-    const { results } = data;
-    verifiedName = getMostRecentApprovedOrPendingVerifiedName(results);
+  if (status === SUCCESS_STATUS && verifiedNameHistory.data.results) {
+    verifiedName = getMostRecentApprovedOrPendingVerifiedName(verifiedNameHistory.data.results);
   }
 
   const value = useMemo(() => ({

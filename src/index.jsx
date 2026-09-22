@@ -15,7 +15,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from '@edx/frontend-component-header';
 import { FooterSlot } from '@edx/frontend-component-footer';
 
-import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
@@ -31,7 +30,7 @@ const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
   rootNode.render(
     <StrictMode>
-      <AppProvider store={configureStore()}>
+      <AppProvider>
         <QueryClientProvider client={queryClient}>
           <Head />
           <Routes>

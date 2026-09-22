@@ -4,18 +4,18 @@ import { render, cleanup, act } from '@testing-library/react';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { getProfileDataManager } from '../../account-settings/data/service';
+import { getProfileDataManager } from '../../account-settings/data/api';
 
-import { getExistingIdVerification, getEnrollments } from '../data/service';
+import { getExistingIdVerification, getEnrollments } from '../data/api';
 import IdVerificationContextProvider from '../IdVerificationContextProvider';
 import { VerifiedNameContext } from '../VerifiedNameContext';
 
-jest.mock('../../account-settings/data/service', () => ({
+jest.mock('../../account-settings/data/api', () => ({
   getProfileDataManager: jest.fn(),
   getVerifiedNameHistory: jest.fn(),
 }));
 
-jest.mock('../data/service', () => ({
+jest.mock('../data/api', () => ({
   getExistingIdVerification: jest.fn(() => ({})),
   getEnrollments: jest.fn(() => ({})),
 }));

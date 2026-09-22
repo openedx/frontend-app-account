@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import {
   Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
@@ -8,7 +7,6 @@ import qs from 'qs';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
 import { getConfig } from '@edx/frontend-platform';
-import { idVerificationSelector } from './data/selectors';
 import './getUserMediaShim';
 
 import IdVerificationContextProvider from './IdVerificationContextProvider';
@@ -125,4 +123,4 @@ const IdVerificationPage = () => {
   );
 };
 
-export default connect(idVerificationSelector, {})(IdVerificationPage);
+export default IdVerificationPage;

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import {
   Button, StatefulButton, Form, Tooltip, OverlayTrigger,
@@ -11,11 +10,7 @@ import Alert from './Alert';
 import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
-import {
-  openForm,
-  closeForm,
-} from './data/actions';
-import { editableFieldSelector } from './data/selectors';
+import { useEditableField } from './data/FormContext';
 
 const EmailField = (props) => {
   const {
@@ -23,20 +18,17 @@ const EmailField = (props) => {
     label,
     emptyLabel,
     value,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
     onChange,
-    isEditing,
     isEditable,
   } = props;
   const id = `field-${name}`;
   const intl = useIntl();
+  const {
+    isEditing, error, confirmationValue, saveState, openForm, closeForm,
+  } = useEditableField(name);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,11 +40,11 @@ const EmailField = (props) => {
   };
 
   const handleEdit = () => {
-    onEdit(name);
+    openForm(name);
   };
 
   const handleCancel = () => {
-    onCancel(name);
+    closeForm(name);
   };
 
   const renderConfirmationMessage = () => {
@@ -184,37 +176,24 @@ EmailField.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   emptyLabel: PropTypes.node,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
 };
 
 EmailField.defaultProps = {
   value: undefined,
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(EmailField);
+export default EmailField;

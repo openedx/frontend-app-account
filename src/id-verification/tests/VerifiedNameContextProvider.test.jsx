@@ -2,7 +2,8 @@
 import React, { useContext } from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 
-import { getVerifiedNameHistory } from '../../account-settings/data/service';
+import { getVerifiedNameHistory } from '../../account-settings/data/api';
+import { createWrapper } from '../../tests/renderWithProviders';
 import { VerifiedNameContext, VerifiedNameContextProvider } from '../VerifiedNameContext';
 
 const VerifiedNameContextTestComponent = () => {
@@ -14,7 +15,7 @@ const VerifiedNameContextTestComponent = () => {
   );
 };
 
-jest.mock('../../account-settings/data/service', () => ({
+jest.mock('../../account-settings/data/api', () => ({
   getVerifiedNameHistory: jest.fn(() => ({})),
 }));
 
@@ -30,11 +31,7 @@ describe('VerifiedNameContextProvider', () => {
   });
 
   it('calls getVerifiedNameHistory', async () => {
-    jest.mock('../../account-settings/data/service', () => ({
-      getVerifiedNameHistory: jest.fn(() => ({})),
-    }));
-
-    render(<VerifiedNameContextProvider {...defaultProps} />);
+    render(<VerifiedNameContextProvider {...defaultProps} />, { wrapper: createWrapper() });
     await waitFor(() => expect(getVerifiedNameHistory).toHaveBeenCalledTimes(1));
   });
 
@@ -48,13 +45,14 @@ describe('VerifiedNameContextProvider', () => {
     };
     getVerifiedNameHistory.mockReturnValueOnce(mockReturnValue);
 
-    const { getByTestId } = render((
+    const { getByTestId } = render(
       <VerifiedNameContextProvider {...defaultProps}>
         <VerifiedNameContextTestComponent />
-      </VerifiedNameContextProvider>
-    ));
+      </VerifiedNameContextProvider>,
+      { wrapper: createWrapper() },
+    );
 
-    await waitFor(() => expect(getVerifiedNameHistory).toHaveBeenCalledTimes(1));
-    expect(getByTestId('verified-name')).toHaveTextContent('Michael');
+    await waitFor(() => expect(getByTestId('verified-name')).toHaveTextContent('Michael'));
+    expect(getVerifiedNameHistory).toHaveBeenCalledTimes(1);
   });
 });
