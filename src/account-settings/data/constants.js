@@ -52,8 +52,6 @@ export const WORK_EXPERIENCE_OPTIONS = [
 
 export const COUNTRY_WITH_STATES = 'US';
 
-export const TRANSIFEX_LANGUAGE_BASE_URL = 'https://www.transifex.com/open-edx/edx-platform/language/';
-
 const COUNTRY_STATES_MAP = {
   CA: [
     { value: 'AB', label: 'Alberta' },

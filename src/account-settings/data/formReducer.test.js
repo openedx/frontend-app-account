@@ -7,7 +7,6 @@ import {
   RESET_DRAFTS,
   SAVE_BEGIN,
   SAVE_FAILURE,
-  SAVE_PREVIOUS_SITE_LANGUAGE,
   SAVE_RESET,
   SAVE_SUCCESS,
   UPDATE_DRAFT,
@@ -100,10 +99,5 @@ describe('formReducer', () => {
       { type: SAVE_RESET },
     ]);
     expect(state).toEqual(initialFormState);
-  });
-
-  it('remembers the previous site language', () => {
-    expect(formReducer(initialFormState, { type: SAVE_PREVIOUS_SITE_LANGUAGE, previousSiteLanguage: 'en' }))
-      .toEqual({ ...initialFormState, previousSiteLanguage: 'en' });
   });
 });

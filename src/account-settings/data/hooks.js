@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
-import { getAuthenticatedUser } from '@openedx/frontend-base';
+import { getAuthenticatedUser, getSupportedLanguageList } from '@openedx/frontend-base';
 
 import {
   getAccount,
@@ -12,7 +12,6 @@ import {
   getVerifiedNameHistory,
 } from './api';
 import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
-import { siteLanguageList } from '../site-language';
 import { retryUnlessClientError } from '../../data/queryOptions';
 import { accountSettingsKeys } from './queryKeys';
 import { useAccountSettingsForm } from './FormContext';
@@ -157,7 +156,8 @@ export const useAccountSettingsData = () => {
     () => transformTimeZonesToOptions(countryTimeZones.data ?? EMPTY_LIST),
     [countryTimeZones.data],
   );
-  const siteLanguageOptions = useMemo(() => getSiteLanguageOptions(siteLanguageList), []);
+  // The languages with bundled translations, the same list the shell's language menu offers.
+  const siteLanguageOptions = useMemo(() => getSiteLanguageOptions(getSupportedLanguageList()), []);
 
   return {
     isPending,
