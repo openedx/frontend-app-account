@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from '@openedx/paragon';
 
 /**
- * Straightforward example of how you could use the pluginProps provided by
+ * Straightforward example of how you could use the slot props provided by
  * the AdditionalProfileFieldsSlot to create a custom profile field.
  *
  * Here you can set a 'favorite_color' field with radio buttons and
