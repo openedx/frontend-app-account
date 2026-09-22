@@ -11,9 +11,7 @@ import {
 } from '@openedx/frontend-base';
 
 import findIndex from 'lodash.findindex';
-import {
-  Container, Hyperlink, Icon, Alert,
-} from '@openedx/paragon';
+import { Hyperlink, Icon, Alert } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
@@ -838,7 +836,7 @@ const AccountSettingsPageContent = () => {
   );
 
   return (
-    <Container className="page__account-settings py-5" size="xl">
+    <div className="page__account-settings">
       {renderThirdPartyAuthErrorMessage()}
       <h1 className="mb-4">
         {intl.formatMessage(messages['account.settings.page.heading'])}
@@ -855,7 +853,7 @@ const AccountSettingsPageContent = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

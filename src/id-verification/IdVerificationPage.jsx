@@ -49,7 +49,7 @@ const IdVerificationPage = () => {
   }, []);
 
   return (
-    <div className="page__id-verification container-fluid py-5">
+    <div className="page__id-verification">
       <div className="row">
         <div className="col-lg-6 col-md-8">
           <VerifiedNameContextProvider>
