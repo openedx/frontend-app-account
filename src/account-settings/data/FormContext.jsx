@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-  getAuthenticatedUser, logError, updateLocale,
+  getAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
 import { patchSettings } from './api';
-import { patchPreferences, postSetLang } from '../site-language';
 import { accountSettingsKeys, accountSettingsMutationKeys } from './queryKeys';
 import {
   BEGIN_NAME_CHANGE,
@@ -50,19 +49,15 @@ export const CLOSE_FORM_DELAY = 1000;
 export const AccountSettingsFormContext = createContext(null);
 
 /**
- * Saves one field. The site language is special: it is a preference plus a session-level
- * language switch, and the two requests must run in that order.
+ * Saves one field. The site language is special: it is not an account setting but the site's
+ * language, so frontend-base switches it, the same way the shell's language menu does.
  */
 export const saveSettingsRequest = async ({ formId, commitValues, extendedProfile = {} }) => {
   const { username, userId } = getAuthenticatedUser();
   const commitData = Object.keys(extendedProfile).length > 0 ? extendedProfile : { [formId]: commitValues };
 
   if (formId === 'siteLanguage') {
-    await patchPreferences(username, { prefLang: commitValues });
-    await postSetLang(commitValues);
-
-    updateLocale(commitValues);
-
+    await updateSiteLanguage(commitValues);
     return { savedValues: commitData, commitData };
   }
 
