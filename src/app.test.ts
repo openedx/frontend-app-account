@@ -51,6 +51,19 @@ describe('routes', () => {
     expect(idVerification).toBeDefined();
     expect(idVerification?.handle?.roles).toEqual([idVerificationRole]);
   });
+
+  it('lazy-loads the layout and the pages', async () => {
+    const index = main.children?.find(route => route.index);
+    const idVerification = main.children?.find(route => route.path === 'id-verification/*');
+
+    await expect(main.lazy?.()).resolves.toEqual({ Component: (await import('./Main')).default });
+    await expect(index?.lazy?.()).resolves.toEqual({
+      Component: (await import('./account-settings/AccountSettingsPage')).default,
+    });
+    await expect(idVerification?.lazy?.()).resolves.toEqual({
+      Component: (await import('./slots/IdVerificationPageSlot')).default,
+    });
+  });
 });
 
 describe('config resolution', () => {
