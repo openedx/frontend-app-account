@@ -1,10 +1,9 @@
 import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 
-import { publish } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
-import { logError } from '@edx/frontend-platform/logging';
+import {
+  getAuthenticatedUser, getLocale, logError, updateLocale,
+} from '@openedx/frontend-base';
 
 import { createTestQueryClient, renderWithProviders } from '../../tests/renderWithProviders';
 import { patchSettings } from './api';
@@ -20,20 +19,13 @@ jest.mock('../site-language', () => ({
   patchPreferences: jest.fn(),
   postSetLang: jest.fn(),
 }));
-jest.mock('@edx/frontend-platform', () => ({
-  ...jest.requireActual('@edx/frontend-platform'),
-  publish: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/i18n', () => ({
-  ...jest.requireActual('@edx/frontend-platform/i18n'),
   getLocale: jest.fn(),
-  handleRtl: jest.fn(),
+  logError: jest.fn(),
+  updateLocale: jest.fn(),
 }));
-jest.mock('@edx/frontend-platform/logging');
 
 const user = { username: 'edx', userId: 3, roles: [] };
 const valuesKey = accountSettingsKeys.values(user.username);
@@ -170,8 +162,7 @@ describe('AccountSettingsFormProvider', () => {
     expect(calls).toEqual(['patchPreferences', 'postSetLang']);
     expect(patchPreferences).toHaveBeenCalledWith(user.username, { prefLang: 'fr' });
     expect(postSetLang).toHaveBeenCalledWith('fr');
-    expect(publish).toHaveBeenCalledWith(LOCALE_CHANGED, 'fr');
-    expect(handleRtl).toHaveBeenCalled();
+    expect(updateLocale).toHaveBeenCalledWith('fr');
     expect(form.previousSiteLanguage).toBe('en');
     expect(patchSettings).not.toHaveBeenCalled();
   });

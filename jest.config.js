@@ -2,10 +2,10 @@ const { createConfig } = require('@openedx/frontend-base/tools');
 
 module.exports = createConfig('test', {
   setupFilesAfterEnv: [
-    '<rootDir>/src/setupTest.js',
+    '<rootDir>/src/setupTest.ts',
   ],
   coveragePathIgnorePatterns: [
-    'src/setupTest.js',
+    'src/setupTest.ts',
     'src/i18n',
     'src/__mocks__',
     // Test helpers only ever imported by tests.

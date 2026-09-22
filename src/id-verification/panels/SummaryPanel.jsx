@@ -1,10 +1,9 @@
 import { useState, useContext, useEffect } from 'react';
-import { getConfig } from '@edx/frontend-platform';
+import { FormattedMessage, useIntl, getSiteConfig, getAppConfig } from '@openedx/frontend-base';
 import {
   Alert, Hyperlink, Form, Button, Spinner,
 } from '@openedx/paragon';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import { submitIdVerification } from '../data/api';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -15,6 +14,7 @@ import ImagePreview from '../ImagePreview';
 import messages from '../IdVerification.messages';
 import CameraHelpWithUpload from '../CameraHelpWithUpload';
 import SupportedMediaTypes from '../SupportedMediaTypes';
+import { appId } from '../../constants';
 
 const SummaryPanel = () => {
   const intl = useIntl();
@@ -51,7 +51,7 @@ const SummaryPanel = () => {
             managerTitle: <strong>{profileDataManager}</strong>,
             profileDataManager,
             support: (
-              <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+              <Hyperlink destination={getAppConfig(appId).SUPPORT_URL} target="_blank">
                 {intl.formatMessage(messages['id.verification.support'])}
               </Hyperlink>
             ),
@@ -82,7 +82,7 @@ const SummaryPanel = () => {
       const result = await submitIdVerification(verificationData);
       if (result.success) {
         stopUserMedia();
-        navigate(`/id-verification/${nextPanelSlug}`);
+        navigate(`../${nextPanelSlug}`);
       } else {
         stopUserMedia();
         setIsSubmitting(false);
@@ -133,7 +133,7 @@ const SummaryPanel = () => {
             <Alert.Link href="https://support.edx.org/hc/en-us">
               {intl.formatMessage(
                 messages['id.verification.review.error'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </Alert.Link>
           ),
@@ -172,7 +172,7 @@ const SummaryPanel = () => {
           />
           <Link
             className="btn btn-outline-primary"
-            to="/id-verification/take-portrait-photo"
+            to="../take-portrait-photo"
             state={{ fromSummary: true }}
             data-testid="portrait-retake"
           >
@@ -190,7 +190,7 @@ const SummaryPanel = () => {
           />
           <Link
             className="btn btn-outline-primary"
-            to="/id-verification/take-id-photo"
+            to="../take-id-photo"
             state={{ fromSummary: true }}
             data-testid="id-retake"
           >
@@ -216,7 +216,7 @@ const SummaryPanel = () => {
           {!profileDataManager && (
             <Link
               className="btn btn-link ml-3 px-0"
-              to="/id-verification/get-name-id"
+              to="../get-name-id"
               state={{ fromSummary: true }}
             >
               <FormattedMessage

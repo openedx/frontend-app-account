@@ -1,9 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Bowser from 'bowser';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, FormattedMessage, useIntl, getSiteConfig } from '@openedx/frontend-base';
 
 import { useRedirect } from '../../hooks';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -50,7 +48,7 @@ const RequestCameraAccessPanel = () => {
   };
 
   const returnLink = (
-    <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+    <a className="btn btn-primary" href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}>
       {intl.formatMessage(messages[returnText])}
     </a>
   );
@@ -86,7 +84,7 @@ const RequestCameraAccessPanel = () => {
             {intl.formatMessage(messages['id.verification.camera.access.success'])}
           </p>
           <div className="action-row">
-            <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+            <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
               {intl.formatMessage(messages['id.verification.next'])}
             </Link>
           </div>

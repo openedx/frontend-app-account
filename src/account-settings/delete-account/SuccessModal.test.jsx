@@ -1,58 +1,31 @@
-import renderer from 'react-test-renderer';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { IntlProvider } from '@openedx/frontend-base';
+
 import { SuccessModal } from './SuccessModal';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
-  createPortal: jest.fn(node => node), // Mock portal behavior
+  createPortal: jest.fn(node => node),
 }));
 
+const header = /Your account will be deleted shortly/;
+
 describe('SuccessModal', () => {
-  let props = {};
+  it.each([null, 'confirming', 'pending', 'failed'])('stays closed while the status is %s', (status) => {
+    render(<IntlProvider locale="en"><SuccessModal status={status} onClose={jest.fn()} /></IntlProvider>);
 
-  beforeEach(() => {
-    props = {
-      onClose: jest.fn(),
-      status: null,
-    };
+    expect(screen.queryByText(header)).not.toBeInTheDocument();
   });
 
-  it('should match default closed success modal snapshot', async () => {
-    await waitFor(() => {
-      const tree = renderer.create((
-        <IntlProvider locale="en"><SuccessModal {...props} /></IntlProvider>)).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-    await waitFor(() => {
-      const tree = renderer.create((
-        <IntlProvider locale="en"><SuccessModal {...props} status="confirming" /></IntlProvider>)).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-    await waitFor(() => {
-      const tree = renderer.create((
-        <IntlProvider locale="en"><SuccessModal {...props} status="pending" /></IntlProvider>)).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-    await waitFor(() => {
-      const tree = renderer.create((
-        <IntlProvider locale="en"><SuccessModal {...props} status="failed" /></IntlProvider>)).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-  });
+  it('confirms the deletion and closes on request', () => {
+    const onClose = jest.fn();
+    render(<IntlProvider locale="en"><SuccessModal status="deleted" onClose={onClose} /></IntlProvider>);
 
-  it('should match open success modal snapshot', async () => {
-    await waitFor(() => {
-      const tree = renderer.create(
-        <IntlProvider locale="en">
-          <SuccessModal
-            {...props}
-            status="deleted"
-          />
-        </IntlProvider>,
-      ).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
+    expect(screen.getByText(header)).toBeInTheDocument();
+    expect(screen.getByText(/Account deletion, including removal from email lists/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalled();
   });
 });

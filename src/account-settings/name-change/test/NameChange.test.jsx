@@ -6,7 +6,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser } from '@openedx/frontend-base';
 
 import { postVerifiedName } from '../../data/api';
 import { useAccountSettingsData } from '../../data/hooks';
@@ -22,8 +22,8 @@ jest.mock('react-dom', () => ({
 jest.mock('../../data/api');
 jest.mock('../../data/hooks');
 jest.mock('../data/api');
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
 }));
 

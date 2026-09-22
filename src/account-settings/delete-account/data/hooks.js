@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
 import { accountSettingsMutationKeys } from '../../data/queryKeys';
 import { postDeleteAccount } from './api';

@@ -1,7 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, useIntl, getSiteConfig } from '@openedx/frontend-base';
 
 import { useRedirect } from '../../hooks';
 
@@ -33,7 +31,7 @@ const SubmittedPanel = () => {
       </p>
       <a
         className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
+        href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}
         data-testid="return-button"
       >
         {intl.formatMessage(messages[returnText])}

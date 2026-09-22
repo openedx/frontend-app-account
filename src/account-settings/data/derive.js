@@ -110,8 +110,8 @@ export const getStaticFields = (profileDataManager, mostRecentVerifiedName) => {
 };
 
 export const transformTimeZonesToOptions = (timeZones) => timeZones
-  .map(({ time_zone, description }) => ({ // eslint-disable-line camelcase
-    value: time_zone, label: description, // eslint-disable-line camelcase
+  .map(({ time_zone, description }) => ({
+    value: time_zone, label: description,
   }));
 
 export const getSiteLanguageOptions = (siteLanguageList) => siteLanguageList.map(({ code, name }) => ({

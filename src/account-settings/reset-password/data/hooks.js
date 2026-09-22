@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
 import { accountSettingsMutationKeys } from '../../data/queryKeys';
 import { postResetPassword } from './api';
@@ -15,9 +15,15 @@ const isForbidden = (error) => error?.response?.status === 403;
 export const getResetPasswordStatus = ({
   isPending, isSuccess, isError, error,
 }) => {
-  if (isPending) { return 'pending'; }
-  if (isSuccess) { return 'complete'; }
-  if (isError && isForbidden(error)) { return 'forbidden'; }
+  if (isPending) {
+    return 'pending';
+  }
+  if (isSuccess) {
+    return 'complete';
+  }
+  if (isError && isForbidden(error)) {
+    return 'forbidden';
+  }
   return null;
 };
 

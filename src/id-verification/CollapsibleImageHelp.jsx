@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, useIntl } from '@openedx/frontend-base';
 import { Button, Collapsible } from '@openedx/paragon';
 
 import IdVerificationContext from './IdVerificationContext';

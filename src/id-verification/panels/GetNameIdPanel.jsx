@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { Form } from '@openedx/paragon';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
@@ -35,7 +35,7 @@ const GetNameIdPanel = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
-      navigate(`/id-verification/${nextPanelSlug}`);
+      navigate(`../${nextPanelSlug}`);
     }
   };
 
@@ -81,7 +81,7 @@ const GetNameIdPanel = () => {
 
       <div className="action-row">
         <Link
-          to={`/id-verification/${nextPanelSlug}`}
+          to={`../${nextPanelSlug}`}
           className={`btn btn-primary ${!idPhotoName && 'disabled'}`}
           data-testid="next-button"
           aria-disabled={!idPhotoName}

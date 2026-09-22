@@ -1,12 +1,19 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { convertKeyNames, snakeCaseObject } from '@edx/frontend-platform/utils';
+import {
+  getAuthenticatedHttpClient,
+  convertKeyNames,
+  snakeCaseObject,
+  getSiteConfig,
+} from '@openedx/frontend-base';
 
 import { patchPreferences, postSetLang } from './api';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('@edx/frontend-platform/utils');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  convertKeyNames: jest.fn(),
+  snakeCaseObject: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
 
 describe('site language API', () => {
   const mockPatch = jest.fn();
@@ -15,9 +22,7 @@ describe('site language API', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({
-      LMS_BASE_URL: 'http://testserver',
-    });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://testserver' });
 
     getAuthenticatedHttpClient.mockReturnValue({
       patch: mockPatch,

@@ -37,7 +37,6 @@ if (navigator.mediaDevices === undefined) {
 // with getUserMedia as it would overwrite existing properties.
 // Here, we will just add the getUserMedia property if it's missing.
 if (navigator.mediaDevices.getUserMedia === undefined) {
-  // eslint-disable-next-line func-names
   navigator.mediaDevices.getUserMedia = function (constraints) {
     // First get ahold of the legacy getUserMedia, if present
     const getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -49,11 +48,10 @@ if (navigator.mediaDevices.getUserMedia === undefined) {
     }
 
     // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       getUserMedia.call(navigator, constraints, resolve, reject);
-    }));
+    });
   };
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export { hasGetUserMediaSupport };

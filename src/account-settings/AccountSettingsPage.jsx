@@ -1,16 +1,16 @@
 import React, {
   useCallback, useContext, useEffect, useMemo, useRef,
 } from 'react';
-import { AppContext } from '@edx/frontend-platform/react';
-import { getConfig } from '@edx/frontend-platform';
-import findIndex from 'lodash.findindex';
-import { sendTrackingLogEvent } from '@edx/frontend-platform/analytics';
 import {
+  SiteContext,
+  sendTrackingLogEvent,
   useIntl,
   FormattedMessage,
-  getCountryList,
-  getLanguageList,
-} from '@edx/frontend-platform/i18n';
+  getSiteConfig,
+  getAppConfig,
+} from '@openedx/frontend-base';
+
+import findIndex from 'lodash.findindex';
 import {
   Container, Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
@@ -43,6 +43,10 @@ import {
 } from './data/constants';
 import NotificationSettings from '../notification-preferences/NotificationSettings';
 import AdditionalProfileFieldsSlot from '../plugin-slots/AdditionalProfileFieldsSlot';
+import { appId } from '../constants';
+import { getCountryList } from '../data/countries';
+import { getLanguageList } from '../data/languages';
+import { parseEnvArray, parseEnvBoolean } from '../utils';
 
 const NAV_LINK_IDS = [
   '#basic-information',
@@ -56,7 +60,7 @@ const NAV_LINK_IDS = [
 
 const AccountSettingsPageContent = () => {
   const intl = useIntl();
-  const { locale, authenticatedUser } = useContext(AppContext);
+  const { locale, authenticatedUser } = useContext(SiteContext);
   const {
     isPending,
     isError,
@@ -185,7 +189,7 @@ const AccountSettingsPageContent = () => {
   }), [intl, locale, formValues.country, removeDisabledCountries, isDisabledCountry]);
 
   const canDeleteAccount = () => (
-    !getConfig().COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED.includes(committedValues.country)
+    !parseEnvArray(getAppConfig(appId).COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED).includes(committedValues.country)
   );
 
   const handleEditableFieldChange = (name, value) => {
@@ -276,7 +280,7 @@ const AccountSettingsPageContent = () => {
             values={{
               managerTitle: <b>{profileDataManager}</b>,
               support: (
-                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+                <Hyperlink destination={getAppConfig(appId).SUPPORT_URL} target="_blank">
                   <FormattedMessage
                     id="account.settings.message.managed.settings.support"
                     defaultMessage="support"
@@ -503,9 +507,13 @@ const AccountSettingsPageContent = () => {
     const hasLinkedTPA = findIndex(tpaProviders, provider => provider.connected) >= 0;
 
     // if user is under 13 and does not have cookie set
+    const {
+      ENABLE_COPPA_COMPLIANCE, ENABLE_DOB_UPDATE, ENABLE_ACCOUNT_DELETION,
+    } = getAppConfig(appId);
+    const enableCoppaCompliance = parseEnvBoolean(ENABLE_COPPA_COMPLIANCE);
     const shouldUpdateDOB = (
-      getConfig().ENABLE_COPPA_COMPLIANCE
-      && getConfig().ENABLE_DOB_UPDATE
+      enableCoppaCompliance
+      && parseEnvBoolean(ENABLE_DOB_UPDATE)
       && String(formValues.year_of_birth ?? '') >= COPPA_COMPLIANCE_YEAR.toString()
       && !localStorage.getItem('submittedDOB')
     );
@@ -548,7 +556,7 @@ const AccountSettingsPageContent = () => {
             label={intl.formatMessage(messages['account.settings.field.username'])}
             helpText={intl.formatMessage(
               messages['account.settings.field.username.help.text'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().siteName },
             )}
             isEditable={false}
             {...editableFieldProps}
@@ -620,14 +628,14 @@ const AccountSettingsPageContent = () => {
             confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
             helpText={intl.formatMessage(
               messages['account.settings.field.email.help.text'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().siteName },
             )}
             isEditable={isEditable('email')}
             {...editableFieldProps}
           />
           {renderSecondaryEmailField(editableFieldProps)}
           <ResetPassword email={formValues.email} />
-          {(!getConfig().ENABLE_COPPA_COMPLIANCE)
+          {!enableCoppaCompliance
             && (
             <EditableSelectField
               name="year_of_birth"
@@ -681,7 +689,7 @@ const AccountSettingsPageContent = () => {
             name="level_of_education"
             type="select"
             value={formValues.level_of_education}
-            options={getConfig().ENABLE_COPPA_COMPLIANCE
+            options={enableCoppaCompliance
               ? educationLevelOptions.filter(option => option.value !== 'el')
               : educationLevelOptions}
             label={intl.formatMessage(messages['account.settings.field.education'])}
@@ -728,7 +736,7 @@ const AccountSettingsPageContent = () => {
           <p>
             {intl.formatMessage(
               messages['account.settings.section.social.media.description'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().siteName },
             )}
           </p>
 
@@ -797,13 +805,13 @@ const AccountSettingsPageContent = () => {
           <p>
             {intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
-              { siteName: getConfig().SITE_NAME },
+              { siteName: getSiteConfig().siteName },
             )}
           </p>
           <ThirdPartyAuth />
         </div>
 
-        {getConfig().ENABLE_ACCOUNT_DELETION && (
+        {parseEnvBoolean(ENABLE_ACCOUNT_DELETION) && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={navLinkRefs.current['#delete-account']}>
             <DeleteAccount
               isVerifiedAccount={isActive}
