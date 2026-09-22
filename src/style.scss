@@ -1,11 +1,9 @@
-@use "@openedx/paragon/styles/css/core/custom-media-breakpoints" as paragonCustomMediaBreakpoints;
+@use "@openedx/paragon/styles/css/core/custom-media-breakpoints.css";
+@use "./sass/account-settings";
+@use "./sass/id-verification";
 
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
-
-
-@import "./account-settings/style";
-@import "./id-verification/id-verification";
 
 .word-break-all {
   word-break: break-all !important;
@@ -22,15 +20,6 @@ $fa-font-path: "~font-awesome/fonts";
   text-decoration: underline;
   &:hover {
     text-decoration: underline;
-  }
-}
-
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  & > main {
-    flex-grow: 1;
   }
 }
 

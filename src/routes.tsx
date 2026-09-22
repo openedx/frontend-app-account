@@ -29,7 +29,7 @@ const routes: RoleRouteObject[] = [
           roles: [idVerificationRole],
         },
         async lazy() {
-          const module = await import(/* webpackChunkName: "account-id-verification" */ './plugin-slots/IdVerificationPageSlot');
+          const module = await import(/* webpackChunkName: "account-id-verification" */ './slots/IdVerificationPageSlot');
           return { Component: module.default };
         },
       },
