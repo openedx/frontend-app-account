@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { IntlProvider } from '@openedx/frontend-base';
+import { getSiteConfig, IntlProvider, mergeSiteConfig } from '@openedx/frontend-base';
 
 import ConfirmationModal from './ConfirmationModal';
 
@@ -48,6 +48,15 @@ describe('ConfirmationModal', () => {
 
     expect(screen.getAllByText('Unable to delete account').length).toBeGreaterThan(0);
     expect(screen.getByText(/Sorry, there was an error/)).toBeInTheDocument();
+  });
+
+  it('uses the edx.org wording on edx.org', () => {
+    const { siteName } = getSiteConfig();
+    mergeSiteConfig({ siteName: 'edX' });
+    renderModal({ status: 'confirming' });
+    mergeSiteConfig({ siteName });
+
+    expect(screen.getByText(/unable to use this account to take courses on the edX app/)).toBeInTheDocument();
   });
 
   it('calls back on cancel and on delete', () => {
