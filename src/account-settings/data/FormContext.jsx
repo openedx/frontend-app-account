@@ -29,6 +29,25 @@ import {
 // How long a saved field stays in its "complete" state before the form closes itself.
 export const CLOSE_FORM_DELAY = 1000;
 
+/**
+ * @typedef {object} AccountSettingsForm
+ * @property {string | null} openFormId the field being edited, if any
+ * @property {Record<string, unknown>} drafts unsaved values by field name
+ * @property {Record<string, string>} errors validation errors by field name
+ * @property {Record<string, unknown>} confirmationValues saved values awaiting confirmation
+ * @property {'pending' | 'complete' | 'error' | null} saveState the outcome of the last save
+ * @property {false | { formId: string }} nameChangeModal the field whose name change is in progress
+ * @property {(formId: string) => void} openForm
+ * @property {(formId: string) => void} closeForm
+ * @property {(name: string, value: unknown) => void} updateDraft
+ * @property {() => void} resetDrafts
+ * @property {(formId: string) => void} beginNameChange
+ * @property {() => void} saveSettingsReset
+ * @property {(formId: string | null, commitValues: unknown, extendedProfile?: object) => void} saveSettings
+ * @property {(settingsArray: { formId: string, commitValues: unknown }[], form?: string | null) => void} saveMultipleSettings
+ */
+
+/** @type {import('react').Context<AccountSettingsForm | null>} */
 export const AccountSettingsFormContext = createContext(null);
 
 /**

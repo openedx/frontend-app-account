@@ -14,11 +14,12 @@ const AdditionalProfileFieldsSlot = () => {
   const { data: values } = useSettingsValues();
   const { errors, saveSettings } = useAccountSettingsForm();
 
+  // These reach the widgets as slot props; see the README for their contract.
   const slotProps = {
     refreshUserProfile: () => queryClient.invalidateQueries({
       queryKey: accountSettingsKeys.values(getAuthenticatedUser().username),
     }),
-    updateUserProfile: (params) => saveSettings(null, null, snakeCaseObject(params)),
+    updateUserProfile: (params: object) => saveSettings(null, null, snakeCaseObject(params)),
     profileFieldValues: camelCaseObject(values?.extended_profile),
     profileFieldErrors: errors,
     formComponents: {
@@ -28,7 +29,7 @@ const AdditionalProfileFieldsSlot = () => {
 
   return (
     <Slot
-      id="org.openedx.frontend.account.additional_profile_fields.v1"
+      id="org.openedx.frontend.slot.account.additionalProfileFields.v1"
       {...slotProps}
     />
   );
