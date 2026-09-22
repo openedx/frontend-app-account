@@ -27,7 +27,6 @@ import EditableSelectField from './EditableSelectField';
 import ResetPassword from './reset-password';
 import NameChange from './name-change';
 import ThirdPartyAuth from './third-party-auth';
-import BetaLanguageBanner from './BetaLanguageBanner';
 import EmailField from './EmailField';
 import OneTimeDismissibleAlert from './OneTimeDismissibleAlert';
 import DOBModal from './DOBForm';
@@ -774,7 +773,6 @@ const AccountSettingsPageContent = () => {
             {intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
-          <BetaLanguageBanner />
           <EditableSelectField
             name="siteLanguage"
             type="select"

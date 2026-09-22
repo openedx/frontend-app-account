@@ -14,7 +14,6 @@ export const SAVE_BEGIN = 'SAVE_BEGIN';
 export const SAVE_SUCCESS = 'SAVE_SUCCESS';
 export const SAVE_FAILURE = 'SAVE_FAILURE';
 export const SAVE_RESET = 'SAVE_RESET';
-export const SAVE_PREVIOUS_SITE_LANGUAGE = 'SAVE_PREVIOUS_SITE_LANGUAGE';
 
 export const initialFormState = {
   openFormId: null,
@@ -23,7 +22,6 @@ export const initialFormState = {
   confirmationValues: {},
   saveState: null,
   nameChangeModal: false,
-  previousSiteLanguage: null,
 };
 
 export const formReducer = (state = initialFormState, action = {}) => {
@@ -102,12 +100,6 @@ export const formReducer = (state = initialFormState, action = {}) => {
         ...state,
         saveState: null,
         errors: {},
-      };
-
-    case SAVE_PREVIOUS_SITE_LANGUAGE:
-      return {
-        ...state,
-        previousSiteLanguage: action.previousSiteLanguage,
       };
 
     default:
