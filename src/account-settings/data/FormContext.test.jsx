@@ -2,27 +2,22 @@ import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 
 import {
-  getAuthenticatedUser, logError, updateLocale,
+  getAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
 import { createTestQueryClient, renderWithProviders } from '../../tests/renderWithProviders';
 import { patchSettings } from './api';
-import { patchPreferences, postSetLang } from '../site-language';
 import { accountSettingsKeys } from './queryKeys';
 import {
   AccountSettingsFormProvider, CLOSE_FORM_DELAY, useAccountSettingsForm, useEditableField,
 } from './FormContext';
 
 jest.mock('./api');
-jest.mock('../site-language', () => ({
-  patchPreferences: jest.fn(),
-  postSetLang: jest.fn(),
-}));
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
   logError: jest.fn(),
-  updateLocale: jest.fn(),
+  updateSiteLanguage: jest.fn(),
 }));
 
 const user = { username: 'edx', userId: 3, roles: [] };
@@ -146,20 +141,26 @@ describe('AccountSettingsFormProvider', () => {
     expect(form.errors).toEqual({});
   });
 
-  it('switches the site language through the preference and setlang endpoints, in that order', async () => {
-    const calls = [];
-    patchPreferences.mockImplementation(async () => { calls.push('patchPreferences'); });
-    postSetLang.mockImplementation(async () => { calls.push('postSetLang'); });
+  it('switches the site language through frontend-base rather than the account settings', async () => {
+    updateSiteLanguage.mockResolvedValue(undefined);
     renderProvider();
 
     act(() => form.saveSettings('siteLanguage', 'fr'));
 
     await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
-    expect(calls).toEqual(['patchPreferences', 'postSetLang']);
-    expect(patchPreferences).toHaveBeenCalledWith(user.username, { prefLang: 'fr' });
-    expect(postSetLang).toHaveBeenCalledWith('fr');
-    expect(updateLocale).toHaveBeenCalledWith('fr');
+    expect(updateSiteLanguage).toHaveBeenCalledWith('fr');
     expect(patchSettings).not.toHaveBeenCalled();
+  });
+
+  it('reports a site language switch that could not be persisted', async () => {
+    const error = new AggregateError([new Error('Forbidden')], 'Failed to persist the site language');
+    updateSiteLanguage.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('siteLanguage', 'fr'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('error'));
+    expect(logError).toHaveBeenCalledWith(error);
   });
 
   it('refetches the verified name history after a certificate name choice', async () => {
