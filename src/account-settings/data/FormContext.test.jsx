@@ -2,7 +2,7 @@ import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 
 import {
-  getAuthenticatedUser, getLocale, logError, updateLocale,
+  getAuthenticatedUser, logError, updateLocale,
 } from '@openedx/frontend-base';
 
 import { createTestQueryClient, renderWithProviders } from '../../tests/renderWithProviders';
@@ -15,14 +15,12 @@ import {
 
 jest.mock('./api');
 jest.mock('../site-language', () => ({
-  siteLanguageList: [],
   patchPreferences: jest.fn(),
   postSetLang: jest.fn(),
 }));
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
-  getLocale: jest.fn(),
   logError: jest.fn(),
   updateLocale: jest.fn(),
 }));
@@ -51,7 +49,6 @@ const fieldError = (fieldErrors) => Object.assign(new Error('field errors'), { f
 describe('AccountSettingsFormProvider', () => {
   beforeEach(() => {
     getAuthenticatedUser.mockReturnValue(user);
-    getLocale.mockReturnValue('en');
   });
 
   afterEach(() => {
@@ -153,7 +150,6 @@ describe('AccountSettingsFormProvider', () => {
     const calls = [];
     patchPreferences.mockImplementation(async () => { calls.push('patchPreferences'); });
     postSetLang.mockImplementation(async () => { calls.push('postSetLang'); });
-    getLocale.mockReturnValueOnce('en').mockReturnValue('fr');
     renderProvider();
 
     act(() => form.saveSettings('siteLanguage', 'fr'));
@@ -163,7 +159,6 @@ describe('AccountSettingsFormProvider', () => {
     expect(patchPreferences).toHaveBeenCalledWith(user.username, { prefLang: 'fr' });
     expect(postSetLang).toHaveBeenCalledWith('fr');
     expect(updateLocale).toHaveBeenCalledWith('fr');
-    expect(form.previousSiteLanguage).toBe('en');
     expect(patchSettings).not.toHaveBeenCalled();
   });
 
