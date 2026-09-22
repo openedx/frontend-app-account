@@ -132,18 +132,6 @@ $fa-font-path: "~font-awesome/fonts";
   }
 }
 
-.usabilla_live_button_container {
-  right: 0 !important;
-}
-
-@media (min-width: 768.98px) {
-  .usabilla_live_button_container {
-    right: -22px !important;
-    top: 50% !important;
-    transform: rotate(270deg) !important;
-  }
-}
-
 @media screen and (max-width: 425px) {
    .column-padding{
     padding-left: 16px;
