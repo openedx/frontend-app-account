@@ -5,7 +5,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: 'frontend-app-account'
-  description: "Open edX micro-frontend application for managing user account information."
+  description: "Open edX frontend app for managing user account information."
   links:
     - url: "https://github.com/openedx/frontend-app-account"
       title: "Frontend app account"
