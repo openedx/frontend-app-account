@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-  getAuthenticatedUser, logError, updateSiteLanguage,
+  fetchAuthenticatedUser, getAuthenticatedUser, hydrateAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
 import { patchSettings } from '@src/account-settings/data/api';
@@ -65,6 +65,16 @@ export const saveSettingsRequest = async ({ formId, commitValues, extendedProfil
   return { savedValues, commitData };
 };
 
+/**
+ * The shell shows the learner's name in its header, from a copy of the authenticated user it took
+ * at site init and rebuilds from the JWT on every load. A name change has to reach both: without
+ * the token refresh, the next load reads the old name back for as long as the cookie lives.
+ */
+const refreshShellLearner = async () => {
+  await fetchAuthenticatedUser({ forceRefresh: true });
+  await hydrateAuthenticatedUser();
+};
+
 export const AccountSettingsFormProvider = ({ children }) => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
   const queryClient = useQueryClient();
@@ -89,6 +99,9 @@ export const AccountSettingsFormProvider = ({ children }) => {
     );
     if ('useVerifiedNameForCerts' in commitData) {
       queryClient.invalidateQueries({ queryKey: accountSettingsKeys.verifiedNameHistory });
+    }
+    if ('name' in commitData) {
+      refreshShellLearner().catch(logError);
     }
     dispatch({ type: SAVE_SUCCESS, confirmationValues: commitData });
   }, [queryClient]);
