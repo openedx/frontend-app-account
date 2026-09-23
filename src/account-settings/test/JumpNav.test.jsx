@@ -1,12 +1,12 @@
 import { screen, waitFor } from '@testing-library/react';
 import { mergeAppConfig } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { getNotificationPreferences } from '../../notification-preferences/data/api';
-import JumpNav from '../JumpNav';
-import { appId } from '../../constants';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { getNotificationPreferences } from '@src/notification-preferences/data/api';
+import JumpNav from '@src/account-settings/JumpNav';
+import { appId } from '@src/constants';
 
-jest.mock('../../notification-preferences/data/api');
+jest.mock('@src/notification-preferences/data/api');
 
 describe('JumpNav', () => {
   beforeEach(() => {

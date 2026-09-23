@@ -3,9 +3,11 @@ import { Container } from '@openedx/paragon';
 import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
 
-import { appId } from './constants';
-import messages from './messages';
+import { appId } from '@src/constants';
+import messages from '@src/messages';
 
+// The stylesheet stays relative: tsc-alias only rewrites an alias whose target already exists in
+// dist, and the Makefile copies stylesheets and assets there after it runs.
 import './style.scss';
 
 const Main = () => {

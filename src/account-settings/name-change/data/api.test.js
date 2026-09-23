@@ -1,14 +1,14 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
-import { postNameChange } from './api';
+import { postNameChange } from '@src/account-settings/name-change/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedHttpClient: jest.fn(),
   getSiteConfig: jest.fn(),
 }));
-jest.mock('../../data/utils');
+jest.mock('@src/account-settings/data/utils');
 
 describe('postNameChange', () => {
   const mockPost = jest.fn();

@@ -1,1 +1,1 @@
-export { default } from './AccountSettingsPage';
+export { default } from '@src/account-settings/AccountSettingsPage';

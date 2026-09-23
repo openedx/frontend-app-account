@@ -1,7 +1,7 @@
 import { camelCaseObject } from '@openedx/frontend-base';
 
-import { EMAIL_CADENCE_PREFERENCES } from './constants';
-import { applyPreferenceUpdate, normalizePreferences } from './utils';
+import { EMAIL_CADENCE_PREFERENCES } from '@src/notification-preferences/data/constants';
+import { applyPreferenceUpdate, normalizePreferences } from '@src/notification-preferences/data/utils';
 
 const rawResponse = {
   status: 'success',

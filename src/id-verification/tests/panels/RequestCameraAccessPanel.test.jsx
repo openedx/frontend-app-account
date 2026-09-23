@@ -5,8 +5,8 @@ import {
   render, screen, cleanup, act, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider, getSiteConfig } from '@openedx/frontend-base';
-import IdVerificationContext from '../../IdVerificationContext';
-import RequestCameraAccessPanel from '../../panels/RequestCameraAccessPanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import RequestCameraAccessPanel from '@src/id-verification/panels/RequestCameraAccessPanel';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

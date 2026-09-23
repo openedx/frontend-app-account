@@ -1,6 +1,6 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
 export async function postResetPassword(email) {
   const { data } = await getAuthenticatedHttpClient()

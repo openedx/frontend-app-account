@@ -4,14 +4,14 @@ import Bowser from 'bowser';
 import { sendTrackEvent, FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
 import { Button } from '@openedx/paragon';
 
-import { useRedirect } from '../../hooks';
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
-import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
-import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
+import { useRedirect } from '@src/hooks';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import IdVerificationContext, { MEDIA_ACCESS } from '@src/id-verification/IdVerificationContext';
+import { EnableCameraDirectionsPanel } from '@src/id-verification/panels/EnableCameraDirectionsPanel';
+import { UnsupportedCameraDirectionsPanel } from '@src/id-verification/panels/UnsupportedCameraDirectionsPanel';
 
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const RequestCameraAccessPanel = () => {
   const intl = useIntl();

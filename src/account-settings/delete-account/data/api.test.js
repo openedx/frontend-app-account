@@ -1,8 +1,8 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
-import { postDeleteAccount } from './api';
+import { postDeleteAccount } from '@src/account-settings/delete-account/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
@@ -10,7 +10,7 @@ jest.mock('@openedx/frontend-base', () => ({
   getSiteConfig: jest.fn(),
 }));
 jest.mock('form-urlencoded');
-jest.mock('../../data/utils');
+jest.mock('@src/account-settings/data/utils');
 
 describe('postDeleteAccount', () => {
   const mockPost = jest.fn();

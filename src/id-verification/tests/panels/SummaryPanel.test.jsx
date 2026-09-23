@@ -4,17 +4,17 @@ import {
   render, cleanup, act, screen, fireEvent, waitFor,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import * as dataService from '../../data/api';
-import IdVerificationContext from '../../IdVerificationContext';
-import SummaryPanel from '../../panels/SummaryPanel';
-import { VerifiedNameContext } from '../../VerifiedNameContext';
+import * as dataService from '@src/id-verification/data/api';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import SummaryPanel from '@src/id-verification/panels/SummaryPanel';
+import { VerifiedNameContext } from '@src/id-verification/VerifiedNameContext';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../data/api');
+jest.mock('@src/id-verification/data/api');
 dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 
 describe('SummaryPanel', () => {

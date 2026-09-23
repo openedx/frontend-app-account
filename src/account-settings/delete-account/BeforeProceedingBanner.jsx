@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Hyperlink } from '@openedx/paragon';
 
 // Messages
-import messages from './messages';
+import messages from '@src/account-settings/delete-account/messages';
 
 // Components
-import Alert from '../Alert';
+import Alert from '@src/account-settings/Alert';
 
 const BeforeProceedingBanner = (props) => {
   const { instructionMessageId, supportArticleUrl } = props;

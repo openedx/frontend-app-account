@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { getAuthenticatedUser } from '@openedx/frontend-base';
 
-import { postVerifiedName } from '../../data/api';
-import { accountSettingsKeys, accountSettingsMutationKeys } from '../../data/queryKeys';
-import { postNameChange } from './api';
+import { postVerifiedName } from '@src/account-settings/data/api';
+import { accountSettingsKeys, accountSettingsMutationKeys } from '@src/account-settings/data/queryKeys';
+import { postNameChange } from '@src/account-settings/name-change/data/api';
 
 export const GENERAL_ERROR = { general_error: 'A technical error occurred. Please try again.' };
 

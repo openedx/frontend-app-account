@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from '@openedx/frontend-base';
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 export const UnsupportedCameraDirectionsPanel = (props) => {
   const intl = useIntl();

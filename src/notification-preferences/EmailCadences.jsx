@@ -8,9 +8,9 @@ import {
   Button, Dropdown, ModalPopup, useToggle,
 } from '@openedx/paragon';
 
-import messages from './messages';
-import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from './data/constants';
-import { useIsUpdatingPreferences } from './data/hooks';
+import messages from '@src/notification-preferences/messages';
+import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from '@src/notification-preferences/data/constants';
+import { useIsUpdatingPreferences } from '@src/notification-preferences/data/hooks';
 
 const EmailCadences = ({
   email, onToggle, emailCadence, notificationType, disabled = false,

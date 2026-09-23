@@ -5,9 +5,9 @@ import {
 import {
   getSiteConfig, IntlProvider, mergeSiteConfig, setSiteConfig,
 } from '@openedx/frontend-base';
-import { dashboardRole } from '../../../constants';
-import IdVerificationContext from '../../IdVerificationContext';
-import SubmittedPanel from '../../panels/SubmittedPanel';
+import { dashboardRole } from '@src/constants';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import SubmittedPanel from '@src/id-verification/panels/SubmittedPanel';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

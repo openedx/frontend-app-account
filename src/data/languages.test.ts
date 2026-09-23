@@ -1,4 +1,4 @@
-import { getLanguageList, getLanguageMessages } from './languages';
+import { getLanguageList, getLanguageMessages } from '@src/data/languages';
 
 describe('languages', () => {
   it('lists every language as a code and a localized name', () => {

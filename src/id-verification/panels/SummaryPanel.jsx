@@ -5,16 +5,16 @@ import {
 } from '@openedx/paragon';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { submitIdVerification } from '../data/api';
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import IdVerificationContext from '../IdVerificationContext';
-import ImagePreview from '../ImagePreview';
+import { submitIdVerification } from '@src/id-verification/data/api';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import ImagePreview from '@src/id-verification/ImagePreview';
 
-import messages from '../IdVerification.messages';
-import CameraHelpWithUpload from '../CameraHelpWithUpload';
-import SupportedMediaTypes from '../SupportedMediaTypes';
-import { appId } from '../../constants';
+import messages from '@src/id-verification/IdVerification.messages';
+import CameraHelpWithUpload from '@src/id-verification/CameraHelpWithUpload';
+import SupportedMediaTypes from '@src/id-verification/SupportedMediaTypes';
+import { appId } from '@src/constants';
 
 const SummaryPanel = () => {
   const intl = useIntl();

@@ -9,11 +9,11 @@ import {
 } from '@openedx/paragon';
 import { useIntl } from '@openedx/frontend-base';
 
-import { useAccountSettingsForm } from '../data/FormContext';
-import { useAccountSettingsData } from '../data/hooks';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
 
-import commonMessages from '../AccountSettingsPage.messages';
-import messages from './messages';
+import commonMessages from '@src/account-settings/AccountSettingsPage.messages';
+import messages from '@src/account-settings/certificate-preference/messages';
 
 const CertificatePreference = ({ fieldName }) => {
   const { committedValues, formValues, verifiedName } = useAccountSettingsData();

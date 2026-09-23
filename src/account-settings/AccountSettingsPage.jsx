@@ -14,20 +14,20 @@ import findIndex from 'lodash.findindex';
 import { Hyperlink, Icon, Alert } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
-import messages from './AccountSettingsPage.messages';
-import { AccountSettingsFormProvider, useAccountSettingsForm } from './data/FormContext';
-import { useAccountSettingsData } from './data/hooks';
-import PageLoading from './PageLoading';
-import JumpNav from './JumpNav';
-import DeleteAccount from './delete-account';
-import EditableField from './EditableField';
-import EditableSelectField from './EditableSelectField';
-import ResetPassword from './reset-password';
-import NameChange from './name-change';
-import ThirdPartyAuth from './third-party-auth';
-import EmailField from './EmailField';
-import OneTimeDismissibleAlert from './OneTimeDismissibleAlert';
-import DOBModal from './DOBForm';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { AccountSettingsFormProvider, useAccountSettingsForm } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
+import PageLoading from '@src/account-settings/PageLoading';
+import JumpNav from '@src/account-settings/JumpNav';
+import DeleteAccount from '@src/account-settings/delete-account';
+import EditableField from '@src/account-settings/EditableField';
+import EditableSelectField from '@src/account-settings/EditableSelectField';
+import ResetPassword from '@src/account-settings/reset-password';
+import NameChange from '@src/account-settings/name-change';
+import ThirdPartyAuth from '@src/account-settings/third-party-auth';
+import EmailField from '@src/account-settings/EmailField';
+import OneTimeDismissibleAlert from '@src/account-settings/OneTimeDismissibleAlert';
+import DOBModal from '@src/account-settings/DOBForm';
 import {
   YEAR_OF_BIRTH_OPTIONS,
   EDUCATION_LEVELS,
@@ -37,13 +37,13 @@ import {
   WORK_EXPERIENCE_OPTIONS,
   getStatesList,
   FIELD_LABELS,
-} from './data/constants';
-import NotificationSettings from '../notification-preferences/NotificationSettings';
-import AdditionalProfileFieldsSlot from '../slots/AdditionalProfileFieldsSlot';
-import { appId } from '../constants';
-import { getCountryList } from '../data/countries';
-import { getLanguageList } from '../data/languages';
-import { parseEnvArray, parseEnvBoolean } from '../utils';
+} from '@src/account-settings/data/constants';
+import NotificationSettings from '@src/notification-preferences/NotificationSettings';
+import AdditionalProfileFieldsSlot from '@src/slots/AdditionalProfileFieldsSlot';
+import { appId } from '@src/constants';
+import { getCountryList } from '@src/data/countries';
+import { getLanguageList } from '@src/data/languages';
+import { parseEnvArray, parseEnvBoolean } from '@src/utils';
 
 const NAV_LINK_IDS = [
   '#basic-information',

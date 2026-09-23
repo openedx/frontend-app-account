@@ -5,8 +5,8 @@ import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
   IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
-} from './constants';
-import { getDashboardUrl } from './utils';
+} from '@src/constants';
+import { getDashboardUrl } from '@src/utils';
 
 export function useAsyncCall(asyncFunc) {
   // React doesn't batch setStates call in async useEffect hooks,

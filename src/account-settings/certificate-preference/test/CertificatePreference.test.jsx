@@ -1,9 +1,9 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 
-import messages from '../messages';
-import { useAccountSettingsData } from '../../data/hooks';
-import { renderWithForm } from '../../test/renderWithForm';
+import messages from '@src/account-settings/certificate-preference/messages';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -11,9 +11,9 @@ jest.mock('react-dom', () => ({
   createPortal: jest.fn(node => node), // Mock portal behavior
 }));
 
-jest.mock('../../data/hooks');
+jest.mock('@src/account-settings/data/hooks');
 
-import CertificatePreference from '../CertificatePreference'; // eslint-disable-line import/first
+import CertificatePreference from '@src/account-settings/certificate-preference/CertificatePreference'; // eslint-disable-line import/first
 
 const formId = 'useVerifiedNameForCerts';
 const labelText = messages['account.settings.field.name.checkbox.certificate.select'].defaultMessage;

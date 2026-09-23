@@ -1,7 +1,7 @@
 import { App } from '@openedx/frontend-base';
-import routes from './routes';
-import slots from './slots';
-import { appId } from './constants';
+import routes from '@src/routes';
+import slots from '@src/slots';
+import { appId } from '@src/constants';
 
 const app: App = {
   appId,

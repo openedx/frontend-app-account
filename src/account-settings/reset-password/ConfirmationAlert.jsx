@@ -5,8 +5,8 @@ import { Hyperlink } from '@openedx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import Alert from '../Alert';
-import { appId } from '../../constants';
+import Alert from '@src/account-settings/Alert';
+import { appId } from '@src/constants';
 
 const ConfirmationAlert = (props) => {
   const { email } = props;

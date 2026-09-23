@@ -1,2 +1,2 @@
-export { default as accountApp } from './app';
-export { default as accountRoutes } from './routes';
+export { default as accountApp } from '@src/app';
+export { default as accountRoutes } from '@src/routes';

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
 
-import { SuccessModal } from './SuccessModal';
+import { SuccessModal } from '@src/account-settings/delete-account/SuccessModal';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({

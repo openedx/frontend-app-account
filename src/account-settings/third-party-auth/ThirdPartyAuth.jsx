@@ -2,9 +2,9 @@ import React from 'react';
 import { FormattedMessage } from '@openedx/frontend-base';
 import { Hyperlink, StatefulButton } from '@openedx/paragon';
 
-import Alert from '../Alert';
-import { useThirdPartyAuthProviders } from '../data/hooks';
-import { useDisconnectAuth } from './data/hooks';
+import Alert from '@src/account-settings/Alert';
+import { useThirdPartyAuthProviders } from '@src/account-settings/data/hooks';
+import { useDisconnectAuth } from '@src/account-settings/third-party-auth/data/hooks';
 
 const BUTTON_STATES = {
   idle: null,

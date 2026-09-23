@@ -1,5 +1,5 @@
 import { getAuthenticatedHttpClient, logError, getSiteConfig } from '@openedx/frontend-base';
-import { FIELD_LABELS } from './constants';
+import { FIELD_LABELS } from '@src/account-settings/data/constants';
 import {
   getAccount,
   patchAccount,
@@ -12,7 +12,7 @@ import {
   postVerifiedName,
   getCountryList,
   patchSettings,
-} from './api';
+} from '@src/account-settings/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

@@ -6,41 +6,41 @@ import {
   render, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import IdVerificationPageSlot from '../../slots/IdVerificationPageSlot';
+import IdVerificationPageSlot from '@src/slots/IdVerificationPageSlot';
 
-jest.mock('../IdVerificationContextProvider', () => jest.fn(({ children }) => children));
-jest.mock('../VerifiedNameContext', () => {
-  const originalModule = jest.requireActual('../VerifiedNameContext');
+jest.mock('@src/id-verification/IdVerificationContextProvider', () => jest.fn(({ children }) => children));
+jest.mock('@src/id-verification/VerifiedNameContext', () => {
+  const originalModule = jest.requireActual('@src/id-verification/VerifiedNameContext');
   return {
     ...originalModule,
     VerifiedNameContextProvider: jest.fn(({ children }) => children),
   };
 });
-jest.mock('../panels/ReviewRequirementsPanel', () => function ReviewRequirementsPanelMock() {
+jest.mock('@src/id-verification/panels/ReviewRequirementsPanel', () => function ReviewRequirementsPanelMock() {
   return <></>;
 });
-jest.mock('../panels/RequestCameraAccessPanel', () => function RequestCameraAccessPanelMock() {
+jest.mock('@src/id-verification/panels/RequestCameraAccessPanel', () => function RequestCameraAccessPanelMock() {
   return <></>;
 });
-jest.mock('../panels/PortraitPhotoContextPanel', () => function PortraitPhotoContextPanelMock() {
+jest.mock('@src/id-verification/panels/PortraitPhotoContextPanel', () => function PortraitPhotoContextPanelMock() {
   return <></>;
 });
-jest.mock('../panels/TakePortraitPhotoPanel', () => function TakePortraitPhotoPanelMock() {
+jest.mock('@src/id-verification/panels/TakePortraitPhotoPanel', () => function TakePortraitPhotoPanelMock() {
   return <></>;
 });
-jest.mock('../panels/IdContextPanel', () => function IdContextPanelMock() {
+jest.mock('@src/id-verification/panels/IdContextPanel', () => function IdContextPanelMock() {
   return <></>;
 });
-jest.mock('../panels/GetNameIdPanel', () => function GetNameIdPanelMock() {
+jest.mock('@src/id-verification/panels/GetNameIdPanel', () => function GetNameIdPanelMock() {
   return <></>;
 });
-jest.mock('../panels/TakeIdPhotoPanel', () => function TakeIdPhotoPanelMock() {
+jest.mock('@src/id-verification/panels/TakeIdPhotoPanel', () => function TakeIdPhotoPanelMock() {
   return <></>;
 });
-jest.mock('../panels/SummaryPanel', () => function SummaryPanelMock() {
+jest.mock('@src/id-verification/panels/SummaryPanel', () => function SummaryPanelMock() {
   return <></>;
 });
-jest.mock('../panels/SubmittedPanel', () => function SubmittedPanelMock() {
+jest.mock('@src/id-verification/panels/SubmittedPanel', () => function SubmittedPanelMock() {
   return <></>;
 });
 

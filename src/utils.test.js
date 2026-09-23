@@ -1,7 +1,7 @@
 import { getSiteConfig, mergeSiteConfig, setSiteConfig } from '@openedx/frontend-base';
 
-import { dashboardRole, logoutRole } from './constants';
-import { getDashboardUrl, getLogoutUrl } from './utils';
+import { dashboardRole, logoutRole } from '@src/constants';
+import { getDashboardUrl, getLogoutUrl } from '@src/utils';
 
 describe('route URLs', () => {
   let siteConfig;

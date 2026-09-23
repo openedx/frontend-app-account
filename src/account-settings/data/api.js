@@ -3,9 +3,9 @@ import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
-import { handleRequestError, unpackFieldErrors } from './utils';
-import { postVerifiedNameConfig } from '../certificate-preference/data/api';
-import { FIELD_LABELS } from './constants';
+import { handleRequestError, unpackFieldErrors } from '@src/account-settings/data/utils';
+import { postVerifiedNameConfig } from '@src/account-settings/certificate-preference/data/api';
+import { FIELD_LABELS } from '@src/account-settings/data/constants';
 
 const SOCIAL_PLATFORMS = [
   { id: 'x', key: 'social_link_x' },

@@ -1,6 +1,6 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
-import { getThirdPartyAuthError } from './api';
+import { getThirdPartyAuthError } from '@src/account-settings/third-party-auth/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

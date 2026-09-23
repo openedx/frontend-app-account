@@ -6,9 +6,9 @@ import { getSiteConfig, useIntl } from '@openedx/frontend-base';
 import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Alert from '../Alert';
-import messages from './messages';
-import PrintingInstructions from './PrintingInstructions';
+import Alert from '@src/account-settings/Alert';
+import messages from '@src/account-settings/delete-account/messages';
+import PrintingInstructions from '@src/account-settings/delete-account/PrintingInstructions';
 
 export type DeleteAccountStatus = 'confirming' | 'pending' | 'deleted' | 'failed' | null;
 export type DeleteAccountErrorType = 'empty-password' | 'invalid-password' | 'server' | null;

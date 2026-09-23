@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Collapsible } from '@openedx/paragon';
 import { useIntl, getSiteConfig } from '@openedx/frontend-base';
 
-import messages from './IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const CameraHelp = (props) => {
   const intl = useIntl();

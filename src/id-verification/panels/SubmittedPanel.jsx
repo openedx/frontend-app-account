@@ -2,12 +2,12 @@ import { useContext, useEffect } from 'react';
 import { sendTrackEvent, useIntl, getLinkProps } from '@openedx/frontend-base';
 import { Button } from '@openedx/paragon';
 
-import { useRedirect } from '../../hooks';
+import { useRedirect } from '@src/hooks';
 
-import IdVerificationContext from '../IdVerificationContext';
-import messages from '../IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import messages from '@src/id-verification/IdVerification.messages';
 
-import BasePanel from './BasePanel';
+import BasePanel from '@src/id-verification/panels/BasePanel';
 
 const SubmittedPanel = () => {
   const { userId } = useContext(IdVerificationContext);

@@ -5,8 +5,8 @@ import {
 
 import { getAuthenticatedUser, mergeAppConfig } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { getNotificationPreferences } from '../../notification-preferences/data/api';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { getNotificationPreferences } from '@src/notification-preferences/data/api';
 import {
   getAccount,
   getCountryList,
@@ -15,24 +15,24 @@ import {
   getTimeZones,
   getVerifiedNameHistory,
   patchSettings,
-} from '../data/api';
-import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
-import AccountSettingsPage from '../AccountSettingsPage';
-import messages from '../AccountSettingsPage.messages';
-import { appId } from '../../constants';
+} from '@src/account-settings/data/api';
+import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account-settings/third-party-auth/data/api';
+import AccountSettingsPage from '@src/account-settings/AccountSettingsPage';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { appId } from '@src/constants';
 
-jest.mock('../data/api');
-jest.mock('../third-party-auth/data/api');
-jest.mock('../../notification-preferences/data/api');
+jest.mock('@src/account-settings/data/api');
+jest.mock('@src/account-settings/third-party-auth/data/api');
+jest.mock('@src/notification-preferences/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   sendTrackingLogEvent: jest.fn(),
   getAuthenticatedUser: jest.fn(),
 }));
-jest.mock('../../data/countries', () => ({
+jest.mock('@src/data/countries', () => ({
   getCountryList: jest.fn(() => [{ code: 'US', name: 'United States' }]),
 }));
-jest.mock('../../data/languages', () => ({
+jest.mock('@src/data/languages', () => ({
   getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }, { code: 'es', name: 'Spanish' }]),
 }));
 

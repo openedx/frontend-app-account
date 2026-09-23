@@ -3,8 +3,8 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import PortraitPhotoContextPanel from '../../panels/PortraitPhotoContextPanel';
-import IdVerificationContext from '../../IdVerificationContext';
+import PortraitPhotoContextPanel from '@src/id-verification/panels/PortraitPhotoContextPanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
