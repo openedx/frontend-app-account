@@ -1,7 +1,8 @@
 import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Bowser from 'bowser';
-import { sendTrackEvent, FormattedMessage, useIntl, getSiteConfig } from '@openedx/frontend-base';
+import { sendTrackEvent, FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
 import { useRedirect } from '../../hooks';
 import { useNextPanelSlug } from '../routing-utilities';
@@ -14,7 +15,7 @@ import messages from '../IdVerification.messages';
 
 const RequestCameraAccessPanel = () => {
   const intl = useIntl();
-  const { location: returnUrl, text: returnText } = useRedirect();
+  const { url: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
@@ -48,9 +49,9 @@ const RequestCameraAccessPanel = () => {
   };
 
   const returnLink = (
-    <a className="btn btn-primary" href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}>
+    <Button {...getLinkProps(returnUrl)}>
       {intl.formatMessage(messages[returnText])}
-    </a>
+    </Button>
   );
 
   return (

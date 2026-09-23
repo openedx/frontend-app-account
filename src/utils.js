@@ -1,3 +1,7 @@
+import { getSiteConfig, resolveRouteByRole } from '@openedx/frontend-base';
+
+import { dashboardRole, logoutRole } from './constants';
+
 /**
  * Compare two dates.
  * @param {*} a the first date
@@ -70,3 +74,19 @@ export const parseEnvArray = (value) => {
     return [];
   }
 };
+
+/**
+ * The URL of the learner dashboard: the route the site provides for the dashboard role, or the
+ * LMS's own dashboard when it provides none.
+ * @returns {string}
+ */
+export const getDashboardUrl = () => (
+  resolveRouteByRole(dashboardRole)?.url ?? `${getSiteConfig().lmsBaseUrl}/dashboard`
+);
+
+/**
+ * The URL that logs the learner out: the route the site provides for the logout role, or the
+ * configured `logoutUrl` when it provides none.
+ * @returns {string}
+ */
+export const getLogoutUrl = () => resolveRouteByRole(logoutRole)?.url ?? getSiteConfig().logoutUrl;

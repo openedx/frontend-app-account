@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { sendTrackEvent, useIntl, getSiteConfig } from '@openedx/frontend-base';
+import { sendTrackEvent, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
 import { useRedirect } from '../../hooks';
 
@@ -10,7 +11,7 @@ import BasePanel from './BasePanel';
 
 const SubmittedPanel = () => {
   const { userId } = useContext(IdVerificationContext);
-  const { location: returnUrl, text: returnText } = useRedirect();
+  const { url: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'submitted';
   const intl = useIntl();
 
@@ -29,13 +30,9 @@ const SubmittedPanel = () => {
       <p>
         {intl.formatMessage(messages['id.verification.submitted.text'])}
       </p>
-      <a
-        className="btn btn-primary"
-        href={`${getSiteConfig().lmsBaseUrl}/${returnUrl}`}
-        data-testid="return-button"
-      >
+      <Button {...getLinkProps(returnUrl)} data-testid="return-button">
         {intl.formatMessage(messages[returnText])}
-      </a>
+      </Button>
     </BasePanel>
   );
 };

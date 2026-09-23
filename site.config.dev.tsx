@@ -28,6 +28,10 @@ const siteConfig: SiteConfig = {
   ],
   externalRoutes: [
     {
+      role: 'org.openedx.frontend.role.dashboard',
+      url: 'http://apps.local.openedx.io:1996/learner-dashboard/',
+    },
+    {
       role: 'org.openedx.frontend.role.profile',
       url: 'http://apps.local.openedx.io:1995/profile/',
     },
