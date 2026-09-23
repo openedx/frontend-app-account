@@ -6,21 +6,21 @@ import camelCase from 'lodash.camelcase';
 import qs from 'qs';
 import { useIntl, getSiteConfig } from '@openedx/frontend-base';
 import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
-import './getUserMediaShim';
+import '@src/id-verification/getUserMediaShim';
 
-import IdVerificationContextProvider from './IdVerificationContextProvider';
-import { VerifiedNameContextProvider } from './VerifiedNameContext';
-import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
-import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
-import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';
-import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
-import IdContextPanel from './panels/IdContextPanel';
-import GetNameIdPanel from './panels/GetNameIdPanel';
-import TakeIdPhotoPanel from './panels/TakeIdPhotoPanel';
-import SummaryPanel from './panels/SummaryPanel';
-import SubmittedPanel from './panels/SubmittedPanel';
+import IdVerificationContextProvider from '@src/id-verification/IdVerificationContextProvider';
+import { VerifiedNameContextProvider } from '@src/id-verification/VerifiedNameContext';
+import ReviewRequirementsPanel from '@src/id-verification/panels/ReviewRequirementsPanel';
+import RequestCameraAccessPanel from '@src/id-verification/panels/RequestCameraAccessPanel';
+import PortraitPhotoContextPanel from '@src/id-verification/panels/PortraitPhotoContextPanel';
+import TakePortraitPhotoPanel from '@src/id-verification/panels/TakePortraitPhotoPanel';
+import IdContextPanel from '@src/id-verification/panels/IdContextPanel';
+import GetNameIdPanel from '@src/id-verification/panels/GetNameIdPanel';
+import TakeIdPhotoPanel from '@src/id-verification/panels/TakeIdPhotoPanel';
+import SummaryPanel from '@src/id-verification/panels/SummaryPanel';
+import SubmittedPanel from '@src/id-verification/panels/SubmittedPanel';
 
-import messages from './IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 // eslint-disable-next-line react/prefer-stateless-function
 const IdVerificationPage = () => {

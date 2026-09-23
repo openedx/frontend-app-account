@@ -1,6 +1,6 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
 export async function postNameChange(name) {
   // Requests a pending name change, rather than saving the account name immediately

@@ -1,10 +1,10 @@
 import {
   screen, fireEvent, waitFor,
 } from '@testing-library/react';
-import DOBModal from '../DOBForm';
-import messages from '../AccountSettingsPage.messages';
-import { YEAR_OF_BIRTH_OPTIONS } from '../data/constants';
-import { renderWithForm } from './renderWithForm';
+import DOBModal from '@src/account-settings/DOBForm';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { YEAR_OF_BIRTH_OPTIONS } from '@src/account-settings/data/constants';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

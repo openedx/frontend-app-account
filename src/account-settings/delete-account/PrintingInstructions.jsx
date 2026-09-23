@@ -1,7 +1,7 @@
 import { FormattedMessage, useIntl, getSiteConfig } from '@openedx/frontend-base';
 import { Hyperlink } from '@openedx/paragon';
 
-import messages from './messages';
+import messages from '@src/account-settings/delete-account/messages';
 
 const PrintingInstructions = () => {
   const intl = useIntl();

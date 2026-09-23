@@ -1,9 +1,9 @@
 import React, { createContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { useVerifiedNameHistory } from '../account-settings/data/hooks';
-import { getMostRecentApprovedOrPendingVerifiedName } from '../utils';
-import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { useVerifiedNameHistory } from '@src/account-settings/data/hooks';
+import { getMostRecentApprovedOrPendingVerifiedName } from '@src/utils';
+import { FAILURE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '@src/constants';
 
 export const VerifiedNameContext = createContext();
 

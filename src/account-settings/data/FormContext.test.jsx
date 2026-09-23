@@ -5,14 +5,14 @@ import {
   getAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
-import { createTestQueryClient, renderWithProviders } from '../../tests/renderWithProviders';
-import { patchSettings } from './api';
-import { accountSettingsKeys } from './queryKeys';
+import { createTestQueryClient, renderWithProviders } from '@src/tests/renderWithProviders';
+import { patchSettings } from '@src/account-settings/data/api';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
 import {
   AccountSettingsFormProvider, CLOSE_FORM_DELAY, useAccountSettingsForm, useEditableField,
-} from './FormContext';
+} from '@src/account-settings/data/FormContext';
 
-jest.mock('./api');
+jest.mock('@src/account-settings/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),

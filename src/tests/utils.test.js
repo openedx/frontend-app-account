@@ -3,7 +3,7 @@ import {
   getMostRecentApprovedOrPendingVerifiedName,
   parseEnvArray,
   parseEnvBoolean,
-} from '../utils';
+} from '@src/utils';
 
 describe('getMostRecentApprovedOrPendingVerifiedName', () => {
   it('returns correct verified name if one exists', () => {

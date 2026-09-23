@@ -4,12 +4,12 @@ import {
 
 import { logError, mergeAppConfig } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../tests/renderWithProviders';
-import NotificationPreferences from './NotificationPreferences';
-import { getNotificationPreferences, postPreferenceToggle } from './data/api';
-import { appId } from '../constants';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import NotificationPreferences from '@src/notification-preferences/NotificationPreferences';
+import { getNotificationPreferences, postPreferenceToggle } from '@src/notification-preferences/data/api';
+import { appId } from '@src/constants';
 
-jest.mock('./data/api');
+jest.mock('@src/notification-preferences/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   logError: jest.fn(),

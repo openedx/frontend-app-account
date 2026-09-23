@@ -9,13 +9,15 @@ import {
 } from '@openedx/frontend-base';
 import { Alert, Hyperlink } from '@openedx/paragon';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
 
-import IdVerificationContext from '../IdVerificationContext';
-import messages from '../IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import messages from '@src/id-verification/IdVerification.messages';
+// Assets stay relative: tsc-alias only rewrites an alias whose target already exists in dist, and
+// the Makefile copies assets there after it runs.
 import exampleCard from '../assets/example-card.png';
-import { appId } from '../../constants';
+import { appId } from '@src/constants';
 
 const ReviewRequirementsPanel = () => {
   const intl = useIntl();

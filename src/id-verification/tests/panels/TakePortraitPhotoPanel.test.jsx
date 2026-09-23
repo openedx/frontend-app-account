@@ -4,15 +4,15 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import IdVerificationContext from '../../IdVerificationContext';
-import TakePortraitPhotoPanel from '../../panels/TakePortraitPhotoPanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import TakePortraitPhotoPanel from '@src/id-verification/panels/TakePortraitPhotoPanel';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../Camera', () => function CameraMock() {
+jest.mock('@src/id-verification/Camera', () => function CameraMock() {
   return <></>;
 });
 

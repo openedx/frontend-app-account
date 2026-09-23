@@ -1,6 +1,6 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
 export async function postVerifiedNameConfig(username, commitValues) {
   const requestConfig = { headers: { Accept: 'application/json' } };

@@ -1,2 +1,2 @@
-export { default } from './ThirdPartyAuth';
-export { getThirdPartyAuthProviders, getThirdPartyAuthError, postDisconnectAuth } from './data/api';
+export { default } from '@src/account-settings/third-party-auth/ThirdPartyAuth';
+export { getThirdPartyAuthProviders, getThirdPartyAuthError, postDisconnectAuth } from '@src/account-settings/third-party-auth/data/api';

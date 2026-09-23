@@ -3,7 +3,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 
 import { getAuthenticatedUser } from '@openedx/frontend-base';
 
-import { createTestQueryClient, createWrapper } from '../../tests/renderWithProviders';
+import { createTestQueryClient, createWrapper } from '@src/tests/renderWithProviders';
 import {
   getAccount,
   getCountryList,
@@ -11,14 +11,14 @@ import {
   getProfileDataManager,
   getTimeZones,
   getVerifiedNameHistory,
-} from './api';
-import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
-import { AccountSettingsFormProvider } from './FormContext';
-import { useAccountSettingsData, useThirdPartyAuthError } from './hooks';
-import { accountSettingsKeys } from './queryKeys';
+} from '@src/account-settings/data/api';
+import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account-settings/third-party-auth/data/api';
+import { AccountSettingsFormProvider } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData, useThirdPartyAuthError } from '@src/account-settings/data/hooks';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
 
-jest.mock('./api');
-jest.mock('../third-party-auth/data/api');
+jest.mock('@src/account-settings/data/api');
+jest.mock('@src/account-settings/third-party-auth/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),

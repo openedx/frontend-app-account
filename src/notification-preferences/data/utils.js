@@ -1,9 +1,9 @@
 import { getAppConfig } from '@openedx/frontend-base';
 import camelCase from 'lodash.camelcase';
 
-import { parseEnvBoolean } from '../../utils';
-import { EMAIL_CADENCE_PREFERENCES } from './constants';
-import { appId } from '../../constants';
+import { parseEnvBoolean } from '@src/utils';
+import { EMAIL_CADENCE_PREFERENCES } from '@src/notification-preferences/data/constants';
+import { appId } from '@src/constants';
 
 export const notificationChannels = (showEmailPreferences = true) => ({
   WEB: 'web',

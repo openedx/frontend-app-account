@@ -3,11 +3,11 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import { logError } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { getThirdPartyAuthProviders, postDisconnectAuth } from './data/api';
-import ThirdPartyAuth from './ThirdPartyAuth';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { getThirdPartyAuthProviders, postDisconnectAuth } from '@src/account-settings/third-party-auth/data/api';
+import ThirdPartyAuth from '@src/account-settings/third-party-auth/ThirdPartyAuth';
 
-jest.mock('./data/api');
+jest.mock('@src/account-settings/third-party-auth/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   logError: jest.fn(),

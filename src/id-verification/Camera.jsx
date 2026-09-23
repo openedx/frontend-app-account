@@ -8,8 +8,8 @@ import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 import { Form, Spinner } from '@openedx/paragon';
 
-import shutter from './data/camera-shutter.base64.json';
-import messages from './IdVerification.messages';
+import shutter from '@src/id-verification/data/camera-shutter.base64.json';
+import messages from '@src/id-verification/IdVerification.messages';
 
 class Camera extends React.Component {
   constructor(props, context) {

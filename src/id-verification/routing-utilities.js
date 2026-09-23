@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import IdVerificationContext from './IdVerificationContext';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
 const SLUGS = {
   REVIEW_REQUIREMENTS: 'review-requirements',

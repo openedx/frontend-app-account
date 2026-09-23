@@ -5,11 +5,11 @@ import {
 
 import { camelCaseObject, logError } from '@openedx/frontend-base';
 
-import { getNotificationPreferences, postPreferenceToggle } from './api';
-import { EMAIL, EMAIL_CADENCE } from './constants';
-import { retryUnlessClientError } from '../../data/queryOptions';
-import { notificationPreferencesKeys } from './queryKeys';
-import { applyPreferenceUpdate, normalizePreferences } from './utils';
+import { getNotificationPreferences, postPreferenceToggle } from '@src/notification-preferences/data/api';
+import { EMAIL, EMAIL_CADENCE } from '@src/notification-preferences/data/constants';
+import { retryUnlessClientError } from '@src/data/queryOptions';
+import { notificationPreferencesKeys } from '@src/notification-preferences/data/queryKeys';
+import { applyPreferenceUpdate, normalizePreferences } from '@src/notification-preferences/data/utils';
 
 const EMPTY_PREFERENCES = [];
 const EMPTY_CHANNELS = {};

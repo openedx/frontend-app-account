@@ -6,11 +6,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
-import Alert from './Alert';
-import SwitchContent from './SwitchContent';
-import messages from './AccountSettingsPage.messages';
+import Alert from '@src/account-settings/Alert';
+import SwitchContent from '@src/account-settings/SwitchContent';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
 
-import { useEditableField } from './data/FormContext';
+import { useEditableField } from '@src/account-settings/data/FormContext';
 
 const EmailField = (props) => {
   const {

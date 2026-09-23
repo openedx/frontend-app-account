@@ -5,8 +5,8 @@ import {
 } from '@testing-library/react';
 import { getSiteConfig, IntlProvider } from '@openedx/frontend-base';
 
-import { ERROR_REASONS } from '../IdVerificationContext';
-import AccessBlocked from '../AccessBlocked';
+import { ERROR_REASONS } from '@src/id-verification/IdVerificationContext';
+import AccessBlocked from '@src/id-verification/AccessBlocked';
 
 describe('AccessBlocked', () => {
   const defaultProps = {

@@ -1,4 +1,4 @@
-import { isClientError, retryUnlessClientError } from './queryOptions';
+import { isClientError, retryUnlessClientError } from '@src/data/queryOptions';
 
 const withStatus = (status) => Object.assign(new Error(`HTTP ${status}`), { response: { status } });
 

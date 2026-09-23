@@ -3,11 +3,11 @@ import {
   camelCaseObject, getAuthenticatedUser, Slot, snakeCaseObject,
 } from '@openedx/frontend-base';
 
-import { useAccountSettingsForm } from '../../account-settings/data/FormContext';
-import { useSettingsValues } from '../../account-settings/data/hooks';
-import { accountSettingsKeys } from '../../account-settings/data/queryKeys';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
+import { useSettingsValues } from '@src/account-settings/data/hooks';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
 
-import SwitchContent from '../../account-settings/SwitchContent';
+import SwitchContent from '@src/account-settings/SwitchContent';
 
 const AdditionalProfileFieldsSlot = () => {
   const queryClient = useQueryClient();

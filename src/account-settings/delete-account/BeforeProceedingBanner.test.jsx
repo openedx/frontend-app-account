@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
 
-import BeforeProceedingBanner from './BeforeProceedingBanner';
+import BeforeProceedingBanner from '@src/account-settings/delete-account/BeforeProceedingBanner';
 
 const renderBanner = (supportArticleUrl) => render(
   <IntlProvider locale="en">
