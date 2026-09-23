@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen,
 } from '@testing-library/react';
-import { IntlProvider } from '@openedx/frontend-base';
+import { getSiteConfig, IntlProvider } from '@openedx/frontend-base';
 
 import { ERROR_REASONS } from '../IdVerificationContext';
 import AccessBlocked from '../AccessBlocked';
@@ -63,5 +63,21 @@ describe('AccessBlocked', () => {
     const text = screen.getByText(/We cannot verify your identity at this time./);
 
     expect(text).toBeInTheDocument();
+  });
+
+  it('links back to the dashboard', async () => {
+    defaultProps.error = ERROR_REASONS.CANNOT_VERIFY;
+
+    await act(async () => render((
+      <Router>
+        <IntlProvider locale="en">
+          <AccessBlocked {...defaultProps} />
+        </IntlProvider>
+      </Router>
+    )));
+
+    const link = screen.getByRole('link', { name: 'Return to Your Dashboard' });
+
+    expect(link).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/dashboard`);
   });
 });

@@ -13,7 +13,7 @@ import ConfirmationModal from './ConfirmationModal';
 import PrintingInstructions from './PrintingInstructions';
 import { SuccessModal } from './SuccessModal';
 import BeforeProceedingBanner from './BeforeProceedingBanner';
-import { parseEnvBoolean } from '../../utils';
+import { getLogoutUrl, parseEnvBoolean } from '../../utils';
 import { appId } from '../../constants';
 
 /**
@@ -80,7 +80,7 @@ const DeleteAccount = ({ hasLinkedTPA, isVerifiedAccount, canDeleteAccount }) =>
   };
 
   const handleFinalClose = () => {
-    global.location = getSiteConfig().logoutUrl;
+    global.location = getLogoutUrl();
   };
 
   const canDelete = isVerifiedAccount && !hasLinkedTPA;
