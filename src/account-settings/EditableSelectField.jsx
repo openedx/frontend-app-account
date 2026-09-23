@@ -8,6 +8,7 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SwitchContent from './SwitchContent';
+import AccountSettingsFieldSlot from '../plugin-slots/AccountSettingsFieldSlot';
 import messages from './AccountSettingsPage.messages';
 
 import {
@@ -121,7 +122,7 @@ const EditableSelectField = (props) => {
     );
   });
 
-  return (
+  const field = (
     <SwitchContent
       expression={isEditing ? 'editing' : 'default'}
       cases={{
@@ -196,6 +197,12 @@ const EditableSelectField = (props) => {
         ),
       }}
     />
+  );
+
+  return (
+    <AccountSettingsFieldSlot fieldName={name} value={value}>
+      {field}
+    </AccountSettingsFieldSlot>
   );
 };
 

@@ -9,6 +9,7 @@ import { faExclamationTriangle, faPencilAlt } from '@fortawesome/free-solid-svg-
 
 import Alert from './Alert';
 import SwitchContent from './SwitchContent';
+import AccountSettingsFieldSlot from '../plugin-slots/AccountSettingsFieldSlot';
 import messages from './AccountSettingsPage.messages';
 
 import {
@@ -99,7 +100,7 @@ const EmailField = (props) => {
     return value || renderEmptyLabel();
   };
 
-  return (
+  const field = (
     <SwitchContent
       expression={isEditing ? 'editing' : 'default'}
       cases={{
@@ -176,6 +177,12 @@ const EmailField = (props) => {
         ),
       }}
     />
+  );
+
+  return (
+    <AccountSettingsFieldSlot fieldName={name} value={value}>
+      {field}
+    </AccountSettingsFieldSlot>
   );
 };
 
