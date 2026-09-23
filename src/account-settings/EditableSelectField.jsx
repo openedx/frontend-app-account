@@ -122,82 +122,86 @@ const EditableSelectField = (props) => {
     );
   });
 
+  const field = (
+    <SwitchContent
+      expression={isEditing ? 'editing' : 'default'}
+      cases={{
+        editing: (
+          <>
+            <form onSubmit={handleSubmit}>
+              <Form.Group
+                controlId={id}
+                isInvalid={error != null}
+              >
+                <Form.Label size="sm" className="h6 d-block" htmlFor={id}>{label}</Form.Label>
+                <Form.Control
+                  data-hj-suppress
+                  name={name}
+                  id={id}
+                  type={type}
+                  as={type}
+                  value={value}
+                  onChange={handleChange}
+                  {...others}
+                >
+                  {options.length > 0 && selectOptions}
+                </Form.Control>
+                {!!helpText && <Form.Text>{helpText}</Form.Text>}
+                {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
+                {others.children}
+              </Form.Group>
+              <p>
+                <StatefulButton
+                  type="submit"
+                  className="mr-2"
+                  state={saveState}
+                  labels={{
+                    default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                  }}
+                  onClick={(e) => {
+                    // Swallow clicks if the state is pending.
+                    // We do this instead of disabling the button to prevent
+                    // it from losing focus (disabled elements cannot have focus).
+                    // Disabling it would causes upstream issues in focus management.
+                    // Swallowing the onSubmit event on the form would be better, but
+                    // we would have to add that logic for every field given our
+                    // current structure of the application.
+                    if (saveState === 'pending') { e.preventDefault(); }
+                  }}
+                  disabledStates={[]}
+                />
+                <Button
+                  variant="outline-primary"
+                  onClick={handleCancel}
+                >
+                  {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                </Button>
+              </p>
+            </form>
+            {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
+          </>
+        ),
+        default: (
+          <div className="form-group">
+            <div className="d-flex align-items-start">
+              <h6 aria-level="3">{label}</h6>
+              {isEditable ? (
+                <Button variant="link" onClick={handleEdit} className="ml-3">
+                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
+                </Button>
+              ) : null}
+            </div>
+            <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
+            <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+          </div>
+        ),
+      }}
+    />
+  );
+
   return (
     <AccountSettingsFieldSlot fieldName={name} value={value}>
-      <SwitchContent
-        expression={isEditing ? 'editing' : 'default'}
-        cases={{
-          editing: (
-            <>
-              <form onSubmit={handleSubmit}>
-                <Form.Group
-                  controlId={id}
-                  isInvalid={error != null}
-                >
-                  <Form.Label size="sm" className="h6 d-block" htmlFor={id}>{label}</Form.Label>
-                  <Form.Control
-                    data-hj-suppress
-                    name={name}
-                    id={id}
-                    type={type}
-                    as={type}
-                    value={value}
-                    onChange={handleChange}
-                    {...others}
-                  >
-                    {options.length > 0 && selectOptions}
-                  </Form.Control>
-                  {!!helpText && <Form.Text>{helpText}</Form.Text>}
-                  {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
-                  {others.children}
-                </Form.Group>
-                <p>
-                  <StatefulButton
-                    type="submit"
-                    className="mr-2"
-                    state={saveState}
-                    labels={{
-                      default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                    }}
-                    onClick={(e) => {
-                      // Swallow clicks if the state is pending.
-                      // We do this instead of disabling the button to prevent
-                      // it from losing focus (disabled elements cannot have focus).
-                      // Disabling it would causes upstream issues in focus management.
-                      // Swallowing the onSubmit event on the form would be better, but
-                      // we would have to add that logic for every field given our
-                      // current structure of the application.
-                      if (saveState === 'pending') { e.preventDefault(); }
-                    }}
-                    disabledStates={[]}
-                  />
-                  <Button
-                    variant="outline-primary"
-                    onClick={handleCancel}
-                  >
-                    {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-                  </Button>
-                </p>
-              </form>
-              {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
-            </>
-          ),
-          default: (
-            <div className="form-group">
-              <div className="d-flex align-items-start">
-                <h6 aria-level="3">{label}</h6>
-                {isEditable ? (
-                  <Button variant="link" onClick={handleEdit} className="ml-3">
-                    <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
-                  </Button>
-                ) : null}
-              </div>
-              <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
-              <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
-            </div>
-          ),
-        }}
-      />
+      {field}
     </AccountSettingsFieldSlot>
   );
 };
