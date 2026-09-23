@@ -3,10 +3,10 @@ import {
 } from '@openedx/frontend-base';
 import siteConfig from 'site.config';
 
-import app from './app';
-import { accountRole, appId, idVerificationRole } from './constants';
-import routes from './routes';
-import slots from './slots';
+import app from '@src/app';
+import { accountRole, appId, idVerificationRole } from '@src/constants';
+import routes from '@src/routes';
+import slots from '@src/slots';
 
 const defaults = {
   SUPPORT_URL: null,
@@ -56,12 +56,12 @@ describe('routes', () => {
     const index = main.children?.find(route => route.index);
     const idVerification = main.children?.find(route => route.path === 'id-verification/*');
 
-    await expect(main.lazy?.()).resolves.toEqual({ Component: (await import('./Main')).default });
+    await expect(main.lazy?.()).resolves.toEqual({ Component: (await import('@src/Main')).default });
     await expect(index?.lazy?.()).resolves.toEqual({
-      Component: (await import('./account-settings/AccountSettingsPage')).default,
+      Component: (await import('@src/account-settings/AccountSettingsPage')).default,
     });
     await expect(idVerification?.lazy?.()).resolves.toEqual({
-      Component: (await import('./slots/IdVerificationPageSlot')).default,
+      Component: (await import('@src/slots/IdVerificationPageSlot')).default,
     });
   });
 });

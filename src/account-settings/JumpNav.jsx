@@ -3,10 +3,10 @@ import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
-import { useShowPreferences } from '../notification-preferences/data/hooks';
-import messages from './AccountSettingsPage.messages';
-import { parseEnvBoolean } from '../utils';
-import { appId } from '../constants';
+import { useShowPreferences } from '@src/notification-preferences/data/hooks';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { parseEnvBoolean } from '@src/utils';
+import { appId } from '@src/constants';
 
 const JumpNav = () => {
   const intl = useIntl();

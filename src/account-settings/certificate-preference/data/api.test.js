@@ -1,14 +1,14 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
-import { postVerifiedNameConfig } from './api';
-import { handleRequestError } from '../../data/utils';
+import { postVerifiedNameConfig } from '@src/account-settings/certificate-preference/data/api';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedHttpClient: jest.fn(),
   getSiteConfig: jest.fn(),
 }));
-jest.mock('../../data/utils');
+jest.mock('@src/account-settings/data/utils');
 
 describe('postVerifiedNameConfig', () => {
   const mockPost = jest.fn();

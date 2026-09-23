@@ -1,1 +1,1 @@
-export { default } from './NameChange';
+export { default } from '@src/account-settings/name-change/NameChange';

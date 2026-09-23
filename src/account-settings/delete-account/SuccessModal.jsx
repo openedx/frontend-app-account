@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from '@openedx/frontend-base';
 import { ModalLayer, ModalCloseButton } from '@openedx/paragon';
 
-import messages from './messages';
+import messages from '@src/account-settings/delete-account/messages';
 
 export const SuccessModal = (props) => {
   const intl = useIntl();

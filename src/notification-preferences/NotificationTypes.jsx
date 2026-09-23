@@ -6,12 +6,12 @@ import { InfoOutline } from '@openedx/paragon/icons';
 import { useIntl } from '@openedx/frontend-base';
 import { Icon, OverlayTrigger, Tooltip } from '@openedx/paragon';
 
-import messages from './messages';
-import { useIsOnMobile } from '../hooks';
-import { notificationChannels } from './data/utils';
+import messages from '@src/notification-preferences/messages';
+import { useIsOnMobile } from '@src/hooks';
+import { notificationChannels } from '@src/notification-preferences/data/utils';
 
-import { useAppPreferences, useShowEmailPreferences } from './data/hooks';
-import NotificationPreferenceColumn from './NotificationPreferenceColumn';
+import { useAppPreferences, useShowEmailPreferences } from '@src/notification-preferences/data/hooks';
+import NotificationPreferenceColumn from '@src/notification-preferences/NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();

@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { useIntl, getSiteConfig, getAppConfig } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
 
-import { getDeleteAccountErrorType, useDeleteAccount } from './data/hooks';
+import { getDeleteAccountErrorType, useDeleteAccount } from '@src/account-settings/delete-account/data/hooks';
 
 // Messages
-import messages from './messages';
+import messages from '@src/account-settings/delete-account/messages';
 
 // Components
-import ConfirmationModal from './ConfirmationModal';
-import PrintingInstructions from './PrintingInstructions';
-import { SuccessModal } from './SuccessModal';
-import BeforeProceedingBanner from './BeforeProceedingBanner';
-import { getLogoutUrl, parseEnvBoolean } from '../../utils';
-import { appId } from '../../constants';
+import ConfirmationModal from '@src/account-settings/delete-account/ConfirmationModal';
+import PrintingInstructions from '@src/account-settings/delete-account/PrintingInstructions';
+import { SuccessModal } from '@src/account-settings/delete-account/SuccessModal';
+import BeforeProceedingBanner from '@src/account-settings/delete-account/BeforeProceedingBanner';
+import { getLogoutUrl, parseEnvBoolean } from '@src/utils';
+import { appId } from '@src/constants';
 
 /**
  * The modal's status is the request's, framed by the two things it cannot know: that the learner

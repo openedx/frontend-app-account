@@ -10,11 +10,11 @@ import {
   getProfileDataManager,
   getTimeZones,
   getVerifiedNameHistory,
-} from './api';
-import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
-import { retryUnlessClientError } from '../../data/queryOptions';
-import { accountSettingsKeys } from './queryKeys';
-import { useAccountSettingsForm } from './FormContext';
+} from '@src/account-settings/data/api';
+import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account-settings/third-party-auth/data/api';
+import { retryUnlessClientError } from '@src/data/queryOptions';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
 import {
   getCommittedValues,
   getFormValues,
@@ -24,7 +24,7 @@ import {
   getStaticFields,
   sortVerifiedNameHistory,
   transformTimeZonesToOptions,
-} from './derive';
+} from '@src/account-settings/data/derive';
 
 const EMPTY_LIST = [];
 

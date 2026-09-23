@@ -5,11 +5,11 @@ import { Form } from '@openedx/paragon';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useIntl } from '@openedx/frontend-base';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import IdVerificationContext from '../IdVerificationContext';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const GetNameIdPanel = () => {
   const location = useLocation();

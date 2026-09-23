@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 import { useIntl } from '@openedx/frontend-base';
 import PropTypes from 'prop-types';
 import { Alert } from '@openedx/paragon';
-import messages from './IdVerification.messages';
-import SupportedMediaTypes from './SupportedMediaTypes';
+import messages from '@src/id-verification/IdVerification.messages';
+import SupportedMediaTypes from '@src/id-verification/SupportedMediaTypes';
 
 const ImageFileUpload = ({ onFileChange }) => {
   const intl = useIntl();

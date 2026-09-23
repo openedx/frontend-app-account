@@ -1,4 +1,4 @@
-import { getCountryList, getCountryMessages } from './countries';
+import { getCountryList, getCountryMessages } from '@src/data/countries';
 
 describe('countries', () => {
   it('lists every country as a code and a localized name', () => {

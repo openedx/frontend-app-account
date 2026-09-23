@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
 import { Button } from '@openedx/paragon';
 
-import { getDashboardUrl } from '../utils';
-import messages from './IdVerification.messages';
-import { ERROR_REASONS } from './IdVerificationContext';
+import { getDashboardUrl } from '@src/utils';
+import messages from '@src/id-verification/IdVerification.messages';
+import { ERROR_REASONS } from '@src/id-verification/IdVerificationContext';
 
 const AccessBlocked = ({ error }) => {
   const intl = useIntl();

@@ -5,12 +5,12 @@ import classNames from 'classnames';
 
 import { Collapsible } from '@openedx/paragon';
 import { useIntl } from '@openedx/frontend-base';
-import messages from './messages';
-import { useIsOnMobile } from '../hooks';
-import NotificationTypes from './NotificationTypes';
-import { notificationChannels, shouldHideAppPreferences } from './data/utils';
-import NotificationPreferenceColumn from './NotificationPreferenceColumn';
-import { useAppPreferences, usePreferenceApp, useShowEmailPreferences } from './data/hooks';
+import messages from '@src/notification-preferences/messages';
+import { useIsOnMobile } from '@src/hooks';
+import NotificationTypes from '@src/notification-preferences/NotificationTypes';
+import { notificationChannels, shouldHideAppPreferences } from '@src/notification-preferences/data/utils';
+import NotificationPreferenceColumn from '@src/notification-preferences/NotificationPreferenceColumn';
+import { useAppPreferences, usePreferenceApp, useShowEmailPreferences } from '@src/notification-preferences/data/hooks';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const intl = useIntl();

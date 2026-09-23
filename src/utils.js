@@ -1,6 +1,6 @@
 import { getSiteConfig, resolveRouteByRole } from '@openedx/frontend-base';
 
-import { dashboardRole, logoutRole } from './constants';
+import { dashboardRole, logoutRole } from '@src/constants';
 
 /**
  * Compare two dates.

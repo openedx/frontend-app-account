@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { IntlProvider } from '@openedx/frontend-base';
 
-import Main from './Main';
+import Main from '@src/Main';
 
 describe('Main', () => {
   it('renders the current route in the main landmark and sets the document title', async () => {

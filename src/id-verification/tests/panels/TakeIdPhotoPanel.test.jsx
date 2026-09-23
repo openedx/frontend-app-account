@@ -3,16 +3,16 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import IdVerificationContext from '../../IdVerificationContext';
-import TakeIdPhotoPanel from '../../panels/TakeIdPhotoPanel';
-import messages from '../../IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import TakeIdPhotoPanel from '@src/id-verification/panels/TakeIdPhotoPanel';
+import messages from '@src/id-verification/IdVerification.messages';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../Camera');
+jest.mock('@src/id-verification/Camera');
 
 describe('TakeIdPhotoPanel', () => {
   const contextValue = {

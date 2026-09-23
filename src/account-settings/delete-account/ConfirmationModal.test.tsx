@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getSiteConfig, IntlProvider, mergeSiteConfig } from '@openedx/frontend-base';
 
-import ConfirmationModal from './ConfirmationModal';
+import ConfirmationModal from '@src/account-settings/delete-account/ConfirmationModal';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({

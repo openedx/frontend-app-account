@@ -1,11 +1,11 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { mergeSiteConfig, useSlotContext, WidgetOperationTypes } from '@openedx/frontend-base';
 
-import { accountSettingsKeys } from '../../account-settings/data/queryKeys';
-import { renderWithForm } from '../../account-settings/test/renderWithForm';
-import AdditionalProfileFieldsSlot from '.';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
+import AdditionalProfileFieldsSlot from '@src/slots/AdditionalProfileFieldsSlot';
 
-jest.mock('../../account-settings/data/hooks', () => ({
+jest.mock('@src/account-settings/data/hooks', () => ({
   useSettingsValues: () => ({
     data: { extended_profile: [{ field_name: 'favorite_color', field_value: 'blue' }] },
   }),

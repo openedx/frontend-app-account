@@ -1,1 +1,1 @@
-export { default } from './IdVerificationPage';
+export { default } from '@src/id-verification/IdVerificationPage';

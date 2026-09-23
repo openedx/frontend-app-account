@@ -10,7 +10,7 @@ import {
   SAVE_RESET,
   SAVE_SUCCESS,
   UPDATE_DRAFT,
-} from './formReducer';
+} from '@src/account-settings/data/formReducer';
 
 const reduce = (actions, state = initialFormState) => actions.reduce(formReducer, state);
 

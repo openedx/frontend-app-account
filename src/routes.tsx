@@ -1,7 +1,9 @@
 import { authenticatedLoader, RoleRouteObject } from '@openedx/frontend-base';
 
-import { accountRole, idVerificationRole } from './constants';
+import { accountRole, idVerificationRole } from '@src/constants';
 
+// The lazy imports stay relative: tsc-alias takes the chunk name in the webpack comment for the
+// module path, so an `@src` specifier there would survive into the published build unresolved.
 const routes: RoleRouteObject[] = [
   {
     id: 'org.openedx.frontend.route.account.main',

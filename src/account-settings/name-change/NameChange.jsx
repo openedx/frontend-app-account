@@ -13,11 +13,11 @@ import {
   StatefulButton,
 } from '@openedx/paragon';
 
-import { useAccountSettingsForm } from '../data/FormContext';
-import { useAccountSettingsData } from '../data/hooks';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
 
-import { getNameChangeErrors, useRequestNameChange } from './data/hooks';
-import messages from './messages';
+import { getNameChangeErrors, useRequestNameChange } from '@src/account-settings/name-change/data/hooks';
+import messages from '@src/account-settings/name-change/messages';
 
 const SAVE_STATES = {
   idle: null,

@@ -3,7 +3,7 @@ import { FormattedMessage } from '@openedx/frontend-base';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import Alert from '../Alert';
+import Alert from '@src/account-settings/Alert';
 
 const RequestInProgressAlert = () => (
   <Alert

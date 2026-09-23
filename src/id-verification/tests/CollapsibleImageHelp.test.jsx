@@ -3,8 +3,8 @@ import {
   render, cleanup, screen, act,
 } from '@testing-library/react';
 import { IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
-import IdVerificationContext from '../IdVerificationContext';
-import CollapsibleImageHelp from '../CollapsibleImageHelp';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import CollapsibleImageHelp from '@src/id-verification/CollapsibleImageHelp';
 
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');

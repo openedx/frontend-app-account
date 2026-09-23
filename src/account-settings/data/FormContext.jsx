@@ -8,8 +8,8 @@ import {
   getAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
-import { patchSettings } from './api';
-import { accountSettingsKeys, accountSettingsMutationKeys } from './queryKeys';
+import { patchSettings } from '@src/account-settings/data/api';
+import { accountSettingsKeys, accountSettingsMutationKeys } from '@src/account-settings/data/queryKeys';
 import {
   BEGIN_NAME_CHANGE,
   CLOSE_FORM,
@@ -22,7 +22,7 @@ import {
   SAVE_RESET,
   SAVE_SUCCESS,
   UPDATE_DRAFT,
-} from './formReducer';
+} from '@src/account-settings/data/formReducer';
 
 // How long a saved field stays in its "complete" state before the form closes itself.
 export const CLOSE_FORM_DELAY = 1000;

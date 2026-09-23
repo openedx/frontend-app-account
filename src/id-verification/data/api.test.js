@@ -1,6 +1,6 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import qs from 'qs';
-import { getExistingIdVerification, getEnrollments, submitIdVerification } from './api';
+import { getExistingIdVerification, getEnrollments, submitIdVerification } from '@src/id-verification/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

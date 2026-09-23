@@ -7,8 +7,8 @@ import { IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
 import CameraPhoto from 'jslib-html5-camera-photo';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
-import IdVerificationContext from '../IdVerificationContext';
-import Camera from '../Camera';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import Camera from '@src/id-verification/Camera';
 
 jest.mock('jslib-html5-camera-photo');
 jest.mock('@tensorflow-models/blazeface');

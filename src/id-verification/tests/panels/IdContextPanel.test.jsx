@@ -4,8 +4,8 @@ import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
 import { IntlProvider } from '@openedx/frontend-base';
-import IdVerificationContext from '../../IdVerificationContext';
-import IdContextPanel from '../../panels/IdContextPanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import IdContextPanel from '@src/id-verification/panels/IdContextPanel';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

@@ -3,9 +3,9 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import { getSiteConfig, logError } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { postDeleteAccount } from './data/api';
-import DeleteAccount from './DeleteAccount';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { postDeleteAccount } from '@src/account-settings/delete-account/data/api';
+import DeleteAccount from '@src/account-settings/delete-account/DeleteAccount';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -13,7 +13,7 @@ jest.mock('react-dom', () => ({
   createPortal: jest.fn(node => node), // Mock portal behavior
 }));
 
-jest.mock('./data/api');
+jest.mock('@src/account-settings/delete-account/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
   logError: jest.fn(),

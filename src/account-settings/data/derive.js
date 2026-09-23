@@ -1,4 +1,4 @@
-import { compareVerifiedNamesByCreatedDate } from '../../utils';
+import { compareVerifiedNamesByCreatedDate } from '@src/utils';
 
 /**
  * Pure derivations over the fetched account data and the form state. Everything the page needs

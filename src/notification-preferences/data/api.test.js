@@ -1,5 +1,5 @@
 import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
-import { getNotificationPreferences, postPreferenceToggle } from './api';
+import { getNotificationPreferences, postPreferenceToggle } from '@src/notification-preferences/data/api';
 
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),

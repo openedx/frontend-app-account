@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
-import { useVerificationRedirectSlug } from '../routing-utilities';
+import { useVerificationRedirectSlug } from '@src/id-verification/routing-utilities';
 
 const BasePanel = ({
   children,

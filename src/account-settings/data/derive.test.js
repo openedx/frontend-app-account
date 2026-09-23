@@ -7,7 +7,7 @@ import {
   getStaticFields,
   sortVerifiedNameHistory,
   transformTimeZonesToOptions,
-} from './derive';
+} from '@src/account-settings/data/derive';
 
 const name = (verifiedName, status, created) => ({ verified_name: verifiedName, status, created });
 
