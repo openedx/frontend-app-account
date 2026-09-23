@@ -2,7 +2,7 @@ import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 
 import {
-  getAuthenticatedUser, logError, updateSiteLanguage,
+  fetchAuthenticatedUser, getAuthenticatedUser, hydrateAuthenticatedUser, logError, updateSiteLanguage,
 } from '@openedx/frontend-base';
 
 import { createTestQueryClient, renderWithProviders } from '@src/tests/renderWithProviders';
@@ -15,7 +15,9 @@ import {
 jest.mock('@src/account-settings/data/api');
 jest.mock('@openedx/frontend-base', () => ({
   ...jest.requireActual('@openedx/frontend-base'),
+  fetchAuthenticatedUser: jest.fn(),
   getAuthenticatedUser: jest.fn(),
+  hydrateAuthenticatedUser: jest.fn(),
   logError: jest.fn(),
   updateSiteLanguage: jest.fn(),
 }));
@@ -43,7 +45,9 @@ const fieldError = (fieldErrors) => Object.assign(new Error('field errors'), { f
 
 describe('AccountSettingsFormProvider', () => {
   beforeEach(() => {
+    fetchAuthenticatedUser.mockResolvedValue(user);
     getAuthenticatedUser.mockReturnValue(user);
+    hydrateAuthenticatedUser.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
@@ -82,6 +86,53 @@ describe('AccountSettingsFormProvider', () => {
 
     act(() => jest.advanceTimersByTime(CLOSE_FORM_DELAY));
     expect(field.isEditing).toBe(false);
+  });
+
+  it('refreshes the token and the shell when the name changes, so the header stops showing the old one', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(hydrateAuthenticatedUser).toHaveBeenCalled());
+    expect(fetchAuthenticatedUser).toHaveBeenCalledWith({ forceRefresh: true });
+  });
+
+  it('leaves the shell alone for a field it does not show', async () => {
+    patchSettings.mockResolvedValue({ email: 'new@example.com' });
+    renderProvider();
+
+    act(() => form.saveSettings('email', 'new@example.com'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    expect(fetchAuthenticatedUser).not.toHaveBeenCalled();
+    expect(hydrateAuthenticatedUser).not.toHaveBeenCalled();
+  });
+
+  it('keeps the save successful when the token refresh fails', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    const error = new Error('no network');
+    fetchAuthenticatedUser.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
+    expect(hydrateAuthenticatedUser).not.toHaveBeenCalled();
+  });
+
+  it('keeps the save successful when re-hydrating the shell fails', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    const error = new Error('no network');
+    hydrateAuthenticatedUser.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
   });
 
   it('leaves an empty values cache alone rather than seeding it with the saved fields', async () => {
