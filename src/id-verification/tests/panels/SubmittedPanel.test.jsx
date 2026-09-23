@@ -1,8 +1,11 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen,
+  render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import { getSiteConfig, IntlProvider } from '@openedx/frontend-base';
+import {
+  getSiteConfig, IntlProvider, mergeSiteConfig, setSiteConfig,
+} from '@openedx/frontend-base';
+import { dashboardRole } from '../../../constants';
 import IdVerificationContext from '../../IdVerificationContext';
 import SubmittedPanel from '../../panels/SubmittedPanel';
 
@@ -16,8 +19,10 @@ describe('SubmittedPanel', () => {
     facePhotoFile: 'test.jpg',
     idPhotoFile: 'test.jpg',
   };
+  let siteConfig;
 
   beforeEach(() => {
+    siteConfig = getSiteConfig();
     const mockStorage = {};
     global.Storage.prototype.setItem = jest.fn((key, value) => {
       mockStorage[key] = value;
@@ -28,6 +33,7 @@ describe('SubmittedPanel', () => {
   afterEach(() => {
     global.Storage.prototype.setItem.mockReset();
     global.Storage.prototype.getItem.mockReset();
+    setSiteConfig(siteConfig);
     cleanup();
   });
 
@@ -44,6 +50,28 @@ describe('SubmittedPanel', () => {
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveTextContent(/Return to Your Dashboard/);
     expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/dashboard`);
+  });
+
+  it('stays in the site when it provides the dashboard', async () => {
+    mergeSiteConfig({
+      apps: [{
+        appId: 'org.openedx.frontend.app.learnerDashboard',
+        routes: [{ path: '/learner-dashboard', handle: { roles: [dashboardRole] } }],
+      }],
+    });
+    await act(async () => render((
+      <Router>
+        <IntlProvider locale="en">
+          <IdVerificationContext.Provider value={contextValue}>
+            <SubmittedPanel />
+          </IdVerificationContext.Provider>
+        </IntlProvider>
+      </Router>
+    )));
+    const button = await screen.findByTestId('return-button');
+    expect(button).toHaveAttribute('href', '/learner-dashboard');
+    fireEvent.click(button);
+    expect(window.location.pathname).toEqual('/learner-dashboard');
   });
 
   it('links to course when courseId is stored', async () => {

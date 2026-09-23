@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { logError } from '@openedx/frontend-base';
+import { getSiteConfig, logError } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '../../tests/renderWithProviders';
 import { postDeleteAccount } from './data/api';
@@ -143,5 +143,20 @@ describe('DeleteAccount', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
     expect(screen.queryByLabelText(/please enter your account password/)).not.toBeInTheDocument();
+  });
+
+  it('logs the learner out once they close the farewell', async () => {
+    postDeleteAccount.mockResolvedValue({});
+    const { location } = global;
+    delete global.location;
+    renderWithProviders(<DeleteAccount />);
+    fireEvent.change(openConfirmation(), { target: { value: 'secret' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await screen.findByText(/Your account will be deleted shortly/);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+    expect(global.location).toBe(getSiteConfig().logoutUrl);
+    global.location = location;
   });
 });

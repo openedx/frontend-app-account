@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl, getSiteConfig } from '@openedx/frontend-base';
+import { FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
+import { getDashboardUrl } from '../utils';
 import messages from './IdVerification.messages';
 import { ERROR_REASONS } from './IdVerificationContext';
 
@@ -33,9 +35,9 @@ const AccessBlocked = ({ error }) => {
       </h3>
       {handleMessage()}
       <div className="action-row">
-        <a className="btn btn-primary mt-3" href={`${getSiteConfig().lmsBaseUrl}/dashboard`}>
+        <Button {...getLinkProps(getDashboardUrl())} className="mt-3">
           {intl.formatMessage(messages['id.verification.return.dashboard'])}
-        </a>
+        </Button>
       </div>
     </div>
   );
