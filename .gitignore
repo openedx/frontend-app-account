@@ -1,5 +1,6 @@
 .DS_Store
 .eslintcache
+env.config.*
 .idea
 node_modules
 npm-debug.log

@@ -102,7 +102,7 @@ export class DeleteAccount extends React.Component {
                 )}
               </p>
               <p>
-                <Hyperlink destination="https://help.edx.org/edxlearner/s/topic/0TOQq0000001UdZOAU/account-basics">
+                <Hyperlink destination={getConfig().ACCOUNT_BASICS_SUPPORT_URL}>
                   {intl.formatMessage(messages['account.settings.delete.account.text.change.instead'])}
                 </Hyperlink>
               </p>
@@ -118,7 +118,7 @@ export class DeleteAccount extends React.Component {
               {isVerifiedAccount ? null : (
                 <BeforeProceedingBanner
                   instructionMessageId={optInInstructionMessageId}
-                  supportArticleUrl="https://support.edx.org/hc/en-us/articles/115000940568-How-do-I-confirm-my-email"
+                  supportArticleUrl={getConfig().EMAIL_CONFIRMATION_SUPPORT_URL}
                 />
               )}
               {hasLinkedTPA ? (
