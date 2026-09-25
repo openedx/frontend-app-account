@@ -10,11 +10,11 @@ import React, { StrictMode } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { createRoot } from 'react-dom/client';
 import { Route, Routes, Outlet } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Header from '@edx/frontend-component-header';
 import { FooterSlot } from '@edx/frontend-component-footer';
 
-import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
@@ -22,32 +22,38 @@ import messages from './i18n';
 import './index.scss';
 import Head from './head/Head';
 
+// The frontend-base shell provides a global QueryClientProvider, so this one goes away with the
+// frontend-base conversion. Until then, queries get the library defaults.
+const queryClient = new QueryClient();
+
 const rootNode = createRoot(document.getElementById('root'));
 subscribe(APP_READY, () => {
   rootNode.render(
     <StrictMode>
-      <AppProvider store={configureStore()}>
-        <Head />
-        <Routes>
-          <Route element={(
-            <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-              <Header />
-              <main className="flex-grow-1" id="main">
-                <Outlet />
-              </main>
-              <FooterSlot />
-            </div>
-        )}
-          >
-            <Route
-              path="/id-verification/*"
-              element={<IdVerificationPageSlot />}
-            />
-            <Route path="/" element={<AccountSettingsPage />} />
-            <Route path="/notfound" element={<NotFoundPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
+      <AppProvider>
+        <QueryClientProvider client={queryClient}>
+          <Head />
+          <Routes>
+            <Route element={(
+              <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+                <Header />
+                <main className="flex-grow-1" id="main">
+                  <Outlet />
+                </main>
+                <FooterSlot />
+              </div>
+          )}
+            >
+              <Route
+                path="/id-verification/*"
+                element={<IdVerificationPageSlot />}
+              />
+              <Route path="/" element={<AccountSettingsPage />} />
+              <Route path="/notfound" element={<NotFoundPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </QueryClientProvider>
       </AppProvider>
     </StrictMode>,
   );

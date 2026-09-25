@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
@@ -10,25 +9,20 @@ import {
 } from '@openedx/paragon';
 import { useIntl } from '@edx/frontend-platform/i18n';
 
-import {
-  closeForm,
-  resetDrafts,
-  saveSettings,
-  updateDraft,
-} from '../data/actions';
-import { certPreferenceSelector } from '../data/selectors';
+import { useAccountSettingsForm } from '../data/FormContext';
+import { useAccountSettingsData } from '../data/hooks';
 
 import commonMessages from '../AccountSettingsPage.messages';
 import messages from './messages';
 
-const CertificatePreference = ({
-  fieldName,
-  originalFullName,
-  originalVerifiedName,
-  saveState,
-  useVerifiedNameForCerts,
-}) => {
-  const dispatch = useDispatch();
+const CertificatePreference = ({ fieldName }) => {
+  const { committedValues, formValues, verifiedName } = useAccountSettingsData();
+  const {
+    saveState, closeForm, resetDrafts, saveSettings, updateDraft,
+  } = useAccountSettingsForm();
+  const originalFullName = committedValues?.name || '';
+  const originalVerifiedName = verifiedName?.verified_name || '';
+  const useVerifiedNameForCerts = formValues.useVerifiedNameForCerts || false;
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formId = 'useVerifiedNameForCerts';
@@ -37,9 +31,9 @@ const CertificatePreference = ({
   const handleCheckboxChange = () => {
     if (!checked) {
       if (fieldName === 'verified_name') {
-        dispatch(updateDraft(formId, true));
+        updateDraft(formId, true);
       } else {
-        dispatch(updateDraft(formId, false));
+        updateDraft(formId, false);
       }
     } else {
       setModalIsOpen(true);
@@ -48,14 +42,14 @@ const CertificatePreference = ({
 
   const handleCancel = () => {
     setModalIsOpen(false);
-    dispatch(resetDrafts());
+    resetDrafts();
   };
 
   const handleModalChange = (e) => {
     if (e.target.value === 'fullName') {
-      dispatch(updateDraft(formId, false));
+      updateDraft(formId, false);
     } else {
-      dispatch(updateDraft(formId, true));
+      updateDraft(formId, true);
     }
   };
 
@@ -66,7 +60,7 @@ const CertificatePreference = ({
       return;
     }
 
-    dispatch(saveSettings(formId, useVerifiedNameForCerts));
+    saveSettings(formId, useVerifiedNameForCerts);
   };
 
   useEffect(() => {
@@ -83,10 +77,10 @@ const CertificatePreference = ({
     if (originalVerifiedName) {
       if (modalIsOpen && saveState === 'complete') {
         setModalIsOpen(false);
-        dispatch(closeForm(fieldName));
+        closeForm(fieldName);
       }
     }
-  }, [dispatch, originalVerifiedName, fieldName, modalIsOpen, saveState]);
+  }, [closeForm, originalVerifiedName, fieldName, modalIsOpen, saveState]);
 
   // If the user doesn't have an approved verified name, do not display this component
 
@@ -156,17 +150,6 @@ const CertificatePreference = ({
 
 CertificatePreference.propTypes = {
   fieldName: PropTypes.string.isRequired,
-  originalFullName: PropTypes.string,
-  originalVerifiedName: PropTypes.string,
-  saveState: PropTypes.string,
-  useVerifiedNameForCerts: PropTypes.bool,
 };
 
-CertificatePreference.defaultProps = {
-  originalFullName: '',
-  originalVerifiedName: '',
-  saveState: null,
-  useVerifiedNameForCerts: false,
-};
-
-export default connect(certPreferenceSelector)(CertificatePreference);
+export default CertificatePreference;

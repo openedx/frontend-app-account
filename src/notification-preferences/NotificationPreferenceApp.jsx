@@ -2,7 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 
 import { Collapsible } from '@openedx/paragon';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -11,13 +10,13 @@ import { useIsOnMobile } from '../hooks';
 import NotificationTypes from './NotificationTypes';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
-import { selectPreferenceAppToggleValue, selectAppPreferences, selectShowEmailPreferences } from './data/selectors';
+import { useAppPreferences, usePreferenceApp, useShowEmailPreferences } from './data/hooks';
 
 const NotificationPreferenceApp = ({ appId }) => {
   const intl = useIntl();
-  const appToggle = useSelector(selectPreferenceAppToggleValue(appId));
-  const appPreferences = useSelector(selectAppPreferences(appId));
-  const showEmailPreferences = useSelector(selectShowEmailPreferences());
+  const appToggle = usePreferenceApp(appId)?.enabled ?? false;
+  const appPreferences = useAppPreferences(appId);
+  const showEmailPreferences = useShowEmailPreferences();
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels(showEmailPreferences);
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;

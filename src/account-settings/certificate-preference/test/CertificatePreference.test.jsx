@@ -1,17 +1,9 @@
-/* eslint-disable no-import-assign */
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
-import {
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
-import * as auth from '@edx/frontend-platform/auth';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
 import messages from '../messages';
+import { useAccountSettingsData } from '../../data/hooks';
+import { renderWithForm } from '../../test/renderWithForm';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -19,73 +11,47 @@ jest.mock('react-dom', () => ({
   createPortal: jest.fn(node => node), // Mock portal behavior
 }));
 
+jest.mock('../../data/hooks');
+
 import CertificatePreference from '../CertificatePreference'; // eslint-disable-line import/first
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
-}));
+const formId = 'useVerifiedNameForCerts';
+const labelText = messages['account.settings.field.name.checkbox.certificate.select'].defaultMessage;
 
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('../../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
-
-const mockStore = configureStore();
-
-describe('NameChange', () => {
-  let props = {};
-  let store = {};
-  const formId = 'useVerifiedNameForCerts';
-  const updateDraft = 'UPDATE_DRAFT';
-  const labelText = messages['account.settings.field.name.checkbox.certificate.select'].defaultMessage;
-
-  const reduxWrapper = children => (
-    <Router>
-      <IntlProvider locale="en">
-        <Provider store={store}>{children}</Provider>
-      </IntlProvider>
-    </Router>
-  );
-
-  beforeEach(() => {
-    store = mockStore();
-    props = {
-      fieldName: 'name',
-      originalFullName: 'Ed X',
-      originalVerifiedName: 'edX Verified',
-      saveState: null,
-      useVerifiedNameForCerts: false,
-    };
-
-    auth.getAuthenticatedHttpClient = jest.fn(() => ({
-      patch: async () => ({
-        data: { status: 200 },
-        catch: () => {},
-      }),
-    }));
-    auth.getAuthenticatedUser = jest.fn(() => ({ userId: 3 }));
+const setData = ({ fullName = 'Ed X', verifiedName = 'edX Verified', useVerifiedNameForCerts = false } = {}) => {
+  useAccountSettingsData.mockReturnValue({
+    committedValues: { name: fullName },
+    formValues: { useVerifiedNameForCerts },
+    verifiedName: verifiedName ? { verified_name: verifiedName } : null,
   });
+};
+
+const renderComponent = (props = {}, form = {}) => renderWithForm(
+  <CertificatePreference fieldName="name" {...props} />,
+  {
+    form: {
+      updateDraft: jest.fn(), resetDrafts: jest.fn(), saveSettings: jest.fn(), closeForm: jest.fn(), ...form,
+    },
+  },
+);
+
+describe('CertificatePreference', () => {
+  beforeEach(() => setData());
 
   afterEach(() => jest.clearAllMocks());
 
   it('does not render if there is no verified name', () => {
-    props = {
-      ...props,
-      originalVerifiedName: '',
-    };
+    setData({ verifiedName: '' });
 
-    const wrapper = render(reduxWrapper(<CertificatePreference {...props} />));
+    const { container } = renderComponent();
 
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('does not trigger modal when checking empty checkbox, and updates draft immediately', () => {
-    props = {
-      ...props,
-      useVerifiedNameForCerts: true,
-    };
+    setData({ useVerifiedNameForCerts: true });
 
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    const { form } = renderComponent();
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(false);
@@ -93,29 +59,25 @@ describe('NameChange', () => {
     fireEvent.click(checkbox);
 
     expect(screen.queryByRole('radiogroup')).toBeNull();
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { name: formId, value: false },
-      type: updateDraft,
-    });
+    expect(form.updateDraft).toHaveBeenCalledWith(formId, false);
   });
 
   it('triggers modal when attempting to uncheck checkbox', () => {
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    const { form } = renderComponent();
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);
 
     fireEvent.click(checkbox);
-    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(form.updateDraft).not.toHaveBeenCalled();
 
     screen.getByRole('radiogroup');
   });
 
   it('updates draft when changing radio value', () => {
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    const { form } = renderComponent();
 
-    const checkbox = screen.getByLabelText(labelText);
-    fireEvent.click(checkbox);
+    fireEvent.click(screen.getByLabelText(labelText));
 
     const fullNameOption = screen.getByLabelText('Ed X (Full Name)');
     const verifiedNameOption = screen.getByLabelText('edX Verified (Verified Name)');
@@ -123,49 +85,51 @@ describe('NameChange', () => {
     expect(verifiedNameOption.checked).toEqual(false);
 
     fireEvent.click(verifiedNameOption);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { name: formId, value: true },
-      type: updateDraft,
-    });
+    expect(form.updateDraft).toHaveBeenCalledWith(formId, true);
   });
 
   it('clears draft on cancel', () => {
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    const { form } = renderComponent();
 
-    const checkbox = screen.getByLabelText(labelText);
-    fireEvent.click(checkbox);
+    fireEvent.click(screen.getByLabelText(labelText));
+    fireEvent.click(screen.getByText('Cancel'));
 
-    const cancelButton = screen.getByText('Cancel');
-    fireEvent.click(cancelButton);
-
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET_DRAFTS' });
+    expect(form.resetDrafts).toHaveBeenCalled();
     expect(screen.queryByRole('radiogroup')).toBeNull();
   });
 
   it('submits', () => {
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    const { form } = renderComponent();
 
-    const checkbox = screen.getByLabelText(labelText);
-    fireEvent.click(checkbox);
+    fireEvent.click(screen.getByLabelText(labelText));
+    fireEvent.click(screen.getByText('Choose name'));
 
-    const submitButton = screen.getByText('Choose name');
-    fireEvent.click(submitButton);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { formId, commitValues: false, extendedProfile: {} },
-      type: 'ACCOUNT_SETTINGS__SAVE_SETTINGS',
-    });
+    expect(form.saveSettings).toHaveBeenCalledWith(formId, false);
+  });
+
+  it('does not submit while a save is pending', () => {
+    const { form } = renderComponent({}, { saveState: 'pending' });
+
+    fireEvent.click(screen.getByLabelText(labelText));
+    fireEvent.click(screen.getByText('Choose name'));
+
+    expect(form.saveSettings).not.toHaveBeenCalled();
+  });
+
+  it('closes the modal and the field once the save completes', () => {
+    const { form } = renderComponent({}, { saveState: 'complete' });
+
+    fireEvent.click(screen.getByLabelText(labelText));
+
+    expect(screen.queryByRole('radiogroup')).toBeNull();
+    expect(form.closeForm).toHaveBeenCalledWith('name');
   });
 
   it('checks box for verified name', () => {
-    props = {
-      ...props,
-      fieldName: 'verified_name',
-      useVerifiedNameForCerts: true,
-    };
+    setData({ useVerifiedNameForCerts: true });
 
-    render(reduxWrapper(<CertificatePreference {...props} />));
+    renderComponent({ fieldName: 'verified_name' });
 
-    const checkbox = screen.getByLabelText(labelText);
-    expect(checkbox.checked).toEqual(true);
+    expect(screen.getByLabelText(labelText).checked).toEqual(true);
   });
 });

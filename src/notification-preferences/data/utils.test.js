@@ -1,77 +1,121 @@
-import { getConfig } from '@edx/frontend-platform';
+import { camelCaseObject } from '@edx/frontend-platform';
 
-import { notificationChannels, shouldHideAppPreferences } from './utils';
+import { EMAIL_CADENCE_PREFERENCES } from './constants';
+import { applyPreferenceUpdate, normalizePreferences } from './utils';
 
-jest.mock('@edx/frontend-platform', () => ({
-  getConfig: jest.fn(),
-}));
+const rawResponse = {
+  status: 'success',
+  show_preferences: true,
+  show_email_preferences: false,
+  data: {
+    discussion: {
+      enabled: true,
+      notification_types: {
+        new_comment: {
+          web: false, push: true, email: false, info: 'Someone replied',
+        },
+        core: {
+          web: true, push: true, email: true, email_cadence: 'Weekly',
+        },
+      },
+      non_editable: { core: ['web', 'email'] },
+    },
+    coursework: {
+      enabled: false,
+      notification_types: {
+        new_grade: { web: false, push: false, email: false },
+      },
+      non_editable: {},
+    },
+  },
+};
 
-describe('notificationChannels', () => {
-  beforeEach(() => {
-    getConfig.mockReturnValue({ SHOW_PUSH_CHANNEL: '' });
+describe('normalizePreferences', () => {
+  const normalized = normalizePreferences(camelCaseObject(rawResponse));
+
+  it('lists apps sorted by id with their enabled flag', () => {
+    expect(normalized.apps).toEqual([
+      { id: 'coursework', enabled: false },
+      { id: 'discussion', enabled: true },
+    ]);
   });
 
-  it('always includes WEB channel', () => {
-    const channels = notificationChannels();
-    expect(channels).toMatchObject({ WEB: 'web' });
+  it('flattens notification types into preferences with camel-cased ids', () => {
+    expect(normalized.preferences).toEqual([
+      {
+        id: 'newComment', appId: 'discussion', web: false, push: true, email: false, info: 'Someone replied', emailCadence: EMAIL_CADENCE_PREFERENCES.DAILY,
+      },
+      {
+        id: 'core', appId: 'discussion', web: true, push: true, email: true, info: '', emailCadence: 'Weekly',
+      },
+      {
+        id: 'newGrade', appId: 'coursework', web: false, push: false, email: false, info: '', emailCadence: EMAIL_CADENCE_PREFERENCES.DAILY,
+      },
+    ]);
   });
 
-  it('includes EMAIL channel when showEmailPreferences is true (default)', () => {
-    const channels = notificationChannels();
-    expect(channels).toMatchObject({ EMAIL: 'email' });
+  it('keeps the non-editable channels per app', () => {
+    expect(normalized.nonEditable).toEqual({
+      discussion: { core: ['web', 'email'] },
+      coursework: {},
+    });
   });
 
-  it('includes EMAIL channel when showEmailPreferences is explicitly true', () => {
-    const channels = notificationChannels(true);
-    expect(channels).toMatchObject({ EMAIL: 'email' });
+  it('carries the visibility flags through', () => {
+    expect(normalized.showPreferences).toBe(true);
+    expect(normalized.showEmailPreferences).toBe(false);
   });
 
-  it('excludes EMAIL channel when showEmailPreferences is false', () => {
-    const channels = notificationChannels(false);
-    expect(channels).not.toHaveProperty('EMAIL');
-  });
-
-  it('excludes PUSH channel when SHOW_PUSH_CHANNEL env var is not set', () => {
-    getConfig.mockReturnValue({ SHOW_PUSH_CHANNEL: '' });
-    const channels = notificationChannels();
-    expect(channels).not.toHaveProperty('PUSH');
-  });
-
-  it('includes PUSH channel when SHOW_PUSH_CHANNEL env var is true', () => {
-    getConfig.mockReturnValue({ SHOW_PUSH_CHANNEL: 'true' });
-    const channels = notificationChannels();
-    expect(channels).toMatchObject({ PUSH: 'push' });
-  });
-
-  it('returns WEB, EMAIL but not PUSH when only email is enabled', () => {
-    getConfig.mockReturnValue({ SHOW_PUSH_CHANNEL: '' });
-    const channels = notificationChannels(true);
-    expect(Object.values(channels)).toEqual(['web', 'email']);
-  });
-
-  it('returns only WEB when email is disabled and push is not set', () => {
-    getConfig.mockReturnValue({ SHOW_PUSH_CHANNEL: '' });
-    const channels = notificationChannels(false);
-    expect(Object.values(channels)).toEqual(['web']);
+  it('defaults the visibility flags when the response omits them', () => {
+    const result = normalizePreferences(camelCaseObject({ data: {} }));
+    expect(result).toEqual({
+      apps: [],
+      preferences: [],
+      nonEditable: {},
+      showPreferences: false,
+      showEmailPreferences: true,
+    });
   });
 });
 
-describe('shouldHideAppPreferences', () => {
-  const preferences = [
-    { id: 'newPost', appId: 'discussion' },
-    { id: 'newComment', appId: 'discussion' },
-    { id: 'newAssignment', appId: 'coursework' },
-  ];
+describe('applyPreferenceUpdate', () => {
+  const normalized = normalizePreferences(camelCaseObject(rawResponse));
 
-  it('returns false when app has matching preferences', () => {
-    expect(shouldHideAppPreferences(preferences, 'discussion')).toBe(false);
+  it('sets the updated value on the matching preference and channel', () => {
+    const result = applyPreferenceUpdate(normalized, camelCaseObject({
+      data: {
+        app: 'coursework', notification_type: 'new_grade', channel: 'web', updated_value: true,
+      },
+    }));
+
+    expect(result.preferences.find(p => p.id === 'newGrade').web).toBe(true);
+    expect(result).not.toBe(normalized);
+    expect(normalized.preferences.find(p => p.id === 'newGrade').web).toBe(false);
   });
 
-  it('returns true when app has no matching preferences', () => {
-    expect(shouldHideAppPreferences(preferences, 'unknown-app')).toBe(true);
+  it('maps the email_cadence channel onto emailCadence', () => {
+    const result = applyPreferenceUpdate(normalized, camelCaseObject({
+      data: {
+        app: 'discussion', notification_type: 'new_comment', channel: 'email_cadence', updated_value: 'Weekly',
+      },
+    }));
+
+    expect(result.preferences.find(p => p.id === 'newComment').emailCadence).toBe('Weekly');
   });
 
-  it('returns true for empty preferences array', () => {
-    expect(shouldHideAppPreferences([], 'discussion')).toBe(true);
+  it('leaves other preferences untouched', () => {
+    const result = applyPreferenceUpdate(normalized, camelCaseObject({
+      data: {
+        app: 'discussion', notification_type: 'new_comment', channel: 'web', updated_value: true,
+      },
+    }));
+
+    expect(result.preferences.filter(p => p.id !== 'newComment'))
+      .toEqual(normalized.preferences.filter(p => p.id !== 'newComment'));
+  });
+
+  it('returns the input unchanged without cached data or an update payload', () => {
+    expect(applyPreferenceUpdate(undefined, { data: {} })).toBeUndefined();
+    expect(applyPreferenceUpdate(normalized, {})).toBe(normalized);
   });
 });

@@ -1,166 +1,98 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import renderer from 'react-test-renderer';
-import configureStore from 'redux-mock-store';
-
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { fireEvent, screen } from '@testing-library/react';
 
 import EditableSelectField from '../EditableSelectField';
+import { renderWithForm } from './renderWithForm';
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
-}));
+jest.mock('../certificate-preference/CertificatePreference', () => function MockCertificatePreference() {
+  return <div data-testid="certificate-preference" />;
+});
 
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('../data/selectors', () => jest.fn().mockImplementation(() => ({ certPreferenceSelector: () => ({}) })));
+const options = [
+  { label: 'Default Option', value: 'defaultOption' },
+  {
+    label: 'User Options',
+    group: [{ label: 'Suboption 1', value: 'suboption1' }],
+  },
+  {
+    label: 'Other Options',
+    group: [
+      { label: 'Suboption 2', value: 'suboption2' },
+      { label: 'Suboption 3', value: 'suboption3' },
+    ],
+  },
+];
 
-const mockStore = configureStore();
+const renderComponent = (props = {}, form = {}) => renderWithForm(
+  <EditableSelectField
+    name="testField"
+    label="Main Label"
+    emptyLabel="Empty Main Label"
+    type="select"
+    value="defaultOption"
+    options={options}
+    helpText="Helpful Text"
+    onSubmit={jest.fn()}
+    onChange={jest.fn()}
+    {...props}
+  />,
+  { form },
+);
 
 describe('EditableSelectField', () => {
-  let props = {};
-  let store = {};
+  it('renders the selected option label and help text when not editing', () => {
+    renderComponent();
 
-  const reduxWrapper = children => (
-    <Router>
-      <IntlProvider locale="en">
-        <Provider store={store}>{children}</Provider>
-      </IntlProvider>
-    </Router>
-  );
-
-  beforeEach(() => {
-    store = mockStore();
-    props = {
-      name: 'testField',
-      label: 'Main Label',
-      emptyLabel: 'Empty Main Label',
-      type: 'text',
-      value: 'Test Field',
-      userSuppliedValue: '',
-      options: [
-        {
-          label: 'Default Option',
-          value: 'defaultOption',
-        },
-        {
-          label: 'User Options',
-          group: [
-            {
-              label: 'Suboption 1',
-              value: 'suboption1',
-            },
-          ],
-        },
-        {
-          label: 'Other Options',
-          group: [
-            {
-              label: 'Suboption 2',
-              value: 'suboption2',
-            },
-            {
-              label: 'Suboption 3',
-              value: 'suboption3',
-            },
-          ],
-        },
-      ],
-      saveState: 'default',
-      error: '',
-      confirmationMessageDefinition: {
-        id: 'confirmationMessageId',
-        defaultMessage: 'Default Confirmation Message',
-        description: 'Description of the confirmation message',
-      },
-      confirmationValue: 'Confirmation Value',
-      helpText: 'Helpful Text',
-      isEditing: false,
-      isEditable: true,
-      isGrayedOut: false,
-    };
+    expect(screen.getByText('Main Label')).toBeInTheDocument();
+    expect(screen.getByText('Default Option')).toBeInTheDocument();
+    expect(screen.getByText('Helpful Text')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Edit/ })).toBeInTheDocument();
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
 
-  afterEach(() => jest.clearAllMocks());
-
-  it('renders EditableSelectField correctly with editing disabled', () => {
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...props} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('falls back to the empty label without a value', () => {
+    renderComponent({ value: '' });
+    expect(screen.getByRole('button', { name: 'Empty Main Label' })).toBeInTheDocument();
   });
 
-  it('renders EditableSelectField correctly with editing enabled', () => {
-    props = {
-      ...props,
-      isEditing: true,
-    };
+  it('renders a select with grouped options when editing', () => {
+    renderComponent({}, { openFormId: 'testField' });
 
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...props} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+    const select = screen.getByRole('combobox');
+    expect(select).toHaveValue('defaultOption');
+    expect(select.querySelectorAll('optgroup')).toHaveLength(2);
+    expect(select.querySelectorAll('option')).toHaveLength(4);
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
-  it('renders EditableSelectField with an error', () => {
-    const errorProps = {
-      ...props,
-      error: 'This is an error message',
-    };
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...errorProps} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('renders a flat list when no option has a group', () => {
+    renderComponent({ options: [{ label: 'Default Option', value: 'defaultOption' }], value: 'defaultOption' }, { openFormId: 'testField' });
+
+    const select = screen.getByRole('combobox');
+    expect(select.querySelectorAll('optgroup')).toHaveLength(0);
+    expect(select.querySelectorAll('option')).toHaveLength(1);
   });
 
-  it('renders selectOptions when option has a group', () => {
-    const propsWithGroup = {
-      ...props,
-      options: [
-        {
-          label: 'User Options',
-          group: [
-            {
-              label: 'Suboption 1',
-              value: 'suboption1',
-            },
-          ],
-        },
-      ],
-    };
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithGroup} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('reports changes and submits the selected value', () => {
+    const onChange = jest.fn();
+    const onSubmit = jest.fn();
+    renderComponent({ onChange, onSubmit }, { openFormId: 'testField' });
+
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'suboption3' } });
+    expect(onChange).toHaveBeenCalledWith('testField', 'suboption3');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    expect(onSubmit).toHaveBeenCalledWith('testField', 'defaultOption');
   });
 
-  it('renders selectOptions when option does not have a group', () => {
-    const propsWithoutGroup = {
-      ...props,
-      options: [
-        {
-          label: 'Default Option',
-          value: 'defaultOption',
-        },
-      ],
-    };
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithoutGroup} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('shows the error recorded for this field', () => {
+    renderComponent({}, { openFormId: 'testField', errors: { testField: 'This is an error message' } });
+    expect(screen.getByText('This is an error message')).toBeInTheDocument();
   });
 
-  it('renders selectOptions with multiple groups', () => {
-    const propsWithGroups = {
-      ...props,
-      options: [
-        {
-          label: 'Mixed Options',
-          group: [
-            {
-              label: 'Suboption 1',
-              value: 'suboption1',
-            },
-            {
-              label: 'Suboption 2',
-              value: 'suboption2',
-            },
-          ],
-        },
-      ],
-    };
-    const tree = renderer.create(reduxWrapper(<EditableSelectField {...propsWithGroups} />)).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('opens and closes its form through the form context', () => {
+    const { form } = renderComponent({}, { openForm: jest.fn(), closeForm: jest.fn() });
+    fireEvent.click(screen.getByRole('button', { name: /Edit/ }));
+    expect(form.openForm).toHaveBeenCalledWith('testField');
   });
 });

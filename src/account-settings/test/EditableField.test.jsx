@@ -1,83 +1,30 @@
 import React from 'react';
-import {
-  render, screen, fireEvent, waitFor,
-} from '@testing-library/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
+import { screen, fireEvent } from '@testing-library/react';
+
 import EditableField from '../EditableField';
 import messages from '../AccountSettingsPage.messages';
-
-jest.mock('../data/selectors', () => ({
-  editableFieldSelector: () => (state, props) => ({
-    ...state.accountSettings,
-    isEditing: props.isEditing,
-    error: props.error || state.accountSettings.errors[props.name],
-    confirmationValue: props.confirmationValue || state.accountSettings.confirmationValues[props.name],
-  }),
-}));
-
-jest.mock('../data/actions', () => ({
-  openForm: jest.fn((name) => ({ type: 'OPEN_FORM', payload: name })),
-  closeForm: jest.fn((name) => ({ type: 'CLOSE_FORM', payload: name })),
-}));
+import { renderWithForm } from './renderWithForm';
 
 // eslint-disable-next-line react/prop-types
 jest.mock('../certificate-preference/CertificatePreference', () => function MockCertificatePreference({ fieldName }) {
   return <div data-testid="editable-field-certificate-preference">Certificate Preference for {fieldName}</div>;
 });
 
-const mockStore = configureStore([]);
-const mockOnEdit = jest.fn();
-const mockOnCancel = jest.fn();
 const mockOnSubmit = jest.fn();
 const mockOnChange = jest.fn();
 
-const baseState = {
-  accountSettings: {
-    errors: {},
-    confirmationValues: {},
-    saveState: 'default',
-    openFormId: null,
-    verifiedNameHistory: { results: [] },
-    values: {},
-    drafts: {},
-    timeZones: [],
-    countryTimeZones: [],
-    thirdPartyAuth: { providers: [] },
-    countriesCodesList: [],
-    profileDataManager: false,
-    nameChangeModal: {},
-    loading: false,
-    loaded: true,
-    loadingError: null,
-  },
-};
-
-const renderComponent = (props = {}, stateOverrides = {}) => {
-  const store = mockStore({
-    ...baseState,
-    ...stateOverrides,
-  });
-  return render(
-    <Provider store={store}>
-      <IntlProvider locale="en">
-        <EditableField
-          name="username"
-          label="Username"
-          type="text"
-          value="john_doe"
-          onEdit={mockOnEdit}
-          onCancel={mockOnCancel}
-          onSubmit={mockOnSubmit}
-          onChange={mockOnChange}
-          isEditing={false}
-          {...props}
-        />
-      </IntlProvider>
-    </Provider>,
-  );
-};
+const renderComponent = (props = {}, form = {}) => renderWithForm(
+  <EditableField
+    name="username"
+    label="Username"
+    type="text"
+    value="john_doe"
+    onSubmit={mockOnSubmit}
+    onChange={mockOnChange}
+    {...props}
+  />,
+  { form },
+);
 
 describe('EditableField', () => {
   beforeEach(() => {
@@ -91,6 +38,12 @@ describe('EditableField', () => {
     expect(screen.getByRole('button', { name: /Edit/i })).toBeInTheDocument();
   });
 
+  it('opens its form when Edit is clicked', () => {
+    const { form } = renderComponent({}, { openForm: jest.fn() });
+    fireEvent.click(screen.getByRole('button', { name: /Edit/i }));
+    expect(form.openForm).toHaveBeenCalledWith('username');
+  });
+
   it('renders empty label with edit button if no value and editable', () => {
     renderComponent({ value: '', emptyLabel: 'Add value' });
     expect(screen.getByRole('button', { name: 'Add value' })).toBeInTheDocument();
@@ -101,75 +54,52 @@ describe('EditableField', () => {
     expect(screen.getByText('No value')).toHaveClass('text-muted');
   });
 
-  it('renders editing state with form controls', async () => {
-    renderComponent({ isEditing: true });
-    await waitFor(() => {
-      expect(screen.getByTestId('editable-field-textbox')).toHaveValue('john_doe');
-      expect(screen.getByTestId('editable-field-save')).toBeInTheDocument();
-      expect(screen.getByTestId('editable-field-cancel')).toBeInTheDocument();
-    }, { timeout: 2000 });
+  it('renders editing state with form controls', () => {
+    renderComponent({}, { openFormId: 'username' });
+    expect(screen.getByTestId('editable-field-textbox')).toHaveValue('john_doe');
+    expect(screen.getByTestId('editable-field-save')).toBeInTheDocument();
+    expect(screen.getByTestId('editable-field-cancel')).toBeInTheDocument();
   });
 
-  it('calls onChange when input changes', async () => {
-    renderComponent({ isEditing: true });
-    await waitFor(() => {
-      const input = screen.getByTestId('editable-field-textbox');
-      fireEvent.change(input, { target: { value: 'new_name' } });
-      expect(mockOnChange).toHaveBeenCalledWith('username', 'new_name');
-    }, { timeout: 2000 });
+  it('closes its form when Cancel is clicked', () => {
+    const { form } = renderComponent({}, { openFormId: 'username', closeForm: jest.fn() });
+    fireEvent.click(screen.getByTestId('editable-field-cancel'));
+    expect(form.closeForm).toHaveBeenCalledWith('username');
   });
 
-  it('calls onSubmit when form is submitted', async () => {
-    renderComponent({ isEditing: true });
-    await waitFor(() => {
-      const form = screen.getByTestId('editable-field-form');
-      fireEvent.submit(form);
-      expect(mockOnSubmit).toHaveBeenCalledWith('username', 'john_doe');
-    }, { timeout: 2000 });
+  it('calls onChange when input changes', () => {
+    renderComponent({}, { openFormId: 'username' });
+    fireEvent.change(screen.getByTestId('editable-field-textbox'), { target: { value: 'new_name' } });
+    expect(mockOnChange).toHaveBeenCalledWith('username', 'new_name');
   });
 
-  it('shows error message when error is present', async () => {
-    const stateOverrides = {
-      accountSettings: {
-        ...baseState.accountSettings,
-        errors: { username: 'Invalid input' },
-      },
-    };
-    renderComponent({ isEditing: true, error: 'Invalid input' }, stateOverrides);
-    await waitFor(() => {
-      expect(screen.getByTestId('editable-field-error')).toHaveTextContent('Invalid input');
-    }, { timeout: 2000 });
+  it('calls onSubmit when form is submitted', () => {
+    renderComponent({}, { openFormId: 'username' });
+    fireEvent.submit(screen.getByTestId('editable-field-form'));
+    expect(mockOnSubmit).toHaveBeenCalledWith('username', 'john_doe');
+  });
+
+  it('shows the error recorded for this field', () => {
+    renderComponent({}, { openFormId: 'username', errors: { username: 'Invalid input' } });
+    expect(screen.getByTestId('editable-field-error')).toHaveTextContent('Invalid input');
   });
 
   it('shows help text in editing mode', () => {
-    renderComponent({ isEditing: true, helpText: 'Helpful info' });
+    renderComponent({ helpText: 'Helpful info' }, { openFormId: 'username' });
     expect(screen.getByText('Helpful info')).toBeInTheDocument();
   });
 
-  it('shows confirmation message in default mode if provided', async () => {
-    const stateOverrides = {
-      accountSettings: {
-        ...baseState.accountSettings,
-        confirmationValues: { username: 'done' },
-      },
-    };
+  it('shows the pending confirmation in default mode', () => {
     renderComponent(
-      {
-        confirmationMessageDefinition: messages['account.settings.editable.field.action.save'],
-        confirmationValue: 'done',
-      },
-      stateOverrides,
+      { confirmationMessageDefinition: messages['account.settings.editable.field.action.save'] },
+      { confirmationValues: { username: 'done' } },
     );
-    await waitFor(() => {
-      expect(screen.getByTestId('editable-field-confirmation')).toBeInTheDocument();
-    }, { timeout: 2000 });
+    expect(screen.getByTestId('editable-field-confirmation')).toBeInTheDocument();
   });
 
-  it('renders CertificatePreference for name fields when editing', async () => {
-    renderComponent({ isEditing: true, name: 'name' });
-    await waitFor(() => {
-      expect(screen.getByTestId('editable-field-certificate-preference')).toHaveTextContent('Certificate Preference for name');
-    }, { timeout: 2000 });
+  it('renders CertificatePreference for name fields when editing', () => {
+    renderComponent({ name: 'name' }, { openFormId: 'name' });
+    expect(screen.getByTestId('editable-field-certificate-preference')).toHaveTextContent('Certificate Preference for name');
   });
 
   it('applies grayed-out class when isGrayedOut is true', () => {

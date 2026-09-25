@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
 import { StatefulButton } from '@openedx/paragon';
 
-import { resetPassword } from './data/actions';
+import { getResetPasswordStatus, useResetPassword } from './data/hooks';
 import messages from './messages';
 import ConfirmationAlert from './ConfirmationAlert';
 import RequestInProgressAlert from './RequestInProgressAlert';
 
-const ResetPassword = (props) => {
-  const { email, status } = props;
+const ResetPassword = ({ email }) => {
   const intl = useIntl();
+  const resetPassword = useResetPassword();
+  const status = getResetPasswordStatus(resetPassword);
 
   return (
     <div className="form-group">
@@ -35,8 +35,9 @@ const ResetPassword = (props) => {
             // current structure of the application.
             if (status === 'pending') {
               e.preventDefault();
+              return;
             }
-            props.resetPassword(email);
+            resetPassword.mutate(email);
           }}
           disabledStates={[]}
           labels={{
@@ -52,20 +53,10 @@ const ResetPassword = (props) => {
 
 ResetPassword.propTypes = {
   email: PropTypes.string,
-  resetPassword: PropTypes.func.isRequired,
-  status: PropTypes.string,
 };
 
 ResetPassword.defaultProps = {
   email: '',
-  status: null,
 };
 
-const mapStateToProps = state => state.accountSettings.resetPassword;
-
-export default connect(
-  mapStateToProps,
-  {
-    resetPassword,
-  },
-)(ResetPassword);
+export default ResetPassword;

@@ -6,7 +6,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
-import { submitIdVerification } from '../data/service';
+import { submitIdVerification } from '../data/api';
 import { useNextPanelSlug } from '../routing-utilities';
 import BasePanel from './BasePanel';
 import IdVerificationContext from '../IdVerificationContext';

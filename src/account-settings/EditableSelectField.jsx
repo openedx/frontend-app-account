@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Button, Form, StatefulButton,
@@ -10,11 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
-import {
-  openForm,
-  closeForm,
-} from './data/actions';
-import { editableFieldSelector } from './data/selectors';
+import { useEditableField } from './data/FormContext';
 import CertificatePreference from './certificate-preference/CertificatePreference';
 
 const EditableSelectField = (props) => {
@@ -27,21 +22,18 @@ const EditableSelectField = (props) => {
     value,
     userSuppliedValue,
     options,
-    saveState,
-    error,
     confirmationMessageDefinition,
-    confirmationValue,
     helpText,
-    onEdit,
-    onCancel,
     onSubmit,
     onChange,
-    isEditing,
     isEditable,
     isGrayedOut,
     ...others
   } = props;
   const id = `field-${name}`;
+  const {
+    isEditing, error, confirmationValue, saveState, openForm, closeForm,
+  } = useEditableField(name);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,11 +45,11 @@ const EditableSelectField = (props) => {
   };
 
   const handleEdit = () => {
-    onEdit(name);
+    openForm(name);
   };
 
   const handleCancel = () => {
-    onCancel(name);
+    closeForm(name);
   };
 
   const renderEmptyLabel = () => {
@@ -210,20 +202,14 @@ EditableSelectField.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   })),
-  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
-  error: PropTypes.string,
   confirmationMessageDefinition: PropTypes.shape({
     id: PropTypes.string.isRequired,
     defaultMessage: PropTypes.string.isRequired,
     description: PropTypes.string,
   }),
-  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
-  onEdit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool,
   isEditable: PropTypes.bool,
   isGrayedOut: PropTypes.bool,
 };
@@ -231,20 +217,13 @@ EditableSelectField.propTypes = {
 EditableSelectField.defaultProps = {
   value: undefined,
   options: [],
-  saveState: undefined,
   label: undefined,
   emptyLabel: undefined,
-  error: undefined,
   confirmationMessageDefinition: undefined,
-  confirmationValue: undefined,
   helpText: undefined,
-  isEditing: false,
   isEditable: true,
   isGrayedOut: false,
   userSuppliedValue: undefined,
 };
 
-export default connect(editableFieldSelector, {
-  onEdit: openForm,
-  onCancel: closeForm,
-})(EditableSelectField);
+export default EditableSelectField;

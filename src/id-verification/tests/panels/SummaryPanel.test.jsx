@@ -5,7 +5,7 @@ import {
 } from '@testing-library/react';
 import '@edx/frontend-platform/analytics';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
-import * as dataService from '../../data/service';
+import * as dataService from '../../data/api';
 import IdVerificationContext from '../../IdVerificationContext';
 import SummaryPanel from '../../panels/SummaryPanel';
 import { VerifiedNameContext } from '../../VerifiedNameContext';
@@ -14,7 +14,7 @@ jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../data/service');
+jest.mock('../../data/api');
 dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 
 describe('SummaryPanel', () => {

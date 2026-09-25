@@ -2,16 +2,15 @@ import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
-import { selectShowPreferences } from '../notification-preferences/data/selectors';
+import { useShowPreferences } from '../notification-preferences/data/hooks';
 import messages from './AccountSettingsPage.messages';
 
 const JumpNav = () => {
   const intl = useIntl();
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
-  const showNotifications = useSelector(selectShowPreferences());
+  const showNotifications = useShowPreferences();
 
   return (
     <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>

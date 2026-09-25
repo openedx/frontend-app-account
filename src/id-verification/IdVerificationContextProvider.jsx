@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 import { useIntl } from '@edx/frontend-platform/i18n';
 
-import { getProfileDataManager } from '../account-settings/data/service';
+import { getProfileDataManager } from '../account-settings/data/api';
 import PageLoading from '../account-settings/PageLoading';
 import { useAsyncCall } from '../hooks';
 import { IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
 
-import { getExistingIdVerification, getEnrollments } from './data/service';
+import { getExistingIdVerification, getEnrollments } from './data/api';
 import AccessBlocked from './AccessBlocked';
 import { hasGetUserMediaSupport } from './getUserMediaShim';
 import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from './IdVerificationContext';

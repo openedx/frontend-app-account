@@ -1,99 +1,47 @@
-import { render, screen } from '@testing-library/react';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { AppProvider } from '@edx/frontend-platform/react';
-import { initializeMockApp, mergeConfig, setConfig } from '@edx/frontend-platform';
+import { screen, waitFor } from '@testing-library/react';
+import { setConfig } from '@edx/frontend-platform';
 
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { getNotificationPreferences } from '../../notification-preferences/data/api';
 import JumpNav from '../JumpNav';
-import configureStore from '../../data/configureStore';
+
+jest.mock('../../notification-preferences/data/api');
 
 describe('JumpNav', () => {
-  mergeConfig({
-    ENABLE_ACCOUNT_DELETION: true,
-  });
-
-  let store;
-
   beforeEach(() => {
-    initializeMockApp({
-      authenticatedUser: {
-        userId: 3,
-        username: 'abc123',
-        administrator: true,
-        roles: [],
-      },
-    });
-
-    store = configureStore({
-      notificationPreferences: {
-        showPreferences: false,
-      },
-    });
+    getNotificationPreferences.mockResolvedValue({ show_preferences: false, data: {} });
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   it('should not render delete account link', async () => {
-    setConfig({
-      ENABLE_ACCOUNT_DELETION: false,
-    });
+    setConfig({ ENABLE_ACCOUNT_DELETION: false });
 
-    render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <JumpNav />
-        </AppProvider>
-      </IntlProvider>,
-    );
+    renderWithProviders(<JumpNav />);
 
-    expect(await screen.queryByText('Delete My Account')).toBeNull();
+    await waitFor(() => expect(getNotificationPreferences).toHaveBeenCalled());
+    expect(screen.queryByText('Delete My Account')).toBeNull();
   });
 
   it('should render delete account link', async () => {
-    setConfig({
-      ENABLE_ACCOUNT_DELETION: true,
-    });
+    setConfig({ ENABLE_ACCOUNT_DELETION: true });
 
-    render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <JumpNav />
-        </AppProvider>
-      </IntlProvider>,
-    );
+    renderWithProviders(<JumpNav />);
 
     expect(await screen.findByText('Delete My Account')).toBeVisible();
   });
 
-  it('should not render notifications link when showPreferences is false', async () => {
-    store = configureStore({
-      notificationPreferences: {
-        showPreferences: false,
-      },
-    });
+  it('should not render notifications link when show_preferences is false', async () => {
+    renderWithProviders(<JumpNav />);
 
-    render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <JumpNav />
-        </AppProvider>
-      </IntlProvider>,
-    );
-
+    await waitFor(() => expect(getNotificationPreferences).toHaveBeenCalled());
     expect(screen.queryByText('Notifications')).toBeNull();
   });
 
-  it('should render notifications link when showPreferences is true', async () => {
-    store = configureStore({
-      notificationPreferences: {
-        showPreferences: true,
-      },
-    });
+  it('should render notifications link when show_preferences is true', async () => {
+    getNotificationPreferences.mockResolvedValue({ show_preferences: true, data: {} });
 
-    render(
-      <IntlProvider locale="en">
-        <AppProvider store={store}>
-          <JumpNav />
-        </AppProvider>
-      </IntlProvider>,
-    );
+    renderWithProviders(<JumpNav />);
 
     expect(await screen.findByText('Notifications')).toBeVisible();
   });

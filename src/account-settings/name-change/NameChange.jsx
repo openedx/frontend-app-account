@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -15,29 +14,46 @@ import {
   StatefulButton,
 } from '@openedx/paragon';
 
-import { closeForm, saveSettingsReset } from '../data/actions';
-import { nameChangeSelector } from '../data/selectors';
+import { useAccountSettingsForm } from '../data/FormContext';
+import { useAccountSettingsData } from '../data/hooks';
 
-import { requestNameChange, requestNameChangeFailure, requestNameChangeReset } from './data/actions';
+import { getNameChangeErrors, useRequestNameChange } from './data/hooks';
 import messages from './messages';
 
-const NameChangeModal = ({
-  targetFormId,
-  errors,
-  formValues,
-  saveState,
-}) => {
-  const dispatch = useDispatch();
+const SAVE_STATES = {
+  idle: null,
+  pending: 'pending',
+  success: 'complete',
+  error: 'error',
+};
+
+const NO_ERRORS = {};
+
+const NameChangeModal = ({ targetFormId }) => {
   const navigate = useNavigate();
+  const intl = useIntl();
   const { username } = getAuthenticatedUser();
+  const { formValues } = useAccountSettingsData();
+  const { closeForm, saveSettingsReset } = useAccountSettingsForm();
+  const requestNameChange = useRequestNameChange();
+  const { reset: resetRequest } = requestNameChange;
   const [verifiedNameInput, setVerifiedNameInput] = useState(formValues.verified_name || '');
   const [confirmedWarning, setConfirmedWarning] = useState(false);
-  const intl = useIntl();
+  const [validationErrors, setValidationErrors] = useState(null);
+
+  const saveState = SAVE_STATES[requestNameChange.status];
+  let errors = NO_ERRORS;
+  if (validationErrors) {
+    errors = validationErrors;
+  } else if (requestNameChange.isError) {
+    errors = getNameChangeErrors(requestNameChange.error);
+  }
 
   const resetLocalState = useCallback(() => {
     setConfirmedWarning(false);
-    dispatch(requestNameChangeReset());
-  }, [dispatch]);
+    setValidationErrors(null);
+    resetRequest();
+  }, [resetRequest]);
 
   const handleChange = (e) => {
     setVerifiedNameInput(e.target.value);
@@ -45,9 +61,9 @@ const NameChangeModal = ({
 
   const handleClose = useCallback(() => {
     resetLocalState();
-    dispatch(closeForm(targetFormId));
-    dispatch(saveSettingsReset());
-  }, [dispatch, resetLocalState, targetFormId]);
+    closeForm(targetFormId);
+    saveSettingsReset();
+  }, [closeForm, saveSettingsReset, resetLocalState, targetFormId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,12 +73,13 @@ const NameChangeModal = ({
     }
 
     if (!verifiedNameInput) {
-      dispatch(requestNameChangeFailure({
+      setValidationErrors({
         verified_name: intl.formatMessage(messages['account.settings.name.change.error.valid.name']),
-      }));
+      });
     } else {
+      setValidationErrors(null);
       const draftProfileName = targetFormId === 'name' ? formValues.name : null;
-      dispatch(requestNameChange(username, draftProfileName, verifiedNameInput));
+      requestNameChange.mutate({ username, profileName: draftProfileName, verifiedName: verifiedNameInput });
     }
   };
 
@@ -187,16 +204,6 @@ const NameChangeModal = ({
 
 NameChangeModal.propTypes = {
   targetFormId: PropTypes.string.isRequired,
-  errors: PropTypes.shape({}).isRequired,
-  formValues: PropTypes.shape({
-    name: PropTypes.string,
-    verified_name: PropTypes.string,
-  }).isRequired,
-  saveState: PropTypes.string,
 };
 
-NameChangeModal.defaultProps = {
-  saveState: null,
-};
-
-export default connect(nameChangeSelector)(NameChangeModal);
+export default NameChangeModal;

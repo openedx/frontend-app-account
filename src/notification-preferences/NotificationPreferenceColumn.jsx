@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { NavItem } from '@openedx/paragon';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -11,23 +10,24 @@ import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import ToggleSwitch from './ToggleSwitch';
 import EmailCadences from './EmailCadences';
-import { LOADING_STATUS } from '../constants';
-import { updatePreferenceToggle } from './data/thunks';
 import {
-  selectAppNonEditableChannels, selectAppPreferences,
-  selectUpdatePreferencesStatus, selectShowEmailPreferences,
-} from './data/selectors';
+  useAppNonEditableChannels,
+  useAppPreferences,
+  useIsUpdatingPreferences,
+  useShowEmailPreferences,
+  useUpdatePreferenceToggle,
+} from './data/hooks';
 import { notificationChannels, shouldHideAppPreferences } from './data/utils';
 import { EMAIL, EMAIL_CADENCE } from './data/constants';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
-  const dispatch = useDispatch();
   const intl = useIntl();
-  const appPreferences = useSelector(selectAppPreferences(appId));
-  const updatePreferencesStatus = useSelector(selectUpdatePreferencesStatus());
-  const nonEditable = useSelector(selectAppNonEditableChannels(appId));
+  const appPreferences = useAppPreferences(appId);
+  const isUpdating = useIsUpdatingPreferences();
+  const nonEditable = useAppNonEditableChannels(appId);
+  const { mutate: updatePreferenceToggle } = useUpdatePreferenceToggle();
   const mobileView = useIsOnMobile();
-  const showEmailPreferences = useSelector(selectShowEmailPreferences());
+  const showEmailPreferences = useShowEmailPreferences();
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels(showEmailPreferences));
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
@@ -57,14 +57,14 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
       appNotificationPreference.emailCadence,
     );
 
-    dispatch(updatePreferenceToggle(
-      appId,
+    updatePreferenceToggle({
+      notificationApp: appId,
       notificationType,
       notificationChannel,
       value,
       emailCadence,
-    ));
-  }, [appPreferences, getValue, getEmailCadence, dispatch, appId]);
+    });
+  }, [appPreferences, getValue, getEmailCadence, updatePreferenceToggle, appId]);
 
   const renderPreference = (preference) => (
     <div
@@ -81,7 +81,7 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
         name={channel}
         value={preference[channel]}
         onChange={(event) => onToggle(event, preference.id)}
-        disabled={updatePreferencesStatus === LOADING_STATUS || nonEditable[preference.id]?.includes(channel)}
+        disabled={isUpdating || nonEditable[preference.id]?.includes(channel)}
         id={`toggle-${preference.id}-${channel}`}
         className="my-1"
       />

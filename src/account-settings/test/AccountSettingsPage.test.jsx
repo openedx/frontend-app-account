@@ -1,133 +1,91 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { AppContext } from '@edx/frontend-platform/react';
 import {
-  render, screen, fireEvent,
+  fireEvent, screen, waitFor, within,
 } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import { IntlProvider, injectIntl } from '@edx/frontend-platform/i18n';
 
+import { getConfig } from '@edx/frontend-platform';
+import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { getNotificationPreferences } from '../../notification-preferences/data/api';
+import {
+  getAccount,
+  getCountryList,
+  getPreferences,
+  getProfileDataManager,
+  getTimeZones,
+  getVerifiedNameHistory,
+  patchSettings,
+} from '../data/api';
+import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
 import AccountSettingsPage from '../AccountSettingsPage';
-import mockData from './mockData';
 import messages from '../AccountSettingsPage.messages';
 
-const mockDispatch = jest.fn();
+jest.mock('../data/api');
+jest.mock('../third-party-auth/data/api');
+jest.mock('../../notification-preferences/data/api');
 jest.mock('@edx/frontend-platform/analytics', () => ({
   sendTrackingLogEvent: jest.fn(),
-  getCountryList: jest.fn(() => [{ code: 'US', name: 'United States' }]),
 }));
-
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
+jest.mock('@edx/frontend-platform/auth', () => ({
+  ...jest.requireActual('@edx/frontend-platform/auth'),
+  getAuthenticatedUser: jest.fn(),
 }));
-
-jest.mock('@edx/frontend-platform/auth');
-
 jest.mock('@edx/frontend-platform', () => ({
   ...jest.requireActual('@edx/frontend-platform'),
-  getConfig: jest.fn(() => ({
-    SITE_NAME: 'edX',
-    SUPPORT_URL: 'https://support.edx.org',
-    ENABLE_ACCOUNT_DELETION: true,
-    ENABLE_COPPA_COMPLIANCE: false,
-    COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: [],
-  })),
+  getConfig: jest.fn(),
+}));
+jest.mock('@edx/frontend-platform/i18n', () => ({
+  ...jest.requireActual('@edx/frontend-platform/i18n'),
   getCountryList: jest.fn(() => [{ code: 'US', name: 'United States' }]),
-  getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }]),
+  getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }, { code: 'es', name: 'Spanish' }]),
 }));
 
-const IntlAccountSettingsPage = injectIntl(AccountSettingsPage);
+const config = {
+  SITE_NAME: 'edX',
+  SUPPORT_URL: 'https://support.edx.org',
+  ENABLE_ACCOUNT_DELETION: true,
+  ENABLE_COPPA_COMPLIANCE: false,
+  COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: [],
+};
 
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
+const user = { username: 'test_username', userId: 3, roles: [] };
+
+const account = {
+  username: 'test_username',
+  accomplishments_shared: false,
+  name: 'test_name',
+  email: 'test_email@test.com',
+  id: 534,
+  is_active: true,
+  extended_profile: [
+    {
+      field_name: 'work_experience',
+      field_value: '',
+    },
+  ],
+  country: 'US',
+  level_of_education: 'b',
+  gender: 'm',
+  language_proficiencies: 'es',
+  social_link_linkedin: 'https://linkedin.com/in/testuser',
+  social_link_facebook: '',
+  social_link_x: '',
+  state: 'NY',
+  secondary_email_enabled: true,
+  secondary_email: 'test_recovery@test.com',
+  year_of_birth: '1990',
+};
+
+const timeZones = [{ time_zone: 'America/New_York', description: 'America/New_York (EST, UTC-0500)' }];
+
+const renderPage = () => renderWithProviders(<AccountSettingsPage />, {
+  appContext: { locale: 'en', authenticatedUser: user },
+});
+
+const findLoadedPage = () => screen.findByText('test_username');
 
 describe('AccountSettingsPage', () => {
-  let props = {};
-  let store = {};
-  const appContext = { locale: 'en', authenticatedUser: { userId: 3, roles: [] } };
-  const reduxWrapper = children => (
-    <AppContext.Provider value={appContext}>
-      <Router>
-        <IntlProvider locale="en">
-          <Provider store={store}>
-            {children}
-          </Provider>
-        </IntlProvider>
-      </Router>
-    </AppContext.Provider>
-  );
-
-  beforeEach(() => {
-    store = mockStore(mockData);
-    props = {
-      loaded: true,
-      siteLanguage: {},
-      formValues: {
-        username: 'test_username',
-        accomplishments_shared: false,
-        name: 'test_name',
-        email: 'test_email@test.com',
-        id: 534,
-        extended_profile: [
-          {
-            field_name: 'work_experience',
-            field_value: '',
-          },
-        ],
-        country: 'US',
-        level_of_education: 'b',
-        gender: 'm',
-        language_proficiencies: 'es',
-        social_link_linkedin: 'https://linkedin.com/in/testuser',
-        social_link_facebook: '',
-        social_link_x: '',
-        time_zone: 'America/New_York',
-        state: 'NY',
-        secondary_email_enabled: true,
-        secondary_email: 'test_recovery@test.com',
-        year_of_birth: '1990',
-      },
-      fetchSettings: jest.fn(),
-      fetchSiteLanguages: jest.fn(),
-      fetchNotificationPreferences: jest.fn(),
-      saveSettings: jest.fn(),
-      updateDraft: jest.fn(),
-      beginNameChange: jest.fn(),
-      saveMultipleSettings: jest.fn(),
-      timeZoneOptions: [
-        { label: 'America/New_York', value: 'America/New_York' },
-      ],
-      countryTimeZoneOptions: [
-        { label: 'America/New_York', value: 'America/New_York' },
-      ],
-      siteLanguageOptions: [
-        { label: 'English', value: 'en' },
-      ],
-      tpaProviders: [
-        {
-          id: 'oa2-google-oauth2',
-          name: 'Google',
-          connected: false,
-          accepts_logins: true,
-          connectUrl: 'http://localhost:18000/auth/login/google-oauth2/',
-          disconnectUrl: 'http://localhost:18000/auth/disconnect/google-oauth2/',
-        },
-      ],
-      isActive: true,
-      staticFields: [],
-      profileDataManager: null,
-      verifiedName: null,
-      mostRecentVerifiedName: {},
-      verifiedNameHistory: [],
-      countriesCodesList: ['US'],
-    };
-  });
-
-  afterEach(() => jest.clearAllMocks());
-
   beforeAll(() => {
     global.lightningjs = {
       require: jest.fn().mockImplementation((module, url) => ({ moduleName: module, url })),
@@ -138,136 +96,134 @@ describe('AccountSettingsPage', () => {
     delete global.lightningjs;
   });
 
-  it('renders AccountSettingsPage correctly with editing enabled', async () => {
-    const { getByText, rerender, getByLabelText } = render(reduxWrapper(<IntlAccountSettingsPage {...props} />));
-
-    const workExperienceText = getByText('Work Experience');
-    const workExperienceEditButton = workExperienceText.parentElement.querySelector('button');
-
-    expect(workExperienceEditButton).toBeInTheDocument();
-
-    store = mockStore({
-      ...mockData,
-      accountSettings: {
-        ...mockData.accountSettings,
-        openFormId: 'work_experience',
-      },
-    });
-    rerender(reduxWrapper(<IntlAccountSettingsPage {...props} />));
-
-    const submitButton = screen.getByText('Save');
-    expect(submitButton).toBeInTheDocument();
-
-    const workExperienceSelect = getByLabelText('Work Experience');
-
-    // Use fireEvent.change to simulate changing the selected value
-    fireEvent.change(workExperienceSelect, { target: { value: '4' } });
-
-    fireEvent.click(submitButton);
+  beforeEach(() => {
+    getConfig.mockReturnValue(config);
+    getAuthenticatedUser.mockReturnValue(user);
+    getAccount.mockResolvedValue(account);
+    getPreferences.mockResolvedValue({ time_zone: 'America/New_York', 'pref-lang': 'en' });
+    getVerifiedNameHistory.mockResolvedValue({ use_verified_name_for_certs: false, results: [] });
+    getProfileDataManager.mockResolvedValue(null);
+    getTimeZones.mockResolvedValue(timeZones);
+    getCountryList.mockResolvedValue(['US']);
+    getThirdPartyAuthProviders.mockResolvedValue([{
+      id: 'oa2-google-oauth2',
+      name: 'Google',
+      connected: false,
+      accepts_logins: true,
+      connectUrl: 'http://localhost:18000/auth/login/google-oauth2/',
+      disconnectUrl: 'http://localhost:18000/auth/disconnect/google-oauth2/',
+    }]);
+    getThirdPartyAuthError.mockResolvedValue(null);
+    getNotificationPreferences.mockResolvedValue({ show_preferences: false, data: {} });
+    patchSettings.mockImplementation(async (username, commitData) => commitData);
   });
 
-  it('renders Account Information section with correct field values', () => {
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  afterEach(() => jest.clearAllMocks());
 
-    expect(screen.getByText('test_username')).toBeInTheDocument();
+  it('shows a loading indicator until the settings arrive', async () => {
+    renderPage();
+
+    expect(screen.getByRole('status')).toBeInTheDocument();
+    await findLoadedPage();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  it('edits and saves a field', async () => {
+    renderPage();
+    await findLoadedPage();
+
+    const workExperienceText = screen.getByText('Work Experience');
+    fireEvent.click(within(workExperienceText.parentElement).getByRole('button'));
+
+    const workExperienceSelect = screen.getByLabelText('Work Experience');
+    fireEvent.change(workExperienceSelect, { target: { value: '4' } });
+    fireEvent.click(screen.getByText('Save'));
+
+    await waitFor(() => expect(patchSettings).toHaveBeenCalledWith(
+      'test_username',
+      { extended_profile: [{ field_name: 'work_experience', field_value: '4' }] },
+      3,
+    ));
+    await waitFor(() => expect(screen.getByText('4')).toBeInTheDocument());
+  });
+
+  it('renders Account Information section with correct field values', async () => {
+    renderPage();
+    await findLoadedPage();
+
     expect(screen.getByText('test_name')).toBeInTheDocument();
     expect(screen.getByText('test_email@test.com')).toBeInTheDocument();
     expect(screen.getByText('test_recovery@test.com')).toBeInTheDocument();
     expect(screen.getByText('1990')).toBeInTheDocument();
   });
 
-  it('renders Profile Information section with correct field values', () => {
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  it('renders Profile Information section with correct field values', async () => {
+    renderPage();
+    await findLoadedPage();
 
     expect(screen.getByText('Bachelor\'s Degree')).toBeInTheDocument();
     expect(screen.getByText('Male')).toBeInTheDocument();
     expect(screen.getByText('Add work experience')).toBeInTheDocument();
-    expect(screen.getByText('English')).toBeInTheDocument();
+    expect(screen.getByText('Spanish')).toBeInTheDocument();
   });
 
-  it('renders Social Media section with correct field values', () => {
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  it('renders Social Media section with correct field values', async () => {
+    renderPage();
+    await findLoadedPage();
 
     expect(screen.getByText('https://linkedin.com/in/testuser')).toBeInTheDocument();
     expect(screen.getByText('Add Facebook profile')).toBeInTheDocument();
     expect(screen.getByText(messages['account.settings.field.social.platform.name.xTwitter.empty'].defaultMessage)).toBeInTheDocument();
   });
 
-  it('renders Site Preferences section with correct field values', () => {
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  it('renders Site Preferences section with correct field values', async () => {
+    renderPage();
+    await findLoadedPage();
 
     expect(screen.getByText('English')).toBeInTheDocument();
     expect(screen.getByText('America/New_York')).toBeInTheDocument();
   });
 
-  it('renders Delete Account section when enabled', () => {
-    // eslint-disable-next-line global-require
-    const { getConfig } = require('@edx/frontend-platform');
-    jest.spyOn({ getConfig }, 'getConfig').mockImplementation(() => ({
-      SITE_NAME: 'edX',
-      SUPPORT_URL: 'https://support.edx.org',
-      ENABLE_ACCOUNT_DELETION: true,
-      ENABLE_COPPA_COMPLIANCE: false,
-      COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: [],
-    }));
-
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  it('renders Delete Account section when enabled', async () => {
+    renderPage();
+    await findLoadedPage();
 
     expect(screen.getByText('We\'re sorry to see you go!')).toBeInTheDocument();
   });
 
-  it('renders the third-party auth error message reported by the LMS', () => {
-    store = mockStore({
-      ...mockData,
-      accountSettings: {
-        ...mockData.accountSettings,
-        thirdPartyAuthError: 'The Google account you selected is already linked to another edX account.',
-      },
-    });
+  it('does not render Delete Account section when disabled', async () => {
+    getConfig.mockReturnValue({ ...config, ENABLE_ACCOUNT_DELETION: false });
+    renderPage();
+    await findLoadedPage();
 
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+    expect(screen.queryByText('We\'re sorry to see you go!')).not.toBeInTheDocument();
+  });
+
+  it('renders the third-party auth error message reported by the LMS', async () => {
+    getThirdPartyAuthError.mockResolvedValue('The Google account you selected is already linked to another edX account.');
+    renderPage();
+    await findLoadedPage();
 
     expect(
       screen.getByText('The Google account you selected is already linked to another edX account.'),
     ).toBeInTheDocument();
   });
 
-  it('does not render a third-party auth error message when there is none', () => {
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
+  it('does not render a third-party auth error message when there is none', async () => {
+    renderPage();
+    await findLoadedPage();
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
-  it('does not render Delete Account section when disabled', () => {
-    // eslint-disable-next-line global-require
-    const { getConfig } = require('@edx/frontend-platform');
-    jest.spyOn({ getConfig }, 'getConfig').mockImplementation(() => ({
-      SITE_NAME: 'edX',
-      SUPPORT_URL: 'https://support.edx.org',
-      ENABLE_ACCOUNT_DELETION: false,
-      ENABLE_COPPA_COMPLIANCE: false,
-      COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED: [],
-    }));
+  it('renders a graceful loading error message instead of raw error text', async () => {
+    getAccount.mockRejectedValue(Object.assign(
+      new Error('Missing required request headers: x-enterprise-uuid'),
+      { response: { status: 403 } },
+    ));
+    renderPage();
 
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
-
-    expect(screen.queryByText('We\'re sorry to see you go!')).not.toBeInTheDocument();
-  });
-
-  it('renders a graceful loading error message instead of raw error text', () => {
-    store = mockStore({
-      ...mockData,
-      accountSettings: {
-        ...mockData.accountSettings,
-        loading: false,
-        loaded: false,
-        loadingError: 'Missing required request headers: x-enterprise-uuid',
-      },
-    });
-
-    render(reduxWrapper(<AccountSettingsPage {...props} />));
-
-    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
     expect(screen.getByText('We could not load this page. Refresh the page and try again.')).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /support/ })).not.toBeInTheDocument();
     expect(screen.queryByText('Missing required request headers: x-enterprise-uuid')).not.toBeInTheDocument();

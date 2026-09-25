@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Container, Hyperlink } from '@openedx/paragon';
 
-import { selectShowPreferences } from './data/selectors';
+import { useShowPreferences } from './data/hooks';
 import messages from './messages';
 import NotificationPreferences from './NotificationPreferences';
 import { useFeedbackWrapper } from '../hooks';
@@ -12,7 +11,7 @@ import { useFeedbackWrapper } from '../hooks';
 const NotificationSettings = () => {
   useFeedbackWrapper();
   const intl = useIntl();
-  const showPreferences = useSelector(selectShowPreferences());
+  const showPreferences = useShowPreferences();
 
   return (
     showPreferences && (

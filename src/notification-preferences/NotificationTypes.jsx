@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import { InfoOutline } from '@openedx/paragon/icons';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -11,22 +10,21 @@ import messages from './messages';
 import { useIsOnMobile } from '../hooks';
 import { notificationChannels } from './data/utils';
 
-import { selectAppPreferences, selectShowEmailPreferences } from './data/selectors';
+import { useAppPreferences, useShowEmailPreferences } from './data/hooks';
 import NotificationPreferenceColumn from './NotificationPreferenceColumn';
 
 const NotificationTypes = ({ appId }) => {
   const intl = useIntl();
-  const preferences = useSelector(selectAppPreferences(appId));
-  const showEmailPreferences = useSelector(selectShowEmailPreferences());
+  const preferences = useAppPreferences(appId);
+  const showEmailPreferences = useShowEmailPreferences();
   const mobileView = useIsOnMobile();
   const NOTIFICATION_CHANNELS = notificationChannels(showEmailPreferences);
 
   return (
     <div className="d-flex flex-column mr-auto px-0">
       {preferences.map(preference => (
-        <>
+        <React.Fragment key={preference.id}>
           <div
-            key={preference.id}
             className={`d-flex align-items-center line-height-36${mobileView ? ' my-3' : ' mb-2'}`}
             data-testid="notification-preference"
           >
@@ -55,7 +53,7 @@ const NotificationTypes = ({ appId }) => {
             ))}
           </div>
           )}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

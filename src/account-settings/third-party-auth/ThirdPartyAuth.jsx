@@ -1,41 +1,53 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
 import { FormattedMessage } from '@edx/frontend-platform/i18n';
 import { Hyperlink, StatefulButton } from '@openedx/paragon';
 
 import Alert from '../Alert';
-import { disconnectAuth } from './data/actions';
+import { useThirdPartyAuthProviders } from '../data/hooks';
+import { useDisconnectAuth } from './data/hooks';
 
-class ThirdPartyAuth extends Component {
-  onClickDisconnect = (e) => {
+const BUTTON_STATES = {
+  idle: null,
+  pending: 'pending',
+  success: 'complete',
+  error: 'error',
+};
+
+const ThirdPartyAuth = () => {
+  const { data: providers } = useThirdPartyAuthProviders();
+  const disconnectAuth = useDisconnectAuth();
+
+  // Only the provider being disconnected reflects the mutation's state.
+  const disconnectionStatus = (providerId) => (
+    disconnectAuth.variables?.providerId === providerId ? BUTTON_STATES[disconnectAuth.status] : null
+  );
+
+  const onClickDisconnect = (e) => {
     e.preventDefault();
     const providerId = e.currentTarget.getAttribute('data-provider-id');
-    if (this.props.disconnectionStatuses[providerId] === 'pending') {
+    if (disconnectionStatus(providerId) === 'pending') {
       return;
     }
     const disconnectUrl = e.currentTarget.getAttribute('data-disconnect-url');
-    this.props.disconnectAuth(disconnectUrl, providerId);
+    disconnectAuth.mutate({ url: disconnectUrl, providerId });
   };
 
-  renderUnconnectedProvider(url, name) {
-    return (
-      <>
-        <h6 aria-level="3">{name}</h6>
-        <Hyperlink destination={url} className="btn btn-outline-primary">
-          <FormattedMessage
-            id="account.settings.sso.link.account"
-            defaultMessage="Sign in with {name}"
-            description="An action link to link a connected third party account.m {name} will be Google, Facebook, etc."
-            values={{ name }}
-          />
-        </Hyperlink>
-      </>
-    );
-  }
+  const renderUnconnectedProvider = (url, name) => (
+    <>
+      <h6 aria-level="3">{name}</h6>
+      <Hyperlink destination={url} className="btn btn-outline-primary">
+        <FormattedMessage
+          id="account.settings.sso.link.account"
+          defaultMessage="Sign in with {name}"
+          description="An action link to link a connected third party account.m {name} will be Google, Facebook, etc."
+          values={{ name }}
+        />
+      </Hyperlink>
+    </>
+  );
 
-  renderConnectedProvider(url, name, id) {
-    const hasError = this.props.errors[id];
+  const renderConnectedProvider = (url, name, id) => {
+    const hasError = disconnectionStatus(id) === 'error';
 
     return (
       <>
@@ -61,7 +73,7 @@ class ThirdPartyAuth extends Component {
 
         <StatefulButton
           variant="link"
-          state={this.props.disconnectionStatuses[id]}
+          state={disconnectionStatus(id)}
           labels={{
             default: (
               <FormattedMessage
@@ -72,30 +84,32 @@ class ThirdPartyAuth extends Component {
               />
             ),
           }}
-          onClick={this.onClickDisconnect}
+          onClick={onClickDisconnect}
           disabledStates={[]}
           data-disconnect-url={url}
           data-provider-id={id}
         />
       </>
     );
-  }
+  };
 
-  renderProvider({
+  const renderProvider = ({
     name, disconnectUrl, connectUrl, connected, id,
-  }) {
-    return (
-      <div className="form-group" key={id}>
-        {
-          connected
-            ? this.renderConnectedProvider(disconnectUrl, name, id)
-            : this.renderUnconnectedProvider(connectUrl, name)
-        }
-      </div>
-    );
+  }) => (
+    <div className="form-group" key={id}>
+      {
+        connected
+          ? renderConnectedProvider(disconnectUrl, name, id)
+          : renderUnconnectedProvider(connectUrl, name)
+      }
+    </div>
+  );
+
+  if (providers === undefined) {
+    return null;
   }
 
-  renderNoProviders() {
+  if (providers.length === 0) {
     return (
       <FormattedMessage
         id="account.settings.sso.no.providers"
@@ -105,43 +119,7 @@ class ThirdPartyAuth extends Component {
     );
   }
 
-  render() {
-    if (this.props.providers === undefined) {
-      return null;
-    }
-
-    if (this.props.providers.length === 0) {
-      return this.renderNoProviders();
-    }
-
-    return this.props.providers.map(this.renderProvider, this);
-  }
-}
-
-ThirdPartyAuth.propTypes = {
-  providers: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    disconnectUrl: PropTypes.string,
-    connectUrl: PropTypes.string,
-    connected: PropTypes.bool,
-    id: PropTypes.string,
-  })),
-  disconnectionStatuses: PropTypes.objectOf(PropTypes.oneOf([null, 'pending', 'complete', 'error'])),
-  errors: PropTypes.objectOf(PropTypes.bool),
-  disconnectAuth: PropTypes.func.isRequired,
+  return providers.map(renderProvider);
 };
 
-ThirdPartyAuth.defaultProps = {
-  providers: undefined,
-  disconnectionStatuses: {},
-  errors: {},
-};
-
-const mapStateToProps = state => state.accountSettings.thirdPartyAuth;
-
-export default connect(
-  mapStateToProps,
-  {
-    disconnectAuth,
-  },
-)(ThirdPartyAuth);
+export default ThirdPartyAuth;

@@ -1,19 +1,10 @@
 import {
-  render, screen, fireEvent, waitFor,
+  screen, fireEvent, waitFor,
 } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { act } from 'react-dom/test-utils';
-import * as reactRedux from 'react-redux';
 import DOBModal from '../DOBForm';
 import messages from '../AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from '../data/constants';
-
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: jest.fn(),
-}));
+import { renderWithForm } from './renderWithForm';
 
 jest.mock('@edx/frontend-platform/i18n', () => ({
   ...jest.requireActual('@edx/frontend-platform/i18n'),
@@ -34,23 +25,8 @@ jest.mock('@openedx/paragon', () => ({
   },
 }));
 
-const mockStore = configureStore([]);
-
 describe('DOBModal', () => {
-  let store;
-  let mockDispatch;
-
   beforeEach(() => {
-    store = mockStore({
-      accountSettings: {
-        saveState: 'default',
-        errors: {},
-        openFormId: null,
-        confirmationValues: {},
-      },
-    });
-    mockDispatch = jest.fn();
-    jest.spyOn(reactRedux, 'useDispatch').mockReturnValue(mockDispatch); // ✅ replaced require with import
     // Mock localStorage.setItem
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -64,20 +40,12 @@ describe('DOBModal', () => {
     jest.clearAllMocks();
   });
 
-  const renderComponent = (props = {}) => render(
-    <Provider store={store}>
-      <IntlProvider locale="en">
-        <DOBModal
-          saveState="default"
-          error={undefined}
-          onSubmit={jest.fn()}
-          {...props}
-        />
-      </IntlProvider>
-    </Provider>,
+  const renderComponent = (props = {}, form = {}) => renderWithForm(
+    <DOBModal onSubmit={jest.fn()} {...props} />,
+    { form: { saveState: null, saveSettingsReset: jest.fn(), ...form } },
   );
 
-  it('renders the modal with correct elements', async () => {
+  it('renders the modal with correct elements', () => {
     renderComponent();
     const openButton = screen.getByTestId('open-modal-button');
     expect(openButton).toHaveTextContent(messages['account.settings.field.dob.form.button'].defaultMessage);
@@ -96,49 +64,42 @@ describe('DOBModal', () => {
 
   it('enables submit button when both month and year are selected', async () => {
     renderComponent();
-    const openButton = screen.getByTestId('open-modal-button');
-    await act(async () => {
-      fireEvent.click(openButton);
-    });
-    await waitFor(() => {
-      const monthSelect = screen.getByTestId('month-select');
-      const yearSelect = screen.getByTestId('year-select');
-      const submitButton = screen.getByTestId('submit-button');
+    fireEvent.click(screen.getByTestId('open-modal-button'));
 
-      act(() => {
-        fireEvent.change(monthSelect, { target: { value: '6' } });
-        fireEvent.change(yearSelect, { target: { value: YEAR_OF_BIRTH_OPTIONS[0].value } });
-      });
+    const submitButton = screen.getByTestId('submit-button');
+    expect(submitButton).toHaveAttribute('aria-disabled', 'true');
 
-      expect(submitButton).not.toHaveAttribute('disabled');
-    }, { timeout: 2000 });
+    fireEvent.change(screen.getByTestId('month-select'), { target: { value: '6' } });
+    fireEvent.change(screen.getByTestId('year-select'), { target: { value: YEAR_OF_BIRTH_OPTIONS[0].value } });
+
+    await waitFor(() => expect(submitButton).not.toHaveAttribute('aria-disabled', 'true'));
   });
 
   it('calls onSubmit with correct data when form is submitted', async () => {
     const mockOnSubmit = jest.fn();
     renderComponent({ onSubmit: mockOnSubmit });
+    fireEvent.click(screen.getByTestId('open-modal-button'));
 
-    const openButton = screen.getByTestId('open-modal-button');
-    await act(async () => {
-      fireEvent.click(openButton);
-    });
-    await waitFor(() => {
-      const monthSelect = screen.getByTestId('month-select');
-      const yearSelect = screen.getByTestId('year-select');
-      const form = screen.getByTestId('dob-form');
+    fireEvent.change(screen.getByTestId('month-select'), { target: { value: '6' } });
+    fireEvent.change(screen.getByTestId('year-select'), { target: { value: '1990' } });
+    fireEvent.submit(screen.getByTestId('dob-form'));
 
-      act(() => {
-        fireEvent.change(monthSelect, { target: { value: '6' } });
-        fireEvent.change(yearSelect, { target: { value: '1990' } });
-      });
+    await waitFor(() => expect(mockOnSubmit).toHaveBeenCalledWith('extended_profile', [
+      { field_name: 'DOB', field_value: '1990-6' },
+    ]));
+  });
 
-      act(() => {
-        fireEvent.submit(form);
-      });
+  it('shows a general error when the save failed', () => {
+    renderComponent({}, { saveState: 'error' });
+    fireEvent.click(screen.getByTestId('open-modal-button'));
 
-      expect(mockOnSubmit).toHaveBeenCalledWith('extended_profile', [
-        { field_name: 'DOB', field_value: '1990-6' },
-      ]);
-    }, { timeout: 2000 });
+    expect(screen.getByTestId('error-message')).toHaveTextContent(messages['account.settingsfield.dob.error.general'].defaultMessage);
+  });
+
+  it('remembers the submission and resets the save state once it completes', () => {
+    const { form } = renderComponent({}, { saveState: 'complete' });
+
+    expect(window.localStorage.setItem).toHaveBeenCalledWith('submittedDOB', 'true');
+    expect(form.saveSettingsReset).toHaveBeenCalled();
   });
 });
