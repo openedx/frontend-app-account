@@ -1,7 +1,5 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { logError } from '@edx/frontend-platform/logging';
-import { FIELD_LABELS } from './constants';
+import { getAuthenticatedHttpClient, logError, getSiteConfig } from '@openedx/frontend-base';
+import { FIELD_LABELS } from '@src/account-settings/data/constants';
 import {
   getAccount,
   patchAccount,
@@ -14,11 +12,14 @@ import {
   postVerifiedName,
   getCountryList,
   patchSettings,
-} from './api';
+} from '@src/account-settings/data/api';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('@edx/frontend-platform/logging');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  logError: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
 
 const mockHttpClient = {
   get: jest.fn(),
@@ -27,7 +28,7 @@ const mockHttpClient = {
 };
 
 getAuthenticatedHttpClient.mockReturnValue(mockHttpClient);
-getConfig.mockReturnValue({ LMS_BASE_URL: 'http://lms.test' });
+getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://lms.test' });
 
 beforeEach(() => {
   jest.clearAllMocks();

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
-import { accountSettingsMutationKeys } from '../../data/queryKeys';
-import { postDeleteAccount } from './api';
+import { accountSettingsMutationKeys } from '@src/account-settings/data/queryKeys';
+import { postDeleteAccount } from '@src/account-settings/delete-account/data/api';
 
 /**
  * A 403 means the password was wrong, which the modal reports as such. Anything else is a

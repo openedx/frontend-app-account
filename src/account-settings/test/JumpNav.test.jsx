@@ -1,11 +1,12 @@
 import { screen, waitFor } from '@testing-library/react';
-import { setConfig } from '@edx/frontend-platform';
+import { mergeAppConfig } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { getNotificationPreferences } from '../../notification-preferences/data/api';
-import JumpNav from '../JumpNav';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { getNotificationPreferences } from '@src/notification-preferences/data/api';
+import JumpNav from '@src/account-settings/JumpNav';
+import { appId } from '@src/constants';
 
-jest.mock('../../notification-preferences/data/api');
+jest.mock('@src/notification-preferences/data/api');
 
 describe('JumpNav', () => {
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe('JumpNav', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('should not render delete account link', async () => {
-    setConfig({ ENABLE_ACCOUNT_DELETION: false });
+    mergeAppConfig(appId, { ENABLE_ACCOUNT_DELETION: false });
 
     renderWithProviders(<JumpNav />);
 
@@ -24,7 +25,7 @@ describe('JumpNav', () => {
   });
 
   it('should render delete account link', async () => {
-    setConfig({ ENABLE_ACCOUNT_DELETION: true });
+    mergeAppConfig(appId, { ENABLE_ACCOUNT_DELETION: true });
 
     renderWithProviders(<JumpNav />);
 

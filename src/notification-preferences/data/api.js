@@ -1,9 +1,12 @@
-import { getConfig, snakeCaseObject } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import {
+  snakeCaseObject,
+  getAuthenticatedHttpClient,
+  getSiteConfig,
+} from '@openedx/frontend-base';
 import snakeCase from 'lodash.snakecase';
 
 export const getNotificationPreferences = async () => {
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v3/configurations/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/v3/configurations/`;
   const { data } = await getAuthenticatedHttpClient().get(url);
   return data;
 };
@@ -22,7 +25,7 @@ export const postPreferenceToggle = async (
     value,
     emailCadence,
   });
-  const url = `${getConfig().LMS_BASE_URL}/api/notifications/v3/configurations/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/notifications/v3/configurations/`;
   const { data } = await getAuthenticatedHttpClient().put(url, patchData);
   return data;
 };

@@ -1,13 +1,11 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { logError } from '@edx/frontend-platform/logging';
+import { getAuthenticatedHttpClient, logError, getSiteConfig } from '@openedx/frontend-base';
 import pick from 'lodash.pick';
 import omit from 'lodash.omit';
 import isEmpty from 'lodash.isempty';
 
-import { handleRequestError, unpackFieldErrors } from './utils';
-import { postVerifiedNameConfig } from '../certificate-preference/data/api';
-import { FIELD_LABELS } from './constants';
+import { handleRequestError, unpackFieldErrors } from '@src/account-settings/data/utils';
+import { postVerifiedNameConfig } from '@src/account-settings/certificate-preference/data/api';
+import { FIELD_LABELS } from '@src/account-settings/data/constants';
 
 const SOCIAL_PLATFORMS = [
   { id: 'x', key: 'social_link_x' },
@@ -72,7 +70,7 @@ function packAccountCommitData(commitData) {
 
 export async function getAccount(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`);
   return unpackAccountResponseData(data);
 }
 
@@ -83,7 +81,7 @@ export async function patchAccount(username, commitValues) {
 
   const { data } = await getAuthenticatedHttpClient()
     .patch(
-      `${getConfig().LMS_BASE_URL}/api/user/v1/accounts/${username}`,
+      `${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`,
       packAccountCommitData(commitValues),
       requestConfig,
     )
@@ -105,13 +103,13 @@ export async function patchAccount(username, commitValues) {
 
 export async function getPreferences(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`);
   return data;
 }
 
 export async function patchPreferences(username, commitValues) {
   const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
-  const requestUrl = `${getConfig().LMS_BASE_URL}/api/user/v1/preferences/${username}`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`;
 
   // Ignore the success response, the API does not currently return any data.
   await getAuthenticatedHttpClient()
@@ -122,7 +120,7 @@ export async function patchPreferences(username, commitValues) {
 
 export async function getTimeZones(forCountry) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getConfig().LMS_BASE_URL}/user_api/v1/preferences/time_zones/`, {
+    .get(`${getSiteConfig().lmsBaseUrl}/user_api/v1/preferences/time_zones/`, {
       params: { country_code: forCountry },
     })
     .catch(handleRequestError);
@@ -137,7 +135,7 @@ export async function getProfileDataManager(username, userRoles) {
   const userRoleNames = userRoles.map(role => role.split(':')[0]);
 
   if (userRoleNames.includes('enterprise_learner')) {
-    const url = `${getConfig().LMS_BASE_URL}/enterprise/api/v1/enterprise-learner/?username=${username}`;
+    const url = `${getSiteConfig().lmsBaseUrl}/enterprise/api/v1/enterprise-learner/?username=${username}`;
     const { data } = await getAuthenticatedHttpClient().get(url).catch(handleRequestError);
 
     if (data.results.length > 0) {
@@ -156,7 +154,7 @@ export async function getVerifiedName() {
   let data;
   const client = getAuthenticatedHttpClient();
   try {
-    const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+    const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name`;
     ({ data } = await client.get(requestUrl));
   } catch (error) {
     return {};
@@ -169,7 +167,7 @@ export async function getVerifiedNameHistory() {
   let data;
   const client = getAuthenticatedHttpClient();
   try {
-    const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name/history`;
+    const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name/history`;
     ({ data } = await client.get(requestUrl));
   } catch (error) {
     return {};
@@ -180,7 +178,7 @@ export async function getVerifiedNameHistory() {
 
 export async function postVerifiedName(data) {
   const requestConfig = { headers: { Accept: 'application/json' } };
-  const requestUrl = `${getConfig().LMS_BASE_URL}/api/edx_name_affirmation/v1/verified_name`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/edx_name_affirmation/v1/verified_name`;
 
   await getAuthenticatedHttpClient()
     .post(requestUrl, data, requestConfig)
@@ -194,7 +192,7 @@ function extractCountryList(data) {
 }
 
 export async function getCountryList() {
-  const url = `${getConfig().LMS_BASE_URL}/user_api/v1/account/registration/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/user_api/v1/account/registration/`;
 
   try {
     const { data } = await getAuthenticatedHttpClient().get(url);

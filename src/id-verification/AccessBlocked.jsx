@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getConfig } from '@edx/frontend-platform';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
-import messages from './IdVerification.messages';
-import { ERROR_REASONS } from './IdVerificationContext';
+import { getDashboardUrl } from '@src/utils';
+import messages from '@src/id-verification/IdVerification.messages';
+import { ERROR_REASONS } from '@src/id-verification/IdVerificationContext';
 
 const AccessBlocked = ({ error }) => {
   const intl = useIntl();
@@ -34,9 +35,9 @@ const AccessBlocked = ({ error }) => {
       </h3>
       {handleMessage()}
       <div className="action-row">
-        <a className="btn btn-primary mt-3" href={`${getConfig().LMS_BASE_URL}/dashboard`}>
+        <Button {...getLinkProps(getDashboardUrl())} className="mt-3">
           {intl.formatMessage(messages['id.verification.return.dashboard'])}
-        </a>
+        </Button>
       </div>
     </div>
   );

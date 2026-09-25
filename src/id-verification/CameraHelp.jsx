@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapsible } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl, getSiteConfig } from '@openedx/frontend-base';
 
-import { getConfig } from '@edx/frontend-platform';
-import messages from './IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const CameraHelp = (props) => {
   const intl = useIntl();
@@ -30,7 +29,7 @@ const CameraHelp = (props) => {
         <p>
           {intl.formatMessage(
             messages['id.verification.camera.help.difficulty.answer'],
-            { siteName: getConfig().SITE_NAME },
+            { siteName: getSiteConfig().siteName },
           )}
         </p>
       </Collapsible>

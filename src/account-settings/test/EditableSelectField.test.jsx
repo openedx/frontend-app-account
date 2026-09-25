@@ -1,9 +1,9 @@
 import { fireEvent, screen } from '@testing-library/react';
 
-import EditableSelectField from '../EditableSelectField';
-import { renderWithForm } from './renderWithForm';
+import EditableSelectField from '@src/account-settings/EditableSelectField';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
 
-jest.mock('../certificate-preference/CertificatePreference', () => function MockCertificatePreference() {
+jest.mock('@src/account-settings/certificate-preference/CertificatePreference', () => function MockCertificatePreference() {
   return <div data-testid="certificate-preference" />;
 });
 

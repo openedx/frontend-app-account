@@ -1,10 +1,9 @@
 import { useContext } from 'react';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, useIntl } from '@openedx/frontend-base';
 import { Button, Collapsible } from '@openedx/paragon';
 
-import IdVerificationContext from './IdVerificationContext';
-import messages from './IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const CollapsibleImageHelp = () => {
   const intl = useIntl();

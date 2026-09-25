@@ -1,16 +1,9 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { getNotificationPreferences, postPreferenceToggle } from './api';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
+import { getNotificationPreferences, postPreferenceToggle } from '@src/notification-preferences/data/api';
 
-jest.mock('@edx/frontend-platform', () => {
-  const actual = jest.requireActual('@edx/frontend-platform');
-  return {
-    ...actual,
-    getConfig: jest.fn(),
-  };
-});
-
-jest.mock('@edx/frontend-platform/auth', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getSiteConfig: jest.fn(),
   getAuthenticatedHttpClient: jest.fn(),
 }));
 
@@ -20,7 +13,7 @@ describe('Notification Preferences API', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({ LMS_BASE_URL: 'http://test.lms' });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://test.lms' });
 
     mockHttpClient = {
       get: jest.fn(),

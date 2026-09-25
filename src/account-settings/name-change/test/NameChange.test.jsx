@@ -6,12 +6,12 @@ import {
   waitFor,
 } from '@testing-library/react';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser } from '@openedx/frontend-base';
 
-import { postVerifiedName } from '../../data/api';
-import { useAccountSettingsData } from '../../data/hooks';
-import { renderWithForm } from '../../test/renderWithForm';
-import { postNameChange } from '../data/api';
+import { postVerifiedName } from '@src/account-settings/data/api';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
+import { postNameChange } from '@src/account-settings/name-change/data/api';
 
 // Modal creates a portal.  Overriding createPortal allows portals to be tested in jest.
 jest.mock('react-dom', () => ({
@@ -19,15 +19,15 @@ jest.mock('react-dom', () => ({
   createPortal: jest.fn(node => node), // Mock portal behavior
 }));
 
-jest.mock('../../data/api');
-jest.mock('../../data/hooks');
-jest.mock('../data/api');
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@src/account-settings/data/api');
+jest.mock('@src/account-settings/data/hooks');
+jest.mock('@src/account-settings/name-change/data/api');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
 }));
 
-import NameChange from '../NameChange'; // eslint-disable-line import/first
+import NameChange from '@src/account-settings/name-change/NameChange'; // eslint-disable-line import/first
 
 const placeholder = 'Enter the name on your photo ID';
 

@@ -1,14 +1,17 @@
 import React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { logError } from '@edx/frontend-platform/logging';
+import { logError } from '@openedx/frontend-base';
 
-import { renderWithProviders } from '../../tests/renderWithProviders';
-import { postResetPassword } from './data/api';
-import ResetPassword from './ResetPassword';
+import { renderWithProviders } from '@src/tests/renderWithProviders';
+import { postResetPassword } from '@src/account-settings/reset-password/data/api';
+import ResetPassword from '@src/account-settings/reset-password/ResetPassword';
 
-jest.mock('./data/api');
-jest.mock('@edx/frontend-platform/logging');
+jest.mock('@src/account-settings/reset-password/data/api');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  logError: jest.fn(),
+}));
 
 describe('ResetPassword', () => {
   afterEach(() => jest.clearAllMocks());

@@ -2,15 +2,14 @@
 /* eslint-disable jsx-a11y/no-access-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+import { sendTrackEvent, useIntl } from '@openedx/frontend-base';
 // eslint-disable-next-line import/no-unresolved
 import * as blazeface from '@tensorflow-models/blazeface';
 import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Form, Spinner } from '@openedx/paragon';
 
-import shutter from './data/camera-shutter.base64.json';
-import messages from './IdVerification.messages';
+import shutter from '@src/id-verification/data/camera-shutter.base64.json';
+import messages from '@src/id-verification/IdVerification.messages';
 
 class Camera extends React.Component {
   constructor(props, context) {
@@ -357,9 +356,17 @@ class Camera extends React.Component {
 }
 
 Camera.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   onImageCapture: PropTypes.func.isRequired,
   isPortrait: PropTypes.bool.isRequired,
 };
 
-export default injectIntl(Camera);
+// The class needs `intl` as a prop; frontend-base only offers it as a hook.
+const CameraWithIntl = (props) => {
+  const intl = useIntl();
+  return <Camera {...props} intl={intl} />;
+};
+
+export default CameraWithIntl;

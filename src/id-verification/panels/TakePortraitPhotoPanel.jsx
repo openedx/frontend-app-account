@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import Camera from '../Camera';
-import CameraHelp from '../CameraHelp';
-import IdVerificationContext from '../IdVerificationContext';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import Camera from '@src/id-verification/Camera';
+import CameraHelp from '@src/id-verification/CameraHelp';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const TakePortraitPhotoPanel = () => {
   const panelSlug = 'take-portrait-photo';
@@ -36,7 +36,7 @@ const TakePortraitPhotoPanel = () => {
       </div>
       <CameraHelp isPortrait />
       <div className="action-row" style={{ visibility: facePhotoFile ? 'unset' : 'hidden' }}>
-        <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+        <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
           {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

@@ -1,16 +1,18 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 
-import { camelCaseObject } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { camelCaseObject, logError } from '@openedx/frontend-base';
 
-import { createTestQueryClient, createWrapper } from '../../tests/renderWithProviders';
-import { getNotificationPreferences, postPreferenceToggle } from './api';
-import { useNotificationPreferences, useUpdatePreferenceToggle } from './hooks';
-import { notificationPreferencesKeys } from './queryKeys';
-import { normalizePreferences } from './utils';
+import { createTestQueryClient, createWrapper } from '@src/tests/renderWithProviders';
+import { getNotificationPreferences, postPreferenceToggle } from '@src/notification-preferences/data/api';
+import { useNotificationPreferences, useUpdatePreferenceToggle } from '@src/notification-preferences/data/hooks';
+import { notificationPreferencesKeys } from '@src/notification-preferences/data/queryKeys';
+import { normalizePreferences } from '@src/notification-preferences/data/utils';
 
-jest.mock('./api');
-jest.mock('@edx/frontend-platform/logging');
+jest.mock('@src/notification-preferences/data/api');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  logError: jest.fn(),
+}));
 
 const rawResponse = {
   status: 'success',

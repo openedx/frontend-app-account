@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { getAuthenticatedUser, useIntl } from '@openedx/frontend-base';
 import {
   ActionRow,
   Alert,
@@ -14,11 +13,11 @@ import {
   StatefulButton,
 } from '@openedx/paragon';
 
-import { useAccountSettingsForm } from '../data/FormContext';
-import { useAccountSettingsData } from '../data/hooks';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData } from '@src/account-settings/data/hooks';
 
-import { getNameChangeErrors, useRequestNameChange } from './data/hooks';
-import messages from './messages';
+import { getNameChangeErrors, useRequestNameChange } from '@src/account-settings/name-change/data/hooks';
+import messages from '@src/account-settings/name-change/messages';
 
 const SAVE_STATES = {
   idle: null,
@@ -86,7 +85,7 @@ const NameChangeModal = ({ targetFormId }) => {
   useEffect(() => {
     if (saveState === 'complete') {
       handleClose();
-      navigate(`/id-verification?next=${encodeURIComponent('account/settings')}`);
+      navigate(`id-verification?next=${encodeURIComponent('account/settings')}`);
     }
   }, [handleClose, navigate, saveState]);
 

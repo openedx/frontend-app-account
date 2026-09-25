@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import CameraHelp from '../CameraHelp';
-import messages from '../IdVerification.messages';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import CameraHelp from '@src/id-verification/CameraHelp';
+import messages from '@src/id-verification/IdVerification.messages';
+// Assets stay relative: tsc-alias only rewrites an alias whose target already exists in dist, and
+// the Makefile copies assets there after it runs.
 import exampleCard from '../assets/example-card.png';
 
 const IdContextPanel = () => {
@@ -42,7 +44,7 @@ const IdContextPanel = () => {
       </div>
       <CameraHelp isOpen />
       <div className="action-row">
-        <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+        <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
           {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

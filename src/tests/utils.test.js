@@ -1,4 +1,9 @@
-import { compareVerifiedNamesByCreatedDate, getMostRecentApprovedOrPendingVerifiedName } from '../utils';
+import {
+  compareVerifiedNamesByCreatedDate,
+  getMostRecentApprovedOrPendingVerifiedName,
+  parseEnvArray,
+  parseEnvBoolean,
+} from '@src/utils';
 
 describe('getMostRecentApprovedOrPendingVerifiedName', () => {
   it('returns correct verified name if one exists', () => {
@@ -79,5 +84,37 @@ describe('compareVerifiedNamesByCreatedDate', () => {
     };
 
     expect(compareVerifiedNamesByCreatedDate(a, b)).toBeGreaterThan(0);
+  });
+});
+
+describe('parseEnvBoolean', () => {
+  it('accepts booleans and their string forms', () => {
+    expect(parseEnvBoolean(true)).toBe(true);
+    expect(parseEnvBoolean('true')).toBe(true);
+    expect(parseEnvBoolean('TRUE')).toBe(true);
+    expect(parseEnvBoolean(false)).toBe(false);
+    expect(parseEnvBoolean('false')).toBe(false);
+  });
+
+  it('treats unset and empty values as false', () => {
+    expect(parseEnvBoolean(undefined)).toBe(false);
+    expect(parseEnvBoolean('')).toBe(false);
+  });
+});
+
+describe('parseEnvArray', () => {
+  it('returns an array as it is', () => {
+    expect(parseEnvArray(['US', 'BR'])).toEqual(['US', 'BR']);
+  });
+
+  it('parses a JSON string', () => {
+    expect(parseEnvArray('["US", "BR"]')).toEqual(['US', 'BR']);
+  });
+
+  it('returns an empty list for unset, empty, invalid or non-list values', () => {
+    expect(parseEnvArray(undefined)).toEqual([]);
+    expect(parseEnvArray('')).toEqual([]);
+    expect(parseEnvArray('not json')).toEqual([]);
+    expect(parseEnvArray('{"US": true}')).toEqual([]);
   });
 });

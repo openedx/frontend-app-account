@@ -3,18 +3,18 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent, waitFor,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import * as dataService from '../../data/api';
-import IdVerificationContext from '../../IdVerificationContext';
-import SummaryPanel from '../../panels/SummaryPanel';
-import { VerifiedNameContext } from '../../VerifiedNameContext';
+import { IntlProvider } from '@openedx/frontend-base';
+import * as dataService from '@src/id-verification/data/api';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import SummaryPanel from '@src/id-verification/panels/SummaryPanel';
+import { VerifiedNameContext } from '@src/id-verification/VerifiedNameContext';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
-jest.mock('../../data/api');
+jest.mock('@src/id-verification/data/api');
 dataService.submitIdVerification = jest.fn().mockReturnValue({ success: true });
 
 describe('SummaryPanel', () => {
@@ -51,14 +51,14 @@ describe('SummaryPanel', () => {
     await getPanel();
     const button = await screen.findByTestId('portrait-retake');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/take-portrait-photo');
+    expect(window.location.pathname).toEqual('/take-portrait-photo');
   });
 
   it('routes back to TakeIdPhotoPanel', async () => {
     await getPanel();
     const button = await screen.findByTestId('id-retake');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/take-id-photo');
+    expect(window.location.pathname).toEqual('/take-id-photo');
   });
 
   it('allows user to upload ID photo', async () => {

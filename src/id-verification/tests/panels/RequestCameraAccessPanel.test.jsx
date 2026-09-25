@@ -4,12 +4,12 @@ import Bowser from 'bowser';
 import {
   render, screen, cleanup, act, fireEvent,
 } from '@testing-library/react';
-import { getConfig } from '@edx/frontend-platform';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import IdVerificationContext from '../../IdVerificationContext';
-import RequestCameraAccessPanel from '../../panels/RequestCameraAccessPanel';
+import { IntlProvider, getSiteConfig } from '@openedx/frontend-base';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import RequestCameraAccessPanel from '@src/id-verification/panels/RequestCameraAccessPanel';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
@@ -57,7 +57,7 @@ describe('RequestCameraAccessPanel', () => {
     expect(text).toHaveTextContent(/Looks like your camera is working and ready./);
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/portrait-photo-context');
+    expect(window.location.pathname).toEqual('/portrait-photo-context');
   });
 
   it('renders correctly with media access denied', async () => {
@@ -188,7 +188,7 @@ describe('RequestCameraAccessPanel', () => {
       </Router>
     )));
     const button = await screen.findByRole('link');
-    expect(button).toHaveAttribute('href', `${getConfig().LMS_BASE_URL}/dashboard`);
+    expect(button).toHaveAttribute('href', `${getSiteConfig().lmsBaseUrl}/dashboard`);
   });
 
   it('routes correctly to portrait context', async () => {
@@ -206,6 +206,6 @@ describe('RequestCameraAccessPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/portrait-photo-context');
+    expect(window.location.pathname).toEqual('/portrait-photo-context');
   });
 });

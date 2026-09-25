@@ -1,3 +1,7 @@
+import { getSiteConfig, resolveRouteByRole } from '@openedx/frontend-base';
+
+import { dashboardRole, logoutRole } from '@src/constants';
+
 /**
  * Compare two dates.
  * @param {*} a the first date
@@ -45,6 +49,44 @@ export function getMostRecentApprovedOrPendingVerifiedName(verifiedNames) {
  * @returns {boolean} the parsed boolean value
  */
 export const parseEnvBoolean = (value) => {
-  if (!value) { return false; }
+  if (!value) {
+    return false;
+  }
   return String(value).toLowerCase() === 'true';
 };
+
+/**
+ * Parse a configuration value that is a list, whether it arrived as an array or as a JSON string.
+ * @param {string|Array} value the configuration value
+ * @returns {Array} the list, or an empty list if the value is unset or unparseable
+ */
+export const parseEnvArray = (value) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (typeof value !== 'string' || value === '') {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+/**
+ * The URL of the learner dashboard: the route the site provides for the dashboard role, or the
+ * LMS's own dashboard when it provides none.
+ * @returns {string}
+ */
+export const getDashboardUrl = () => (
+  resolveRouteByRole(dashboardRole)?.url ?? `${getSiteConfig().lmsBaseUrl}/dashboard`
+);
+
+/**
+ * The URL that logs the learner out: the route the site provides for the logout role, or the
+ * configured `logoutUrl` when it provides none.
+ * @returns {string}
+ */
+export const getLogoutUrl = () => resolveRouteByRole(logoutRole)?.url ?? getSiteConfig().logoutUrl;

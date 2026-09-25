@@ -1,17 +1,10 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import qs from 'qs';
-import { getExistingIdVerification, getEnrollments, submitIdVerification } from './api';
+import { getExistingIdVerification, getEnrollments, submitIdVerification } from '@src/id-verification/data/api';
 
-jest.mock('@edx/frontend-platform', () => {
-  const actual = jest.requireActual('@edx/frontend-platform');
-  return {
-    ...actual,
-    getConfig: jest.fn(),
-  };
-});
-
-jest.mock('@edx/frontend-platform/auth', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getSiteConfig: jest.fn(),
   getAuthenticatedHttpClient: jest.fn(),
 }));
 
@@ -23,7 +16,7 @@ describe('ID Verification Service', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({ LMS_BASE_URL: 'http://test.lms' });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://test.lms' });
 
     mockHttpClient = {
       get: jest.fn(),

@@ -1,22 +1,21 @@
 import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Bowser from 'bowser';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, FormattedMessage, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
-import { useRedirect } from '../../hooks';
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import IdVerificationContext, { MEDIA_ACCESS } from '../IdVerificationContext';
-import { EnableCameraDirectionsPanel } from './EnableCameraDirectionsPanel';
-import { UnsupportedCameraDirectionsPanel } from './UnsupportedCameraDirectionsPanel';
+import { useRedirect } from '@src/hooks';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import IdVerificationContext, { MEDIA_ACCESS } from '@src/id-verification/IdVerificationContext';
+import { EnableCameraDirectionsPanel } from '@src/id-verification/panels/EnableCameraDirectionsPanel';
+import { UnsupportedCameraDirectionsPanel } from '@src/id-verification/panels/UnsupportedCameraDirectionsPanel';
 
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const RequestCameraAccessPanel = () => {
   const intl = useIntl();
-  const { location: returnUrl, text: returnText } = useRedirect();
+  const { url: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'request-camera-access';
   const nextPanelSlug = useNextPanelSlug(panelSlug);
   const {
@@ -50,9 +49,9 @@ const RequestCameraAccessPanel = () => {
   };
 
   const returnLink = (
-    <a className="btn btn-primary" href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}>
+    <Button {...getLinkProps(returnUrl)}>
       {intl.formatMessage(messages[returnText])}
-    </a>
+    </Button>
   );
 
   return (
@@ -86,7 +85,7 @@ const RequestCameraAccessPanel = () => {
             {intl.formatMessage(messages['id.verification.camera.access.success'])}
           </p>
           <div className="action-row">
-            <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+            <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
               {intl.formatMessage(messages['id.verification.next'])}
             </Link>
           </div>

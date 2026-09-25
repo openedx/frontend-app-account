@@ -1,2 +1,1 @@
-// eslint-disable-next-line no-restricted-exports
-export { default } from './NameChange';
+export { default } from '@src/account-settings/name-change/NameChange';

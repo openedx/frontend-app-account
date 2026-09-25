@@ -1,12 +1,12 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 
-import EditableField from '../EditableField';
-import messages from '../AccountSettingsPage.messages';
-import { renderWithForm } from './renderWithForm';
+import EditableField from '@src/account-settings/EditableField';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { renderWithForm } from '@src/account-settings/test/renderWithForm';
 
 // eslint-disable-next-line react/prop-types
-jest.mock('../certificate-preference/CertificatePreference', () => function MockCertificatePreference({ fieldName }) {
+jest.mock('@src/account-settings/certificate-preference/CertificatePreference', () => function MockCertificatePreference({ fieldName }) {
   return <div data-testid="editable-field-certificate-preference">Certificate Preference for {fieldName}</div>;
 });
 

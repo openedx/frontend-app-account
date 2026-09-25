@@ -1,18 +1,17 @@
 import { useContext, useEffect } from 'react';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { sendTrackEvent, useIntl, getLinkProps } from '@openedx/frontend-base';
+import { Button } from '@openedx/paragon';
 
-import { useRedirect } from '../../hooks';
+import { useRedirect } from '@src/hooks';
 
-import IdVerificationContext from '../IdVerificationContext';
-import messages from '../IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import messages from '@src/id-verification/IdVerification.messages';
 
-import BasePanel from './BasePanel';
+import BasePanel from '@src/id-verification/panels/BasePanel';
 
 const SubmittedPanel = () => {
   const { userId } = useContext(IdVerificationContext);
-  const { location: returnUrl, text: returnText } = useRedirect();
+  const { url: returnUrl, text: returnText } = useRedirect();
   const panelSlug = 'submitted';
   const intl = useIntl();
 
@@ -31,13 +30,9 @@ const SubmittedPanel = () => {
       <p>
         {intl.formatMessage(messages['id.verification.submitted.text'])}
       </p>
-      <a
-        className="btn btn-primary"
-        href={`${getConfig().LMS_BASE_URL}/${returnUrl}`}
-        data-testid="return-button"
-      >
+      <Button {...getLinkProps(returnUrl)} data-testid="return-button">
         {intl.formatMessage(messages[returnText])}
-      </a>
+      </Button>
     </BasePanel>
   );
 };

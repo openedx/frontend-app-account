@@ -2,25 +2,24 @@ import React, {
   useState, useContext, useEffect, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
-import { AppContext } from '@edx/frontend-platform/react';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { SiteContext, useIntl } from '@openedx/frontend-base';
 
-import { getProfileDataManager } from '../account-settings/data/api';
-import PageLoading from '../account-settings/PageLoading';
-import { useAsyncCall } from '../hooks';
-import { IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '../constants';
+import { getProfileDataManager } from '@src/account-settings/data/api';
+import PageLoading from '@src/account-settings/PageLoading';
+import { useAsyncCall } from '@src/hooks';
+import { IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS } from '@src/constants';
 
-import { getExistingIdVerification, getEnrollments } from './data/api';
-import AccessBlocked from './AccessBlocked';
-import { hasGetUserMediaSupport } from './getUserMediaShim';
-import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from './IdVerificationContext';
-import { VerifiedNameContext } from './VerifiedNameContext';
+import { getExistingIdVerification, getEnrollments } from '@src/id-verification/data/api';
+import AccessBlocked from '@src/id-verification/AccessBlocked';
+import { hasGetUserMediaSupport } from '@src/id-verification/getUserMediaShim';
+import IdVerificationContext, { MEDIA_ACCESS, ERROR_REASONS, VERIFIED_MODES } from '@src/id-verification/IdVerificationContext';
+import { VerifiedNameContext } from '@src/id-verification/VerifiedNameContext';
 
-import messages from './IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const IdVerificationContextProvider = ({ children }) => {
   const intl = useIntl();
-  const { authenticatedUser } = useContext(AppContext);
+  const { authenticatedUser } = useContext(SiteContext);
   const { verifiedNameHistoryCallStatus, verifiedName } = useContext(VerifiedNameContext);
 
   const idVerificationData = useAsyncCall(getExistingIdVerification);

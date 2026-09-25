@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { ExpandLess, ExpandMore } from '@openedx/paragon/icons';
 import {
   Button, Dropdown, ModalPopup, useToggle,
 } from '@openedx/paragon';
 
-import messages from './messages';
-import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from './data/constants';
-import { useIsUpdatingPreferences } from './data/hooks';
+import messages from '@src/notification-preferences/messages';
+import { EMAIL_CADENCE_PREFERENCES, EMAIL_CADENCE } from '@src/notification-preferences/data/constants';
+import { useIsUpdatingPreferences } from '@src/notification-preferences/data/hooks';
 
 const EmailCadences = ({
   email, onToggle, emailCadence, notificationType, disabled = false,

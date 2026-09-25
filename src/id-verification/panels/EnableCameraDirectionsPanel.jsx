@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { useIntl } from '@edx/frontend-platform/i18n';
-import messages from '../IdVerification.messages';
+import { useIntl } from '@openedx/frontend-base';
+import messages from '@src/id-verification/IdVerification.messages';
 
 export const EnableCameraDirectionsPanel = (props) => {
   const intl = useIntl();

@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { getConfig } from '@edx/frontend-platform';
-import { logError } from '@edx/frontend-platform/logging';
+import { getSiteConfig } from '@openedx/frontend-base';
 import { breakpoints, useWindowSize } from '@openedx/paragon';
 
 import {
   IDLE_STATUS, LOADING_STATUS, SUCCESS_STATUS, FAILURE_STATUS,
-} from './constants';
+} from '@src/constants';
+import { getDashboardUrl } from '@src/utils';
 
-// eslint-disable-next-line import/prefer-default-export
 export function useAsyncCall(asyncFunc) {
   // React doesn't batch setStates call in async useEffect hooks,
   // so we use a combined object here to ensure that users
@@ -34,39 +33,30 @@ export function useAsyncCall(asyncFunc) {
   return data;
 }
 
-// Redirect the user to their original location based on session storage
+// The link back to where the learner came from, as saved in session storage: the course or the
+// `next` path the LMS sent them from, both paths in the LMS, and otherwise the dashboard.
 export function useRedirect() {
-  const [redirect, setRedirect] = useState({
-    location: 'dashboard',
+  const [redirect, setRedirect] = useState(() => ({
+    url: getDashboardUrl(),
     text: 'id.verification.return.dashboard',
-  });
+  }));
 
   useEffect(() => {
+    const { lmsBaseUrl } = getSiteConfig();
     if (sessionStorage.getItem('courseId')) {
       setRedirect({
-        location: `courses/${sessionStorage.getItem('courseId')}`,
+        url: `${lmsBaseUrl}/courses/${sessionStorage.getItem('courseId')}`,
         text: 'id.verification.return.course',
       });
     } else if (sessionStorage.getItem('next')) {
       setRedirect({
-        location: sessionStorage.getItem('next'),
+        url: `${lmsBaseUrl}/${sessionStorage.getItem('next')}`,
         text: 'id.verification.return.generic',
       });
     }
   }, []);
 
   return redirect;
-}
-
-export function useFeedbackWrapper() {
-  useEffect(() => {
-    try {
-    // eslint-disable-next-line no-undef
-      window.usabilla_live = lightningjs?.require('usabilla_live', getConfig().LEARNER_FEEDBACK_URL);
-    } catch (error) {
-      logError('Error loading usabilla_live', error);
-    }
-  }, []);
 }
 
 export function useIsOnMobile() {

@@ -1,2 +1,1 @@
-// eslint-disable-next-line no-restricted-exports
-export { default } from './IdVerificationPage';
+export { default } from '@src/id-verification/IdVerificationPage';

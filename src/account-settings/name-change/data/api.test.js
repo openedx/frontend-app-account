@@ -1,12 +1,14 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
-import { handleRequestError } from '../../data/utils';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
-import { postNameChange } from './api';
+import { postNameChange } from '@src/account-settings/name-change/data/api';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('../../data/utils');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
+jest.mock('@src/account-settings/data/utils');
 
 describe('postNameChange', () => {
   const mockPost = jest.fn();
@@ -14,9 +16,7 @@ describe('postNameChange', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({
-      LMS_BASE_URL: 'http://testserver',
-    });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://testserver' });
 
     getAuthenticatedHttpClient.mockReturnValue({
       post: mockPost,
@@ -29,7 +29,7 @@ describe('postNameChange', () => {
 
     const result = await postNameChange('New Name');
 
-    expect(getConfig).toHaveBeenCalled();
+    expect(getSiteConfig).toHaveBeenCalled();
     expect(getAuthenticatedHttpClient).toHaveBeenCalled();
 
     expect(mockPost).toHaveBeenCalledWith(

@@ -1,2 +1,1 @@
-// eslint-disable-next-line no-restricted-exports
-export { default } from './DeleteAccount';
+export { default } from '@src/account-settings/delete-account/DeleteAccount';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
+import { getAuthenticatedUser } from '@openedx/frontend-base';
 
-import { createTestQueryClient, createWrapper } from '../../tests/renderWithProviders';
+import { createTestQueryClient, createWrapper } from '@src/tests/renderWithProviders';
 import {
   getAccount,
   getCountryList,
@@ -11,15 +11,16 @@ import {
   getProfileDataManager,
   getTimeZones,
   getVerifiedNameHistory,
-} from './api';
-import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '../third-party-auth/data/api';
-import { AccountSettingsFormProvider } from './FormContext';
-import { useAccountSettingsData, useThirdPartyAuthError } from './hooks';
+} from '@src/account-settings/data/api';
+import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account-settings/third-party-auth/data/api';
+import { AccountSettingsFormProvider } from '@src/account-settings/data/FormContext';
+import { useAccountSettingsData, useThirdPartyAuthError } from '@src/account-settings/data/hooks';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
 
-jest.mock('./api');
-jest.mock('../third-party-auth/data/api');
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@src/account-settings/data/api');
+jest.mock('@src/account-settings/third-party-auth/data/api');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   getAuthenticatedUser: jest.fn(),
 }));
 
@@ -125,18 +126,29 @@ describe('useAccountSettingsData', () => {
 });
 
 describe('useThirdPartyAuthError', () => {
-  it('fetches the message once and keeps it for the life of the client', async () => {
+  it('fetches the message once per visit and drops it once nothing shows it', async () => {
     getThirdPartyAuthError.mockResolvedValue('Already linked.');
     const queryClient = createTestQueryClient();
     const wrapper = createWrapper({ queryClient });
 
     const first = renderHook(() => useThirdPartyAuthError(), { wrapper });
     await waitFor(() => expect(first.result.current.data).toBe('Already linked.'));
-    first.unmount();
 
+    // Another reader during the same visit shares the answer rather than asking the LMS again.
     const second = renderHook(() => useThirdPartyAuthError(), { wrapper });
     expect(second.result.current.data).toBe('Already linked.');
     await waitFor(() => expect(second.result.current.isFetching).toBe(false));
     expect(getThirdPartyAuthError).toHaveBeenCalledTimes(1);
+
+    // Leaving the page forgets the message, so the next visit asks afresh.
+    first.unmount();
+    second.unmount();
+    await waitFor(() => expect(queryClient.getQueryData(accountSettingsKeys.thirdPartyAuthError)).toBeUndefined());
+    getThirdPartyAuthError.mockResolvedValue(null);
+
+    const third = renderHook(() => useThirdPartyAuthError(), { wrapper });
+    await waitFor(() => expect(third.result.current.isFetching).toBe(false));
+    expect(getThirdPartyAuthError).toHaveBeenCalledTimes(2);
+    expect(third.result.current.data).toBeNull();
   });
 });

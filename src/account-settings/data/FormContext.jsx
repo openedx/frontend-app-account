@@ -4,14 +4,12 @@ import React, {
 import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { publish } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
-import { logError } from '@edx/frontend-platform/logging';
+import {
+  fetchAuthenticatedUser, getAuthenticatedUser, hydrateAuthenticatedUser, logError, updateSiteLanguage,
+} from '@openedx/frontend-base';
 
-import { patchSettings } from './api';
-import { patchPreferences, postSetLang } from '../site-language';
-import { accountSettingsKeys, accountSettingsMutationKeys } from './queryKeys';
+import { patchSettings } from '@src/account-settings/data/api';
+import { accountSettingsKeys, accountSettingsMutationKeys } from '@src/account-settings/data/queryKeys';
 import {
   BEGIN_NAME_CHANGE,
   CLOSE_FORM,
@@ -21,38 +19,60 @@ import {
   RESET_DRAFTS,
   SAVE_BEGIN,
   SAVE_FAILURE,
-  SAVE_PREVIOUS_SITE_LANGUAGE,
   SAVE_RESET,
   SAVE_SUCCESS,
   UPDATE_DRAFT,
-} from './formReducer';
+} from '@src/account-settings/data/formReducer';
 
 // How long a saved field stays in its "complete" state before the form closes itself.
 export const CLOSE_FORM_DELAY = 1000;
 
+/**
+ * @typedef {object} AccountSettingsForm
+ * @property {string | null} openFormId the field being edited, if any
+ * @property {Record<string, unknown>} drafts unsaved values by field name
+ * @property {Record<string, string>} errors validation errors by field name
+ * @property {Record<string, unknown>} confirmationValues saved values awaiting confirmation
+ * @property {'pending' | 'complete' | 'error' | null} saveState the outcome of the last save
+ * @property {false | { formId: string }} nameChangeModal the field whose name change is in progress
+ * @property {(formId: string) => void} openForm
+ * @property {(formId: string) => void} closeForm
+ * @property {(name: string, value: unknown) => void} updateDraft
+ * @property {() => void} resetDrafts
+ * @property {(formId: string) => void} beginNameChange
+ * @property {() => void} saveSettingsReset
+ * @property {(formId: string | null, commitValues: unknown, extendedProfile?: object) => void} saveSettings
+ * @property {(settingsArray: { formId: string, commitValues: unknown }[], form?: string | null) => void} saveMultipleSettings
+ */
+
+/** @type {import('react').Context<AccountSettingsForm | null>} */
 export const AccountSettingsFormContext = createContext(null);
 
 /**
- * Saves one field. The site language is special: it is a preference plus a session-level
- * language switch, and the two requests must run in that order.
+ * Saves one field. The site language is special: it is not an account setting but the site's
+ * language, so frontend-base switches it, the same way the shell's language menu does.
  */
 export const saveSettingsRequest = async ({ formId, commitValues, extendedProfile = {} }) => {
   const { username, userId } = getAuthenticatedUser();
   const commitData = Object.keys(extendedProfile).length > 0 ? extendedProfile : { [formId]: commitValues };
 
   if (formId === 'siteLanguage') {
-    const previousSiteLanguage = getLocale();
-    await patchPreferences(username, { prefLang: commitValues });
-    await postSetLang(commitValues);
-
-    publish(LOCALE_CHANGED, getLocale());
-    handleRtl();
-
-    return { savedValues: commitData, commitData, previousSiteLanguage };
+    await updateSiteLanguage(commitValues);
+    return { savedValues: commitData, commitData };
   }
 
   const savedValues = await patchSettings(username, commitData, userId);
   return { savedValues, commitData };
+};
+
+/**
+ * The shell shows the learner's name in its header, from a copy of the authenticated user it took
+ * at site init and rebuilds from the JWT on every load. A name change has to reach both: without
+ * the token refresh, the next load reads the old name back for as long as the cookie lives.
+ */
+const refreshShellLearner = async () => {
+  await fetchAuthenticatedUser({ forceRefresh: true });
+  await hydrateAuthenticatedUser();
 };
 
 export const AccountSettingsFormProvider = ({ children }) => {
@@ -80,6 +100,9 @@ export const AccountSettingsFormProvider = ({ children }) => {
     if ('useVerifiedNameForCerts' in commitData) {
       queryClient.invalidateQueries({ queryKey: accountSettingsKeys.verifiedNameHistory });
     }
+    if ('name' in commitData) {
+      refreshShellLearner().catch(logError);
+    }
     dispatch({ type: SAVE_SUCCESS, confirmationValues: commitData });
   }, [queryClient]);
 
@@ -101,10 +124,7 @@ export const AccountSettingsFormProvider = ({ children }) => {
     mutationKey: accountSettingsMutationKeys.saveSettings,
     mutationFn: saveSettingsRequest,
     onMutate: () => dispatch({ type: SAVE_BEGIN }),
-    onSuccess: ({ savedValues, commitData, previousSiteLanguage }, { formId }) => {
-      if (previousSiteLanguage !== undefined) {
-        dispatch({ type: SAVE_PREVIOUS_SITE_LANGUAGE, previousSiteLanguage });
-      }
+    onSuccess: ({ savedValues, commitData }, { formId }) => {
       applySavedValues(savedValues, commitData);
       scheduleCloseForm(formId);
     },

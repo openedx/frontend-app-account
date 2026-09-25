@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { useIntl, FormattedMessage } from '@openedx/frontend-base';
 import { StatefulButton } from '@openedx/paragon';
 
-import { getResetPasswordStatus, useResetPassword } from './data/hooks';
-import messages from './messages';
-import ConfirmationAlert from './ConfirmationAlert';
-import RequestInProgressAlert from './RequestInProgressAlert';
+import { getResetPasswordStatus, useResetPassword } from '@src/account-settings/reset-password/data/hooks';
+import messages from '@src/account-settings/reset-password/messages';
+import ConfirmationAlert from '@src/account-settings/reset-password/ConfirmationAlert';
+import RequestInProgressAlert from '@src/account-settings/reset-password/RequestInProgressAlert';
 
 const ResetPassword = ({ email }) => {
   const intl = useIntl();

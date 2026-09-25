@@ -1,14 +1,16 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 import formurlencoded from 'form-urlencoded';
-import { handleRequestError } from '../../data/utils';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
-import { postDeleteAccount } from './api';
+import { postDeleteAccount } from '@src/account-settings/delete-account/data/api';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
 jest.mock('form-urlencoded');
-jest.mock('../../data/utils');
+jest.mock('@src/account-settings/data/utils');
 
 describe('postDeleteAccount', () => {
   const mockPost = jest.fn();
@@ -16,9 +18,7 @@ describe('postDeleteAccount', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({
-      LMS_BASE_URL: 'http://testserver',
-    });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://testserver' });
 
     getAuthenticatedHttpClient.mockReturnValue({
       post: mockPost,
@@ -33,7 +33,7 @@ describe('postDeleteAccount', () => {
 
     const result = await postDeleteAccount('mypassword');
 
-    expect(getConfig).toHaveBeenCalled();
+    expect(getSiteConfig).toHaveBeenCalled();
     expect(getAuthenticatedHttpClient).toHaveBeenCalled();
     expect(formurlencoded).toHaveBeenCalledWith({ password: 'mypassword' });
 

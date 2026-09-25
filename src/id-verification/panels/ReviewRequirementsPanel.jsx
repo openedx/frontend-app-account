@@ -1,16 +1,23 @@
 import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { getConfig } from '@edx/frontend-platform';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+import {
+  sendTrackEvent,
+  FormattedMessage,
+  useIntl,
+  getSiteConfig,
+  getAppConfig,
+} from '@openedx/frontend-base';
 import { Alert, Hyperlink } from '@openedx/paragon';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
 
-import IdVerificationContext from '../IdVerificationContext';
-import messages from '../IdVerification.messages';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import messages from '@src/id-verification/IdVerification.messages';
+// Assets stay relative: tsc-alias only rewrites an alias whose target already exists in dist, and
+// the Makefile copies assets there after it runs.
 import exampleCard from '../assets/example-card.png';
+import { appId } from '@src/constants';
 
 const ReviewRequirementsPanel = () => {
   const intl = useIntl();
@@ -41,7 +48,7 @@ const ReviewRequirementsPanel = () => {
               managerTitle: <strong>{profileDataManager}</strong>,
               profileDataManager,
               support: (
-                <Hyperlink destination={getConfig().SUPPORT_URL} target="_blank">
+                <Hyperlink destination={getAppConfig(appId).SUPPORT_URL} target="_blank">
                   {intl.formatMessage(messages['id.verification.support'])}
                 </Hyperlink>
               ),
@@ -99,7 +106,7 @@ const ReviewRequirementsPanel = () => {
       <h6 aria-level="3">
         {intl.formatMessage(
           messages['id.verification.privacy.need.photo.question'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </h6>
       <p>
@@ -108,18 +115,18 @@ const ReviewRequirementsPanel = () => {
       <h6 aria-level="3">
         {intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.question'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </h6>
       <p>
         {intl.formatMessage(
           messages['id.verification.privacy.do.with.photo.answer'],
-          { siteName: getConfig().SITE_NAME },
+          { siteName: getSiteConfig().siteName },
         )}
       </p>
 
       <div className="action-row">
-        <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+        <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
           {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

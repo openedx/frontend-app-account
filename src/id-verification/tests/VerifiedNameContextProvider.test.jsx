@@ -2,9 +2,9 @@
 import React, { useContext } from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 
-import { getVerifiedNameHistory } from '../../account-settings/data/api';
-import { createWrapper } from '../../tests/renderWithProviders';
-import { VerifiedNameContext, VerifiedNameContextProvider } from '../VerifiedNameContext';
+import { getVerifiedNameHistory } from '@src/account-settings/data/api';
+import { createWrapper } from '@src/tests/renderWithProviders';
+import { VerifiedNameContext, VerifiedNameContextProvider } from '@src/id-verification/VerifiedNameContext';
 
 const VerifiedNameContextTestComponent = () => {
   const { verifiedName } = useContext(VerifiedNameContext);
@@ -15,7 +15,7 @@ const VerifiedNameContextTestComponent = () => {
   );
 };
 
-jest.mock('../../account-settings/data/api', () => ({
+jest.mock('@src/account-settings/data/api', () => ({
   getVerifiedNameHistory: jest.fn(() => ({})),
 }));
 

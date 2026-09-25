@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { getConfig } from '@edx/frontend-platform';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl, getSiteConfig, getAppConfig } from '@openedx/frontend-base';
 import { Button, Hyperlink } from '@openedx/paragon';
 
-import { getDeleteAccountErrorType, useDeleteAccount } from './data/hooks';
+import { getDeleteAccountErrorType, useDeleteAccount } from '@src/account-settings/delete-account/data/hooks';
 
 // Messages
-import messages from './messages';
+import messages from '@src/account-settings/delete-account/messages';
 
 // Components
-import IntlConfirmationModal from './ConfirmationModal';
-import PrintingInstructions from './PrintingInstructions';
-import { SuccessModal } from './SuccessModal';
-import BeforeProceedingBanner from './BeforeProceedingBanner';
+import ConfirmationModal from '@src/account-settings/delete-account/ConfirmationModal';
+import PrintingInstructions from '@src/account-settings/delete-account/PrintingInstructions';
+import { SuccessModal } from '@src/account-settings/delete-account/SuccessModal';
+import BeforeProceedingBanner from '@src/account-settings/delete-account/BeforeProceedingBanner';
+import { getLogoutUrl, parseEnvBoolean } from '@src/utils';
+import { appId } from '@src/constants';
 
 /**
  * The modal's status is the request's, framed by the two things it cannot know: that the learner
@@ -79,19 +80,19 @@ const DeleteAccount = ({ hasLinkedTPA, isVerifiedAccount, canDeleteAccount }) =>
   };
 
   const handleFinalClose = () => {
-    global.location = getConfig().LOGOUT_URL;
+    global.location = getLogoutUrl();
   };
 
   const canDelete = isVerifiedAccount && !hasLinkedTPA;
-  const supportArticleUrl = process.env.SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
+  const supportArticleUrl = getAppConfig(appId).SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT;
 
   // TODO: We lack a good way of providing custom language for a particular site.  This is a hack
   // to allow edx.org to fulfill its business requirements.
-  const deleteAccountText2MessageKey = getConfig().SITE_NAME === 'edX'
+  const deleteAccountText2MessageKey = getSiteConfig().siteName === 'edX'
     ? 'account.settings.delete.account.text.2.edX'
     : 'account.settings.delete.account.text.2';
 
-  const optInInstructionMessageId = getConfig().MARKETING_EMAILS_OPT_IN
+  const optInInstructionMessageId = parseEnvBoolean(getAppConfig(appId).MARKETING_EMAILS_OPT_IN)
     ? 'account.settings.delete.account.please.confirm'
     : 'account.settings.delete.account.please.activate';
 
@@ -107,13 +108,13 @@ const DeleteAccount = ({ hasLinkedTPA, isVerifiedAccount, canDeleteAccount }) =>
             <p>
               {intl.formatMessage(
                 messages['account.settings.delete.account.text.1'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
             <p>
               {intl.formatMessage(
                 messages[deleteAccountText2MessageKey],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
             <p>
@@ -122,7 +123,7 @@ const DeleteAccount = ({ hasLinkedTPA, isVerifiedAccount, canDeleteAccount }) =>
             <p className="text-danger h6">
               {intl.formatMessage(
                 messages['account.settings.delete.account.text.warning'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
             <p>
@@ -152,7 +153,7 @@ const DeleteAccount = ({ hasLinkedTPA, isVerifiedAccount, canDeleteAccount }) =>
               />
             ) : null}
 
-            <IntlConfirmationModal
+            <ConfirmationModal
               status={status}
               errorType={errorType}
               onSubmit={handleSubmit}

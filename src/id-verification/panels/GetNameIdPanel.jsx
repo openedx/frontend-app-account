@@ -3,13 +3,13 @@ import {
 } from 'react';
 import { Form } from '@openedx/paragon';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import IdVerificationContext from '../IdVerificationContext';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
-import messages from '../IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 const GetNameIdPanel = () => {
   const location = useLocation();
@@ -35,7 +35,7 @@ const GetNameIdPanel = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (idPhotoName) {
-      navigate(`/id-verification/${nextPanelSlug}`);
+      navigate(`../${nextPanelSlug}`);
     }
   };
 
@@ -81,7 +81,7 @@ const GetNameIdPanel = () => {
 
       <div className="action-row">
         <Link
-          to={`/id-verification/${nextPanelSlug}`}
+          to={`../${nextPanelSlug}`}
           className={`btn btn-primary ${!idPhotoName && 'disabled'}`}
           data-testid="next-button"
           aria-disabled={!idPhotoName}

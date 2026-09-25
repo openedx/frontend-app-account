@@ -4,21 +4,21 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { NavItem } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
-import messages from './messages';
-import { useIsOnMobile } from '../hooks';
-import ToggleSwitch from './ToggleSwitch';
-import EmailCadences from './EmailCadences';
+import messages from '@src/notification-preferences/messages';
+import { useIsOnMobile } from '@src/hooks';
+import ToggleSwitch from '@src/notification-preferences/ToggleSwitch';
+import EmailCadences from '@src/notification-preferences/EmailCadences';
 import {
   useAppNonEditableChannels,
   useAppPreferences,
   useIsUpdatingPreferences,
   useShowEmailPreferences,
   useUpdatePreferenceToggle,
-} from './data/hooks';
-import { notificationChannels, shouldHideAppPreferences } from './data/utils';
-import { EMAIL, EMAIL_CADENCE } from './data/constants';
+} from '@src/notification-preferences/data/hooks';
+import { notificationChannels, shouldHideAppPreferences } from '@src/notification-preferences/data/utils';
+import { EMAIL, EMAIL_CADENCE } from '@src/notification-preferences/data/constants';
 
 const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const intl = useIntl();

@@ -4,24 +4,23 @@ import {
 } from 'react-router-dom';
 import camelCase from 'lodash.camelcase';
 import qs from 'qs';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl, getSiteConfig } from '@openedx/frontend-base';
 import { Button, ModalDialog, ActionRow } from '@openedx/paragon';
-import { getConfig } from '@edx/frontend-platform';
-import './getUserMediaShim';
+import '@src/id-verification/getUserMediaShim';
 
-import IdVerificationContextProvider from './IdVerificationContextProvider';
-import { VerifiedNameContextProvider } from './VerifiedNameContext';
-import ReviewRequirementsPanel from './panels/ReviewRequirementsPanel';
-import RequestCameraAccessPanel from './panels/RequestCameraAccessPanel';
-import PortraitPhotoContextPanel from './panels/PortraitPhotoContextPanel';
-import TakePortraitPhotoPanel from './panels/TakePortraitPhotoPanel';
-import IdContextPanel from './panels/IdContextPanel';
-import GetNameIdPanel from './panels/GetNameIdPanel';
-import TakeIdPhotoPanel from './panels/TakeIdPhotoPanel';
-import SummaryPanel from './panels/SummaryPanel';
-import SubmittedPanel from './panels/SubmittedPanel';
+import IdVerificationContextProvider from '@src/id-verification/IdVerificationContextProvider';
+import { VerifiedNameContextProvider } from '@src/id-verification/VerifiedNameContext';
+import ReviewRequirementsPanel from '@src/id-verification/panels/ReviewRequirementsPanel';
+import RequestCameraAccessPanel from '@src/id-verification/panels/RequestCameraAccessPanel';
+import PortraitPhotoContextPanel from '@src/id-verification/panels/PortraitPhotoContextPanel';
+import TakePortraitPhotoPanel from '@src/id-verification/panels/TakePortraitPhotoPanel';
+import IdContextPanel from '@src/id-verification/panels/IdContextPanel';
+import GetNameIdPanel from '@src/id-verification/panels/GetNameIdPanel';
+import TakeIdPhotoPanel from '@src/id-verification/panels/TakeIdPhotoPanel';
+import SummaryPanel from '@src/id-verification/panels/SummaryPanel';
+import SubmittedPanel from '@src/id-verification/panels/SubmittedPanel';
 
-import messages from './IdVerification.messages';
+import messages from '@src/id-verification/IdVerification.messages';
 
 // eslint-disable-next-line react/prefer-stateless-function
 const IdVerificationPage = () => {
@@ -45,12 +44,12 @@ const IdVerificationPage = () => {
   }, [search]);
 
   useEffect(() => {
-    navigate('/id-verification/review-requirements');
+    navigate('review-requirements');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="page__id-verification container-fluid py-5">
+    <div className="page__id-verification">
       <div className="row">
         <div className="col-lg-6 col-md-8">
           <VerifiedNameContextProvider>
@@ -92,20 +91,20 @@ const IdVerificationPage = () => {
             <h6>
               {intl.formatMessage(
                 messages['id.verification.privacy.need.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>{intl.formatMessage(messages['id.verification.privacy.need.photo.answer'])}</p>
             <h6>
               {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.question'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </h6>
             <p>
               {intl.formatMessage(
                 messages['id.verification.privacy.do.with.photo.answer'],
-                { siteName: getConfig().SITE_NAME },
+                { siteName: getSiteConfig().siteName },
               )}
             </p>
           </div>

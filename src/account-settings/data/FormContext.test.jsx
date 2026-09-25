@@ -1,39 +1,26 @@
 import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 
-import { publish } from '@edx/frontend-platform';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
-import { getLocale, handleRtl, LOCALE_CHANGED } from '@edx/frontend-platform/i18n';
-import { logError } from '@edx/frontend-platform/logging';
+import {
+  fetchAuthenticatedUser, getAuthenticatedUser, hydrateAuthenticatedUser, logError, updateSiteLanguage,
+} from '@openedx/frontend-base';
 
-import { createTestQueryClient, renderWithProviders } from '../../tests/renderWithProviders';
-import { patchSettings } from './api';
-import { patchPreferences, postSetLang } from '../site-language';
-import { accountSettingsKeys } from './queryKeys';
+import { createTestQueryClient, renderWithProviders } from '@src/tests/renderWithProviders';
+import { patchSettings } from '@src/account-settings/data/api';
+import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
 import {
   AccountSettingsFormProvider, CLOSE_FORM_DELAY, useAccountSettingsForm, useEditableField,
-} from './FormContext';
+} from '@src/account-settings/data/FormContext';
 
-jest.mock('./api');
-jest.mock('../site-language', () => ({
-  siteLanguageList: [],
-  patchPreferences: jest.fn(),
-  postSetLang: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform', () => ({
-  ...jest.requireActual('@edx/frontend-platform'),
-  publish: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/auth', () => ({
-  ...jest.requireActual('@edx/frontend-platform/auth'),
+jest.mock('@src/account-settings/data/api');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  fetchAuthenticatedUser: jest.fn(),
   getAuthenticatedUser: jest.fn(),
+  hydrateAuthenticatedUser: jest.fn(),
+  logError: jest.fn(),
+  updateSiteLanguage: jest.fn(),
 }));
-jest.mock('@edx/frontend-platform/i18n', () => ({
-  ...jest.requireActual('@edx/frontend-platform/i18n'),
-  getLocale: jest.fn(),
-  handleRtl: jest.fn(),
-}));
-jest.mock('@edx/frontend-platform/logging');
 
 const user = { username: 'edx', userId: 3, roles: [] };
 const valuesKey = accountSettingsKeys.values(user.username);
@@ -58,8 +45,9 @@ const fieldError = (fieldErrors) => Object.assign(new Error('field errors'), { f
 
 describe('AccountSettingsFormProvider', () => {
   beforeEach(() => {
+    fetchAuthenticatedUser.mockResolvedValue(user);
     getAuthenticatedUser.mockReturnValue(user);
-    getLocale.mockReturnValue('en');
+    hydrateAuthenticatedUser.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
@@ -98,6 +86,53 @@ describe('AccountSettingsFormProvider', () => {
 
     act(() => jest.advanceTimersByTime(CLOSE_FORM_DELAY));
     expect(field.isEditing).toBe(false);
+  });
+
+  it('refreshes the token and the shell when the name changes, so the header stops showing the old one', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(hydrateAuthenticatedUser).toHaveBeenCalled());
+    expect(fetchAuthenticatedUser).toHaveBeenCalledWith({ forceRefresh: true });
+  });
+
+  it('leaves the shell alone for a field it does not show', async () => {
+    patchSettings.mockResolvedValue({ email: 'new@example.com' });
+    renderProvider();
+
+    act(() => form.saveSettings('email', 'new@example.com'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    expect(fetchAuthenticatedUser).not.toHaveBeenCalled();
+    expect(hydrateAuthenticatedUser).not.toHaveBeenCalled();
+  });
+
+  it('keeps the save successful when the token refresh fails', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    const error = new Error('no network');
+    fetchAuthenticatedUser.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
+    expect(hydrateAuthenticatedUser).not.toHaveBeenCalled();
+  });
+
+  it('keeps the save successful when re-hydrating the shell fails', async () => {
+    patchSettings.mockResolvedValue({ name: 'New Name' });
+    const error = new Error('no network');
+    hydrateAuthenticatedUser.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('name', 'New Name'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
+    await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
   });
 
   it('leaves an empty values cache alone rather than seeding it with the saved fields', async () => {
@@ -157,23 +192,26 @@ describe('AccountSettingsFormProvider', () => {
     expect(form.errors).toEqual({});
   });
 
-  it('switches the site language through the preference and setlang endpoints, in that order', async () => {
-    const calls = [];
-    patchPreferences.mockImplementation(async () => { calls.push('patchPreferences'); });
-    postSetLang.mockImplementation(async () => { calls.push('postSetLang'); });
-    getLocale.mockReturnValueOnce('en').mockReturnValue('fr');
+  it('switches the site language through frontend-base rather than the account settings', async () => {
+    updateSiteLanguage.mockResolvedValue(undefined);
     renderProvider();
 
     act(() => form.saveSettings('siteLanguage', 'fr'));
 
     await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('complete'));
-    expect(calls).toEqual(['patchPreferences', 'postSetLang']);
-    expect(patchPreferences).toHaveBeenCalledWith(user.username, { prefLang: 'fr' });
-    expect(postSetLang).toHaveBeenCalledWith('fr');
-    expect(publish).toHaveBeenCalledWith(LOCALE_CHANGED, 'fr');
-    expect(handleRtl).toHaveBeenCalled();
-    expect(form.previousSiteLanguage).toBe('en');
+    expect(updateSiteLanguage).toHaveBeenCalledWith('fr');
     expect(patchSettings).not.toHaveBeenCalled();
+  });
+
+  it('reports a site language switch that could not be persisted', async () => {
+    const error = new AggregateError([new Error('Forbidden')], 'Failed to persist the site language');
+    updateSiteLanguage.mockRejectedValue(error);
+    renderProvider();
+
+    act(() => form.saveSettings('siteLanguage', 'fr'));
+
+    await waitFor(() => expect(screen.getByTestId('save-state')).toHaveTextContent('error'));
+    expect(logError).toHaveBeenCalledWith(error);
   });
 
   it('refetches the verified name history after a certificate name choice', async () => {

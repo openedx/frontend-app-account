@@ -7,7 +7,7 @@ import {
   getStaticFields,
   sortVerifiedNameHistory,
   transformTimeZonesToOptions,
-} from './derive';
+} from '@src/account-settings/data/derive';
 
 const name = (verifiedName, status, created) => ({ verified_name: verifiedName, status, created });
 
@@ -168,7 +168,7 @@ describe('option transforms', () => {
   });
 
   it('turns the site language list into select options', () => {
-    expect(getSiteLanguageOptions([{ code: 'en', name: 'English', released: true }]))
+    expect(getSiteLanguageOptions([{ code: 'en', name: 'English' }]))
       .toEqual([{ value: 'en', label: 'English' }]);
   });
 });

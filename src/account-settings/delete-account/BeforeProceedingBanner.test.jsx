@@ -1,45 +1,29 @@
-import renderer from 'react-test-renderer';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
+import { render, screen } from '@testing-library/react';
+import { IntlProvider } from '@openedx/frontend-base';
 
-jest.mock('react-dom', () => ({
-  ...jest.requireActual('react-dom'),
-  createPortal: jest.fn(node => node), // Mock portal behavior
-}));
+import BeforeProceedingBanner from '@src/account-settings/delete-account/BeforeProceedingBanner';
 
-import BeforeProceedingBanner from './BeforeProceedingBanner'; // eslint-disable-line import/first
+const renderBanner = (supportArticleUrl) => render(
+  <IntlProvider locale="en">
+    <BeforeProceedingBanner
+      instructionMessageId="account.settings.delete.account.please.unlink"
+      supportArticleUrl={supportArticleUrl}
+    />
+  </IntlProvider>,
+);
 
 describe('BeforeProceedingBanner', () => {
-  it('should match the snapshot if SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT does not have a support link', () => {
-    const props = {
-      instructionMessageId: 'account.settings.delete.account.please.unlink',
-      supportArticleUrl: '',
-    };
-    const tree = renderer
-      .create((
-        <IntlProvider locale="en">
-          <BeforeProceedingBanner
-            {...props}
-          />
-        </IntlProvider>
-      ))
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+  it('gives the instruction as plain text without a support article', () => {
+    renderBanner('');
+
+    expect(screen.getByText('Before proceeding, please unlink all social media accounts.')).toBeInTheDocument();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 
-  it('should match the snapshot when SUPPORT_URL_TO_UNLINK_SOCIAL_MEDIA_ACCOUNT has a support link', () => {
-    const props = {
-      instructionMessageId: 'account.settings.delete.account.please.unlink',
-      supportArticleUrl: 'http://test-support.edx',
-    };
-    const tree = renderer
-      .create((
-        <IntlProvider locale="en">
-          <BeforeProceedingBanner
-            {...props}
-          />
-        </IntlProvider>
-      ))
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+  it('links the instruction to the support article when there is one', () => {
+    renderBanner('http://test-support.edx');
+
+    expect(screen.getByRole('link', { name: 'unlink all social media accounts' }))
+      .toHaveAttribute('href', 'http://test-support.edx');
   });
 });

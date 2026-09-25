@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import {
   Form, StatefulButton, ModalDialog, ActionRow, useToggle, Button,
 } from '@openedx/paragon';
 import { useCallback, useEffect, useState } from 'react';
-import messages from './AccountSettingsPage.messages';
-import { YEAR_OF_BIRTH_OPTIONS } from './data/constants';
-import { useAccountSettingsForm } from './data/FormContext';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
+import { YEAR_OF_BIRTH_OPTIONS } from '@src/account-settings/data/constants';
+import { useAccountSettingsForm } from '@src/account-settings/data/FormContext';
 
 const DOBModal = ({ onSubmit }) => {
   const intl = useIntl();

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { render } from '@testing-library/react';
 
-import { createTestQueryClient, createWrapper } from '../../tests/renderWithProviders';
-import { AccountSettingsFormContext } from '../data/FormContext';
-import { initialFormState } from '../data/formReducer';
+import { createTestQueryClient, createWrapper } from '@src/tests/renderWithProviders';
+import { AccountSettingsFormContext } from '@src/account-settings/data/FormContext';
+import { initialFormState } from '@src/account-settings/data/formReducer';
 
 const noop = () => {};
 
@@ -33,12 +33,12 @@ export const createFormContextValue = (overrides = {}) => ({
 export const renderWithForm = (ui, {
   form = {},
   queryClient = createTestQueryClient(),
-  appContext = null,
+  siteContext = null,
   route = '/',
   ...renderOptions
 } = {}) => {
   const formValue = createFormContextValue(form);
-  const Providers = createWrapper({ queryClient, appContext, route });
+  const Providers = createWrapper({ queryClient, siteContext, route });
 
   const Wrapper = ({ children }) => (
     <Providers>

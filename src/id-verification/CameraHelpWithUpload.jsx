@@ -1,14 +1,13 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Collapsible } from '@openedx/paragon';
-import { useIntl } from '@edx/frontend-platform/i18n';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
+import { useIntl, sendTrackEvent } from '@openedx/frontend-base';
 
-import messages from './IdVerification.messages';
-import ImageFileUpload from './ImageFileUpload';
-import IdVerificationContext from './IdVerificationContext';
-import ImagePreview from './ImagePreview';
-import SupportedMediaTypes from './SupportedMediaTypes';
+import messages from '@src/id-verification/IdVerification.messages';
+import ImageFileUpload from '@src/id-verification/ImageFileUpload';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
+import ImagePreview from '@src/id-verification/ImagePreview';
+import SupportedMediaTypes from '@src/id-verification/SupportedMediaTypes';
 
 const CameraHelpWithUpload = (props) => {
   const intl = useIntl();

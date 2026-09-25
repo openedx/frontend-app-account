@@ -1,12 +1,14 @@
-import { getConfig } from '@edx/frontend-platform';
-import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getSiteConfig } from '@openedx/frontend-base';
 
-import { postVerifiedNameConfig } from './api';
-import { handleRequestError } from '../../data/utils';
+import { postVerifiedNameConfig } from '@src/account-settings/certificate-preference/data/api';
+import { handleRequestError } from '@src/account-settings/data/utils';
 
-jest.mock('@edx/frontend-platform');
-jest.mock('@edx/frontend-platform/auth');
-jest.mock('../../data/utils');
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
+  getAuthenticatedHttpClient: jest.fn(),
+  getSiteConfig: jest.fn(),
+}));
+jest.mock('@src/account-settings/data/utils');
 
 describe('postVerifiedNameConfig', () => {
   const mockPost = jest.fn();
@@ -14,9 +16,7 @@ describe('postVerifiedNameConfig', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    getConfig.mockReturnValue({
-      LMS_BASE_URL: 'http://testserver',
-    });
+    getSiteConfig.mockReturnValue({ lmsBaseUrl: 'http://testserver' });
 
     getAuthenticatedHttpClient.mockReturnValue({
       post: mockPost,
@@ -29,7 +29,7 @@ describe('postVerifiedNameConfig', () => {
 
     const result = await postVerifiedNameConfig('testuser', { useVerifiedNameForCerts: true });
 
-    expect(getConfig).toHaveBeenCalled();
+    expect(getSiteConfig).toHaveBeenCalled();
     expect(getAuthenticatedHttpClient).toHaveBeenCalled();
     expect(mockPost).toHaveBeenCalledWith(
       'http://testserver/api/edx_name_affirmation/v1/verified_name/config',

@@ -2,12 +2,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, act, screen, fireEvent,
 } from '@testing-library/react';
-import '@edx/frontend-platform/analytics';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import PortraitPhotoContextPanel from '../../panels/PortraitPhotoContextPanel';
-import IdVerificationContext from '../../IdVerificationContext';
+import { IntlProvider } from '@openedx/frontend-base';
+import PortraitPhotoContextPanel from '@src/id-verification/panels/PortraitPhotoContextPanel';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
-jest.mock('@edx/frontend-platform/analytics', () => ({
+jest.mock('@openedx/frontend-base', () => ({
+  ...jest.requireActual('@openedx/frontend-base'),
   sendTrackEvent: jest.fn(),
 }));
 
@@ -30,7 +30,7 @@ describe('PortraitPhotoContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/take-portrait-photo');
+    expect(window.location.pathname).toEqual('/take-portrait-photo');
   });
 
   it('routes to TakePortraitPhotoPanel if reachedSummary is true', async () => {
@@ -46,6 +46,6 @@ describe('PortraitPhotoContextPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     fireEvent.click(button);
-    expect(window.location.pathname).toEqual('/id-verification/take-portrait-photo');
+    expect(window.location.pathname).toEqual('/take-portrait-photo');
   });
 });

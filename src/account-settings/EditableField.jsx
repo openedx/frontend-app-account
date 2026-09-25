@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import {
   Button, Form, StatefulButton,
 } from '@openedx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SwitchContent from './SwitchContent';
-import messages from './AccountSettingsPage.messages';
+import SwitchContent from '@src/account-settings/SwitchContent';
+import messages from '@src/account-settings/AccountSettingsPage.messages';
 
-import { useEditableField } from './data/FormContext';
-import CertificatePreference from './certificate-preference/CertificatePreference';
+import { useEditableField } from '@src/account-settings/data/FormContext';
+import CertificatePreference from '@src/account-settings/certificate-preference/CertificatePreference';
 
 const EditableField = (props) => {
   const {

@@ -2,14 +2,14 @@ import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { NavItem } from '@openedx/paragon';
 
-import { useIsOnMobile } from '../hooks';
-import messages from './messages';
-import NotificationPreferenceApp from './NotificationPreferenceApp';
-import { usePreferenceAppIds, useShowEmailPreferences } from './data/hooks';
-import { notificationChannels } from './data/utils';
+import { useIsOnMobile } from '@src/hooks';
+import messages from '@src/notification-preferences/messages';
+import NotificationPreferenceApp from '@src/notification-preferences/NotificationPreferenceApp';
+import { usePreferenceAppIds, useShowEmailPreferences } from '@src/notification-preferences/data/hooks';
+import { notificationChannels } from '@src/notification-preferences/data/utils';
 
 const NotificationPreferences = () => {
   const intl = useIntl();

@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 
-import { useNextPanelSlug } from '../routing-utilities';
-import BasePanel from './BasePanel';
-import Camera from '../Camera';
-import IdVerificationContext from '../IdVerificationContext';
+import { useNextPanelSlug } from '@src/id-verification/routing-utilities';
+import BasePanel from '@src/id-verification/panels/BasePanel';
+import Camera from '@src/id-verification/Camera';
+import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 
-import messages from '../IdVerification.messages';
-import CameraHelp from '../CameraHelp';
-import ImagePreview from '../ImagePreview';
-import ImageFileUpload from '../ImageFileUpload';
-import CollapsibleImageHelp from '../CollapsibleImageHelp';
-import SupportedMediaTypes from '../SupportedMediaTypes';
+import messages from '@src/id-verification/IdVerification.messages';
+import CameraHelp from '@src/id-verification/CameraHelp';
+import ImagePreview from '@src/id-verification/ImagePreview';
+import ImageFileUpload from '@src/id-verification/ImageFileUpload';
+import CollapsibleImageHelp from '@src/id-verification/CollapsibleImageHelp';
+import SupportedMediaTypes from '@src/id-verification/SupportedMediaTypes';
 
 const TakeIdPhotoPanel = () => {
   const panelSlug = 'take-id-photo';
@@ -62,7 +62,7 @@ const TakeIdPhotoPanel = () => {
       {useCameraForId && <CameraHelp />}
       <CollapsibleImageHelp />
       <div className="action-row" style={{ visibility: idPhotoFile ? 'unset' : 'hidden' }}>
-        <Link to={`/id-verification/${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
+        <Link to={`../${nextPanelSlug}`} className="btn btn-primary" data-testid="next-button">
           {intl.formatMessage(messages['id.verification.next'])}
         </Link>
       </div>

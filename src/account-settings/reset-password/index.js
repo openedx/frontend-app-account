@@ -1,2 +1,1 @@
-// eslint-disable-next-line no-restricted-exports
-export { default } from './ResetPassword';
+export { default } from '@src/account-settings/reset-password/ResetPassword';

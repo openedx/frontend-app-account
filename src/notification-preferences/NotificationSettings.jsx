@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { useIntl } from '@edx/frontend-platform/i18n';
+import { useIntl } from '@openedx/frontend-base';
 import { Container, Hyperlink } from '@openedx/paragon';
 
-import { useShowPreferences } from './data/hooks';
-import messages from './messages';
-import NotificationPreferences from './NotificationPreferences';
-import { useFeedbackWrapper } from '../hooks';
+import { useShowPreferences } from '@src/notification-preferences/data/hooks';
+import messages from '@src/notification-preferences/messages';
+import NotificationPreferences from '@src/notification-preferences/NotificationPreferences';
 
 const NotificationSettings = () => {
-  useFeedbackWrapper();
   const intl = useIntl();
   const showPreferences = useShowPreferences();
 
