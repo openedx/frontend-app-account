@@ -119,13 +119,14 @@ export const AccountSettingsFormProvider = ({ children }) => {
       for (let i = 0; i < settingsArray.length; i += 1) {
         const { formId, commitValues } = settingsArray[i];
         const commitData = { [formId]: commitValues };
+        // Each iteration ends in SAVE_SUCCESS, so the next one has to put the form back into its
+        // pending state; an onMutate dispatch would only cover the first field.
         dispatch({ type: SAVE_BEGIN });
         // eslint-disable-next-line no-await-in-loop
         const savedValues = await patchSettings(username, commitData, userId);
         applySavedValues(savedValues, commitData);
       }
     },
-    onMutate: () => dispatch({ type: SAVE_BEGIN }),
     onSuccess: (data, { form }) => {
       dispatch({ type: SAVE_SUCCESS });
       if (form) {
