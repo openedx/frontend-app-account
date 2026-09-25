@@ -114,7 +114,9 @@ export const transformTimeZonesToOptions = (timeZones) => timeZones
     value: time_zone, label: description, // eslint-disable-line camelcase
   }));
 
-export const getSiteLanguageOptions = (siteLanguageList) => siteLanguageList.map(({ code, name }) => ({
-  value: code,
-  label: name,
-}));
+export const getSiteLanguageOptions = (siteLanguageList) => siteLanguageList
+  .map(({ code, name }) => ({
+    value: code,
+    label: name,
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
