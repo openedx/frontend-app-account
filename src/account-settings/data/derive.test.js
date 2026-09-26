@@ -171,4 +171,29 @@ describe('option transforms', () => {
     expect(getSiteLanguageOptions([{ code: 'en', name: 'English', released: true }]))
       .toEqual([{ value: 'en', label: 'English' }]);
   });
+
+  it('sorts site language options by display name', () => {
+    expect(getSiteLanguageOptions([
+      { code: 'fr', name: 'Français' },
+      { code: 'ar', name: 'العربية' },
+      { code: 'en', name: 'English' },
+      { code: 'es-419', name: 'Español (Latinoamérica)' },
+    ])).toEqual([
+      { value: 'en', label: 'English' },
+      { value: 'es-419', label: 'Español (Latinoamérica)' },
+      { value: 'fr', label: 'Français' },
+      { value: 'ar', label: 'العربية' },
+    ]);
+  });
+
+  it('does not mutate the site language list', () => {
+    const siteLanguageList = [
+      { code: 'fr', name: 'Français' },
+      { code: 'ar', name: 'العربية' },
+    ];
+
+    getSiteLanguageOptions(siteLanguageList);
+
+    expect(siteLanguageList.map(({ code }) => code)).toEqual(['fr', 'ar']);
+  });
 });
