@@ -5,7 +5,7 @@ name: Lockfile Version check
 on:
   push:
     branches:
-    - master
+    - legacy-mfe
   pull_request:
 
 jobs:
