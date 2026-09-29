@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
-  fireEvent,
   screen,
   waitFor,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { getAuthenticatedUser } from '@openedx/frontend-base';
 
@@ -54,30 +54,37 @@ describe('NameChange', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('renders populated input after clicking continue if verified_name in form data', () => {
+  it('renders populated input after clicking continue if verified_name in form data', async () => {
+    const user = userEvent.setup();
+
     renderNameChange();
     expect(screen.queryByPlaceholderText(placeholder)).toBeNull();
 
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
 
     expect(screen.getByPlaceholderText(placeholder).value).toBe('edX Verified');
   });
 
-  it('renders empty input after clicking continue if verified_name not in form data', () => {
+  it('renders empty input after clicking continue if verified_name not in form data', async () => {
+    const user = userEvent.setup();
+
     useAccountSettingsData.mockReturnValue({ formValues: { name: 'edx edx' } });
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
 
     expect(screen.getByPlaceholderText(placeholder).value).toBe('');
   });
 
   it('requests a verified name on submit if targetForm is not "name"', async () => {
+    const user = userEvent.setup();
+
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
 
     await waitFor(() => expect(postVerifiedName).toHaveBeenCalledWith({
       username: 'edx',
@@ -88,11 +95,14 @@ describe('NameChange', () => {
   });
 
   it('requests both a profile name change and a verified name if the targetForm is "name"', async () => {
+    const user = userEvent.setup();
+
     renderNameChange({ targetFormId: 'name' });
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
 
     await waitFor(() => expect(postVerifiedName).toHaveBeenCalledWith({
       username: 'edx',
@@ -103,59 +113,73 @@ describe('NameChange', () => {
   });
 
   it('asks for a name when the input is empty', async () => {
+    const user = userEvent.setup();
+
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: '' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.click(screen.getByText('Continue'));
 
     expect(await screen.findByText('Please enter a valid name.')).toBeInTheDocument();
     expect(postVerifiedName).not.toHaveBeenCalled();
   });
 
   it('does not send another request while one is pending', async () => {
+    const user = userEvent.setup();
+
     postVerifiedName.mockReturnValue(new Promise(() => {}));
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
     await waitFor(() => expect(postVerifiedName).toHaveBeenCalledTimes(1));
 
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
     expect(postVerifiedName).toHaveBeenCalledTimes(1);
   });
 
   it('shows the errors the LMS reports', async () => {
+    const user = userEvent.setup();
+
     postVerifiedName.mockRejectedValue(Object.assign(new Error('bad'), {
       customAttributes: { httpErrorResponseData: JSON.stringify({ verified_name: 'Name is too long.' }) },
     }));
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
 
     expect(await screen.findByText('Name is too long.')).toBeInTheDocument();
   });
 
   it('shows a general error for anything else', async () => {
+    const user = userEvent.setup();
+
     postVerifiedName.mockRejectedValue(new Error('Network Error'));
     renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
 
     expect(await screen.findByText('A technical error occurred. Please try again.')).toBeInTheDocument();
   });
 
   it('closes the form and routes to IDV when the request succeeds', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderNameChange();
 
-    fireEvent.click(screen.getByText('Continue'));
-    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value: 'Verified Name' } });
-    fireEvent.click(screen.getByText('Continue'));
+    await user.click(screen.getByText('Continue'));
+    await user.clear(screen.getByPlaceholderText(placeholder));
+    await user.type(screen.getByPlaceholderText(placeholder), 'Verified Name');
+    await user.click(screen.getByText('Continue'));
 
     expect(await screen.findByText('IDV')).toBeInTheDocument();
     expect(form.closeForm).toHaveBeenCalledWith('test_form');

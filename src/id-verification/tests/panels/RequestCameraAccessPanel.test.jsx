@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Bowser from 'bowser';
 import {
-  render, screen, cleanup, act, fireEvent,
+  render, screen, cleanup, act,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider, getSiteConfig } from '@openedx/frontend-base';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 import RequestCameraAccessPanel from '@src/id-verification/panels/RequestCameraAccessPanel';
@@ -42,6 +43,8 @@ describe('RequestCameraAccessPanel', () => {
   });
 
   it('renders correctly with media access granted and routes to PortraitPhotoContextPanel', async () => {
+    const user = userEvent.setup();
+
     contextValue.mediaAccess = 'granted';
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
     await act(async () => render((
@@ -56,7 +59,7 @@ describe('RequestCameraAccessPanel', () => {
     const text = await screen.findByTestId('camera-access-success');
     expect(text).toHaveTextContent(/Looks like your camera is working and ready./);
     const button = await screen.findByTestId('next-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/portrait-photo-context');
   });
 
@@ -192,6 +195,8 @@ describe('RequestCameraAccessPanel', () => {
   });
 
   it('routes correctly to portrait context', async () => {
+    const user = userEvent.setup();
+
     contextValue.mediaAccess = 'granted';
 
     Bowser.parse = jest.fn().mockReturnValue({ browser: { name: '' } });
@@ -205,7 +210,7 @@ describe('RequestCameraAccessPanel', () => {
       </Router>
     )));
     const button = await screen.findByTestId('next-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/portrait-photo-context');
   });
 });

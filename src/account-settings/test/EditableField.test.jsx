@@ -1,5 +1,6 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import EditableField from '@src/account-settings/EditableField';
 import messages from '@src/account-settings/AccountSettingsPage.messages';
@@ -38,9 +39,11 @@ describe('EditableField', () => {
     expect(screen.getByRole('button', { name: /Edit/i })).toBeInTheDocument();
   });
 
-  it('opens its form when Edit is clicked', () => {
+  it('opens its form when Edit is clicked', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent({}, { openForm: jest.fn() });
-    fireEvent.click(screen.getByRole('button', { name: /Edit/i }));
+    await user.click(screen.getByRole('button', { name: /Edit/i }));
     expect(form.openForm).toHaveBeenCalledWith('username');
   });
 
@@ -61,21 +64,27 @@ describe('EditableField', () => {
     expect(screen.getByTestId('editable-field-cancel')).toBeInTheDocument();
   });
 
-  it('closes its form when Cancel is clicked', () => {
+  it('closes its form when Cancel is clicked', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent({}, { openFormId: 'username', closeForm: jest.fn() });
-    fireEvent.click(screen.getByTestId('editable-field-cancel'));
+    await user.click(screen.getByTestId('editable-field-cancel'));
     expect(form.closeForm).toHaveBeenCalledWith('username');
   });
 
-  it('calls onChange when input changes', () => {
+  it('calls onChange when input changes', async () => {
+    const user = userEvent.setup();
+
     renderComponent({}, { openFormId: 'username' });
-    fireEvent.change(screen.getByTestId('editable-field-textbox'), { target: { value: 'new_name' } });
-    expect(mockOnChange).toHaveBeenCalledWith('username', 'new_name');
+    await user.type(screen.getByTestId('editable-field-textbox'), '!');
+    expect(mockOnChange).toHaveBeenCalledWith('username', 'john_doe!');
   });
 
-  it('calls onSubmit when form is submitted', () => {
+  it('calls onSubmit when form is submitted', async () => {
+    const user = userEvent.setup();
+
     renderComponent({}, { openFormId: 'username' });
-    fireEvent.submit(screen.getByTestId('editable-field-form'));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
     expect(mockOnSubmit).toHaveBeenCalledWith('username', 'john_doe');
   });
 

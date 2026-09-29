@@ -1,6 +1,7 @@
 import {
-  fireEvent, screen, waitFor, within,
+  screen, waitFor, within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { logError, mergeAppConfig } from '@openedx/frontend-base';
 
@@ -88,6 +89,8 @@ describe('Notification Preferences', () => {
   });
 
   it('saves a toggle and reflects the value the API reports back', async () => {
+    const user = userEvent.setup();
+
     let resolveToggle;
     postPreferenceToggle.mockReturnValue(new Promise((resolve) => { resolveToggle = resolve; }));
     renderPreferences();
@@ -95,7 +98,7 @@ describe('Notification Preferences', () => {
     const toggle = await screen.findByTestId('toggle-newGrade-web');
     expect(toggle).not.toBeChecked();
 
-    fireEvent.click(toggle);
+    await user.click(toggle);
 
     await waitFor(() => (
       expect(postPreferenceToggle).toHaveBeenCalledWith('coursework', 'newGrade', 'web', true, 'Daily')
@@ -115,6 +118,8 @@ describe('Notification Preferences', () => {
   });
 
   it('also asserts the email cadence when email is turned on', async () => {
+    const user = userEvent.setup();
+
     postPreferenceToggle
       .mockResolvedValueOnce(toggleResponse({
         app: 'coursework', type: 'new_grade', channel: 'email', value: true,
@@ -124,7 +129,7 @@ describe('Notification Preferences', () => {
       }));
     renderPreferences();
 
-    fireEvent.click(await screen.findByTestId('toggle-newGrade-email'));
+    await user.click(await screen.findByTestId('toggle-newGrade-email'));
 
     await waitFor(() => expect(postPreferenceToggle).toHaveBeenCalledTimes(2));
     expect(postPreferenceToggle).toHaveBeenNthCalledWith(1, 'coursework', 'newGrade', 'email', true, 'Daily');
@@ -133,12 +138,14 @@ describe('Notification Preferences', () => {
   });
 
   it('keeps the current value and logs the error when saving fails', async () => {
+    const user = userEvent.setup();
+
     const error = new Error('nope');
     postPreferenceToggle.mockRejectedValue(error);
     renderPreferences();
 
     const toggle = await screen.findByTestId('toggle-newGrade-web');
-    fireEvent.click(toggle);
+    await user.click(toggle);
 
     await waitFor(() => expect(logError).toHaveBeenCalledWith(error));
     expect(toggle).not.toBeChecked();

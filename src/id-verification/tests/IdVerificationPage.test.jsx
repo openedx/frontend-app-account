@@ -3,8 +3,9 @@ import {
   MemoryRouter as Router, Route, Routes, useLocation,
 } from 'react-router-dom';
 import {
-  render, act, screen, fireEvent,
+  render, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationPageSlot from '@src/slots/IdVerificationPageSlot';
 
@@ -94,6 +95,8 @@ describe('IdVerificationPage', () => {
     );
   });
   it('shows modal on click of button', async () => {
+    const user = userEvent.setup();
+
     await act(async () => render((
       <Router initialEntries={['/?next=dashboard']}>
         <IntlProvider locale="en">
@@ -102,10 +105,12 @@ describe('IdVerificationPage', () => {
       </Router>
     )));
     expect(screen.getByText('Privacy Information')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Privacy Information'));
+    await user.click(screen.getByText('Privacy Information'));
     expect(screen.getByTestId('Id-modal')).toBeInTheDocument();
   });
   it('shows modal on click of button', async () => {
+    const user = userEvent.setup();
+
     await act(async () => render((
       <Router initialEntries={['/?next=dashboard']}>
         <IntlProvider locale="en">
@@ -114,8 +119,8 @@ describe('IdVerificationPage', () => {
       </Router>
     )));
     expect(screen.getByText('Privacy Information')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Privacy Information'));
+    await user.click(screen.getByText('Privacy Information'));
     expect(screen.getByTestId('Id-modal')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Close'));
+    await user.click(screen.getByText('Close'));
   });
 });

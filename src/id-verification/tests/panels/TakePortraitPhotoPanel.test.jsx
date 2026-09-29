@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent,
+  render, cleanup, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 import TakePortraitPhotoPanel from '@src/id-verification/panels/TakePortraitPhotoPanel';
@@ -43,6 +44,8 @@ describe('TakePortraitPhotoPanel', () => {
   });
 
   it('shows next button after photo is taken and routes to IdContextPanel', async () => {
+    const user = userEvent.setup();
+
     contextValue.facePhotoFile = 'test.jpg';
     await act(async () => render((
       <Router>
@@ -55,11 +58,13 @@ describe('TakePortraitPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/id-context');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
+    const user = userEvent.setup();
+
     contextValue.facePhotoFile = 'test.jpg';
     contextValue.idPhotoFile = 'test.jpg';
     contextValue.reachedSummary = true;
@@ -73,7 +78,7 @@ describe('TakePortraitPhotoPanel', () => {
       </Router>
     )));
     const button = await screen.findByTestId('next-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/summary');
   });
 });

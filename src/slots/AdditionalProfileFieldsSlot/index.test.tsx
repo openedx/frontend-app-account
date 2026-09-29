@@ -1,4 +1,5 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { mergeSiteConfig, useSlotContext, WidgetOperationTypes } from '@openedx/frontend-base';
 
 import { accountSettingsKeys } from '@src/account-settings/data/queryKeys';
@@ -52,21 +53,25 @@ describe('AdditionalProfileFieldsSlot', () => {
     expect(screen.getByTestId('errors')).toHaveTextContent('{"favorite_color":"Not a color"}');
   });
 
-  it('saves a widget\'s update as an extended profile change', () => {
+  it('saves a widget\'s update as an extended profile change', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderWithForm(<AdditionalProfileFieldsSlot />, { form: { saveSettings: jest.fn() } });
 
-    fireEvent.click(screen.getByRole('button', { name: 'update' }));
+    await user.click(screen.getByRole('button', { name: 'update' }));
 
     expect(form.saveSettings).toHaveBeenCalledWith(null, null, {
       extended_profile: [{ field_name: 'favorite_color', field_value: 'red' }],
     });
   });
 
-  it('refreshes the settings on request', () => {
+  it('refreshes the settings on request', async () => {
+    const user = userEvent.setup();
+
     const { queryClient } = renderWithForm(<AdditionalProfileFieldsSlot />);
     const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
 
-    fireEvent.click(screen.getByRole('button', { name: 'refresh' }));
+    await user.click(screen.getByRole('button', { name: 'refresh' }));
 
     expect(invalidate).toHaveBeenCalledWith({ queryKey: accountSettingsKeys.values('Mock User') });
   });

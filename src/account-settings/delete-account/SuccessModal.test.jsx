@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 
 import { SuccessModal } from '@src/account-settings/delete-account/SuccessModal';
@@ -18,14 +19,16 @@ describe('SuccessModal', () => {
     expect(screen.queryByText(header)).not.toBeInTheDocument();
   });
 
-  it('confirms the deletion and closes on request', () => {
+  it('confirms the deletion and closes on request', async () => {
+    const user = userEvent.setup();
+
     const onClose = jest.fn();
     render(<IntlProvider locale="en"><SuccessModal status="deleted" onClose={onClose} /></IntlProvider>);
 
     expect(screen.getByText(header)).toBeInTheDocument();
     expect(screen.getByText(/Account deletion, including removal from email lists/)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    await user.click(screen.getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalled();
   });
 });

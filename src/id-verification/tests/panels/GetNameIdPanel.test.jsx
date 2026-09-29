@@ -1,7 +1,8 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent,
+  render, cleanup, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 import { VerifiedNameContext } from '@src/id-verification/VerifiedNameContext';
@@ -59,19 +60,24 @@ describe('GetNameIdPanel', () => {
   });
 
   it('calls setIdPhotoName with correct name', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
 
     const input = await screen.findByTestId('name-input');
-    fireEvent.change(input, { target: { value: 'test' } });
+    await user.click(input);
+    await user.paste('test');
     expect(IDVerificationContextValue.setIdPhotoName).toHaveBeenCalledWith('test');
   });
 
   it('routes to SummaryPanel', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
 
     const button = await screen.findByTestId('next-button');
 
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/summary');
   });
 });

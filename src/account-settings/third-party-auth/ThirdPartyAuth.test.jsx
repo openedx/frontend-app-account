@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { logError } from '@openedx/frontend-base';
 
@@ -55,13 +56,15 @@ describe('ThirdPartyAuth', () => {
   });
 
   it('disconnects a provider and refetches the list', async () => {
+    const user = userEvent.setup();
+
     getThirdPartyAuthProviders
       .mockResolvedValueOnce([google])
       .mockResolvedValueOnce([{ ...google, connected: false }]);
     postDisconnectAuth.mockResolvedValue({});
     renderWithProviders(<ThirdPartyAuth />);
 
-    fireEvent.click(await screen.findByRole('button', { name: 'Unlink Google account' }));
+    await user.click(await screen.findByRole('button', { name: 'Unlink Google account' }));
 
     expect(await screen.findByRole('link', { name: 'Sign in with Google' })).toBeInTheDocument();
     expect(postDisconnectAuth).toHaveBeenCalledWith(google.disconnectUrl);
@@ -69,12 +72,14 @@ describe('ThirdPartyAuth', () => {
   });
 
   it('reports a failed disconnection on the provider', async () => {
+    const user = userEvent.setup();
+
     const error = new Error('Server');
     getThirdPartyAuthProviders.mockResolvedValue([google]);
     postDisconnectAuth.mockRejectedValue(error);
     renderWithProviders(<ThirdPartyAuth />);
 
-    fireEvent.click(await screen.findByRole('button', { name: 'Unlink Google account' }));
+    await user.click(await screen.findByRole('button', { name: 'Unlink Google account' }));
 
     expect(await screen.findByText(/There was a problem disconnecting this account/)).toBeInTheDocument();
     expect(logError).toHaveBeenCalledWith(error);
@@ -82,15 +87,17 @@ describe('ThirdPartyAuth', () => {
   });
 
   it('ignores clicks while a disconnection is pending', async () => {
+    const user = userEvent.setup();
+
     getThirdPartyAuthProviders.mockResolvedValue([google]);
     postDisconnectAuth.mockReturnValue(new Promise(() => {}));
     renderWithProviders(<ThirdPartyAuth />);
 
     const button = await screen.findByRole('button', { name: 'Unlink Google account' });
-    fireEvent.click(button);
+    await user.click(button);
     await waitFor(() => expect(postDisconnectAuth).toHaveBeenCalledTimes(1));
 
-    fireEvent.click(button);
+    await user.click(button);
     expect(postDisconnectAuth).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,4 +1,5 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import EditableSelectField from '@src/account-settings/EditableSelectField';
 import { renderWithForm } from '@src/account-settings/test/renderWithForm';
@@ -73,15 +74,17 @@ describe('EditableSelectField', () => {
     expect(select.querySelectorAll('option')).toHaveLength(1);
   });
 
-  it('reports changes and submits the selected value', () => {
+  it('reports changes and submits the selected value', async () => {
+    const user = userEvent.setup();
+
     const onChange = jest.fn();
     const onSubmit = jest.fn();
     renderComponent({ onChange, onSubmit }, { openFormId: 'testField' });
 
-    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'suboption3' } });
+    await user.selectOptions(screen.getByRole('combobox'), 'suboption3');
     expect(onChange).toHaveBeenCalledWith('testField', 'suboption3');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
     expect(onSubmit).toHaveBeenCalledWith('testField', 'defaultOption');
   });
 
@@ -90,9 +93,11 @@ describe('EditableSelectField', () => {
     expect(screen.getByText('This is an error message')).toBeInTheDocument();
   });
 
-  it('opens and closes its form through the form context', () => {
+  it('opens and closes its form through the form context', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent({}, { openForm: jest.fn(), closeForm: jest.fn() });
-    fireEvent.click(screen.getByRole('button', { name: /Edit/ }));
+    await user.click(screen.getByRole('button', { name: /Edit/ }));
     expect(form.openForm).toHaveBeenCalledWith('testField');
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import messages from '@src/account-settings/certificate-preference/messages';
 import { useAccountSettingsData } from '@src/account-settings/data/hooks';
@@ -48,7 +49,9 @@ describe('CertificatePreference', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('does not trigger modal when checking empty checkbox, and updates draft immediately', () => {
+  it('does not trigger modal when checking empty checkbox, and updates draft immediately', async () => {
+    const user = userEvent.setup();
+
     setData({ useVerifiedNameForCerts: true });
 
     const { form } = renderComponent();
@@ -56,70 +59,82 @@ describe('CertificatePreference', () => {
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(false);
 
-    fireEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(screen.queryByRole('radiogroup')).toBeNull();
     expect(form.updateDraft).toHaveBeenCalledWith(formId, false);
   });
 
-  it('triggers modal when attempting to uncheck checkbox', () => {
+  it('triggers modal when attempting to uncheck checkbox', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent();
 
     const checkbox = screen.getByLabelText(labelText);
     expect(checkbox.checked).toEqual(true);
 
-    fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(form.updateDraft).not.toHaveBeenCalled();
 
     screen.getByRole('radiogroup');
   });
 
-  it('updates draft when changing radio value', () => {
+  it('updates draft when changing radio value', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent();
 
-    fireEvent.click(screen.getByLabelText(labelText));
+    await user.click(screen.getByLabelText(labelText));
 
     const fullNameOption = screen.getByLabelText('Ed X (Full Name)');
     const verifiedNameOption = screen.getByLabelText('edX Verified (Verified Name)');
     expect(fullNameOption.checked).toEqual(true);
     expect(verifiedNameOption.checked).toEqual(false);
 
-    fireEvent.click(verifiedNameOption);
+    await user.click(verifiedNameOption);
     expect(form.updateDraft).toHaveBeenCalledWith(formId, true);
   });
 
-  it('clears draft on cancel', () => {
+  it('clears draft on cancel', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent();
 
-    fireEvent.click(screen.getByLabelText(labelText));
-    fireEvent.click(screen.getByText('Cancel'));
+    await user.click(screen.getByLabelText(labelText));
+    await user.click(screen.getByText('Cancel'));
 
     expect(form.resetDrafts).toHaveBeenCalled();
     expect(screen.queryByRole('radiogroup')).toBeNull();
   });
 
-  it('submits', () => {
+  it('submits', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent();
 
-    fireEvent.click(screen.getByLabelText(labelText));
-    fireEvent.click(screen.getByText('Choose name'));
+    await user.click(screen.getByLabelText(labelText));
+    await user.click(screen.getByText('Choose name'));
 
     expect(form.saveSettings).toHaveBeenCalledWith(formId, false);
   });
 
-  it('does not submit while a save is pending', () => {
+  it('does not submit while a save is pending', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent({}, { saveState: 'pending' });
 
-    fireEvent.click(screen.getByLabelText(labelText));
-    fireEvent.click(screen.getByText('Choose name'));
+    await user.click(screen.getByLabelText(labelText));
+    await user.click(screen.getByText('Choose name'));
 
     expect(form.saveSettings).not.toHaveBeenCalled();
   });
 
-  it('closes the modal and the field once the save completes', () => {
+  it('closes the modal and the field once the save completes', async () => {
+    const user = userEvent.setup();
+
     const { form } = renderComponent({}, { saveState: 'complete' });
 
-    fireEvent.click(screen.getByLabelText(labelText));
+    await user.click(screen.getByLabelText(labelText));
 
     expect(screen.queryByRole('radiogroup')).toBeNull();
     expect(form.closeForm).toHaveBeenCalledWith('name');

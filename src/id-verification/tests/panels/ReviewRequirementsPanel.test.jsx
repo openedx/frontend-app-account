@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent,
+  render, cleanup, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 import ReviewRequirementsPanel from '@src/id-verification/panels/ReviewRequirementsPanel';
@@ -32,9 +33,11 @@ describe('ReviewRequirementsPanel', () => {
   });
 
   it('routes to RequestCameraAccessPanel', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
     const button = await screen.findByTestId('next-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/request-camera-access');
   });
 
