@@ -12,7 +12,7 @@ metadata:
       icon: "Web"
   annotations:
     openedx.org/arch-interest-groups: ""
-    openedx.org/release: "master"
+    openedx.org/release: "legacy-mfe"
 spec:
   owner: jacobo-dominguez-wgu
   type: 'website'
