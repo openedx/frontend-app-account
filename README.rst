@@ -32,10 +32,10 @@ This app is published to NPM by ``semantic-release``, and its branches follow
 `OEP-10 ADR 0002`_:
 
 ``master``
-  Unstable.  Every merge publishes a prerelease on the ``alpha`` dist-tag.
-  Breaking changes land here with no DEPR process and no warning, so it is not
-  supported in production.  All changes, including bug fixes, should target this
-  branch first.
+  Unstable.  Every merge publishes a prerelease on the ``alpha`` dist-tag, which
+  also owns ``latest`` until ``stable`` is first published.  Breaking changes
+  land here with no DEPR process and no warning, so it is not supported in
+  production.  All changes, including bug fixes, should target this branch first.
 
 ``stable``
   Carries the newest stable major and owns the ``latest`` dist-tag.  Changes
@@ -47,10 +47,10 @@ This app is published to NPM by ``semantic-release``, and its branches follow
   Each owns the dist-tag matching its own name, so consumers select a maintained
   line by semver range, e.g. ``"1.x"``.
 
-``stable`` is not cut yet, and the package is not on NPM yet; `#1467`_ tracks
-both.  Both ``.releaserc`` and the ``Release CI`` workflow already know the
-whole layout, including the maintenance branch patterns, so a new line starts
-publishing as soon as it is pushed.
+``stable`` is cut but has not published yet, and the package is not on NPM yet;
+`#1467`_ tracks the rest.  Both ``.releaserc`` and the ``Release CI`` workflow
+already know the whole layout, including the maintenance branch patterns, so a
+new line starts publishing as soon as it is pushed.
 
 This repository is no longer branched or tagged for Open edX releases in its own
 right.  It participates by published version instead, per `OEP-10 ADR 0003`_.
