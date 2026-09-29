@@ -1,7 +1,8 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent,
+  render, cleanup, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
 import TakeIdPhotoPanel from '@src/id-verification/panels/TakeIdPhotoPanel';
@@ -42,6 +43,8 @@ describe('TakeIdPhotoPanel', () => {
   });
 
   it('shows next button after photo is taken and routes to GetNameIdPanel', async () => {
+    const user = userEvent.setup();
+
     contextValue.idPhotoFile = 'test.jpg';
     await act(async () => render((
       <Router>
@@ -54,11 +57,13 @@ describe('TakeIdPhotoPanel', () => {
     )));
     const button = await screen.findByTestId('next-button');
     expect(button).toBeVisible();
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/get-name-id');
   });
 
   it('routes back to SummaryPanel if that was the source', async () => {
+    const user = userEvent.setup();
+
     contextValue.idPhotoFile = 'test.jpg';
     contextValue.reachedSummary = true;
     await act(async () => render((
@@ -71,7 +76,7 @@ describe('TakeIdPhotoPanel', () => {
       </Router>
     )));
     const button = await screen.findByTestId('next-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/summary');
   });
 

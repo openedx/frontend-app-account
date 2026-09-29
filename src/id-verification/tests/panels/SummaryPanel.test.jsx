@@ -1,8 +1,9 @@
 /* eslint-disable no-import-assign */
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent, waitFor,
+  render, cleanup, act, screen, waitFor,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider } from '@openedx/frontend-base';
 import * as dataService from '@src/id-verification/data/api';
 import IdVerificationContext from '@src/id-verification/IdVerificationContext';
@@ -48,23 +49,29 @@ describe('SummaryPanel', () => {
   });
 
   it('routes back to TakePortraitPhotoPanel', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
     const button = await screen.findByTestId('portrait-retake');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/take-portrait-photo');
   });
 
   it('routes back to TakeIdPhotoPanel', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
     const button = await screen.findByTestId('id-retake');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/take-id-photo');
   });
 
   it('allows user to upload ID photo', async () => {
+    const user = userEvent.setup();
+
     await getPanel();
     const collapsible = await screen.getAllByRole('button', { 'aria-expanded': false })[0];
-    fireEvent.click(collapsible);
+    await user.click(collapsible);
     const uploadButton = await screen.getByTestId('fileUpload');
     expect(uploadButton).toBeVisible();
   });
@@ -77,6 +84,8 @@ describe('SummaryPanel', () => {
   });
 
   it('submits', async () => {
+    const user = userEvent.setup();
+
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
       idPhotoFile: appContextValue.idPhotoFile,
@@ -85,12 +94,14 @@ describe('SummaryPanel', () => {
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
     await waitFor(() => expect(appContextValue.stopUserMedia).toHaveBeenCalled());
   });
 
   it('submits a name if name is blank', async () => {
+    const user = userEvent.setup();
+
     appContextValue.idPhotoName = '';
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
@@ -100,11 +111,13 @@ describe('SummaryPanel', () => {
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
   });
 
   it('submits a name if a name is unchanged', async () => {
+    const user = userEvent.setup();
+
     appContextValue.idPhotoName = null;
     const verificationData = {
       facePhotoFile: appContextValue.facePhotoFile,
@@ -114,21 +127,25 @@ describe('SummaryPanel', () => {
     };
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    fireEvent.click(button);
+    await user.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalledWith(verificationData);
   });
 
   it('shows error when cannot submit', async () => {
+    const user = userEvent.setup();
+
     dataService.submitIdVerification = jest.fn().mockReturnValue({ success: false });
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    await act(async () => fireEvent.click(button));
+    await user.click(button);
     expect(dataService.submitIdVerification).toHaveBeenCalled();
     const error = await screen.getByTestId('submission-error');
     expect(error).toBeDefined();
   });
 
   it('displays correct error for missing portrait photo', async () => {
+    const user = userEvent.setup();
+
     dataService.submitIdVerification = jest.fn().mockReturnValue({
       success: false,
       status: 400,
@@ -136,12 +153,14 @@ describe('SummaryPanel', () => {
     });
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    await act(async () => fireEvent.click(button));
+    await user.click(button);
     const error = await screen.getByTestId('submission-error');
     expect(error).toHaveTextContent('A photo of your face is required. Please retake your portrait photo.');
   });
 
   it('displays correct error for missing id photo', async () => {
+    const user = userEvent.setup();
+
     dataService.submitIdVerification = jest.fn().mockReturnValue({
       success: false,
       status: 400,
@@ -149,12 +168,14 @@ describe('SummaryPanel', () => {
     });
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    await act(async () => fireEvent.click(button));
+    await user.click(button);
     const error = await screen.getByTestId('submission-error');
     expect(error).toHaveTextContent('A photo of your ID card is required. Please retake your ID photo.');
   });
 
   it('displays correct error for missing account name', async () => {
+    const user = userEvent.setup();
+
     dataService.submitIdVerification = jest.fn().mockReturnValue({
       success: false,
       status: 400,
@@ -162,7 +183,7 @@ describe('SummaryPanel', () => {
     });
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    await act(async () => fireEvent.click(button));
+    await user.click(button);
     const error = await screen.getByTestId('submission-error');
     expect(error).toHaveTextContent(
       'A valid account name is required. Please update your account name to match the name on your ID.',
@@ -170,6 +191,8 @@ describe('SummaryPanel', () => {
   });
 
   it('displays correct error for unsupported file type', async () => {
+    const user = userEvent.setup();
+
     dataService.submitIdVerification = jest.fn().mockReturnValue({
       success: false,
       status: 400,
@@ -177,7 +200,7 @@ describe('SummaryPanel', () => {
     });
     await getPanel();
     const button = await screen.findByTestId('submit-button');
-    await act(async () => fireEvent.click(button));
+    await user.click(button);
     const error = await screen.getByTestId('submission-error');
     expect(error).toHaveTextContent(
       'One or more of the files you have uploaded is in an unsupported format. Please choose from the following:',

@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getSiteConfig, IntlProvider, mergeSiteConfig } from '@openedx/frontend-base';
 
 import ConfirmationModal from '@src/account-settings/delete-account/ConfirmationModal';
@@ -59,15 +60,17 @@ describe('ConfirmationModal', () => {
     expect(screen.getByText(/unable to use this account to take courses on the edX app/)).toBeInTheDocument();
   });
 
-  it('calls back on cancel and on delete', () => {
+  it('calls back on cancel and on delete', async () => {
+    const user = userEvent.setup();
+
     const onCancel = jest.fn();
     const onSubmit = jest.fn();
     renderModal({ status: 'confirming', onCancel, onSubmit });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(onCancel).toHaveBeenCalled();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
     expect(onSubmit).toHaveBeenCalled();
   });
 });

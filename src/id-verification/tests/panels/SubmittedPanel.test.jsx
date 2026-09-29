@@ -1,7 +1,8 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
-  render, cleanup, act, screen, fireEvent,
+  render, cleanup, act, screen,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   getSiteConfig, IntlProvider, mergeSiteConfig, setSiteConfig,
 } from '@openedx/frontend-base';
@@ -53,6 +54,8 @@ describe('SubmittedPanel', () => {
   });
 
   it('stays in the site when it provides the dashboard', async () => {
+    const user = userEvent.setup();
+
     mergeSiteConfig({
       apps: [{
         appId: 'org.openedx.frontend.app.learnerDashboard',
@@ -70,7 +73,7 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByTestId('return-button');
     expect(button).toHaveAttribute('href', '/learner-dashboard');
-    fireEvent.click(button);
+    await user.click(button);
     expect(window.location.pathname).toEqual('/learner-dashboard');
   });
 

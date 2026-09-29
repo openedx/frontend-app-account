@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import {
   render, cleanup, screen, act, fireEvent,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { IntlProvider, sendTrackEvent } from '@openedx/frontend-base';
 import CameraPhoto from 'jslib-html5-camera-photo';
 // eslint-disable-next-line import/no-unresolved
@@ -39,6 +40,8 @@ describe('SubmittedPanel', () => {
   });
 
   it('takes photo', async () => {
+    const user = userEvent.setup();
+
     await act(async () => render((
       <Router>
         <IntlProvider locale="en">
@@ -50,7 +53,7 @@ describe('SubmittedPanel', () => {
     )));
     const button = await screen.findByRole('button');
     expect(button).toHaveTextContent('Take Photo');
-    fireEvent.click(button);
+    await user.click(button);
     expect(defaultProps.onImageCapture).toHaveBeenCalled();
   });
 
@@ -83,6 +86,8 @@ describe('SubmittedPanel', () => {
   });
 
   it('shows spinner when loading face detection', async () => {
+    const user = userEvent.setup();
+
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
     await act(async () => render((
       <Router>
@@ -94,13 +99,16 @@ describe('SubmittedPanel', () => {
       </Router>
     )));
 
+    // loadedData is a media event, not a user interaction, so it stays on fireEvent.
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(screen.queryByTestId('spinner')).toBeDefined();
   });
 
   it('canvas is visible when detection is enabled', async () => {
+    const user = userEvent.setup();
+
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
     await act(async () => render((
       <Router>
@@ -115,11 +123,13 @@ describe('SubmittedPanel', () => {
     await fireEvent.loadedData(screen.queryByTestId('video'));
     expect(screen.queryByTestId('detection-canvas')).toHaveStyle('display:none');
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(screen.queryByTestId('detection-canvas')).toHaveStyle('display:block');
   });
 
   it('blazeface is called when detection is enabled', async () => {
+    const user = userEvent.setup();
+
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
@@ -134,11 +144,13 @@ describe('SubmittedPanel', () => {
 
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     setTimeout(() => { expect(blazeface.load).toHaveBeenCalled(); }, 2000);
   });
 
   it('sends tracking events on portrait photo page', async () => {
+    const user = userEvent.setup();
+
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
@@ -153,13 +165,15 @@ describe('SubmittedPanel', () => {
 
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_enabled');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.user_photo.face_detection_disabled');
   });
 
   it('sends tracking events on id photo page', async () => {
+    const user = userEvent.setup();
+
     blazeface.load = jest.fn().mockResolvedValue({ estimateFaces: jest.fn().mockResolvedValue([]) });
 
     await act(async () => render((
@@ -174,9 +188,9 @@ describe('SubmittedPanel', () => {
 
     await fireEvent.loadedData(screen.queryByTestId('video'));
     const checkbox = await screen.findByLabelText('Enable Face Detection');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_enabled');
-    await fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(sendTrackEvent).toHaveBeenCalledWith('edx.id_verification.id_photo.face_detection_disabled');
   });
 
@@ -189,6 +203,8 @@ describe('SubmittedPanel', () => {
     });
 
     it('scales down large resolutions to stay under 10MB limit', async () => {
+      const user = userEvent.setup();
+
       const currentSettings = { width: 4000, height: 3000 };
 
       CameraPhoto.mockImplementation(() => ({
@@ -209,7 +225,7 @@ describe('SubmittedPanel', () => {
       )));
 
       const button = await screen.findByRole('button', { name: /take photo/i });
-      fireEvent.click(button);
+      await user.click(button);
 
       // For large resolution: size = 4000 * 3000 * 3 = 36,000,000 bytes
       // Ratio = 9,999,999 / 36,000,000 ≈ 0.278
@@ -219,6 +235,8 @@ describe('SubmittedPanel', () => {
     });
 
     it('scales up 640x480 resolution to improve quality', async () => {
+      const user = userEvent.setup();
+
       const currentSettings = { width: 640, height: 480 };
 
       CameraPhoto.mockImplementation(() => ({
@@ -239,7 +257,7 @@ describe('SubmittedPanel', () => {
       )));
 
       const button = await screen.findByRole('button', { name: /take photo/i });
-      fireEvent.click(button);
+      await user.click(button);
 
       expect(mockGetDataUri).toHaveBeenCalledWith(expect.objectContaining({
         sizeFactor: 2,
@@ -247,6 +265,8 @@ describe('SubmittedPanel', () => {
     });
 
     it('maintains original size for medium resolutions', async () => {
+      const user = userEvent.setup();
+
       const currentSettings = { width: 1280, height: 720 };
 
       CameraPhoto.mockImplementation(() => ({
@@ -267,7 +287,7 @@ describe('SubmittedPanel', () => {
       )));
 
       const button = await screen.findByRole('button', { name: /take photo/i });
-      fireEvent.click(button);
+      await user.click(button);
 
       expect(mockGetDataUri).toHaveBeenCalledWith(expect.objectContaining({
         sizeFactor: 1,

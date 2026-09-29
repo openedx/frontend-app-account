@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { getSiteConfig, logError } from '@openedx/frontend-base';
 
@@ -19,8 +20,8 @@ jest.mock('@openedx/frontend-base', () => ({
   logError: jest.fn(),
 }));
 
-const openConfirmation = () => {
-  fireEvent.click(screen.getByRole('button', { name: 'Delete My Account' }));
+const openConfirmation = async (user) => {
+  await user.click(screen.getByRole('button', { name: 'Delete My Account' }));
   return screen.getByLabelText(/please enter your account password/);
 };
 
@@ -56,23 +57,27 @@ describe('DeleteAccount', () => {
     expect(screen.queryByRole('button', { name: 'Delete My Account' })).not.toBeInTheDocument();
   });
 
-  it('requires a password before deleting', () => {
-    renderWithProviders(<DeleteAccount />);
-    openConfirmation();
+  it('requires a password before deleting', async () => {
+    const user = userEvent.setup();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    renderWithProviders(<DeleteAccount />);
+    await openConfirmation(user);
+
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
 
     expect(screen.getAllByText('A password is required').length).toBeGreaterThan(0);
     expect(postDeleteAccount).not.toHaveBeenCalled();
   });
 
   it('reports a wrong password', async () => {
+    const user = userEvent.setup();
+
     postDeleteAccount.mockRejectedValue(Object.assign(new Error('Forbidden'), { response: { status: 403 } }));
     renderWithProviders(<DeleteAccount />);
-    const passwordField = openConfirmation();
+    const passwordField = await openConfirmation(user);
 
-    fireEvent.change(passwordField, { target: { value: 'wrong' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(passwordField, 'wrong');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
 
     expect((await screen.findAllByText('Password is incorrect')).length).toBeGreaterThan(0);
     expect(postDeleteAccount).toHaveBeenCalledWith('wrong');
@@ -80,81 +85,95 @@ describe('DeleteAccount', () => {
   });
 
   it('reports and logs any other failure', async () => {
+    const user = userEvent.setup();
+
     const error = Object.assign(new Error('Server'), { response: { status: 500, data: 'oops' } });
     postDeleteAccount.mockRejectedValue(error);
     renderWithProviders(<DeleteAccount />);
-    const passwordField = openConfirmation();
+    const passwordField = await openConfirmation(user);
 
-    fireEvent.change(passwordField, { target: { value: 'secret' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(passwordField, 'secret');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
 
     expect((await screen.findAllByText('Unable to delete account')).length).toBeGreaterThan(0);
     expect(logError).toHaveBeenCalledWith(error);
   });
 
   it('clears the error when the password changes', async () => {
+    const user = userEvent.setup();
+
     postDeleteAccount.mockRejectedValue(Object.assign(new Error('Forbidden'), { response: { status: 403 } }));
     renderWithProviders(<DeleteAccount />);
-    const passwordField = openConfirmation();
+    const passwordField = await openConfirmation(user);
 
-    fireEvent.change(passwordField, { target: { value: 'wrong' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(passwordField, 'wrong');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
     await screen.findAllByText('Password is incorrect');
 
-    fireEvent.change(passwordField, { target: { value: 'wrong2' } });
+    await user.clear(passwordField);
+    await user.type(passwordField, 'wrong2');
 
     await waitFor(() => expect(screen.queryByText('Password is incorrect')).not.toBeInTheDocument());
     expect(screen.getByRole('button', { name: 'Yes, Delete' })).toBeInTheDocument();
   });
 
   it('shows the farewell once the account is deleted', async () => {
+    const user = userEvent.setup();
+
     postDeleteAccount.mockResolvedValue({});
     renderWithProviders(<DeleteAccount />);
-    const passwordField = openConfirmation();
+    const passwordField = await openConfirmation(user);
 
-    fireEvent.change(passwordField, { target: { value: 'secret' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(passwordField, 'secret');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
 
     expect(await screen.findByText(/Your account will be deleted shortly/)).toBeInTheDocument();
     expect(postDeleteAccount).toHaveBeenCalledWith('secret');
   });
 
   it('keeps the outcome when the password changes while the request is pending', async () => {
+    const user = userEvent.setup();
+
     let resolveDelete;
     postDeleteAccount.mockReturnValue(new Promise((resolve) => { resolveDelete = resolve; }));
     renderWithProviders(<DeleteAccount />);
-    const passwordField = openConfirmation();
+    const passwordField = await openConfirmation(user);
 
-    fireEvent.change(passwordField, { target: { value: 'secret' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(passwordField, 'secret');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
     await waitFor(() => expect(postDeleteAccount).toHaveBeenCalledWith('secret'));
 
-    fireEvent.change(passwordField, { target: { value: 'secret2' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.clear(passwordField);
+    await user.type(passwordField, 'secret2');
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
     resolveDelete({});
 
     expect(await screen.findByText(/Your account will be deleted shortly/)).toBeInTheDocument();
   });
 
-  it('closes the confirmation on cancel', () => {
-    renderWithProviders(<DeleteAccount />);
-    openConfirmation();
+  it('closes the confirmation on cancel', async () => {
+    const user = userEvent.setup();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    renderWithProviders(<DeleteAccount />);
+    await openConfirmation(user);
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
 
     expect(screen.queryByLabelText(/please enter your account password/)).not.toBeInTheDocument();
   });
 
   it('logs the learner out once they close the farewell', async () => {
+    const user = userEvent.setup();
+
     postDeleteAccount.mockResolvedValue({});
     const { location } = global;
     delete global.location;
     renderWithProviders(<DeleteAccount />);
-    fireEvent.change(openConfirmation(), { target: { value: 'secret' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, Delete' }));
+    await user.type(await openConfirmation(user), 'secret');
+    await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
     await screen.findByText(/Your account will be deleted shortly/);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    await user.click(screen.getByRole('button', { name: 'Close' }));
 
     expect(global.location).toBe(getSiteConfig().logoutUrl);
     global.location = location;

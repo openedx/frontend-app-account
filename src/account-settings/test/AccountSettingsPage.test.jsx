@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  fireEvent, screen, waitFor, within,
+  screen, waitFor, within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { getAuthenticatedUser, mergeAppConfig } from '@openedx/frontend-base';
 
@@ -113,15 +114,17 @@ describe('AccountSettingsPage', () => {
   });
 
   it('edits and saves a field', async () => {
+    const user = userEvent.setup();
+
     renderPage();
     await findLoadedPage();
 
     const workExperienceText = screen.getByText('Work Experience');
-    fireEvent.click(within(workExperienceText.parentElement).getByRole('button'));
+    await user.click(within(workExperienceText.parentElement).getByRole('button'));
 
     const workExperienceSelect = screen.getByLabelText('Work Experience');
-    fireEvent.change(workExperienceSelect, { target: { value: '4' } });
-    fireEvent.click(screen.getByText('Save'));
+    await user.selectOptions(workExperienceSelect, '4');
+    await user.click(screen.getByText('Save'));
 
     await waitFor(() => expect(patchSettings).toHaveBeenCalledWith(
       'test_username',

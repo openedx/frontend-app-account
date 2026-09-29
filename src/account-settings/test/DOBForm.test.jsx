@@ -1,6 +1,7 @@
 import {
-  screen, fireEvent, waitFor,
+  screen, waitFor,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import DOBModal from '@src/account-settings/DOBForm';
 import messages from '@src/account-settings/AccountSettingsPage.messages';
 import { YEAR_OF_BIRTH_OPTIONS } from '@src/account-settings/data/constants';
@@ -45,13 +46,11 @@ describe('DOBModal', () => {
     { form: { saveState: null, saveSettingsReset: jest.fn(), ...form } },
   );
 
+  // The dialog is open from the start, so the button behind it is out of reach.
   it('renders the modal with correct elements', () => {
     renderComponent();
-    const openButton = screen.getByTestId('open-modal-button');
-    expect(openButton).toHaveTextContent(messages['account.settings.field.dob.form.button'].defaultMessage);
 
-    fireEvent.click(openButton);
-
+    expect(screen.getByTestId('open-modal-button')).toHaveTextContent(messages['account.settings.field.dob.form.button'].defaultMessage);
     expect(screen.getByTestId('modal-title')).toHaveTextContent(messages['account.settings.field.dob.form.title'].defaultMessage);
     expect(screen.getByTestId('help-text')).toHaveTextContent(messages['account.settings.field.dob.form.help.text'].defaultMessage);
     expect(screen.getByTestId('month-label')).toHaveTextContent(messages['account.settings.field.dob.month'].defaultMessage);
@@ -63,26 +62,28 @@ describe('DOBModal', () => {
   });
 
   it('enables submit button when both month and year are selected', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
-    fireEvent.click(screen.getByTestId('open-modal-button'));
 
     const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toHaveAttribute('aria-disabled', 'true');
 
-    fireEvent.change(screen.getByTestId('month-select'), { target: { value: '6' } });
-    fireEvent.change(screen.getByTestId('year-select'), { target: { value: YEAR_OF_BIRTH_OPTIONS[0].value } });
+    await user.selectOptions(screen.getByTestId('month-select'), '6');
+    await user.selectOptions(screen.getByTestId('year-select'), String(YEAR_OF_BIRTH_OPTIONS[0].value));
 
     await waitFor(() => expect(submitButton).not.toHaveAttribute('aria-disabled', 'true'));
   });
 
   it('calls onSubmit with correct data when form is submitted', async () => {
+    const user = userEvent.setup();
+
     const mockOnSubmit = jest.fn();
     renderComponent({ onSubmit: mockOnSubmit });
-    fireEvent.click(screen.getByTestId('open-modal-button'));
 
-    fireEvent.change(screen.getByTestId('month-select'), { target: { value: '6' } });
-    fireEvent.change(screen.getByTestId('year-select'), { target: { value: '1990' } });
-    fireEvent.submit(screen.getByTestId('dob-form'));
+    await user.selectOptions(screen.getByTestId('month-select'), '6');
+    await user.selectOptions(screen.getByTestId('year-select'), '1990');
+    await user.click(screen.getByTestId('submit-button'));
 
     await waitFor(() => expect(mockOnSubmit).toHaveBeenCalledWith('extended_profile', [
       { field_name: 'DOB', field_value: '1990-6' },
@@ -91,7 +92,6 @@ describe('DOBModal', () => {
 
   it('shows a general error when the save failed', () => {
     renderComponent({}, { saveState: 'error' });
-    fireEvent.click(screen.getByTestId('open-modal-button'));
 
     expect(screen.getByTestId('error-message')).toHaveTextContent(messages['account.settingsfield.dob.error.general'].defaultMessage);
   });
