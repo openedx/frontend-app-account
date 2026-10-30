@@ -17,16 +17,20 @@ const field = (name, label) => <EditableField name={name} label={label} type="te
 it('decorates, hides, and replaces selected fields while preserving other content', async () => {
   const user = userEvent.setup();
   const openForm = jest.fn();
-  renderWithForm(<>{field('year_of_birth', 'Year')}{field('social_link_x', 'X link')}{field('time_zone', 'Time zone')}{field('username', 'Username')}</>, { form: { openForm } });
-  expect(screen.getByText('Some courses have age requirements.')).not.toBeVisible();
-  await user.click(screen.getByRole('button', { name: 'Why do we ask for your year of birth?' }));
-  expect(screen.getByText('Some courses have age requirements.')).toBeVisible();
+  renderWithForm(<>{field('year_of_birth', 'Year')}{field('country', 'Country')}{field('social_link_x', 'X link')}{field('time_zone', 'Time zone')}{field('username', 'Username')}</>, { form: { openForm } });
+  const helpButtons = screen.getAllByRole('button', { name: 'Why do we ask for this?' });
+  expect(helpButtons).toHaveLength(2);
+  await user.hover(helpButtons[0]);
+  expect(await screen.findByText('Some courses are only open to learners of a certain age, so we ask for your year of birth.')).toBeVisible();
+  await user.unhover(helpButtons[0]);
+  await user.hover(helpButtons[1]);
+  expect(await screen.findByText('We use your country to show the courses available where you live.')).toBeVisible();
   expect(screen.queryByText('X link')).not.toBeInTheDocument();
   expect(screen.getByText('Your time zone is set by your organization.')).toBeInTheDocument();
   expect(screen.getByText('Username')).toBeInTheDocument();
-  expect(screen.getAllByText('Additional widget')).toHaveLength(3);
+  expect(screen.getAllByText('Additional widget')).toHaveLength(4);
   const editButtons = screen.getAllByRole('button', { name: /edit/i });
-  expect(editButtons).toHaveLength(2);
-  await user.click(editButtons[1]);
+  expect(editButtons).toHaveLength(3);
+  await user.click(editButtons[2]);
   expect(openForm).toHaveBeenCalledWith('username');
 });

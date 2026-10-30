@@ -40,12 +40,16 @@ export default {
 };
 ```
 
-The example adds adjacent help to `year_of_birth`, hides `social_link_x`, and replaces
+The example adds an info tooltip beside `year_of_birth` and `country`, hides `social_link_x`, and replaces
 `time_zone` with a display-only notice. Other fields retain their original content. Use
 `useSlotContext()` to read `fieldName`, and `useWidgets()` to render the current instance's
 widgets. The field is automatically included as `defaultContent`; `byId('defaultContent')`
 selects it, while `withoutId('defaultContent')` keeps other widgets without duplicating it.
 The example hides all widgets for a hidden field and keeps added widgets alongside the replacement.
+
+![Info icons beside year of birth and country, with the country tooltip open](./images/info_helper_example.png)
+
+![Time zone field replaced with an organization-managed notice](./images/replace_field_example.png)
 
 Widget operations apply to every instance sharing the Slot ID. To hide or replace only one
 field, make the decision in a context-aware layout instead of removing or replacing the shared
