@@ -18,7 +18,9 @@ it('decorates, hides, and replaces selected fields while preserving other conten
   const user = userEvent.setup();
   const openForm = jest.fn();
   renderWithForm(<>{field('year_of_birth', 'Year')}{field('social_link_x', 'X link')}{field('time_zone', 'Time zone')}{field('username', 'Username')}</>, { form: { openForm } });
-  expect(screen.getByText('Why do we ask for your year of birth?')).toBeInTheDocument();
+  expect(screen.getByText('Some courses have age requirements.')).not.toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'Why do we ask for your year of birth?' }));
+  expect(screen.getByText('Some courses have age requirements.')).toBeVisible();
   expect(screen.queryByText('X link')).not.toBeInTheDocument();
   expect(screen.getByText('Your time zone is set by your organization.')).toBeInTheDocument();
   expect(screen.getByText('Username')).toBeInTheDocument();
