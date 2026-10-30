@@ -51,3 +51,6 @@ Widget operations apply to every instance sharing the Slot ID. To hide or replac
 field, make the decision in a context-aware layout instead of removing or replacing the shared
 `defaultContent` widget through a site-wide widget operation. A replacement is display-only;
 the Slot does not provide an editing or saving API.
+
+For an extension-owned DOM target that supports styling, scrolling, or highlighting a field,
+see the [optional field targeting layout](./example/FieldTargetLayout.md).
