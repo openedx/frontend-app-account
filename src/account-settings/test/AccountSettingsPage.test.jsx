@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { getAuthenticatedUser, mergeAppConfig } from '@openedx/frontend-base';
+import { getAuthenticatedUser, mergeAppConfig, mergeSiteConfig } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '@src/tests/renderWithProviders';
 import { getNotificationPreferences } from '@src/notification-preferences/data/api';
@@ -21,6 +21,7 @@ import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account
 import AccountSettingsPage from '@src/account-settings/AccountSettingsPage';
 import messages from '@src/account-settings/AccountSettingsPage.messages';
 import { appId } from '@src/constants';
+import sectionWidgetOperations from '@src/slots/AccountSettingsSectionSlot/widgets';
 
 jest.mock('@src/account-settings/data/api');
 jest.mock('@src/account-settings/third-party-auth/data/api');
@@ -36,6 +37,9 @@ jest.mock('@src/data/countries', () => ({
 jest.mock('@src/data/languages', () => ({
   getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }, { code: 'es', name: 'Spanish' }]),
 }));
+
+// A site gets the section slots' default widgets from the account app's slot operations.
+mergeSiteConfig({ apps: [{ appId: 'org.openedx.frontend.app.accountSectionsTest', slots: sectionWidgetOperations }] });
 
 const config = {
   SUPPORT_URL: 'https://support.edx.org',

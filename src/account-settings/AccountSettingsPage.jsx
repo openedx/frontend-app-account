@@ -40,6 +40,7 @@ import {
 } from '@src/account-settings/data/constants';
 import NotificationSettings from '@src/notification-preferences/NotificationSettings';
 import AdditionalProfileFieldsSlot from '@src/slots/AdditionalProfileFieldsSlot';
+import AccountSettingsSectionSlot from '@src/slots/AccountSettingsSectionSlot';
 import { appId } from '@src/constants';
 import { getCountryList } from '@src/data/countries';
 import { getLanguageList } from '@src/data/languages';
@@ -546,135 +547,144 @@ const AccountSettingsPageContent = () => {
 
           {renderNameChangeModal()}
 
-          <EditableField
-            name="username"
-            type="text"
-            value={formValues.username}
-            label={intl.formatMessage(messages['account.settings.field.username'])}
-            helpText={intl.formatMessage(
-              messages['account.settings.field.username.help.text'],
-              { siteName: getSiteConfig().siteName },
-            )}
-            isEditable={false}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="name"
-            type="text"
-            value={
-              verifiedName?.status === 'submitted'
-              && formValues.pending_name_change
-                ? formValues.pending_name_change
-                : formValues.name
-              }
-            label={intl.formatMessage(messages['account.settings.field.full.name'])}
-            emptyLabel={
-              isEditable('name')
-                ? intl.formatMessage(messages['account.settings.field.full.name.empty'])
-                : renderEmptyStaticFieldMessage()
-            }
-            helpText={
-              verifiedName
-                ? renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
-                : intl.formatMessage(messages['account.settings.field.full.name.help.text'])
-            }
-            isEditable={
-              verifiedName
-                ? isEditable('verifiedName') && isEditable('name')
-                : isEditable('name')
-            }
-            isGrayedOut={
-              verifiedName && !isEditable('verifiedName')
-            }
-            onChange={handleEditableFieldChange}
-            onSubmit={handleSubmitProfileName}
-          />
-          {verifiedName
-            && (
-            <EditableField
-              name="verified_name"
-              type="text"
-              value={formValues.verified_name}
-              label={
-                (
-                  <div className="d-flex">
-                    {intl.formatMessage(messages['account.settings.field.name.verified'])}
-                    {
-                      renderVerifiedNameIcon(verifiedName.status)
+          <AccountSettingsSectionSlot
+            section="basicInformation"
+            fields={{
+              usernameField: (
+                <EditableField
+                  name="username"
+                  type="text"
+                  value={formValues.username}
+                  label={intl.formatMessage(messages['account.settings.field.username'])}
+                  helpText={intl.formatMessage(
+                    messages['account.settings.field.username.help.text'],
+                    { siteName: getSiteConfig().siteName },
+                  )}
+                  isEditable={false}
+                  {...editableFieldProps}
+                />
+              ),
+              nameField: (
+                <EditableField
+                  name="name"
+                  type="text"
+                  value={
+                    verifiedName?.status === 'submitted'
+                    && formValues.pending_name_change
+                      ? formValues.pending_name_change
+                      : formValues.name
                     }
-                  </div>
-                )
-              }
-              helpText={renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
-              isEditable={isEditable('verifiedName')}
-              isGrayedOut={!isEditable('verifiedName')}
-              onChange={handleEditableFieldChange}
-              onSubmit={handleSubmitVerifiedName}
-            />
-            )}
-
-          <EmailField
-            name="email"
-            label={intl.formatMessage(messages['account.settings.field.email'])}
-            emptyLabel={
-              isEditable('email')
-                ? intl.formatMessage(messages['account.settings.field.email.empty'])
-                : renderEmptyStaticFieldMessage()
-            }
-            value={formValues.email}
-            confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
-            helpText={intl.formatMessage(
-              messages['account.settings.field.email.help.text'],
-              { siteName: getSiteConfig().siteName },
-            )}
-            isEditable={isEditable('email')}
-            {...editableFieldProps}
+                  label={intl.formatMessage(messages['account.settings.field.full.name'])}
+                  emptyLabel={
+                    isEditable('name')
+                      ? intl.formatMessage(messages['account.settings.field.full.name.empty'])
+                      : renderEmptyStaticFieldMessage()
+                  }
+                  helpText={
+                    verifiedName
+                      ? renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
+                      : intl.formatMessage(messages['account.settings.field.full.name.help.text'])
+                  }
+                  isEditable={
+                    verifiedName
+                      ? isEditable('verifiedName') && isEditable('name')
+                      : isEditable('name')
+                  }
+                  isGrayedOut={
+                    verifiedName && !isEditable('verifiedName')
+                  }
+                  onChange={handleEditableFieldChange}
+                  onSubmit={handleSubmitProfileName}
+                />
+              ),
+              verifiedNameField: verifiedName && (
+                <EditableField
+                  name="verified_name"
+                  type="text"
+                  value={formValues.verified_name}
+                  label={
+                    (
+                      <div className="d-flex">
+                        {intl.formatMessage(messages['account.settings.field.name.verified'])}
+                        {
+                          renderVerifiedNameIcon(verifiedName.status)
+                        }
+                      </div>
+                    )
+                  }
+                  helpText={renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
+                  isEditable={isEditable('verifiedName')}
+                  isGrayedOut={!isEditable('verifiedName')}
+                  onChange={handleEditableFieldChange}
+                  onSubmit={handleSubmitVerifiedName}
+                />
+              ),
+              emailField: (
+                <EmailField
+                  name="email"
+                  label={intl.formatMessage(messages['account.settings.field.email'])}
+                  emptyLabel={
+                    isEditable('email')
+                      ? intl.formatMessage(messages['account.settings.field.email.empty'])
+                      : renderEmptyStaticFieldMessage()
+                  }
+                  value={formValues.email}
+                  confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
+                  helpText={intl.formatMessage(
+                    messages['account.settings.field.email.help.text'],
+                    { siteName: getSiteConfig().siteName },
+                  )}
+                  isEditable={isEditable('email')}
+                  {...editableFieldProps}
+                />
+              ),
+              secondaryEmailField: renderSecondaryEmailField(editableFieldProps),
+              resetPassword: <ResetPassword email={formValues.email} />,
+              yearOfBirthField: !enableCoppaCompliance && (
+                <EditableSelectField
+                  name="year_of_birth"
+                  type="select"
+                  label={intl.formatMessage(messages['account.settings.field.dob'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.dob.empty'])}
+                  value={formValues.year_of_birth}
+                  options={yearOfBirthOptions}
+                  {...editableFieldProps}
+                />
+              ),
+              countryField: (
+                <EditableSelectField
+                  name="country"
+                  type="select"
+                  value={formValues.country}
+                  options={countryOptions}
+                  label={intl.formatMessage(messages['account.settings.field.country'])}
+                  emptyLabel={
+                    isEditable('country')
+                      ? intl.formatMessage(messages['account.settings.field.country.empty'])
+                      : renderEmptyStaticFieldMessage()
+                  }
+                  isEditable={isEditable('country')}
+                  {...editableFieldProps}
+                />
+              ),
+              stateField: showState && (
+                <EditableSelectField
+                  name="state"
+                  type="select"
+                  value={formValues.state}
+                  options={stateOptions}
+                  label={intl.formatMessage(messages['account.settings.field.state'])}
+                  emptyLabel={
+                    isEditable('state')
+                      ? intl.formatMessage(messages['account.settings.field.state.empty'])
+                      : renderEmptyStaticFieldMessage()
+                  }
+                  isEditable={isEditable('state')}
+                  {...editableFieldProps}
+                />
+              ),
+            }}
           />
-          {renderSecondaryEmailField(editableFieldProps)}
-          <ResetPassword email={formValues.email} />
-          {!enableCoppaCompliance
-            && (
-            <EditableSelectField
-              name="year_of_birth"
-              type="select"
-              label={intl.formatMessage(messages['account.settings.field.dob'])}
-              emptyLabel={intl.formatMessage(messages['account.settings.field.dob.empty'])}
-              value={formValues.year_of_birth}
-              options={yearOfBirthOptions}
-              {...editableFieldProps}
-            />
-            )}
-          <EditableSelectField
-            name="country"
-            type="select"
-            value={formValues.country}
-            options={countryOptions}
-            label={intl.formatMessage(messages['account.settings.field.country'])}
-            emptyLabel={
-              isEditable('country')
-                ? intl.formatMessage(messages['account.settings.field.country.empty'])
-                : renderEmptyStaticFieldMessage()
-            }
-            isEditable={isEditable('country')}
-            {...editableFieldProps}
-          />
-          {showState
-            && (
-            <EditableSelectField
-              name="state"
-              type="select"
-              value={formValues.state}
-              options={stateOptions}
-              label={intl.formatMessage(messages['account.settings.field.state'])}
-              emptyLabel={
-                isEditable('state')
-                  ? intl.formatMessage(messages['account.settings.field.state.empty'])
-                  : renderEmptyStaticFieldMessage()
-              }
-              isEditable={isEditable('state')}
-              {...editableFieldProps}
-            />
-            )}
         </div>
 
         <div className="account-section pt-3 mb-5" id="profile-information" ref={navLinkRefs.current['#profile-information']}>
@@ -682,49 +692,58 @@ const AccountSettingsPageContent = () => {
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
-          <EditableSelectField
-            name="level_of_education"
-            type="select"
-            value={formValues.level_of_education}
-            options={enableCoppaCompliance
-              ? educationLevelOptions.filter(option => option.value !== 'el')
-              : educationLevelOptions}
-            label={intl.formatMessage(messages['account.settings.field.education'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.education.empty'])}
-            {...editableFieldProps}
+          <AccountSettingsSectionSlot
+            section="profileInformation"
+            fields={{
+              levelOfEducationField: (
+                <EditableSelectField
+                  name="level_of_education"
+                  type="select"
+                  value={formValues.level_of_education}
+                  options={enableCoppaCompliance
+                    ? educationLevelOptions.filter(option => option.value !== 'el')
+                    : educationLevelOptions}
+                  label={intl.formatMessage(messages['account.settings.field.education'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.education.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              genderField: (
+                <EditableSelectField
+                  name="gender"
+                  type="select"
+                  value={formValues.gender}
+                  options={genderOptions}
+                  label={intl.formatMessage(messages['account.settings.field.gender'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.gender.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              workExperienceField: hasWorkExperience && (
+                <EditableSelectField
+                  name="work_experience"
+                  type="select"
+                  value={formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
+                  options={workExperienceOptions}
+                  label={intl.formatMessage(messages['account.settings.field.work.experience'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              languageProficienciesField: (
+                <EditableSelectField
+                  name="language_proficiencies"
+                  type="select"
+                  value={formValues.language_proficiencies}
+                  options={languageProficiencyOptions}
+                  label={intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              additionalProfileFields: <AdditionalProfileFieldsSlot />,
+            }}
           />
-          <EditableSelectField
-            name="gender"
-            type="select"
-            value={formValues.gender}
-            options={genderOptions}
-            label={intl.formatMessage(messages['account.settings.field.gender'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.gender.empty'])}
-            {...editableFieldProps}
-          />
-          {hasWorkExperience
-          && (
-          <EditableSelectField
-            name="work_experience"
-            type="select"
-            value={formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
-            options={workExperienceOptions}
-            label={intl.formatMessage(messages['account.settings.field.work.experience'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
-            {...editableFieldProps}
-          />
-          )}
-          <EditableSelectField
-            name="language_proficiencies"
-            type="select"
-            value={formValues.language_proficiencies}
-            options={languageProficiencyOptions}
-            label={intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
-            {...editableFieldProps}
-          />
-
-          <AdditionalProfileFieldsSlot />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
@@ -737,29 +756,40 @@ const AccountSettingsPageContent = () => {
             )}
           </p>
 
-          <EditableField
-            name="social_link_linkedin"
-            type="text"
-            value={formValues.social_link_linkedin}
-            label={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="social_link_facebook"
-            type="text"
-            value={formValues.social_link_facebook}
-            label={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
-            {...editableFieldProps}
-          />
-          <EditableField
-            name="social_link_x"
-            type="text"
-            value={formValues.social_link_x}
-            label={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter.empty'])}
-            {...editableFieldProps}
+          <AccountSettingsSectionSlot
+            section="socialMedia"
+            fields={{
+              socialLinkLinkedinField: (
+                <EditableField
+                  name="social_link_linkedin"
+                  type="text"
+                  value={formValues.social_link_linkedin}
+                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              socialLinkFacebookField: (
+                <EditableField
+                  name="social_link_facebook"
+                  type="text"
+                  value={formValues.social_link_facebook}
+                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+              socialLinkXField: (
+                <EditableField
+                  name="social_link_x"
+                  type="text"
+                  value={formValues.social_link_x}
+                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter.empty'])}
+                  {...editableFieldProps}
+                />
+              ),
+            }}
           />
         </div>
         <div className="border border-light-700" />
@@ -771,27 +801,36 @@ const AccountSettingsPageContent = () => {
             {intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
-          <EditableSelectField
-            name="siteLanguage"
-            type="select"
-            options={siteLanguageOptions}
-            value={drafts.siteLanguage !== undefined ? drafts.siteLanguage : locale}
-            label={intl.formatMessage(messages['account.settings.field.site.language'])}
-            helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
-            {...editableFieldProps}
-          />
-          <EditableSelectField
-            name="time_zone"
-            type="select"
-            value={formValues.time_zone}
-            options={localizedTimeZoneOptions}
-            label={intl.formatMessage(messages['account.settings.field.time.zone'])}
-            emptyLabel={intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
-            helpText={intl.formatMessage(messages['account.settings.field.time.zone.description'])}
-            {...editableFieldProps}
-            onSubmit={(formId, value) => {
-              // the endpoint will not accept an empty string. it must be null
-              handleSubmit(formId, value || null);
+          <AccountSettingsSectionSlot
+            section="sitePreferences"
+            fields={{
+              siteLanguageField: (
+                <EditableSelectField
+                  name="siteLanguage"
+                  type="select"
+                  options={siteLanguageOptions}
+                  value={drafts.siteLanguage !== undefined ? drafts.siteLanguage : locale}
+                  label={intl.formatMessage(messages['account.settings.field.site.language'])}
+                  helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
+                  {...editableFieldProps}
+                />
+              ),
+              timeZoneField: (
+                <EditableSelectField
+                  name="time_zone"
+                  type="select"
+                  value={formValues.time_zone}
+                  options={localizedTimeZoneOptions}
+                  label={intl.formatMessage(messages['account.settings.field.time.zone'])}
+                  emptyLabel={intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
+                  helpText={intl.formatMessage(messages['account.settings.field.time.zone.description'])}
+                  {...editableFieldProps}
+                  onSubmit={(formId, value) => {
+                    // the endpoint will not accept an empty string. it must be null
+                    handleSubmit(formId, value || null);
+                  }}
+                />
+              ),
             }}
           />
         </div>
