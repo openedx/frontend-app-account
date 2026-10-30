@@ -2,6 +2,7 @@
 
 * [`org.openedx.frontend.slot.account.additionalProfileFields.v1`](./AdditionalProfileFieldsSlot/)
 * [`org.openedx.frontend.slot.account.idVerificationPage.v1`](./IdVerificationPageSlot/)
+* [`org.openedx.frontend.slot.account.settingsField.v1`](./AccountSettingsFieldSlot/)
 
 The footer is the shell's; see [frontend-base](https://github.com/openedx/frontend-base) for its
 slots.
@@ -17,5 +18,3 @@ now, and are configured through `site.config` rather than `env.config`.
 | `org.openedx.frontend.account.additional_profile_fields.v1` | `org.openedx.frontend.slot.account.additionalProfileFields.v1` |
 | `org.openedx.frontend.account.id_verification_page.v1` (alias `id_verification_page_plugin`) | `org.openedx.frontend.slot.account.idVerificationPage.v1` |
 | `org.openedx.frontend.layout.footer.v1` (alias `footer_slot`) | the shell's `org.openedx.frontend.slot.footer.main.v1` |
-
-* [`org.openedx.frontend.slot.account.settingsField.v1`](./AccountSettingsFieldSlot/)

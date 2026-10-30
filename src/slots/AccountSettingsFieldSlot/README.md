@@ -2,7 +2,18 @@
 
 Slot ID: `org.openedx.frontend.slot.account.settingsField.v1`
 
-This shared Slot surrounds each text, select, and email account settings field. Its default content is the field, preserved automatically. Widgets can use `useSlotContext()` to read `fieldName` and `value`. Field names retain their existing spelling, including `siteLanguage`. Values are passed through unchanged and can include unsaved drafts. The Slot does not expose save or validation callbacks.
+## Slot Props
+
+Widgets and layouts read these through `useSlotContext()`:
+
+* `fieldName` (`string`): the field's name. Field names retain their existing spelling, including `siteLanguage`.
+* `value` (`unknown`): the field's current value, passed through unchanged. It can be an unsaved draft and may be empty or a non-string value.
+
+The Slot does not expose save or validation callbacks.
+
+## Description
+
+This shared Slot surrounds each text, select, and email account settings field. Its default content is the field, preserved automatically.
 
 For example, copy the example hint into your site and configure it as follows:
 
@@ -13,7 +24,7 @@ import FieldHint from './FieldHint';
 export default {
   slots: [{
     slotId: 'org.openedx.frontend.slot.account.settingsField.v1',
-    id: 'account-field-hint',
+    id: 'org.openedx.frontend.widget.account.settingsFieldHint.v1',
     op: WidgetOperationTypes.APPEND,
     component: FieldHint,
   }],
