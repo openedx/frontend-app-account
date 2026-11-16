@@ -3,7 +3,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { logError, mergeAppConfig } from '@openedx/frontend-base';
+import { IntlProvider, logError, mergeAppConfig } from '@openedx/frontend-base';
 
 import { renderWithProviders } from '@src/tests/renderWithProviders';
 import NotificationPreferences from '@src/notification-preferences/NotificationPreferences';
@@ -135,6 +135,40 @@ describe('Notification Preferences', () => {
     expect(postPreferenceToggle).toHaveBeenNthCalledWith(1, 'coursework', 'newGrade', 'email', true, 'Daily');
     expect(postPreferenceToggle).toHaveBeenNthCalledWith(2, 'coursework', 'newGrade', 'email_cadence', undefined, 'Daily');
     await waitFor(() => expect(screen.getByTestId('toggle-newGrade-email')).toBeChecked());
+  });
+
+  it.each([
+    ['Immediately', 'Immediatamente'],
+    ['Daily', 'Quotidianamente'],
+    ['Weekly', 'Settimanalmente'],
+  ])('saves the canonical %s cadence when its label is translated', async (cadence, label) => {
+    const user = userEvent.setup();
+    postPreferenceToggle.mockResolvedValue(toggleResponse({
+      app: 'coursework', type: 'new_assignment', channel: 'email_cadence', value: cadence,
+    }));
+    renderWithProviders(
+      <IntlProvider
+        locale="it"
+        messages={{
+          'notification.preference.emailCadence': '{text, select, Daily {Quotidianamente} Weekly {Settimanalmente} Immediately {Immediatamente} other {{text}}}',
+        }}
+      >
+        <NotificationPreferences />
+      </IntlProvider>,
+    );
+
+    const toggle = await screen.findByTestId('toggle-newAssignment-email');
+    const cadenceButton = within(toggle.closest('#newAssignment-email')).getByTestId('email-cadence-button');
+    await user.click(cadenceButton);
+    const option = screen.getByTestId(`email-cadence-${cadence}`);
+    expect(option).toHaveTextContent(label);
+    await user.click(option);
+
+    await waitFor(() => expect(postPreferenceToggle).toHaveBeenCalledWith(
+      'coursework', 'newAssignment', 'email_cadence', undefined, cadence,
+    ));
+    await waitFor(() => expect(cadenceButton).not.toBeDisabled());
+    expect(cadenceButton).toHaveTextContent(label);
   });
 
   it('keeps the current value and logs the error when saving fails', async () => {

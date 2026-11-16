@@ -31,29 +31,29 @@ const NotificationPreferenceColumn = ({ appId, channel, appPreference }) => {
   const NOTIFICATION_CHANNELS = Object.values(notificationChannels(showEmailPreferences));
   const hideAppPreferences = shouldHideAppPreferences(appPreferences, appId) || false;
 
-  const getValue = useCallback((notificationChannel, innerText, checked) => {
+  const getValue = useCallback((notificationChannel, cadenceValue, checked) => {
     if (notificationChannel === EMAIL_CADENCE) {
-      return innerText;
+      return cadenceValue;
     }
     return checked;
   }, []);
 
-  const getEmailCadence = useCallback((notificationChannel, innerText, emailCadence) => {
+  const getEmailCadence = useCallback((notificationChannel, cadenceValue, emailCadence) => {
     if (notificationChannel === EMAIL_CADENCE) {
-      return innerText;
+      return cadenceValue;
     }
 
     return emailCadence;
   }, []);
 
   const onToggle = useCallback((event, notificationType) => {
-    const { name: notificationChannel, checked, innerText } = event.target;
+    const { name: notificationChannel, checked, value: cadenceValue } = event.currentTarget;
     const appNotificationPreference = appPreferences.find(preference => preference.id === notificationType);
 
-    const value = getValue(notificationChannel, innerText, checked);
+    const value = getValue(notificationChannel, cadenceValue, checked);
     const emailCadence = getEmailCadence(
       notificationChannel,
-      innerText,
+      cadenceValue,
       appNotificationPreference.emailCadence,
     );
 
