@@ -2,6 +2,7 @@
 
 * [`org.openedx.frontend.slot.account.additionalProfileFields.v1`](./AdditionalProfileFieldsSlot/)
 * [`org.openedx.frontend.slot.account.idVerificationPage.v1`](./IdVerificationPageSlot/)
+* [Account settings sections](./AccountSettingsSectionSlot/): `basicInformation.v1`, `profileInformation.v1`, `socialMedia.v1`, `sitePreferences.v1`
 
 The footer is the shell's; see [frontend-base](https://github.com/openedx/frontend-base) for its
 slots.
