@@ -1,7 +1,4 @@
-import { ReactNode } from 'react';
 import { Slot } from '@openedx/frontend-base';
-
-import AccountSettingsSectionFieldsContext from './context';
 
 export const sectionSlotIds = {
   basicInformation: 'org.openedx.frontend.slot.account.basicInformation.v1',
@@ -14,14 +11,14 @@ export type AccountSettingsSection = keyof typeof sectionSlotIds;
 
 interface AccountSettingsSectionSlotProps {
   section: AccountSettingsSection;
-  // Keyed by default widget name; see `./widgets`.
-  fields: Record<string, ReactNode>;
 }
 
-const AccountSettingsSectionSlot = ({ section, fields }: AccountSettingsSectionSlotProps) => (
-  <AccountSettingsSectionFieldsContext.Provider value={fields}>
-    <Slot id={sectionSlotIds[section]} />
-  </AccountSettingsSectionFieldsContext.Provider>
+/**
+ * Renders one account settings section's fields.  The fields are the section's default widgets,
+ * registered by the app in `src/slots.tsx`; see `./widgets`.
+ */
+const AccountSettingsSectionSlot = ({ section }: AccountSettingsSectionSlotProps) => (
+  <Slot id={sectionSlotIds[section]} />
 );
 
 export default AccountSettingsSectionSlot;

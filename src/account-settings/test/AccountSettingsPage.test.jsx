@@ -21,7 +21,7 @@ import { getThirdPartyAuthError, getThirdPartyAuthProviders } from '@src/account
 import AccountSettingsPage from '@src/account-settings/AccountSettingsPage';
 import messages from '@src/account-settings/AccountSettingsPage.messages';
 import { appId } from '@src/constants';
-import sectionWidgetOperations from '@src/slots/AccountSettingsSectionSlot/widgets';
+import slots from '@src/slots';
 
 jest.mock('@src/account-settings/data/api');
 jest.mock('@src/account-settings/third-party-auth/data/api');
@@ -38,8 +38,8 @@ jest.mock('@src/data/languages', () => ({
   getLanguageList: jest.fn(() => [{ code: 'en', name: 'English' }, { code: 'es', name: 'Spanish' }]),
 }));
 
-// A site gets the section slots' default widgets from the account app's slot operations.
-mergeSiteConfig({ apps: [{ appId: 'org.openedx.frontend.app.accountSectionsTest', slots: sectionWidgetOperations }] });
+// The test site config lists the app's config but not its slots, so register them as a site would.
+mergeSiteConfig({ apps: [{ appId: 'org.openedx.frontend.app.accountSlotsTest', slots }] });
 
 const config = {
   SUPPORT_URL: 'https://support.edx.org',
@@ -218,5 +218,71 @@ describe('AccountSettingsPage', () => {
     expect(screen.getByText('We could not load this page. Refresh the page and try again.')).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /support/ })).not.toBeInTheDocument();
     expect(screen.queryByText('Missing required request headers: x-enterprise-uuid')).not.toBeInTheDocument();
+  });
+
+  it('shows a pending name change and locks managed fields while a verified name is under review', async () => {
+    getProfileDataManager.mockResolvedValue('Acme Corp');
+    getAccount.mockResolvedValue({ ...account, pending_name_change: 'Pending Name' });
+    getVerifiedNameHistory.mockResolvedValue({
+      use_verified_name_for_certs: false,
+      results: [{
+        verified_name: 'Submitted Name', status: 'submitted', created: '2026-01-01T00:00:00Z', proctored_exam_attempt_id: null,
+      }],
+    });
+    renderPage();
+    await findLoadedPage();
+
+    expect(screen.getByText('Pending Name')).toBeInTheDocument();
+    expect(screen.getByText('Submitted Name')).toBeInTheDocument();
+    for (const label of ['Full name', 'Email address (Sign in)', 'Country']) {
+      expect(within(screen.getByText(label).parentElement).queryByRole('button')).not.toBeInTheDocument();
+    }
+  });
+
+  it('keeps the full name editable once a verified name is approved', async () => {
+    getVerifiedNameHistory.mockResolvedValue({
+      use_verified_name_for_certs: false,
+      results: [{
+        verified_name: 'Approved Name', status: 'approved', created: '2026-01-01T00:00:00Z', proctored_exam_attempt_id: null,
+      }],
+    });
+    renderPage();
+    await findLoadedPage();
+
+    expect(screen.getByText('Approved Name')).toBeInTheDocument();
+    expect(within(screen.getByText('Full name').parentElement).getByRole('button')).toBeInTheDocument();
+  });
+
+  it('hides the year of birth field when COPPA compliance is enabled', async () => {
+    mergeAppConfig(appId, { ...config, ENABLE_COPPA_COMPLIANCE: true });
+    renderPage();
+    await findLoadedPage();
+
+    expect(screen.queryByText('Year of birth')).not.toBeInTheDocument();
+    expect(screen.getByText('Bachelor\'s Degree')).toBeInTheDocument();
+  });
+
+  it('saves the default time zone as null', async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await findLoadedPage();
+
+    await user.click(within(screen.getByText('Time zone').parentElement).getByRole('button'));
+    await user.selectOptions(screen.getByLabelText('Time zone'), '');
+    await user.click(screen.getByText('Save'));
+
+    await waitFor(() => expect(patchSettings).toHaveBeenCalledWith('test_username', { time_zone: null }, 3));
+  });
+
+  it('keeps the selected site language while editing it', async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await findLoadedPage();
+
+    await user.click(within(screen.getByText('Site language').parentElement).getByRole('button'));
+    const select = screen.getByLabelText('Site language');
+    await user.selectOptions(select, 'en');
+
+    expect(select).toHaveValue('en');
   });
 });

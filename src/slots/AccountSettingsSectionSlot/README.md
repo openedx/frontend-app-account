@@ -12,7 +12,8 @@ Slots.
 | `org.openedx.frontend.slot.account.socialMedia.v1` | `socialLinkLinkedinField`, `socialLinkFacebookField`, `socialLinkXField` |
 | `org.openedx.frontend.slot.account.sitePreferences.v1` | `siteLanguageField`, `timeZoneField` |
 
-Each widget ID is `org.openedx.frontend.widget.account.<name>.v1`. A widget whose field does not
+Each widget ID is `org.openedx.frontend.widget.account.<name>.v1`. The account app registers these
+widgets itself, so a site that includes the app gets them with no configuration. A widget whose field does not
 apply to the current learner, such as `stateField` outside the United States, renders nothing but
 stays in the list, so relative operations that target it keep working. The Slots have no props.
 

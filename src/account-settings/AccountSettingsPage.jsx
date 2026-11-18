@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useContext, useEffect, useMemo, useRef,
+  useContext, useEffect, useRef,
 } from 'react';
 import {
   SiteContext,
@@ -11,39 +11,24 @@ import {
 } from '@openedx/frontend-base';
 
 import findIndex from 'lodash.findindex';
-import { Hyperlink, Icon, Alert } from '@openedx/paragon';
+import { Hyperlink, Alert } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
 import messages from '@src/account-settings/AccountSettingsPage.messages';
 import { AccountSettingsFormProvider, useAccountSettingsForm } from '@src/account-settings/data/FormContext';
 import { useAccountSettingsData } from '@src/account-settings/data/hooks';
+import { useFieldHandlers } from '@src/account-settings/fields/hooks';
 import PageLoading from '@src/account-settings/PageLoading';
 import JumpNav from '@src/account-settings/JumpNav';
 import DeleteAccount from '@src/account-settings/delete-account';
-import EditableField from '@src/account-settings/EditableField';
-import EditableSelectField from '@src/account-settings/EditableSelectField';
-import ResetPassword from '@src/account-settings/reset-password';
 import NameChange from '@src/account-settings/name-change';
 import ThirdPartyAuth from '@src/account-settings/third-party-auth';
-import EmailField from '@src/account-settings/EmailField';
 import OneTimeDismissibleAlert from '@src/account-settings/OneTimeDismissibleAlert';
 import DOBModal from '@src/account-settings/DOBForm';
-import {
-  YEAR_OF_BIRTH_OPTIONS,
-  EDUCATION_LEVELS,
-  GENDER_OPTIONS,
-  COUNTRY_WITH_STATES,
-  COPPA_COMPLIANCE_YEAR,
-  WORK_EXPERIENCE_OPTIONS,
-  getStatesList,
-  FIELD_LABELS,
-} from '@src/account-settings/data/constants';
+import { COPPA_COMPLIANCE_YEAR } from '@src/account-settings/data/constants';
 import NotificationSettings from '@src/notification-preferences/NotificationSettings';
-import AdditionalProfileFieldsSlot from '@src/slots/AdditionalProfileFieldsSlot';
 import AccountSettingsSectionSlot from '@src/slots/AccountSettingsSectionSlot';
 import { appId } from '@src/constants';
-import { getCountryList } from '@src/data/countries';
-import { getLanguageList } from '@src/data/languages';
 import { parseEnvArray, parseEnvBoolean } from '@src/utils';
 
 const NAV_LINK_IDS = [
@@ -58,33 +43,20 @@ const NAV_LINK_IDS = [
 
 const AccountSettingsPageContent = () => {
   const intl = useIntl();
-  const { locale, authenticatedUser } = useContext(SiteContext);
+  const { authenticatedUser } = useContext(SiteContext);
   const {
     isPending,
     isError,
     committedValues,
     formValues,
-    verifiedName,
     mostRecentVerifiedName,
-    verifiedNameHistory,
-    staticFields,
     profileDataManager,
-    timeZoneOptions,
-    countryTimeZoneOptions,
     tpaProviders,
     thirdPartyAuthError,
-    countriesCodesList,
     isActive,
-    siteLanguageOptions,
   } = useAccountSettingsData();
-  const {
-    drafts,
-    nameChangeModal,
-    updateDraft,
-    saveSettings,
-    saveMultipleSettings,
-    beginNameChange,
-  } = useAccountSettingsForm();
+  const { nameChangeModal } = useAccountSettingsForm();
+  const fieldHandlers = useFieldHandlers();
 
   const navLinkRefs = useRef(Object.fromEntries(NAV_LINK_IDS.map(id => [id, React.createRef()])));
   const loaded = !isPending && !isError;
@@ -115,131 +87,9 @@ const AccountSettingsPageContent = () => {
     }
   }, [loaded]);
 
-  const isDisabledCountry = useCallback(
-    (country) => countriesCodesList.length > 0 && !countriesCodesList.find(x => x === country),
-    [countriesCodesList],
-  );
-
-  const removeDisabledCountries = useCallback((countryList) => {
-    const committedCountry = committedValues?.country;
-
-    if (!countriesCodesList.length) {
-      return countryList;
-    }
-    return countryList.filter(({ value }) => value === committedCountry || countriesCodesList.find(x => x === value));
-  }, [countriesCodesList, committedValues?.country]);
-
-  const localizedTimeZoneOptions = useMemo(() => {
-    const concatTimeZoneOptions = [{
-      label: intl.formatMessage(messages['account.settings.field.time.zone.default']),
-      value: '',
-    }];
-    if (countryTimeZoneOptions.length) {
-      concatTimeZoneOptions.push({
-        label: intl.formatMessage(messages['account.settings.field.time.zone.country']),
-        group: countryTimeZoneOptions,
-      });
-    }
-    concatTimeZoneOptions.push({
-      label: intl.formatMessage(messages['account.settings.field.time.zone.all']),
-      group: timeZoneOptions,
-    });
-    return concatTimeZoneOptions;
-  }, [intl, timeZoneOptions, countryTimeZoneOptions]);
-
-  const localizedOptions = useMemo(() => ({
-    countryOptions: [{
-      value: '',
-      label: intl.formatMessage(messages['account.settings.field.country.options.empty']),
-    }].concat(
-      removeDisabledCountries(
-        getCountryList(locale).map(({ code, name }) => ({
-          value: code,
-          label: name,
-          disabled: isDisabledCountry(code),
-        })),
-      ),
-    ),
-    stateOptions: [{
-      value: '',
-      label: intl.formatMessage(messages['account.settings.field.state.options.empty']),
-    }].concat(getStatesList(formValues.country)),
-    languageProficiencyOptions: [{
-      value: '',
-      label: intl.formatMessage(messages['account.settings.field.language_proficiencies.options.empty']),
-    }].concat(getLanguageList(locale).map(({ code, name }) => ({ value: code, label: name }))),
-    yearOfBirthOptions: [{
-      value: '',
-      label: intl.formatMessage(messages['account.settings.field.year_of_birth.options.empty']),
-    }].concat(YEAR_OF_BIRTH_OPTIONS),
-    educationLevelOptions: EDUCATION_LEVELS.map(key => ({
-      value: key,
-      label: intl.formatMessage(messages[`account.settings.field.education.levels.${key || 'empty'}`]),
-    })),
-    genderOptions: GENDER_OPTIONS.map(key => ({
-      value: key,
-      label: intl.formatMessage(messages[`account.settings.field.gender.options.${key || 'empty'}`]),
-    })),
-    workExperienceOptions: WORK_EXPERIENCE_OPTIONS.map(key => ({
-      value: key,
-      label: key === '' ? intl.formatMessage(messages['account.settings.field.work.experience.options.empty']) : key,
-    })),
-  }), [intl, locale, formValues.country, removeDisabledCountries, isDisabledCountry]);
-
   const canDeleteAccount = () => (
     !parseEnvArray(getAppConfig(appId).COUNTRIES_WITH_DELETE_ACCOUNT_DISABLED).includes(committedValues.country)
   );
-
-  const handleEditableFieldChange = (name, value) => {
-    updateDraft(name, value);
-  };
-
-  const handleSubmit = (formId, values) => {
-    if (formId === FIELD_LABELS.COUNTRY && isDisabledCountry(values)) {
-      return;
-    }
-
-    let extendedProfileObject = {};
-
-    if ('extended_profile' in formValues && formValues.extended_profile.some((field) => field.field_name === formId)) {
-      extendedProfileObject = {
-        extended_profile: formValues.extended_profile.map(field => (field.field_name === formId
-          ? { ...field, field_value: values }
-          : field)),
-      };
-    }
-    saveSettings(formId, values, extendedProfileObject);
-  };
-
-  const handleSubmitProfileName = (formId, values) => {
-    if (Object.keys(drafts).includes('useVerifiedNameForCerts')) {
-      saveMultipleSettings([
-        {
-          formId,
-          commitValues: values,
-        },
-        {
-          formId: 'useVerifiedNameForCerts',
-          commitValues: formValues.useVerifiedNameForCerts,
-        },
-      ], formId);
-    } else {
-      saveSettings(formId, values);
-    }
-  };
-
-  const handleSubmitVerifiedName = (formId, values) => {
-    if (Object.keys(drafts).includes('useVerifiedNameForCerts')) {
-      saveSettings('useVerifiedNameForCerts', formValues.useVerifiedNameForCerts);
-    }
-    if (values !== committedValues?.verified_name) {
-      beginNameChange(formId);
-    } else {
-      saveSettings(formId, values);
-    }
-  };
-
-  const isEditable = (fieldName) => !staticFields.includes(fieldName);
 
   // Enterprise customer profiles are managed by their organizations. We determine whether
   // a profile is managed or not by the presence of the profileDataManager prop.
@@ -291,29 +141,6 @@ const AccountSettingsPageContent = () => {
         </Alert>
       </div>
     );
-  };
-
-  const renderFullNameHelpText = (status, proctoredExamId) => {
-    if (!verifiedNameHistory) {
-      return intl.formatMessage(messages['account.settings.field.full.name.help.text']);
-    }
-
-    let messageString = 'account.settings.field.full.name.help.text';
-
-    if (status === 'submitted') {
-      messageString += '.submitted';
-      if (proctoredExamId) {
-        messageString += '.proctored';
-      }
-    } else {
-      messageString += '.default';
-    }
-
-    if (!committedValues.useVerifiedNameForCerts) {
-      messageString += '.certificate';
-    }
-
-    return intl.formatMessage(messages[messageString]);
   };
 
   const renderVerifiedNameSuccessMessage = (verifiedNameValue, created) => {
@@ -411,51 +238,6 @@ const AccountSettingsPageContent = () => {
     }
   };
 
-  const renderVerifiedNameIcon = (status) => {
-    switch (status) {
-      case 'approved':
-        return (<Icon src={CheckCircle} className="ml-1" style={{ height: '18px', width: '18px', color: 'green' }} />);
-      case 'submitted':
-        return (<Icon src={WarningFilled} className="ml-1" style={{ height: '18px', width: '18px', color: 'yellow' }} />);
-      default:
-        return null;
-    }
-  };
-
-  const renderVerifiedNameHelpText = (status, proctoredExamId) => {
-    let messageStr = 'account.settings.field.name.verified.help.text';
-
-    // add additional string based on status
-    if (status === 'approved') {
-      messageStr += '.verified';
-    } else if (status === 'submitted') {
-      messageStr += '.submitted';
-    } else {
-      return null;
-    }
-
-    // add additional string if verified name came from a proctored exam attempt
-    if (proctoredExamId) {
-      messageStr += '.proctored';
-    }
-
-    // add additional string based on certificate name use
-    if (committedValues.useVerifiedNameForCerts) {
-      messageStr += '.certificate';
-    }
-
-    return intl.formatMessage(messages[messageStr]);
-  };
-
-  const renderEmptyStaticFieldMessage = () => {
-    if (isManagedProfile()) {
-      return intl.formatMessage(messages['account.settings.static.field.empty'], {
-        enterprise: profileDataManager,
-      });
-    }
-    return intl.formatMessage(messages['account.settings.static.field.empty.no.admin']);
-  };
-
   const renderNameChangeModal = () => {
     if (nameChangeModal && nameChangeModal.formId) {
       return <NameChange targetFormId={nameChangeModal.formId} />;
@@ -463,54 +245,15 @@ const AccountSettingsPageContent = () => {
     return null;
   };
 
-  const renderSecondaryEmailField = (editableFieldProps) => {
-    if (!formValues.secondary_email_enabled) {
-      return null;
-    }
-
-    return (
-      <EmailField
-        name="secondary_email"
-        label={intl.formatMessage(messages['account.settings.field.secondary.email'])}
-        emptyLabel={intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
-        value={formValues.secondary_email}
-        confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
-        {...editableFieldProps}
-      />
-    );
-  };
-
   const renderContent = () => {
-    const editableFieldProps = {
-      onChange: handleEditableFieldChange,
-      onSubmit: handleSubmit,
-    };
-
-    const {
-      countryOptions,
-      stateOptions,
-      languageProficiencyOptions,
-      yearOfBirthOptions,
-      educationLevelOptions,
-      genderOptions,
-      workExperienceOptions,
-    } = localizedOptions;
-
-    // Show State field only if the country is US (could include Canada later)
-    const { country } = formValues;
-    const showState = country === COUNTRY_WITH_STATES && !isDisabledCountry(country);
-
-    const hasWorkExperience = !!formValues?.extended_profile?.find(field => field.field_name === 'work_experience');
-
     const hasLinkedTPA = findIndex(tpaProviders, provider => provider.connected) >= 0;
 
     // if user is under 13 and does not have cookie set
     const {
       ENABLE_COPPA_COMPLIANCE, ENABLE_DOB_UPDATE, ENABLE_ACCOUNT_DELETION,
     } = getAppConfig(appId);
-    const enableCoppaCompliance = parseEnvBoolean(ENABLE_COPPA_COMPLIANCE);
     const shouldUpdateDOB = (
-      enableCoppaCompliance
+      parseEnvBoolean(ENABLE_COPPA_COMPLIANCE)
       && parseEnvBoolean(ENABLE_DOB_UPDATE)
       && String(formValues.year_of_birth ?? '') >= COPPA_COMPLIANCE_YEAR.toString()
       && !localStorage.getItem('submittedDOB')
@@ -520,7 +263,7 @@ const AccountSettingsPageContent = () => {
         { shouldUpdateDOB
           && (
           <DOBModal
-            {...editableFieldProps}
+            {...fieldHandlers}
           />
           )}
         <div className="account-section pt-3 mb-5" id="basic-information" ref={navLinkRefs.current['#basic-information']}>
@@ -547,144 +290,7 @@ const AccountSettingsPageContent = () => {
 
           {renderNameChangeModal()}
 
-          <AccountSettingsSectionSlot
-            section="basicInformation"
-            fields={{
-              usernameField: (
-                <EditableField
-                  name="username"
-                  type="text"
-                  value={formValues.username}
-                  label={intl.formatMessage(messages['account.settings.field.username'])}
-                  helpText={intl.formatMessage(
-                    messages['account.settings.field.username.help.text'],
-                    { siteName: getSiteConfig().siteName },
-                  )}
-                  isEditable={false}
-                  {...editableFieldProps}
-                />
-              ),
-              nameField: (
-                <EditableField
-                  name="name"
-                  type="text"
-                  value={
-                    verifiedName?.status === 'submitted'
-                    && formValues.pending_name_change
-                      ? formValues.pending_name_change
-                      : formValues.name
-                    }
-                  label={intl.formatMessage(messages['account.settings.field.full.name'])}
-                  emptyLabel={
-                    isEditable('name')
-                      ? intl.formatMessage(messages['account.settings.field.full.name.empty'])
-                      : renderEmptyStaticFieldMessage()
-                  }
-                  helpText={
-                    verifiedName
-                      ? renderFullNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)
-                      : intl.formatMessage(messages['account.settings.field.full.name.help.text'])
-                  }
-                  isEditable={
-                    verifiedName
-                      ? isEditable('verifiedName') && isEditable('name')
-                      : isEditable('name')
-                  }
-                  isGrayedOut={
-                    verifiedName && !isEditable('verifiedName')
-                  }
-                  onChange={handleEditableFieldChange}
-                  onSubmit={handleSubmitProfileName}
-                />
-              ),
-              verifiedNameField: verifiedName && (
-                <EditableField
-                  name="verified_name"
-                  type="text"
-                  value={formValues.verified_name}
-                  label={
-                    (
-                      <div className="d-flex">
-                        {intl.formatMessage(messages['account.settings.field.name.verified'])}
-                        {
-                          renderVerifiedNameIcon(verifiedName.status)
-                        }
-                      </div>
-                    )
-                  }
-                  helpText={renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
-                  isEditable={isEditable('verifiedName')}
-                  isGrayedOut={!isEditable('verifiedName')}
-                  onChange={handleEditableFieldChange}
-                  onSubmit={handleSubmitVerifiedName}
-                />
-              ),
-              emailField: (
-                <EmailField
-                  name="email"
-                  label={intl.formatMessage(messages['account.settings.field.email'])}
-                  emptyLabel={
-                    isEditable('email')
-                      ? intl.formatMessage(messages['account.settings.field.email.empty'])
-                      : renderEmptyStaticFieldMessage()
-                  }
-                  value={formValues.email}
-                  confirmationMessageDefinition={messages['account.settings.field.email.confirmation']}
-                  helpText={intl.formatMessage(
-                    messages['account.settings.field.email.help.text'],
-                    { siteName: getSiteConfig().siteName },
-                  )}
-                  isEditable={isEditable('email')}
-                  {...editableFieldProps}
-                />
-              ),
-              secondaryEmailField: renderSecondaryEmailField(editableFieldProps),
-              resetPassword: <ResetPassword email={formValues.email} />,
-              yearOfBirthField: !enableCoppaCompliance && (
-                <EditableSelectField
-                  name="year_of_birth"
-                  type="select"
-                  label={intl.formatMessage(messages['account.settings.field.dob'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.dob.empty'])}
-                  value={formValues.year_of_birth}
-                  options={yearOfBirthOptions}
-                  {...editableFieldProps}
-                />
-              ),
-              countryField: (
-                <EditableSelectField
-                  name="country"
-                  type="select"
-                  value={formValues.country}
-                  options={countryOptions}
-                  label={intl.formatMessage(messages['account.settings.field.country'])}
-                  emptyLabel={
-                    isEditable('country')
-                      ? intl.formatMessage(messages['account.settings.field.country.empty'])
-                      : renderEmptyStaticFieldMessage()
-                  }
-                  isEditable={isEditable('country')}
-                  {...editableFieldProps}
-                />
-              ),
-              stateField: showState && (
-                <EditableSelectField
-                  name="state"
-                  type="select"
-                  value={formValues.state}
-                  options={stateOptions}
-                  label={intl.formatMessage(messages['account.settings.field.state'])}
-                  emptyLabel={
-                    isEditable('state')
-                      ? intl.formatMessage(messages['account.settings.field.state.empty'])
-                      : renderEmptyStaticFieldMessage()
-                  }
-                  isEditable={isEditable('state')}
-                  {...editableFieldProps}
-                />
-              ),
-            }}
-          />
+          <AccountSettingsSectionSlot section="basicInformation" />
         </div>
 
         <div className="account-section pt-3 mb-5" id="profile-information" ref={navLinkRefs.current['#profile-information']}>
@@ -692,58 +298,7 @@ const AccountSettingsPageContent = () => {
             {intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
 
-          <AccountSettingsSectionSlot
-            section="profileInformation"
-            fields={{
-              levelOfEducationField: (
-                <EditableSelectField
-                  name="level_of_education"
-                  type="select"
-                  value={formValues.level_of_education}
-                  options={enableCoppaCompliance
-                    ? educationLevelOptions.filter(option => option.value !== 'el')
-                    : educationLevelOptions}
-                  label={intl.formatMessage(messages['account.settings.field.education'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.education.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              genderField: (
-                <EditableSelectField
-                  name="gender"
-                  type="select"
-                  value={formValues.gender}
-                  options={genderOptions}
-                  label={intl.formatMessage(messages['account.settings.field.gender'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.gender.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              workExperienceField: hasWorkExperience && (
-                <EditableSelectField
-                  name="work_experience"
-                  type="select"
-                  value={formValues?.extended_profile?.find(field => field.field_name === 'work_experience')?.field_value}
-                  options={workExperienceOptions}
-                  label={intl.formatMessage(messages['account.settings.field.work.experience'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.work.experience.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              languageProficienciesField: (
-                <EditableSelectField
-                  name="language_proficiencies"
-                  type="select"
-                  value={formValues.language_proficiencies}
-                  options={languageProficiencyOptions}
-                  label={intl.formatMessage(messages['account.settings.field.language.proficiencies'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.language.proficiencies.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              additionalProfileFields: <AdditionalProfileFieldsSlot />,
-            }}
-          />
+          <AccountSettingsSectionSlot section="profileInformation" />
         </div>
         <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
@@ -756,41 +311,7 @@ const AccountSettingsPageContent = () => {
             )}
           </p>
 
-          <AccountSettingsSectionSlot
-            section="socialMedia"
-            fields={{
-              socialLinkLinkedinField: (
-                <EditableField
-                  name="social_link_linkedin"
-                  type="text"
-                  value={formValues.social_link_linkedin}
-                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              socialLinkFacebookField: (
-                <EditableField
-                  name="social_link_facebook"
-                  type="text"
-                  value={formValues.social_link_facebook}
-                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-              socialLinkXField: (
-                <EditableField
-                  name="social_link_x"
-                  type="text"
-                  value={formValues.social_link_x}
-                  label={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter.empty'])}
-                  {...editableFieldProps}
-                />
-              ),
-            }}
-          />
+          <AccountSettingsSectionSlot section="socialMedia" />
         </div>
         <div className="border border-light-700" />
         <div className="mt-6" id="notifications" ref={navLinkRefs.current['#notifications']}>
@@ -801,38 +322,7 @@ const AccountSettingsPageContent = () => {
             {intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
 
-          <AccountSettingsSectionSlot
-            section="sitePreferences"
-            fields={{
-              siteLanguageField: (
-                <EditableSelectField
-                  name="siteLanguage"
-                  type="select"
-                  options={siteLanguageOptions}
-                  value={drafts.siteLanguage !== undefined ? drafts.siteLanguage : locale}
-                  label={intl.formatMessage(messages['account.settings.field.site.language'])}
-                  helpText={intl.formatMessage(messages['account.settings.field.site.language.help.text'])}
-                  {...editableFieldProps}
-                />
-              ),
-              timeZoneField: (
-                <EditableSelectField
-                  name="time_zone"
-                  type="select"
-                  value={formValues.time_zone}
-                  options={localizedTimeZoneOptions}
-                  label={intl.formatMessage(messages['account.settings.field.time.zone'])}
-                  emptyLabel={intl.formatMessage(messages['account.settings.field.time.zone.empty'])}
-                  helpText={intl.formatMessage(messages['account.settings.field.time.zone.description'])}
-                  {...editableFieldProps}
-                  onSubmit={(formId, value) => {
-                    // the endpoint will not accept an empty string. it must be null
-                    handleSubmit(formId, value || null);
-                  }}
-                />
-              ),
-            }}
-          />
+          <AccountSettingsSectionSlot section="sitePreferences" />
         </div>
 
         <div className="account-section pt-3 mb-5" id="linked-accounts" ref={navLinkRefs.current['#linked-accounts']}>
