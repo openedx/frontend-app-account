@@ -70,7 +70,7 @@ function packAccountCommitData(commitData) {
 
 export async function getAccount(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v2/accounts/${username}/`);
   return unpackAccountResponseData(data);
 }
 
@@ -81,7 +81,7 @@ export async function patchAccount(username, commitValues) {
 
   const { data } = await getAuthenticatedHttpClient()
     .patch(
-      `${getSiteConfig().lmsBaseUrl}/api/user/v1/accounts/${username}`,
+      `${getSiteConfig().lmsBaseUrl}/api/user/v2/accounts/${username}/`,
       packAccountCommitData(commitValues),
       requestConfig,
     )
@@ -103,13 +103,13 @@ export async function patchAccount(username, commitValues) {
 
 export async function getPreferences(username) {
   const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`);
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v2/accounts/${username}/preferences/`);
   return data;
 }
 
 export async function patchPreferences(username, commitValues) {
   const requestConfig = { headers: { 'Content-Type': 'application/merge-patch+json' } };
-  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/user/v1/preferences/${username}`;
+  const requestUrl = `${getSiteConfig().lmsBaseUrl}/api/user/v2/accounts/${username}/preferences/`;
 
   // Ignore the success response, the API does not currently return any data.
   await getAuthenticatedHttpClient()
@@ -119,13 +119,21 @@ export async function patchPreferences(username, commitValues) {
 }
 
 export async function getTimeZones(forCountry) {
-  const { data } = await getAuthenticatedHttpClient()
-    .get(`${getSiteConfig().lmsBaseUrl}/user_api/v1/preferences/time_zones/`, {
-      params: { country_code: forCountry },
+  const client = getAuthenticatedHttpClient();
+  let { data } = await client
+    .get(`${getSiteConfig().lmsBaseUrl}/api/user/v2/time_zones/`, {
+      params: { country_code: forCountry, page_size: 100 },
     })
     .catch(handleRequestError);
 
-  return data;
+  const timeZones = [...data.results];
+  // The list is paged, and each page links to the next one.
+  while (data.next) {
+    // eslint-disable-next-line no-await-in-loop
+    ({ data } = await client.get(data.next).catch(handleRequestError));
+    timeZones.push(...data.results);
+  }
+  return timeZones;
 }
 
 /**
@@ -192,7 +200,7 @@ function extractCountryList(data) {
 }
 
 export async function getCountryList() {
-  const url = `${getSiteConfig().lmsBaseUrl}/user_api/v1/account/registration/`;
+  const url = `${getSiteConfig().lmsBaseUrl}/api/user/v2/registrations/`;
 
   try {
     const { data } = await getAuthenticatedHttpClient().get(url);
@@ -208,9 +216,9 @@ export async function getCountryList() {
  * Currently encapsulates Account, Preferences, ThirdPartyAuth
  */
 export async function patchSettings(username, commitValues) {
-  // Note: time_zone exists in the return value from user/v1/accounts
+  // Note: time_zone exists in the return value from user/v2/accounts
   // but it is always null and won't update. It also exists in
-  // user/v1/preferences where it does update. This is the one we use.
+  // the account's preferences where it does update. This is the one we use.
   const preferenceKeys = ['time_zone'];
   const certificateKeys = ['useVerifiedNameForCerts'];
   const accountCommitValues = omit(

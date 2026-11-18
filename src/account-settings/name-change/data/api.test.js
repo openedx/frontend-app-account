@@ -33,7 +33,7 @@ describe('postNameChange', () => {
     expect(getAuthenticatedHttpClient).toHaveBeenCalled();
 
     expect(mockPost).toHaveBeenCalledWith(
-      'http://testserver/api/user/v1/accounts/name_change/',
+      'http://testserver/api/user/v2/name_changes/',
       { name: 'New Name' },
       { headers: { Accept: 'application/json' } },
     );
