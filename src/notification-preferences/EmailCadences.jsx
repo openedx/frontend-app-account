@@ -49,6 +49,7 @@ const EmailCadences = ({
               as={Button}
               variant="tertiary"
               name={EMAIL_CADENCE}
+              value={cadence}
               className="d-flex justify-content-start py-1.5 font-size-14 cadence-button"
               size="inline"
               active={cadence === emailCadence}
