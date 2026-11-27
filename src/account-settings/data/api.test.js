@@ -45,7 +45,7 @@ describe('account API', () => {
       mockHttpClient.get.mockResolvedValue({ data: apiResponse });
 
       const result = await getAccount('testuser');
-      expect(mockHttpClient.get).toHaveBeenCalledWith('http://lms.test/api/user/v1/accounts/testuser');
+      expect(mockHttpClient.get).toHaveBeenCalledWith('http://lms.test/api/user/v2/accounts/testuser/');
       expect(result.social_link_x).toEqual('http://t');
       expect(result.language_proficiencies).toEqual('en');
     });
@@ -63,7 +63,7 @@ describe('account API', () => {
 
       const result = await patchAccount('testuser', commit);
       expect(mockHttpClient.patch).toHaveBeenCalledWith(
-        'http://lms.test/api/user/v1/accounts/testuser',
+        'http://lms.test/api/user/v2/accounts/testuser/',
         expect.objectContaining({ social_links: [{ platform: 'x', social_link: 'http://t' }] }),
         expect.any(Object),
       );
@@ -75,6 +75,7 @@ describe('account API', () => {
     it('returns preferences data', async () => {
       mockHttpClient.get.mockResolvedValue({ data: { theme: 'dark' } });
       const result = await getPreferences('user');
+      expect(mockHttpClient.get).toHaveBeenCalledWith('http://lms.test/api/user/v2/accounts/user/preferences/');
       expect(result.theme).toBe('dark');
     });
   });
@@ -84,20 +85,35 @@ describe('account API', () => {
       mockHttpClient.patch.mockResolvedValue({});
       const commit = { time_zone: 'UTC' };
       const result = await patchPreferences('user', commit);
-      expect(mockHttpClient.patch).toHaveBeenCalled();
+      expect(mockHttpClient.patch).toHaveBeenCalledWith(
+        'http://lms.test/api/user/v2/accounts/user/preferences/',
+        commit,
+        { headers: { 'Content-Type': 'application/merge-patch+json' } },
+      );
       expect(result).toEqual(commit);
     });
   });
 
   describe('getTimeZones', () => {
     it('returns data from API', async () => {
-      mockHttpClient.get.mockResolvedValue({ data: ['UTC', 'PST'] });
+      const zones = [{ time_zone: 'Asia/Karachi', description: 'Asia/Karachi (PKT, UTC+0500)' }];
+      mockHttpClient.get.mockResolvedValue({ data: { next: null, results: zones } });
       const result = await getTimeZones('PK');
       expect(mockHttpClient.get).toHaveBeenCalledWith(
-        'http://lms.test/user_api/v1/preferences/time_zones/',
-        { params: { country_code: 'PK' } },
+        'http://lms.test/api/user/v2/time_zones/',
+        { params: { country_code: 'PK', page_size: 100 } },
       );
-      expect(result).toEqual(['UTC', 'PST']);
+      expect(result).toEqual(zones);
+    });
+
+    it('follows the pages to the last one', async () => {
+      const nextPage = 'http://lms.test/api/user/v2/time_zones/?page=2&page_size=100';
+      mockHttpClient.get
+        .mockResolvedValueOnce({ data: { next: nextPage, results: [{ time_zone: 'UTC' }] } })
+        .mockResolvedValueOnce({ data: { next: null, results: [{ time_zone: 'US/Pacific' }] } });
+      const result = await getTimeZones();
+      expect(mockHttpClient.get).toHaveBeenLastCalledWith(nextPage);
+      expect(result).toEqual([{ time_zone: 'UTC' }, { time_zone: 'US/Pacific' }]);
     });
   });
 
@@ -154,6 +170,7 @@ describe('account API', () => {
       const apiResponse = { fields: [{ name: FIELD_LABELS.COUNTRY, options: [{ value: 'PK' }] }] };
       mockHttpClient.get.mockResolvedValue({ data: apiResponse });
       const result = await getCountryList();
+      expect(mockHttpClient.get).toHaveBeenCalledWith('http://lms.test/api/user/v2/registrations/');
       expect(result).toEqual(['PK']);
     });
 

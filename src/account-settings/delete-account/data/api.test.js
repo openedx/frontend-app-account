@@ -38,7 +38,7 @@ describe('postDeleteAccount', () => {
     expect(formurlencoded).toHaveBeenCalledWith({ password: 'mypassword' });
 
     expect(mockPost).toHaveBeenCalledWith(
-      'http://testserver/api/user/v1/accounts/deactivate_logout/',
+      'http://testserver/api/user/v2/retirements/',
       'encoded:{"password":"mypassword"}',
       {
         headers: {
